@@ -203,7 +203,7 @@
 			"file": "/D/server/www/code/httpd/httpd.conf",
 			"settings":
 			{
-				"buffer_size": 5816,
+				"buffer_size": 5773,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -408,6 +408,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"########################################################",
 			"et_menu_container",
 			"full",
 			"http://20.gsmartsolutions.com",
@@ -534,8 +535,7 @@
 			"\\n*",
 			"    ",
 			"\\n*",
-			"clean",
-			"gss_mgt_ags"
+			"clean"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -564,15 +564,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5816,
+						"buffer_size": 5773,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1162,
-								1162
+								4554,
+								4554
 							]
 						],
 						"settings":
@@ -585,7 +585,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 612.0,
+						"translation.y": 2346.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -661,7 +661,7 @@
 		[
 			[
 				"",
-				"D:\\server\\www\\code\\sublimetext\\server.sublime-project"
+				"D:\\server\\www\\code\\sublimetext\\pet.sublime-project"
 			]
 		],
 		"width": 380.0

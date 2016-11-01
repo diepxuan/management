@@ -121,7 +121,7 @@ $db->tables_en = array();
 
 // $db->dumb();
 
-$db->clean();
+// $db->clean();
 // $db->file_delete('media' . DIRECTORY_SEPARATOR . 'lacoqueta');
 // $db->file_delete('media' . DIRECTORY_SEPARATOR . 'orange');
 
