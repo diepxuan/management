@@ -240,10 +240,11 @@
 	"buffers":
 	[
 		{
-			"file": "/D/server/www/live/pma.diepxuan.vn/config.inc.php",
+			"file": "/D/server/www/code/php/phpmyadmin/config.inc.php",
 			"settings":
 			{
 				"buffer_size": 3516,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		}
@@ -289,6 +290,7 @@
 	],
 	"file_history":
 	[
+		"/D/server/www/live/pma.diepxuan.vn/.gitignore",
 		"/D/server/www/dev/20ci/wp-content/debug.log",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/functions.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/modules/gss-filterable-portfolio.php",
@@ -415,8 +417,7 @@
 		"/D/server/www/dev/pet/src/app/app.component.html",
 		"/D/server/www/dev/pet/src/index.html",
 		"/D/server/www/dev/pet/src/environments/environment.ts",
-		"/D/server/www/live/pma.diepxuan.vn/config.inc.php",
-		"/C/ProgramData/MySQL/MySQL Server 5.7/my.ini"
+		"/D/server/www/live/pma.diepxuan.vn/config.inc.php"
 	],
 	"find":
 	{
@@ -607,7 +608,7 @@
 			[
 				{
 					"buffer": 0,
-					"file": "/D/server/www/live/pma.diepxuan.vn/config.inc.php",
+					"file": "/D/server/www/code/php/phpmyadmin/config.inc.php",
 					"semi_transient": false,
 					"settings":
 					{
@@ -618,8 +619,8 @@
 						"selection":
 						[
 							[
-								1824,
-								1824
+								258,
+								258
 							]
 						],
 						"settings":
@@ -632,7 +633,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 828.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
