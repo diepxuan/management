@@ -200,10 +200,64 @@
 	"buffers":
 	[
 		{
-			"file": "/D/server/www/code/exportdb/exportdb.php",
+			"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/header.less",
 			"settings":
 			{
-				"buffer_size": 20753,
+				"buffer_size": 3566,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/app.less",
+			"settings":
+			{
+				"buffer_size": 681,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/globals.less",
+			"settings":
+			{
+				"buffer_size": 5923,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/responsive.less",
+			"settings":
+			{
+				"buffer_size": 1190,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/footer.php",
+			"settings":
+			{
+				"buffer_size": 1209,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/header.php",
+			"settings":
+			{
+				"buffer_size": 14104,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/functions.php",
+			"settings":
+			{
+				"buffer_size": 450,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -212,16 +266,7 @@
 			"file": "/D/server/www/.gitmodules",
 			"settings":
 			{
-				"buffer_size": 2102,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/D/server/www/.gitignore",
-			"settings":
-			{
-				"buffer_size": 20,
+				"buffer_size": 2731,
 				"line_ending": "Windows"
 			}
 		}
@@ -264,23 +309,12 @@
 	"expanded_folders":
 	[
 		"/D/server/www",
-		"/D/server/www/code",
-		"/D/server/www/code/exportdb",
-		"/D/server/www/code/setup",
-		"/D/server/www/code/setup/win10",
-		"/C/Apache2.4/conf"
+		"/D/server/www/dev/20ci/wp-content",
+		"/D/server/www/dev/20ci/wp-content/themes",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child"
 	],
 	"file_history":
 	[
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/header.less",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/app.less",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/globals.less",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/responsive.less",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/footer.php",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/header.php",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/functions.php",
-		"/D/server/www/code/setup/win10/winConfig.bat",
-		"/C/Users/ductn/AppData/Local/Temp/scp13254/home/vmcwp/wordpress/wp-config.php",
 		"/D/server/www/dev/20ci/wp-config.php",
 		"/C/Users/ductn/AppData/Local/Temp/scp49424/public_html/20/wp-config.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/footer.less",
@@ -288,12 +322,17 @@
 		"/C/Users/ductn/Downloads/wp-config.php",
 		"/C/Users/ductn/AppData/Local/Temp/scp07299/dev/20ci/wp-config.php",
 		"/C/Users/ductn/AppData/Local/Temp/scp19514/public_html/20/wp-config.php",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/header.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi/header.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/variables.less",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/app.less",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/responsive.less",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/functions.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/bootstrap.less",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/source/bootstrap.less",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/source/header.less",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/mixins.less",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/globals.less",
 		"/D/server/www/dev/20ci/wp-content/debug.log",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/source/variables.less",
 		"/D/server/www/code/grunt/Gruntfile.js",
@@ -399,7 +438,11 @@
 		"/D/server/www/lacoqueta/app/code/local/Evolve/Banner/etc/config.xml",
 		"/D/server/www/ilg/app/code/local/Evolve/Custom/etc/config.xml",
 		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/sql/evolve_custom_competition_setup/mysql4-upgrade-0.0.2-0.0.3.php",
-		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/Block/Competition.php"
+		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/Block/Competition.php",
+		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/sql/evolve_custom_competition_setup/mysql4-upgrade-0.0.1-0.0.2.php",
+		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/etc/system.xml",
+		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/etc/adminhtml.xml",
+		"/D/server/www/lacoqueta/app/code/local/Evolve/Googlefeed/etc/system.xml"
 	],
 	"find":
 	{
@@ -430,8 +473,6 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"code",
-			"tables_limit",
 			"et_menu_container",
 			"full",
 			"http://20.gsmartsolutions.com",
@@ -557,7 +598,9 @@
 			"    ",
 			"\\n*",
 			"    ",
-			"\\n*"
+			"\\n*",
+			"clean",
+			"gss_mgt_ags"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -577,16 +620,178 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 7,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/D/server/www/code/exportdb/exportdb.php",
+					"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/header.less",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 20753,
+						"buffer_size": 3566,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/LESS/LESS.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/app.less",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 681,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/LESS/LESS.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/globals.less",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5923,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/LESS/LESS.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 306.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/responsive.less",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1190,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/LESS/LESS.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/footer.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1209,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								197,
+								197
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/header.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 14104,
 						"regions":
 						{
 						},
@@ -607,27 +812,59 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 714.0,
+						"translation.y": 2270.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "/D/server/www/.gitmodules",
+					"buffer": 6,
+					"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/functions.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2102,
+						"buffer_size": 450,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1718,
-								1718
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 136.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "/D/server/www/.gitmodules",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 2731,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2636,
+								2636
 							]
 						],
 						"settings":
@@ -639,41 +876,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 867.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/D/server/www/.gitignore",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 20,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								19,
-								19
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -746,7 +952,7 @@
 		[
 			[
 				"",
-				"D:\\server\\www\\code\\sublimetext\\20ci.sublime-project"
+				"D:\\server\\www\\code\\sublimetext\\httpd.sublime-project"
 			]
 		],
 		"width": 380.0
