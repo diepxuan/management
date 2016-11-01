@@ -11,10 +11,10 @@ rd "C:\OneDriveTemp" /Q /S
 REG Delete "HKEY_CLASSES_ROOT\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" /f
 REG Delete "HKEY_CLASSES_ROOT\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" /f
 
-
-
 netsh advfirewall firewall add rule name="Deny CCleaner x64" dir=in action=allow program="C:\Program Files\CCleaner\CCleaner64.exe"
 netsh advfirewall firewall add rule name="Deny CCleaner" dir=in action=allow program="C:\Program Files\CCleaner\CCleaner.exe"
 
 netsh advfirewall firewall add rule name="Deny CCleaner x64" dir=in action=block program="C:\Program Files\CCleaner\CCleaner64.exe"
 netsh advfirewall firewall add rule name="Deny CCleaner" dir=in action=block program="C:\Program Files\CCleaner\CCleaner.exe"
+
+mklink /H D:\server\www\live\pma.diepxuan.vn\config.inc.php D:\server\www\code\php\phpmyadmin\config.inc.php
