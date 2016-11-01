@@ -203,7 +203,7 @@
 			"file": "/D/server/www/code/httpd/httpd.conf",
 			"settings":
 			{
-				"buffer_size": 5773,
+				"buffer_size": 5748,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -564,15 +564,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5773,
+						"buffer_size": 5748,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4554,
-								4554
+								1,
+								1
 							]
 						],
 						"settings":
@@ -582,10 +582,10 @@
 							"synced": false,
 							"syntax": "Packages/Text/Plain text.tmLanguage",
 							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2346.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
