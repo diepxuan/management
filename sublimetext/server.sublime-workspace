@@ -203,7 +203,7 @@
 			"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/header.less",
 			"settings":
 			{
-				"buffer_size": 3566,
+				"buffer_size": 3596,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -212,7 +212,7 @@
 			"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/app.less",
 			"settings":
 			{
-				"buffer_size": 681,
+				"buffer_size": 820,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -221,7 +221,7 @@
 			"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/globals.less",
 			"settings":
 			{
-				"buffer_size": 5923,
+				"buffer_size": 9616,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -230,7 +230,7 @@
 			"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/responsive.less",
 			"settings":
 			{
-				"buffer_size": 1190,
+				"buffer_size": 2121,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -248,7 +248,7 @@
 			"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/header.php",
 			"settings":
 			{
-				"buffer_size": 14104,
+				"buffer_size": 14095,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -257,7 +257,7 @@
 			"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/functions.php",
 			"settings":
 			{
-				"buffer_size": 450,
+				"buffer_size": 5127,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -266,7 +266,8 @@
 			"file": "/D/server/www/.gitmodules",
 			"settings":
 			{
-				"buffer_size": 2731,
+				"buffer_size": 2157,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		}
@@ -309,9 +310,7 @@
 	"expanded_folders":
 	[
 		"/D/server/www",
-		"/D/server/www/dev/20ci/wp-content",
-		"/D/server/www/dev/20ci/wp-content/themes",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child"
+		"/D/server/www/code"
 	],
 	"file_history":
 	[
@@ -629,7 +628,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3566,
+						"buffer_size": 3596,
 						"regions":
 						{
 						},
@@ -662,7 +661,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 681,
+						"buffer_size": 820,
 						"regions":
 						{
 						},
@@ -693,7 +692,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5923,
+						"buffer_size": 9616,
 						"regions":
 						{
 						},
@@ -726,7 +725,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1190,
+						"buffer_size": 2121,
 						"regions":
 						{
 						},
@@ -791,7 +790,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 14104,
+						"buffer_size": 14095,
 						"regions":
 						{
 						},
@@ -824,7 +823,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 450,
+						"buffer_size": 5127,
 						"regions":
 						{
 						},
@@ -853,18 +852,18 @@
 				{
 					"buffer": 7,
 					"file": "/D/server/www/.gitmodules",
-					"semi_transient": true,
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2731,
+						"buffer_size": 2157,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2636,
-								2636
+								543,
+								543
 							]
 						],
 						"settings":
@@ -876,7 +875,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 867.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

@@ -10,8 +10,6 @@ date_default_timezone_set("Asia/Ho_Chi_Minh");
 
 /**-------------------------------------------------------------*/
 // $db = new dbdump('localhost', 'user', 'pass', 'dbname');
-// $db = new dbdump('mysql.diepxuan.vn', 'sa', '877611', 'gss_wp_20ci');
-$db = new dbdump('localhost', 'wordpress', 'AChoh3aiph', 'wp_vmc');
 
 $db->multi        = 0;
 $db->sql_gz       = 1;
