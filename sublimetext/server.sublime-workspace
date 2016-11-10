@@ -199,6 +199,15 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "/D/server/www/code/setup/win10/winConfig.bat",
+			"settings":
+			{
+				"buffer_size": 1564,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -238,10 +247,15 @@
 	"expanded_folders":
 	[
 		"/D/server/www",
-		"/D/server/www/code"
+		"/D/server/www/code",
+		"/D/server/www/code/setup",
+		"/D/server/www/code/setup/win10",
+		"/D/server/www/live/www.diepxuan.vn"
 	],
 	"file_history":
 	[
+		"/D/server/www/live/www.diepxuan.vn/wp-content/themes/WPDXTheme/inc/init/custom_fields.php",
+		"/D/server/www/live/www.diepxuan.vn/wp-content/themes/WPDXTheme/inc/init.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/header.less",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/app.less",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/globals.less",
@@ -367,9 +381,7 @@
 		"/D/server/www/lacoqueta/app/code/local/Evolve/Banner/etc/config.xml",
 		"/D/server/www/ilg/app/code/local/Evolve/Custom/etc/config.xml",
 		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/sql/evolve_custom_competition_setup/mysql4-upgrade-0.0.2-0.0.3.php",
-		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/Block/Competition.php",
-		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/sql/evolve_custom_competition_setup/mysql4-upgrade-0.0.1-0.0.2.php",
-		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/etc/system.xml"
+		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/Block/Competition.php"
 	],
 	"find":
 	{
@@ -400,6 +412,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"Block",
 			"https://caothu159@bitbucket.org/",
 			"et_menu_container",
 			"full",
@@ -526,8 +539,7 @@
 			"    ",
 			"\\n*",
 			"    ",
-			"\\n*",
-			"clean"
+			"\\n*"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -547,8 +559,40 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "/D/server/www/code/setup/win10/winConfig.bat",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1564,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1103,
+								1103
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Batch File/Batch File.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],

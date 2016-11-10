@@ -534,8 +534,7 @@
 			"\\n*",
 			"    ",
 			"\\n*",
-			"clean",
-			"gss_mgt_ags"
+			"clean"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -571,8 +570,8 @@
 						"selection":
 						[
 							[
-								3812,
-								3812
+								4923,
+								4923
 							]
 						],
 						"settings":
@@ -585,7 +584,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1632.0,
+						"translation.y": 2581.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
