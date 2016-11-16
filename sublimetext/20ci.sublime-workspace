@@ -4,20 +4,88 @@
 		"selected_items":
 		[
 			[
+				"see",
+				"see_all"
+			],
+			[
+				"w",
+				"width"
+			],
+			[
+				"s",
+				"style\tAttr"
+			],
+			[
+				"gss",
+				"gss_upload_image"
+			],
+			[
+				"min",
+				"min-width"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"clo",
+				"closest"
+			],
+			[
+				"gss_",
+				"gss_project_show_in_homepage"
+			],
+			[
+				"is_",
+				"is_admin"
+			],
+			[
+				"is_a",
+				"is_admin"
+			],
+			[
+				"pa",
+				"padding-bottom"
+			],
+			[
+				"ma",
+				"margin-bottom"
+			],
+			[
+				"m",
+				"margin"
+			],
+			[
+				"le",
+				"letter-spacing"
+			],
+			[
+				"te",
+				"text-align"
+			],
+			[
+				"va",
+				"value"
+			],
+			[
+				"int",
+				"intval"
+			],
+			[
+				"oe",
+				"order"
+			],
+			[
+				"qu",
+				"queryString"
+			],
+			[
 				"get_th",
 				"get_the_ID"
 			],
 			[
 				"the",
 				"the_post"
-			],
-			[
-				"pa",
-				"padding-top"
-			],
-			[
-				"ma",
-				"margin-top"
 			],
 			[
 				"re",
@@ -32,10 +100,6 @@
 				"text-decoration"
 			],
 			[
-				"m",
-				"min-width"
-			],
-			[
 				"font",
 				"font-size"
 			],
@@ -48,20 +112,12 @@
 				"position"
 			],
 			[
-				"min",
-				"min-width"
-			],
-			[
 				"bac",
 				"background-color"
 			],
 			[
 				"a",
 				"auto"
-			],
-			[
-				"le",
-				"left"
 			],
 			[
 				"fon",
@@ -90,10 +146,6 @@
 			[
 				"no",
 				"nowrap"
-			],
-			[
-				"te",
-				"text-decoration"
 			],
 			[
 				"bo",
@@ -208,10 +260,6 @@
 				"initTaskName"
 			],
 			[
-				"fun",
-				"function"
-			],
-			[
 				"init",
 				"initTaskLess"
 			],
@@ -275,59 +323,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/modules/gss-filterable-portfolio.php",
-			"settings":
-			{
-				"buffer_size": 23750,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/css/app.min.css",
-			"settings":
-			{
-				"buffer_size": 117656,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/js/quick_edit_project.js",
-			"settings":
-			{
-				"buffer_size": 1154,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/includes/init_custom_field.php",
-			"settings":
-			{
-				"buffer_size": 10416,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/globals.less",
-			"settings":
-			{
-				"buffer_size": 12583,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/homepage.less",
-			"settings":
-			{
-				"buffer_size": 7308,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -336,20 +331,32 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 292.0,
-		"last_filter": "packins",
+		"height": 392.0,
+		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"",
+				"Grunt"
+			],
+			[
+				"g",
+				"Grunt: Kill Running Tasks"
+			],
+			[
+				"grunt ",
+				"Grunt"
+			],
 			[
 				"packins",
 				"Package Control: Install Package"
 			]
 		],
-		"width": 432.0
+		"width": 400.0
 	},
 	"console":
 	{
-		"height": 126.0,
+		"height": 199.0,
 		"history":
 		[
 			"import urllib.request,os,hashlib; h = 'df21e130d211cfc94d9b0905775a7c0f' + '1e3d39e33b79698005270310898eea76'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
@@ -372,37 +379,65 @@
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/css",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/includes",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/modules"
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/js",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/js/dev",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/modules",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/modules",
+		"/D/server/www/dev/20ci/wp-includes/widgets"
 	],
 	"file_history":
 	[
-		"/D/server/www/dev/20ci/sftp-config.json",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/single-project.php",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/single-career.php",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/js/quick_edit_project.js",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/js/dev/app.js",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/includes/init_category_image.php",
-		"/C/Windows/System32/drivers/etc/hosts",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/includes/init_widget.php",
-		"/D/server/www/dev/20ci/wp-content/debug.log",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/single.php",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/pages.less",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/globals.less",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/modules/gss-filterable-portfolio.php",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/page-insights.less",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/js/dev/app.js",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/single-project.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/single-project.less",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/modules/et_pb_gss_filterable_portfolio.less",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/search.php",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/includes/init_custom_field.php",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/includes/init_widget.php",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/css/app.min.css",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/modules/gss-filterable-portfolio.php",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/js/app.min.js",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/js/dev/admin.js",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/includes/init_sidebar.php",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/functions.php",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/includes/init_svg.php",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/includes/init_category_image.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/homepage.less",
+		"/D/server/www/dev/20ci/wp-includes/widgets/class-wp-widget-categories.php",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/single-career.php",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/single-insight.php",
+		"/D/server/www/dev/20ci/wp-includes/class-wp-customize-widgets.php",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/js/dev/plugin.js",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/js/dev/quick_edit_project.js",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/js/app.js",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/includes/init_custom_field.php",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/modules/et_pb_gss_filterable_portfolio.less",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/page-insights.less",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/responsive.less",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/header.less",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/js/vg-modules.js",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/js/quick_edit_project.js",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/js/admin.js",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/modules/vg-map.php",
+		"/D/server/www/dev/20ci/wp-includes/load.php",
+		"/C/Users/ductn/AppData/Roaming/Sublime Text 3/Packages/User/Package Control.sublime-settings",
+		"/C/Users/ductn/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/Users/ductn/AppData/Roaming/Sublime Text 3/Packages/User/SublimeGrunt.sublime-settings",
+		"/C/Users/ductn/AppData/Roaming/Sublime Text 3/Packages/Grunt/SublimeGrunt.sublime-settings",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/mixins.less",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/variables.less",
+		"/D/server/www/dev/20ci/sftp-config.json",
+		"/C/Windows/System32/drivers/etc/hosts",
+		"/D/server/www/dev/20ci/wp-content/debug.log",
+		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/search.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi/includes/builder/main-modules.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi/epanel/custom_functions.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/sidebar-project.php",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/includes/init_sidebar.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi/includes/builder/functions.php",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/functions.php",
 		"/D/server/www/dev/20ci/wp-includes/general-template.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/modules/vg-blog.less",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/single-insight.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/taxonomy-career_category.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/taxonomy-project_category.php",
 		"/D/server/www/dev/20ci/wp-includes/template.php",
@@ -411,14 +446,9 @@
 		"/D/server/www/dev/20ci/wp-includes/post.php",
 		"/D/server/www/dev/20ci/wp-includes/post-template.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/comments.php",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/responsive.less",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/pages.less",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/category-career.php",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/variables.less",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/includes/init_theme.php",
 		"/D/server/www/dev/20ci/wp-includes/category-template.php",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/mixins.less",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/single.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/header.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/modules/vg-blog.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/modules/vg-career.php",
@@ -444,9 +474,7 @@
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/includes/init_options_divi.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi/includes/builder/frontend-builder/helpers.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/epanel/custom_options_divi.php",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/includes/init_svg.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi/et-pagebuilder/et-pagebuilder.php",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/header.less",
 		"/D/server/www/dev/20ci/.gitignore",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/app.less",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi/page.php",
@@ -488,22 +516,7 @@
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/source/header.less",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/source/variables.less",
 		"/D/server/www/code/grunt/Gruntfile.js",
-		"/D/server/www/code/grunt/Gruntapps2.json",
-		"/C/php/php.ini",
-		"/C/Apache2.4/conf/httpd.conf",
-		"/C/Users/ductn/Downloads/TCI_Logo.svg",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/style.css",
-		"/D/server/www/dev/20ci/wp-content/db.php",
-		"/D/server/www/.gitmodules",
-		"/D/server/www/dev/chainview/wp-content/themes/viewmychain/css/app.css",
-		"/D/server/www/dev/chainview/wp-content/themes/viewmychain/js/main.js",
-		"/D/server/www/dev/chainview/wp-content/themes/viewmychain2/less/sources/pages.less",
-		"/D/server/www/dev/chainview/wp-content/themes/viewmychain2/css/app.css",
-		"/D/server/www/dev/chainview/wp-content/themes/viewmychain2/js/main.js",
-		"/D/server/www/dev/pet/.gitignore",
-		"/D/server/www/dev/chainview/wp-content/themes/viewmychain/less/sources/mixins.less",
-		"/D/server/www/dev/chainview/.gitignore",
-		"/D/server/www/dev/chainview/wp-content/themes/viewmychain/functions.php"
+		"/D/server/www/code/grunt/Gruntapps2.json"
 	],
 	"find":
 	{
@@ -514,6 +527,8 @@
 		"height": 90.0,
 		"where_history":
 		[
+			"D:\\server\\www\\dev\\20ci\\wp-content\\themes\\Divi-child\\less\\sources",
+			"D:\\server\\www\\dev\\20ci\\wp-content\\themes\\Divi-child",
 			"D:\\server\\www\\dev\\20ci\\wp-content\\themes\\Divi-child\\less\\sources",
 			"D:\\server\\www\\dev\\20ci\\wp-content\\themes\\Divi",
 			"D:\\server\\www\\dev\\20ci\\wp-content\\themes\\Divi-child",
@@ -559,6 +574,56 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"gss-single-project",
+			"from-contact-us",
+			"title",
+			"project_category",
+			"project",
+			"Gss_Project_Categories_WP_Widget",
+			"gss_upload_image",
+			"gss_upload_image_element",
+			"gss_upload_image_uploader_button_text",
+			"gss_upload_image_uploader_title",
+			"gss_upload_image_input",
+			"gss_upload_image_button",
+			"gss_upload_image_dialog",
+			"attachment",
+			"$(this)",
+			"button",
+			"this",
+			"gss_upload_image_uploader_title",
+			"uploader_button_text",
+			"uploader_title",
+			"jQuery",
+			"file_frame",
+			"gss_image",
+			"nav-single",
+			"right",
+			"left",
+			"et_parallax_set_height",
+			"module_active_toggle_close",
+			".gss-home-toggle",
+			"fixed_header_height",
+			"background_color",
+			"gss_project_color",
+			"gss_project_order",
+			"et_portfolio_image",
+			"gss_project_order",
+			"vg-modules.js",
+			"function is_",
+			"is_",
+			"et_pb_toggle_title",
+			"before",
+			"et_pb_text",
+			"search-area",
+			"sidebar",
+			"content-banner-image",
+			"font-weight: 600",
+			"et-top-navigation",
+			"all .3s ease-in-out",
+			"all .25s ease-in-out",
+			"all .15s ease-in-out",
+			"css-transition()",
 			"$gss_project_show_in_homepage",
 			"orderby",
 			"_post_gss_project_order",
@@ -636,57 +701,7 @@
 			"_custom_excerpt_more",
 			"twentyeleven_custom_excerpt_more",
 			"modify_read_more_link",
-			".our-group-item",
-			".ul-members",
-			"taxonomy",
-			".gss_",
-			"gss_",
-			"blur",
-			".from-contact-us",
-			"gss-insights-page",
-			"max-width: none;",
-			"media",
-			"recaptcha_widget_div",
-			"all",
-			"search",
-			"from-contact-us",
-			"ul-members",
-			": 600;",
-			".vg-bottom-page",
-			"show_categories",
-			"80px",
-			"et_pb_gss_filterable_portfolio",
-			"meta",
-			"i",
-			"vg-grid-col",
-			"vg-blog",
-			"gridcolumns",
-			"column",
-			"of",
-			"column",
-			"blog",
-			"blog-grid",
-			"et_pb_vg_blog",
-			".gss-subscribe-form",
-			"gss-banner-image",
-			"2",
-			"51",
-			": transform(@x, @y);",
-			"transform",
-			"factor",
-			"translate",
-			"f3e316",
-			"rotate",
-			"animating",
-			"twentyciGss_scripts_styles",
-			"et_pb_toggle_close",
-			"show_pagination",
-			"background",
-			"get_portfolio_item",
-			"get_portfolio_terms",
-			"show_title",
-			"show_pagination",
-			"add_default_setting"
+			".our-group-item"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -707,202 +722,8 @@
 	"groups":
 	[
 		{
-			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/modules/gss-filterable-portfolio.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 23750,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								12962,
-								12962
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": true,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 5909.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/css/app.min.css",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 117656,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								117656,
-								117656
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/LESS/LESS.tmLanguage"
-						},
-						"translation.x": 704961.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/js/quick_edit_project.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1154,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								426,
-								426
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": true,
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/includes/init_custom_field.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 10416,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								9478,
-								9478
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 3648.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/globals.less",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 12583,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								6273,
-								6273
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/LESS/LESS.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 3417.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/homepage.less",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7308,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2363,
-								2363
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/LESS/LESS.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1581.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -941,13 +762,17 @@
 	{
 		"height": 0.0
 	},
+	"output.exec":
+	{
+		"height": 112.0
+	},
 	"output.find_results":
 	{
 		"height": 0.0
 	},
 	"output.sftp":
 	{
-		"height": 100.0
+		"height": 81.0
 	},
 	"pinned_build_system": "",
 	"project": "20ci.sublime-project",
