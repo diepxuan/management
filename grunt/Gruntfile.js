@@ -94,6 +94,9 @@ module.exports = function(grunt) {
         app: 'PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/app.min.js',
       },
       watch: {
+        less: [
+          'PROJECT/skin/frontend/PACKAGE/TEMPLATE/less/**/*.less',
+        ],
         css: [
           'PROJECT/skin/frontend/PACKAGE/TEMPLATE/less/**/*.less',
         ],
