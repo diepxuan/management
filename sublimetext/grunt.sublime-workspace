@@ -215,7 +215,7 @@
 			"file": "/D/server/www/code/grunt/Gruntfile.js",
 			"settings":
 			{
-				"buffer_size": 24558,
+				"buffer_size": 24652,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -577,15 +577,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 24558,
+						"buffer_size": 24652,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								15325,
-								15325
+								24197,
+								24197
 							]
 						],
 						"settings":
@@ -598,7 +598,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 6502.0,
+						"translation.y": 10258.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
