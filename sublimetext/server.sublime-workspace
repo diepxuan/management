@@ -199,6 +199,15 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "/D/server/www/.gitignore",
+			"settings":
+			{
+				"buffer_size": 171,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -237,13 +246,14 @@
 	},
 	"expanded_folders":
 	[
-		"/D/server/www",
-		"/D/server/www/code",
-		"/D/server/www/code/php",
-		"/D/server/www/code/php/magento1x"
+		"/D/server/www"
 	],
 	"file_history":
 	[
+		"/D/server/www/code/httpd/httpd.conf",
+		"/D/server/www/code/php/exportdb/exportdb.php",
+		"/D/server/www/dev/phpinfo.php",
+		"/C/php/php.ini",
 		"/D/server/www/code/php/magento1x/local.xml",
 		"/D/server/www/.gitignore",
 		"/C/php/phar.phar.bat",
@@ -276,14 +286,12 @@
 		"/D/server/www/code/grunt/Gruntfile.js",
 		"/D/server/www/code/grunt/Gruntapps2.json",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi/functions.php",
-		"/C/php/php.ini",
 		"/C/Apache2.4/conf/httpd.conf",
 		"/C/Users/ductn/Downloads/TCI_Logo.svg",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/style.css",
 		"/D/server/www/dev/20ci/wp-content/db.php",
 		"/D/server/www/dev/20ci/db-config.php",
 		"/D/server/www/dev/20ci/.gitignore",
-		"/D/server/www/code/httpd/httpd.conf",
 		"/D/server/www/dev/chainview/wp-content/themes/viewmychain/css/app.css",
 		"/D/server/www/dev/chainview/wp-content/themes/viewmychain/js/main.js",
 		"/D/server/www/dev/chainview/wp-content/themes/viewmychain2/less/sources/pages.less",
@@ -369,9 +377,7 @@
 		"/D/server/www/lacoqueta/skin/frontend/lacoqueta/evolve_child/less/sources/mixins.less",
 		"/D/server/www/lacoqueta/app/design/frontend/lacoqueta/evolve_child/template/competition/competition.phtml",
 		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/Model/Observer.php",
-		"/D/server/www/ilg/skin/frontend/ilg/evolve/less/sources/third-party/aw-raf.less",
-		"/D/server/www/ilg/skin/frontend/ilg/evolve/less/sources/mixins.less",
-		"/D/server/www/ilg/app/design/frontend/ilg/evolve/template/aw_raf/form.phtml"
+		"/D/server/www/ilg/skin/frontend/ilg/evolve/less/sources/third-party/aw-raf.less"
 	],
 	"find":
 	{
@@ -549,8 +555,40 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "/D/server/www/.gitignore",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 171,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								125,
+								125
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -621,7 +659,7 @@
 		[
 			[
 				"",
-				"D:\\server\\www\\code\\sublimetext\\httpd.sublime-project"
+				"D:\\server\\www\\code\\sublimetext\\soane-britain.sublime-project"
 			]
 		],
 		"width": 380.0
