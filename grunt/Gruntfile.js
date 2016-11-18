@@ -380,8 +380,8 @@ module.exports = function(grunt) {
                     if(!$paths[D.initTaskName($project, $package, $template)].src) {
                       $paths[D.initTaskName($project, $package, $template)].src = new Array();
                     }
-                    // $paths[D.initTaskName($project, $package, $template)].src.push($templatePath);
-                    $paths[D.initTaskName($project, $package, $template)].src.unshift($templatePath);
+                    $paths[D.initTaskName($project, $package, $template)].src.push($templatePath);
+                    // $paths[D.initTaskName($project, $package, $template)].src.unshift($templatePath);
                     D.is_array($path.src, function($key, $src) {
                       var $srcPath = $src.replaceAll('PROJECT', $projectDir);
                       $srcPath = $srcPath.replaceAll('PACKAGE', $package);
@@ -395,8 +395,8 @@ module.exports = function(grunt) {
                       }
                       D.is_file($srcPath, function($srcPath) {
                         if( $paths[D.initTaskName($project, $package, $template)].src.indexOf($srcPath) < 0 ) {
-                          // $paths[D.initTaskName($project, $package, $template)].src.push($srcPath);
-                          $paths[D.initTaskName($project, $package, $template)].src.unshift($srcPath);
+                          $paths[D.initTaskName($project, $package, $template)].src.push($srcPath);
+                          // $paths[D.initTaskName($project, $package, $template)].src.unshift($srcPath);
                         }
                       });
                     }, false);
