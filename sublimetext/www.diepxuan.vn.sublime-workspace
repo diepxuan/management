@@ -23,14 +23,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "/D/server/www/www.diepxuan.vn/app/design/frontend/dxvn/default/layout/local.xml",
-			"settings":
-			{
-				"buffer_size": 2850,
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -69,34 +61,11 @@
 	},
 	"expanded_folders":
 	[
-		"/D/server/www/www.diepxuan.vn/app",
-		"/D/server/www/www.diepxuan.vn/app/code",
-		"/D/server/www/www.diepxuan.vn/app/design",
-		"/D/server/www/www.diepxuan.vn/app/design/frontend",
-		"/D/server/www/www.diepxuan.vn/app/design/frontend/base",
-		"/D/server/www/www.diepxuan.vn/app/design/frontend/base/default",
-		"/D/server/www/www.diepxuan.vn/app/design/frontend/base/default/layout",
-		"/D/server/www/www.diepxuan.vn/app/design/frontend/base/default/template",
-		"/D/server/www/www.diepxuan.vn/app/design/frontend/base/default/template/catalog",
-		"/D/server/www/www.diepxuan.vn/app/design/frontend/base/default/template/catalog/category",
-		"/D/server/www/www.diepxuan.vn/app/design/frontend/base/default/template/catalog/product",
-		"/D/server/www/www.diepxuan.vn/app/design/frontend/base/default/template/poll",
-		"/D/server/www/www.diepxuan.vn/app/design/frontend/dxvn",
-		"/D/server/www/www.diepxuan.vn/app/design/frontend/dxvn/default",
-		"/D/server/www/www.diepxuan.vn/app/design/frontend/dxvn/default/layout",
-		"/D/server/www/www.diepxuan.vn/app/design/frontend/dxvn/default/template",
-		"/D/server/www/www.diepxuan.vn/app/design/frontend/dxvn/default/template/catalog",
-		"/D/server/www/www.diepxuan.vn/app/design/frontend/dxvn/default/template/catalog/product",
-		"/D/server/www/www.diepxuan.vn/app/etc",
-		"/D/server/www/www.diepxuan.vn/app/etc/modules",
-		"/D/server/www/www.diepxuan.vn/skin",
-		"/D/server/www/www.diepxuan.vn/skin/frontend",
-		"/D/server/www/www.diepxuan.vn/skin/frontend/base",
-		"/D/server/www/www.diepxuan.vn/skin/frontend/base/default",
-		"/D/server/www/www.diepxuan.vn/skin/frontend/base/default/images"
+		"/D/server/www/www.diepxuan.vn"
 	],
 	"file_history":
 	[
+		"/D/server/www/www.diepxuan.vn/app/design/frontend/dxvn/default/layout/local.xml",
 		"/D/server/www/www.diepxuan.vn/app/design/frontend/dxvn/default/template/cms/default/home.phtml",
 		"/D/server/www/www.diepxuan.vn/.gitignore",
 		"/D/server/www/www.diepxuan.vn/app/design/frontend/dxvn/default/template/catalog/product/list.phtml",
@@ -292,39 +261,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "/D/server/www/www.diepxuan.vn/app/design/frontend/dxvn/default/layout/local.xml",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2850,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1121,
-								1121
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/XML/XML.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -362,6 +300,10 @@
 	"output.find_results":
 	{
 		"height": 0.0
+	},
+	"output.sftp":
+	{
+		"height": 81.0
 	},
 	"pinned_build_system": "",
 	"project": "www.diepxuan.vn.sublime-project",
