@@ -199,6 +199,14 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "/D/server/www/dev/soane-britain/app/etc/env.php",
+			"settings":
+			{
+				"buffer_size": 1589,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -237,12 +245,18 @@
 	},
 	"expanded_folders":
 	[
-		"/D/server/www/dev/soane-britain"
+		"/D/server/www/dev/soane-britain",
+		"/D/server/www/dev/soane-britain/app",
+		"/D/server/www/dev/soane-britain/app/etc"
 	],
 	"file_history":
 	[
-		"/C/php/phar.phar.bat",
+		"/D/server/www/dev/soane-britain/app/etc/config.php",
+		"/D/server/www/dev/soane-britain/.htaccess",
+		"/C/Windows/System32/drivers/etc/hosts",
 		"/D/server/www/.gitignore",
+		"/D/server/www/dev/soane-britain/composer.json",
+		"/C/php/phar.phar.bat",
 		"/D/server/www/.gitmodules",
 		"/D/server/www/code/setup/win10/winConfig.bat",
 		"/D/server/www/live/www.diepxuan.vn/wp-content/themes/WPDXTheme/inc/init/custom_fields.php",
@@ -364,11 +378,7 @@
 		"/D/server/www/lacoqueta/skin/frontend/lacoqueta/evolve_child/less/sources/cms-page/competitions-cms.less",
 		"/D/server/www/lacoqueta/skin/frontend/lacoqueta/evolve_child/less/sources/mixins.less",
 		"/D/server/www/lacoqueta/app/design/frontend/lacoqueta/evolve_child/template/competition/competition.phtml",
-		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/Model/Observer.php",
-		"/D/server/www/ilg/skin/frontend/ilg/evolve/less/sources/third-party/aw-raf.less",
-		"/D/server/www/ilg/skin/frontend/ilg/evolve/less/sources/mixins.less",
-		"/D/server/www/ilg/app/design/frontend/ilg/evolve/template/aw_raf/form.phtml",
-		"/D/server/www/lacoqueta/app/code/local/Evolve/Banner/etc/config.xml"
+		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/Model/Observer.php"
 	],
 	"find":
 	{
@@ -546,8 +556,42 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "/D/server/www/dev/soane-britain/app/etc/env.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1589,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								276,
+								276
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -613,9 +657,13 @@
 	"select_project":
 	{
 		"height": 500.0,
-		"last_filter": "",
+		"last_filter": "pma",
 		"selected_items":
 		[
+			[
+				"pma",
+				"D:\\server\\www\\code\\sublimetext\\pma.diepxuan.vn.sublime-project"
+			],
 			[
 				"",
 				"D:\\server\\www\\code\\sublimetext\\httpd.sublime-project"
