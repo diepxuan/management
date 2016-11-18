@@ -376,16 +376,9 @@
 		"/D/server/www/dev/ags",
 		"/D/server/www/dev/ags/app",
 		"/D/server/www/dev/ags/app/code",
-		"/D/server/www/dev/ags/app/design",
 		"/D/server/www/dev/ags/app/design/frontend",
 		"/D/server/www/dev/ags/app/design/frontend/rwd",
-		"/D/server/www/dev/ags/app/design/frontend/rwd/evolve",
-		"/D/server/www/dev/ags/app/design/frontend/rwd/evolve/template",
-		"/D/server/www/dev/ags/app/design/frontend/rwd/evolve/template/catalog",
-		"/D/server/www/dev/ags/app/design/frontend/rwd/evolve/template/catalog/product",
-		"/D/server/www/dev/ags/app/design/frontend/rwd/evolve/template/catalog/product/view",
-		"/D/server/www/dev/ags/app/design/frontend/rwd/evolve/template/catalog/product/view/options",
-		"/D/server/www/dev/ags/app/design/frontend/rwd/evolve/template/catalog/product/view/options/type",
+		"/D/server/www/dev/ags/app/etc",
 		"/D/server/www/dev/ags/skin",
 		"/D/server/www/dev/ags/skin/frontend",
 		"/D/server/www/dev/ags/skin/frontend/rwd",
@@ -394,6 +387,7 @@
 	],
 	"file_history":
 	[
+		"/D/server/www/dev/ags/app/etc/local.xml",
 		"/D/server/www/.gitignore",
 		"/D/server/www/code/setup/win10/winConfig.bat",
 		"/D/server/www/code/setup/git/git.bat",
@@ -520,8 +514,7 @@
 		"/D/server/www/dev/20ci/db-config.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/includes/social_icons.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi/epanel/core_functions.php",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi/core/languages/id_ID.po",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi/style.css"
+		"/D/server/www/dev/20ci/wp-content/themes/Divi/core/languages/id_ID.po"
 	],
 	"find":
 	{
