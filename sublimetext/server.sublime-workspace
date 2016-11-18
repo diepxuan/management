@@ -199,15 +199,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "/D/server/www/.gitignore",
-			"settings":
-			{
-				"buffer_size": 69,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -246,12 +237,16 @@
 	},
 	"expanded_folders":
 	[
-		"/D/server/www"
+		"/D/server/www",
+		"/D/server/www/code",
+		"/D/server/www/code/php",
+		"/D/server/www/code/php/magento1x"
 	],
 	"file_history":
 	[
-		"/C/php/phar.phar.bat",
+		"/D/server/www/code/php/magento1x/local.xml",
 		"/D/server/www/.gitignore",
+		"/C/php/phar.phar.bat",
 		"/D/server/www/.gitmodules",
 		"/D/server/www/code/setup/win10/winConfig.bat",
 		"/D/server/www/live/www.diepxuan.vn/wp-content/themes/WPDXTheme/inc/init/custom_fields.php",
@@ -376,8 +371,7 @@
 		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/Model/Observer.php",
 		"/D/server/www/ilg/skin/frontend/ilg/evolve/less/sources/third-party/aw-raf.less",
 		"/D/server/www/ilg/skin/frontend/ilg/evolve/less/sources/mixins.less",
-		"/D/server/www/ilg/app/design/frontend/ilg/evolve/template/aw_raf/form.phtml",
-		"/D/server/www/lacoqueta/app/code/local/Evolve/Banner/etc/config.xml"
+		"/D/server/www/ilg/app/design/frontend/ilg/evolve/template/aw_raf/form.phtml"
 	],
 	"find":
 	{
@@ -555,40 +549,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "/D/server/www/.gitignore",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 69,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								69,
-								69
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],
