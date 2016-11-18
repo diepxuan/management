@@ -7,23 +7,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "/D/server/www/ilg/skin/frontend/ilg/evolve/less/sources/custommer.less",
-			"settings":
-			{
-				"buffer_size": 19998,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/server/www/ilg/skin/frontend/ilg/evolve/less/sources/orders.less",
-			"settings":
-			{
-				"buffer_size": 2651,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -66,18 +49,11 @@
 	},
 	"expanded_folders":
 	[
-		"/D/server/www/ilg",
-		"/D/server/www/ilg/app",
-		"/D/server/www/ilg/app/etc",
-		"/D/server/www/ilg/skin",
-		"/D/server/www/ilg/skin/frontend",
-		"/D/server/www/ilg/skin/frontend/ilg",
-		"/D/server/www/ilg/skin/frontend/ilg/evolve",
-		"/D/server/www/ilg/skin/frontend/ilg/evolve/less",
-		"/D/server/www/ilg/skin/frontend/ilg/evolve/less/sources"
+		"/D/server/www/dev/ilg"
 	],
 	"file_history":
 	[
+		"/D/server/www/ilg/skin/frontend/ilg/evolve/less/sources/orders.less",
 		"/D/server/www/ilg/skin/frontend/ilg/evolve/less/sources/custommer.less",
 		"/D/server/www/ilg/app/etc/local.xml",
 		"/C/ProgramData/MySQL/MySQL Server 5.7/my.ini",
@@ -209,75 +185,8 @@
 	"groups":
 	[
 		{
-			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "/D/server/www/ilg/skin/frontend/ilg/evolve/less/sources/custommer.less",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 19998,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								792,
-								792
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/LESS/LESS.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 90.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/D/server/www/ilg/skin/frontend/ilg/evolve/less/sources/orders.less",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2651,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1073,
-								1073
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": true,
-							"syntax": "Packages/LESS/LESS.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 540.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],
