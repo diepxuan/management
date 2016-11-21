@@ -121,7 +121,7 @@ class DDNS extends stdClass
           // $this->debug( $fields );
           $result = $this->curlRequest(sprintf('/zones/%s/dns_records/%s', $zone_identifier, $identifier), $fields, 'PUT');
           // array_push($results, $result);
-          $results[$_content_old] = $result;
+          $results[$fields->name . '->' . $_content_old] = $result;
           // $this->debug( $result );
         }
       }
