@@ -199,14 +199,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "/D/server/www/.gitmodules",
-			"settings":
-			{
-				"buffer_size": 2188,
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -245,13 +237,11 @@
 	},
 	"expanded_folders":
 	[
-		"/D/server/www",
-		"/D/server/www/dev"
 	],
 	"file_history":
 	[
-		"/C/ProgramData/MySQL/MySQL Server 5.7/my.ini",
 		"/D/server/www/.gitignore",
+		"/C/ProgramData/MySQL/MySQL Server 5.7/my.ini",
 		"/D/server/www/code/httpd/httpd.conf",
 		"/C/php/php.ini",
 		"/D/server/www/code/mysql/my.ini",
@@ -555,41 +545,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "/D/server/www/.gitmodules",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 2188,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 510.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],
