@@ -200,11 +200,10 @@
 	"buffers":
 	[
 		{
-			"file": "/D/server/www/.gitignore",
+			"file": "/D/server/www/.gitmodules",
 			"settings":
 			{
-				"buffer_size": 171,
-				"encoding": "UTF-8",
+				"buffer_size": 2188,
 				"line_ending": "Windows"
 			}
 		}
@@ -246,16 +245,21 @@
 	},
 	"expanded_folders":
 	[
-		"/D/server/www"
+		"/D/server/www",
+		"/D/server/www/dev"
 	],
 	"file_history":
 	[
+		"/C/ProgramData/MySQL/MySQL Server 5.7/my.ini",
+		"/D/server/www/.gitignore",
 		"/D/server/www/code/httpd/httpd.conf",
+		"/C/php/php.ini",
+		"/D/server/www/code/mysql/my.ini",
+		"/D/server/www/sftp-config.json",
+		"/D/server/www/code/ddns/ddns.php",
 		"/D/server/www/code/php/exportdb/exportdb.php",
 		"/D/server/www/dev/phpinfo.php",
-		"/C/php/php.ini",
 		"/D/server/www/code/php/magento1x/local.xml",
-		"/D/server/www/.gitignore",
 		"/C/php/phar.phar.bat",
 		"/D/server/www/.gitmodules",
 		"/D/server/www/code/setup/win10/winConfig.bat",
@@ -340,7 +344,6 @@
 		"/D/server/www/dev/pet/src/index.html",
 		"/D/server/www/dev/pet/src/environments/environment.ts",
 		"/D/server/www/live/pma.diepxuan.vn/config.inc.php",
-		"/C/ProgramData/MySQL/MySQL Server 5.7/my.ini",
 		"/D/server/www/dev/pet/src/tsconfig.json",
 		"/D/server/www/dev/pet/index.html",
 		"/D/server/www/dev/pet/systemjs.config.js",
@@ -374,10 +377,7 @@
 		"/D/server/www/lacoqueta/var/log/exception.log",
 		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/etc/config.xml",
 		"/D/server/www/lacoqueta/skin/frontend/lacoqueta/evolve_child/less/sources/cms-page/competitions-cms.less",
-		"/D/server/www/lacoqueta/skin/frontend/lacoqueta/evolve_child/less/sources/mixins.less",
-		"/D/server/www/lacoqueta/app/design/frontend/lacoqueta/evolve_child/template/competition/competition.phtml",
-		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/Model/Observer.php",
-		"/D/server/www/ilg/skin/frontend/ilg/evolve/less/sources/third-party/aw-raf.less"
+		"/D/server/www/lacoqueta/skin/frontend/lacoqueta/evolve_child/less/sources/mixins.less"
 	],
 	"find":
 	{
@@ -560,19 +560,19 @@
 			[
 				{
 					"buffer": 0,
-					"file": "/D/server/www/.gitignore",
-					"semi_transient": false,
+					"file": "/D/server/www/.gitmodules",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 171,
+						"buffer_size": 2188,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								125,
-								125
+								0,
+								0
 							]
 						],
 						"settings":
@@ -580,10 +580,11 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 510.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

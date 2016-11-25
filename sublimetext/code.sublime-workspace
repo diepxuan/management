@@ -199,6 +199,15 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "/D/server/www/code/httpd/httpd.conf",
+			"settings":
+			{
+				"buffer_size": 6177,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -237,8 +246,6 @@
 	},
 	"expanded_folders":
 	[
-		"/D/server/www/code",
-		"/D/server/www/code/php"
 	],
 	"file_history":
 	[
@@ -547,8 +554,41 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "/D/server/www/code/httpd/httpd.conf",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6177,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5035,
+								5035
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2346.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -619,7 +659,7 @@
 		[
 			[
 				"",
-				"D:\\server\\www\\code\\sublimetext\\httpd.sublime-project"
+				"D:\\server\\www\\code\\sublimetext\\server.sublime-project"
 			]
 		],
 		"width": 380.0
