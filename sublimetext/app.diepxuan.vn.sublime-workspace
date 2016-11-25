@@ -199,6 +199,14 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "/C/ProgramData/MySQL/MySQL Server 5.7/my.ini",
+			"settings":
+			{
+				"buffer_size": 13892,
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -237,28 +245,16 @@
 	},
 	"expanded_folders":
 	[
+		"/D/server/www/live/app.diepxuan.vn",
+		"/D/server/www/live/app.diepxuan.vn/Win10",
+		"/D/server/www/live/app.diepxuan.vn/Win10/Properties"
 	],
 	"file_history":
 	[
-<<<<<<< 34e5c421edcbb35d3aa5b12bddd5a3f01e1b3b52
-		"/D/server/www/.gitignore",
-		"/C/ProgramData/MySQL/MySQL Server 5.7/my.ini",
-		"/D/server/www/code/httpd/httpd.conf",
-		"/C/php/php.ini",
-		"/D/server/www/code/mysql/my.ini",
-		"/D/server/www/sftp-config.json",
-		"/D/server/www/code/ddns/ddns.php",
-		"/D/server/www/code/php/exportdb/exportdb.php",
-		"/D/server/www/dev/phpinfo.php",
-		"/D/server/www/code/php/magento1x/local.xml",
-		"/C/php/phar.phar.bat",
-		"/D/server/www/.gitmodules",
-=======
 		"/D/server/www/live/app.diepxuan.vn/.git",
 		"/D/server/www/live/diepxuan.vn/package.json",
 		"/D/server/www/code/grunt/package.json",
 		"/C/ProgramData/MySQL/MySQL Server 5.7/my.ini",
->>>>>>> d301b67f71e72fd92e74b829af1db7d7da1f00fc
 		"/D/server/www/code/setup/win10/winConfig.bat",
 		"/C/Users/ductn/Downloads/video_1947.html",
 		"/D/server/www/live/www.diepxuan.vn/wp-content/themes/WPDXTheme/inc/init/custom_fields.php",
@@ -377,16 +373,12 @@
 		"/D/server/www/lacoqueta/var/log/exception.log",
 		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/etc/config.xml",
 		"/D/server/www/lacoqueta/skin/frontend/lacoqueta/evolve_child/less/sources/cms-page/competitions-cms.less",
-<<<<<<< 34e5c421edcbb35d3aa5b12bddd5a3f01e1b3b52
-		"/D/server/www/lacoqueta/skin/frontend/lacoqueta/evolve_child/less/sources/mixins.less"
-=======
 		"/D/server/www/lacoqueta/skin/frontend/lacoqueta/evolve_child/less/sources/mixins.less",
 		"/D/server/www/lacoqueta/app/design/frontend/lacoqueta/evolve_child/template/competition/competition.phtml",
 		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/Model/Observer.php",
 		"/D/server/www/ilg/skin/frontend/ilg/evolve/less/sources/third-party/aw-raf.less",
 		"/D/server/www/ilg/skin/frontend/ilg/evolve/less/sources/mixins.less",
 		"/D/server/www/ilg/app/design/frontend/ilg/evolve/template/aw_raf/form.phtml"
->>>>>>> d301b67f71e72fd92e74b829af1db7d7da1f00fc
 	],
 	"find":
 	{
@@ -417,6 +409,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"cs",
 			"Block",
 			"https://caothu159@bitbucket.org/",
 			"et_menu_container",
@@ -543,8 +536,7 @@
 			".main-title-right",
 			"    ",
 			"\\n*",
-			"    ",
-			"\\n*"
+			"    "
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -564,8 +556,40 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "/C/ProgramData/MySQL/MySQL Server 5.7/my.ini",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 13892,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3889,
+								3889
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 5202.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -613,7 +637,7 @@
 		"height": 100.0
 	},
 	"pinned_build_system": "",
-	"project": "server.sublime-project",
+	"project": "app.diepxuan.vn.sublime-project",
 	"replace":
 	{
 		"height": 62.0
