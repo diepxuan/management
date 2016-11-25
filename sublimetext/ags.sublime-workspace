@@ -352,7 +352,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 416.0
+		"width": 432.0
 	},
 	"console":
 	{
@@ -376,24 +376,57 @@
 		"/D/server/www/dev/ags",
 		"/D/server/www/dev/ags/app",
 		"/D/server/www/dev/ags/app/code",
+		"/D/server/www/dev/ags/app/code/core",
+		"/D/server/www/dev/ags/app/code/core/Mage",
+		"/D/server/www/dev/ags/app/code/core/Mage/Catalog",
+		"/D/server/www/dev/ags/app/code/core/Mage/Catalog/Model",
+		"/D/server/www/dev/ags/app/code/core/Mage/Catalog/Model/Product",
+		"/D/server/www/dev/ags/app/code/core/Mage/Catalog/Model/Product/Option",
+		"/D/server/www/dev/ags/app/code/core/Mage/Catalog/Model/Product/Option/Type",
+		"/D/server/www/dev/ags/app/code/local",
+		"/D/server/www/dev/ags/app/code/local/Evolve",
+		"/D/server/www/dev/ags/app/code/local/Evolve/Overrides",
+		"/D/server/www/dev/ags/app/code/local/Evolve/Overrides/Model",
+		"/D/server/www/dev/ags/app/code/local/Evolve/Overrides/Model/Catalog",
+		"/D/server/www/dev/ags/app/code/local/Evolve/Overrides/Model/Catalog/Product",
+		"/D/server/www/dev/ags/app/code/local/Evolve/Overrides/Model/Catalog/Product/Option",
+		"/D/server/www/dev/ags/app/code/local/Evolve/Overrides/Model/Catalog/Product/Option/Type",
+		"/D/server/www/dev/ags/app/code/local/Evolve/Overrides/Model/Catalog/Resource/Product",
+		"/D/server/www/dev/ags/app/code/local/Evolve/Overrides/Model/Catalog/Resource/Product/Type",
+		"/D/server/www/dev/ags/app/code/local/Evolve/Overrides/Model/Catalog/Resource/Product/Type/Configurable",
+		"/D/server/www/dev/ags/app/code/local/Evolve/Overrides/Model/Catalog/Resource/Product/Type/Configurable/Attribute",
+		"/D/server/www/dev/ags/app/design",
 		"/D/server/www/dev/ags/app/design/frontend",
 		"/D/server/www/dev/ags/app/design/frontend/rwd",
+		"/D/server/www/dev/ags/app/design/frontend/rwd/evolve",
+		"/D/server/www/dev/ags/app/design/frontend/rwd/evolve/template",
+		"/D/server/www/dev/ags/app/design/frontend/rwd/evolve/template/checkout",
+		"/D/server/www/dev/ags/app/design/frontend/rwd/evolve/template/checkout/cart",
+		"/D/server/www/dev/ags/app/design/frontend/rwd/evolve/template/checkout/cart/item",
 		"/D/server/www/dev/ags/app/etc",
 		"/D/server/www/dev/ags/skin",
 		"/D/server/www/dev/ags/skin/frontend",
 		"/D/server/www/dev/ags/skin/frontend/rwd",
-		"/D/server/www/dev/ags/skin/frontend/rwd/evolve",
-		"/D/server/www/dev/ags/skin/frontend/rwd/evolve/js"
+		"/D/server/www/dev/ags/skin/frontend/rwd/evolve"
 	],
 	"file_history":
 	[
+		"/D/server/www/dev/ags/app/code/local/Evolve/Overrides/etc/config.xml",
+		"/D/server/www/dev/ags/app/code/core/Mage/Catalog/Model/Product/Option/Type/Date.php",
+		"/D/server/www/dev/ags/app/code/core/Mage/Core/Model/Locale.php",
+		"/D/server/www/dev/ags/app/design/frontend/rwd/evolve/template/checkout/cart/item/default.phtml",
+		"/D/server/www/dev/ags/app/code/local/Evolve/Overrides/Model/Catalog/Product/Option/Type/Date.php",
+		"/D/server/www/dev/ags/app/code/core/Mage/Checkout/Block/Cart/Item/Renderer.php",
+		"/D/server/www/dev/ags/app/code/core/Mage/Catalog/Helper/Product/Configuration.php",
+		"/D/server/www/dev/ags/app/code/core/Mage/Catalog/Model/Product/Option/Type/Default.php",
+		"/D/server/www/dev/ags/app/code/local/Evolve/Custom/Model/Product/Option/Type/Advanced.php",
+		"/D/server/www/dev/ags/skin/frontend/rwd/evolve/less/source/products.less",
 		"/D/server/www/dev/ags/app/etc/local.xml",
 		"/D/server/www/.gitignore",
 		"/D/server/www/code/setup/win10/winConfig.bat",
 		"/D/server/www/code/setup/git/git.bat",
 		"/C/Users/ductn/Documents/gitignore_global.txt",
 		"/D/server/www/dev/ags/skin/frontend/rwd/evolve/js/dev/controllers.js",
-		"/D/server/www/dev/ags/skin/frontend/rwd/evolve/less/source/products.less",
 		"/D/server/www/dev/ags/skin/frontend/rwd/evolve/js/app.js",
 		"/D/server/www/dev/ags/skin/frontend/rwd/evolve/js/dev/directives.js",
 		"/D/server/www/dev/ags/skin/frontend/rwd/evolve/js/dev/factorys.js",
@@ -505,16 +538,7 @@
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/modules.less",
 		"/C/Users/ductn/Downloads/sf-taxonomy-thumbnail/sf-taxonomy-thumbnail/inc/admin.php",
 		"/C/Users/ductn/Downloads/sf-taxonomy-thumbnail/sf-taxonomy-thumbnail/sf-taxonomy-thumbnail.php",
-		"/C/Users/ductn/Downloads/sf-taxonomy-thumbnail/sf-taxonomy-thumbnail/inc/admin-and-ajax.php",
-		"/C/Users/ductn/AppData/Local/Temp/scp24860/home/vmcwp/wordpress/wp-content/themes/viewmychain/page.php",
-		"/C/Users/ductn/AppData/Local/Temp/scp23500/home/vmcwp/wordpress/wp-content/themes/viewmychain/blogs-pages.php",
-		"/C/Users/ductn/AppData/Local/Temp/scp23421/home/vmcwp/wordpress/wp-content/themes/viewmychain/contact-page.php",
-		"/C/Users/ductn/AppData/Local/Temp/scp23093/home/vmcwp/wordpress/wp-content/themes/viewmychain/content.php",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi/options_divi.php",
-		"/D/server/www/dev/20ci/db-config.php",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/includes/social_icons.php",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi/epanel/core_functions.php",
-		"/D/server/www/dev/20ci/wp-content/themes/Divi/core/languages/id_ID.po"
+		"/C/Users/ductn/Downloads/sf-taxonomy-thumbnail/sf-taxonomy-thumbnail/inc/admin-and-ajax.php"
 	],
 	"find":
 	{
@@ -572,6 +596,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"personalisation",
 			"scrollTop",
 			"scroll",
 			"'page2.html'",
@@ -698,8 +723,7 @@
 			"recaptcha_area",
 			"_current_post",
 			".from-contact-us",
-			"et_pb_blog",
-			"blog"
+			"et_pb_blog"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -796,7 +820,15 @@
 		[
 			[
 				"",
-				"D:\\server\\www\\code\\sublimetext\\grunt.sublime-project"
+				"D:\\server\\www\\code\\sublimetext\\soane-britain.sublime-project"
+			],
+			[
+				"s",
+				"D:\\server\\www\\code\\sublimetext\\soane-britain.sublime-project"
+			],
+			[
+				"se",
+				"D:\\server\\www\\code\\sublimetext\\server.sublime-project"
 			]
 		],
 		"width": 380.0

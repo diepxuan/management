@@ -10,7 +10,7 @@ return array (
   ),
   'session' =>
   array (
-    'save' => 'db',
+    'save' => 'files',
   ),
   'db' =>
   array (
