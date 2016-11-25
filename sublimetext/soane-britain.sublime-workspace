@@ -212,7 +212,7 @@
 			"file": "/D/server/www/dev/soane-britain/var/log/debug.log",
 			"settings":
 			{
-				"buffer_size": 0,
+				"buffer_size": 3873,
 				"line_ending": "Unix"
 			}
 		},
@@ -229,7 +229,7 @@
 			"file": "/D/server/www/dev/soane-britain/var/log/system.log",
 			"settings":
 			{
-				"buffer_size": 0,
+				"buffer_size": 81991,
 				"line_ending": "Windows"
 			}
 		},
@@ -320,8 +320,6 @@
 		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/web",
 		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/web/css",
 		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/web/css/source",
-		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/web/css/source/less",
-		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/web/css/source/less/cms",
 		"/D/server/www/dev/soane-britain/pub",
 		"/D/server/www/dev/soane-britain/pub/errors",
 		"/D/server/www/dev/soane-britain/var",
@@ -679,7 +677,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 0,
+						"buffer_size": 3873,
 						"regions":
 						{
 						},
@@ -741,7 +739,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 0,
+						"buffer_size": 81991,
 						"regions":
 						{
 						},
@@ -964,15 +962,15 @@
 	"select_project":
 	{
 		"height": 500.0,
-		"last_filter": "ser",
+		"last_filter": "",
 		"selected_items":
 		[
 			[
-				"ser",
+				"",
 				"D:\\server\\www\\code\\sublimetext\\server.sublime-project"
 			],
 			[
-				"",
+				"ser",
 				"D:\\server\\www\\code\\sublimetext\\server.sublime-project"
 			],
 			[
