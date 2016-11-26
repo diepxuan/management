@@ -199,14 +199,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "/C/ProgramData/MySQL/MySQL Server 5.7/my.ini",
-			"settings":
-			{
-				"buffer_size": 13892,
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -251,10 +243,10 @@
 	],
 	"file_history":
 	[
+		"/C/ProgramData/MySQL/MySQL Server 5.7/my.ini",
 		"/D/server/www/live/app.diepxuan.vn/.git",
 		"/D/server/www/live/diepxuan.vn/package.json",
 		"/D/server/www/code/grunt/package.json",
-		"/C/ProgramData/MySQL/MySQL Server 5.7/my.ini",
 		"/D/server/www/code/setup/win10/winConfig.bat",
 		"/C/Users/ductn/Downloads/video_1947.html",
 		"/D/server/www/live/www.diepxuan.vn/wp-content/themes/WPDXTheme/inc/init/custom_fields.php",
@@ -556,40 +548,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "/C/ProgramData/MySQL/MySQL Server 5.7/my.ini",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 13892,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3889,
-								3889
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 5202.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],
