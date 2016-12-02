@@ -59,6 +59,7 @@ module.exports = function(grunt) {
         dev: {
           src: [
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/dev/app.js",
+            "PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/dev/configs.js",
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/dev/modules.js",
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/dev/controllers.js",
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/dev/directives.js",
@@ -69,6 +70,7 @@ module.exports = function(grunt) {
         angular: {
           src: [
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/angularjs/app.js",
+            "PROJECT/skin/frontend/PACKAGE/TEMPLATE/angularjs/configs.js",
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/angularjs/modules.js",
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/angularjs/controllers.js",
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/angularjs/directives.js",
@@ -79,6 +81,7 @@ module.exports = function(grunt) {
         angularjs: {
           src: [
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/angularjs/app.js",
+            "PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/angularjs/configs.js",
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/angularjs/modules.js",
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/angularjs/controllers.js",
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/angularjs/directives.js",
