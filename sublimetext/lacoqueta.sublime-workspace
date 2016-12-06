@@ -3,14 +3,18 @@
 	{
 		"selected_items":
 		[
-			[
-				"print",
-				"print_r"
-			]
 		]
 	},
 	"buffers":
 	[
+		{
+			"file": "/D/server/www/dev/lacoqueta/app/etc/local.xml",
+			"settings":
+			{
+				"buffer_size": 3047,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -19,14 +23,10 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 269.0,
-		"last_filter": "grunt",
+		"height": 357.0,
+		"last_filter": "packin",
 		"selected_items":
 		[
-			[
-				"grunt",
-				"Grunt"
-			],
 			[
 				"packin",
 				"Package Control: Install Package"
@@ -36,7 +36,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 416.0
+		"width": 432.0
 	},
 	"console":
 	{
@@ -57,51 +57,16 @@
 	},
 	"expanded_folders":
 	[
-		"/D/server/www/dev/ilg",
-		"/D/server/www/dev/ilg/app/code",
-		"/D/server/www/dev/ilg/app/code/local",
-		"/D/server/www/dev/ilg/app/code/local/Evolve",
-		"/D/server/www/dev/ilg/app/code/local/Evolve/Overrides",
-		"/D/server/www/dev/ilg/app/code/local/Evolve/Overrides/controllers",
-		"/D/server/www/dev/ilg/app/code/local/Webtex",
-		"/D/server/www/dev/ilg/app/code/local/Webtex/@@Giftcards@/Block",
-		"/D/server/www/dev/ilg/app/code/local/Webtex/Giftcards",
-		"/D/server/www/dev/ilg/app/code/local/Webtex/Giftcards/Block",
-		"/D/server/www/dev/ilg/app/code/local/Webtex/Giftcards/controllers",
-		"/D/server/www/dev/ilg/app/design",
-		"/D/server/www/dev/ilg/app/design/frontend",
-		"/D/server/www/dev/ilg/app/design/frontend/ilg",
-		"/D/server/www/dev/ilg/app/design/frontend/ilg/evolve",
-		"/D/server/www/dev/ilg/app/design/frontend/ilg/evolve/template",
-		"/D/server/www/dev/ilg/app/etc",
-		"/D/server/www/dev/ilg/skin/frontend",
-		"/D/server/www/dev/ilg/skin/frontend/ilg",
-		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve",
-		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/angularjs",
-		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/css",
-		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/js",
-		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/less",
-		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/less/sources"
+		"/D/server/www/dev/lacoqueta",
+		"/D/server/www/dev/lacoqueta/app",
+		"/D/server/www/dev/lacoqueta/app/etc",
+		"/D/server/www/dev/lacoqueta/errors"
 	],
 	"file_history":
 	[
-		"/D/server/www/dev/ilg/app/code/core/Mage/Core/Model/Email/Template.php",
-		"/D/server/www/dev/ilg/app/design/frontend/ilg/evolve/template/webtex/giftcards/product/type.phtml",
-		"/D/server/www/dev/ilg/app/code/local/Webtex/Giftcards/controllers/PreviewController.php",
-		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/less/app.less",
-		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/angularjs/controllers.js",
-		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/js/app.js",
-		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/angularjs/app.js",
-		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/angularjs/modules.js",
-		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/angularjs/configs.js",
-		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/angularjs/factorys.js",
-		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/less/sources/gift-ideas.less",
-		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/less/sources/product.less",
-		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/css/app_.css",
-		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/css/app.css",
+		"/D/server/www/dev/lacoqueta/app/etc/local.xml",
 		"/D/server/www/dev/ilg/app/etc/local.xml",
-		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/angularjs/directives.js",
-		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/less/sources/variables.less",
+		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/less/app.less",
 		"/D/server/www/ilg/skin/frontend/ilg/evolve/less/sources/orders.less",
 		"/D/server/www/ilg/skin/frontend/ilg/evolve/less/sources/custommer.less",
 		"/D/server/www/ilg/app/etc/local.xml",
@@ -166,15 +131,13 @@
 	],
 	"find":
 	{
-		"height": 34.0
+		"height": 23.0
 	},
 	"find_in_files":
 	{
 		"height": 90.0,
 		"where_history":
 		[
-			"D:\\server\\www\\dev\\ilg\\app\\design\\frontend\\ilg\\evolve\\template",
-			"D:\\server\\www\\dev\\ilg\\skin\\frontend\\ilg\\evolve\\less\\sources",
 			"D:\\server\\www\\phpmyadmin",
 			"D:\\server\\www\\phpmyadmin\\po",
 			"D:\\server\\apache\\conf"
@@ -185,11 +148,6 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"var ",
-			"}(window.VG = window.VG || {}));",
-			"preview();",
-			".giftcard-fieldset",
-			"category-gift-cards",
 			"log_error",
 			"log_bin",
 			"server-id",
@@ -241,8 +199,42 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "/D/server/www/dev/lacoqueta/app/etc/local.xml",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 3047,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/XML/XML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -252,7 +244,7 @@
 	},
 	"input":
 	{
-		"height": 33.0
+		"height": 0.0
 	},
 	"layout":
 	{
@@ -277,10 +269,6 @@
 		]
 	},
 	"menu_visible": true,
-	"output.exec":
-	{
-		"height": 112.0
-	},
 	"output.find_results":
 	{
 		"height": 0.0
@@ -290,7 +278,7 @@
 		"height": 100.0
 	},
 	"pinned_build_system": "",
-	"project": "ilg.sublime-project",
+	"project": "lacoqueta.sublime-project",
 	"replace":
 	{
 		"height": 42.0
@@ -313,7 +301,7 @@
 		[
 			[
 				"",
-				"D:\\server\\sublimetext\\server.sublime-project"
+				"D:\\server\\www\\code\\sublimetext\\ilg.sublime-project"
 			]
 		],
 		"width": 380.0
