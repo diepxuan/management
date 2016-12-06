@@ -199,15 +199,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "/D/server/www/code/httpd/httpd.conf",
-			"settings":
-			{
-				"buffer_size": 6177,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -246,9 +237,13 @@
 	},
 	"expanded_folders":
 	[
+		"/D/server/www/code/setup/win10"
 	],
 	"file_history":
 	[
+		"/D/server/www/code/less/mixins.less",
+		"/D/server/www/code/httpd/httpd.conf",
+		"/D/server/www/code/grunt/Gruntfile.js",
 		"/D/server/www/code/php/magento2x/env.php",
 		"/D/server/www/dev/soane-britain/.htaccess",
 		"/C/Windows/System32/drivers/etc/hosts",
@@ -281,7 +276,6 @@
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/mixins.less",
 		"/D/server/www/dev/20ci/wp-content/debug.log",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/source/variables.less",
-		"/D/server/www/code/grunt/Gruntfile.js",
 		"/D/server/www/code/grunt/Gruntapps2.json",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi/functions.php",
 		"/C/php/php.ini",
@@ -291,7 +285,6 @@
 		"/D/server/www/dev/20ci/wp-content/db.php",
 		"/D/server/www/dev/20ci/db-config.php",
 		"/D/server/www/dev/20ci/.gitignore",
-		"/D/server/www/code/httpd/httpd.conf",
 		"/D/server/www/dev/chainview/wp-content/themes/viewmychain/css/app.css",
 		"/D/server/www/dev/chainview/wp-content/themes/viewmychain/js/main.js",
 		"/D/server/www/dev/chainview/wp-content/themes/viewmychain2/less/sources/pages.less",
@@ -375,12 +368,11 @@
 		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/etc/config.xml",
 		"/D/server/www/lacoqueta/skin/frontend/lacoqueta/evolve_child/less/sources/cms-page/competitions-cms.less",
 		"/D/server/www/lacoqueta/skin/frontend/lacoqueta/evolve_child/less/sources/mixins.less",
-		"/D/server/www/lacoqueta/app/design/frontend/lacoqueta/evolve_child/template/competition/competition.phtml",
-		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/Model/Observer.php"
+		"/D/server/www/lacoqueta/app/design/frontend/lacoqueta/evolve_child/template/competition/competition.phtml"
 	],
 	"find":
 	{
-		"height": 25.0
+		"height": 34.0
 	},
 	"find_in_files":
 	{
@@ -407,6 +399,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"\"PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/dev/modules.js\",",
+			"scale",
+			".transition",
+			"input-placeholder",
+			"box-sizing",
 			"localhost",
 			"877611",
 			"'sa'",
@@ -529,12 +526,7 @@
 			"watch",
 			"PROJECT/skin/frontend/PACKAGE/TEMPLATE/",
 			"main-title",
-			"#site-container",
-			"address",
-			".my-account",
-			"font-size: 29px;",
-			".main-title",
-			"main-title-right"
+			"#site-container"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -554,41 +546,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "/D/server/www/code/httpd/httpd.conf",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6177,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5035,
-								5035
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 2346.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],

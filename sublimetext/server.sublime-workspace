@@ -237,30 +237,21 @@
 	},
 	"expanded_folders":
 	[
+		"/D/server/www"
 	],
 	"file_history":
 	[
-<<<<<<< 34e5c421edcbb35d3aa5b12bddd5a3f01e1b3b52
-		"/D/server/www/.gitignore",
-		"/C/ProgramData/MySQL/MySQL Server 5.7/my.ini",
+		"/D/server/www/code/less/mixins.less",
 		"/D/server/www/code/httpd/httpd.conf",
-		"/C/php/php.ini",
-		"/D/server/www/code/mysql/my.ini",
-		"/D/server/www/sftp-config.json",
-		"/D/server/www/code/ddns/ddns.php",
-		"/D/server/www/code/php/exportdb/exportdb.php",
-		"/D/server/www/dev/phpinfo.php",
-		"/D/server/www/code/php/magento1x/local.xml",
+		"/D/server/www/code/grunt/Gruntfile.js",
+		"/D/server/www/code/php/magento2x/env.php",
+		"/D/server/www/dev/soane-britain/.htaccess",
+		"/C/Windows/System32/drivers/etc/hosts",
+		"/D/server/www/.gitignore",
+		"/D/server/www/dev/soane-britain/composer.json",
 		"/C/php/phar.phar.bat",
 		"/D/server/www/.gitmodules",
-=======
-		"/D/server/www/live/app.diepxuan.vn/.git",
-		"/D/server/www/live/diepxuan.vn/package.json",
-		"/D/server/www/code/grunt/package.json",
-		"/C/ProgramData/MySQL/MySQL Server 5.7/my.ini",
->>>>>>> d301b67f71e72fd92e74b829af1db7d7da1f00fc
 		"/D/server/www/code/setup/win10/winConfig.bat",
-		"/C/Users/ductn/Downloads/video_1947.html",
 		"/D/server/www/live/www.diepxuan.vn/wp-content/themes/WPDXTheme/inc/init/custom_fields.php",
 		"/D/server/www/live/www.diepxuan.vn/wp-content/themes/WPDXTheme/inc/init.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/header.less",
@@ -270,7 +261,6 @@
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/footer.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/header.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/functions.php",
-		"/D/server/www/.gitmodules",
 		"/D/server/www/dev/20ci/wp-config.php",
 		"/C/Users/ductn/AppData/Local/Temp/scp49424/public_html/20/wp-config.php",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/footer.less",
@@ -286,7 +276,6 @@
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/sources/mixins.less",
 		"/D/server/www/dev/20ci/wp-content/debug.log",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/less/source/variables.less",
-		"/D/server/www/code/grunt/Gruntfile.js",
 		"/D/server/www/code/grunt/Gruntapps2.json",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi/functions.php",
 		"/C/php/php.ini",
@@ -296,7 +285,6 @@
 		"/D/server/www/dev/20ci/wp-content/db.php",
 		"/D/server/www/dev/20ci/db-config.php",
 		"/D/server/www/dev/20ci/.gitignore",
-		"/D/server/www/code/httpd/httpd.conf",
 		"/D/server/www/dev/chainview/wp-content/themes/viewmychain/css/app.css",
 		"/D/server/www/dev/chainview/wp-content/themes/viewmychain/js/main.js",
 		"/D/server/www/dev/chainview/wp-content/themes/viewmychain2/less/sources/pages.less",
@@ -345,6 +333,7 @@
 		"/D/server/www/dev/pet/src/index.html",
 		"/D/server/www/dev/pet/src/environments/environment.ts",
 		"/D/server/www/live/pma.diepxuan.vn/config.inc.php",
+		"/C/ProgramData/MySQL/MySQL Server 5.7/my.ini",
 		"/D/server/www/dev/pet/src/tsconfig.json",
 		"/D/server/www/dev/pet/index.html",
 		"/D/server/www/dev/pet/systemjs.config.js",
@@ -368,6 +357,7 @@
 		"/D/server/www/dev/lacoqueta/skin/frontend/lacoqueta/evolve_child/angularjs/controllers.js",
 		"/D/server/www/dev/lacoqueta/skin/frontend/lacoqueta/evolve_child/less/app.less",
 		"/D/server/www/dev/lacoqueta/skin/frontend/lacoqueta/evolve_child/less/sources/breadcrumbs.less",
+		"/D/server/www/code/grunt/package.json",
 		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/less/sources/global.less",
 		"/D/server/www/code/grunt/Gruntfile.bat",
 		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/controllers/CompetitionController.php",
@@ -377,16 +367,8 @@
 		"/D/server/www/lacoqueta/var/log/exception.log",
 		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/etc/config.xml",
 		"/D/server/www/lacoqueta/skin/frontend/lacoqueta/evolve_child/less/sources/cms-page/competitions-cms.less",
-<<<<<<< 34e5c421edcbb35d3aa5b12bddd5a3f01e1b3b52
-		"/D/server/www/lacoqueta/skin/frontend/lacoqueta/evolve_child/less/sources/mixins.less"
-=======
 		"/D/server/www/lacoqueta/skin/frontend/lacoqueta/evolve_child/less/sources/mixins.less",
-		"/D/server/www/lacoqueta/app/design/frontend/lacoqueta/evolve_child/template/competition/competition.phtml",
-		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/Model/Observer.php",
-		"/D/server/www/ilg/skin/frontend/ilg/evolve/less/sources/third-party/aw-raf.less",
-		"/D/server/www/ilg/skin/frontend/ilg/evolve/less/sources/mixins.less",
-		"/D/server/www/ilg/app/design/frontend/ilg/evolve/template/aw_raf/form.phtml"
->>>>>>> d301b67f71e72fd92e74b829af1db7d7da1f00fc
+		"/D/server/www/lacoqueta/app/design/frontend/lacoqueta/evolve_child/template/competition/competition.phtml"
 	],
 	"find":
 	{
@@ -417,6 +399,19 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"\"PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/dev/modules.js\",",
+			"scale",
+			".transition",
+			"input-placeholder",
+			"box-sizing",
+			"localhost",
+			"877611",
+			"'sa'",
+			"SA",
+			"sa",
+			"gss_mgt_soane",
+			"mysql.diepxuan.vn",
+			"soane",
 			"Block",
 			"https://caothu159@bitbucket.org/",
 			"et_menu_container",
@@ -531,20 +526,7 @@
 			"watch",
 			"PROJECT/skin/frontend/PACKAGE/TEMPLATE/",
 			"main-title",
-			"#site-container",
-			"address",
-			".my-account",
-			"font-size: 29px;",
-			".main-title",
-			"main-title-right",
-			"main-title",
-			"main-title-left",
-			".main-title",
-			".main-title-right",
-			"    ",
-			"\\n*",
-			"    ",
-			"\\n*"
+			"#site-container"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -616,7 +598,7 @@
 	"project": "server.sublime-project",
 	"replace":
 	{
-		"height": 62.0
+		"height": 46.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -636,7 +618,7 @@
 		[
 			[
 				"",
-				"D:\\server\\www\\code\\sublimetext\\httpd.sublime-project"
+				"D:\\server\\www\\code\\sublimetext\\server.sublime-project"
 			]
 		],
 		"width": 380.0
