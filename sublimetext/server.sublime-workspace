@@ -199,6 +199,15 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Magento_Theme/layout/default_head_blocks.xml",
+			"settings":
+			{
+				"buffer_size": 480,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -237,17 +246,45 @@
 	},
 	"expanded_folders":
 	[
-		"/D/server/www"
+		"/D/server/www/dev/m2/app",
+		"/D/server/www/dev/m2/app/code",
+		"/D/server/www/dev/m2/app/code/Magento",
+		"/D/server/www/dev/m2/app/code/Magento/Catalog",
+		"/D/server/www/dev/m2/app/code/Magento/Catalog/Block",
+		"/D/server/www/dev/m2/app/code/Magento/Catalog/Block/Product",
+		"/D/server/www/dev/m2/app/code/Magento/Catalog/Block/Product/View",
+		"/D/server/www/dev/m2/app/code/Magento/Catalog/Controller/Category",
+		"/D/server/www/dev/m2/app/code/Magento/Catalog/Controller/Product/Compare",
+		"/D/server/www/dev/m2/app/code/Magento/Catalog/Controller/Product/View",
+		"/D/server/www/dev/soane-britain/app",
+		"/D/server/www/dev/soane-britain/app/design",
+		"/D/server/www/dev/soane-britain/app/design/frontend",
+		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve",
+		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016",
+		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Magento_Theme",
+		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Magento_Theme/layout",
+		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Magento_Theme/page_layout"
 	],
 	"file_history":
 	[
+		"/D/server/www/dev/m2/app/code/Magento/Catalog/Controller/Product/Gallery.php",
+		"/D/server/www/dev/m2/app/code/Magento/Catalog/Controller/Product/View.php",
+		"/D/server/www/dev/m2/app/code/Magento/Catalog/Controller/Product/View/ViewInterface.php",
+		"/D/server/www/dev/m2/app/code/Magento/Catalog/Controller/Product/Compare/Index.php",
+		"/D/server/www/dev/m2/app/code/Magento/Catalog/Controller/Product/Compare/Remove.php",
+		"/D/server/www/dev/m2/app/code/Magento/Catalog/Controller/Index/Index.php",
+		"/D/server/www/.git/modules/dev/m2/modules/app/code/Evolve/Angular/info/sparse-checkout",
+		"/D/server/www/dev/m2/app/code/Evolve/Angular/.git",
+		"/D/server/www/.gitignore",
+		"/D/server/www/dev/m2/app/code/.gitignore",
+		"/D/server/www/dev/m2/.gitmodules",
+		"/D/server/www/dev/m2/app/code/.git",
 		"/D/server/www/code/less/mixins.less",
 		"/D/server/www/code/httpd/httpd.conf",
 		"/D/server/www/code/grunt/Gruntfile.js",
 		"/D/server/www/code/php/magento2x/env.php",
 		"/D/server/www/dev/soane-britain/.htaccess",
 		"/C/Windows/System32/drivers/etc/hosts",
-		"/D/server/www/.gitignore",
 		"/D/server/www/dev/soane-britain/composer.json",
 		"/C/php/phar.phar.bat",
 		"/D/server/www/.gitmodules",
@@ -357,18 +394,7 @@
 		"/D/server/www/dev/lacoqueta/skin/frontend/lacoqueta/evolve_child/angularjs/controllers.js",
 		"/D/server/www/dev/lacoqueta/skin/frontend/lacoqueta/evolve_child/less/app.less",
 		"/D/server/www/dev/lacoqueta/skin/frontend/lacoqueta/evolve_child/less/sources/breadcrumbs.less",
-		"/D/server/www/code/grunt/package.json",
-		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/less/sources/global.less",
-		"/D/server/www/code/grunt/Gruntfile.bat",
-		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/controllers/CompetitionController.php",
-		"/D/server/www/orange-box/app/etc/local.xml",
-		"/D/server/www/lacoqueta/skin/frontend/lacoqueta/evolve_child/angularjs/controllers.js",
-		"/D/server/www/lacoqueta/skin/frontend/lacoqueta/evolve_child/angularjs/directives.js",
-		"/D/server/www/lacoqueta/var/log/exception.log",
-		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/etc/config.xml",
-		"/D/server/www/lacoqueta/skin/frontend/lacoqueta/evolve_child/less/sources/cms-page/competitions-cms.less",
-		"/D/server/www/lacoqueta/skin/frontend/lacoqueta/evolve_child/less/sources/mixins.less",
-		"/D/server/www/lacoqueta/app/design/frontend/lacoqueta/evolve_child/template/competition/competition.phtml"
+		"/D/server/www/code/grunt/package.json"
 	],
 	"find":
 	{
@@ -399,6 +425,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"image",
 			"\"PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/dev/modules.js\",",
 			"scale",
 			".transition",
@@ -525,8 +552,7 @@
 			"60",
 			"watch",
 			"PROJECT/skin/frontend/PACKAGE/TEMPLATE/",
-			"main-title",
-			"#site-container"
+			"main-title"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -546,8 +572,40 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Magento_Theme/layout/default_head_blocks.xml",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 480,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/XML/XML.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
