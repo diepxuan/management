@@ -243,40 +243,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/web/css/source/less/_cms.less",
-			"settings":
-			{
-				"buffer_size": 30,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/web/css/source/less/cms/_homepage.less",
-			"settings":
-			{
-				"buffer_size": 4368,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Evolve_Gallery/templates/carousel.phtml",
-			"settings":
-			{
-				"buffer_size": 4608,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/view/adminhtml/templates/renderer/items/block.phtml",
-			"settings":
-			{
-				"buffer_size": 1834,
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -320,63 +286,50 @@
 	"expanded_folders":
 	[
 		"/D/server/www/dev/soane-britain",
-		"/D/server/www/dev/soane-britain/app",
 		"/D/server/www/dev/soane-britain/app/code",
 		"/D/server/www/dev/soane-britain/app/code/Evolve",
 		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery",
 		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/Block",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/Block/Adminhtml",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/Block/Adminhtml/Gallery",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/Block/Adminhtml/Gallery/Edit",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/Block/Adminhtml/Gallery/Edit/Tab",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/Block/Adminhtml/Renderer",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/Controller",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/etc",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/Helper",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/Model",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/Setup",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/Ui",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/Ui/Component",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/Ui/Component/Listing",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/Ui/Component/Listing/Column",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/Ui/Component/Listing/Column/Evolvegallerysgridlisting",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/Ui/Component/Listing/DataProviders",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/Ui/Component/Listing/DataProviders/Evolve",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/Ui/Component/Listing/DataProviders/Evolve/Gallery",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/Ui/Component/Listing/DataProviders/Evolve/Gallery/Grid",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/view",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/view/adminhtml",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/view/adminhtml/templates",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/view/adminhtml/templates/blocks",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/view/adminhtml/templates/renderer",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/view/adminhtml/templates/renderer/items",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/view/adminhtml/ui_component",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/view/adminhtml/web",
-		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/view/adminhtml/web/js",
+		"/D/server/www/dev/soane-britain/app/code/Evolve/Override/Block",
+		"/D/server/www/dev/soane-britain/app/code/Evolve/Override/Block/Store",
 		"/D/server/www/dev/soane-britain/app/design",
 		"/D/server/www/dev/soane-britain/app/design/frontend",
 		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve",
 		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016",
-		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/etc",
 		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Evolve_Gallery",
 		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Evolve_Gallery/templates",
+		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Magento_Cms",
+		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Magento_Cms/Layout",
+		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Magento_Cms/Layout/Override",
+		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Magento_Cms/Layout/Override/Base",
 		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Magento_Theme",
 		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Magento_Theme/layout",
-		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Magento_Theme/page_layout",
-		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/web",
-		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/web/css",
-		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/web/css/source",
-		"/D/server/www/dev/soane-britain/app/etc",
-		"/D/server/www/dev/soane-britain/dev",
-		"/D/server/www/dev/soane-britain/pub",
-		"/D/server/www/dev/soane-britain/pub/static",
-		"/D/server/www/dev/soane-britain/pub/static/frontend",
-		"/D/server/www/dev/soane-britain/pub/static/frontend/Evolve",
-		"/D/server/www/dev/soane-britain/pub/static/frontend/Evolve/2016",
-		"/D/server/www/dev/soane-britain/var"
+		"/D/server/www/dev/soane-britain/app/etc"
 	],
 	"file_history":
 	[
+		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Magento_Cms/Layout/Override/Base/cms_index_index.xml",
+		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Evolve_Gallery/templates/carousel.phtml",
+		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Evolve_Gallery/templates/itemsx3.phtml",
+		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Evolve_Gallery/templates/items.phtml",
+		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Magento_Theme/layout/default_head_blocks.xml",
+		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Magento_Theme/templates/currency.phtml",
+		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/Block/Gallery.php",
+		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/web/css/source/less/cms/_homepage.less",
+		"/D/server/www/dev/soane-britain/app/etc/config.php",
+		"/D/server/www/dev/soane-britain/app/code/Evolve/Override/etc/di.xml",
+		"/D/server/www/dev/soane-britain/app/code/Evolve/Override/etc/module.xml",
+		"/D/server/www/dev/soane-britain/app/code/Evolve/Override/registration.php",
+		"/D/server/www/dev/soane-britain/app/code/Evolve/Override/Block/Gallery.php",
+		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Evolve_Override/templates/carousel.phtml",
+		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/web/css/source/less/_cms.less",
+		"/D/server/www/dev/soane-britain/var/log/system.log",
+		"/D/server/www/dev/soane-britain/var/log/debug.log",
+		"/D/server/www/dev/soane-britain/app/etc/di.xml",
+		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Evolve_Gallery/block/Gallery.php",
+		"/D/server/www/dev/soane-britain/app/code/Evolve/Merchandiser/etc/module.xml",
+		"/D/server/www/dev/m2/.gitmodules",
+		"/D/server/www/dev/m2/app/code/Evolve/Angular/.git",
 		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/view/adminhtml/web/js/evolve-gallery.js",
 		"/D/server/www/dev/soane-britain/app/code/Evolve/Merchandiser/composer.json",
 		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/composer.json",
@@ -395,34 +348,24 @@
 		"/D/server/www/dev/soane-britain/pub/static/frontend/Magento/blank/en_US/Magento_Checkout/css/source/module/checkout/_authentication.less",
 		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/web/css/source/theme.less",
 		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/web/css/source/less/_variables.less",
-		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Evolve_Gallery/templates/itemsx3.phtml",
 		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/web/js/app.js",
-		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Magento_Cms/Layout/Override/Base/cms_index_index.xml",
-		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/web/css/source/less/cms/_homepage.less",
-		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Evolve_Gallery/templates/carousel.phtml",
 		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/web/css/source/less/_global.less",
-		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Evolve_Gallery/templates/items.phtml",
 		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/web/css/source/less/_mixins.less",
 		"/D/server/www/dev/soane-britain/dev/tools/grunt/configs/themes.js",
-		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Magento_Theme/layout/default_head_blocks.xml",
 		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/requirejs-config.js",
 		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/web/js/owl.carousel.min.js",
 		"/C/Users/ductn/Downloads/owl.carousel/owl.carousel.2.0.0-beta.2.4/owl.carousel.min.js",
 		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/web/css/source/less/_footer.less",
 		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Evolve_Gallery/templates/itemsx5.phtml",
-		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/web/css/source/less/_cms.less",
 		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Magento_Theme/page_layout/1column.xml",
 		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Magento_Theme/layout/default.xml",
 		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Magento_Theme/page_layout/empty.xml",
 		"/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Evolve_Gallery/templates/item/image.phtml",
 		"/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/view/frontend/templates/columns.phtml",
-		"/D/server/www/dev/soane-britain/var/log/system.log",
-		"/D/server/www/dev/soane-britain/var/log/debug.log",
 		"/D/server/www/dev/soane-britain/vendor/magento/framework/Filesystem/Driver/File.php",
 		"/D/server/www/dev/soane-britain/vendor/magento/framework/Filesystem/Directory/Write.php",
 		"/D/server/www/dev/soane-britain/vendor/magento/framework/App/View/Asset/MaterializationStrategy/Symlink.php",
 		"/D/server/www/dev/soane-britain/var/view_preprocessed/css/frontend/Evolve/2016/en_US/css/source/less/cms/_homepage.less",
-		"/D/server/www/dev/soane-britain/app/etc/di.xml",
 		"/D/server/www/code/setup/win10/winConfig.bat",
 		"/D/server/www/dev/soane-britain/.htaccess",
 		"/D/server/www/dev/soane-britain/Gruntfile.js.sample",
@@ -458,7 +401,6 @@
 		"/D/server/www/dev/soane-britain/app/code/Evolve/Merchandiser/view/adminhtml/web/css/evolve-merchansider.less",
 		"/D/server/www/dev/soane-britain/var/log/install.log",
 		"/D/server/www/dev/soane-britain/app/code/Evolve/Merchandiser/registration.php",
-		"/D/server/www/dev/soane-britain/app/etc/config.php",
 		"/D/server/www/.gitignore",
 		"/C/php/phar.phar.bat",
 		"/D/server/www/.gitmodules",
@@ -493,18 +435,7 @@
 		"/C/Apache2.4/conf/httpd.conf",
 		"/C/Users/ductn/Downloads/TCI_Logo.svg",
 		"/D/server/www/dev/20ci/wp-content/themes/Divi-child/style.css",
-		"/D/server/www/dev/20ci/wp-content/db.php",
-		"/D/server/www/dev/20ci/db-config.php",
-		"/D/server/www/dev/20ci/.gitignore",
-		"/D/server/www/code/httpd/httpd.conf",
-		"/D/server/www/dev/chainview/wp-content/themes/viewmychain/css/app.css",
-		"/D/server/www/dev/chainview/wp-content/themes/viewmychain/js/main.js",
-		"/D/server/www/dev/chainview/wp-content/themes/viewmychain2/less/sources/pages.less",
-		"/D/server/www/dev/chainview/wp-content/themes/viewmychain2/css/app.css",
-		"/D/server/www/dev/chainview/wp-content/themes/viewmychain2/js/main.js",
-		"/D/server/www/dev/pet/.gitignore",
-		"/D/server/www/dev/chainview/wp-content/themes/viewmychain/less/sources/mixins.less",
-		"/D/server/www/dev/chainview/.gitignore"
+		"/D/server/www/dev/20ci/wp-content/db.php"
 	],
 	"find":
 	{
@@ -540,6 +471,14 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"OR !",
+			"!isset($element['value'])",
+			"pre",
+			"OR !",
+			"!isset($element['value'])",
+			"OR !",
+			"AND ",
+			"developerMaterialization",
 			"$modal",
 			"$class",
 			"$id",
@@ -659,15 +598,7 @@
 			"navbar-header",
 			"#menu-button-menu-top",
 			".area-menu-trail>.row",
-			"#header .site-nav>div ul li a",
-			"#header",
-			"#header .logo .site-social",
-			"#header",
-			".area-menu-trail",
-			".area-menu-trail:before",
-			"#menu-button-menu-top",
-			"#menu-button-menu-top li",
-			" .site-nav>div ul "
+			"#header .site-nav>div ul li a"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -687,139 +618,8 @@
 	"groups":
 	[
 		{
-			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/web/css/source/less/_cms.less",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 30,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								30,
-								30
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/LESS/LESS.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/web/css/source/less/cms/_homepage.less",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4368,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								534,
-								534
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/LESS/LESS.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/D/server/www/dev/soane-britain/app/design/frontend/Evolve/2016/Evolve_Gallery/templates/carousel.phtml",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4608,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3096,
-								3096
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 561.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/D/server/www/dev/soane-britain/app/code/Evolve/Gallery/view/adminhtml/templates/renderer/items/block.phtml",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 1834,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								669,
-								685
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -889,16 +689,16 @@
 	"select_project":
 	{
 		"height": 500.0,
-		"last_filter": "il",
+		"last_filter": "",
 		"selected_items":
 		[
 			[
-				"il",
-				"D:\\server\\www\\code\\sublimetext\\ilg.sublime-project"
-			],
-			[
 				"",
 				"D:\\server\\www\\code\\sublimetext\\server.sublime-project"
+			],
+			[
+				"il",
+				"D:\\server\\www\\code\\sublimetext\\ilg.sublime-project"
 			],
 			[
 				"ser",
@@ -936,7 +736,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 476.0,
+	"side_bar_width": 328.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
