@@ -199,6 +199,15 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "/D/server/www/code/php/phpmyadmin/config.inc.php",
+			"settings":
+			{
+				"buffer_size": 3518,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -241,6 +250,7 @@
 	],
 	"file_history":
 	[
+		"/D/server/www/code/php/phpmyadmin/config.inc.php",
 		"/D/server/www/code/less/mixins.less",
 		"/D/server/www/code/httpd/httpd.conf",
 		"/D/server/www/code/grunt/Gruntfile.js",
@@ -367,8 +377,7 @@
 		"/D/server/www/lacoqueta/var/log/exception.log",
 		"/D/server/www/lacoqueta/app/code/local/Evolve/Custom/etc/config.xml",
 		"/D/server/www/lacoqueta/skin/frontend/lacoqueta/evolve_child/less/sources/cms-page/competitions-cms.less",
-		"/D/server/www/lacoqueta/skin/frontend/lacoqueta/evolve_child/less/sources/mixins.less",
-		"/D/server/www/lacoqueta/app/design/frontend/lacoqueta/evolve_child/template/competition/competition.phtml"
+		"/D/server/www/lacoqueta/skin/frontend/lacoqueta/evolve_child/less/sources/mixins.less"
 	],
 	"find":
 	{
@@ -546,8 +555,42 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "/D/server/www/code/php/phpmyadmin/config.inc.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3518,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								100,
+								100
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],

@@ -4,7 +4,7 @@
  * Server ping host
  */
 if( !function_exists('ping') ) :
-function ping($host, $port = 80, $timeout = 2) {
+function ping($host, $port = 3306, $timeout = 2) {
   $fsock = fsockopen($host, $port, $errno, $errstr, $timeout);
   if ( ! $fsock ) {
     return FALSE;
