@@ -19,13 +19,17 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 269.0,
+		"height": 292.0,
 		"last_filter": "grunt",
 		"selected_items":
 		[
 			[
 				"grunt",
-				"Grunt"
+				"Grunt: Kill Running Tasks"
+			],
+			[
+				"pac",
+				"Package Control: List Packages"
 			],
 			[
 				"packin",
@@ -36,7 +40,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 416.0
+		"width": 432.0
 	},
 	"console":
 	{
@@ -57,34 +61,27 @@
 	},
 	"expanded_folders":
 	[
-		"/D/server/www/dev/ilg",
+		"/D/server/www/dev/ilg/app",
 		"/D/server/www/dev/ilg/app/code",
 		"/D/server/www/dev/ilg/app/code/local",
 		"/D/server/www/dev/ilg/app/code/local/Evolve",
-		"/D/server/www/dev/ilg/app/code/local/Evolve/Overrides",
-		"/D/server/www/dev/ilg/app/code/local/Evolve/Overrides/controllers",
-		"/D/server/www/dev/ilg/app/code/local/Webtex",
-		"/D/server/www/dev/ilg/app/code/local/Webtex/@@Giftcards@/Block",
-		"/D/server/www/dev/ilg/app/code/local/Webtex/Giftcards",
-		"/D/server/www/dev/ilg/app/code/local/Webtex/Giftcards/Block",
-		"/D/server/www/dev/ilg/app/code/local/Webtex/Giftcards/controllers",
-		"/D/server/www/dev/ilg/app/design",
-		"/D/server/www/dev/ilg/app/design/frontend",
-		"/D/server/www/dev/ilg/app/design/frontend/ilg",
-		"/D/server/www/dev/ilg/app/design/frontend/ilg/evolve",
-		"/D/server/www/dev/ilg/app/design/frontend/ilg/evolve/template",
+		"/D/server/www/dev/ilg/app/code/local/Evolve/Angular",
+		"/D/server/www/dev/ilg/app/code/local/Evolve/Angular/controllers",
+		"/D/server/www/dev/ilg/app/code/local/Evolve/Angular/Model",
 		"/D/server/www/dev/ilg/app/etc",
+		"/D/server/www/dev/ilg/skin",
 		"/D/server/www/dev/ilg/skin/frontend",
 		"/D/server/www/dev/ilg/skin/frontend/ilg",
 		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve",
-		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/angularjs",
-		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/css",
-		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/js",
 		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/less",
 		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/less/sources"
 	],
 	"file_history":
 	[
+		"/D/server/www/dev/ilg/app/code/local/Evolve/Angular/controllers/CategoryController.php",
+		"/D/server/www/dev/ilg/app/code/local/Evolve/Angular/Model/Products.php",
+		"/D/server/www/dev/ilg/app/code/local/Evolve/Angular/Model/Parameters.php",
+		"/D/server/www/dev/ilg/skin/frontend/ilg/evolve/less/sources/header.less",
 		"/D/server/www/dev/ilg/app/code/core/Mage/Core/Model/Email/Template.php",
 		"/D/server/www/dev/ilg/app/design/frontend/ilg/evolve/template/webtex/giftcards/product/type.phtml",
 		"/D/server/www/dev/ilg/app/code/local/Webtex/Giftcards/controllers/PreviewController.php",
@@ -185,6 +182,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"is_salable",
 			"var ",
 			"}(window.VG = window.VG || {}));",
 			"preview();",
@@ -313,7 +311,7 @@
 		[
 			[
 				"",
-				"D:\\server\\sublimetext\\server.sublime-project"
+				"D:\\server\\www\\code\\sublimetext\\m2.sublime-project"
 			]
 		],
 		"width": 380.0
