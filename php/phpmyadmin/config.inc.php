@@ -18,9 +18,11 @@ endif;
  * Server ping host
  */
 if( !function_exists('_controlhost') ) :
-function _controlhost($host) {
-  if( ping($host) ) {
-    return $host;
+function _controlhost($hosts = array()) {
+  foreach ($hosts as $host) {
+    if( ping($host) ) {
+      return $host;
+    }
   }
   return 'localhost';
 }
@@ -92,7 +94,11 @@ if ($_SERVER["REMOTE_ADDR"] == "127.0.0.1") {
  */
 for ($svr = 1; $svr <= $i; $svr++) {
   /* Advanced phpMyAdmin features */
-  $cfg['Servers'][$svr]['controlhost']      = _controlhost('mysql.diepxuan.vn');
+  $cfg['Servers'][$svr]['controlhost']      = _controlhost([
+    'mysql.diepxuan.vn',
+    'diepxuan.com',
+    'localhost'
+  ]);
   $cfg['Servers'][$svr]['controlport']      = '3306';
   $cfg['Servers'][$svr]['controluser']      = 'sa';
   $cfg['Servers'][$svr]['controlpass']      = '877611';
