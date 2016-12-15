@@ -15,6 +15,18 @@ function ping($host, $port = 3306, $timeout = 2) {
 endif;
 
 /*
+ * Server ping host
+ */
+if( !function_exists('_controlhost') ) :
+function _controlhost($host) {
+  if( ping($host) ) {
+    return $host;
+  }
+  return 'localhost';
+}
+endif;
+
+/*
  * Servers configuration
  */
 $i = 0;
@@ -63,6 +75,16 @@ if ($_SERVER["REMOTE_ADDR"] == "127.0.0.1") {
     $cfg['Servers'][$i]['extension']        = 'mysqli';
   }
 
+  if( ping('diepxuan.com') ) {
+    $i++;
+    $cfg['Servers'][$i]['host']             = 'diepxuan.com';
+    $cfg['Servers'][$i]['auth_type']        = 'config';
+    $cfg['Servers'][$i]['user']             = 'sa';
+    $cfg['Servers'][$i]['password']         = '877611';
+    $cfg['Servers'][$i]['AllowNoPassword']  = true;
+    $cfg['Servers'][$i]['extension']        = 'mysqli';
+  }
+
 }
 
 /**
@@ -70,7 +92,7 @@ if ($_SERVER["REMOTE_ADDR"] == "127.0.0.1") {
  */
 for ($svr = 1; $svr <= $i; $svr++) {
   /* Advanced phpMyAdmin features */
-  $cfg['Servers'][$svr]['controlhost']      = 'mysql.diepxuan.vn';
+  $cfg['Servers'][$svr]['controlhost']      = _controlhost('mysql.diepxuan.vn');
   $cfg['Servers'][$svr]['controlport']      = '3306';
   $cfg['Servers'][$svr]['controluser']      = 'sa';
   $cfg['Servers'][$svr]['controlpass']      = '877611';
