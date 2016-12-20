@@ -59,7 +59,6 @@ module.exports = function(grunt) {
         dev: {
           src: [
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/dev/app.js",
-            "PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/dev/configs.js",
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/dev/modules.js",
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/dev/controllers.js",
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/dev/directives.js",
@@ -70,7 +69,6 @@ module.exports = function(grunt) {
         angular: {
           src: [
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/angularjs/app.js",
-            "PROJECT/skin/frontend/PACKAGE/TEMPLATE/angularjs/configs.js",
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/angularjs/modules.js",
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/angularjs/controllers.js",
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/angularjs/directives.js",
@@ -81,7 +79,6 @@ module.exports = function(grunt) {
         angularjs: {
           src: [
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/angularjs/app.js",
-            "PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/angularjs/configs.js",
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/angularjs/modules.js",
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/angularjs/controllers.js",
             "PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/angularjs/directives.js",
@@ -101,7 +98,8 @@ module.exports = function(grunt) {
           'PROJECT/skin/frontend/PACKAGE/TEMPLATE/less/**/*.less',
         ],
         css: [
-          'PROJECT/skin/frontend/PACKAGE/TEMPLATE/less/**/*.less',
+          'PROJECT/skin/frontend/PACKAGE/TEMPLATE/css/**/*.css',
+          '!PROJECT/skin/frontend/PACKAGE/TEMPLATE/css/**/*.min.css',
         ],
         js: [
           'PROJECT/skin/frontend/PACKAGE/TEMPLATE/dev/**/*.js',
@@ -163,10 +161,10 @@ module.exports = function(grunt) {
         less: [
           'PROJECT/wp-content/PACKAGE/TEMPLATE/less/**/*.less',
         ],
-        css: [
-          'PROJECT/wp-content/PACKAGE/TEMPLATE/css/**/*.css',
-          '!PROJECT/wp-content/PACKAGE/TEMPLATE/css/**/*.min.css',
-        ],
+        // css: [
+        //   'PROJECT/wp-content/PACKAGE/TEMPLATE/css/**/*.css',
+        //   '!PROJECT/wp-content/PACKAGE/TEMPLATE/css/**/*.min.css',
+        // ],
         js: [
           'PROJECT/wp-content/PACKAGE/TEMPLATE/dev/**/*.js',
           'PROJECT/wp-content/PACKAGE/TEMPLATE/angularjs/**/*.js',
@@ -207,7 +205,7 @@ module.exports = function(grunt) {
     uglify: {
       options: {
         compress: {
-          drop_console: true
+          // drop_console: true
         },
         mangle: true,
         maxLineLen: 32000,
@@ -219,8 +217,8 @@ module.exports = function(grunt) {
 
   var D = {
     $sources: [
-      'D:/server/www/dev/',
-      'D:/server/www/live/',
+      '/home/ductn/public_html/dev/',
+      '/home/ductn/public_html/live/',
     ],
     getDirectories: function ($srcpath) {
       try {
@@ -404,21 +402,21 @@ module.exports = function(grunt) {
                       });
                     }, false);
 
-                    var $templateFolder = path.dirname($templatePath);
-                    D.is_array(D.getFiles( $templateFolder ), function($key, $src) {
-                      var $srcPath = path.resolve( path.join(path.resolve($templateFolder), $src) );
-                      if(!$paths[D.initTaskName($project, $package, $template)]) {
-                        $paths[D.initTaskName($project, $package, $template)] = {};
-                      }
-                      if(!$paths[D.initTaskName($project, $package, $template)].src) {
-                        $paths[D.initTaskName($project, $package, $template)].src = new Array();
-                      }
-                      D.is_file($srcPath, function($srcPath) {
-                        if( $paths[D.initTaskName($project, $package, $template)].src.indexOf($srcPath) < 0 ) {
-                          $paths[D.initTaskName($project, $package, $template)].src.unshift($srcPath);
-                        }
-                      });
-                    }, false);
+                    // var $templateFolder = path.dirname($templatePath);
+                    // D.is_array(D.getFiles( $templateFolder ), function($key, $src) {
+                    //   var $srcPath = path.resolve( path.join(path.resolve($templateFolder), $src) );
+                    //   if(!$paths[D.initTaskName($project, $package, $template)]) {
+                    //     $paths[D.initTaskName($project, $package, $template)] = {};
+                    //   }
+                    //   if(!$paths[D.initTaskName($project, $package, $template)].src) {
+                    //     $paths[D.initTaskName($project, $package, $template)].src = new Array();
+                    //   }
+                    //   D.is_file($srcPath, function($srcPath) {
+                    //     if( $paths[D.initTaskName($project, $package, $template)].src.indexOf($srcPath) < 0 ) {
+                    //       $paths[D.initTaskName($project, $package, $template)].src.unshift($srcPath);
+                    //     }
+                    //   });
+                    // }, false);
 
                     var $destPath = $path.dest.replaceAll('PROJECT', $projectDir);
                     $destPath = $destPath.replaceAll('PACKAGE', $package);
