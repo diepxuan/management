@@ -36,36 +36,46 @@ $i = 0;
 $cfg['blowfish_secret'] = '51Lhp+H8YGJ2MgLaQZXpB$U$aIB+^f%20fVy';
 $cfg['Lang'] = '';
 
-/*
- * Localhost
- */
-if( ping('localhost') ) {
-  $i++;
-  $cfg['Servers'][$i]['host']             = 'localhost';
-  $cfg['Servers'][$i]['auth_type']        = 'config';
-  $cfg['Servers'][$i]['user']             = 'sa';
-  $cfg['Servers'][$i]['password']         = '877611';
-  $cfg['Servers'][$i]['AllowNoPassword']  = true;
-  $cfg['Servers'][$i]['extension']        = 'mysqli';
-}
+if ( !in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '192.168.1.10']) ) {
+  /*
+   * Localhost
+   */
+  if( ping('localhost') ) {
+    $i++;
+    $cfg['Servers'][$i]['host']             = 'localhost';
+    $cfg['Servers'][$i]['auth_type']        = 'cookie';
+    $cfg['Servers'][$i]['user']             = 'sa';
+    $cfg['Servers'][$i]['password']         = '877611';
+    $cfg['Servers'][$i]['AllowNoPassword']  = true;
+    $cfg['Servers'][$i]['extension']        = 'mysqli';
+  }
 
-/*
- * Gss localhost (Magento)
- */
-if( ping('192.168.1.190') ) {
-  $i++;
-  $cfg['Servers'][$i]['host']             = '192.168.1.190';
-  $cfg['Servers'][$i]['auth_type']        = 'config';
-  $cfg['Servers'][$i]['user']             = 'dev';
-  $cfg['Servers'][$i]['password']         = 'dev@gss';
-  $cfg['Servers'][$i]['AllowNoPassword']  = true;
-  $cfg['Servers'][$i]['extension']        = 'mysqli';
-}
+  /*
+   * Gss localhost (Magento)
+   */
+  if( ping('192.168.1.190') ) {
+    $i++;
+    $cfg['Servers'][$i]['host']             = '192.168.1.190';
+    $cfg['Servers'][$i]['auth_type']        = 'config';
+    $cfg['Servers'][$i]['user']             = 'dev';
+    $cfg['Servers'][$i]['password']         = 'dev@gss';
+    $cfg['Servers'][$i]['AllowNoPassword']  = true;
+    $cfg['Servers'][$i]['extension']        = 'mysqli';
+  }
 
-/*
- * Remote master server
- */
-if ($_SERVER["REMOTE_ADDR"] == "127.0.0.1") {
+} else {
+  /*
+   * Remote master server
+   */
+  if( ping('diepxuan.com') ) {
+    $i++;
+    $cfg['Servers'][$i]['host']             = 'diepxuan.com';
+    $cfg['Servers'][$i]['auth_type']        = 'config';
+    $cfg['Servers'][$i]['user']             = 'sa';
+    $cfg['Servers'][$i]['password']         = '877611';
+    $cfg['Servers'][$i]['AllowNoPassword']  = true;
+    $cfg['Servers'][$i]['extension']        = 'mysqli';
+  }
 
   if( ping('mysql.diepxuan.vn') ) {
     $i++;
@@ -77,9 +87,12 @@ if ($_SERVER["REMOTE_ADDR"] == "127.0.0.1") {
     $cfg['Servers'][$i]['extension']        = 'mysqli';
   }
 
-  if( ping('diepxuan.com') ) {
+  /*
+   * Localhost
+   */
+  if( ping('localhost') ) {
     $i++;
-    $cfg['Servers'][$i]['host']             = 'diepxuan.com';
+    $cfg['Servers'][$i]['host']             = 'localhost';
     $cfg['Servers'][$i]['auth_type']        = 'config';
     $cfg['Servers'][$i]['user']             = 'sa';
     $cfg['Servers'][$i]['password']         = '877611';
