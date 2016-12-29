@@ -3,24 +3,25 @@
 /*
  * Server ping host
  */
-if( !function_exists('ping') ) :
-function ping($host, $port = 3306, $timeout = 2) {
+if( !function_exists('_ping') ) :
+function _ping($host, $port = 3306, $timeout = 2) {
   $fsock = fsockopen($host, $port, $errno, $errstr, $timeout);
   if ( ! $fsock ) {
     return FALSE;
   } else {
     return TRUE;
   }
+  fclose($fsock);
 }
 endif;
 
 /*
- * Server ping host
+ * Server control host
  */
 if( !function_exists('_controlhost') ) :
 function _controlhost($hosts = array()) {
   foreach ($hosts as $host) {
-    if( ping($host) ) {
+    if( _ping($host) ) {
       return $host;
     }
   }
@@ -40,7 +41,7 @@ if ( !in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '192.168.1.10']) ) {
   /*
    * Localhost
    */
-  if( ping('localhost') ) {
+  if( _ping('localhost') ) {
     $i++;
     $cfg['Servers'][$i]['host']             = 'localhost';
     $cfg['Servers'][$i]['auth_type']        = 'cookie';
@@ -53,7 +54,7 @@ if ( !in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '192.168.1.10']) ) {
   /*
    * Gss localhost (Magento)
    */
-  if( ping('192.168.1.190') ) {
+  if( _ping('192.168.1.190') ) {
     $i++;
     $cfg['Servers'][$i]['host']             = '192.168.1.190';
     $cfg['Servers'][$i]['auth_type']        = 'config';
@@ -67,7 +68,7 @@ if ( !in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '192.168.1.10']) ) {
   /*
    * Remote master server
    */
-  if( ping('diepxuan.com') ) {
+  if( _ping('diepxuan.com') ) {
     $i++;
     $cfg['Servers'][$i]['host']             = 'diepxuan.com';
     $cfg['Servers'][$i]['auth_type']        = 'config';
@@ -77,7 +78,7 @@ if ( !in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '192.168.1.10']) ) {
     $cfg['Servers'][$i]['extension']        = 'mysqli';
   }
 
-  if( ping('mysql.diepxuan.vn') ) {
+  if( _ping('mysql.diepxuan.vn') ) {
     $i++;
     $cfg['Servers'][$i]['host']             = 'mysql.diepxuan.vn';
     $cfg['Servers'][$i]['auth_type']        = 'config';
@@ -90,7 +91,7 @@ if ( !in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '192.168.1.10']) ) {
   /*
    * Localhost
    */
-  if( ping('localhost') ) {
+  if( _ping('localhost') ) {
     $i++;
     $cfg['Servers'][$i]['host']             = 'localhost';
     $cfg['Servers'][$i]['auth_type']        = 'config';
