@@ -2,6 +2,6 @@
 cat httpd.conf > /etc/apache2/sites-available/ductn.conf
 
 a2ensite ductn.conf
-a2enmod proxy proxy_http headers deflate
+a2enmod proxy proxy_http headers deflate expires
 
 service apache2 restart
