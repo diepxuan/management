@@ -161,10 +161,10 @@ module.exports = function(grunt) {
         less: [
           'PROJECT/wp-content/PACKAGE/TEMPLATE/less/**/*.less',
         ],
-        // css: [
-        //   'PROJECT/wp-content/PACKAGE/TEMPLATE/css/**/*.css',
-        //   '!PROJECT/wp-content/PACKAGE/TEMPLATE/css/**/*.min.css',
-        // ],
+        css: [
+          'PROJECT/wp-content/PACKAGE/TEMPLATE/css/**/*.css',
+          '!PROJECT/wp-content/PACKAGE/TEMPLATE/css/**/*.min.css',
+        ],
         js: [
           'PROJECT/wp-content/PACKAGE/TEMPLATE/dev/**/*.js',
           'PROJECT/wp-content/PACKAGE/TEMPLATE/angularjs/**/*.js',
