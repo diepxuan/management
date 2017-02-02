@@ -1,10 +1,10 @@
 /* --- Custom Mixins --- */
-.css-font-color  (@color: false)  when not (@color=false)  {color:       @color;}
-.css-font-size   (@size: false)   when not (@size=false)   {font-size:   @size;}
-.css-font-weight (@weight: false) when not (@weight=false) {font-weight: @weight;}
-.css-font-style  (@style: false)  when not (@style=false)  {font-style:  @style;}
-.css-font-family (@font: false)   when not (@font=false)   {font-family: @font;}
-.css-text-transform (@transform: false) when not (@transform=false) {text-transform: @transform;}
+.css-font-color     (@color: false)     when not (@color      = false) {color:           @color;}
+.css-font-size      (@size: false)      when not (@size       = false) {font-size:       @size;}
+.css-font-weight    (@weight: false)    when not (@weight     = false) {font-weight:     @weight;}
+.css-font-style     (@style: false)     when not (@style      = false) {font-style:      @style;}
+.css-font-family    (@font: false)      when not (@font       = false) {font-family:     @font;}
+.css-text-transform (@transform: false) when not (@transform  = false) {text-transform:  @transform;}
 
 .css-color-rgba(@color, @opacity : 1) {
   @result: rgba( red(@color), green(@color), blue(@color), @opacity );
@@ -208,7 +208,7 @@
           perspective: @value;
 }
 
-.transform-origin (@x:center, @y:center) {
+.css-transform-origin (@x:center, @y:center) {
   -webkit-transform-origin: @x @y;
      -moz-transform-origin: @x @y;
       -ms-transform-origin: @x @y;
