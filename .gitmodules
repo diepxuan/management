@@ -1,3 +1,6 @@
 [submodule "php/magento1x/PHP7"]
 	path = php/magento1x/PHP7
 	url = git@github.com:Inchoo/Inchoo_PHP7.git
+[submodule "tool/src/github.com/andlabs/ui"]
+	path = tool/src/github.com/andlabs/ui
+	url = git@github.com:andlabs/ui.git
