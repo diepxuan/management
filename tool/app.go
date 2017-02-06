@@ -1,10 +1,9 @@
 package main
 
 import (
-	"github.com/caothu159/window"
-	"github.com/google/gxui/drivers/gl"
+	"github.com/caothu159/grunt"
 )
 
 func main() {
-	gl.StartDriver(window.Init)
+	grunt.CreateWindow()
 }
