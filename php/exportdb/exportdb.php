@@ -4,12 +4,12 @@ error_reporting(E_ALL);
 ini_set('error_reporting', E_ALL);
 ini_set('display_errors', 1);
 ini_set('memory_limit', '2048M');
-ini_set('max_execution_time', 300);
+ini_set('max_execution_time', 0);
 
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 /**-------------------------------------------------------------*/
-// $db = new dbdump('localhost', 'user', 'pass', 'dbname');
+$db = new dbdump('localhost', 'ilg', 'evolve123', 'ilg');
 
 $db->multi      = 0;
 $db->sql_gz     = 1;
@@ -149,7 +149,7 @@ class dbdump extends stdClass
     public $tables_limit     = array();
     public $tables_clean     = array();
     public $table_from       = '';
-    public $table_max_length = 150;
+    public $table_max_length = 250;
 
     protected $tables = array();
 
@@ -279,7 +279,7 @@ class dbdump extends stdClass
                     } else {
                         $this->dumb_table($table);
                     }
-                    if ($this->table_max_length == $index) {
+                    if ($index % $this->table_max_length == 0) {
                         $this->dumb_footer();
                         $this->file_close();
                         $this->filename = $this->file_name();
