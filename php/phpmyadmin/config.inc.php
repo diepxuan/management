@@ -46,7 +46,7 @@ if (!in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '192.168.1.10'])) {
   if (_ping('localhost')) {
     $i++;
     $cfg['Servers'][$i]['host'] = 'localhost';
-    $cfg['Servers'][$i]['auth_type'] = 'cookie';
+    $cfg['Servers'][$i]['auth_type'] = 'config';
     $cfg['Servers'][$i]['user'] = 'sa';
     $cfg['Servers'][$i]['password'] = '877611';
     $cfg['Servers'][$i]['AllowNoPassword'] = true;
