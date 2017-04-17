@@ -1,5 +1,6 @@
-'use strict';
 module.exports = function(grunt) {
+
+  'use strict';
 
   /**
    * String.toCapitalize
@@ -7,7 +8,7 @@ module.exports = function(grunt) {
   if ( !String.prototype.toCapitalize ) {
     String.prototype.toCapitalize = function() {
       return this.charAt(0).toUpperCase() + this.slice(1);
-    }
+    };
   }
 
   /**
@@ -341,7 +342,7 @@ module.exports = function(grunt) {
         $callback = $projectDir;
         $projectDir = $project;
       }
-      var $paths = new Array();
+      var $paths = [];
       if(typeof $path == 'string' || $path instanceof String) {
         var $projectPath = $path.replaceAll('PROJECT', $projectDir);
         if($projectPath.indexOf('PACKAGE') >= 0) {
@@ -659,4 +660,4 @@ module.exports = function(grunt) {
 
   });
 
-}
+};
