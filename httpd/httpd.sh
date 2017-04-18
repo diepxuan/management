@@ -8,4 +8,4 @@ a2dismod php5.5 php5.6 php7.1
 a2enmod proxy proxy_http headers deflate expires rewrite vhost_alias php7.0
 
 service apache2 restart
-service apache2 status
+#service apache2 status
