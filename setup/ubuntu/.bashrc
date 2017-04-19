@@ -61,6 +61,7 @@ if [ "$color_prompt" = yes ]; then
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
+#PS1="$PS1\r\n$ "
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
@@ -71,15 +72,6 @@ xterm*|rxvt*)
 *)
     ;;
 esac
-
-parse_git_branch() {
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-}
-if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-    export PS1="$PS1\[\033[33m\]\$(parse_git_branch)\[\033[00m\]\r\n\$ "
-else
-    export PS1="$PS1$(parse_git_branch)\r\n\$ "
-fi
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -124,3 +116,30 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+if [ -f ~/public_html/code/setup/ubuntu/gitprompt/gitprompt.sh ]; then
+  __GIT_PROMPT_DIR=~/public_html/code/setup/ubuntu/gitprompt
+  # Set config variables first
+  #GIT_PROMPT_ONLY_IN_REPO=1
+
+  # GIT_PROMPT_FETCH_REMOTE_STATUS=0   # uncomment to avoid fetching remote status
+
+  # GIT_PROMPT_SHOW_UPSTREAM=1 # uncomment to show upstream tracking branch
+  # GIT_PROMPT_SHOW_UNTRACKED_FILES=all # can be no, normal or all; determines counting of untracked files
+  GIT_PROMPT_SHOW_UNTRACKED_FILES=no
+
+  # GIT_PROMPT_SHOW_CHANGED_FILES_COUNT=0 # uncomment to avoid printing the number of changed files
+
+  # GIT_PROMPT_STATUS_COMMAND=gitstatus_pre-1.7.10.sh # uncomment to support Git older than 1.7.10
+
+  # GIT_PROMPT_START=...    # uncomment for custom prompt start sequence
+  # GIT_PROMPT_END=...      # uncomment for custom prompt end sequence
+
+  # as last entry source the gitprompt script
+  # GIT_PROMPT_THEME=Custom # use custom theme specified in file GIT_PROMPT_THEME_FILE (default ~/.git-prompt-colors.sh)
+  # GIT_PROMPT_THEME_FILE=~/.git-prompt-colors.sh
+  # GIT_PROMPT_THEME=Solarized # use theme optimized for solarized color scheme
+  GIT_PROMPT_THEME=Default_Ubuntu
+  source ~/public_html/code/setup/ubuntu/gitprompt/gitprompt.sh
+fi
+

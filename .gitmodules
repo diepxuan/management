@@ -4,3 +4,6 @@
 [submodule "php/magento2x/Dxvn"]
 	path = php/magento2x/Dxvn
 	url = git@github.com:caothu159/magento2.git
+[submodule "setup/ubuntu/gitprompt"]
+	path = setup/ubuntu/gitprompt
+	url = git@github.com:magicmonty/bash-git-prompt.git
