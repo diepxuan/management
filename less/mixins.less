@@ -93,6 +93,13 @@
        -o-transition-property: @property;
           transition-property: @property;
 }
+.css-timing-function(@timing-function: ease-in-out) {
+  -webkit-timing-function: @timing-function;
+     -moz-timing-function: @timing-function;
+      -ms-timing-function: @timing-function;
+       -o-timing-function: @timing-function;
+          timing-function: @timing-function;
+}
 .css-transform (@value) {
   -webkit-transform: @value;
      -moz-transform: @value;
@@ -125,12 +132,20 @@
      -moz-appearance: @appearance;
           appearance: @appearance;
 }
-.css-appearance (@appearance: none) {
-  .select-appearance(@appearance);
+.css-appearance (@appearance: none, @spin: false) when not (@spin  = false) {
+  .css-select-appearance(@appearance);
+
+  &:-webkit-inner-spin-button,
+  &:-webkit-outer-spin-button {
+    .css-select-appearance(@spin);
+  }
+}
+.css-appearance (@appearance: none, @spin: false) when (@spin  = false) {
+  .css-select-appearance(@appearance);
 
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {
-    .select-appearance(@appearance);
+    .css-select-appearance(@appearance);
   }
 }
 .css-input-placeholder (@color: false, @size: false, @weight: false, @style: normal, @font: false, @text-transform: uppercase, @opacity: 100, @letter-spacing: 0) {
@@ -222,47 +237,6 @@
           transform-origin: @x @y;
 }
 
-.linear-gradient(@dir: top, @start-color: #eee, @end-color: #aaa) {
-  background: -webkit-linear-gradient(@dir, @start-color 0%, @end-color 100%);
-  background:    -moz-linear-gradient(@dir, @start-color 0%, @end-color 100%);
-  background:     -ms-linear-gradient(@dir, @start-color 0%, @end-color 100%);
-  background:      -o-linear-gradient(@dir, @start-color 0%, @end-color 100%);
-  background:         linear-gradient(@dir, @start-color 0%, @end-color 100%);
-  .linear-gradient-ie(@dir, @start-color, @end-color);
-
-  .linear-gradient-ie(@dir, @start-color, @end-color) when (@dir = top),
-    not ( isstring(@dir) ) and ( @dir >= 225 ) and ( @dir < 315 ),
-    not ( isstring(@dir) ) and ( @dir >= -135 ) and ( @dir < -45 ) {
-      .linear-gradient-ie-filter(@start-color, @end-color, 0);
-  }
-
-  .linear-gradient-ie( @dir, @start-color, @end-color) when (@dir = right),
-    not ( isstring(@dir) ) and ( @dir >= 135 ) and ( @dir < 225 ),
-    not ( isstring(@dir) ) and ( @dir >= -225 ) and ( @dir < -135 ) {
-      .linear-gradient-ie-filter(@end-color, @start-color, 1);
-  }
-
-  .linear-gradient-ie( @dir, @start-color, @end-color) when (@dir = bottom),
-    not ( isstring(@dir) ) and ( @dir >= 45 ) and ( @dir < 135 ),
-    not ( isstring(@dir) ) and ( @dir >= -315 ) and ( @dir < -225 ) {
-      .linear-gradient-ie-filter(@end-color, @start-color, 0);
-  }
-
-  .linear-gradient-ie( @dir, @start-color, @end-color) when (@dir = left),
-    not ( isstring(@dir) ) and ( @dir >= 315 ) and ( @dir < 360 ),
-    not ( isstring(@dir) ) and ( @dir >= -45 ) and ( @dir < 45 ),
-    not ( isstring(@dir) ) and ( @dir < -315 ) and ( @dir >= -360 ) {
-      .linear-gradient-ie-filter(@start-color, @end-color, 1);
-  }
-
-  .linear-gradient-ie-filter(@start: #eee, @end: #aaa, @type: 1) {
-    @c-start: argb(@start);
-    @c-end:   argb(@end);
-    filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr='@{c-start}', endColorstr='@{c-end}', GradientType=@{type})";
-    -ms-filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr='@{c-start}',endColorstr='@{c-end}',GradientType=@{type})";
-  }
-}
-
 .css-vertical-gradient (@direction, @gradientColor, @bgColor) {
   background-color: @bgColor;
   background: -webkit-linear-gradient(top, @direction, @gradientColor);
@@ -285,6 +259,124 @@
 
 .css-gradient (@direction, @gradientColor, @bgColor) {
   .css-vertical-gradient (@direction, @gradientColor, @bgColor);
+}
+
+// Flexbox display
+// flex or inline-flex
+.css-flex-display(@display: flex) {
+  display: ~"-webkit-@{display}";
+  display: ~"-ms-@{display}box"; // IE10 uses -ms-flexbox
+  display: ~"-ms-@{display}"; // IE11
+  display: @display;
+}
+
+// The 'flex' shorthand
+// - applies to: flex items
+// <positive-number>, initial, auto, or none
+.css-flex(@columns: initial) {
+  -webkit-flex: @columns;
+      -ms-flex: @columns;
+          flex: @columns;
+}
+
+// Flex Flow Direction
+// - applies to: flex containers
+// row | row-reverse | column | column-reverse
+.css-flex-direction(@direction: row) {
+  -webkit-flex-direction: @direction;
+      -ms-flex-direction: @direction;
+          flex-direction: @direction;
+}
+
+// Flex Line Wrapping
+// - applies to: flex containers
+// nowrap | wrap | wrap-reverse
+.css-flex-wrap(@wrap: nowrap) {
+  -webkit-flex-wrap: @wrap;
+      -ms-flex-wrap: @wrap;
+          flex-wrap: @wrap;
+}
+
+// Flex Direction and Wrap
+// - applies to: flex containers
+// <flex-direction> || <flex-wrap>
+.css-flex-flow(@flow) {
+  -webkit-flex-flow: @flow;
+      -ms-flex-flow: @flow;
+          flex-flow: @flow;
+}
+
+// Display Order
+// - applies to: flex items
+// <integer>
+.css-flex-order(@order: 0) {
+  -webkit-order: @order;
+      -ms-order: @order;
+          order: @order;
+}
+
+// Flex grow factor
+// - applies to: flex items
+// <number>
+.css-flex-grow(@grow: 0) {
+  -webkit-flex-grow: @grow;
+      -ms-flex-grow: @grow;
+          flex-grow: @grow;
+}
+
+// Flex shrink
+// - applies to: flex item shrink factor
+// <number>
+.css-flex-shrink(@shrink: 1) {
+  -webkit-flex-shrink: @shrink;
+      -ms-flex-shrink: @shrink;
+          flex-shrink: @shrink;
+}
+
+// Flex basis
+// - the initial main size of the flex item
+// - applies to: flex itemsnitial main size of the flex item
+// <width>
+.css-flex-basis(@width: auto) {
+  -webkit-flex-basis: @width;
+      -ms-flex-basis: @width;
+          flex-basis: @width;
+}
+
+// Axis Alignment
+// - applies to: flex containers
+// flex-start | flex-end | center | space-between | space-around
+.css-justify-content(@justify: flex-start) {
+  -webkit-justify-content: @justify;
+      -ms-justify-content: @justify;
+          justify-content: @justify;
+}
+
+// Packing Flex Lines
+// - applies to: multi-line flex containers
+// flex-start | flex-end | center | space-between | space-around | stretch
+.css-align-content(@align: stretch) {
+  -webkit-align-content: @align;
+      -ms-align-content: @align;
+          align-content: @align;
+}
+
+// Cross-axis Alignment
+// - applies to: flex containers
+// flex-start | flex-end | center | baseline | stretch
+.css-align-items(@align: stretch) {
+  -webkit-align-items: @align;
+      -ms-align-items: @align;
+          align-items: @align;
+}
+
+// Cross-axis Alignment
+// - applies to: flex items
+// auto | flex-start | flex-end | center | baseline | stretch
+.css-align-self(@align: auto) {
+  -webkit-align-self: @align;
+      -ms-align-self: @align;
+          align-self: @align;
 }
 
 @keyframes fa-spin {
