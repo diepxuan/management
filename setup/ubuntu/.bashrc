@@ -139,7 +139,7 @@ if [ -f ~/public_html/code/setup/ubuntu/gitprompt/gitprompt.sh ]; then
   # GIT_PROMPT_THEME=Custom # use custom theme specified in file GIT_PROMPT_THEME_FILE (default ~/.git-prompt-colors.sh)
   # GIT_PROMPT_THEME_FILE=~/.git-prompt-colors.sh
   # GIT_PROMPT_THEME=Solarized # use theme optimized for solarized color scheme
-  GIT_PROMPT_THEME=Default_Ubuntu
+
   source ~/public_html/code/setup/ubuntu/gitprompt/gitprompt.sh
 fi
 
