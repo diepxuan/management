@@ -112,13 +112,18 @@ module.exports = function(grunt) {
     },
     wordpress: {
       less: {
-        app:        'PROJECT/wp-content/PACKAGE/TEMPLATE/less/app.less',
+        appLess:    'PROJECT/wp-content/PACKAGE/TEMPLATE/less/app.less',
+        appCss:     'PROJECT/wp-content/PACKAGE/TEMPLATE/css/app.less',
+        assetsLess: 'PROJECT/wp-content/PACKAGE/TEMPLATE/assets/less/app.less',
+        assetsCss:  'PROJECT/wp-content/PACKAGE/TEMPLATE/assets/css/app.less',
       },
       autoprefixer: {
         app:        'PROJECT/wp-content/PACKAGE/TEMPLATE/css/app.css',
+        assets:     'PROJECT/wp-content/PACKAGE/TEMPLATE/assets/css/app.css',
       },
       cssmin: {
         app:        'PROJECT/wp-content/PACKAGE/TEMPLATE/css/app.min.css',
+        assets:     'PROJECT/wp-content/PACKAGE/TEMPLATE/assets/css/app.min.css',
       },
       concat: {
         dev: {
@@ -161,6 +166,9 @@ module.exports = function(grunt) {
       watch: {
         less: [
           'PROJECT/wp-content/PACKAGE/TEMPLATE/less/**/*.less',
+          'PROJECT/wp-content/PACKAGE/TEMPLATE/css/**/*.less',
+          'PROJECT/wp-content/PACKAGE/TEMPLATE/assets/less/**/*.less',
+          'PROJECT/wp-content/PACKAGE/TEMPLATE/assets/css/**/*.less',
         ],
         css: [
           'PROJECT/wp-content/PACKAGE/TEMPLATE/css/**/*.css',
