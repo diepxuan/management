@@ -523,7 +523,7 @@ class dbdump extends stdClass
         $this->file_write("/*!40103 SET TIME_ZONE='+00:00' */;" . PHP_EOL);
         $this->file_write('/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;' . PHP_EOL);
         $this->file_write('/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;' . PHP_EOL);
-        $this->file_write("/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO, TRADITIONAL, ALLOW_INVALID_DATES' */;" . PHP_EOL);
+        $this->file_write("/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES' */;" . PHP_EOL);
         $this->file_write('/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;' . PHP_EOL);
         $this->file_write(PHP_EOL . PHP_EOL);
     }
