@@ -16,6 +16,7 @@ $db->sql_gz           = 0;
 $db->sql_nomal        = 1;
 $db->ins_length       = 200;
 $db->table_max_length = 0;
+$db->log              = false;
 // magento
 $db->dir = 'media';
 // wordpress
@@ -152,6 +153,7 @@ class dbdump extends stdClass
     public $tables_clean     = array();
     public $table_from       = '';
     public $table_max_length = 250;
+    public $log              = true;
 
     protected $tables = array();
 
@@ -217,7 +219,7 @@ class dbdump extends stdClass
         $this->dumb_tables();
         $this->data_close();
 
-        echo 'successfull!!' . PHP_EOL;
+        $this->log_out('successfull!!');
     }
 
     public function clean()
@@ -227,7 +229,7 @@ class dbdump extends stdClass
         $this->clean_tables();
         $this->data_close();
 
-        echo 'successfull!!' . PHP_EOL;
+        $this->log_out('successfull!!');
     }
 
     public function in_array_match($regex, $array)
@@ -297,7 +299,7 @@ class dbdump extends stdClass
             }
 
         } catch (Exception $e) {
-            echo $e->getMessage();
+            $this->log_out($e->getMessage());
         }
     }
 
@@ -307,9 +309,7 @@ class dbdump extends stdClass
 
             foreach ($this->tables_dis as $table) {
                 // TRUNCATE TABLE books;
-                // $this->mysqli
                 $sql = "TRUNCATE TABLE $table;";
-                // echo $sql;
                 $this->mysqli->query($sql);
             }
 
@@ -319,7 +319,7 @@ class dbdump extends stdClass
             }
 
         } catch (Exception $e) {
-            echo $e->getMessage();
+            $this->log_out($e->getMessage());
         }
     }
 
@@ -371,7 +371,7 @@ class dbdump extends stdClass
             unset($row_create);
 
         } catch (Exception $e) {
-            echo $e->getMessage();
+            $this->log_out($e->getMessage());
         }
     }
 
@@ -405,14 +405,19 @@ class dbdump extends stdClass
                 $strFields .= '`' . $field->name . '`';
             }
 
-            $sql = "SELECT * FROM `$table`";
+            $sql       = "SELECT * FROM `$table`";
+            $sql_limit = $sql;
             if (array_key_exists($table, $this->tables_limit)) {
                 $where = $this->tables_limit[$table];
-                $sql .= " $where";
+                $sql_limit .= " $where";
             }
             $sql .= ';';
-            if (!$res_select = $this->mysqli->query($sql)) {
-                throw new Exception('MySQL Error: ' . $this->mysqli->error . 'SQL: ' . $sql);
+            $sql_limit .= ';';
+            if (!$res_select = $this->mysqli->query($sql_limit)) {
+                if (!$res_select = $this->mysqli->query($sql)) {
+                    throw new Exception('MySQL Error: ' . $this->mysqli->error . 'SQL: ' . $sql);
+                }
+                throw new Exception('MySQL Error: ' . $this->mysqli->error . 'SQL: ' . $sql_limit);
             }
             $_ins_max        = $res_select->num_rows;
             $_ins_number     = 1;
@@ -440,15 +445,6 @@ class dbdump extends stdClass
                         } elseif (in_array($field->type, array_keys($this->mysql_data_type_hash['blob']))) {
                             $val = "0x$val";
                         } else {
-                            // $val = addslashes($val);
-                            // $val = preg_replace('/[^(\x20-\x7F)\x0A\x0D]*/','',$val);
-                            // $val = preg_replace('/[^(\x20-\x7F)\x0A]*/','',$val);
-                            // $val = str_replace('"', '\\"', $val);
-                            // $val = str_replace("'", '\\\'', $val);
-                            // $val = str_replace("\0", '\\0', $val);
-                            // $val = preg_replace("/\n/", "\\n", $val);
-                            // $val = preg_replace("/\r/", "\\r", $val);
-                            // $val = $this->mysqli->real_escape_string($val);
                             $val = $this->sql_escape($val);
                             $val = "'$val'";
                         }
@@ -478,7 +474,7 @@ class dbdump extends stdClass
 
                     }
                 } catch (Exception $e) {
-                    echo $e->getMessage();
+                    $this->log_out($e->getMessage());
                 }
                 $_ins_length += 1;
                 $_ins_number += 1;
@@ -492,7 +488,7 @@ class dbdump extends stdClass
             }
 
         } catch (Exception $e) {
-            echo $e->getMessage();
+            $this->log_out($e->getMessage());
         }
 
         $this->file_write("/*!40000 ALTER TABLE `$table` ENABLE KEYS */;" . PHP_EOL);
@@ -555,7 +551,7 @@ class dbdump extends stdClass
 
             $this->mysqli->set_charset('utf8');
         } catch (Exception $e) {
-            echo $e->getMessage();
+            $this->log_out($e->getMessage());
         }
     }
 
@@ -564,7 +560,7 @@ class dbdump extends stdClass
         try {
             $this->mysqli->close();
         } catch (Exception $e) {
-            echo $e->getMessage();
+            $this->log_out($e->getMessage());
         }
     }
 
@@ -572,11 +568,23 @@ class dbdump extends stdClass
     {
         try {
             $res->free_result();
-            // $res->free();
-            // $res->close();
+        } catch (Exception $e) {
+            $this->log_out($e->getMessage());
+        }
+        try {
+            $res->free();
+        } catch (Exception $e) {
+            $this->log_out($e->getMessage());
+        }
+        try {
+            $res->close();
+        } catch (Exception $e) {
+            $this->log_out($e->getMessage());
+        }
+        try {
             unset($res);
         } catch (Exception $e) {
-            echo $e->getMessage();
+            $this->log_out($e->getMessage());
         }
     }
 
@@ -621,6 +629,7 @@ class dbdump extends stdClass
         if ($this->sql_gz) {
             gzwrite($this->handle_gz, $buffer);
         }
+        // $this->log_out(nl2br($buffer));
         return;
     }
 
@@ -660,9 +669,9 @@ class dbdump extends stdClass
         if (is_dir($path) === true) {
             $files = array_diff(scandir($path), $ignore);
             if (@chmod($path, $permission)) {
-                // echo 'Folder permissions changed';
+                $this->log_out('Folder permissions changed');
             } else {
-                // echo 'Failed to change permissions';
+                $this->log_out('Failed to change permissions');
             }
 
             foreach ($files as $file) {
@@ -671,9 +680,9 @@ class dbdump extends stdClass
         } else if (is_file($path) === true) {
             chmod($path, $permission);
             if (@chmod($path, $permission)) {
-                // echo 'Folder permissions changed';
+                $this->log_out('Folder permissions changed');
             } else {
-                // echo 'Failed to change permissions';
+                $this->log_out('Failed to change permissions');
             }
         }
 
@@ -695,6 +704,18 @@ class dbdump extends stdClass
             $sql = 'NULL';
         }
         return $sql;
+    }
+
+    public function log_is_enable()
+    {
+        return $this->log;
+    }
+
+    public function log_out($log = '')
+    {
+        if ($this->log_is_enable()) {
+            echo nl2br($log . PHP_EOL) . PHP_EOL;
+        }
     }
 
 }
