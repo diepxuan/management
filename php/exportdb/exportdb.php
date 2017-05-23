@@ -11,10 +11,11 @@ date_default_timezone_set('Asia/Ho_Chi_Minh');
 /**-------------------------------------------------------------*/
 $db = new dbdump('localhost', 'ilg', 'evolve123', 'ilg');
 
-$db->multi      = 0;
-$db->sql_gz     = 1;
-$db->sql_nomal  = 0;
-$db->ins_length = 200;
+$db->multi            = 0;
+$db->sql_gz           = 0;
+$db->sql_nomal        = 1;
+$db->ins_length       = 200;
+$db->table_max_length = 0;
 // magento
 $db->dir = 'media';
 // wordpress
@@ -119,6 +120,7 @@ $db->tables_en = array();
 $db->dumb();
 
 // $db->clean();
+
 // $db->file_delete('media' . DIRECTORY_SEPARATOR . 'lacoqueta');
 // $db->file_delete('media' . DIRECTORY_SEPARATOR . 'orange');
 
@@ -279,7 +281,7 @@ class dbdump extends stdClass
                     } else {
                         $this->dumb_table($table);
                     }
-                    if ($index % $this->table_max_length == 0) {
+                    if ($this->table_max_length >= 1 && $index % $this->table_max_length == 0) {
                         $this->dumb_footer();
                         $this->file_close();
                         $this->filename = $this->file_name();
@@ -510,7 +512,7 @@ class dbdump extends stdClass
         $this->file_write('-- ' . PHP_EOL);
         $this->file_write('-- Current PHP version: ' . phpversion() . PHP_EOL);
         $this->file_write('-- Host: ' . $this->host . PHP_EOL);
-        $this->file_write('-- Database:' . $this->name . PHP_EOL);
+        $this->file_write('-- Database: ' . $this->name . PHP_EOL);
         $this->file_write('-- ------------------------------------------------------' . PHP_EOL . PHP_EOL);
 
         $this->file_write('/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;' . PHP_EOL);
@@ -521,7 +523,7 @@ class dbdump extends stdClass
         $this->file_write("/*!40103 SET TIME_ZONE='+00:00' */;" . PHP_EOL);
         $this->file_write('/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;' . PHP_EOL);
         $this->file_write('/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;' . PHP_EOL);
-        $this->file_write("/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;" . PHP_EOL);
+        $this->file_write("/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO, TRADITIONAL, ALLOW_INVALID_DATES' */;" . PHP_EOL);
         $this->file_write('/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;' . PHP_EOL);
         $this->file_write(PHP_EOL . PHP_EOL);
     }

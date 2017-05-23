@@ -36,8 +36,9 @@ if (!function_exists('_controlhost')) {
  */
 $i = 0;
 
-$cfg['blowfish_secret'] = '51Lhp+H8YGJ2MgLaQZXpB$U$aIB+^f%20fVy';
-$cfg['Lang']            = '';
+$cfg['blowfish_secret']      = '51Lhp+H8YGJ2MgLaQZXpB$U$aIB+^f%20fVy';
+$cfg['Lang']                 = '';
+$cfg['AllowArbitraryServer'] = true;
 
 if (!in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '192.168.1.222'])) {
 
