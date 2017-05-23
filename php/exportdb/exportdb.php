@@ -308,8 +308,11 @@ class dbdump extends stdClass
         try {
 
             foreach ($this->tables_dis as $table) {
-                // TRUNCATE TABLE books;
+                // TRUNCATE TABLE
                 $sql = "TRUNCATE TABLE $table;";
+                $this->mysqli->query($sql);
+                // UPDATE AUTO_INCREMENT INDEX
+                $sql = "ALTER TABLE $table AUTO_INCREMENT=1;";
                 $this->mysqli->query($sql);
             }
 
