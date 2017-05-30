@@ -1,4 +1,15 @@
 <?php
+/**
+ * ╔═══╗╔╗ ╔╗╔═══╗╔════╗╔╗ ╔╗
+ * ║╔═╗║║║ ║║║╔═╗║╚═╗╔═╝║╚╗║║
+ * ║║ ║║║║ ║║║║ ╚╝  ║║  ║║╚╗║
+ * ║║ ║║║║ ║║║║ ╔╗  ║║  ║║ ║║
+ * ║╚═╝║║╚═╝║║╚═╝║  ║║  ║║ ║║
+ * ╚═══╝╚═══╝╚═══╝  ╚╝  ╚╝ ╚╝
+ */
+?>
+
+<?php
 
 /*
  * Server ping host
@@ -51,7 +62,7 @@ if (!in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '192.168.1.222'])) {
         $cfg['Servers'][$i]['host']            = 'localhost';
         $cfg['Servers'][$i]['auth_type']       = 'config';
         $cfg['Servers'][$i]['user']            = 'sa';
-        $cfg['Servers'][$i]['password']        = '877611';
+        $cfg['Servers'][$i]['password']        = 'bg2tob699';
         $cfg['Servers'][$i]['AllowNoPassword'] = true;
         $cfg['Servers'][$i]['extension']       = 'mysqli';
     }
@@ -65,6 +76,19 @@ if (!in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '192.168.1.222'])) {
         $cfg['Servers'][$i]['auth_type']       = 'config';
         $cfg['Servers'][$i]['user']            = 'dev';
         $cfg['Servers'][$i]['password']        = 'dev@gss';
+        $cfg['Servers'][$i]['AllowNoPassword'] = true;
+        $cfg['Servers'][$i]['extension']       = 'mysqli';
+    }
+
+    /*
+     * Gss localhost (Magento)
+     */
+    if (_ping('192.168.1.253')) {
+        $i++;
+        $cfg['Servers'][$i]['host']            = '192.168.1.253';
+        $cfg['Servers'][$i]['auth_type']       = 'config';
+        $cfg['Servers'][$i]['user']            = 'sa';
+        $cfg['Servers'][$i]['password']        = '123456';
         $cfg['Servers'][$i]['AllowNoPassword'] = true;
         $cfg['Servers'][$i]['extension']       = 'mysqli';
     }
@@ -83,7 +107,7 @@ for ($svr = 1; $svr <= $i; $svr++) {
     ]);
     $cfg['Servers'][$svr]['controlport'] = '3306';
     $cfg['Servers'][$svr]['controluser'] = 'sa';
-    $cfg['Servers'][$svr]['controlpass'] = '877611';
+    $cfg['Servers'][$svr]['controlpass'] = 'bg2tob699';
 
     /* Storage database and tables */
     $cfg['Servers'][$svr]['pmadb']             = 'phpmyadmin'; //the name of my db table
