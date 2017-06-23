@@ -57,9 +57,9 @@ if (!in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '192.168.1.222'])) {
     /*
      * Localhost
      */
-    if (_ping('localhost')) {
+    if (_ping('local.dev')) {
         $i++;
-        $cfg['Servers'][$i]['host']            = 'localhost';
+        $cfg['Servers'][$i]['host']            = 'local.dev';
         $cfg['Servers'][$i]['auth_type']       = 'config';
         $cfg['Servers'][$i]['user']            = 'sa';
         $cfg['Servers'][$i]['password']        = 'bg2tob699';
