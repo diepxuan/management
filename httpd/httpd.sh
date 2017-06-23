@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 cat httpd.conf > /etc/apache2/sites-available/ductn.conf
 
-sudo apt install -y php*.*-mysql php*.*-mbstring php*.*-mysqli
+sudo apt install -y php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip
 
 a2ensite ductn.conf
 a2dismod php5.5 php5.6 php7.1
