@@ -7,3 +7,6 @@
 [submodule "setup/ubuntu/gitprompt"]
 	path = setup/ubuntu/gitprompt
 	url = git@github.com:magicmonty/bash-git-prompt.git
+[submodule "settings"]
+	path = settings
+	url = git@github.com:caothu159/settings.git
