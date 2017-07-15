@@ -244,25 +244,11 @@
   }
 }
 
-.css-input-placeholder (@color: false, @size: false, @weight: false, @style: normal, @font: false, @text-transform: uppercase, @opacity: 100, @letter-spacing: 0) {
-  .css-input-placeholder-while(@prefixes: ":-moz", "::-moz", ":-ms-input", "::-webkit-input"; @index: length(@prefixes)) when (@index > 0) {
-    .css-input-placeholder-while(@prefixes; (@index - 1));
-
-    @prefix:     extract(@prefixes, @index);
-    @class-name: ~"@{prefix}-placeholder";
-
-    &@{class-name} {
-      .css-font-color (@color);
-      .css-font-size  (@size);
-      .css-font-weight(@weight);
-      .css-font-style (@style);
-      .css-font-family(@font);
-      .css-text-transform(@text-transform);
-      .css-opacity(@opacity);
-      letter-spacing: @letter-spacing;
-    }
-  }
-  .css-input-placeholder-while;
+.css-input-placeholder (@arguments) {
+  &::-webkit-input-placeholder { @arguments(); }
+       &:-ms-input-placeholder { @arguments(); }
+           &::-moz-placeholder { @arguments(); }
+            &:-moz-placeholder { @arguments(); }
 }
 
 .css-calc (@prop, @condition) {
