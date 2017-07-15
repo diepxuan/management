@@ -100,11 +100,7 @@ if (!in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '192.168.1.222'])) {
  */
 for ($svr = 1; $svr <= $i; $svr++) {
     /* Advanced phpMyAdmin features */
-    $cfg['Servers'][$svr]['controlhost'] = _controlhost([
-        'mysql.diepxuan.vn',
-        'diepxuan.com',
-        'local.dev',
-    ]);
+    $cfg['Servers'][$svr]['controlhost'] = 'local.dev';
     $cfg['Servers'][$svr]['controlport'] = '3306';
     $cfg['Servers'][$svr]['controluser'] = 'sa';
     $cfg['Servers'][$svr]['controlpass'] = 'bg2tob699';
