@@ -186,7 +186,9 @@ module.exports = function(grunt) {
 
   var $initConfig = {
     less: {
-      options: {},
+      options: {
+        sourceMap: true
+      },
     },
     autoprefixer: {
       options: {
