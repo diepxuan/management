@@ -586,16 +586,6 @@ class dbdump extends stdClass
             $this->log_out($e->getMessage());
         }
         try {
-            $res->free();
-        } catch (Exception $e) {
-            $this->log_out($e->getMessage());
-        }
-        try {
-            $res->close();
-        } catch (Exception $e) {
-            $this->log_out($e->getMessage());
-        }
-        try {
             unset($res);
         } catch (Exception $e) {
             $this->log_out($e->getMessage());
@@ -643,7 +633,7 @@ class dbdump extends stdClass
         if ($this->sql_gz) {
             gzwrite($this->handle_gz, $buffer);
         }
-        // $this->log_out(nl2br($buffer));
+        // $this->log_out($buffer);
         return;
     }
 

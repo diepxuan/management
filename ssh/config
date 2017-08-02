@@ -1,0 +1,17 @@
+Host github
+	HostName github.com
+	IdentityFile ~/.ssh/id_rsa
+Host bitbucket
+	HostName bitbucket.org
+	IdentityFile ~/.ssh/id_rsa
+Host bitbucketgss
+	HostName bitbucket.org
+	IdentityFile ~/.ssh/gss
+Host evolveretail.penelopechilvers
+	HostName penelopechilvers.evolveretail.website
+	User magento
+	IdentityFile ~/.ssh/gss
+Host gsmartsolutions.penelopechilvers
+        HostName penelope.gsmartsolutions.com
+        User gssadmin
+	IdentityFile ~/.ssh/gss
