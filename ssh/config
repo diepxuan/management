@@ -1,13 +1,3 @@
-Host github.com
-    HostName github.com
-    IdentityFile ~/.ssh/id_rsa
-Host bitbucket.org
-    HostName bitbucket.org
-    IdentityFile ~/.ssh/id_rsa
-
-Host bitbucketgss
-    HostName bitbucket.org
-    IdentityFile ~/.ssh/gss
 Host evolveretail.penelopechilvers
     HostName penelopechilvers.evolveretail.website
     User magento
@@ -20,3 +10,14 @@ Host diepxuan
     HostName diepxuan.com
     User ductn
     IdentityFile ~/.ssh/ductn
+
+Host bitbucketgss
+    HostName bitbucket.org
+    IdentityFile ~/.ssh/gss
+
+Host github.com
+    HostName github.com
+    IdentityFile ~/.ssh/id_rsa
+Host bitbucket.org
+    HostName bitbucket.org
+    IdentityFile ~/.ssh/id_rsa
