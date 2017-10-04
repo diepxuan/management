@@ -2,6 +2,10 @@ Host evolveretail.penelopechilvers
     HostName penelopechilvers.evolveretail.website
     User magento
     IdentityFile ~/.ssh/gss
+Host evolveretail.antibad
+    HostName antibad.evolveretail.website
+    User magento
+    IdentityFile ~/.ssh/gss
 Host gsmartsolutions.penelopechilvers
     HostName penelope.gsmartsolutions.com
     User gssadmin
