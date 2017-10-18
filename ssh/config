@@ -6,10 +6,20 @@ Host evolveretail.antibad
     HostName antibad.evolveretail.website
     User magento
     IdentityFile ~/.ssh/gss
+Host evolveretail.swift
+    HostName swift.evolveretail.website
+    User magento
+    IdentityFile ~/.ssh/gss
+Host evolveretail.shrimps
+    HostName int.evolveretail.com
+    User shrimps
+    IdentityFile ~/.ssh/gss
+
 Host gsmartsolutions.penelopechilvers
     HostName penelope.gsmartsolutions.com
     User gssadmin
     IdentityFile ~/.ssh/gss
+
 Host diepxuan
     HostName diepxuan.com
     User ductn
