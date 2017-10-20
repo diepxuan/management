@@ -15,6 +15,11 @@ Host evolveretail.shrimps
     User shrimps
     IdentityFile ~/.ssh/gss
 
+Host gsmartsolutions
+    HostName 13.115.120.109
+    User ubuntu
+    IdentityFile ~/.ssh/ductn
+
 Host gsmartsolutions.penelopechilvers
     HostName penelope.gsmartsolutions.com
     User gssadmin
