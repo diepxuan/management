@@ -1,15 +1,8 @@
 <?php
 /**
- * ╔═══╗╔╗ ╔╗╔═══╗╔════╗╔╗ ╔╗
- * ║╔═╗║║║ ║║║╔═╗║╚═╗╔═╝║╚╗║║
- * ║║ ║║║║ ║║║║ ╚╝  ║║  ║║╚╗║
- * ║║ ║║║║ ║║║║ ╔╗  ║║  ║║ ║║
- * ║╚═╝║║╚═╝║║╚═╝║  ║║  ║║ ║║
- * ╚═══╝╚═══╝╚═══╝  ╚╝  ╚╝ ╚╝
+ * Copyright © 2017 Dxvn, Inc. All rights reserved.
+ * @author  Tran Ngoc Duc <caothu91@gmail.com>
  */
-?>
-
-<?php
 
 error_reporting(E_ALL);
 ini_set('error_reporting', E_ALL);
@@ -211,8 +204,14 @@ class dbdump extends stdClass
         ),
     );
 
-    public function __construct($host = '', $user = '', $pass = '', $name = '', $dir = 'media', $ins_length = 100)
-    {
+    public function __construct(
+        $host = '',
+        $user = '',
+        $pass = '',
+        $name = '',
+        $dir = 'media',
+        $ins_length = 100
+    ) {
         $this->host       = $host;
         $this->user       = $user;
         $this->pass       = $pass;
@@ -243,8 +242,10 @@ class dbdump extends stdClass
         $this->log_out('successfull!!');
     }
 
-    public function in_array_match($regex, $array)
-    {
+    public function in_array_match(
+        $regex,
+        $array
+    ) {
 
         if (!isset($regex) || !isset($array) || !is_string($regex) || !is_array($array)) {
             return false;
@@ -665,8 +666,10 @@ class dbdump extends stdClass
         return false;
     }
 
-    public function file_chmod($path = '.', $permission = 0777)
-    {
+    public function file_chmod(
+        $path = '.',
+        $permission = 0777
+    ) {
 
         $ignore = array('cgi-bin', '.', '..');
 
@@ -696,13 +699,7 @@ class dbdump extends stdClass
     public function sql_escape($sql)
     {
         if (@isset($sql)) {
-            // $sql = @trim($sql);
-            // $sql = @addslashes($sql);
-            // if(get_magic_quotes_gpc()) {
-            //   $sql = @stripslashes($sql);
-            // }
-            // $sql = str_replace('www.wemakefootballers.com', 'local.dev/wmf', $sql);
-            $sql = str_replace('int.evolveretail.com/~', 'local.dev/', $sql);
+            $sql = str_replace('int.evolveretail.com/~shrimps', 'local.shrimps.co.uk', $sql);
             $sql = $this->mysqli->real_escape_string($sql);
         } else {
             $sql = 'NULL';
