@@ -18,7 +18,7 @@
 
 cat ~/public_html/code/httpd/gss.conf > /etc/apache2/sites-available/gss.conf
 
-apt install -y php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip
+apt install -y php7.0 php7.0-mysql php7.0-mbstring php7.0-mysqli php7.0-intl php7.0-curl php7.0-gd php7.0-mcrypt php7.0-soap php7.0-dom php7.0-xml php7.0-zip
 
 a2ensite gss.conf
 a2dismod php5.5 php5.6 php7.1 php7.2
