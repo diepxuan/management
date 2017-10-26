@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 cat config > ~/.ssh/config
+find config.d -type f -exec cat {} >> ~/.ssh/config \; -exec printf "\n\n" >> ~/.ssh/config \;
 
 cat ductn > ~/.ssh/ductn
 cat ductn.pub > ~/.ssh/ductn.pub
