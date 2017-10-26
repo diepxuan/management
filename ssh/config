@@ -1,0 +1,7 @@
+##########################
+### Global Host Config ###
+##########################
+
+Host bitbucketgss
+    HostName bitbucket.org
+    IdentityFile ~/.ssh/gss
