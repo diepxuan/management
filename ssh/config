@@ -1,42 +1,7 @@
-Host evolveretail.penelopechilvers
-    HostName penelopechilvers.evolveretail.website
-    User magento
-    IdentityFile ~/.ssh/gss
-Host evolveretail.antibad
-    HostName antibad.evolveretail.website
-    User magento
-    IdentityFile ~/.ssh/gss
-Host evolveretail.swift
-    HostName swift.evolveretail.website
-    User magento
-    IdentityFile ~/.ssh/gss
-Host evolveretail.shrimps
-    HostName int.evolveretail.com
-    User shrimps
-    IdentityFile ~/.ssh/gss
-
-Host gsmartsolutions
-    HostName 13.115.120.109
-    User ubuntu
-    IdentityFile ~/.ssh/ductn
-
-Host gsmartsolutions.penelopechilvers
-    HostName penelope.gsmartsolutions.com
-    User gssadmin
-    IdentityFile ~/.ssh/gss
-
-Host diepxuan
-    HostName diepxuan.com
-    User ductn
-    IdentityFile ~/.ssh/ductn
+##########################
+### Global Host Config ###
+##########################
 
 Host bitbucketgss
     HostName bitbucket.org
     IdentityFile ~/.ssh/gss
-
-Host github.com
-    HostName github.com
-    IdentityFile ~/.ssh/id_rsa
-Host bitbucket.org
-    HostName bitbucket.org
-    IdentityFile ~/.ssh/id_rsa
