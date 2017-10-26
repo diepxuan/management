@@ -118,11 +118,8 @@ class DDNS extends stdClass
           $fields->content = $_content_new;
           $fields->data = new stdClass();
           unset($fields->meta);
-          // $this->debug( $fields );
           $result = $this->curlRequest(sprintf('/zones/%s/dns_records/%s', $zone_identifier, $identifier), $fields, 'PUT');
-          // array_push($results, $result);
-          $results[$_content_old] = $result;
-          // $this->debug( $result );
+          $results[$fields->name . '->' . $_content_old] = $result;
         }
       }
     }
@@ -164,20 +161,17 @@ class DDNS extends stdClass
 
   function debug($value = '')
   {
-    echo '<pre>';
-    print_r($value);
-    echo '</pre>';
+    echo json_encode($value);
   }
 }
 
 $app = new DDNS(
   $email = 'caothu91@gmail.com',
-  $api = '389205e67f635944870279ea7229994968d69',
+  $api = ($api = filter_input(INPUT_GET, 'api') ) ? $api : '' ,
   $apiUrl = 'https://api.cloudflare.com/client/v4',
   $ipUrl = 'http://ipv4.icanhazip.com'
 );
 
-echo $app->getCurrentIp();
 $app->run();
 
 exit;
