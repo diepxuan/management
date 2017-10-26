@@ -1,0 +1,8 @@
+############################
+### Personal VPS Servers ###
+############################
+
+Host diepxuan
+    HostName diepxuan.com
+    User ductn
+    IdentityFile ~/.ssh/ductn

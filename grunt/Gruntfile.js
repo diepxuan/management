@@ -1,5 +1,6 @@
-'use strict';
 module.exports = function(grunt) {
+
+  'use strict';
 
   /**
    * String.toCapitalize
@@ -7,7 +8,7 @@ module.exports = function(grunt) {
   if ( !String.prototype.toCapitalize ) {
     String.prototype.toCapitalize = function() {
       return this.charAt(0).toUpperCase() + this.slice(1);
-    }
+    };
   }
 
   /**
@@ -94,8 +95,12 @@ module.exports = function(grunt) {
         app: 'PROJECT/skin/frontend/PACKAGE/TEMPLATE/js/app.min.js',
       },
       watch: {
-        css: [
+        less: [
           'PROJECT/skin/frontend/PACKAGE/TEMPLATE/less/**/*.less',
+        ],
+        css: [
+          'PROJECT/skin/frontend/PACKAGE/TEMPLATE/css/**/*.css',
+          '!PROJECT/skin/frontend/PACKAGE/TEMPLATE/css/**/*.min.css',
         ],
         js: [
           'PROJECT/skin/frontend/PACKAGE/TEMPLATE/dev/**/*.js',
@@ -107,13 +112,18 @@ module.exports = function(grunt) {
     },
     wordpress: {
       less: {
-        app:        'PROJECT/wp-content/PACKAGE/TEMPLATE/less/app.less',
+        appLess:    'PROJECT/wp-content/PACKAGE/TEMPLATE/less/app.less',
+        appCss:     'PROJECT/wp-content/PACKAGE/TEMPLATE/css/app.less',
+        assetsLess: 'PROJECT/wp-content/PACKAGE/TEMPLATE/assets/less/app.less',
+        assetsCss:  'PROJECT/wp-content/PACKAGE/TEMPLATE/assets/css/app.less',
       },
       autoprefixer: {
         app:        'PROJECT/wp-content/PACKAGE/TEMPLATE/css/app.css',
+        assets:     'PROJECT/wp-content/PACKAGE/TEMPLATE/assets/css/app.css',
       },
       cssmin: {
         app:        'PROJECT/wp-content/PACKAGE/TEMPLATE/css/app.min.css',
+        assets:     'PROJECT/wp-content/PACKAGE/TEMPLATE/assets/css/app.min.css',
       },
       concat: {
         dev: {
@@ -156,6 +166,9 @@ module.exports = function(grunt) {
       watch: {
         less: [
           'PROJECT/wp-content/PACKAGE/TEMPLATE/less/**/*.less',
+          'PROJECT/wp-content/PACKAGE/TEMPLATE/css/**/*.less',
+          'PROJECT/wp-content/PACKAGE/TEMPLATE/assets/less/**/*.less',
+          'PROJECT/wp-content/PACKAGE/TEMPLATE/assets/css/**/*.less',
         ],
         css: [
           'PROJECT/wp-content/PACKAGE/TEMPLATE/css/**/*.css',
@@ -173,7 +186,9 @@ module.exports = function(grunt) {
 
   var $initConfig = {
     less: {
-      options: {},
+      options: {
+        sourceMap: true
+      },
     },
     autoprefixer: {
       options: {
@@ -201,7 +216,7 @@ module.exports = function(grunt) {
     uglify: {
       options: {
         compress: {
-          drop_console: true
+          // drop_console: true
         },
         mangle: true,
         maxLineLen: 32000,
@@ -213,8 +228,8 @@ module.exports = function(grunt) {
 
   var D = {
     $sources: [
-      'D:/server/www/dev/',
-      'D:/server/www/live/',
+      '/home/ductn/public_html/dev/',
+      '/home/ductn/public_html/live/',
     ],
     getDirectories: function ($srcpath) {
       try {
@@ -337,7 +352,7 @@ module.exports = function(grunt) {
         $callback = $projectDir;
         $projectDir = $project;
       }
-      var $paths = new Array();
+      var $paths = [];
       if(typeof $path == 'string' || $path instanceof String) {
         var $projectPath = $path.replaceAll('PROJECT', $projectDir);
         if($projectPath.indexOf('PACKAGE') >= 0) {
@@ -377,8 +392,8 @@ module.exports = function(grunt) {
                     if(!$paths[D.initTaskName($project, $package, $template)].src) {
                       $paths[D.initTaskName($project, $package, $template)].src = new Array();
                     }
-                    // $paths[D.initTaskName($project, $package, $template)].src.push($templatePath);
-                    $paths[D.initTaskName($project, $package, $template)].src.unshift($templatePath);
+                    $paths[D.initTaskName($project, $package, $template)].src.push($templatePath);
+                    // $paths[D.initTaskName($project, $package, $template)].src.unshift($templatePath);
                     D.is_array($path.src, function($key, $src) {
                       var $srcPath = $src.replaceAll('PROJECT', $projectDir);
                       $srcPath = $srcPath.replaceAll('PACKAGE', $package);
@@ -392,27 +407,27 @@ module.exports = function(grunt) {
                       }
                       D.is_file($srcPath, function($srcPath) {
                         if( $paths[D.initTaskName($project, $package, $template)].src.indexOf($srcPath) < 0 ) {
-                          // $paths[D.initTaskName($project, $package, $template)].src.push($srcPath);
-                          $paths[D.initTaskName($project, $package, $template)].src.unshift($srcPath);
+                          $paths[D.initTaskName($project, $package, $template)].src.push($srcPath);
+                          // $paths[D.initTaskName($project, $package, $template)].src.unshift($srcPath);
                         }
                       });
                     }, false);
 
-                    var $templateFolder = path.dirname($templatePath);
-                    D.is_array(D.getFiles( $templateFolder ), function($key, $src) {
-                      var $srcPath = path.resolve( path.join(path.resolve($templateFolder), $src) );
-                      if(!$paths[D.initTaskName($project, $package, $template)]) {
-                        $paths[D.initTaskName($project, $package, $template)] = {};
-                      }
-                      if(!$paths[D.initTaskName($project, $package, $template)].src) {
-                        $paths[D.initTaskName($project, $package, $template)].src = new Array();
-                      }
-                      D.is_file($srcPath, function($srcPath) {
-                        if( $paths[D.initTaskName($project, $package, $template)].src.indexOf($srcPath) < 0 ) {
-                          $paths[D.initTaskName($project, $package, $template)].src.unshift($srcPath);
-                        }
-                      });
-                    }, false);
+                    // var $templateFolder = path.dirname($templatePath);
+                    // D.is_array(D.getFiles( $templateFolder ), function($key, $src) {
+                    //   var $srcPath = path.resolve( path.join(path.resolve($templateFolder), $src) );
+                    //   if(!$paths[D.initTaskName($project, $package, $template)]) {
+                    //     $paths[D.initTaskName($project, $package, $template)] = {};
+                    //   }
+                    //   if(!$paths[D.initTaskName($project, $package, $template)].src) {
+                    //     $paths[D.initTaskName($project, $package, $template)].src = new Array();
+                    //   }
+                    //   D.is_file($srcPath, function($srcPath) {
+                    //     if( $paths[D.initTaskName($project, $package, $template)].src.indexOf($srcPath) < 0 ) {
+                    //       $paths[D.initTaskName($project, $package, $template)].src.unshift($srcPath);
+                    //     }
+                    //   });
+                    // }, false);
 
                     var $destPath = $path.dest.replaceAll('PROJECT', $projectDir);
                     $destPath = $destPath.replaceAll('PACKAGE', $package);
@@ -655,4 +670,4 @@ module.exports = function(grunt) {
 
   });
 
-}
+};
