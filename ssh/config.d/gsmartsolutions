@@ -1,0 +1,18 @@
+###################################
+### gsmartsolutions Host Config ###
+###################################
+
+Host gsmartsolutions
+    HostName 13.115.120.109
+    User ubuntu
+    IdentityFile ~/.ssh/ductn
+
+Host gsmartsolutions.store
+    HostName 13.115.120.109
+    User store.hasingdon.com
+    IdentityFile ~/.ssh/ductn
+
+Host gsmartsolutions.penelopechilvers
+    HostName penelope.gsmartsolutions.com
+    User gssadmin
+    IdentityFile ~/.ssh/gss

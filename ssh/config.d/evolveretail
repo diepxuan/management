@@ -1,0 +1,33 @@
+#####################
+### Local Servers ###
+#####################
+
+Host evolveretail.penelopechilvers
+    HostName penelopechilvers.evolveretail.website
+    User magento
+    IdentityFile ~/.ssh/gss
+
+Host evolveretail.antibad
+    HostName antibad.evolveretail.website
+    User magento
+    IdentityFile ~/.ssh/gss
+
+Host evolveretail.swift
+    HostName swift.evolveretail.website
+    User magento
+    IdentityFile ~/.ssh/gss
+
+Host evolveretail.shrimps
+    HostName int.evolveretail.com
+    User shrimps
+    IdentityFile ~/.ssh/gss
+
+Host evolveretail.fivedollarshake
+    HostName fivedollarshake.evolveretail.website
+    User magento
+    IdentityFile ~/.ssh/gss
+
+Host evolveretail.lacoqueta
+    HostName int.evolveretail.com
+    User lacoqueta
+    IdentityFile ~/.ssh/gss
