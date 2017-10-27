@@ -12,6 +12,11 @@ Host gsmartsolutions.store
     User store.hasingdon.com
     IdentityFile ~/.ssh/ductn
 
+Host gsmartsolutions.fashionstore
+    HostName 13.115.120.109
+    User fashionstore.hasingdon.com
+    IdentityFile ~/.ssh/ductn
+
 Host gsmartsolutions.penelopechilvers
     HostName penelope.gsmartsolutions.com
     User gssadmin
