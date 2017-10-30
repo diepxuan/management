@@ -31,3 +31,8 @@ Host evolveretail.lacoqueta
     HostName int.evolveretail.com
     User lacoqueta
     IdentityFile ~/.ssh/gss
+
+Host evolveretail.wag
+    HostName int.evolveretail.com
+    User ilg
+    IdentityFile ~/.ssh/gss

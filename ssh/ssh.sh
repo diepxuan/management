@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+cd ~/public_html/code/ssh/
+
 cat config > ~/.ssh/config
 find config.d -type f -exec cat {} >> ~/.ssh/config \; -exec printf "\n\n" >> ~/.ssh/config \;
 
