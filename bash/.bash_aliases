@@ -1,3 +1,6 @@
+PS1="$PS1\n$ "
+[[ $TERM != "screen" ]] && exec tmux
+
 # bash alias for magento2
 WEBSERVER_GROUP="www-data"
 alias m2="bin/magento"
