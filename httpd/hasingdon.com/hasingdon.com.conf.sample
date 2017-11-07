@@ -1,0 +1,71 @@
+########################################################################
+# domain: demo store
+########################################################################
+<VirtualHost *:80>
+    UseCanonicalName Off
+    ServerAlias *store.hasingdon.com
+    VirtualDocumentRoot /home/%0/public_html/
+</VirtualHost>
+
+<VirtualHost *:443>
+    UseCanonicalName Off
+    ServerAlias *store.hasingdon.com
+    VirtualDocumentRoot /home/%0/public_html/
+
+    SSLEngine on
+    SSLProtocol all -SSLv2 -SSLv3
+
+    SSLCipherSuite ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP
+
+    SSLCertificateFile /home/hasingdon.com/.ssl/certificate.crt
+    SSLCertificateKeyFile /home/hasingdon.com/.ssl/private.key
+    SSLCACertificateFile /home/hasingdon.com/.ssl/ca_bundle.crt
+</VirtualHost>
+
+########################################################################
+# domain: all www to non-www
+########################################################################
+<VirtualHost *:80>
+    UseCanonicalName Off
+    ServerAlias www.hasingdon.com
+    VirtualDocumentRoot /home/%2+/public_html/
+</VirtualHost>
+
+<VirtualHost *:443>
+    UseCanonicalName Off
+    ServerAlias www.hasingdon.com
+    VirtualDocumentRoot /home/%2+/public_html/
+
+    SSLEngine on
+    SSLProtocol all -SSLv2 -SSLv3
+
+    SSLCipherSuite ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP
+
+    SSLCertificateFile /home/hasingdon.com/.ssl/certificate.crt
+    SSLCertificateKeyFile /home/hasingdon.com/.ssl/private.key
+    SSLCACertificateFile /home/hasingdon.com/.ssl/ca_bundle.crt
+</VirtualHost>
+
+########################################################################
+# domain: all
+########################################################################
+<VirtualHost *:80>
+    UseCanonicalName Off
+    ServerAlias *.hasingdon.com
+    VirtualDocumentRoot /home/%0/public_html/
+</VirtualHost>
+
+<VirtualHost *:443>
+    UseCanonicalName Off
+    ServerAlias *.hasingdon.com
+    VirtualDocumentRoot /home/%0/public_html/
+
+    SSLEngine on
+    SSLProtocol all -SSLv2 -SSLv3
+
+    SSLCipherSuite ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP
+
+    SSLCertificateFile /home/hasingdon.com/.ssl/certificate.crt
+    SSLCertificateKeyFile /home/hasingdon.com/.ssl/private.key
+    SSLCACertificateFile /home/hasingdon.com/.ssl/ca_bundle.crt
+</VirtualHost>
