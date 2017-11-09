@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# ##############################
+# Create PEM file
+# openssl rsa -in ductn -outform PEM -out ductn.pem
+
+# ##############################
 cd ~/public_html/code/ssh/
 
 cat config > ~/.ssh/config
