@@ -36,3 +36,9 @@ Host evolveretail.wag
     HostName int.evolveretail.com
     User ilg
     IdentityFile ~/.ssh/gss
+
+# cat ~/.ssh/gss.pub | ssh magento@twtools.evolveretail.website "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+Host evolveretail.twtools
+    HostName twtools.evolveretail.website
+    User magento
+    IdentityFile ~/.ssh/gss

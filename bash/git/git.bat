@@ -1,1 +1,1 @@
-git config --global core.excludesfile D:/server/www/.gitignore
+git config --global core.excludesfile D:/server/code/bash/git/.gitignore

@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+
+# global gitignore
+cat ~/public_html/code/bash/git/.gitignore > ~/.gitignore
+git config --global core.excludesfile ~/.gitignore
+
 # setting
 git config --global user.name "Tran Ngoc Duc"
 git config --global user.email "caothu91@gmail.com"

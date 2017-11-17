@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-cat ~/public_html/code/setup/ubuntu/.bashrc > ~/.bashrc
-source ~/.bashrc
+# cat ~/public_html/code/setup/ubuntu/.bashrc > ~/.bashrc
+# source ~/.bashrc
 
 cd ~/public_html/code/setup/git/
 bash ./git.sh

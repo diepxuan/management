@@ -216,7 +216,7 @@ module.exports = function(grunt) {
     uglify: {
       options: {
         compress: {
-          // drop_console: true
+          drop_console: true
         },
         mangle: true,
         maxLineLen: 32000,
@@ -663,7 +663,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', 'Run develop', function (target) {
 
-    grunt.log.writeln('Process plugins...'['green'].italic);
+    grunt.log.writeln('Process plugins...'.green.italic);
     grunt.task.run([
       'watch'
     ]);
