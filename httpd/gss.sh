@@ -20,7 +20,7 @@ cat ~/public_html/code/httpd/gss.conf > /etc/apache2/sites-available/gss.conf
 
 apt install -y php7.0 php7.0-mysql php7.0-mbstring php7.0-mysqli php7.0-intl php7.0-curl php7.0-gd php7.0-mcrypt php7.0-soap php7.0-dom php7.0-xml php7.0-zip
 
-a2ensite ductn.conf
+a2ensite gss.conf
 a2dismod php*
 a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias php7.0 ssl
 
