@@ -15,27 +15,55 @@ date_default_timezone_set('Asia/Ho_Chi_Minh');
 /**-------------------------------------------------------------*/
 $db = new dbdump('localhost', 'ilg', 'evolve123', 'ilg');
 
-$db->multi            = 0;
-$db->sql_gz           = 0;
-$db->sql_nomal        = 1;
-$db->ins_length       = 200;
-$db->table_max_length = 0;
-$db->log              = false;
+$db->multi              = 0;
+$db->sql_gz             = 1;
+$db->sql_nomal          = 0;
+$db->max_allowed_packet = 16;
+$db->table_max_length   = 0;
+$db->log                = false;
 // magento
 $db->dir = 'media';
 // wordpress
 // $db->dir          = 'wp-content/uploads';
 
 $db->tables_dis = array(
-    'adminnotification_inbox',
-    'aw_core_logger',
 
-    /* Cache tables */
+    /**
+     * admin
+     */
+    'aw_core_logger',
+    'admin_assert',
+    'admin_role',
+    'admin_rule',
+    'admin_user',
+    'adminnotification_inbox',
+
+    /**
+     * Cache
+     */
     'core_cache',
     'core_cache_tag',
 
-    /* Session tables */
+    /**
+     * Session
+     */
     'core_session',
+
+    /**
+     * customer
+     */
+    'customer_address_entity',
+    'customer_address_entity_datetime',
+    'customer_address_entity_decimal',
+    'customer_address_entity_int',
+    'customer_address_entity_text',
+    'customer_address_entity_varchar',
+    'customer_entity',
+    'customer_entity_datetime',
+    'customer_entity_decimal',
+    'customer_entity_int',
+    'customer_entity_text',
+    'customer_entity_varchar',
 
     'catalog_product_flat',
     'catalog_compare_item',
@@ -43,23 +71,44 @@ $db->tables_dis = array(
     'catalogindex_aggregation_tag',
     'catalogindex_aggregation_to_tag',
 
-    /* Dataflow tables */
+    /**
+     * catalog search
+     */
+    'catalogsearch_fulltext',
+    'catalogsearch_query',
+    'catalogsearch_result',
+
+    /**
+     * Dataflow
+     */
+    'dataflow_batch',
     'dataflow_batch_export',
     'dataflow_batch_import',
+    'dataflow_import_data',
+    'dataflow_session',
+    'importexport_importdata',
 
-    /* Admin logs */
+    /**
+     * Admin logs
+     */
     'enterprise_logging_event',
     'enterprise_logging_event_changes',
 
-    /*Support tables*/
+    /**
+     * Support
+     */
     'enterprise_support_backup',
     'enterprise_support_backup_item',
 
-    /* Index tables */
+    /**
+     * Index
+     */
     'index_event',
     'index_process_event',
 
-    /*Log tables*/
+    /**
+     * Log
+     */
     'log_customer',
     'log_quote',
     'log_summary',
@@ -70,30 +119,87 @@ $db->tables_dis = array(
     'log_visitor_info',
     'log_visitor_online',
 
+    /**
+     * newsletter
+     */
+    'newsletter_problem',
+    'newsletter_queue',
+    'newsletter_queue_link',
+    'newsletter_queue_store_link',
+    'newsletter_subscriber',
+    'newsletter_template',
+
     /* Report tables */
-    'report_viewed_product_index',
-    'report_compared_product_index',
     'report_event',
+    'report_compared_product_index',
+    'report_viewed_product_index',
+    'report_viewed_product_aggregated_daily',
+    'report_viewed_product_aggregated_monthly',
+    'report_viewed_product_aggregated_yearly',
 
     /* More report tables */
     'report_viewed_product_aggregated_daily',
     'report_viewed_product_aggregated_monthly',
     'report_viewed_product_aggregated_yearly',
+
+    /**
+     * sales
+     */
+    'sales_bestsellers_aggregated_daily',
+    'sales_bestsellers_aggregated_monthly',
+    'sales_bestsellers_aggregated_yearly',
+    'sales_flat_creditmemo',
+    'sales_flat_creditmemo_comment',
+    'sales_flat_creditmemo_grid',
+    'sales_flat_creditmemo_item',
+    'sales_flat_invoice',
+    'sales_flat_invoice_comment',
+    'sales_flat_invoice_grid',
+    'sales_flat_invoice_item',
+    'sales_flat_order',
+    'sales_flat_order_address',
+    'sales_flat_order_grid',
+    'sales_flat_order_item',
+    'sales_flat_order_payment',
+    'sales_flat_order_status_history',
+    'sales_flat_quote',
+    'sales_flat_quote_address',
+    'sales_flat_quote_address_item',
+    'sales_flat_quote_item',
+    'sales_flat_quote_item_option',
+    'sales_flat_quote_payment',
+    'sales_flat_quote_shipping_rate',
+    'sales_flat_shipment',
+    'sales_flat_shipment_comment',
+    'sales_flat_shipment_grid',
+    'sales_flat_shipment_item',
+    'sales_flat_shipment_track',
+    'sales_order_aggregated_created',
+    'sales_order_aggregated_updated',
+    'sales_order_tax',
+    'sales_order_tax_item',
+    'sales_payment_transaction',
+    'sales_recurring_profile',
+    'sales_recurring_profile_order',
+    'sales_refunded_aggregated',
+    'sales_refunded_aggregated_order',
+    'salesrule_coupon_usage',
+    'salesrule_customer',
+
+    'enterprise_customer_sales_flat_quote',
+
+    /**
+     * wishlist
+     */
+    'wishlist',
+    'wishlist_item',
+    'wishlist_item_option',
 );
 
 $db->tables_limit = array(
-    'sales_flat_quote'                     => 'WHERE updated_at >= DATE_SUB(Now(),INTERVAL 30 DAY)',
-    'sales_flat_quote_address'             => 'WHERE updated_at >= DATE_SUB(Now(),INTERVAL 30 DAY)',
-    'sales_flat_quote_address_item'        => 'WHERE updated_at >= DATE_SUB(Now(),INTERVAL 30 DAY)',
-    'sales_flat_quote_item'                => 'WHERE updated_at >= DATE_SUB(Now(),INTERVAL 30 DAY)',
-    'sales_flat_quote_item_option'         => 'WHERE updated_at >= DATE_SUB(Now(),INTERVAL 30 DAY)',
-    'sales_flat_quote_payment'             => 'WHERE updated_at >= DATE_SUB(Now(),INTERVAL 30 DAY)',
-    'sales_flat_quote_shipping_rate'       => 'WHERE updated_at >= DATE_SUB(Now(),INTERVAL 30 DAY)',
-    'enterprise_customer_sales_flat_quote' => 'WHERE updated_at >= DATE_SUB(Now(),INTERVAL 30 DAY)',
-
     /* only for developer */
-    'core_url_rewrite'                     => 'WHERE is_system = 1',
-    'enterprise_url_rewrite'               => 'WHERE is_system = 1',
+    'core_url_rewrite'       => 'WHERE is_system = 1',
+    'enterprise_url_rewrite' => 'WHERE is_system = 1',
 );
 
 $db->tables_clean = array(
@@ -120,7 +226,7 @@ $db->tables_en = array();
 //   'catalog_product_entity_text',
 // );
 
-// $db->table_from = 'sales_flat_quote';
+$db->table_from = 'email_importer';
 
 $db->dumb();
 
@@ -145,11 +251,11 @@ class dbdump extends stdClass
     public $pass = '';
     public $name = '';
 
-    public $multi      = 0;
-    public $dir        = 'media';
-    public $ins_length = 100;
-    public $sql_gz     = 1;
-    public $sql_nomal  = 1;
+    public $multi              = 0;
+    public $dir                = 'media';
+    public $max_allowed_packet = 16;
+    public $sql_gz             = 1;
+    public $sql_nomal          = 1;
 
     public $tables_en        = array();
     public $tables_dis       = array();
@@ -210,14 +316,14 @@ class dbdump extends stdClass
         $pass = '',
         $name = '',
         $dir = 'media',
-        $ins_length = 100
+        $max_allowed_packet = 16
     ) {
-        $this->host       = $host;
-        $this->user       = $user;
-        $this->pass       = $pass;
-        $this->name       = $name;
-        $this->dir        = $dir;
-        $this->ins_length = $ins_length;
+        $this->host               = $host;
+        $this->user               = $user;
+        $this->pass               = $pass;
+        $this->name               = $name;
+        $this->dir                = $dir;
+        $this->max_allowed_packet = $max_allowed_packet;
 
         // $this->dumb();
     }
@@ -434,13 +540,10 @@ class dbdump extends stdClass
                 }
                 throw new Exception('MySQL Error: ' . $this->mysqli->error . 'SQL: ' . $sql_limit);
             }
-            $_ins_max        = $res_select->num_rows;
-            $_ins_number     = 1;
-            $_ins_length     = 0;
-            $_ins_str_length = 0;
-            do {
-                try {
-                    $values    = $res_select->fetch_assoc();
+            $_max_allowed_packet = 0;
+            try {
+                while ($values = $res_select->fetch_assoc()) {
+
                     $strValues = '';
                     foreach ($fields_info as $field) {
                         if ($strValues != '') {
@@ -468,37 +571,32 @@ class dbdump extends stdClass
 
                     }
 
-                    if ($strValues && !empty($strValues)) {
-
-                        if ($_ins_length >= $this->ins_length || $_ins_str_length >= $this->ins_length * 50) {
-                            $_ins_length     = 0;
-                            $_ins_str_length = 0;
+                    if ($strValues && !empty($strValues) && strlen($strValues) < $this->max_allowed_packet * 1024) {
+                        $_out = '';
+                        if ($_max_allowed_packet + strlen($strValues) > $this->max_allowed_packet * 1024) {
                             $this->file_write(';' . PHP_EOL);
+                            $_out                = "INSERT IGNORE INTO `$table` ($strFields) VALUES ($strValues)";
+                            $_max_allowed_packet = 0;
+                        } elseif ($_max_allowed_packet == 0) {
                             $_out = "INSERT IGNORE INTO `$table` ($strFields) VALUES ($strValues)";
-                            $this->file_write($_out);
-                            $_ins_str_length += strlen($_out);
-                        } elseif ($_ins_length == 0) {
-                            $_out = "INSERT IGNORE INTO `$table` ($strFields) VALUES ($strValues)";
-                            $this->file_write($_out);
-                            $_ins_str_length += strlen($_out);
                         } else {
                             $_out = ",($strValues)";
+                        }
+                        if ($_out) {
                             $this->file_write($_out);
-                            $_ins_str_length += strlen($_out);
+                            $_max_allowed_packet += strlen($_out);
                         }
 
                     }
-                } catch (Exception $e) {
-                    $this->log_out($e->getMessage());
                 }
-                $_ins_length += 1;
-                $_ins_number += 1;
-            } while ($_ins_number <= $_ins_max);
+            } catch (Exception $e) {
+                $this->log_out($e->getMessage());
+            }
 
             /* clean */
             $this->data_free($res_select);
 
-            if ($_ins_length >= 1) {
+            if ($_max_allowed_packet) {
                 $this->file_write(';' . PHP_EOL);
             }
 
@@ -699,7 +797,7 @@ class dbdump extends stdClass
     public function sql_escape($sql)
     {
         if (@isset($sql)) {
-            $sql = str_replace('int.evolveretail.com/~shrimps', 'local.shrimps.co.uk', $sql);
+            $sql = str_replace('int.evolveretail.com/~ilg', 'local.wildandgorgeous.co.uk', $sql);
             $sql = $this->mysqli->real_escape_string($sql);
         } else {
             $sql = 'NULL';
