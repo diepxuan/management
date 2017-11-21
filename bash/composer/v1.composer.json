@@ -1,0 +1,40 @@
+{
+    "name": "diepxuan/magento",
+    "type": "project",
+    "authors": [
+    {
+        "name": "Tran Ngoc Duc",
+        "email": "caothu91@gmail.com"
+    },
+    {
+        "name": "Tran Ngoc Duc",
+        "email": "ductn@diepxuan.com"
+    }],
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0",
+        "GPL-2.0+"
+    ],
+    "require":
+    {
+        "magento-hackathon/magento-composer-installer": "~3",
+        "aydin-hassan/magento-core-composer-installer": "~1",
+        "firegento/magento": "~1"
+    },
+    "require-dev":
+    {
+        "inchoo/php7": "1.9.2.4-dev"
+    },
+    "extra":
+    {
+        "magento-root-dir": ".",
+        "auto-append-gitignore": false,
+        "magento-deploystrategy": "copy",
+        "magento-force": true
+    },
+    "repositories": [
+    {
+        "type": "composer",
+        "url": "https://packages.firegento.com"
+    }]
+}
