@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# install to vps
+# ################################################################
+# cat .bash_aliases | ssh evolveretail.twtools "cat > ~/.bash_aliases"
+
 # start symbol
 # ################################################################
 PS1="\n$PS1\n$ "
@@ -10,7 +14,11 @@ PS1="\n$PS1\n$ "
 
 # tmux
 # ################################################################
-[[ $TERM != "screen" ]] && exec tmux
+# [[ $TERM != "screen" ]] && exec tmux
+
+# composer
+# COMPOSER_HOME=~/.composer
+# export COMPOSER_HOME=~/.composer
 
 # bash alias for magento2
 # ################################################################
@@ -20,26 +28,33 @@ WEBSERVER_GROUP="www-data"
 alias m2fixgroup="sudo usermod -aG $WEBSERVER_GROUP `whoami`"
 alias m2ch_dir="find var pub/static pub/media app/etc -type d -exec sudo chmod g+ws {} \;"
 alias m2ch_file="find var pub/static pub/media app/etc -type f -exec sudo chmod g+w {} \;"
-alias m2ch="m2ch_dir; m2ch_file"
-alias m2perm="chattr -i .; sudo chown -R :$WEBSERVER_GROUP .; chmod u+x bin/magento; m2ch"
+alias m2ch="m2ch_dir && m2ch_file"
+alias m2perm="chattr -i . && sudo chown -R :$WEBSERVER_GROUP . && chmod u+x bin/magento && m2ch"
 
 # clean
 alias m2rmgen="magerun2 generation:flush"
-alias m2static="sudo rm -rf var/view_preprocessed/* pub/static/frontend/* pub/static/adminhtml/* pub/static/_requirejs/*"
+# alias m2static="sudo rm -rf var/view_preprocessed/* pub/static/frontend/* pub/static/adminhtml/* pub/static/_requirejs/*"
+alias m2static="magerun2 dev:asset:clear"
 
 # cache
-alias m2cache="magerun2 cache:flush; magerun2 cache:clean; sudo rm -rf var/cache/* var/page_cache/* var/tmp/*"
-alias m2up="magerun2 setup:upgrade; m2cache && m2rmgen"
+alias m2cache="magerun2 cache:flush && magerun2 cache:clean && sudo rm -rf var/cache/* var/page_cache/* var/tmp/*"
+alias m2up="m2rmgen && m2cache && magerun2 setup:upgrade"
 
 # index
-alias m2r="magerun2 indexer:reindex"
+alias m2index="magerun2 indexer:reindex"
 
 # grunt
-alias m2grunt="m2up; grunt exec:all; m2perm; grunt watch"
+alias m2grunt="m2up && grunt exec:all && m2perm && grunt watch"
 
 # setup
+# alias m2setupcli="curl -O https://files.magerun.net/n98-magerun2.phar && chmod +x n98-magerun2.phar && mkdir -p ~/bin && mv n98-magerun2.phar ~/bin/magerun2"
 alias m2setupcli="curl -O https://files.magerun.net/n98-magerun2.phar && chmod +x n98-magerun2.phar && sudo mv n98-magerun2.phar /usr/local/bin/magerun2"
 alias m2setupadmin="magerun2 admin:user:create --admin-user=gssadmin --admin-password=gss@123 --admin-email=admin@evolveretail.com --admin-firstname=Admin --admin-lastname=Gss"
+alias m2fixconfig="magerun2 module:enable --all && m2up && m2perm"
+
+# log
+alias m2logenable="bin/magento dev:query-log:enable"
+alias m2logdisable="bin/magento dev:query-log:disable"
 
 # completion
 # https://raw.githubusercontent.com/netz98/n98-magerun2/develop/res/autocompletion/bash/n98-magerun2.phar.bash

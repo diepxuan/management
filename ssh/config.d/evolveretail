@@ -32,6 +32,12 @@ Host evolveretail.lacoqueta
     User lacoqueta
     IdentityFile ~/.ssh/gss
 
+# cat ~/.ssh/gss.pub | ssh playgroundposh@int.evolveretail.com "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+Host evolveretail.playgroundposh
+    HostName int.evolveretail.com
+    User playgroundposh
+    IdentityFile ~/.ssh/gss
+
 Host evolveretail.wag
     HostName int.evolveretail.com
     User ilg
