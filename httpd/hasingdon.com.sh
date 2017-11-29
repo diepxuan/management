@@ -13,7 +13,7 @@
 #########################################
 # sudo add-apt-repository ppa:ondrej/php
 # sudo apt update
-# sudo apt install libapache2-mod-php*.* -y
+# sudo apt install libapache2-mod-php?.? -y
 # sudo update-alternatives --config php
 
 #########################################
@@ -31,7 +31,7 @@ cat ~/public_html/code/httpd/hasingdon.com/hasingdon.com.conf.sample > /home/has
 chown -R hasingdon.com:www-data /home/hasingdon.com/httpd.conf
 
 #########################################
-apt install -y php7.0 php7.0-mysql php7.0-mbstring php7.0-mysqli php7.0-intl php7.0-curl php7.0-gd php7.0-mcrypt php7.0-soap php7.0-dom php7.0-xml php7.0-zip
+apt install -y libapache2-mod-php7.0 php7.0 php7.0-mysql php7.0-mbstring php7.0-mysqli php7.0-intl php7.0-curl php7.0-gd php7.0-mcrypt php7.0-soap php7.0-dom php7.0-xml php7.0-zip
 
 a2ensite hasingdon.com.conf
 a2dismod php5.5 php5.6 php7.1 php7.2
