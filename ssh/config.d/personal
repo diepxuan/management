@@ -2,10 +2,10 @@
 ### Personal VPS Servers ###
 ############################
 
-# cat ~/.ssh/gss.pub | ssh diepxuan.com "mkdir -p ~/.ssh && cat >>  ~/.ssh/authorized_keys"
+# cat ~/.ssh/gss.pub | ssh server.diepxuan.com "mkdir -p ~/.ssh && cat >>  ~/.ssh/authorized_keys"
 
 Host diepxuan
-    HostName diepxuan.com
+    HostName server.diepxuan.com
     User ductn
     IdentityFile ~/.ssh/ductn
 
