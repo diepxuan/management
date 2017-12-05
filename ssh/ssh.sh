@@ -27,8 +27,6 @@ cd ~/public_html/code/ssh/
 cat config > ~/.ssh/config
 find config.d/*.conf -type f -exec cat {} >> ~/.ssh/config \; -exec printf "\n\n" >> ~/.ssh/config \;
 
-cat tci > ~/.ssh/tci
-
 cat id_rsa > ~/.ssh/id_rsa
-
 cat gss > ~/.ssh/gss
+cat tci > ~/.ssh/tci
