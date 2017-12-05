@@ -22,7 +22,7 @@ Host gsmartsolutions.local
     User gssadmin
     IdentityFile ~/.ssh/gss
 
-Host gsmartsolutions.penelopechilvers
-    HostName penelope.gsmartsolutions.com
+Host gsmartsolutions.staging
+    HostName 128.199.118.164
     User gssadmin
     IdentityFile ~/.ssh/gss
