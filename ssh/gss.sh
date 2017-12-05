@@ -25,4 +25,3 @@
 cd ~/public_html/code/ssh/
 
 cat gss > ~/.ssh/id_rsa
-cat gss.pub > ~/.ssh/id_rsa.pub
