@@ -29,7 +29,7 @@ find config.d/*.conf -type f -exec cat {} >> ~/.ssh/config \; -exec printf "\n\n
 
 cat ductn > ~/.ssh/ductn
 
-cat dx > ~/.ssh/dx
+cat tci > ~/.ssh/tci
 
 cat id_rsa > ~/.ssh/id_rsa
 
