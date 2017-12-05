@@ -28,10 +28,15 @@ export PATH=$PATH:$HOME/.composer/vendor/bin
 # permision
 WEBSERVER_GROUP="www-data"
 alias m2fixgroup="sudo usermod -aG $WEBSERVER_GROUP `whoami`"
-alias m2ch_dir="find var vendor generated pub/static pub/media app/etc -type d -exec chmod u+w {} \;"
-alias m2ch_file="find var generated vendor pub/static pub/media app/etc -type f -exec chmod u+w {} \;"
+alias m2ch_dir="find var vendor generated pub/static pub/media app/etc -type d -exec sudo chmod u+w {} \;"
+alias m2ch_file="find var generated vendor pub/static pub/media app/etc -type f -exec sudo chmod u+w {} \;"
 alias m2ch="m2ch_dir && m2ch_file"
-alias m2perm="chattr -i . && sudo chown -R :$WEBSERVER_GROUP . && chmod u+x bin/magento && m2ch"
+
+if [[ $(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/p') == Microsoft ]]; then
+    alias m2perm="chmod u+x bin/magento"
+else
+    alias m2perm="chattr -i . && sudo chown -R :$WEBSERVER_GROUP . && chmod u+x bin/magento && m2ch"
+fi
 
 # clean
 alias m2rmgen="magerun2 generation:flush"
@@ -40,7 +45,8 @@ alias m2static="magerun2 dev:asset:clear"
 
 # cache
 alias m2cache="magerun2 cache:flush && magerun2 cache:clean && sudo rm -rf var/cache/* var/page_cache/* var/tmp/*"
-alias m2up="m2rmgen && m2cache && magerun2 setup:upgrade"
+# alias m2up="m2rmgen && m2static && m2cache && magerun2 setup:upgrade"
+alias m2up="m2rmgen && m2static && m2cache && bin/magento setup:upgrade"
 
 # index
 alias m2index="magerun2 indexer:reindex"
