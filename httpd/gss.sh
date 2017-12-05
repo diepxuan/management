@@ -18,11 +18,11 @@
 
 cat ~/public_html/code/httpd/gss.conf > /etc/apache2/sites-available/gss.conf
 
-apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip
+sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip
 
-a2ensite gss.conf
-a2dismod php?.?
-a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias php7.0 ssl
+sudo a2ensite gss.conf
+sudo a2dismod php?.?
+sudo a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias php7.0 ssl
 
-service apache2 restart
-service apache2 status
+sudo service apache2 restart
+sudo service apache2 status

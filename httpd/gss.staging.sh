@@ -4,6 +4,8 @@
 # copy config file
 #########################################
 cat ~/public_html/code/httpd/gss.staging.conf | ssh gsmartsolutions.staging "sudo tee /etc/apache2/sites-available/gss.conf"
+ssh gsmartsolutions.staging "mkdir -p ~/.ssl"
+scp ~/public_html/code/httpd/twentyci.asia/* gsmartsolutions.staging:~/.ssl/
 
 #########################################
 # Apache Install
