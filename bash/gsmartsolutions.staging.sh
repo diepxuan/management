@@ -1,5 +1,19 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
+####################################
+#
+# completion
+#
+####################################
+cat ~/public_html/code/bash/.bash_aliases | ssh gsmartsolutions.staging "cat > ~/.bash_aliases"
+scp -r ~/public_html/code/bash/completion gsmartsolutions.staging:~/
+ssh gsmartsolutions.staging "chmod 775 ~/completion"
+
+####################################
+#
+# SSH
+#
+####################################
 # Create PEM file
 # ##############################
 #
@@ -22,11 +36,12 @@
 
 # Setup
 # ##############################
-cd ~/public_html/code/ssh/
+ssh gsmartsolutions.staging "
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+"
+# cat ~/public_html/code/ssh/tci.pub | ssh gsmartsolutions.staging "cat >> ~/.ssh/authorized_keys"
 
-cat config > ~/.ssh/config
-find config.d/*.conf -type f -exec cat {} >> ~/.ssh/config \; -exec printf "\n\n" >> ~/.ssh/config \;
-
-cat id_rsa > ~/.ssh/id_rsa
-cat gss > ~/.ssh/gss
-cat tci > ~/.ssh/tci
+# ssh private key
+cat ~/public_html/code/ssh/tci | ssh gsmartsolutions.staging "cat > ~/.ssh/id_rsa"
+ssh gsmartsolutions.staging "chmod 600 ~/.ssh/*"

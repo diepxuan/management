@@ -14,7 +14,7 @@ PS1="\n$PS1\n$ "
 
 # tmux
 # ################################################################
-[[ $TERM != "screen" ]] && exec tmux
+# [[ $TERM != "screen" ]] && exec tmux
 
 # composer
 # ################################################################
@@ -67,8 +67,8 @@ alias m2logdisable="bin/magento dev:query-log:disable"
 # https://raw.githubusercontent.com/netz98/n98-magerun2/develop/res/autocompletion/bash/n98-magerun2.phar.bash
 if [ -f ~/public_html/code/bash/completion/magerun2.sh ]; then
     . ~/public_html/code/bash/completion/magerun2.sh
-elif [ -f ~/completion/magerun2.sh ]; then
-    . ~/completion/magerun2.sh
+elif [ -f ~/.completion/magerun2.sh ]; then
+    . ~/.completion/magerun2.sh
 fi
 
 # completion magerun
@@ -76,22 +76,22 @@ fi
 # https://raw.githubusercontent.com/netz98/n98-magerun/develop/res/autocompletion/bash/n98-magerun.phar.bash
 if [ -f ~/public_html/code/bash/completion/magerun.sh ]; then
     . ~/public_html/code/bash/completion/magerun.sh
-elif [ -f ~/completion/magerun.sh ]; then
-    . ~/completion/magerun.sh
+elif [ -f ~/.completion/magerun.sh ]; then
+    . ~/.completion/magerun.sh
 fi
 
 # bash completion for the `wp` command
 # ################################################################
 if [ -f ~/public_html/code/bash/completion/wp.sh ]; then
     . ~/public_html/code/bash/completion/wp.sh
-elif [ -f ~/completion/wp.sh ]; then
-    . ~/completion/wp.sh
+elif [ -f ~/.completion/wp.sh ]; then
+    . ~/.completion/wp.sh
 fi
 
 # bash completion for the `angular cli` command
 # ################################################################
 if [ -f ~/public_html/code/bash/completion/angular2.sh ]; then
     . ~/public_html/code/bash/completion/angular2.sh
-elif [ -f ~/completion/angular2.sh ]; then
-    . ~/completion/angular2.sh
+elif [ -f ~/.completion/angular2.sh ]; then
+    . ~/.completion/angular2.sh
 fi
