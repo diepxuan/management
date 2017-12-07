@@ -77,6 +77,8 @@ chmod 700 ~/.ssh
 # ssh config
 cat ~/public_html/code/ssh/config > ~/.ssh/config
 find ~/public_html/code/ssh/config.d/*.conf -type f -exec cat {} >> ~/.ssh/config \; -exec printf "\n\n" >> ~/.ssh/config \;
+cat ~/public_html/code/ssh/id_rsa | ssh diepxuan "cat > ~/.ssh/id_rsa"
+cat ~/public_html/code/ssh/id_rsa.pub | ssh diepxuan "cat > ~/.ssh/id_rsa.pub"
 
 # ssh private key
 cat ~/public_html/code/ssh/id_rsa > ~/.ssh/id_rsa
