@@ -55,7 +55,7 @@ alias m2index="magerun2 indexer:reindex"
 alias m2grunt="m2up && grunt exec:all && m2perm && grunt watch"
 
 # setup
-alias m2setupadmin="magerun2 admin:user:create --admin-user=gssadmin --admin-password=gss@123 --admin-email=admin@evolveretail.com --admin-firstname=Admin --admin-lastname=Gss"
+alias m2setupadmin="magerun2 admin:user:create --admin-user=admin --admin-password=admin@123 --admin-email=admin@local.dev --admin-firstname=Admin --admin-lastname=Supervised"
 alias m2fixconfig="magerun2 module:enable --all && m2up && m2perm"
 
 # log

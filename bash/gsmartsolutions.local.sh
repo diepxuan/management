@@ -1,5 +1,40 @@
 #!/bin/bash
 
+#########################################
+#
+# Clean
+#
+#########################################
+ssh gsmartsolutions.local "
+# Clean
+sudo rm -rf /var/log/*.gz
+
+# auth
+cat /dev/null | sudo tee /var/log/auth.log
+sudo chown syslog:adm /var/log/auth.log
+sudo chmod 640 /var/log/auth.log
+
+# kern
+cat /dev/null | sudo tee /var/log/kern.log
+sudo chown syslog:adm /var/log/kern.log
+sudo chmod 640 /var/log/kern.log
+
+# syslog
+cat /dev/null | sudo tee /var/log/syslog
+sudo chown syslog:adm /var/log/syslog
+sudo chmod 640 /var/log/syslog
+
+# mysql
+sudo mkdir -p /var/log/mysql
+sudo chown mysql:adm /var/log/mysql
+sudo chmod 2750 /var/log/mysql
+
+# apache2
+sudo mkdir -p /var/log/apache2
+sudo chown root:adm /var/log/apache2
+sudo chmod 750 /var/log/apache2
+"
+
 ####################################
 #
 # completion
@@ -72,3 +107,44 @@ chmod 700 ~/.ssh
 # ssh private key
 cat ~/public_html/code/ssh/gss | ssh gsmartsolutions.local "cat > ~/.ssh/id_rsa"
 ssh gsmartsolutions.local "chmod 600 ~/.ssh/*"
+
+#########################################
+#
+# Apache Install
+#
+#########################################
+# sudo apt update
+# sudo apt install apache2
+# sudo apache2ctl configtest
+# sudo service apache2 restart
+
+#########################################
+#
+# PHP Install
+#
+#########################################
+# sudo add-apt-repository ppa:ondrej/php
+# sudo apt update
+# sudo apt install libapache2-mod-php?.? -y
+# sudo update-alternatives --config php
+
+#########################################
+#
+# copy config file
+#
+#########################################
+cat ~/public_html/code/httpd/gss.conf | ssh gsmartsolutions.local "sudo tee /etc/apache2/sites-available/gss.conf"
+ssh gsmartsolutions.local "mkdir -p ~/.ssl"
+scp ~/public_html/code/httpd/local/* gsmartsolutions.local:~/.ssl/
+
+#########################################
+ssh gsmartsolutions.local "
+sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip
+
+sudo a2ensite gss.conf
+sudo a2dismod php?.?
+sudo a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias php7.0 ssl
+
+sudo service apache2 restart
+sudo service apache2 status
+"

@@ -83,3 +83,34 @@ cat ~/public_html/code/ssh/id_rsa > ~/.ssh/id_rsa
 cat ~/public_html/code/ssh/gss > ~/.ssh/gss
 cat ~/public_html/code/ssh/tci > ~/.ssh/tci
 chmod 600 ~/.ssh/*
+
+#########################################
+#
+# Apache Install
+#
+#########################################
+# sudo apt update
+# sudo apt install apache2
+# sudo apache2ctl configtest
+# sudo service apache2 restart
+
+#########################################
+#
+# PHP Install
+#
+#########################################
+# sudo add-apt-repository ppa:ondrej/php
+# sudo apt update
+# sudo apt install libapache2-mod-php?.? -y
+# sudo update-alternatives --config php
+
+cat ~/public_html/code/httpd/httpd.conf | sudo tee /etc/apache2/sites-available/ductn.conf
+
+sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip
+
+sudo a2ensite ductn.conf
+sudo a2dismod php?.?
+sudo a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias php7.0 ssl
+
+sudo service apache2 restart
+sudo service apache2 status
