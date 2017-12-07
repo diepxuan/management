@@ -15,3 +15,5 @@ sudo swapon /swapfile
 composer update
 sudo swapoff --all
 sudo rm -rf /swapfile
+
+# free -h
