@@ -35,7 +35,7 @@ alias m2ch="m2ch_dir && m2ch_file"
 if [[ $(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/p') == Microsoft ]]; then
     alias m2perm="chmod u+x bin/magento"
 else
-    alias m2perm="chattr -i . && sudo chown -R :$WEBSERVER_GROUP . && chmod u+x bin/magento && m2ch"
+    alias m2perm="chattr -i . && sudo chown -R :$WEBSERVER_GROUP . && chmod u+x bin/magento"
 fi
 
 # clean
@@ -56,7 +56,7 @@ alias m2grunt="m2up && grunt exec:all && m2perm && grunt watch"
 
 # setup
 alias m2setupadmin="magerun2 admin:user:create --admin-user=admin --admin-password=admin@123 --admin-email=admin@local.dev --admin-firstname=Admin --admin-lastname=Supervised"
-alias m2fixconfig="magerun2 module:enable --all && m2up && m2perm"
+alias m2fixconfig="magerun2 module:enable --all && m2up && m2perm && m2ch"
 
 # log
 alias m2logenable="bin/magento dev:query-log:enable"
