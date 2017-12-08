@@ -14,8 +14,8 @@ source ~/.bashrc
 # tmux
 #
 ####################################
-cat ~/public_html/code/bash/.tmux.conf > ~/.tmux.conf
-chmod 644 ~/.tmux.conf
+# cat ~/public_html/code/bash/.tmux.conf > ~/.tmux.conf
+# chmod 644 ~/.tmux.conf
 
 ####################################
 #
