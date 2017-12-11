@@ -75,6 +75,7 @@ ssh gsmartsolutions.staging "
 mkdir -p ~/.ssh
 chmod 700 ~/.ssh
 "
+# cat ~/public_html/code/ssh/gss.pub | ssh gsmartsolutions.staging "cat >> ~/.ssh/authorized_keys"
 # cat ~/public_html/code/ssh/tci.pub | ssh gsmartsolutions.staging "cat >> ~/.ssh/authorized_keys"
 
 # ssh private key
@@ -87,9 +88,19 @@ ssh gsmartsolutions.staging "chmod 600 ~/.ssh/*"
 #
 #########################################
 # sudo apt update
-# sudo apt install apache2
+# sudo apt install apache2 -y
 # sudo apache2ctl configtest
 # sudo service apache2 restart
+
+#########################################
+#
+# nginx Install
+#
+#########################################
+# sudo apt update
+# sudo apt install nginx -y
+# sudo nginx -t
+# sudo service nginx restart
 
 #########################################
 #
@@ -98,7 +109,7 @@ ssh gsmartsolutions.staging "chmod 600 ~/.ssh/*"
 #########################################
 # sudo add-apt-repository ppa:ondrej/php
 # sudo apt update
-# sudo apt install libapache2-mod-php?.? -y
+# sudo apt install libapache2-mod-php?.? php?.?-fpm -y
 # sudo update-alternatives --config php
 
 #########################################
@@ -106,20 +117,42 @@ ssh gsmartsolutions.staging "chmod 600 ~/.ssh/*"
 # copy config file
 #
 #########################################
-cat ~/public_html/code/httpd/gss.staging.conf | ssh gsmartsolutions.staging "sudo tee /etc/apache2/sites-available/gss.conf"
 ssh gsmartsolutions.staging "mkdir -p ~/.ssl"
-scp ~/public_html/code/httpd/twentyci.asia/* gsmartsolutions.staging:~/.ssl/
+scp ~/public_html/code/httpd/twentyci.asia/certificate.crt gsmartsolutions.staging:~/.ssl/
+scp ~/public_html/code/httpd/twentyci.asia/private.key gsmartsolutions.staging:~/.ssl/
+scp ~/public_html/code/httpd/twentyci.asia/ca_bundle.crt gsmartsolutions.staging:~/.ssl/
 
 #########################################
+# Apache
+#########################################
+# cat ~/public_html/code/httpd/twentyci.asia/apache2.conf | ssh gsmartsolutions.staging "sudo tee /etc/apache2/sites-available/gss.conf"
+# sudo systemctl enable apache2
+# sudo systemctl disable nginx
+#########################################
+# ssh gsmartsolutions.staging "
+# sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip
+
+# sudo a2ensite gss.conf
+# sudo a2dismod php?.?
+# sudo a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias php7.0 ssl
+
+# sudo service apache2 restart
+# sudo service apache2 status
+# "
+
+#########################################
+# Nginx
+#########################################
+cat ~/public_html/code/httpd/twentyci.asia/nginx.conf | ssh gsmartsolutions.staging "sudo tee /etc/nginx/sites-available/twentyci.asia"
+ssh gsmartsolutions.staging "sudo ln -sfn /etc/nginx/sites-available/twentyci.asia /etc/nginx/sites-enabled/twentyci.asia"
+sudo systemctl disable apache2
+sudo systemctl enable nginx
+#########################################
 ssh gsmartsolutions.staging "
-sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip
+sudo ln -sfn /etc/nginx/sites-available/twentyci.asia /etc/nginx/sites-enabled/twentyci.asia
 
-sudo a2ensite gss.conf
-sudo a2dismod php?.?
-sudo a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias php7.0 ssl
-
-sudo service apache2 restart
-sudo service apache2 status
+sudo service nginx restart
+sudo service nginx status
 "
 
 #########################################
@@ -132,4 +165,5 @@ sudo ufw allow ssh
 sudo ufw allow http
 sudo ufw allow https
 sudo ufw allow mysql
+sudo ufw allow 8983/tcp
 "

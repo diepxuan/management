@@ -108,6 +108,12 @@ chmod 700 ~/.ssh
 cat ~/public_html/code/ssh/gss | ssh gsmartsolutions.local "cat > ~/.ssh/id_rsa"
 ssh gsmartsolutions.local "chmod 600 ~/.ssh/*"
 
+# echo  "
+# Host tci.staging
+#     HostName 128.199.118.164
+#     User gssadmin
+# " | ssh gsmartsolutions.local "cat >> ~/.ssh/config"
+
 #########################################
 #
 # Apache Install

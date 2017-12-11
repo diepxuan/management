@@ -23,4 +23,7 @@ rem netsh advfirewall firewall add rule name="Deny Adobe" dir=out interface=any 
 rem netsh advfirewall firewall add rule name="Deny Adobe" dir=in interface=any action=block remoteip=192.150.16.211
 rem netsh advfirewall firewall add rule name="Deny Adobe" dir=out interface=any action=block remoteip=192.150.16.211
 
+rem netsh advfirewall firewall add rule name="apps.skype.com" dir=in interface=any action=block remoteip=2.23.109.81
+rem netsh advfirewall firewall add rule name="apps.skype.com" dir=out interface=any action=block remoteip=2.23.109.81
+
 rem mklink /H D:\server\www\live\pma.diepxuan.vn\config.inc.php D:\server\www\code\php\phpmyadmin\config.inc.php
