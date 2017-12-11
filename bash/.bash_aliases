@@ -55,7 +55,8 @@ alias m2index="magerun2 indexer:reindex"
 alias m2grunt="m2up && grunt exec:all && m2perm && grunt watch"
 
 # setup
-alias m2setupadmin="magerun2 admin:user:create --admin-user=admin --admin-password=admin@123 --admin-email=admin@local.dev --admin-firstname=Admin --admin-lastname=Supervised"
+alias m2setupinstall="echo \"magerun2 setup:install --admin-user tciadmin --admin-password tci@123 --admin-email lucas@twentyci.asia --admin-firstname TCI --admin-lastname admin --db-host filterandindustrial.twentyci.asia --db-name filterandindustrial.com.au --db-user dev --db-password dev@gss --backend-frontname admin --session-save db\""
+alias m2setupadmin="echo \"magerun2 admin:user:create --admin-user=admin --admin-password=admin@123 --admin-email=caothu91@gmail.com --admin-firstname=Admin --admin-lastname=Supervised\""
 alias m2fixconfig="magerun2 module:enable --all && m2up && m2perm && m2ch"
 
 # log
