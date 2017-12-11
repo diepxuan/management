@@ -152,7 +152,7 @@ ssh gsmartsolutions.staging "
 sudo ln -sfn /etc/nginx/sites-available/twentyci.asia /etc/nginx/sites-enabled/twentyci.asia
 
 sudo service nginx restart
-sudo service nginx status
+sudo nginx -t
 "
 
 #########################################
