@@ -30,34 +30,31 @@ WEBSERVER_GROUP="www-data"
 alias m2fixgroup="sudo usermod -aG $WEBSERVER_GROUP `whoami`"
 alias m2ch_dir="find var vendor generated pub/static pub/media app/etc -type d -exec sudo chmod u+w {} \;"
 alias m2ch_file="find var generated vendor pub/static pub/media app/etc -type f -exec sudo chmod u+w {} \;"
-alias m2ch="m2ch_dir && m2ch_file"
+alias m2ch="m2ch_dir; m2ch_file"
 
 if [[ $(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/p') == Microsoft ]]; then
     alias m2perm="chmod u+x bin/magento"
 else
-    alias m2perm="chattr -i . && sudo chown -R :$WEBSERVER_GROUP . && chmod u+x bin/magento"
+    alias m2perm="chattr -i .; sudo chown -R :$WEBSERVER_GROUP .; chmod u+x bin/magento"
 fi
 
 # clean
-alias m2rmgen="magerun2 generation:flush"
-# alias m2static="sudo rm -rf var/view_preprocessed/* pub/static/frontend/* pub/static/adminhtml/* pub/static/_requirejs/*"
-alias m2static="magerun2 dev:asset:clear"
+alias m2rmgen="magerun2 generation:flush; find var/generation -maxdepth 1 -mindepth 1 -type d -not -name 'Magento' -not -name 'Composer' -not -name 'Symfony' -print0 -printf '\r\n' -exec rm -rf {} \;"
+alias m2static="magerun2 dev:asset:clear; sudo rm -rf var/view_preprocessed/* pub/static/frontend/* pub/static/adminhtml/* pub/static/_requirejs/*"
 
 # cache
-alias m2cache="magerun2 cache:flush && magerun2 cache:clean && sudo rm -rf var/cache/* var/page_cache/* var/tmp/*"
+alias m2cache="magerun2 cache:flush; magerun2 cache:clean; sudo rm -rf var/cache/* var/page_cache/* var/tmp/* var/generation/* var/di/*"
 # alias m2up="m2rmgen && m2static && m2cache && magerun2 setup:upgrade"
-alias m2up="m2rmgen && m2static && m2cache && bin/magento setup:upgrade"
+alias m2up="m2rmgen; m2static; m2cache; bin/magento setup:upgrade; m2perm"
 
 # index
 alias m2index="magerun2 indexer:reindex"
 
 # grunt
-alias m2grunt="m2up && grunt exec:all && m2perm && grunt watch"
+alias m2grunt="m2up; grunt exec:all; m2perm; grunt watch"
 
 # setup
-alias m2setupinstall="echo \"magerun2 setup:install --admin-user tciadmin --admin-password tci@123 --admin-email lucas@twentyci.asia --admin-firstname TCI --admin-lastname admin --db-host filterandindustrial.twentyci.asia --db-name filterandindustrial.com.au --db-user dev --db-password dev@gss --backend-frontname admin --session-save db\""
-alias m2setupadmin="echo \"magerun2 admin:user:create --admin-user=admin --admin-password=admin@123 --admin-email=caothu91@gmail.com --admin-firstname=Admin --admin-lastname=Supervised\""
-alias m2fixconfig="magerun2 module:enable --all && m2up && m2perm && m2ch"
+alias m2fixconfig="magerun2 module:enable --all; m2up"
 
 # log
 alias m2logenable="bin/magento dev:query-log:enable"
