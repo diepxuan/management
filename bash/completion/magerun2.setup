@@ -1,0 +1,34 @@
+#!/bin/bash
+#
+# compile-bash-autocompletion
+#
+# generate bash autocompletion file for magerun
+#
+set -euo pipefail
+IFS=$'\n\t'
+
+header()
+{
+    cat <<EOF
+#!/bin/bash
+# Installation:
+#  Copy to /etc/bash_completion.d/n98-magerun.phar
+# or
+#  Append to ~/.bash_completion
+# open new or restart existing shell session
+
+alias m2setupcli="curl -O https://files.magerun.net/n98-magerun2.phar && chmod +x n98-magerun2.phar && mkdir -p ~/bin && mv n98-magerun2.phar ~/bin/magerun2"
+# alias m2setupcli="curl -O https://files.magerun.net/n98-magerun2.phar && chmod +x n98-magerun2.phar && sudo mv n98-magerun2.phar /usr/local/bin/magerun2"
+
+EOF
+}
+
+base=magerun2
+name=n98-${base}
+outfile=~/public_html/code/bash/completion/magerun2.sh
+
+header > "${outfile}"
+symfony-autocomplete --shell=bash -- "${base}" \
+    | sed '1d ; $ s/$/.phar '"${name} ${base}"'/' \
+    >> "${outfile}"
+# sed: remove first line and expand last line to more command names (aliases)

@@ -7,6 +7,8 @@
 ####################################
 echo ". ~/public_html/code/bash/.bash_aliases" > ~/.bash_aliases
 chmod 644 ~/.bash_aliases
+~/public_html/code/bash/completion/magerun.setup
+~/public_html/code/bash/completion/magerun2.setup
 source ~/.bashrc
 
 ####################################
@@ -105,6 +107,7 @@ chmod 600 ~/.ssh/*
 # sudo apt update
 # sudo apt install libapache2-mod-php?.? -y
 # sudo update-alternatives --config php
+sudo apt install phpmd -y
 
 cat ~/public_html/code/httpd/httpd.conf | sudo tee /etc/apache2/sites-available/ductn.conf
 
