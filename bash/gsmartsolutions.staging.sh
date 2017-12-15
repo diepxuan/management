@@ -118,9 +118,11 @@ ssh gsmartsolutions.staging "chmod 600 ~/.ssh/*"
 #
 #########################################
 ssh gsmartsolutions.staging "mkdir -p ~/.ssl"
-scp ~/public_html/code/httpd/twentyci.asia/certificate.crt gsmartsolutions.staging:~/.ssl/
 scp ~/public_html/code/httpd/twentyci.asia/private.key gsmartsolutions.staging:~/.ssl/
-scp ~/public_html/code/httpd/twentyci.asia/ca_bundle.crt gsmartsolutions.staging:~/.ssl/
+scp ~/public_html/code/httpd/twentyci.asia/certificate.crt gsmartsolutions.staging:~/.ssl/
+ssh gsmartsolutions.staging "echo '' >> ~/.ssl/certificate.crt"
+cat ~/public_html/code/httpd/twentyci.asia/ca_bundle.crt | ssh gsmartsolutions.staging "tee -a ~/.ssl/certificate.crt"
+ssh gsmartsolutions.staging "echo '' >> ~/.ssl/certificate.crt"
 
 #########################################
 # Apache

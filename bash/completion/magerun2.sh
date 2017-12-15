@@ -1,8 +1,15 @@
-#!/usr/bin/env bash
+#!/bin/bash
+# Installation:
+#  Copy to /etc/bash_completion.d/n98-magerun.phar
+# or
+#  Append to ~/.bash_completion
+# open new or restart existing shell session
 
-# alias m2setupcli="curl -O https://files.magerun.net/n98-magerun2.phar && chmod +x n98-magerun2.phar && mkdir -p ~/bin && mv n98-magerun2.phar ~/bin/magerun2"
-alias m2setupcli="curl -O https://files.magerun.net/n98-magerun2.phar && chmod +x n98-magerun2.phar && sudo mv n98-magerun2.phar /usr/local/bin/magerun2"
-_n98-magerun2()
+alias m2setupcli="curl -O https://files.magerun.net/n98-magerun2.phar && chmod +x n98-magerun2.phar && mkdir -p ~/bin && mv n98-magerun2.phar ~/bin/magerun2"
+# alias m2setupcli="curl -O https://files.magerun.net/n98-magerun2.phar && chmod +x n98-magerun2.phar && sudo mv n98-magerun2.phar /usr/local/bin/magerun2"
+
+
+_magerun2()
 {
     local cur script coms opts com
     COMPREPLY=()
@@ -42,6 +49,9 @@ _n98-magerun2()
             ;;
             script)
             opts="${opts} --define --stop-on-error"
+            ;;
+            self-update)
+            opts="${opts} --unstable"
             ;;
             shell)
             opts="${opts} "
@@ -277,6 +287,9 @@ _n98-magerun2()
             info:timezone:list)
             opts="${opts} "
             ;;
+            magestore:storelocator-import)
+            opts="${opts} "
+            ;;
             maintenance:allow-ips)
             opts="${opts} --none --magento-init-params"
             ;;
@@ -303,6 +316,63 @@ _n98-magerun2()
             ;;
             module:uninstall)
             opts="${opts} --remove-data --backup-code --backup-media --backup-db --clear-static-content --magento-init-params"
+            ;;
+            partsbx:bulk-import)
+            opts="${opts} "
+            ;;
+            partsbx:category-index)
+            opts="${opts} "
+            ;;
+            partsbx:clean-image-cache)
+            opts="${opts} "
+            ;;
+            partsbx:disable-product-no-price)
+            opts="${opts} "
+            ;;
+            partsbx:enable-product-has-price)
+            opts="${opts} "
+            ;;
+            partsbx:import-fulcrum-cms-page)
+            opts="${opts} "
+            ;;
+            partsbx:import-fulcrum-stock-price)
+            opts="${opts} "
+            ;;
+            partsbx:import-special-product)
+            opts="${opts} "
+            ;;
+            partsbx:index_vehicle)
+            opts="${opts} "
+            ;;
+            partsbx:migrate-vehicle)
+            opts="${opts} "
+            ;;
+            partsbx:product-kit-indexer)
+            opts="${opts} "
+            ;;
+            partsbx:redirect_url)
+            opts="${opts} "
+            ;;
+            partsbx:reset-data)
+            opts="${opts} "
+            ;;
+            partsbx:sample-data)
+            opts="${opts} "
+            ;;
+            partsbx:solr-empty)
+            opts="${opts} --type"
+            ;;
+            partsbx:solr-indexer)
+            opts="${opts} "
+            ;;
+            partsbx:sortby-indexer)
+            opts="${opts} "
+            ;;
+            partsbx:sync-csv)
+            opts="${opts} "
+            ;;
+            partsbx:sync-full)
+            opts="${opts} "
             ;;
             sampledata:deploy)
             opts="${opts} "
@@ -420,7 +490,7 @@ _n98-magerun2()
 
     # completing for a command
     if [[ $cur == $com ]]; then
-        coms="help install list open-browser script shell admin:notifications admin:user:change-password admin:user:create admin:user:delete admin:user:list admin:user:unlock app:config:dump cache:clean cache:disable cache:enable cache:flush cache:list cache:report cache:status cache:view catalog:images:resize catalog:product:attributes:cleanup config:data:acl config:data:di config:store:delete config:store:get config:store:set cron:run customer:create customer:hash:upgrade customer:info customer:list db:console db:create db:drop db:dump db:import db:info db:maintain:check-tables db:query db:status db:variables deploy:mode:set deploy:mode:show design:demo-notice dev:asset:clear dev:console dev:module:create dev:module:list dev:module:observer:list dev:report:count dev:source-theme:deploy dev:symlinks dev:template-hints dev:template-hints-blocks dev:tests:run dev:theme:list dev:urn-catalog:generate dev:xml:convert eav:attribute:list eav:attribute:remove eav:attribute:view generation:flush i18n:collect-phrases i18n:pack i18n:uninstall index:list index:trigger:recreate indexer:info indexer:reindex indexer:reset indexer:set-mode indexer:show-mode indexer:status info:adminuri info:backups:list info:currency:list info:dependencies:show-framework info:dependencies:show-modules info:dependencies:show-modules-circular info:language:list info:timezone:list maintenance:allow-ips maintenance:disable maintenance:enable maintenance:status media:dump module:disable module:enable module:status module:uninstall sampledata:deploy sampledata:remove sampledata:reset script:repo:list script:repo:run search:engine:list setup:backup setup:config:set setup:cron:run setup:db-data:upgrade setup:db-schema:upgrade setup:db:status setup:di:compile setup:install setup:performance:generate-fixtures setup:rollback setup:static-content:deploy setup:store-config:set setup:uninstall setup:upgrade sys:check sys:cron:history sys:cron:list sys:cron:run sys:cron:schedule sys:info sys:maintenance sys:setup:change-version sys:setup:compare-versions sys:setup:downgrade-versions sys:store:config:base-url:list sys:store:list sys:url:list sys:website:list theme:uninstall"
+        coms="help install list open-browser script self-update shell admin:notifications admin:user:change-password admin:user:create admin:user:delete admin:user:list admin:user:unlock app:config:dump cache:clean cache:disable cache:enable cache:flush cache:list cache:report cache:status cache:view catalog:images:resize catalog:product:attributes:cleanup config:data:acl config:data:di config:store:delete config:store:get config:store:set cron:run customer:create customer:hash:upgrade customer:info customer:list db:console db:create db:drop db:dump db:import db:info db:maintain:check-tables db:query db:status db:variables deploy:mode:set deploy:mode:show design:demo-notice dev:asset:clear dev:console dev:module:create dev:module:list dev:module:observer:list dev:report:count dev:source-theme:deploy dev:symlinks dev:template-hints dev:template-hints-blocks dev:tests:run dev:theme:list dev:urn-catalog:generate dev:xml:convert eav:attribute:list eav:attribute:remove eav:attribute:view generation:flush i18n:collect-phrases i18n:pack i18n:uninstall index:list index:trigger:recreate indexer:info indexer:reindex indexer:reset indexer:set-mode indexer:show-mode indexer:status info:adminuri info:backups:list info:currency:list info:dependencies:show-framework info:dependencies:show-modules info:dependencies:show-modules-circular info:language:list info:timezone:list magestore:storelocator-import maintenance:allow-ips maintenance:disable maintenance:enable maintenance:status media:dump module:disable module:enable module:status module:uninstall partsbx:bulk-import partsbx:category-index partsbx:clean-image-cache partsbx:disable-product-no-price partsbx:enable-product-has-price partsbx:import-fulcrum-cms-page partsbx:import-fulcrum-stock-price partsbx:import-special-product partsbx:index_vehicle partsbx:migrate-vehicle partsbx:product-kit-indexer partsbx:redirect_url partsbx:reset-data partsbx:sample-data partsbx:solr-empty partsbx:solr-indexer partsbx:sortby-indexer partsbx:sync-csv partsbx:sync-full sampledata:deploy sampledata:remove sampledata:reset script:repo:list script:repo:run search:engine:list setup:backup setup:config:set setup:cron:run setup:db-data:upgrade setup:db-schema:upgrade setup:db:status setup:di:compile setup:install setup:performance:generate-fixtures setup:rollback setup:static-content:deploy setup:store-config:set setup:uninstall setup:upgrade sys:check sys:cron:history sys:cron:list sys:cron:run sys:cron:schedule sys:info sys:maintenance sys:setup:change-version sys:setup:compare-versions sys:setup:downgrade-versions sys:store:config:base-url:list sys:store:list sys:url:list sys:website:list theme:uninstall"
 
         COMPREPLY=($(compgen -W "${coms}" -- ${cur}))
         __ltrim_colon_completions "$cur"
@@ -428,4 +498,5 @@ _n98-magerun2()
         return 0
     fi
 }
-complete -o default -F _n98-magerun2 n98-magerun2.phar n98-magerun2 magerun2
+
+complete -o default -F _magerun2 magerun2.phar n98-magerun2 magerun2

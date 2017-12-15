@@ -55,6 +55,25 @@ alias m2grunt="m2up; grunt exec:all; m2perm; grunt watch"
 
 # setup
 alias m2fixconfig="magerun2 module:enable --all; m2up"
+alias m2fixsetting="
+magerun2 config:store:set admin/security/admin_account_sharing   1
+magerun2 config:store:set admin/security/use_form_key            0
+magerun2 config:store:set admin/startup/page                     dashboard
+
+magerun2 config:store:set customer/startup/redirect_dashboard    0
+
+magerun2 config:store:set web/seo/use_rewrites                   1
+magerun2 config:store:set web/session/use_frontend_sid           0
+magerun2 config:store:set web/url/redirect_to_base               1
+
+magerun2 config:store:set web/browser_capabilities/local_storage 1
+
+magerun2 config:store:set web/secure/use_in_frontend             1
+magerun2 config:store:set web/secure/use_in_adminhtml            1
+
+magerun2 config:store:set admin/autologin/enable                 1
+magerun2 config:store:set admin/autologin/username               admin
+"
 
 # log
 alias m2logenable="bin/magento dev:query-log:enable"
