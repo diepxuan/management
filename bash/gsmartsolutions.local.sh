@@ -40,8 +40,11 @@ sudo chmod 750 /var/log/apache2
 # completion
 #
 ####################################
+# ~/public_html/code/bash/completion/magerun.setup
+# ~/public_html/code/bash/completion/magerun2.setup
 cat ~/public_html/code/bash/.bash_aliases | ssh gsmartsolutions.local "cat > ~/.bash_aliases"
-scp -r ~/public_html/code/bash/completion gsmartsolutions.local:~/.completion
+ssh gsmartsolutions.local "mkdir -p ~/.completion"
+scp -r ~/public_html/code/bash/completion/*.sh gsmartsolutions.local:~/.completion/
 ssh gsmartsolutions.local "chmod 775 ~/.completion"
 
 ####################################
