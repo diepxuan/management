@@ -139,12 +139,23 @@ ssh gsmartsolutions.local "chmod 600 ~/.ssh/*"
 
 #########################################
 #
-# copy config file
+# config file
 #
 #########################################
 cat ~/public_html/code/httpd/gss.conf | ssh gsmartsolutions.local "sudo tee /etc/apache2/sites-available/gss.conf"
+
+#########################################
 ssh gsmartsolutions.local "mkdir -p ~/.ssl"
-scp ~/public_html/code/httpd/local/* gsmartsolutions.local:~/.ssl/
+scp ~/public_html/code/httpd/local/private.key gsmartsolutions.local:~/.ssl/
+scp ~/public_html/code/httpd/local/certificate.crt gsmartsolutions.local:~/.ssl/
+
+# ssh gsmartsolutions.local "
+# sudo add-apt-repository ppa:certbot/certbot
+# sudo apt update
+# sudo apt install -y python-certbot-apache
+# sudo certbot --apache
+
+# "
 
 #########################################
 ssh gsmartsolutions.local "
