@@ -7,6 +7,9 @@
 ####################################
 echo ". ~/public_html/code/bash/.bash_aliases" > ~/.bash_aliases
 chmod 644 ~/.bash_aliases
+
+# composer global require bamarni/symfony-console-autocomplete
+chmod 775 ~/public_html/code/bash/completion/*.setup
 ~/public_html/code/bash/completion/magerun.setup
 ~/public_html/code/bash/completion/magerun2.setup
 source ~/.bashrc
