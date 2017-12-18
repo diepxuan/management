@@ -117,7 +117,7 @@ ssh gsmartsolutions.staging "chmod 600 ~/.ssh/*"
 
 #########################################
 #
-# copy config file
+# config file
 #
 #########################################
 ssh gsmartsolutions.staging "mkdir -p ~/.ssl"

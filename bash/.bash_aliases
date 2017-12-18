@@ -70,6 +70,8 @@ magerun2 config:store:set web/browser_capabilities/local_storage 1
 
 magerun2 config:store:set web/secure/use_in_frontend             1
 magerun2 config:store:set web/secure/use_in_adminhtml            1
+magerun2 config:store:set web/secure/enable_hsts                 1
+magerun2 config:store:set web/secure/enable_upgrade_insecure     1
 
 magerun2 config:store:set admin/autologin/enable                 1
 magerun2 config:store:set admin/autologin/username               admin
