@@ -42,37 +42,37 @@ sudo chmod 750 /var/log/apache2
 ####################################
 # ~/public_html/code/bash/completion/magerun.setup
 # ~/public_html/code/bash/completion/magerun2.setup
-cat ~/public_html/code/bash/.bash_aliases | ssh gsmartsolutions.local "cat > ~/.bash_aliases"
-ssh gsmartsolutions.local "mkdir -p ~/.completion"
-scp -r ~/public_html/code/bash/completion/*.sh gsmartsolutions.local:~/.completion/
-ssh gsmartsolutions.local "chmod 775 ~/.completion"
+# cat ~/public_html/code/bash/.bash_aliases | ssh gsmartsolutions.local "cat > ~/.bash_aliases"
+# ssh gsmartsolutions.local "mkdir -p ~/.completion"
+# scp -r ~/public_html/code/bash/completion/*.sh gsmartsolutions.local:~/.completion/
+# ssh gsmartsolutions.local "chmod 775 ~/.completion"
 
 ####################################
 #
 # git
 #
 ####################################
-cat ~/public_html/code/bash/git/.gitignore | ssh gsmartsolutions.local "cat > ~/.gitignore"
-ssh gsmartsolutions.local "
-git config --global core.excludesfile ~/.gitignore
+# cat ~/public_html/code/bash/git/.gitignore | ssh gsmartsolutions.local "cat > ~/.gitignore"
+# ssh gsmartsolutions.local "
+# git config --global core.excludesfile ~/.gitignore
 
-# setting
-git config --global user.name \"Trần Ngọc Đức\"
-git config --global user.email \"caothu91@gmail.com\"
+# # setting
+# git config --global user.name \"Trần Ngọc Đức\"
+# git config --global user.email \"caothu91@gmail.com\"
 
-# push
-git config --global push.default simple
+# # push
+# git config --global push.default simple
 
-# file mode
-git config --global core.fileMode false
+# # file mode
+# git config --global core.fileMode false
 
-# line endings
-git config --global core.autocrlf false
-git config --global core.eol lf
+# # line endings
+# git config --global core.autocrlf false
+# git config --global core.eol lf
 
-# Cleanup
-git config --global gc.auto 0
-"
+# # Cleanup
+# git config --global gc.auto 0
+# "
 
 ####################################
 #
@@ -142,12 +142,12 @@ ssh gsmartsolutions.local "chmod 600 ~/.ssh/*"
 # config file
 #
 #########################################
-cat ~/public_html/code/httpd/gss.conf | ssh gsmartsolutions.local "sudo tee /etc/apache2/sites-available/gss.conf"
+# cat ~/public_html/code/httpd/gss.conf | ssh gsmartsolutions.local "sudo tee /etc/apache2/sites-available/gss.conf"
 
-#########################################
-ssh gsmartsolutions.local "mkdir -p ~/.ssl"
-scp ~/public_html/code/httpd/local/private.key gsmartsolutions.local:~/.ssl/
-scp ~/public_html/code/httpd/local/certificate.crt gsmartsolutions.local:~/.ssl/
+# #########################################
+# ssh gsmartsolutions.local "mkdir -p ~/.ssl"
+# scp ~/public_html/code/httpd/local/private.key gsmartsolutions.local:~/.ssl/
+# scp ~/public_html/code/httpd/local/certificate.crt gsmartsolutions.local:~/.ssl/
 
 # ssh gsmartsolutions.local "
 # sudo add-apt-repository ppa:certbot/certbot
@@ -157,14 +157,14 @@ scp ~/public_html/code/httpd/local/certificate.crt gsmartsolutions.local:~/.ssl/
 
 # "
 
-#########################################
-ssh gsmartsolutions.local "
-sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip
+# #########################################
+# ssh gsmartsolutions.local "
+# sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip
 
-sudo a2ensite gss.conf
-sudo a2dismod php?.?
-sudo a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias php7.0 ssl
+# sudo a2ensite gss.conf
+# sudo a2dismod php?.?
+# sudo a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias php7.0 ssl
 
-sudo service apache2 restart
-sudo service apache2 status
-"
+# sudo service apache2 restart
+# sudo service apache2 status
+# "

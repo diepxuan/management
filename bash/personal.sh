@@ -110,9 +110,17 @@ chmod 600 ~/.ssh/*
 # sudo update-alternatives --config php
 sudo apt install phpmd -y
 
-cat ~/public_html/code/httpd/httpd.conf | sudo tee /etc/apache2/sites-available/ductn.conf
+if [[ $(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/p') == Microsoft ]]; then
+	sudo ln -fds /mnt/d/server/ /var/www/html
+	sudo ln -fds /mnt/d/server/code/httpd/ /var/www/vhost
+	cat /mnt/d/server/code/httpd/httpd.conf | sudo tee /etc/apache2/sites-available/ductn.conf
+else
+	sudo ln ~/public_html /var/www/html
+	sudo ln ~/public_html/code/httpd /var/www/vhost
+	cat ~/public_html/code/httpd/httpd.conf | sudo tee /etc/apache2/sites-available/ductn.conf
+fi
 
-sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip
+# sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip
 
 sudo a2ensite ductn.conf
 sudo a2dismod php?.?
