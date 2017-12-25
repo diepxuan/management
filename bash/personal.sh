@@ -10,8 +10,8 @@ chmod 644 ~/.bash_aliases
 
 # composer global require bamarni/symfony-console-autocomplete
 chmod 775 /var/www/base/bash/completion/*.setup
-/var/www/base/bash/completion/magerun.setup
-/var/www/base/bash/completion/magerun2.setup
+# /var/www/base/bash/completion/magerun.setup
+# /var/www/base/bash/completion/magerun2.setup
 mkdir -p ~/bin
 chmod 775 -R ~/bin
 source ~/.bashrc
@@ -130,4 +130,15 @@ sudo a2dismod php?.?
 sudo a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias php7.0 ssl
 
 sudo service apache2 restart
-sudo service apache2 status
+# sudo service apache2 status
+
+#########################################
+#
+# Nodejs Install
+#
+#########################################
+# curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+# sudo apt install -y nodejs build-essential
+
+echo "fs.inotify.max_user_watches = 524288" | sudo tee /etc/sysctl.d/grunt.conf
+sudo sysctl -p --system
