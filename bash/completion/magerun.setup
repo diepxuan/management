@@ -24,10 +24,14 @@ EOF
 
 base=magerun
 name=n98-${base}
-outfile=~/public_html/code/bash/completion/magerun.sh
+outfile=/var/www/base/bash/completion/magerun.sh
+
+echo "creating magerun1 bash autocomplete file (this takes a little moment) ..."
 
 header > "${outfile}"
 symfony-autocomplete -- "${base}" \
   | sed '1d ; $ s/$/.phar '"${name} ${base}"'/' \
   >> "${outfile}"
 # sed: remove first line and expand last line to more command names (aliases)
+
+echo "updated \"${outfile}\"."
