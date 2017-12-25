@@ -5,7 +5,7 @@
 # Clean
 #
 #########################################
-ssh gsmartsolutions.staging "
+ssh staging.tci "
 # Clean
 sudo rm -rf /var/log/*.gz
 
@@ -42,10 +42,10 @@ sudo chmod 750 /var/log/apache2
 ####################################
 # ~/public_html/code/bash/completion/magerun.setup
 # ~/public_html/code/bash/completion/magerun2.setup
-cat ~/public_html/code/bash/.bash_aliases | ssh gsmartsolutions.staging "cat > ~/.bash_aliases"
-ssh gsmartsolutions.staging "mkdir -p ~/.completion"
-scp -r ~/public_html/code/bash/completion/*.sh gsmartsolutions.staging:~/.completion/
-ssh gsmartsolutions.staging "chmod 775 ~/.completion"
+cat ~/public_html/code/bash/.bash_aliases | ssh staging.tci "cat > ~/.bash_aliases"
+ssh staging.tci "mkdir -p ~/.completion"
+scp -r ~/public_html/code/bash/completion/*.sh staging.tci:~/.completion/
+ssh staging.tci "chmod 775 ~/.completion"
 
 ####################################
 #
@@ -74,16 +74,16 @@ ssh gsmartsolutions.staging "chmod 775 ~/.completion"
 
 # Setup
 # ##############################
-ssh gsmartsolutions.staging "
+ssh staging.tci "
 mkdir -p ~/.ssh
 chmod 700 ~/.ssh
 "
-# cat ~/public_html/code/ssh/gss.pub | ssh gsmartsolutions.staging "cat >> ~/.ssh/authorized_keys"
-# cat ~/public_html/code/ssh/tci.pub | ssh gsmartsolutions.staging "cat >> ~/.ssh/authorized_keys"
+# cat ~/public_html/code/ssh/gss.pub | ssh staging.tci "cat >> ~/.ssh/authorized_keys"
+# cat ~/public_html/code/ssh/tci.pub | ssh staging.tci "cat >> ~/.ssh/authorized_keys"
 
 # ssh private key
-cat ~/public_html/code/ssh/tci | ssh gsmartsolutions.staging "cat > ~/.ssh/id_rsa"
-ssh gsmartsolutions.staging "chmod 600 ~/.ssh/*"
+cat ~/public_html/code/ssh/tci | ssh staging.tci "cat > ~/.ssh/id_rsa"
+ssh staging.tci "chmod 600 ~/.ssh/*"
 
 #########################################
 #
@@ -120,21 +120,21 @@ ssh gsmartsolutions.staging "chmod 600 ~/.ssh/*"
 # config file
 #
 #########################################
-ssh gsmartsolutions.staging "mkdir -p ~/.ssl"
-scp ~/public_html/code/httpd/twentyci.asia/private.key gsmartsolutions.staging:~/.ssl/
-scp ~/public_html/code/httpd/twentyci.asia/certificate.crt gsmartsolutions.staging:~/.ssl/
-ssh gsmartsolutions.staging "echo '' >> ~/.ssl/certificate.crt"
-cat ~/public_html/code/httpd/twentyci.asia/ca_bundle.crt | ssh gsmartsolutions.staging "tee -a ~/.ssl/certificate.crt"
-ssh gsmartsolutions.staging "echo '' >> ~/.ssl/certificate.crt"
+ssh staging.tci "mkdir -p ~/.ssl"
+scp ~/public_html/code/httpd/twentyci.asia/private.key staging.tci:~/.ssl/
+scp ~/public_html/code/httpd/twentyci.asia/certificate.crt staging.tci:~/.ssl/
+ssh staging.tci "echo '' >> ~/.ssl/certificate.crt"
+cat ~/public_html/code/httpd/twentyci.asia/ca_bundle.crt | ssh staging.tci "tee -a ~/.ssl/certificate.crt"
+ssh staging.tci "echo '' >> ~/.ssl/certificate.crt"
 
 #########################################
 # Apache
 #########################################
-# cat ~/public_html/code/httpd/twentyci.asia/apache2.conf | ssh gsmartsolutions.staging "sudo tee /etc/apache2/sites-available/gss.conf"
+# cat ~/public_html/code/httpd/twentyci.asia/apache2.conf | ssh staging.tci "sudo tee /etc/apache2/sites-available/gss.conf"
 # sudo systemctl enable apache2
 # sudo systemctl disable nginx
 #########################################
-# ssh gsmartsolutions.staging "
+# ssh staging.tci "
 # sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip
 
 # sudo a2ensite gss.conf
@@ -148,12 +148,12 @@ ssh gsmartsolutions.staging "echo '' >> ~/.ssl/certificate.crt"
 #########################################
 # Nginx
 #########################################
-cat ~/public_html/code/httpd/twentyci.asia/nginx.conf | ssh gsmartsolutions.staging "sudo tee /etc/nginx/sites-available/twentyci.asia"
-ssh gsmartsolutions.staging "sudo ln -sfn /etc/nginx/sites-available/twentyci.asia /etc/nginx/sites-enabled/twentyci.asia"
+cat ~/public_html/code/httpd/twentyci.asia/nginx.conf | ssh staging.tci "sudo tee /etc/nginx/sites-available/twentyci.asia"
+ssh staging.tci "sudo ln -sfn /etc/nginx/sites-available/twentyci.asia /etc/nginx/sites-enabled/twentyci.asia"
 sudo systemctl disable apache2
 sudo systemctl enable nginx
 #########################################
-ssh gsmartsolutions.staging "
+ssh staging.tci "
 sudo ln -sfn /etc/nginx/sites-available/twentyci.asia /etc/nginx/sites-enabled/twentyci.asia
 
 sudo service nginx restart
@@ -165,7 +165,7 @@ sudo nginx -t
 # Firewall
 #
 #########################################
-ssh gsmartsolutions.staging "
+ssh staging.tci "
 sudo ufw allow ssh
 sudo ufw allow http
 sudo ufw allow https

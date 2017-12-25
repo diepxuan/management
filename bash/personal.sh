@@ -61,6 +61,7 @@ git config --global gc.auto 0
 # ##############################
 #
 # openssl rsa -in id_rsa -outform PEM -out id_rsa.pem
+# openssl x509 -outform der -in id_rsa.pem -out id_rsa.crt
 
 # Change passphrase
 # ##############################
@@ -83,12 +84,18 @@ mkdir -p ~/.ssh
 chmod 700 ~/.ssh
 # ssh config
 cat /var/www/base/ssh/config > ~/.ssh/config
+printf "\n\n" >> ~/.ssh/config
 find /var/www/base/ssh/config.d/*.conf -type f -exec cat {} >> ~/.ssh/config \; -exec printf "\n\n" >> ~/.ssh/config \;
 
 # ssh private key
 cat /var/www/base/ssh/id_rsa > ~/.ssh/id_rsa
+cat /var/www/base/ssh/id_rsa.pub > ~/.ssh/id_rsa.pub
 cat /var/www/base/ssh/gss > ~/.ssh/gss
+cat /var/www/base/ssh/gss.pub > ~/.ssh/gss.pub
 cat /var/www/base/ssh/tci > ~/.ssh/tci
+cat /var/www/base/ssh/tci.pub > ~/.ssh/tci.pub
+cat /var/www/base/ssh/gem > ~/.ssh/gem
+cat /var/www/base/ssh/gem.pub > ~/.ssh/gem.pub
 chmod 600 ~/.ssh/*
 
 #########################################
