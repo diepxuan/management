@@ -5,13 +5,15 @@
 # completion
 #
 ####################################
-echo ". ~/public_html/code/bash/.bash_aliases" > ~/.bash_aliases
+echo ". /var/www/base/bash/.bash_aliases" > ~/.bash_aliases
 chmod 644 ~/.bash_aliases
 
 # composer global require bamarni/symfony-console-autocomplete
-chmod 775 ~/public_html/code/bash/completion/*.setup
-~/public_html/code/bash/completion/magerun.setup
-~/public_html/code/bash/completion/magerun2.setup
+chmod 775 /var/www/base/bash/completion/*.setup
+/var/www/base/bash/completion/magerun.setup
+/var/www/base/bash/completion/magerun2.setup
+mkdir -p ~/bin
+chmod 775 -R ~/bin
 source ~/.bashrc
 
 ####################################
@@ -19,7 +21,7 @@ source ~/.bashrc
 # tmux
 #
 ####################################
-# cat ~/public_html/code/bash/.tmux.conf > ~/.tmux.conf
+# cat /var/www/base/bash/.tmux.conf > ~/.tmux.conf
 # chmod 644 ~/.tmux.conf
 
 ####################################
@@ -27,7 +29,7 @@ source ~/.bashrc
 # git
 #
 ####################################
-cat ~/public_html/code/bash/git/.gitignore > ~/.gitignore
+cat /var/www/base/bash/git/.gitignore > ~/.gitignore
 chmod 644 ~/.gitignore
 
 # global gitignore
@@ -80,13 +82,13 @@ git config --global gc.auto 0
 mkdir -p ~/.ssh
 chmod 700 ~/.ssh
 # ssh config
-cat ~/public_html/code/ssh/config > ~/.ssh/config
-find ~/public_html/code/ssh/config.d/*.conf -type f -exec cat {} >> ~/.ssh/config \; -exec printf "\n\n" >> ~/.ssh/config \;
+cat /var/www/base/ssh/config > ~/.ssh/config
+find /var/www/base/ssh/config.d/*.conf -type f -exec cat {} >> ~/.ssh/config \; -exec printf "\n\n" >> ~/.ssh/config \;
 
 # ssh private key
-cat ~/public_html/code/ssh/id_rsa > ~/.ssh/id_rsa
-cat ~/public_html/code/ssh/gss > ~/.ssh/gss
-cat ~/public_html/code/ssh/tci > ~/.ssh/tci
+cat /var/www/base/ssh/id_rsa > ~/.ssh/id_rsa
+cat /var/www/base/ssh/gss > ~/.ssh/gss
+cat /var/www/base/ssh/tci > ~/.ssh/tci
 chmod 600 ~/.ssh/*
 
 #########################################
@@ -108,19 +110,20 @@ chmod 600 ~/.ssh/*
 # sudo apt update
 # sudo apt install libapache2-mod-php?.? -y
 # sudo update-alternatives --config php
-sudo apt install phpmd -y
+# sudo apt install phpmd -y
 
-if [[ $(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/p') == Microsoft ]]; then
-	sudo ln -fds /mnt/d/server/ /var/www/html
-	sudo ln -fds /mnt/d/server/code/httpd/ /var/www/vhost
-	cat /mnt/d/server/code/httpd/httpd.conf | sudo tee /etc/apache2/sites-available/ductn.conf
-else
-	sudo ln ~/public_html /var/www/html
-	sudo ln ~/public_html/code/httpd /var/www/vhost
-	cat ~/public_html/code/httpd/httpd.conf | sudo tee /etc/apache2/sites-available/ductn.conf
-fi
+#########################################
+#
+# SSL Install
+#
+#########################################
+mkdir -p ~/.ssl
+chmod 775 ~/.ssl
+# ssh config
+cp -a /var/www/base/httpd/* ~/.ssl
+find ~/.ssl -type f -name '*.conf' -delete
 
-# sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip
+sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip
 
 sudo a2ensite ductn.conf
 sudo a2dismod php?.?
