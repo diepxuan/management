@@ -73,7 +73,11 @@ m2perm"
 alias m2index="magerun2 indexer:reindex"
 
 # grunt
-alias m2grunt="m2up; grunt exec:all; m2perm; grunt watch"
+alias m2grunt="
+m2up
+grunt exec:all
+m2perm
+grunt watch"
 
 # setup
 alias m2fixconfig="
