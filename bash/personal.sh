@@ -9,7 +9,7 @@ echo ". /var/www/base/bash/.bash_aliases" > ~/.bash_aliases
 chmod 644 ~/.bash_aliases
 
 # composer global require bamarni/symfony-console-autocomplete
-chmod 775 /var/www/base/bash/completion/*.setup
+chmod u+x /var/www/base/bash/completion/*.setup
 # /var/www/base/bash/completion/magerun.setup
 # /var/www/base/bash/completion/magerun2.setup
 mkdir -p ~/bin
@@ -149,3 +149,11 @@ sudo service apache2 restart
 
 echo "fs.inotify.max_user_watches = 524288" | sudo tee /etc/sysctl.d/grunt.conf
 sudo sysctl -p --system
+
+#########################################
+#
+# Deploy Install
+#
+#########################################
+sudo crontab /var/www/base/bash/deploy/deploy.conf
+sudo service cron restart

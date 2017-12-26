@@ -2,7 +2,7 @@
 
 # install to vps
 # ################################################################
-# cat .bash_aliases | ssh evolveretail.twtools "cat > ~/.bash_aliases"
+# cat .bash_aliases | ssh evolveretail.twtools "cat > $HOME/.bash_aliases"
 
 # start symbol
 # ################################################################
@@ -18,17 +18,13 @@ PS1="\n$PS1\n$ "
 
 # composer
 # ################################################################
-# COMPOSER_HOME=~/.composer
-# export COMPOSER_HOME=~/.composer
+# COMPOSER_HOME=$HOME/.composer
+# export COMPOSER_HOME=$HOME/.composer
 export PATH=$PATH:$HOME/bin:$HOME/.composer/vendor/bin
-if [ -d ~/.config/composer ]; then
+if [ -d $HOME/.config/composer ]; then
     export PATH=$PATH:$HOME/.config/composer/vendor/bin
-elif [ -d ~/.composer ]; then
+elif [ -d $HOME/.composer ]; then
     export PATH=$PATH:$HOME/.composer/vendor/bin
-fi
-
-if [ -d ~/bin ]; then
-    export PATH=$PATH:$HOME/bin
 fi
 
 # bash alias for magento2
@@ -83,6 +79,7 @@ grunt watch"
 alias m2fixconfig="
 m2perm
 magerun2 module:enable --all
+magerun2 setup:di:compile
 m2up"
 
 alias m2fixgroup="sudo usermod -aG $WEBSERVER_GROUP `whoami`"
@@ -109,6 +106,16 @@ magerun2 config:store:set admin/autologin/enable                 1
 magerun2 config:store:set admin/autologin/username               admin
 "
 
+# deploy
+alias m2deploy="
+m2fixconfig
+magerun2 deploy:mode:set developer
+magerun2 setup:di:compile
+magerun2 maintenance:disable
+m2cache
+m2perm
+"
+
 # log
 alias m2logenable="bin/magento dev:query-log:enable"
 alias m2logdisable="bin/magento dev:query-log:disable"
@@ -118,8 +125,8 @@ alias m2logdisable="bin/magento dev:query-log:disable"
 # https://raw.githubusercontent.com/netz98/n98-magerun2/develop/res/autocompletion/bash/n98-magerun2.phar.bash
 if [ -f /var/www/base/bash/completion/magerun2.sh ]; then
     . /var/www/base/bash/completion/magerun2.sh
-elif [ -f ~/.completion/magerun2.sh ]; then
-    . ~/.completion/magerun2.sh
+elif [ -f $HOME/.completion/magerun2.sh ]; then
+    . $HOME/.completion/magerun2.sh
 fi
 
 # completion magerun
@@ -127,22 +134,22 @@ fi
 # https://raw.githubusercontent.com/netz98/n98-magerun/develop/res/autocompletion/bash/n98-magerun.phar.bash
 if [ -f /var/www/base/bash/completion/magerun.sh ]; then
     . /var/www/base/bash/completion/magerun.sh
-elif [ -f ~/.completion/magerun.sh ]; then
-    . ~/.completion/magerun.sh
+elif [ -f $HOME/.completion/magerun.sh ]; then
+    . $HOME/.completion/magerun.sh
 fi
 
 # bash completion for the `wp` command
 # ################################################################
 if [ -f /var/www/base/bash/completion/wp.sh ]; then
     . /var/www/base/bash/completion/wp.sh
-elif [ -f ~/.completion/wp.sh ]; then
-    . ~/.completion/wp.sh
+elif [ -f $HOME/.completion/wp.sh ]; then
+    . $HOME/.completion/wp.sh
 fi
 
 # bash completion for the `angular cli` command
 # ################################################################
 if [ -f /var/www/base/bash/completion/angular2.sh ]; then
     . /var/www/base/bash/completion/angular2.sh
-elif [ -f ~/.completion/angular2.sh ]; then
-    . ~/.completion/angular2.sh
+elif [ -f $HOME/.completion/angular2.sh ]; then
+    . $HOME/.completion/angular2.sh
 fi
