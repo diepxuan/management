@@ -142,7 +142,8 @@ ssh local.tci "chmod 600 ~/.ssh/*"
 # config file
 #
 #########################################
-cat /var/www/base/httpd/local/httpd.conf | ssh local.tci "sudo tee /etc/apache2/sites-available/local.conf"
+cat /var/www/base/httpd/httpd.conf | ssh local.tci "sudo tee /etc/apache2/sites-available/local.conf"
+cat /var/www/base/httpd/local/httpd.conf | ssh local.tci "sudo tee -a /etc/apache2/sites-available/local.conf"
 ssh local.tci "sudo sed -i 's/\/var\/www\/base\/httpd\/local\//\/home\/gssadmin\/.ssl\//' /etc/apache2/sites-available/local.conf"
 
 # #########################################
