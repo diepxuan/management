@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 alias wpinstall="curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x wp-cli.phar && sudo mv wp-cli.phar /usr/local/bin/wp"
+
 _wp_complete() {
     local OLD_IFS="$IFS"
     local cur=${COMP_WORDS[COMP_CWORD]}
