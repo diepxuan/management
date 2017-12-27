@@ -154,6 +154,18 @@ sudo service apache2 restart
 # Nodejs Install
 #
 #########################################
+# sudo apt install -y sendmail
+# cd /etc/mail/tls
+# sudo openssl dsaparam -out sendmail-common.prm 2048
+# sudo chown root:smmsp sendmail-common.prm
+# sudo chmod 0640 sendmail-common.prm
+# sudo dpkg --configure -a
+
+#########################################
+#
+# Nodejs Install
+#
+#########################################
 # curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 # sudo apt install -y nodejs build-essential
 

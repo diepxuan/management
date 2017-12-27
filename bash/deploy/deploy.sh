@@ -11,6 +11,7 @@ ssh local.tci "git --work-tree=/var/www/html/dev/twtools.co.uk/app/code/Evolve -
 ssh local.tci "
 cd /var/www/html/dev/twtools.co.uk/
 composer -vvv update
+magerun2 cache:enable
 m2deploy
 "
 
