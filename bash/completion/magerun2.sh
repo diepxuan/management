@@ -71,7 +71,10 @@ _magerun2()
             admin:user:list)
             opts="${opts} --format"
             ;;
-            app:config:import)
+            admin:user:unlock)
+            opts="${opts} "
+            ;;
+            app:config:dump)
             opts="${opts} "
             ;;
             cache:clean)
@@ -92,8 +95,20 @@ _magerun2()
             cache:report)
             opts="${opts} --fpc --tags --mtime --filter-id --filter-tag --format"
             ;;
+            cache:status)
+            opts="${opts} --bootstrap"
+            ;;
             cache:view)
             opts="${opts} --fpc --unserialize"
+            ;;
+            catalog:group-product:visibility)
+            opts="${opts} "
+            ;;
+            catalog:images:resize)
+            opts="${opts} "
+            ;;
+            catalog:product:attributes:cleanup)
+            opts="${opts} "
             ;;
             config:data:acl)
             opts="${opts} "
@@ -110,8 +125,14 @@ _magerun2()
             config:store:set)
             opts="${opts} --scope --scope-id --encrypt --no-null"
             ;;
+            cron:run)
+            opts="${opts} --group --bootstrap"
+            ;;
             customer:create)
             opts="${opts} --format"
+            ;;
+            customer:hash:upgrade)
+            opts="${opts} "
             ;;
             customer:info)
             opts="${opts} "
@@ -149,6 +170,12 @@ _magerun2()
             db:variables)
             opts="${opts} --connection --format --rounding --no-description"
             ;;
+            deploy:mode:set)
+            opts="${opts} --skip-compilation"
+            ;;
+            deploy:mode:show)
+            opts="${opts} "
+            ;;
             design:demo-notice)
             opts="${opts} --on --off --global"
             ;;
@@ -170,6 +197,9 @@ _magerun2()
             dev:report:count)
             opts="${opts} "
             ;;
+            dev:source-theme:deploy)
+            opts="${opts} --type --locale --area --theme"
+            ;;
             dev:symlinks)
             opts="${opts} --on --off --global"
             ;;
@@ -179,8 +209,17 @@ _magerun2()
             dev:template-hints-blocks)
             opts="${opts} --on --off"
             ;;
+            dev:tests:run)
+            opts="${opts} "
+            ;;
             dev:theme:list)
             opts="${opts} --format"
+            ;;
+            dev:urn-catalog:generate)
+            opts="${opts} --ide"
+            ;;
+            dev:xml:convert)
+            opts="${opts} --overwrite"
             ;;
             eav:attribute:list)
             opts="${opts} --add-source --add-backend --filter-type --format"
@@ -191,6 +230,15 @@ _magerun2()
             eav:attribute:view)
             opts="${opts} --format"
             ;;
+            fis:custom-data)
+            opts="${opts} "
+            ;;
+            fis:import-data)
+            opts="${opts} "
+            ;;
+            fis:migrate-data)
+            opts="${opts} "
+            ;;
             generation:flush)
             opts="${opts} "
             ;;
@@ -200,10 +248,31 @@ _magerun2()
             i18n:pack)
             opts="${opts} --mode --allow-duplicates"
             ;;
+            i18n:uninstall)
+            opts="${opts} --backup-code"
+            ;;
             index:list)
             opts="${opts} --format"
             ;;
             index:trigger:recreate)
+            opts="${opts} "
+            ;;
+            indexer:info)
+            opts="${opts} "
+            ;;
+            indexer:reindex)
+            opts="${opts} "
+            ;;
+            indexer:reset)
+            opts="${opts} "
+            ;;
+            indexer:set-mode)
+            opts="${opts} "
+            ;;
+            indexer:show-mode)
+            opts="${opts} "
+            ;;
+            indexer:status)
             opts="${opts} "
             ;;
             info:adminuri)
@@ -228,6 +297,9 @@ _magerun2()
             opts="${opts} "
             ;;
             info:timezone:list)
+            opts="${opts} "
+            ;;
+            magestore:storelocator-import)
             opts="${opts} "
             ;;
             maintenance:allow-ips)
@@ -257,10 +329,52 @@ _magerun2()
             module:uninstall)
             opts="${opts} --remove-data --backup-code --backup-media --backup-db --clear-static-content --magento-init-params"
             ;;
+            partsbx:bulk-import)
+            opts="${opts} "
+            ;;
+            partsbx:category-index)
+            opts="${opts} "
+            ;;
+            partsbx:clean-image-cache)
+            opts="${opts} "
+            ;;
+            partsbx:index_vehicle)
+            opts="${opts} "
+            ;;
+            partsbx:migrate-vehicle)
+            opts="${opts} "
+            ;;
+            partsbx:product-kit-indexer)
+            opts="${opts} "
+            ;;
+            partsbx:reset-data)
+            opts="${opts} "
+            ;;
+            partsbx:sample-data)
+            opts="${opts} "
+            ;;
+            partsbx:solr-empty)
+            opts="${opts} --type"
+            ;;
+            partsbx:solr-indexer)
+            opts="${opts} "
+            ;;
+            partsbx:sortby-indexer)
+            opts="${opts} "
+            ;;
+            partsbx:sync-csv)
+            opts="${opts} "
+            ;;
+            partsbx:sync-full)
+            opts="${opts} "
+            ;;
             sampledata:deploy)
             opts="${opts} "
             ;;
             sampledata:remove)
+            opts="${opts} "
+            ;;
+            sampledata:reset)
             opts="${opts} "
             ;;
             script:repo:list)
@@ -276,7 +390,7 @@ _magerun2()
             opts="${opts} --code --media --db --magento-init-params"
             ;;
             setup:config:set)
-            opts="${opts} --backend-frontname --key --db-host --db-name --db-user --db-engine --db-password --db-prefix --db-model --db-init-statements --skip-db-validation --http-cache-hosts --session-save --session-save-redis-host --session-save-redis-port --session-save-redis-password --session-save-redis-timeout --session-save-redis-persistent-id --session-save-redis-db --session-save-redis-compression-threshold --session-save-redis-compression-lib --session-save-redis-log-level --session-save-redis-max-concurrency --session-save-redis-break-after-frontend --session-save-redis-break-after-adminhtml --session-save-redis-first-lifetime --session-save-redis-bot-first-lifetime --session-save-redis-bot-lifetime --session-save-redis-disable-locking --session-save-redis-min-lifetime --session-save-redis-max-lifetime --cache-backend --cache-backend-redis-server --cache-backend-redis-db --cache-backend-redis-port --page-cache --page-cache-redis-server --page-cache-redis-db --page-cache-redis-port --page-cache-redis-compress-data --magento-init-params"
+            opts="${opts} --backend-frontname --key --session-save --definition-format --db-host --db-name --db-user --db-engine --db-password --db-prefix --db-model --db-init-statements --skip-db-validation --http-cache-hosts --magento-init-params"
             ;;
             setup:cron:run)
             opts="${opts} --magento-init-params"
@@ -294,7 +408,7 @@ _magerun2()
             opts="${opts} "
             ;;
             setup:install)
-            opts="${opts} --backend-frontname --key --db-host --db-name --db-user --db-engine --db-password --db-prefix --db-model --db-init-statements --skip-db-validation --http-cache-hosts --session-save --session-save-redis-host --session-save-redis-port --session-save-redis-password --session-save-redis-timeout --session-save-redis-persistent-id --session-save-redis-db --session-save-redis-compression-threshold --session-save-redis-compression-lib --session-save-redis-log-level --session-save-redis-max-concurrency --session-save-redis-break-after-frontend --session-save-redis-break-after-adminhtml --session-save-redis-first-lifetime --session-save-redis-bot-first-lifetime --session-save-redis-bot-lifetime --session-save-redis-disable-locking --session-save-redis-min-lifetime --session-save-redis-max-lifetime --cache-backend --cache-backend-redis-server --cache-backend-redis-db --cache-backend-redis-port --page-cache --page-cache-redis-server --page-cache-redis-db --page-cache-redis-port --page-cache-redis-compress-data --base-url --language --timezone --currency --use-rewrites --use-secure --base-url-secure --use-secure-admin --admin-use-security-key --admin-user --admin-password --admin-email --admin-firstname --admin-lastname --cleanup-database --sales-order-increment-prefix --use-sample-data --magento-init-params"
+            opts="${opts} --backend-frontname --key --session-save --definition-format --db-host --db-name --db-user --db-engine --db-password --db-prefix --db-model --db-init-statements --skip-db-validation --http-cache-hosts --base-url --language --timezone --currency --use-rewrites --use-secure --base-url-secure --use-secure-admin --admin-use-security-key --admin-user --admin-password --admin-email --admin-firstname --admin-lastname --cleanup-database --sales-order-increment-prefix --use-sample-data --magento-init-params"
             ;;
             setup:performance:generate-fixtures)
             opts="${opts} --skip-reindex"
@@ -303,7 +417,7 @@ _magerun2()
             opts="${opts} --code-file --media-file --db-file --magento-init-params"
             ;;
             setup:static-content:deploy)
-            opts="${opts} --force --strategy --area --exclude-area --theme --exclude-theme --language --exclude-language --jobs --symlink-locale --content-version --refresh-content-version-only --no-javascript --no-css --no-less --no-images --no-fonts --no-html --no-misc --no-html-minify"
+            opts="${opts} --dry-run --no-javascript --no-css --no-less --no-images --no-fonts --no-html --no-misc --no-html-minify --theme --exclude-theme --language --exclude-language --area --exclude-area --jobs --symlink-locale"
             ;;
             setup:store-config:set)
             opts="${opts} --base-url --language --timezone --currency --use-rewrites --use-secure --base-url-secure --use-secure-admin --admin-use-security-key --magento-init-params"
@@ -356,6 +470,9 @@ _magerun2()
             sys:website:list)
             opts="${opts} --format"
             ;;
+            theme:uninstall)
+            opts="${opts} --backup-code --clear-static-content"
+            ;;
 
         esac
 
@@ -367,7 +484,7 @@ _magerun2()
 
     # completing for a command
     if [[ $cur == $com ]]; then
-        coms="help install list open-browser script self-update shell admin:notifications admin:user:change-password admin:user:create admin:user:delete admin:user:list app:config:import cache:clean cache:disable cache:enable cache:flush cache:list cache:report cache:view config:data:acl config:data:di config:store:delete config:store:get config:store:set customer:create customer:info customer:list db:console db:create db:drop db:dump db:import db:info db:maintain:check-tables db:query db:status db:variables design:demo-notice dev:asset:clear dev:console dev:module:create dev:module:list dev:module:observer:list dev:report:count dev:symlinks dev:template-hints dev:template-hints-blocks dev:theme:list eav:attribute:list eav:attribute:remove eav:attribute:view generation:flush i18n:collect-phrases i18n:pack index:list index:trigger:recreate info:adminuri info:backups:list info:currency:list info:dependencies:show-framework info:dependencies:show-modules info:dependencies:show-modules-circular info:language:list info:timezone:list maintenance:allow-ips maintenance:disable maintenance:enable maintenance:status media:dump module:disable module:enable module:status module:uninstall sampledata:deploy sampledata:remove script:repo:list script:repo:run search:engine:list setup:backup setup:config:set setup:cron:run setup:db-data:upgrade setup:db-schema:upgrade setup:db:status setup:di:compile setup:install setup:performance:generate-fixtures setup:rollback setup:static-content:deploy setup:store-config:set setup:uninstall setup:upgrade sys:check sys:cron:history sys:cron:list sys:cron:run sys:cron:schedule sys:info sys:maintenance sys:setup:change-version sys:setup:compare-versions sys:setup:downgrade-versions sys:store:config:base-url:list sys:store:list sys:url:list sys:website:list"
+        coms="help install list open-browser script self-update shell admin:notifications admin:user:change-password admin:user:create admin:user:delete admin:user:list admin:user:unlock app:config:dump cache:clean cache:disable cache:enable cache:flush cache:list cache:report cache:status cache:view catalog:group-product:visibility catalog:images:resize catalog:product:attributes:cleanup config:data:acl config:data:di config:store:delete config:store:get config:store:set cron:run customer:create customer:hash:upgrade customer:info customer:list db:console db:create db:drop db:dump db:import db:info db:maintain:check-tables db:query db:status db:variables deploy:mode:set deploy:mode:show design:demo-notice dev:asset:clear dev:console dev:module:create dev:module:list dev:module:observer:list dev:report:count dev:source-theme:deploy dev:symlinks dev:template-hints dev:template-hints-blocks dev:tests:run dev:theme:list dev:urn-catalog:generate dev:xml:convert eav:attribute:list eav:attribute:remove eav:attribute:view fis:custom-data fis:import-data fis:migrate-data generation:flush i18n:collect-phrases i18n:pack i18n:uninstall index:list index:trigger:recreate indexer:info indexer:reindex indexer:reset indexer:set-mode indexer:show-mode indexer:status info:adminuri info:backups:list info:currency:list info:dependencies:show-framework info:dependencies:show-modules info:dependencies:show-modules-circular info:language:list info:timezone:list magestore:storelocator-import maintenance:allow-ips maintenance:disable maintenance:enable maintenance:status media:dump module:disable module:enable module:status module:uninstall partsbx:bulk-import partsbx:category-index partsbx:clean-image-cache partsbx:index_vehicle partsbx:migrate-vehicle partsbx:product-kit-indexer partsbx:reset-data partsbx:sample-data partsbx:solr-empty partsbx:solr-indexer partsbx:sortby-indexer partsbx:sync-csv partsbx:sync-full sampledata:deploy sampledata:remove sampledata:reset script:repo:list script:repo:run search:engine:list setup:backup setup:config:set setup:cron:run setup:db-data:upgrade setup:db-schema:upgrade setup:db:status setup:di:compile setup:install setup:performance:generate-fixtures setup:rollback setup:static-content:deploy setup:store-config:set setup:uninstall setup:upgrade sys:check sys:cron:history sys:cron:list sys:cron:run sys:cron:schedule sys:info sys:maintenance sys:setup:change-version sys:setup:compare-versions sys:setup:downgrade-versions sys:store:config:base-url:list sys:store:list sys:url:list sys:website:list theme:uninstall"
 
         COMPREPLY=($(compgen -W "${coms}" -- ${cur}))
         __ltrim_colon_completions "$cur"

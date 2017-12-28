@@ -32,16 +32,26 @@ fi
 
 # permision
 WEBSERVER_GROUP="www-data"
-alias m2ch_dir="find var vendor generated pub/static pub/media app/etc var/generation -type d -exec sudo chmod u+w {} \;"
-alias m2ch_file="find var generated vendor pub/static pub/media app/etc var/generation -type f -exec sudo chmod u+w {} \;"
 alias m2ch="
-m2ch_dir
-m2ch_file"
+chmod -R u+w var
+chmod -R u+w vendor
+chmod -R u+w generated
+chmod -R u+w generation
+chmod -R u+w generation/code
+chmod -R u+w pub/static
+chmod -R u+w pub/media
+chmod -R u+w app/etc
+chmod -R u+w var
+chmod -R u+w var/generation
+chmod -R u+w var/view_preprocessed
+chmod -R u+w var/tmp
+"
 
 alias m2perm="
 chattr -i .
 sudo chown -R `whoami`:$WEBSERVER_GROUP .
 chmod u+x bin/magento
+m2ch
 "
 
 # clean
@@ -108,10 +118,15 @@ magerun2 config:store:set admin/autologin/username               admin
 "
 
 # solr
+alias m2delsolr="_m2delsolr() {
+    sudo su solr -c \"/opt/solr/bin/solr delete -c \${1}\"
+    unset -f _m2delsolr
+}; _m2delsolr"
 alias m2fixsolr="_m2fixsolr() {
-    echo \${1}
     sudo su solr -c \"/opt/solr/bin/solr delete -c \${1}\"
     sudo su solr -c \"/opt/solr/bin/solr create -c \${1}\"
+    cat vendor/partsbx/core/src/module-partsbx-solr/conf/managed-schema | sudo su solr -c \"tee /var/solr/data/\${1}\/conf/managed-schema\"
+    sudo service solr restart
     unset -f _m2fixsolr
 }; _m2fixsolr"
 
@@ -162,3 +177,6 @@ if [ -f /var/www/base/bash/completion/angular2.sh ]; then
 elif [ -f $HOME/.completion/angular2.sh ]; then
     . $HOME/.completion/angular2.sh
 fi
+
+# reload
+alias ductn_personal="/var/www/base/bash/personal.sh"
