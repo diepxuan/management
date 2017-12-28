@@ -107,6 +107,14 @@ magerun2 config:store:set admin/autologin/enable                 1
 magerun2 config:store:set admin/autologin/username               admin
 "
 
+# solr
+alias m2fixsolr="_m2fixsolr() {
+    echo \${1}
+    sudo su solr -c \"/opt/solr/bin/solr delete -c \${1}\"
+    sudo su solr -c \"/opt/solr/bin/solr create -c \${1}\"
+    unset -f _m2fixsolr
+}; _m2fixsolr"
+
 # deploy
 alias m2deploy="
 m2fixconfig
