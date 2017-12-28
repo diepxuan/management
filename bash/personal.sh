@@ -190,8 +190,14 @@ sudo service cron restart
 # Solr install
 #########################################
 # cd /opt
-# sudo wget http://www-eu.apache.org/dist/lucene/solr/7.1.0/solr-7.1.0.tgz
-# sudo tar xzf solr-7.1.0.tgz solr-7.1.0/bin/install_solr_service.sh --strip-components=2
-# sudo bash ./install_solr_service.sh solr-7.1.0.tgz
+# sudo service solr stop
+# sudo rm -rf /etc/init.d/solr
+# sudo rm -rf solr* install_solr_service.sh
+# # sudo wget https://www-eu.apache.org/dist/lucene/solr/7.1.0/solr-7.1.0.tgz
+# # sudo tar xzf solr-7.1.0.tgz solr-7.1.0/bin/install_solr_service.sh --strip-components=2
+# # sudo bash ./install_solr_service.sh solr-7.1.0.tgz
+# sudo wget https://archive.apache.org/dist/lucene/solr/6.1.0/solr-6.1.0.tgz
+# sudo tar xzf solr-6.1.0.tgz solr-6.1.0/bin/install_solr_service.sh --strip-components=2
+# sudo ./install_solr_service.sh solr-6.1.0.tgz -f
 # sudo service solr restart
 # sudo usermod -aG solr `whoami`

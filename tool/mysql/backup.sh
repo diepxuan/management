@@ -29,6 +29,7 @@ MYSQL_PWORD=
 # Don't backup databases with these names
 # Example: starts with mysql (^mysql) or ends with _schema (_schema$)
 IGNORE_DB="(^mysql|_schema$)"
+TRIGGER_DB="mrtperformance.com.au"
 
 # include mysql and mysqldump binaries for cron bash user
 PATH=$PATH:/usr/local/mysql/bin
@@ -43,6 +44,22 @@ KEEP_BACKUPS_FOR=30 #days
 # YYYY-MM-DD
 TIMESTAMP=$(date +%F)
 
+function trigger_list() {
+  local trigger_list_sql="SELECT CONCAT('DROP TRIGGER IF EXISTS \`', TRIGGER_NAME, '\`;') AS sql_string FROM information_schema.TRIGGERS WHERE TRIGGER_SCHEMA = '$TRIGGER_DB';";
+  # echo $trigger_list_sql;
+  echo $(mysql $(mysql_login) --skip-column-names -e "$trigger_list_sql" | awk '{print $NF}')
+}
+
+function delete_trigger_list(){
+  local triggers=$(trigger_list)
+    # echo $triggers;
+  for trigger in $triggers; do
+    # backup_database
+    # local count=$((count+1))
+    # echo $trigger;
+    $(mysql $(mysql_login) $TRIGGER_DB -e "DROP TRIGGER IF EXISTS $trigger")
+  done
+}
 function delete_old_backups()
 {
   echo "Deleting $BACKUP_DIR/*.sql.gz older than $KEEP_BACKUPS_FOR days"
@@ -99,6 +116,8 @@ function hr(){
 #==============================================================================
 # RUN SCRIPT
 #==============================================================================
+delete_trigger_list
+hr
 delete_old_backups
 hr
 backup_databases
