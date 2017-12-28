@@ -78,6 +78,7 @@ grunt watch"
 # setup
 alias m2fixconfig="
 m2perm
+magerun2 deploy:mode:set developer
 magerun2 module:enable --all
 magerun2 setup:di:compile
 m2up"

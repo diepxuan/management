@@ -14,7 +14,6 @@ chmod u+x /var/www/base/bash/completion/*.setup
 # /var/www/base/bash/completion/magerun2.setup
 mkdir -p ~/bin
 chmod 775 -R ~/bin
-source ~/.bashrc
 
 ####################################
 #
@@ -29,7 +28,7 @@ source ~/.bashrc
 # git
 #
 ####################################
-cat /var/www/base/bash/git/.gitignore > ~/.gitignore
+cat /var/www/base/tool/.gitignore > ~/.gitignore
 chmod 644 ~/.gitignore
 
 # global gitignore
@@ -97,6 +96,7 @@ cat /var/www/base/ssh/tci.pub > ~/.ssh/tci.pub
 cat /var/www/base/ssh/gem > ~/.ssh/gem
 cat /var/www/base/ssh/gem.pub > ~/.ssh/gem.pub
 chmod 600 ~/.ssh/*
+# ssh-copy-id user@123.45.56.78
 
 #########################################
 #
@@ -118,6 +118,7 @@ chmod 600 ~/.ssh/*
 # sudo apt install libapache2-mod-php?.? -y
 # sudo update-alternatives --config php
 # sudo apt install phpmd -y
+# sudo apt install composer -y --purge --auto-remove
 
 #########################################
 #
@@ -139,7 +140,7 @@ cat /var/www/base/httpd/httpd.conf | sudo tee /etc/apache2/sites-available/ductn
 printf "\n\n" >> /etc/apache2/sites-available/ductn.conf
 find /var/www/base/httpd/*/httpd.conf -type f -exec cat {} \;| sudo tee -a /etc/apache2/sites-available/ductn.conf
 
-sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip
+# sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip
 
 sudo a2ensite ductn.conf
 sudo a2dismod php?.?
@@ -151,7 +152,7 @@ sudo service apache2 restart
 
 #########################################
 #
-# Nodejs Install
+# sendMail Install
 #
 #########################################
 # sudo apt install -y sendmail
