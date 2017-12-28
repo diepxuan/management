@@ -71,12 +71,6 @@ _magerun2()
             admin:user:list)
             opts="${opts} --format"
             ;;
-            admin:user:unlock)
-            opts="${opts} "
-            ;;
-            app:config:dump)
-            opts="${opts} "
-            ;;
             app:config:import)
             opts="${opts} "
             ;;
@@ -98,32 +92,14 @@ _magerun2()
             cache:report)
             opts="${opts} --fpc --tags --mtime --filter-id --filter-tag --format"
             ;;
-            cache:status)
-            opts="${opts} --bootstrap"
-            ;;
             cache:view)
             opts="${opts} --fpc --unserialize"
-            ;;
-            catalog:images:resize)
-            opts="${opts} "
-            ;;
-            catalog:product:attributes:cleanup)
-            opts="${opts} "
             ;;
             config:data:acl)
             opts="${opts} "
             ;;
             config:data:di)
             opts="${opts} --scope"
-            ;;
-            config:sensitive:set)
-            opts="${opts} --interactive --scope --scope-code"
-            ;;
-            config:set)
-            opts="${opts} --scope --scope-code --lock"
-            ;;
-            config:show)
-            opts="${opts} --scope --scope-code"
             ;;
             config:store:delete)
             opts="${opts} --scope --scope-id --all"
@@ -134,20 +110,8 @@ _magerun2()
             config:store:set)
             opts="${opts} --scope --scope-id --encrypt --no-null"
             ;;
-            cron:install)
-            opts="${opts} --force"
-            ;;
-            cron:remove)
-            opts="${opts} "
-            ;;
-            cron:run)
-            opts="${opts} --group --bootstrap"
-            ;;
             customer:create)
             opts="${opts} --format"
-            ;;
-            customer:hash:upgrade)
-            opts="${opts} "
             ;;
             customer:info)
             opts="${opts} "
@@ -185,12 +149,6 @@ _magerun2()
             db:variables)
             opts="${opts} --connection --format --rounding --no-description"
             ;;
-            deploy:mode:set)
-            opts="${opts} --skip-compilation"
-            ;;
-            deploy:mode:show)
-            opts="${opts} "
-            ;;
             design:demo-notice)
             opts="${opts} --on --off --global"
             ;;
@@ -198,9 +156,6 @@ _magerun2()
             opts="${opts} --theme"
             ;;
             dev:console)
-            opts="${opts} "
-            ;;
-            dev:di:info)
             opts="${opts} "
             ;;
             dev:module:create)
@@ -212,17 +167,8 @@ _magerun2()
             dev:module:observer:list)
             opts="${opts} --format --sort"
             ;;
-            dev:query-log:disable)
-            opts="${opts} "
-            ;;
-            dev:query-log:enable)
-            opts="${opts} --include-all-queries --query-time-threshold --include-call-stack"
-            ;;
             dev:report:count)
             opts="${opts} "
-            ;;
-            dev:source-theme:deploy)
-            opts="${opts} --type --locale --area --theme"
             ;;
             dev:symlinks)
             opts="${opts} --on --off --global"
@@ -233,23 +179,8 @@ _magerun2()
             dev:template-hints-blocks)
             opts="${opts} --on --off"
             ;;
-            dev:template-hints:disable)
-            opts="${opts} "
-            ;;
-            dev:template-hints:enable)
-            opts="${opts} "
-            ;;
-            dev:tests:run)
-            opts="${opts} --arguments"
-            ;;
             dev:theme:list)
             opts="${opts} --format"
-            ;;
-            dev:urn-catalog:generate)
-            opts="${opts} --ide"
-            ;;
-            dev:xml:convert)
-            opts="${opts} --overwrite"
             ;;
             eav:attribute:list)
             opts="${opts} --add-source --add-backend --filter-type --format"
@@ -269,31 +200,10 @@ _magerun2()
             i18n:pack)
             opts="${opts} --mode --allow-duplicates"
             ;;
-            i18n:uninstall)
-            opts="${opts} --backup-code"
-            ;;
             index:list)
             opts="${opts} --format"
             ;;
             index:trigger:recreate)
-            opts="${opts} "
-            ;;
-            indexer:info)
-            opts="${opts} "
-            ;;
-            indexer:reindex)
-            opts="${opts} "
-            ;;
-            indexer:reset)
-            opts="${opts} "
-            ;;
-            indexer:set-mode)
-            opts="${opts} "
-            ;;
-            indexer:show-mode)
-            opts="${opts} "
-            ;;
-            indexer:status)
             opts="${opts} "
             ;;
             info:adminuri)
@@ -353,9 +263,6 @@ _magerun2()
             sampledata:remove)
             opts="${opts} "
             ;;
-            sampledata:reset)
-            opts="${opts} "
-            ;;
             script:repo:list)
             opts="${opts} --format"
             ;;
@@ -407,12 +314,6 @@ _magerun2()
             setup:upgrade)
             opts="${opts} --keep-generated --magento-init-params"
             ;;
-            store:list)
-            opts="${opts} "
-            ;;
-            store:website:list)
-            opts="${opts} "
-            ;;
             sys:check)
             opts="${opts} --format"
             ;;
@@ -455,12 +356,6 @@ _magerun2()
             sys:website:list)
             opts="${opts} --format"
             ;;
-            theme:uninstall)
-            opts="${opts} --backup-code --clear-static-content"
-            ;;
-            varnish:vcl:generate)
-            opts="${opts} --access-list --backend-host --backend-port --export-version --grace-period --output-file"
-            ;;
 
         esac
 
@@ -472,7 +367,7 @@ _magerun2()
 
     # completing for a command
     if [[ $cur == $com ]]; then
-        coms="help install list open-browser script self-update shell admin:notifications admin:user:change-password admin:user:create admin:user:delete admin:user:list admin:user:unlock app:config:dump app:config:import cache:clean cache:disable cache:enable cache:flush cache:list cache:report cache:status cache:view catalog:images:resize catalog:product:attributes:cleanup config:data:acl config:data:di config:sensitive:set config:set config:show config:store:delete config:store:get config:store:set cron:install cron:remove cron:run customer:create customer:hash:upgrade customer:info customer:list db:console db:create db:drop db:dump db:import db:info db:maintain:check-tables db:query db:status db:variables deploy:mode:set deploy:mode:show design:demo-notice dev:asset:clear dev:console dev:di:info dev:module:create dev:module:list dev:module:observer:list dev:query-log:disable dev:query-log:enable dev:report:count dev:source-theme:deploy dev:symlinks dev:template-hints dev:template-hints-blocks dev:template-hints:disable dev:template-hints:enable dev:tests:run dev:theme:list dev:urn-catalog:generate dev:xml:convert eav:attribute:list eav:attribute:remove eav:attribute:view generation:flush i18n:collect-phrases i18n:pack i18n:uninstall index:list index:trigger:recreate indexer:info indexer:reindex indexer:reset indexer:set-mode indexer:show-mode indexer:status info:adminuri info:backups:list info:currency:list info:dependencies:show-framework info:dependencies:show-modules info:dependencies:show-modules-circular info:language:list info:timezone:list maintenance:allow-ips maintenance:disable maintenance:enable maintenance:status media:dump module:disable module:enable module:status module:uninstall sampledata:deploy sampledata:remove sampledata:reset script:repo:list script:repo:run search:engine:list setup:backup setup:config:set setup:cron:run setup:db-data:upgrade setup:db-schema:upgrade setup:db:status setup:di:compile setup:install setup:performance:generate-fixtures setup:rollback setup:static-content:deploy setup:store-config:set setup:uninstall setup:upgrade store:list store:website:list sys:check sys:cron:history sys:cron:list sys:cron:run sys:cron:schedule sys:info sys:maintenance sys:setup:change-version sys:setup:compare-versions sys:setup:downgrade-versions sys:store:config:base-url:list sys:store:list sys:url:list sys:website:list theme:uninstall varnish:vcl:generate"
+        coms="help install list open-browser script self-update shell admin:notifications admin:user:change-password admin:user:create admin:user:delete admin:user:list app:config:import cache:clean cache:disable cache:enable cache:flush cache:list cache:report cache:view config:data:acl config:data:di config:store:delete config:store:get config:store:set customer:create customer:info customer:list db:console db:create db:drop db:dump db:import db:info db:maintain:check-tables db:query db:status db:variables design:demo-notice dev:asset:clear dev:console dev:module:create dev:module:list dev:module:observer:list dev:report:count dev:symlinks dev:template-hints dev:template-hints-blocks dev:theme:list eav:attribute:list eav:attribute:remove eav:attribute:view generation:flush i18n:collect-phrases i18n:pack index:list index:trigger:recreate info:adminuri info:backups:list info:currency:list info:dependencies:show-framework info:dependencies:show-modules info:dependencies:show-modules-circular info:language:list info:timezone:list maintenance:allow-ips maintenance:disable maintenance:enable maintenance:status media:dump module:disable module:enable module:status module:uninstall sampledata:deploy sampledata:remove script:repo:list script:repo:run search:engine:list setup:backup setup:config:set setup:cron:run setup:db-data:upgrade setup:db-schema:upgrade setup:db:status setup:di:compile setup:install setup:performance:generate-fixtures setup:rollback setup:static-content:deploy setup:store-config:set setup:uninstall setup:upgrade sys:check sys:cron:history sys:cron:list sys:cron:run sys:cron:schedule sys:info sys:maintenance sys:setup:change-version sys:setup:compare-versions sys:setup:downgrade-versions sys:store:config:base-url:list sys:store:list sys:url:list sys:website:list"
 
         COMPREPLY=($(compgen -W "${coms}" -- ${cur}))
         __ltrim_colon_completions "$cur"
