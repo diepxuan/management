@@ -33,21 +33,34 @@ fi
 # permision
 WEBSERVER_GROUP="www-data"
 alias m2ch="
-chmod -R u+w var
-chmod -R u+w vendor
-chmod -R u+w generated
-chmod -R u+w generation
-chmod -R u+w generation/code
-chmod -R u+w pub/static
-chmod -R u+w pub/media
-chmod -R u+w app/etc
-chmod -R u+w var
-chmod -R u+w var/cache
-chmod -R u+w var/generation
-chmod -R u+w var/view_preprocessed
-chmod -R u+w var/tmp
+_m2ch() {
+    chmod -R g+w \${1}
+    chmod g+ws \${1}
+}
 
-chmod -R u+w wp/wp-content/themes
+_m2ch app/etc
+_m2ch vendor
+_m2ch generated
+_m2ch generation
+_m2ch generation/code
+
+_m2ch pub/static
+_m2ch pub/media
+
+_m2ch var
+_m2ch var/log
+_m2ch var/cache
+_m2ch var/page_cache
+_m2ch var/generation
+_m2ch var/view_preprocessed
+_m2ch var/tmp
+
+_m2ch wp/wp-content/themes
+
+unset -f _m2ch
+
+# find var vendor pub/static pub/media app/etc -type f -print0 -printf '\r\n' -exec chmod g+w {} \;
+# find var vendor pub/static pub/media app/etc -type d -print0 -printf '\r\n' -exec chmod g+ws {} \;
 "
 
 alias m2group="sudo usermod -aG $WEBSERVER_GROUP `whoami`"
@@ -102,7 +115,7 @@ magerun2 module:enable --all
 magerun2 setup:di:compile
 m2up"
 
-alias m2setting="
+alias m2setting="_m2setting() {
 magerun2 config:store:set admin/security/admin_account_sharing   1
 magerun2 config:store:set admin/security/use_form_key            0
 magerun2 config:store:set admin/startup/page                     dashboard
@@ -123,8 +136,16 @@ magerun2 config:store:set web/secure/enable_upgrade_insecure     1
 magerun2 config:store:set admin/autologin/enable                 1
 magerun2 config:store:set admin/autologin/username               admin
 
+if [ ! -z \$1 ]; then
+    magerun2 config:store:set web/unsecure/base_url         http://\$1/
+    magerun2 config:store:set web/secure/base_url           https://\$1/
+    magerun2 config:store:set web/cookie/cookie_domain      \$1
+fi
+
 m2cache
-"
+
+unset -f _m2setting
+}; _m2setting"
 
 alias m2developer="
 m2perm
@@ -196,3 +217,8 @@ fi
 
 # reload
 alias ductn_personal="/var/www/base/bash/personal.sh"
+alias ductn_tci="
+ductn_personal
+git config user.name lucas
+git config user.email lucas.ng@twentyci.asia
+"
