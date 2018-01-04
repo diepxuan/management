@@ -27,3 +27,37 @@ rem netsh advfirewall firewall add rule name="apps.skype.com" dir=in interface=a
 rem netsh advfirewall firewall add rule name="apps.skype.com" dir=out interface=any action=block remoteip=2.23.109.81
 
 rem mklink /H D:\server\www\live\pma.diepxuan.vn\config.inc.php D:\server\www\code\php\phpmyadmin\config.inc.php
+
+
+rem clear key
+slmgr -upk
+slmgr /ckms
+
+rem win 10
+rem 1. slmgr /ipk PW48G-MNG8W-B9978-YWBRP-76DGY
+rem 1.1 KWWVF-VNVFM-HTVTP-YP824-WFDHC
+rem 1.2 T6R8N-X9P9Q-K9W99-7G7KQ-B9492
+
+rem 2.
+rem slmgr /ipk W269N-WFGWX-YVC9B-4J6C9-T83GX
+rem 2.2 VK7JG-NPHTM-C97JM-9MPGT-3V66T
+
+rem winserver 2016
+slmgr /ipk WC2BQ-8NRM3-FDDYY-2BFGV-KHKQY
+rem slmgr /ipk N4698-DX2CQ-PDTDG-CHB6B-8FHXR
+rem slmgr /ipk 623H6-N2399-P9J4X-MPD8T-V6D9R
+
+rem vs 2017 Enterprise
+rem NJVYC-BMHX2-G77MM-4XJMR-6Q8QF
+
+rem vs 2017 Pro
+rem KBJFW-NXHK6-W4WJM-CRMQB-G3CDH
+rem HMGNV-WCYXV-X7G9W-YCX63-B98R2
+
+rem slmgr /skms kms.digiboy.ir
+slmgr /skms kms.lotro.cc
+
+slmgr /ato
+
+rem valid
+slmgr -xpr

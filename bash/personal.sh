@@ -35,8 +35,8 @@ chmod 644 ~/.gitignore
 git config --global core.excludesfile ~/.gitignore
 
 # setting
-git config --global user.name "Trần Ngọc Đức"
-git config --global user.email "caothu91@gmail.com"
+git config user.name "Trần Ngọc Đức"
+git config user.email "caothu91@gmail.com"
 
 # push
 git config --global push.default simple
@@ -75,12 +75,12 @@ git config --global gc.auto 0
 #                       containing the private key, for the old passphrase, and twice for
 #                       the new passphrase.
 #
+# ssh-keygen -t rsa -y > ~/.ssh/id_rsa.pub
 # ssh-keygen -f id_rsa -p
 
 # Setup
 # ##############################
 mkdir -p ~/.ssh
-chmod 700 ~/.ssh
 # ssh config
 cat /var/www/base/ssh/config > ~/.ssh/config
 printf "\n\n" >> ~/.ssh/config
@@ -88,14 +88,18 @@ find /var/www/base/ssh/config.d/*.conf -type f -exec cat {} >> ~/.ssh/config \; 
 
 # ssh private key
 cat /var/www/base/ssh/id_rsa > ~/.ssh/id_rsa
-cat /var/www/base/ssh/id_rsa.pub > ~/.ssh/id_rsa.pub
 cat /var/www/base/ssh/gss > ~/.ssh/gss
-cat /var/www/base/ssh/gss.pub > ~/.ssh/gss.pub
 cat /var/www/base/ssh/tci > ~/.ssh/tci
-cat /var/www/base/ssh/tci.pub > ~/.ssh/tci.pub
 cat /var/www/base/ssh/gem > ~/.ssh/gem
-cat /var/www/base/ssh/gem.pub > ~/.ssh/gem.pub
+
+chmod 700 ~/.ssh
 chmod 600 ~/.ssh/*
+
+ssh-keygen -f ~/.ssh/id_rsa -y > ~/.ssh/id_rsa.pub
+ssh-keygen -f ~/.ssh/gss -y > ~/.ssh/gss.pub
+ssh-keygen -f ~/.ssh/tci -y > ~/.ssh/tci.pub
+ssh-keygen -f ~/.ssh/gem -y > ~/.ssh/gem.pub
+
 # ssh-copy-id user@123.45.56.78
 
 #########################################
