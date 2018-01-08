@@ -67,6 +67,7 @@ _newUser() {
         sudo chown -R ${1}:${1} /home/${1}/.ssh
 
         sudo mkdir -p           /home/${1}/public_html
+        sudo mkdir -p           /home/${1}/public_html/csv
         sudo chown -R ${1}:${1} /home/${1}/public_html
 
         sudo mkdir -p           /home/${1}/.ssl
@@ -82,6 +83,7 @@ _newUser() {
 
 _newUser
 _newUser mrtperformance
+_newUser fulcrumsuspensions
 
 unset -f _newUser
 
@@ -104,22 +106,46 @@ ssh -tt staging.part.twentyci.asia sudo mv -Z /tmp/magento.settings    /etc/ngin
 
 
 echo ""
-echo "# mrtperformance"
+echo "# php-fpm"
 echo "#########################################"
-echo " - /etc/php-fpm.d/mrtperformance.conf"
+
 scp /var/www/base/bash/twentyci/phpfpm/mrtperformance.conf  staging.part.twentyci.asia:/tmp/ &>/dev/null
 ssh -tt staging.part.twentyci.asia sudo mv -Z /tmp/mrtperformance.conf /etc/php-fpm.d/mrtperformance.conf
+echo " - /etc/php-fpm.d/mrtperformance.conf"
+
+scp /var/www/base/bash/twentyci/phpfpm/fulcrumsuspensions.conf  staging.part.twentyci.asia:/tmp/ &>/dev/null
+ssh -tt staging.part.twentyci.asia sudo mv -Z /tmp/fulcrumsuspensions.conf /etc/php-fpm.d/fulcrumsuspensions.conf
+echo " - /etc/php-fpm.d/fulcrumsuspensions.conf"
+
 ssh -t staging.part.twentyci.asia sudo systemctl restart php-fpm
 
 
-echo " - /etc/nginx/conf.d/mrtperformance.conf"
+echo ""
+echo "# nginx"
+echo "#########################################"
+
 scp /var/www/base/bash/twentyci/nginx/mrtperformance.conf   staging.part.twentyci.asia:/tmp/ &>/dev/null
 ssh -tt staging.part.twentyci.asia sudo mv -Z /tmp/mrtperformance.conf /etc/nginx/conf.d/mrtperformance.conf
+echo " - /etc/nginx/conf.d/mrtperformance.conf"
+
+scp /var/www/base/bash/twentyci/nginx/fulcrumsuspensions.conf   staging.part.twentyci.asia:/tmp/ &>/dev/null
+ssh -tt staging.part.twentyci.asia sudo mv -Z /tmp/fulcrumsuspensions.conf /etc/nginx/conf.d/fulcrumsuspensions.conf
+echo " - /etc/nginx/conf.d/fulcrumsuspensions.conf"
+
 ssh -t staging.part.twentyci.asia sudo nginx -t
 ssh -t staging.part.twentyci.asia sudo systemctl restart nginx
 
-echo " - mrtperformance deploy.sh"
+
+echo ""
+echo "# deploy"
+echo "#########################################"
+
 scp /var/www/base/bash/twentyci/deploy/mrtperformance.sh    mrtperformance@staging.part.twentyci.asia:/home/mrtperformance/public_html/deploy.sh &>/dev/null
 ssh mrtperformance@staging.part.twentyci.asia chmod u+x /home/mrtperformance/public_html/deploy.sh
+echo " - mrtperformance deploy.sh"
+
+scp /var/www/base/bash/twentyci/deploy/fulcrumsuspensions.sh    fulcrumsuspensions@staging.part.twentyci.asia:/home/fulcrumsuspensions/public_html/deploy.sh &>/dev/null
+ssh fulcrumsuspensions@staging.part.twentyci.asia chmod u+x /home/fulcrumsuspensions/public_html/deploy.sh
+echo " - fulcrumsuspensions deploy.sh"
 
 exit

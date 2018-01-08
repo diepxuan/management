@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd /home/mrtperformance/public_html/
+cd /home/fulcrumsuspensions/public_html/
 
 git fetch --all
 git reset --hard origin/master
@@ -55,6 +55,8 @@ _m2ch wp/wp-content/themes
 
 unset -f _m2ch
 
-curl -I http://mrt.partsdb.com.au/?clean-varnish
-#sudo varnishadm "ban req.http.host ~ mrt.partsdb.com.au"
+curl -I http://fulcrumpartsbx.partsdb.com.au/?clean-varnish
+#sudo varnishadm "ban req.http.host ~ fulcrumpartsbx.partsdb.com.au"
+curl -I http://fulcrum.partsdb.com.au/?clean-varnish
+#sudo varnishadm "ban req.http.host ~ fulcrum.partsdb.com.au"
 echo "The deployment script has completed execution."
