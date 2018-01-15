@@ -142,6 +142,8 @@ if [ ! -z \$1 ]; then
     magerun2 config:store:set web/cookie/cookie_domain      \$1
 fi
 
+magerun2 admin:notifications notifications --off
+
 m2cache
 
 unset -f _m2setting

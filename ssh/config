@@ -2,6 +2,9 @@
 ### Global Host Config ###
 ##########################
 
+Host *
+	ServerAliveInterval 30
+
 Host bitbucketgss
     HostName bitbucket.org
     IdentityFile ~/.ssh/gss
