@@ -50,7 +50,7 @@ _newUser() {
         cat > ~/.ssh/id_rsa
         ssh-keygen -f ~/.ssh/id_rsa -y > ~/.ssh/id_rsa.pub
         "
-        echo -e \t\t "--ok"
+        echo -e "--ok"
     else
         echo -en $1@staging.part.twentyci.asia
         ssh staging.part.twentyci.asia -tt "
@@ -77,7 +77,7 @@ _newUser() {
         sudo chmod -R 777       /home/${1}/.mage
         sudo chown -R ${1}:${1} /home/${1}/.mage
         " &>/dev/null
-        echo -e \t\t "--ok"
+        echo -e "--ok"
     fi
 }
 

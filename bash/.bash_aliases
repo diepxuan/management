@@ -150,6 +150,7 @@ unset -f _m2setting
 }; _m2setting"
 
 alias m2developer="
+composer -vvv require vpietri/adm-quickdevbar
 m2perm
 m2rmgen
 m2static
