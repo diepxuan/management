@@ -9,7 +9,7 @@ composer -vvv require partsbx/core dev-release
 # composer -vvv require partsbx/core dev-master
 chmod u+x bin/magento
 
-find generation generation/code var/generation -maxdepth 1 -mindepth 1 -type d -not -name "Magento" -not -name "Composer" -not -name "Symfony" -print0 -printf "\r\n" -exec rm -rf {} \;
+find generated generated/code generation generation/code var/generation -maxdepth 1 -mindepth 1 -type d -not -name 'Magento' -not -name 'Composer' -not -name 'Symfony' -print0 -printf '\r\n' -exec rm -rf {} \;
 magerun2 generation:flush
 
 rm -rf var/view_preprocessed/* pub/static/frontend/* pub/static/adminhtml/* pub/static/_requirejs/*
@@ -56,8 +56,8 @@ _m2ch wp/wp-content/themes
 
 unset -f _m2ch
 
-curl -I http://fulcrumpartsbx.partsdb.com.au/?clean-varnish
-#sudo varnishadm "ban req.http.host ~ fulcrumpartsbx.partsdb.com.au"
+curl -I http://fulcrumbxstaging.partsdb.com.au/?clean-varnish
+# sudo varnishadm "ban req.http.host ~ fulcrumbxstaging.partsdb.com.au"
 curl -I http://fulcrum.partsdb.com.au/?clean-varnish
-#sudo varnishadm "ban req.http.host ~ fulcrum.partsdb.com.au"
+# sudo varnishadm "ban req.http.host ~ fulcrum.partsdb.com.au"
 echo "The deployment script has completed execution."
