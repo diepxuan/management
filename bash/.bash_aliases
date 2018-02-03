@@ -75,7 +75,7 @@ m2ch
 
 # clean
 alias m2rmgen="
-find generation generation/code var/generation -maxdepth 1 -mindepth 1 -type d -not -name 'Magento' -not -name 'Composer' -not -name 'Symfony' -print0 -printf '\r\n' -exec rm -rf {} \;
+find generated generated/code generation generation/code var/generation -maxdepth 1 -mindepth 1 -type d -not -name 'Magento' -not -name 'Composer' -not -name 'Symfony' -print0 -printf '\r\n' -exec rm -rf {} \;
 magerun2 generation:flush"
 
 alias m2static="
@@ -150,7 +150,7 @@ unset -f _m2setting
 }; _m2setting"
 
 alias m2developer="
-composer -vvv require vpietri/adm-quickdevbar
+composer -vvv require --prefer-source --dev vpietri/adm-quickdevbar diepxuan/module-email
 m2perm
 m2rmgen
 m2static
