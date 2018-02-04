@@ -8,10 +8,10 @@
 echo ". /var/www/base/bash/.bash_aliases" > ~/.bash_aliases
 chmod 644 ~/.bash_aliases
 
-# composer global require bamarni/symfony-console-autocomplete
+# composer -vvv global require bamarni/symfony-console-autocomplete
 chmod u+x /var/www/base/bash/completion/*.setup
-# /var/www/base/bash/completion/magerun.setup
-# /var/www/base/bash/completion/magerun2.setup
+/var/www/base/bash/completion/magerun.setup
+/var/www/base/bash/completion/magerun2.setup
 mkdir -p ~/bin
 chmod 775 -R ~/bin
 
@@ -35,8 +35,8 @@ chmod 644 ~/.gitignore
 git config --global core.excludesfile ~/.gitignore
 
 # setting
-git config user.name "Trần Ngọc Đức"
-git config user.email "caothu91@gmail.com"
+git config --global user.name "Trần Ngọc Đức"
+git config --global user.email "caothu91@gmail.com"
 
 # push
 git config --global push.default simple
@@ -171,7 +171,7 @@ sudo service apache2 restart
 # Nodejs Install
 #
 #########################################
-# curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+# curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
 # sudo apt install -y nodejs build-essential
 
 # echo "fs.inotify.max_user_watches = 524288" | sudo tee /etc/sysctl.d/grunt.conf
@@ -197,11 +197,18 @@ sudo service cron restart
 # sudo service solr stop
 # sudo rm -rf /etc/init.d/solr
 # sudo rm -rf solr* install_solr_service.sh
-# # sudo wget https://www-eu.apache.org/dist/lucene/solr/7.1.0/solr-7.1.0.tgz
-# # sudo tar xzf solr-7.1.0.tgz solr-7.1.0/bin/install_solr_service.sh --strip-components=2
-# # sudo bash ./install_solr_service.sh solr-7.1.0.tgz
+
+# sudo wget https://www-eu.apache.org/dist/lucene/solr/7.1.0/solr-7.1.0.tgz
+# sudo tar xzf solr-7.1.0.tgz solr-7.1.0/bin/install_solr_service.sh --strip-components=2
+# sudo bash ./install_solr_service.sh solr-7.1.0.tgz
+
 # sudo wget https://archive.apache.org/dist/lucene/solr/6.1.0/solr-6.1.0.tgz
 # sudo tar xzf solr-6.1.0.tgz solr-6.1.0/bin/install_solr_service.sh --strip-components=2
 # sudo ./install_solr_service.sh solr-6.1.0.tgz -f
+
+# sudo wget http://mirrors.viethosting.com/apache/lucene/solr/6.6.2/solr-6.6.2.tgz
+# sudo tar xzf solr-6.6.2.tgz solr-6.6.2/bin/install_solr_service.sh --strip-components=2
+# sudo ./install_solr_service.sh solr-6.6.2.tgz -f
+
 # sudo service solr restart
 # sudo usermod -aG solr `whoami`
