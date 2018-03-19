@@ -136,6 +136,11 @@ magerun2 config:store:set web/secure/enable_upgrade_insecure     1
 magerun2 config:store:set admin/autologin/enable                 1
 magerun2 config:store:set admin/autologin/username               admin
 
+magerun2 config:store:set system/smtp/active                     1
+magerun2 config:store:set system/smtp/smtphost                   smtp.zoho.com
+magerun2 config:store:set system/smtp/username                   admin@diepxuan.com
+magerun2 config:store:set system/smtp/password                   fbJdfF2xsKd5NSrv
+
 if [ ! -z \$1 ]; then
     magerun2 config:store:set web/unsecure/base_url         http://\$1/
     magerun2 config:store:set web/secure/base_url           https://\$1/
