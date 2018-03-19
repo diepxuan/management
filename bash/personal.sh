@@ -200,8 +200,8 @@ chmod 644 ~/.bash_aliases
 
 # composer -vvv global require bamarni/symfony-console-autocomplete
 chmod u+x /var/www/base/bash/completion/*.setup
-/var/www/base/bash/completion/magerun.setup
-/var/www/base/bash/completion/magerun2.setup
+# /var/www/base/bash/completion/magerun.setup
+# /var/www/base/bash/completion/magerun2.setup
 mkdir -p ~/bin
 chmod 775 -R ~/bin
 
