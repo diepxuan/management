@@ -84,6 +84,7 @@ _newUser() {
 _newUser
 _newUser mrtperformance
 _newUser fulcrumsuspensions
+_newUser filterandindustrial
 
 unset -f _newUser
 
@@ -117,6 +118,10 @@ scp /var/www/base/bash/twentyci/phpfpm/fulcrumsuspensions.conf  staging.part.twe
 ssh -tt staging.part.twentyci.asia sudo mv -Z /tmp/fulcrumsuspensions.conf /etc/php-fpm.d/fulcrumsuspensions.conf
 echo " - /etc/php-fpm.d/fulcrumsuspensions.conf"
 
+scp /var/www/base/bash/twentyci/phpfpm/filterandindustrial.conf  staging.part.twentyci.asia:/tmp/ &>/dev/null
+ssh -tt staging.part.twentyci.asia sudo mv -Z /tmp/filterandindustrial.conf /etc/php-fpm.d/filterandindustrial.conf
+echo " - /etc/php-fpm.d/filterandindustrial.conf"
+
 ssh -t staging.part.twentyci.asia sudo systemctl restart php-fpm
 
 
@@ -131,6 +136,10 @@ echo " - /etc/nginx/conf.d/mrtperformance.conf"
 scp /var/www/base/bash/twentyci/nginx/fulcrumsuspensions.conf   staging.part.twentyci.asia:/tmp/ &>/dev/null
 ssh -tt staging.part.twentyci.asia sudo mv -Z /tmp/fulcrumsuspensions.conf /etc/nginx/conf.d/fulcrumsuspensions.conf
 echo " - /etc/nginx/conf.d/fulcrumsuspensions.conf"
+
+scp /var/www/base/bash/twentyci/nginx/filterandindustrial.conf   staging.part.twentyci.asia:/tmp/ &>/dev/null
+ssh -tt staging.part.twentyci.asia sudo mv -Z /tmp/filterandindustrial.conf /etc/nginx/conf.d/filterandindustrial.conf
+echo " - /etc/nginx/conf.d/filterandindustrial.conf"
 
 ssh -t staging.part.twentyci.asia sudo nginx -t
 ssh -t staging.part.twentyci.asia sudo systemctl restart nginx
@@ -147,5 +156,27 @@ echo " - mrtperformance deploy.sh"
 scp /var/www/base/bash/twentyci/deploy/fulcrumsuspensions.sh    fulcrumsuspensions@staging.part.twentyci.asia:/home/fulcrumsuspensions/public_html/deploy.sh &>/dev/null
 ssh fulcrumsuspensions@staging.part.twentyci.asia chmod u+x /home/fulcrumsuspensions/public_html/deploy.sh
 echo " - fulcrumsuspensions deploy.sh"
+
+scp /var/www/base/bash/twentyci/deploy/filterandindustrial.sh    filterandindustrial@staging.part.twentyci.asia:/home/filterandindustrial/public_html/deploy.sh &>/dev/null
+ssh filterandindustrial@staging.part.twentyci.asia chmod u+x /home/filterandindustrial/public_html/deploy.sh
+echo " - filterandindustrial deploy.sh"
+
+
+echo ""
+echo "# Solr"
+echo "#########################################"
+ssh -t staging.part.twentyci.asia "
+# cd /opt
+# sudo service solr stop
+# sudo rm -rf /etc/init.d/solr
+# sudo rm -rf solr* install_solr_service.sh
+
+# sudo wget http://mirrors.viethosting.com/apache/lucene/solr/6.6.3/solr-6.6.3.tgz
+# sudo tar xzf solr-6.6.3.tgz solr-6.6.3/bin/install_solr_service.sh --strip-components=2
+# sudo ./install_solr_service.sh solr-6.6.3.tgz -f
+
+# sudo service solr restart
+# sudo usermod -aG solr `whoami`
+"
 
 exit

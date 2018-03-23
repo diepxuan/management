@@ -183,9 +183,9 @@ sudo service apache2 restart
 # sudo tar xzf solr-6.1.0.tgz solr-6.1.0/bin/install_solr_service.sh --strip-components=2
 # sudo ./install_solr_service.sh solr-6.1.0.tgz -f
 
-# sudo wget http://mirrors.viethosting.com/apache/lucene/solr/6.6.2/solr-6.6.2.tgz
-# sudo tar xzf solr-6.6.2.tgz solr-6.6.2/bin/install_solr_service.sh --strip-components=2
-# sudo ./install_solr_service.sh solr-6.6.2.tgz -f
+# sudo wget http://mirrors.viethosting.com/apache/lucene/solr/6.6.3/solr-6.6.3.tgz
+# sudo tar xzf solr-6.6.3.tgz solr-6.6.3/bin/install_solr_service.sh --strip-components=2
+# sudo ./install_solr_service.sh solr-6.6.3.tgz -f
 
 # sudo service solr restart
 # sudo usermod -aG solr `whoami`
