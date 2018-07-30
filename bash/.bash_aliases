@@ -67,7 +67,6 @@ alias m2group="sudo usermod -aG $WEBSERVER_GROUP `whoami`"
 alias m2urn="bin/magento dev:urn-catalog:generate .idea/misc.xml"
 
 alias m2perm="
-chattr -i .
 sudo chown -R `whoami`:$WEBSERVER_GROUP .
 chmod u+x bin/magento
 m2ch
@@ -155,7 +154,7 @@ unset -f _m2setting
 }; _m2setting"
 
 alias m2developer="
-composer -vvv require --prefer-source --dev vpietri/adm-quickdevbar diepxuan/module-email
+composer -vvv require --dev diepxuan/module-email
 m2perm
 m2rmgen
 m2static
