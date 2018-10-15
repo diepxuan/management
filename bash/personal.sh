@@ -129,7 +129,7 @@ cat /var/www/base/httpd/httpd.conf | sudo tee /etc/apache2/sites-available/ductn
 printf "\n\n" >> /etc/apache2/sites-available/ductn.conf
 find /var/www/base/httpd/*/httpd.conf -type f -exec cat {} \;| sudo tee -a /etc/apache2/sites-available/ductn.conf
 
-# sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip
+# sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip php?.?-bcmath
 
 sudo a2ensite ductn.conf
 sudo a2dismod php?.?
