@@ -188,6 +188,16 @@ alias m2addsolr="_m2fixsolr() {
 alias m2logenable="bin/magento dev:query-log:enable"
 alias m2logdisable="bin/magento dev:query-log:disable"
 
+# template debug
+alias m2tempdebugenable="
+magerun2 dev:template-hints-blocks --on
+magerun2 dev:template-hints --on
+"
+alias m2tempdebugdisable="
+magerun2 dev:template-hints-blocks --off
+magerun2 dev:template-hints --off
+"
+
 # completion magerun2
 # ################################################################
 # https://raw.githubusercontent.com/netz98/n98-magerun2/develop/res/autocompletion/bash/n98-magerun2.phar.bash
