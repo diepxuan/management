@@ -210,5 +210,5 @@ chmod 775 -R ~/bin
 # Deploy Install
 #
 #########################################
-sudo crontab /var/www/base/bash/deploy/deploy.conf
-sudo service cron restart
+# sudo crontab /var/www/base/bash/deploy/deploy.conf
+# sudo service cron restart
