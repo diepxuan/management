@@ -234,8 +234,8 @@ fi
 
 # reload
 alias ductn_personal="/var/www/base/bash/personal.sh"
-alias ductn_tci="
-ductn_personal
-git config user.name lucas
-git config user.email lucas.ng@twentyci.asia
-"
+# alias ductn_tci="
+# ductn_personal
+# git config user.name lucas
+# git config user.email lucas.ng@twentyci.asia
+# "
