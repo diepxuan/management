@@ -122,18 +122,6 @@ find ~/.ssl -type f -name '*.conf' -delete
 
 #########################################
 #
-# Certbot Install
-#
-#########################################
-# sudo apt install software-properties-common
-# sudo add-apt-repository universe
-# sudo add-apt-repository ppa:certbot/certbot
-# sudo apt update
-# sudo apt install -y certbot python-certbot-apache
-# sudo certbot --apache
-
-#########################################
-#
 # vhost Install
 #
 #########################################
@@ -150,6 +138,35 @@ sudo a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout 
 sudo apache2ctl configtest
 sudo service apache2 restart
 # sudo service apache2 status
+
+#########################################
+#
+# Certbot Install
+#
+#########################################
+# sudo apt install software-properties-common
+# sudo add-apt-repository universe
+# sudo add-apt-repository ppa:certbot/certbot
+# sudo apt update
+# sudo apt install -y certbot python-certbot-apache python-pip --purge --auto-remove
+# sudo pip install certbot-dns-cloudflare
+
+# sudo certbot certonly --apache \
+#   --expand \
+#   --no-redirect \
+#   --keep-until-expiring \
+#   --break-my-certs \
+#   --pre-hook /var/www/base/bash/certbot/authenticator.sh \
+#   -m caothu91@gmail.com \
+#   --server https://acme-v02.api.letsencrypt.org/directory
+
+sudo certbot certonly \
+  --expand \
+  --dns-cloudflare \
+  --keep-until-expiring \
+  --dns-cloudflare-credentials /var/www/base/bash/certbot/cloudflare.ini \
+  -d solzatech.com,www.solzatech.com \
+  -d diepxuan.com,www.diepxuan.com,luong.diepxuan.com,cloud.diepxuan.com
 
 #########################################
 #
