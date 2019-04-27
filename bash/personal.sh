@@ -133,7 +133,7 @@ find /var/www/base/httpd/*/httpd.conf -type f -exec cat {} \;| sudo tee -a /etc/
 
 sudo a2ensite ductn.conf
 sudo a2dismod php?.?
-sudo a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias php7.0 ssl
+sudo a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias php7.2 ssl env dir mime
 
 sudo apache2ctl configtest
 sudo service apache2 restart
@@ -169,7 +169,7 @@ sudo certbot certonly \
   --email caothu91@gmail.com \
   --eff-email \
   -d solzatech.com,www.solzatech.com \
-  -d diepxuan.com,luong.diepxuan.com,www.diepxuan.com,blog.diepxuan.com
+  -d diepxuan.com,luong.diepxuan.com,www.diepxuan.com,blog.diepxuan.com,cloud.diepxuan.com
 
 sudo service apache2 restart
 
