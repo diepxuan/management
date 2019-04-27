@@ -169,7 +169,7 @@ sudo certbot certonly \
   --email caothu91@gmail.com \
   --eff-email \
   -d solzatech.com,www.solzatech.com \
-  -d diepxuan.com,luong.diepxuan.com,www.diepxuan.com,blog.diepxuan.com
+  -d diepxuan.com,luong.diepxuan.com,www.diepxuan.com,blog.diepxuan.com,cloud.diepxuan.com
 
 sudo service apache2 restart
 
