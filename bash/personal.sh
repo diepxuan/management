@@ -73,17 +73,17 @@ find /var/www/base/ssh/config.d/*.conf -type f -exec cat {} >> ~/.ssh/config \; 
 
 # ssh private key
 cat /var/www/base/ssh/id_rsa > ~/.ssh/id_rsa
-cat /var/www/base/ssh/gss > ~/.ssh/gss
-cat /var/www/base/ssh/tci > ~/.ssh/tci
-cat /var/www/base/ssh/gem > ~/.ssh/gem
+# cat /var/www/base/ssh/gss > ~/.ssh/gss
+# cat /var/www/base/ssh/tci > ~/.ssh/tci
+# cat /var/www/base/ssh/gem > ~/.ssh/gem
 
 chmod 700 ~/.ssh
 chmod 600 ~/.ssh/*
 
 ssh-keygen -f ~/.ssh/id_rsa -y > ~/.ssh/id_rsa.pub
-ssh-keygen -f ~/.ssh/gss -y > ~/.ssh/gss.pub
-ssh-keygen -f ~/.ssh/tci -y > ~/.ssh/tci.pub
-ssh-keygen -f ~/.ssh/gem -y > ~/.ssh/gem.pub
+# ssh-keygen -f ~/.ssh/gss -y > ~/.ssh/gss.pub
+# ssh-keygen -f ~/.ssh/tci -y > ~/.ssh/tci.pub
+# ssh-keygen -f ~/.ssh/gem -y > ~/.ssh/gem.pub
 
 # ssh-copy-id user@123.45.56.78
 
@@ -122,6 +122,18 @@ find ~/.ssl -type f -name '*.conf' -delete
 
 #########################################
 #
+# Certbot Install
+#
+#########################################
+# sudo apt install software-properties-common
+# sudo add-apt-repository universe
+# sudo add-apt-repository ppa:certbot/certbot
+# sudo apt update
+# sudo apt install -y certbot python-certbot-apache
+# sudo certbot --apache
+
+#########################################
+#
 # vhost Install
 #
 #########################################
@@ -156,11 +168,12 @@ sudo service apache2 restart
 # Nodejs Install
 #
 #########################################
-# curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
-# sudo apt install -y nodejs build-essential
+curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
+sudo apt install -y nodejs build-essential
+sudo npm install -g grunt-cli
 
-# echo "fs.inotify.max_user_watches = 524288" | sudo tee /etc/sysctl.d/grunt.conf
-# sudo sysctl -p --system
+echo "fs.inotify.max_user_watches = 524288" | sudo tee /etc/sysctl.d/grunt.conf
+sudo sysctl -p --system
 
 # Java install
 #########################################
