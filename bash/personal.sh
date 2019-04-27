@@ -162,11 +162,16 @@ sudo service apache2 restart
 
 sudo certbot certonly \
   --expand \
-  --dns-cloudflare \
   --keep-until-expiring \
+  --dns-cloudflare \
   --dns-cloudflare-credentials /var/www/base/bash/certbot/cloudflare.ini \
+  --agree-tos \
+  --email caothu91@gmail.com \
+  --eff-email \
   -d solzatech.com,www.solzatech.com \
-  -d diepxuan.com,www.diepxuan.com,luong.diepxuan.com,cloud.diepxuan.com
+  -d diepxuan.com,luong.diepxuan.com,www.diepxuan.com,blog.diepxuan.com
+
+sudo service apache2 restart
 
 #########################################
 #
