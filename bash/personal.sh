@@ -93,7 +93,7 @@ ssh-keygen -f ~/.ssh/id_rsa -y > ~/.ssh/id_rsa.pub
 #
 #########################################
 # sudo apt update
-# sudo apt install apache2
+# sudo apt install apache2 -y --purge --auto-remove
 # sudo apache2ctl configtest
 # sudo service apache2 restart
 
@@ -104,9 +104,9 @@ ssh-keygen -f ~/.ssh/id_rsa -y > ~/.ssh/id_rsa.pub
 #########################################
 # sudo add-apt-repository ppa:ondrej/php
 # sudo apt update
-# sudo apt install libapache2-mod-php?.? -y
+# sudo apt install libapache2-mod-php?.? -y --purge --auto-remove
 # sudo update-alternatives --config php
-# sudo apt install phpmd -y
+# sudo apt install phpmd -y --purge --auto-remove
 # sudo apt install composer -y --purge --auto-remove
 
 #########################################
@@ -144,8 +144,8 @@ sudo service apache2 restart
 # Certbot Install
 #
 #########################################
-# sudo apt install software-properties-common
-# sudo add-apt-repository universe
+# sudo apt install software-properties-common -y --purge --auto-remove
+# # sudo add-apt-repository universe
 # sudo add-apt-repository ppa:certbot/certbot
 # sudo apt update
 # sudo apt install -y certbot python-certbot-apache python-pip --purge --auto-remove
@@ -190,12 +190,12 @@ sudo service apache2 restart
 # Nodejs Install
 #
 #########################################
-curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
-sudo apt install -y nodejs build-essential
-sudo npm install -g grunt-cli
+# curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
+# sudo apt install -y nodejs build-essential
+# sudo npm install -g grunt-cli
 
-echo "fs.inotify.max_user_watches = 524288" | sudo tee /etc/sysctl.d/grunt.conf
-sudo sysctl -p --system
+# echo "fs.inotify.max_user_watches = 524288" | sudo tee /etc/sysctl.d/grunt.conf
+# # sudo sysctl -p --system
 
 # Java install
 #########################################
