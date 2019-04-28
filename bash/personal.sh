@@ -160,16 +160,22 @@ sudo service apache2 restart
 #   -m caothu91@gmail.com \
 #   --server https://acme-v02.api.letsencrypt.org/directory
 
-sudo certbot certonly \
-  --expand \
-  --keep-until-expiring \
-  --dns-cloudflare \
-  --dns-cloudflare-credentials /var/www/base/bash/certbot/cloudflare.ini \
-  --agree-tos \
-  --email caothu91@gmail.com \
-  --eff-email \
-  -d solzatech.com,www.solzatech.com \
-  -d diepxuan.com,luong.diepxuan.com,www.diepxuan.com,blog.diepxuan.com,cloud.diepxuan.com
+_certbot() {
+	sudo certbot certonly \
+	  --expand \
+	  --keep-until-expiring \
+	  --dns-cloudflare \
+	  --dns-cloudflare-credentials /var/www/base/bash/certbot/cloudflare.ini \
+	  --agree-tos \
+	  --email caothu91@gmail.com \
+	  --eff-email \
+	  -d $1
+}
+
+_certbot solzatech.com,www.solzatech.com
+_certbot diepxuan.com,luong.diepxuan.com,www.diepxuan.com,blog.diepxuan.com,cloud.diepxuan.com
+
+unset -f _certbot
 
 sudo service apache2 restart
 
