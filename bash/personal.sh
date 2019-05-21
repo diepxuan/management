@@ -125,19 +125,19 @@ find ~/.ssl -type f -name '*.conf' -delete
 # vhost Install
 #
 #########################################
-cat /var/www/base/httpd/httpd.conf | sudo tee /etc/apache2/sites-available/ductn.conf
-printf "\n\n" >> /etc/apache2/sites-available/ductn.conf
-find /var/www/base/httpd/*/httpd.conf -type f -exec cat {} \;| sudo tee -a /etc/apache2/sites-available/ductn.conf
+# cat /var/www/base/httpd/httpd.conf | sudo tee /etc/apache2/sites-available/ductn.conf
+# printf "\n\n" >> /etc/apache2/sites-available/ductn.conf
+# find /var/www/base/httpd/*/httpd.conf -type f -exec cat {} \;| sudo tee -a /etc/apache2/sites-available/ductn.conf
 
-# sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip php?.?-bcmath php?.?-imagick
+# # sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip php?.?-bcmath php?.?-imagick
 
-sudo a2ensite ductn.conf
-sudo a2dismod php?.?
-sudo a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias php7.2 ssl env dir mime
+# sudo a2ensite ductn.conf
+# sudo a2dismod php?.?
+# sudo a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias php7.2 ssl env dir mime
 
-sudo apache2ctl configtest
-sudo service apache2 restart
-# sudo service apache2 status
+# sudo apache2ctl configtest
+# sudo service apache2 restart
+# # sudo service apache2 status
 
 #########################################
 #
@@ -160,24 +160,26 @@ sudo service apache2 restart
 #   -m caothu91@gmail.com \
 #   --server https://acme-v02.api.letsencrypt.org/directory
 
-_certbot() {
-	sudo certbot certonly \
-	  --expand \
-	  --keep-until-expiring \
-	  --dns-cloudflare \
-	  --dns-cloudflare-credentials /var/www/base/bash/certbot/cloudflare.ini \
-	  --agree-tos \
-	  --email caothu91@gmail.com \
-	  --eff-email \
-	  -d $1
-}
+# chmod 600 /var/www/base/bash/certbot/cloudflare.ini
 
-_certbot solzatech.com,www.solzatech.com
-_certbot diepxuan.com,luong.diepxuan.com,www.diepxuan.com,blog.diepxuan.com,cloud.diepxuan.com
+# _certbot() {
+# 	sudo certbot certonly \
+# 	  --expand \
+# 	  --keep-until-expiring \
+# 	  --dns-cloudflare \
+# 	  --dns-cloudflare-credentials /var/www/base/bash/certbot/cloudflare.ini \
+# 	  --agree-tos \
+# 	  --email caothu91@gmail.com \
+# 	  --eff-email \
+# 	  -d $1
+# }
 
-unset -f _certbot
+# _certbot solzatech.com,www.solzatech.com
+# _certbot diepxuan.com,luong.diepxuan.com,www.diepxuan.com,blog.diepxuan.com,cloud.diepxuan.com,insider.diepxuan.com,pma.diepxuan.com
 
-sudo service apache2 restart
+# unset -f _certbot
+
+# sudo service apache2 restart
 
 #########################################
 #
