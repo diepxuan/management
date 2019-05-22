@@ -1,134 +1,155 @@
 <?php
+/* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
- * ╔═══╗╔╗ ╔╗╔═══╗╔════╗╔╗ ╔╗
- * ║╔═╗║║║ ║║║╔═╗║╚═╗╔═╝║╚╗║║
- * ║║ ║║║║ ║║║║ ╚╝  ║║  ║║╚╗║
- * ║║ ║║║║ ║║║║ ╔╗  ║║  ║║ ║║
- * ║╚═╝║║╚═╝║║╚═╝║  ║║  ║║ ║║
- * ╚═══╝╚═══╝╚═══╝  ╚╝  ╚╝ ╚╝
+ * phpMyAdmin sample configuration, you can use it as base for
+ * manual configuration. For easier setup you can use setup/
+ *
+ * All directives are explained in documentation in the doc/ folder
+ * or at <https://docs.phpmyadmin.net/>.
+ *
+ * @package PhpMyAdmin
  */
-?>
 
-<?php
-
-/*
- * Server ping host
+/**
+ * This is needed for cookie based authentication to encrypt password in
+ * cookie. Needs to be 32 chars long.
  */
-if (!function_exists('_ping')) {
-    function _ping($host, $port = 3306, $timeout = 2)
-    {
-        $fsock = fsockopen($host, $port, $errno, $errstr, $timeout);
-        if (!$fsock) {
-            return false;
-        } else {
-            return true;
-        }
-        fclose($fsock);
-    }
-}
+$cfg['blowfish_secret'] = '51Lhp+H8YGJ2MgLaQZXpB$U$aIB+^f%20fVy'; /* YOU MUST FILL IN THIS FOR COOKIE AUTH! */
+$cfg['AllowArbitraryServer'] = false;
 
-/*
- * Server control host
- */
-if (!function_exists('_controlhost')) {
-    function _controlhost($hosts = array())
-    {
-        foreach ($hosts as $host) {
-            if (_ping($host)) {
-                return $host;
-            }
-        }
-        return 'local.dev';
-    }
-}
-
-/*
+/**
  * Servers configuration
  */
 $i = 0;
 
-$cfg['blowfish_secret']      = '51Lhp+H8YGJ2MgLaQZXpB$U$aIB+^f%20fVy';
-$cfg['Lang']                 = '';
-$cfg['AllowArbitraryServer'] = true;
-
-if (!in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '192.168.1.222'])) {
-
-} else {
-    /*
-     * Localhost
-     */
-    if (_ping('local.dev')) {
-        $i++;
-        $cfg['Servers'][$i]['host']            = 'local.dev';
-        $cfg['Servers'][$i]['auth_type']       = 'config';
-        $cfg['Servers'][$i]['user']            = 'sa';
-        $cfg['Servers'][$i]['password']        = 'bg2tob699';
-        $cfg['Servers'][$i]['AllowNoPassword'] = true;
-        $cfg['Servers'][$i]['extension']       = 'mysqli';
-    }
-
-    /*
-     * Gss localhost (Magento)
-     */
-    if (_ping('192.168.1.190')) {
-        $i++;
-        $cfg['Servers'][$i]['host']            = '192.168.1.190';
-        $cfg['Servers'][$i]['auth_type']       = 'config';
-        $cfg['Servers'][$i]['user']            = 'dev';
-        $cfg['Servers'][$i]['password']        = 'dev@gss';
-        $cfg['Servers'][$i]['AllowNoPassword'] = true;
-        $cfg['Servers'][$i]['extension']       = 'mysqli';
-    }
-
-    /*
-     * Gss localhost (Magento)
-     */
-    if (_ping('192.168.1.253')) {
-        $i++;
-        $cfg['Servers'][$i]['host']            = '192.168.1.253';
-        $cfg['Servers'][$i]['auth_type']       = 'config';
-        $cfg['Servers'][$i]['user']            = 'sa';
-        $cfg['Servers'][$i]['password']        = '123456';
-        $cfg['Servers'][$i]['AllowNoPassword'] = true;
-        $cfg['Servers'][$i]['extension']       = 'mysqli';
-    }
-
-}
+/**
+ * First server
+ */
+$i++;
+/* Authentication type */
+$cfg['Servers'][$i]['auth_type'] = 'http';
+/* Server parameters */
+$cfg['Servers'][$i]['host'] = 'localhost';
+$cfg['Servers'][$i]['compress'] = false;
+$cfg['Servers'][$i]['AllowNoPassword'] = false;
 
 /**
- * Register phpmyadmin database for server
+ * phpMyAdmin configuration storage settings.
  */
-for ($svr = 1; $svr <= $i; $svr++) {
-    /* Advanced phpMyAdmin features */
-    $cfg['Servers'][$svr]['controlhost'] = 'local.dev';
-    $cfg['Servers'][$svr]['controlport'] = '3306';
-    $cfg['Servers'][$svr]['controluser'] = 'sa';
-    $cfg['Servers'][$svr]['controlpass'] = 'bg2tob699';
 
-    /* Storage database and tables */
-    $cfg['Servers'][$svr]['pmadb']             = 'phpmyadmin'; //the name of my db table
-    $cfg['Servers'][$svr]['bookmarktable']     = 'pma__bookmark'; //does the pma__ need to change to dave1_?
-    $cfg['Servers'][$svr]['relation']          = 'pma__relation';
-    $cfg['Servers'][$svr]['table_info']        = 'pma__table_info';
-    $cfg['Servers'][$svr]['table_coords']      = 'pma__table_coords';
-    $cfg['Servers'][$svr]['pdf_pages']         = 'pma__pdf_pages';
-    $cfg['Servers'][$svr]['column_info']       = 'pma__column_info';
-    $cfg['Servers'][$svr]['history']           = 'pma__history';
-    $cfg['Servers'][$svr]['tracking']          = 'pma__tracking';
-    $cfg['Servers'][$svr]['designer_coords']   = 'pma__designer_coords';
-    $cfg['Servers'][$svr]['userconfig']        = 'pma__userconfig';
-    $cfg['Servers'][$svr]['users']             = 'pma__users';
-    $cfg['Servers'][$svr]['usergroups']        = 'pma__usergroups';
-    $cfg['Servers'][$svr]['navigationhiding']  = 'pma__navigationhiding';
-    $cfg['Servers'][$svr]['savedsearches']     = 'pma__savedsearches';
-    $cfg['Servers'][$svr]['central_columns']   = 'pma__central_columns';
-    $cfg['Servers'][$svr]['designer_settings'] = 'pma__designer_settings';
-    $cfg['Servers'][$svr]['export_templates']  = 'pma__export_templates';
-    $cfg['Servers'][$svr]['recent']            = 'pma__recent';
-    $cfg['Servers'][$svr]['favorite']          = 'pma__favorite';
-    $cfg['Servers'][$svr]['table_uiprefs']     = 'pma__table_uiprefs';
-}
+/* User used to manipulate with storage */
+$cfg['Servers'][$i]['controlhost'] = 'localhost';
+$cfg['Servers'][$i]['controlport'] = '3306';
+$cfg['Servers'][$i]['controluser'] = 'sa';
+$cfg['Servers'][$i]['controlpass'] = 'bg2tob699';
 
-/*
+/* Storage database and tables */
+$cfg['Servers'][$i]['pmadb'] = 'phpmyadmin';
+$cfg['Servers'][$i]['bookmarktable'] = 'pma__bookmark';
+$cfg['Servers'][$i]['relation'] = 'pma__relation';
+$cfg['Servers'][$i]['table_info'] = 'pma__table_info';
+$cfg['Servers'][$i]['table_coords'] = 'pma__table_coords';
+$cfg['Servers'][$i]['pdf_pages'] = 'pma__pdf_pages';
+$cfg['Servers'][$i]['column_info'] = 'pma__column_info';
+$cfg['Servers'][$i]['history'] = 'pma__history';
+$cfg['Servers'][$i]['table_uiprefs'] = 'pma__table_uiprefs';
+$cfg['Servers'][$i]['tracking'] = 'pma__tracking';
+$cfg['Servers'][$i]['userconfig'] = 'pma__userconfig';
+$cfg['Servers'][$i]['recent'] = 'pma__recent';
+$cfg['Servers'][$i]['favorite'] = 'pma__favorite';
+$cfg['Servers'][$i]['users'] = 'pma__users';
+$cfg['Servers'][$i]['usergroups'] = 'pma__usergroups';
+$cfg['Servers'][$i]['navigationhiding'] = 'pma__navigationhiding';
+$cfg['Servers'][$i]['savedsearches'] = 'pma__savedsearches';
+$cfg['Servers'][$i]['central_columns'] = 'pma__central_columns';
+$cfg['Servers'][$i]['designer_settings'] = 'pma__designer_settings';
+$cfg['Servers'][$i]['export_templates'] = 'pma__export_templates';
+
+/**
  * End of servers configuration
+ */
+
+/**
+ * Directories for saving/loading files from server
+ */
+$cfg['UploadDir'] = '';
+$cfg['SaveDir'] = '';
+
+/**
+ * Whether to display icons or text or both icons and text in table row
+ * action segment. Value can be either of 'icons', 'text' or 'both'.
+ * default = 'both'
+ */
+//$cfg['RowActionType'] = 'icons';
+
+/**
+ * Defines whether a user should be displayed a "show all (records)"
+ * button in browse mode or not.
+ * default = false
+ */
+//$cfg['ShowAll'] = true;
+
+/**
+ * Number of rows displayed when browsing a result set. If the result
+ * set contains more rows, "Previous" and "Next".
+ * Possible values: 25, 50, 100, 250, 500
+ * default = 25
+ */
+//$cfg['MaxRows'] = 50;
+
+/**
+ * Disallow editing of binary fields
+ * valid values are:
+ *   false    allow editing
+ *   'blob'   allow editing except for BLOB fields
+ *   'noblob' disallow editing except for BLOB fields
+ *   'all'    disallow editing
+ * default = 'blob'
+ */
+//$cfg['ProtectBinary'] = false;
+
+/**
+ * Default language to use, if not browser-defined or user-defined
+ * (you find all languages in the locale folder)
+ * uncomment the desired line:
+ * default = 'en'
+ */
+//$cfg['DefaultLang'] = 'en';
+//$cfg['DefaultLang'] = 'de';
+
+/**
+ * How many columns should be used for table display of a database?
+ * (a value larger than 1 results in some information being hidden)
+ * default = 1
+ */
+//$cfg['PropertiesNumColumns'] = 2;
+
+/**
+ * Set to true if you want DB-based query history.If false, this utilizes
+ * JS-routines to display query history (lost by window close)
+ *
+ * This requires configuration storage enabled, see above.
+ * default = false
+ */
+//$cfg['QueryHistoryDB'] = true;
+
+/**
+ * When using DB-based query history, how many entries should be kept?
+ * default = 25
+ */
+//$cfg['QueryHistoryMax'] = 100;
+
+/**
+ * Whether or not to query the user before sending the error report to
+ * the phpMyAdmin team when a JavaScript error occurs
+ *
+ * Available options
+ * ('ask' | 'always' | 'never')
+ * default = 'ask'
+ */
+//$cfg['SendErrorReports'] = 'always';
+
+/**
+ * You can find more configuration options in the documentation
+ * in the doc/ folder or at <https://docs.phpmyadmin.net/>.
  */
