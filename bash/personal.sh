@@ -139,6 +139,9 @@ find ~/.ssl -type f -name '*.conf' -delete
 # sudo service apache2 restart
 # # sudo service apache2 status
 
+rm -rf /var/www/html/live/pma.diepxuan.vn/config.inc.php
+ln /var/www/base/tool/php/phpmyadmin/config.inc.php /var/www/html/live/pma.diepxuan.vn/
+
 #########################################
 #
 # Certbot Install
