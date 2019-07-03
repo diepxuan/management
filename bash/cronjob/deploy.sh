@@ -1,7 +1,7 @@
 #!/bin/bash
 
-[ -f /var/www/base/bash/deploy/.deploying] && printf "\n$(date -Iseconds) Deploying! continue ...\n"
-[ -f /var/www/base/bash/deploy/.deploying] && exit 0
+[ -f /var/www/base/bash/deploy/.deploying ] && printf "\n$(date -Iseconds) Deploying! continue ...\n"
+[ -f /var/www/base/bash/deploy/.deploying ] && exit 0
 
 printf "\n$(date -Iseconds) Starting deploy twtools.co.uk ...\n"
 touch /var/www/base/bash/deploy/.deploying
