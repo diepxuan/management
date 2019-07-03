@@ -13,14 +13,14 @@
 # git
 #
 ####################################
-cat /var/www/base/tool/.gitignore > ~/.gitignore
+cat /var/www/base/tool/.gitignore >~/.gitignore
 chmod 644 ~/.gitignore
 
 # global gitignore
 git config --global core.excludesfile ~/.gitignore
 
 # setting
-git config --global user.name "Trần Ngọc Đức"
+git config --global user.name "Tráº§n Ngá»�c Ä�á»©c"
 git config --global user.email "caothu91@gmail.com"
 
 # push
@@ -67,12 +67,12 @@ git config --global gc.auto 0
 # ##############################
 mkdir -p ~/.ssh
 # ssh config
-cat /var/www/base/ssh/config > ~/.ssh/config
-printf "\n\n" >> ~/.ssh/config
-find /var/www/base/ssh/config.d/*.conf -type f -exec cat {} >> ~/.ssh/config \; -exec printf "\n\n" >> ~/.ssh/config \;
+cat /var/www/base/ssh/config >~/.ssh/config
+printf "\n\n" >>~/.ssh/config
+find /var/www/base/ssh/config.d/*.conf -type f -exec cat {} \; -exec printf "\n\n" \; >>~/.ssh/config >>~/.ssh/config
 
 # ssh private key
-cat /var/www/base/ssh/id_rsa > ~/.ssh/id_rsa
+cat /var/www/base/ssh/id_rsa >~/.ssh/id_rsa
 # cat /var/www/base/ssh/gss > ~/.ssh/gss
 # cat /var/www/base/ssh/tci > ~/.ssh/tci
 # cat /var/www/base/ssh/gem > ~/.ssh/gem
@@ -80,7 +80,7 @@ cat /var/www/base/ssh/id_rsa > ~/.ssh/id_rsa
 chmod 700 ~/.ssh
 chmod 600 ~/.ssh/*
 
-ssh-keygen -f ~/.ssh/id_rsa -y > ~/.ssh/id_rsa.pub
+ssh-keygen -f ~/.ssh/id_rsa -y >~/.ssh/id_rsa.pub
 # ssh-keygen -f ~/.ssh/gss -y > ~/.ssh/gss.pub
 # ssh-keygen -f ~/.ssh/tci -y > ~/.ssh/tci.pub
 # ssh-keygen -f ~/.ssh/gem -y > ~/.ssh/gem.pub
@@ -125,9 +125,9 @@ find ~/.ssl -type f -name '*.conf' -delete
 # vhost Install
 #
 #########################################
-# cat /var/www/base/httpd/httpd.conf | sudo tee /etc/apache2/sites-available/ductn.conf
-# printf "\n\n" >> /etc/apache2/sites-available/ductn.conf
-# find /var/www/base/httpd/*/httpd.conf -type f -exec cat {} \;| sudo tee -a /etc/apache2/sites-available/ductn.conf
+#cat /var/www/base/httpd/httpd.conf | sudo tee /etc/apache2/sites-available/ductn.conf
+#printf "\n\n" >> /etc/apache2/sites-available/ductn.conf
+#find /var/www/base/httpd/*/httpd.conf -type f -exec cat {} \;| sudo tee -a /etc/apache2/sites-available/ductn.conf
 
 # # sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip php?.?-bcmath php?.?-imagick
 
@@ -139,8 +139,8 @@ find ~/.ssl -type f -name '*.conf' -delete
 # sudo service apache2 restart
 # # sudo service apache2 status
 
-rm -rf /var/www/html/live/pma.diepxuan.vn/config.inc.php
-ln /var/www/base/tool/php/phpmyadmin/config.inc.php /var/www/html/live/pma.diepxuan.vn/
+#rm -rf /var/www/html/live/pma.diepxuan.vn/config.inc.php
+#ln /var/www/base/tool/php/phpmyadmin/config.inc.php /var/www/html/live/pma.diepxuan.vn/
 
 #########################################
 #
@@ -241,7 +241,7 @@ ln /var/www/base/tool/php/phpmyadmin/config.inc.php /var/www/html/live/pma.diepx
 # completion
 #
 ####################################
-echo ". /var/www/base/bash/.bash_aliases" > ~/.bash_aliases
+echo ". /var/www/base/bash/.bash_aliases" >~/.bash_aliases
 chmod 644 ~/.bash_aliases
 
 # composer -vvv global require bamarni/symfony-console-autocomplete
@@ -256,5 +256,6 @@ chmod 775 -R ~/bin
 # Deploy Install
 #
 #########################################
-# sudo crontab /var/www/base/bash/deploy/deploy.conf
-# sudo service cron restart
+chmod u+x /var/www/base/bash/cronjob/*.sh
+sudo crontab /var/www/base/bash/cronjob/cronjob.conf
+sudo service cron restart
