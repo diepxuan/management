@@ -2,42 +2,6 @@
 
 ####################################
 #
-# tmux
-#
-####################################
-# cat /var/www/base/bash/.tmux.conf > ~/.tmux.conf
-# chmod 644 ~/.tmux.conf
-
-####################################
-#
-# git
-#
-####################################
-cat /var/www/base/tool/.gitignore >~/.gitignore
-chmod 644 ~/.gitignore
-
-# global gitignore
-git config --global core.excludesfile ~/.gitignore
-
-# setting
-git config --global user.name "Tráº§n Ngá»�c Ä�á»©c"
-git config --global user.email "caothu91@gmail.com"
-
-# push
-git config --global push.default simple
-
-# file mode
-git config --global core.fileMode false
-
-# line endings
-git config --global core.autocrlf false
-git config --global core.eol lf
-
-# Cleanup
-git config --global gc.auto 0
-
-####################################
-#
 # SSH
 #
 ####################################
@@ -87,175 +51,199 @@ ssh-keygen -f ~/.ssh/id_rsa -y >~/.ssh/id_rsa.pub
 
 # ssh-copy-id user@123.45.56.78
 
-#########################################
-#
-# Apache Install
-#
-#########################################
-# sudo apt update
-# sudo apt install apache2 -y --purge --auto-remove
-# sudo apache2ctl configtest
-# sudo service apache2 restart
+_tmux_install() {
+  cat /var/www/base/bash/.tmux.conf >~/.tmux.conf
+  chmod 644 ~/.tmux.conf
+}
+
+_git_install() {
+  cat /var/www/base/tool/.gitignore >~/.gitignore
+  chmod 644 ~/.gitignore
+
+  # global gitignore
+  git config --global core.excludesfile ~/.gitignore
+
+  # setting
+  git config --global user.name "Tran Ngoc Duc"
+  git config --global user.email "caothu91@gmail.com"
+
+  # push
+  git config --global push.default simple
+
+  # file mode
+  git config --global core.fileMode false
+
+  # line endings
+  git config --global core.autocrlf false
+  git config --global core.eol lf
+
+  # Cleanup
+  git config --global gc.auto 0
+}
+
+_Apache_install() {
+  sudo apt update
+  sudo apt install apache2 -y --purge --auto-remove
+  sudo apache2ctl configtest
+  sudo service apache2 restart
+}
+
+_PHP_install() {
+  sudo add-apt-repository ppa:ondrej/php
+  sudo apt update
+  sudo apt install libapache2-mod-php?.? -y --purge --auto-remove
+  sudo update-alternatives --config php
+  sudo apt install phpmd -y --purge --auto-remove
+  sudo apt install composer -y --purge --auto-remove
+}
+
+ductn_ssl() {
+  mkdir -p ~/.ssl
+  chmod 775 ~/.ssl
+  # ssh config
+  cp -a /var/www/base/httpd/* ~/.ssl
+  find ~/.ssl -type f -name '*.conf' -delete
+}
+
+ductn_httpd() {
+  # shellcheck disable=SC2002
+  cat /var/www/base/httpd/httpd.conf | sudo tee /etc/apache2/sites-available/ductn.conf
+  printf "\n\n" >>/etc/apache2/sites-available/ductn.conf
+  find /var/www/base/httpd/*/httpd.conf -type f -exec cat {} \; | sudo tee -a /etc/apache2/sites-available/ductn.conf
+
+  # sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip php?.?-bcmath php?.?-imagick
+
+  sudo a2ensite ductn.conf
+  sudo a2dismod php?.?
+  sudo a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias php7.1 ssl env dir mime
+
+  sudo apache2ctl configtest
+  sudo service apache2 restart
+  # sudo service apache2 status
+
+  rm -rf /var/www/html/live/pma.diepxuan.vn/config.inc.php
+  ln /var/www/base/tool/php/phpmyadmin/config.inc.php /var/www/html/live/pma.diepxuan.vn/
+}
+
+_certbot_install() {
+  sudo apt install software-properties-common -y --purge --auto-remove
+  # sudo add-apt-repository universe
+  sudo add-apt-repository ppa:certbot/certbot
+  sudo apt update
+  sudo apt install -y certbot python-certbot-apache python-pip --purge --auto-remove
+  sudo pip install certbot-dns-cloudflare
+}
+
+sudo certbot certonly --apache \
+  --expand \
+  --no-redirect \
+  --keep-until-expiring \
+  --break-my-certs \
+  --pre-hook /var/www/base/bash/certbot/authenticator.sh \
+  -m caothu91@gmail.com \
+  --server https://acme-v02.api.letsencrypt.org/directory
+
+chmod 600 /var/www/base/bash/certbot/cloudflare.ini
+
+_certbot() {
+  sudo certbot certonly \
+    --expand \
+    --keep-until-expiring \
+    --dns-cloudflare \
+    --dns-cloudflare-credentials /var/www/base/bash/certbot/cloudflare.ini \
+    --agree-tos \
+    --email caothu91@gmail.com \
+    --eff-email \
+    -d $1
+}
+
+ductn_certbot() {
+  _certbot solzatech.com,www.solzatech.com
+  _certbot diepxuan.com,luong.diepxuan.com,www.diepxuan.com,blog.diepxuan.com,cloud.diepxuan.com,insider.diepxuan.com,pma.diepxuan.com
+  sudo service apache2 restart
+}
+
+_sendmail_install() {
+  sudo apt install -y sendmail
+  cd /etc/mail/tls
+  sudo openssl dsaparam -out sendmail-common.prm 2048
+  sudo chown root:smmsp sendmail-common.prm
+  sudo chmod 0640 sendmail-common.prm
+  sudo dpkg --configure -a
+}
+
+_nodejs_install() {
+  curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
+  sudo apt install -y nodejs build-essential
+  #  sudo npm install -g grunt-cli
+
+  # echo "fs.inotify.max_user_watches = 524288" | sudo tee /etc/sysctl.d/grunt.conf
+  # # sudo sysctl -p --system
+}
+
+_java_install() {
+  sudo add-apt-repository ppa:webupd8team/java
+  sudo apt update
+  sudo apt install -y oracle-java9-installer
+}
+
+_solr_install() {
+  cd /opt
+  sudo service solr stop
+  sudo rm -rf /etc/init.d/solr
+  sudo rm -rf solr* install_solr_service.sh
+
+  sudo wget https://www-eu.apache.org/dist/lucene/solr/7.1.0/solr-7.1.0.tgz
+  sudo tar xzf solr-7.1.0.tgz solr-7.1.0/bin/install_solr_service.sh --strip-components=2
+  sudo bash ./install_solr_service.sh solr-7.1.0.tgz
+
+  sudo wget https://archive.apache.org/dist/lucene/solr/6.1.0/solr-6.1.0.tgz
+  sudo tar xzf solr-6.1.0.tgz solr-6.1.0/bin/install_solr_service.sh --strip-components=2
+  sudo ./install_solr_service.sh solr-6.1.0.tgz -f
+
+  sudo wget http://mirrors.viethosting.com/apache/lucene/solr/6.6.3/solr-6.6.3.tgz
+  sudo tar xzf solr-6.6.3.tgz solr-6.6.3/bin/install_solr_service.sh --strip-components=2
+  sudo ./install_solr_service.sh solr-6.6.3.tgz -f
+
+  sudo service solr restart
+  sudo usermod -aG solr $(whoami)
+}
+
+_aliases() {
+  echo ". /var/www/base/bash/.bash_aliases" >~/.bash_aliases
+  chmod 644 ~/.bash_aliases
+}
+
+_completion() {
+  composer global require bamarni/symfony-console-autocomplete
+  chmod u+x /var/www/base/bash/completion/*.setup
+  # /var/www/base/bash/completion/magerun.setup
+  /var/www/base/bash/completion/magerun2.setup
+  mkdir -p ~/bin
+  chmod 775 -R ~/bin
+}
+
+_cronjob() {
+  chmod u+x /var/www/base/bash/cronjob/*.sh
+  sudo crontab /var/www/base/bash/cronjob/cronjob.conf
+  sudo service cron restart
+}
 
 #########################################
-#
-# PHP Install
-#
-#########################################
-# sudo add-apt-repository ppa:ondrej/php
-# sudo apt update
-# sudo apt install libapache2-mod-php?.? -y --purge --auto-remove
-# sudo update-alternatives --config php
-# sudo apt install phpmd -y --purge --auto-remove
-# sudo apt install composer -y --purge --auto-remove
+#_tmux_install
+_git_install
+#_Apache_install
+#_PHP_install
+#_nodejs_install
+#_java_install
+#_solr_install
+#_sendmail_install
 
-#########################################
-#
-# SSL Install
-#
-#########################################
-mkdir -p ~/.ssl
-chmod 775 ~/.ssl
-# ssh config
-cp -a /var/www/base/httpd/* ~/.ssl
-find ~/.ssl -type f -name '*.conf' -delete
+#ductn_ssl
+#ductn_httpd
+#_certbot_install
+#ductn_certbot
 
-#########################################
-#
-# vhost Install
-#
-#########################################
-#cat /var/www/base/httpd/httpd.conf | sudo tee /etc/apache2/sites-available/ductn.conf
-#printf "\n\n" >> /etc/apache2/sites-available/ductn.conf
-#find /var/www/base/httpd/*/httpd.conf -type f -exec cat {} \;| sudo tee -a /etc/apache2/sites-available/ductn.conf
-
-# # sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip php?.?-bcmath php?.?-imagick
-
-# sudo a2ensite ductn.conf
-# sudo a2dismod php?.?
-# sudo a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias php7.2 ssl env dir mime
-
-# sudo apache2ctl configtest
-# sudo service apache2 restart
-# # sudo service apache2 status
-
-#rm -rf /var/www/html/live/pma.diepxuan.vn/config.inc.php
-#ln /var/www/base/tool/php/phpmyadmin/config.inc.php /var/www/html/live/pma.diepxuan.vn/
-
-#########################################
-#
-# Certbot Install
-#
-#########################################
-# sudo apt install software-properties-common -y --purge --auto-remove
-# # sudo add-apt-repository universe
-# sudo add-apt-repository ppa:certbot/certbot
-# sudo apt update
-# sudo apt install -y certbot python-certbot-apache python-pip --purge --auto-remove
-# sudo pip install certbot-dns-cloudflare
-
-# sudo certbot certonly --apache \
-#   --expand \
-#   --no-redirect \
-#   --keep-until-expiring \
-#   --break-my-certs \
-#   --pre-hook /var/www/base/bash/certbot/authenticator.sh \
-#   -m caothu91@gmail.com \
-#   --server https://acme-v02.api.letsencrypt.org/directory
-
-# chmod 600 /var/www/base/bash/certbot/cloudflare.ini
-
-# _certbot() {
-# 	sudo certbot certonly \
-# 	  --expand \
-# 	  --keep-until-expiring \
-# 	  --dns-cloudflare \
-# 	  --dns-cloudflare-credentials /var/www/base/bash/certbot/cloudflare.ini \
-# 	  --agree-tos \
-# 	  --email caothu91@gmail.com \
-# 	  --eff-email \
-# 	  -d $1
-# }
-
-# _certbot solzatech.com,www.solzatech.com
-# _certbot diepxuan.com,luong.diepxuan.com,www.diepxuan.com,blog.diepxuan.com,cloud.diepxuan.com,insider.diepxuan.com,pma.diepxuan.com
-
-# unset -f _certbot
-
-# sudo service apache2 restart
-
-#########################################
-#
-# sendMail Install
-#
-#########################################
-# sudo apt install -y sendmail
-# cd /etc/mail/tls
-# sudo openssl dsaparam -out sendmail-common.prm 2048
-# sudo chown root:smmsp sendmail-common.prm
-# sudo chmod 0640 sendmail-common.prm
-# sudo dpkg --configure -a
-
-#########################################
-#
-# Nodejs Install
-#
-#########################################
-# curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
-# sudo apt install -y nodejs build-essential
-# sudo npm install -g grunt-cli
-
-# echo "fs.inotify.max_user_watches = 524288" | sudo tee /etc/sysctl.d/grunt.conf
-# # sudo sysctl -p --system
-
-# Java install
-#########################################
-# sudo add-apt-repository ppa:webupd8team/java
-# sudo apt update
-# sudo apt install -y oracle-java9-installer
-
-# Solr install
-#########################################
-# cd /opt
-# sudo service solr stop
-# sudo rm -rf /etc/init.d/solr
-# sudo rm -rf solr* install_solr_service.sh
-
-# sudo wget https://www-eu.apache.org/dist/lucene/solr/7.1.0/solr-7.1.0.tgz
-# sudo tar xzf solr-7.1.0.tgz solr-7.1.0/bin/install_solr_service.sh --strip-components=2
-# sudo bash ./install_solr_service.sh solr-7.1.0.tgz
-
-# sudo wget https://archive.apache.org/dist/lucene/solr/6.1.0/solr-6.1.0.tgz
-# sudo tar xzf solr-6.1.0.tgz solr-6.1.0/bin/install_solr_service.sh --strip-components=2
-# sudo ./install_solr_service.sh solr-6.1.0.tgz -f
-
-# sudo wget http://mirrors.viethosting.com/apache/lucene/solr/6.6.3/solr-6.6.3.tgz
-# sudo tar xzf solr-6.6.3.tgz solr-6.6.3/bin/install_solr_service.sh --strip-components=2
-# sudo ./install_solr_service.sh solr-6.6.3.tgz -f
-
-# sudo service solr restart
-# sudo usermod -aG solr `whoami`
-
-####################################
-#
-# completion
-#
-####################################
-echo ". /var/www/base/bash/.bash_aliases" >~/.bash_aliases
-chmod 644 ~/.bash_aliases
-
-# composer -vvv global require bamarni/symfony-console-autocomplete
-chmod u+x /var/www/base/bash/completion/*.setup
-# /var/www/base/bash/completion/magerun.setup
-# /var/www/base/bash/completion/magerun2.setup
-mkdir -p ~/bin
-chmod 775 -R ~/bin
-
-#########################################
-#
-# Deploy Install
-#
-#########################################
-chmod u+x /var/www/base/bash/cronjob/*.sh
-sudo crontab /var/www/base/bash/cronjob/cronjob.conf
-sudo service cron restart
+_completion
+_aliases
+#_cronjob
