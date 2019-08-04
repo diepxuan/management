@@ -134,14 +134,14 @@ _certbot_install() {
   sudo pip install certbot-dns-cloudflare
 }
 
-sudo certbot certonly --apache \
-  --expand \
-  --no-redirect \
-  --keep-until-expiring \
-  --break-my-certs \
-  --pre-hook /var/www/base/bash/certbot/authenticator.sh \
-  -m caothu91@gmail.com \
-  --server https://acme-v02.api.letsencrypt.org/directory
+#sudo certbot certonly --apache \
+#  --expand \
+#  --no-redirect \
+#  --keep-until-expiring \
+#  --break-my-certs \
+#  --pre-hook /var/www/base/bash/certbot/authenticator.sh \
+#  -m caothu91@gmail.com \
+#  --server https://acme-v02.api.letsencrypt.org/directory
 
 chmod 600 /var/www/base/bash/certbot/cloudflare.ini
 

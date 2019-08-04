@@ -7,9 +7,8 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-header()
-{
-    cat <<EOF
+header() {
+  cat <<EOF
 #!/bin/bash
 # Installation:
 #  Copy to /etc/bash_completion.d/n98-magerun.phar
@@ -29,10 +28,9 @@ outfile=/var/www/base/bash/completion/magerun2.sh
 
 echo "creating magerun2 bash autocomplete file (this takes a little moment) ..."
 
-header > "${outfile}"
-symfony-autocomplete --shell=bash -- "${base}" \
-    | sed '1d ; $ s/$/.phar '"${name} ${base}"'/' \
-    >> "${outfile}"
+header >"${outfile}"
+#symfony-autocomplete --shell=bash -- "${base}" | sed '1d ; $ s/$/.phar '"${name} ${base}"'/' >> "${outfile}"
+symfony-autocomplete --shell=bash -- "${base}" | sed '$ s/$/.phar '"${name} ${base}"'/' >>"${outfile}"
 # sed: remove first line and expand last line to more command names (aliases)
 
 echo "updated \"${outfile}\"."

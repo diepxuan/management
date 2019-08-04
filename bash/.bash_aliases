@@ -206,36 +206,45 @@ magerun2 dev:template-hints --off
 # completion magerun2
 # ################################################################
 # https://raw.githubusercontent.com/netz98/n98-magerun2/develop/res/autocompletion/bash/n98-magerun2.phar.bash
-if [ -f /var/www/base/bash/completion/magerun2.sh ]; then
-    . /var/www/base/bash/completion/magerun2.sh
-elif [ -f $HOME/.completion/magerun2.sh ]; then
-    . $HOME/.completion/magerun2.sh
+if ! shopt -oq posix; then
+    if [[ -f /var/www/base/bash/completion/magerun2.sh ]]; then
+        . /var/www/base/bash/completion/magerun2.sh
+    elif [[ -f $HOME/.completion/magerun2.sh ]]; then
+        . $HOME/.completion/magerun2.sh
+    fi
 fi
 
 # completion magerun
 # ################################################################
 # https://raw.githubusercontent.com/netz98/n98-magerun/develop/res/autocompletion/bash/n98-magerun.phar.bash
-if [ -f /var/www/base/bash/completion/magerun.sh ]; then
-    . /var/www/base/bash/completion/magerun.sh
-elif [ -f $HOME/.completion/magerun.sh ]; then
-    . $HOME/.completion/magerun.sh
+if ! shopt -oq posix; then
+    if [[ -f /var/www/base/bash/completion/magerun.sh ]]; then
+        . /var/www/base/bash/completion/magerun.sh
+    elif [[ -f $HOME/.completion/magerun.sh ]]; then
+        . $HOME/.completion/magerun.sh
+    fi
 fi
 
 # bash completion for the `wp` command
 # ################################################################
-if [ -f /var/www/base/bash/completion/wp.sh ]; then
-    . /var/www/base/bash/completion/wp.sh
-elif [ -f $HOME/.completion/wp.sh ]; then
-    . $HOME/.completion/wp.sh
+if ! shopt -oq posix; then
+    if [[ -f /var/www/base/bash/completion/wp.sh ]]; then
+        . /var/www/base/bash/completion/wp.sh
+    elif [[ -f $HOME/.completion/wp.sh ]]; then
+        . $HOME/.completion/wp.sh
+    fi
 fi
 
 # bash completion for the `angular cli` command
 # ################################################################
-if [ -f /var/www/base/bash/completion/angular2.sh ]; then
-    . /var/www/base/bash/completion/angular2.sh
-elif [ -f $HOME/.completion/angular2.sh ]; then
-    . $HOME/.completion/angular2.sh
+if ! shopt -oq posix; then
+    if [[ -f /var/www/base/bash/completion/angular2.sh ]]; then
+        . /var/www/base/bash/completion/angular2.sh
+    elif [[ -f $HOME/.completion/angular2.sh ]]; then
+        . $HOME/.completion/angular2.sh
+    fi
 fi
+
 
 # reload
 alias ductn_personal="/var/www/base/bash/personal.sh"
