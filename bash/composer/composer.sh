@@ -16,4 +16,8 @@ composer update
 sudo swapoff --all
 sudo rm -rf /swapfile
 
+cat /proc/sys/vm/swappiness
+sudo sysctl vm.swappiness=10 #set the swappiness value to 30
+echo "vm.swappiness=30" | sudo tee -a /etc/sysctl.conf # make this parameter persistent across reboots
+
 # free -h
