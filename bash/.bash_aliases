@@ -6,12 +6,12 @@
 
 # start symbol
 # ################################################################
-PS1="\n$PS1\n$ "
+#PS1="\n$PS1\n$ "
 
 # fix current user auto logout
 # ################################################################
-TMOUT=100
-export TMOUT=0
+#TMOUT=100
+#export TMOUT=0
 
 # apache2
 # ################################################################
@@ -99,7 +99,7 @@ alias m2grunt="
 m2rmgen
 m2static
 m2cache
-bin/magento setup:upgrade
+# bin/magento setup:upgrade
 grunt exec:all
 m2perm
 grunt watch"
@@ -245,9 +245,12 @@ if ! shopt -oq posix; then
     fi
 fi
 
+if [[ -d "/var/www/base/bash" ]] ; then
+  PATH="$PATH:/var/www/base/bash"
+fi
 
 # reload
-alias ductn_personal="/var/www/base/bash/personal.sh"
+#alias ductn_personal="/var/www/base/bash/personal.sh"
 # alias ductn_tci="
 # ductn_personal
 # git config user.name lucas
