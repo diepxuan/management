@@ -1,0 +1,24 @@
+#!/bin/bash
+
+ssh $2 -tt "
+sudo adduser ${1} --disabled-password --gecos \"\"
+sudo adduser ${1} www-data
+id -u ${1}
+sudo mkdir -p /home/${1}/.ssh
+
+cat ~/.ssh/id_rsa          | sudo tee /home/${1}/.ssh/id_rsa
+cat ~/.ssh/id_rsa.pub      | sudo tee /home/${1}/.ssh/id_rsa.pub
+cat ~/.ssh/authorized_keys | sudo tee /home/${1}/.ssh/authorized_keys
+
+sudo chmod    755       /home/${1}
+sudo chmod -R 600       /home/${1}/.ssh
+sudo chmod    700       /home/${1}/.ssh
+sudo chown -R ${1}:${1} /home/${1}/.ssh
+
+sudo mkdir -p           /home/${1}/public_html
+sudo chown -R ${1}:${1} /home/${1}/public_html
+
+sudo mkdir -p           /home/${1}/.ssl
+sudo chown -R ${1}:${1} /home/${1}/.ssl
+"
+echo -e "--ok"
