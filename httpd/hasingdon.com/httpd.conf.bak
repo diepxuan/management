@@ -1,0 +1,23 @@
+########################################################################
+# domain: demo store
+########################################################################
+<VirtualHost *:80>
+    UseCanonicalName Off
+    ServerAlias *store.hasingdon.com
+    VirtualDocumentRoot /var/www/html/live/store.hasingdon.com/
+</VirtualHost>
+
+<VirtualHost *:443>
+    UseCanonicalName Off
+    ServerAlias *store.hasingdon.com
+    VirtualDocumentRoot /var/www/html/live/store.hasingdon.com/
+
+    SSLEngine on
+    SSLProtocol all -SSLv2 -SSLv3
+
+    SSLCipherSuite ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP
+
+    SSLCertificateFile /var/www/base/httpd/hasingdon.com/certificate.crt
+    SSLCertificateKeyFile /var/www/base/httpd/hasingdon.com/private.key
+    SSLCACertificateFile /var/www/base/httpd/hasingdon.com/ca_bundle.crt
+</VirtualHost>

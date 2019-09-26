@@ -111,18 +111,18 @@ ductn_httpd() {
   printf "\n\n" >>/etc/apache2/sites-available/ductn.conf
   find /var/www/base/httpd/*/httpd.conf -type f -exec cat {} \; | sudo tee -a /etc/apache2/sites-available/ductn.conf
 
-  # sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip php?.?-bcmath php?.?-imagick
+  sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip php?.?-bcmath php?.?-imagick php?.?-mongodb &>/dev/null
 
   sudo a2ensite ductn.conf
   sudo a2dismod php?.?
-  sudo a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias php7.1 ssl env dir mime
+  sudo a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias php7.1 ssl env dir mime &>/dev/null
 
   sudo apache2ctl configtest
   sudo service apache2 restart
   # sudo service apache2 status
 
-  rm -rf /var/www/html/live/pma.diepxuan.vn/config.inc.php
-  ln /var/www/base/tool/php/phpmyadmin/config.inc.php /var/www/html/live/pma.diepxuan.vn/
+#  rm -rf /var/www/html/live/pma.diepxuan.vn/config.inc.php
+#  ln /var/www/base/tool/php/phpmyadmin/config.inc.php /var/www/html/live/pma.diepxuan.vn/
 }
 
 _certbot_install() {
@@ -143,9 +143,10 @@ _certbot_install() {
 #  -m caothu91@gmail.com \
 #  --server https://acme-v02.api.letsencrypt.org/directory
 
-chmod 600 /var/www/base/bash/certbot/cloudflare.ini
-
 _certbot() {
+
+  chmod 600 /var/www/base/bash/certbot/cloudflare.ini
+
   sudo certbot certonly \
     --expand \
     --keep-until-expiring \
@@ -159,8 +160,12 @@ _certbot() {
 
 ductn_certbot() {
   _certbot solzatech.com,www.solzatech.com
-  _certbot diepxuan.com,luong.diepxuan.com,www.diepxuan.com,blog.diepxuan.com,cloud.diepxuan.com,insider.diepxuan.com,pma.diepxuan.com
+  _certbot diepxuan.com,www.diepxuan.com,luong.diepxuan.com,insider.diepxuan.com,pma.diepxuan.com,blog.diepxuan.com,cloud.diepxuan.com
+  _certbot mail.diepxuan.com
   sudo service apache2 restart
+
+  sudo cat /etc/letsencrypt/live/mail.diepxuan.com/fullchain.pem | ssh server3.diepxuan.com "sudo tee /etc/letsencrypt/live/mail.diepxuan.com/fullchain.pem"
+  sudo cat /etc/letsencrypt/live/mail.diepxuan.com/privkey.pem | ssh server3.diepxuan.com "sudo tee /etc/letsencrypt/live/mail.diepxuan.com/privkey.pem"
 }
 
 _sendmail_install() {
@@ -175,9 +180,9 @@ _sendmail_install() {
 _nodejs_install() {
   curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
   sudo apt install -y nodejs build-essential
-  #  sudo npm install -g grunt-cli
+  sudo npm install -g grunt-cli
 
-  # echo "fs.inotify.max_user_watches = 524288" | sudo tee /etc/sysctl.d/grunt.conf
+  echo "fs.inotify.max_user_watches = 524288" | sudo tee /etc/sysctl.d/grunt.conf
   # # sudo sysctl -p --system
 }
 
@@ -210,8 +215,9 @@ _solr_install() {
 }
 
 _aliases() {
-  echo ". /var/www/base/bash/.bash_aliases" >~/.bash_aliases
+  echo ". /var/www/base/bash/.bash_aliases" > ~/.bash_aliases
   chmod 644 ~/.bash_aliases
+  chmod +x /var/www/base/bash/*.sh
 }
 
 _completion() {
@@ -231,7 +237,7 @@ _cronjob() {
 
 #########################################
 #_tmux_install
-_git_install
+#_git_install
 #_Apache_install
 #_PHP_install
 #_nodejs_install
@@ -240,10 +246,10 @@ _git_install
 #_sendmail_install
 
 #ductn_ssl
-#ductn_httpd
+ductn_httpd
 #_certbot_install
 #ductn_certbot
 
-_completion
+#_completion
 _aliases
 #_cronjob
