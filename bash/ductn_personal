@@ -246,10 +246,10 @@ _cronjob() {
 #_sendmail_install
 
 #ductn_ssl
-ductn_httpd
 #_certbot_install
 #ductn_certbot
+ductn_httpd
 
 #_completion
 _aliases
-#_cronjob
+_cronjob
