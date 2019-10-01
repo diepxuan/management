@@ -1,0 +1,25 @@
+#!/bin/bash
+
+cd "$(dirname "$0")"
+
+cat mysql_cluster/server.diepxuan.com.cnf | ssh server.diepxuan.com "sudo tee /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
+cat mysql_cluster/mysqld.cnf | ssh server.diepxuan.com "sudo tee -a /etc/mysql/mysql.conf.d/mysqld_cluster.cnf
+sudo service mysql restart
+"
+
+echo "
+AuthType Basic
+AuthName \"phpMyAdmin Users Only\"
+AuthUserFile /home/pma/public_html/.htpasswd
+Require valid-user
+" | ssh pma@server2.diepxuan.com "tee /home/pma/public_html/.htaccess"
+cat /var/www/base/tool/php/phpmyadmin/config.inc.php | ssh pma@server2.diepxuan.com "tee /home/pma/public_html/config.inc.php"
+cat mysql_cluster/server2.diepxuan.com.cnf | ssh server2.diepxuan.com "sudo tee /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
+cat mysql_cluster/mysqld.cnf | ssh server2.diepxuan.com "sudo tee -a /etc/mysql/mysql.conf.d/mysqld_cluster.cnf
+sudo service mysql restart
+"
+
+cat mysql_cluster/server3.diepxuan.com.cnf | ssh server3.diepxuan.com "sudo tee /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
+cat mysql_cluster/mysqld.cnf | ssh server3.diepxuan.com "sudo tee -a /etc/mysql/mysql.conf.d/mysqld_cluster.cnf
+sudo service mysql restart
+"

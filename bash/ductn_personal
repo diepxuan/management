@@ -248,8 +248,8 @@ _cronjob() {
 #ductn_ssl
 #_certbot_install
 #ductn_certbot
-ductn_httpd
+#ductn_httpd
 
 #_completion
 _aliases
-_cronjob
+#_cronjob
