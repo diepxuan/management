@@ -217,7 +217,7 @@ _solr_install() {
 _aliases() {
   echo ". /var/www/base/bash/.bash_aliases" > ~/.bash_aliases
   chmod 644 ~/.bash_aliases
-  chmod +x /var/www/base/bash/*.sh
+  chmod +x /var/www/base/bash/*
 }
 
 _completion() {
@@ -236,7 +236,7 @@ _cronjob() {
 }
 
 #########################################
-#_tmux_install
+_tmux_install
 #_git_install
 #_Apache_install
 #_PHP_install
