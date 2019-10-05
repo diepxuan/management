@@ -5,45 +5,11 @@ _tmux_install() {
   chmod 644 ~/.tmux.conf
 }
 
-_git_install() {
-  cat /var/www/base/tool/.gitignore >~/.gitignore
-  chmod 644 ~/.gitignore
-
-  # global gitignore
-  git config --global core.excludesfile ~/.gitignore
-
-  # setting
-  git config --global user.name "Tran Ngoc Duc"
-  git config --global user.email "caothu91@gmail.com"
-
-  # push
-  git config --global push.default simple
-
-  # file mode
-  git config --global core.fileMode false
-
-  # line endings
-  git config --global core.autocrlf false
-  git config --global core.eol lf
-
-  # Cleanup
-  git config --global gc.auto 0
-}
-
 _Apache_install() {
   sudo apt update
   sudo apt install apache2 -y --purge --auto-remove
   sudo apache2ctl configtest
   sudo service apache2 restart
-}
-
-_PHP_install() {
-  sudo add-apt-repository ppa:ondrej/php
-  sudo apt update
-  sudo apt install libapache2-mod-php?.? -y --purge --auto-remove
-  sudo update-alternatives --config php
-  sudo apt install phpmd -y --purge --auto-remove
-  sudo apt install composer -y --purge --auto-remove
 }
 
 ductn_ssl() {
@@ -104,6 +70,7 @@ _aliases() {
   echo ". /var/www/base/bash/.bash_aliases" > ~/.bash_aliases
   chmod 644 ~/.bash_aliases
   chmod +x /var/www/base/bash/*
+  chown ductn:www-data /var/www/base/bash/* -R
 }
 
 _completion() {
@@ -125,9 +92,9 @@ _cronjob() {
 _aliases
 ductn_ssh
 _tmux_install
-#_git_install
+#ductn_git
 #_Apache_install
-#_PHP_install
+#ductn_php
 #_nodejs_install
 #_java_install
 #_solr_install

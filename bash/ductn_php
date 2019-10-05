@@ -1,0 +1,18 @@
+#!/bin/bash
+
+sudo add-apt-repository ppa:ondrej/php
+sudo apt update
+sudo apt install libapache2-mod-php?.? -y --purge --auto-remove
+sudo update-alternatives --config php
+
+
+# INSTALL PHP MODULES
+########################
+sudo apt install phpmd -y --purge --auto-remove &>/dev/null
+sudo apt install composer -y --purge --auto-remove &>/dev/null
+
+sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip php?.?-bcmath php?.?-imagick &>/dev/null
+sudo apt install -y php?.?-mongodb &>/dev/null
+ductn_php_mssql
+sudo service apache2 restart
+
