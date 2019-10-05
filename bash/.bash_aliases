@@ -246,11 +246,12 @@ if ! shopt -oq posix; then
 fi
 
 if [[ -d "/var/www/base/bash" ]] ; then
-  PATH="$PATH:/var/www/base/bash"
+    chmod +x /var/www/base/bash/*
+    PATH="$PATH:/var/www/base/bash"
 fi
 
 if [[ -d "/opt/mssql-tools/bin" ]] ; then
-  PATH="$PATH:/opt/mssql-tools/bin"
+    PATH="$PATH:/opt/mssql-tools/bin"
 fi
 
 # SSH AGENT autostart
