@@ -70,7 +70,6 @@ _aliases() {
   echo ". /var/www/base/bash/.bash_aliases" > ~/.bash_aliases
   chmod 644 ~/.bash_aliases
   chmod +x /var/www/base/bash/*
-  chown ductn:www-data /var/www/base/bash/* -R
 }
 
 _completion() {
