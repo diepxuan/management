@@ -36,7 +36,7 @@ foreach ( $servers as $server ) {
     /* Authentication type */
     $cfg['Servers'][ $i ]['auth_type'] = 'config';
     $cfg['Servers'][ $i ]['user']      = 'sa';
-    $cfg['Servers'][ $i ]['password']  = 'bg2tob699';
+    $cfg['Servers'][ $i ]['password']  = 'ductn@123';
     /* Server parameters */
     $cfg['Servers'][ $i ]['host']            = $server;
     $cfg['Servers'][ $i ]['compress']        = false;
@@ -47,10 +47,10 @@ foreach ( $servers as $server ) {
      */
 
     /* User used to manipulate with storage */
-    $cfg['Servers'][ $i ]['controlhost'] = 'localhost';
+    $cfg['Servers'][ $i ]['controlhost'] = $server;
     $cfg['Servers'][ $i ]['controlport'] = '3306';
     $cfg['Servers'][ $i ]['controluser'] = 'sa';
-    $cfg['Servers'][ $i ]['controlpass'] = 'bg2tob699';
+    $cfg['Servers'][ $i ]['controlpass'] = 'ductn@123';
 
     /* Storage database and tables */
     $cfg['Servers'][ $i ]['pmadb']             = 'phpmyadmin';
