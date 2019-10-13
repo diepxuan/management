@@ -6,21 +6,11 @@ ductn_hosts add 103.56.156.159  server3.diepxuan.com
 
 cd "$(dirname "$0")"
 
-ssh server.diepxuan.com "\
-ductn_hosts add 35.229.247.242  server.diepxuan.com
-ductn_hosts add 35.232.100.140  server2.diepxuan.com
-ductn_hosts add 103.56.156.159  server3.diepxuan.com
-"
 cat mysql_cluster/server.diepxuan.com.cnf | ssh server.diepxuan.com "sudo tee /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
 cat mysql_cluster/mysqld.cnf | ssh server.diepxuan.com "sudo tee -a /etc/mysql/mysql.conf.d/mysqld_cluster.cnf
 sudo service mysql restart
 "
 
-ssh server2.diepxuan.com "\
-ductn_hosts add 35.229.247.242  server.diepxuan.com
-ductn_hosts add 35.232.100.140  server2.diepxuan.com
-ductn_hosts add 103.56.156.159  server3.diepxuan.com
-"
 echo "
 AuthType Basic
 AuthName \"phpMyAdmin Users Only\"
@@ -33,11 +23,6 @@ cat mysql_cluster/mysqld.cnf | ssh server2.diepxuan.com "sudo tee -a /etc/mysql/
 sudo service mysql restart
 "
 
-ssh server3.diepxuan.com "\
-ductn_hosts add 35.229.247.242  server.diepxuan.com
-ductn_hosts add 35.232.100.140  server2.diepxuan.com
-ductn_hosts add 103.56.156.159  server3.diepxuan.com
-"
 cat mysql_cluster/server3.diepxuan.com.cnf | ssh server3.diepxuan.com "sudo tee /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
 cat mysql_cluster/mysqld.cnf | ssh server3.diepxuan.com "sudo tee -a /etc/mysql/mysql.conf.d/mysqld_cluster.cnf
 sudo service mysql restart
