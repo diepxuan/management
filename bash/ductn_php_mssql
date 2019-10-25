@@ -24,8 +24,24 @@ sudo apt install php-pear gcc g++ make autoconf libc-dev pkg-config libxml2-dev 
 sudo pecl channel-update pecl.php.net
 #sudo pecl install sqlsrv pdo_sqlsrv
 sudo pecl install sqlsrv-5.7.0preview pdo_sqlsrv-5.7.0preview
+printf "priority=20\nextension=sqlsrv.so\n" | sudo tee /etc/php/5.6/mods-available/sqlsrv.ini
+printf "priority=30\nextension=pdo_sqlsrv.so\n" | sudo tee /etc/php/5.6/mods-available/pdo_sqlsrv.ini
+
+printf "priority=20\nextension=sqlsrv.so\n" | sudo tee /etc/php/7.0/mods-available/sqlsrv.ini
+printf "priority=30\nextension=pdo_sqlsrv.so\n" | sudo tee /etc/php/7.0/mods-available/pdo_sqlsrv.ini
+
 printf "priority=20\nextension=sqlsrv.so\n" | sudo tee /etc/php/7.1/mods-available/sqlsrv.ini
 printf "priority=30\nextension=pdo_sqlsrv.so\n" | sudo tee /etc/php/7.1/mods-available/pdo_sqlsrv.ini
+
+printf "priority=20\nextension=sqlsrv.so\n" | sudo tee /etc/php/7.2/mods-available/sqlsrv.ini
+printf "priority=30\nextension=pdo_sqlsrv.so\n" | sudo tee /etc/php/7.2/mods-available/pdo_sqlsrv.ini
+
+printf "priority=20\nextension=sqlsrv.so\n" | sudo tee /etc/php/7.3/mods-available/sqlsrv.ini
+printf "priority=30\nextension=pdo_sqlsrv.so\n" | sudo tee /etc/php/7.3/mods-available/pdo_sqlsrv.ini
+
+printf "priority=20\nextension=sqlsrv.so\n" | sudo tee /etc/php/7.4/mods-available/sqlsrv.ini
+printf "priority=30\nextension=pdo_sqlsrv.so\n" | sudo tee /etc/php/7.4/mods-available/pdo_sqlsrv.ini
+
 sudo phpenmod sqlsrv pdo_sqlsrv
 #echo extension=sqlsrv.so | sudo tee -a `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/20-sqlsrv.ini
 #echo extension=pdo_sqlsrv.so | sudo tee -a `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/30-pdo_sqlsrv.ini
