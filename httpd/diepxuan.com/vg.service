@@ -4,7 +4,7 @@ After=network.target mysqld.service
 StartLimitIntervalSec=0
 [Service]
 WorkingDirectory=/home/vg/public_html
-ExecStart=/usr/bin/dotnet /home/vg/public_html/Global.asax
+ExecStart=/usr/bin/dotnet /home/vg/public_html/bin/CMS.dll
 Restart=always
 RestartSec=10
 SyslogIdentifier=vinhgia-demo
