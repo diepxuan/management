@@ -4,7 +4,7 @@ After=network.target mysqld.service
 StartLimitIntervalSec=0
 [Service]
 WorkingDirectory=/var/netcore
-ExecStart=/usr/bin/dotnet /var/aspnetcoredemo/aspnetcoredemo.dll
+ExecStart=/usr/bin/dotnet /home/vg/public_html/Global.asax
 Restart=always
 RestartSec=10
 SyslogIdentifier=vinhgia-demo
