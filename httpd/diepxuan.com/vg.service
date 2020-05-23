@@ -3,7 +3,7 @@ Description=VinhGia service
 After=network.target mysqld.service
 StartLimitIntervalSec=0
 [Service]
-WorkingDirectory=/var/netcore
+WorkingDirectory=/home/vg/public_html
 ExecStart=/usr/bin/dotnet /home/vg/public_html/Global.asax
 Restart=always
 RestartSec=10
