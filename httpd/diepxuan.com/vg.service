@@ -1,0 +1,14 @@
+[Unit]
+Description=VinhGia service
+After=network.target mysqld.service
+StartLimitIntervalSec=0
+[Service]
+WorkingDirectory=/var/netcore
+ExecStart=/usr/bin/dotnet /var/aspnetcoredemo/aspnetcoredemo.dll
+Restart=always
+RestartSec=10
+SyslogIdentifier=vinhgia-demo
+User=vg
+Environment=ASPNETCORE_ENVIRONMENT=Production
+[Install]
+WantedBy=multi-user.target
