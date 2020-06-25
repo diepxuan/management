@@ -1,1 +1,4 @@
-ffmpeg -f lavfi -i anullsrc -rtsp_transport tcp -i rtsp://stream:Stream7791@dxvnkthd.ddns.net:554/Streaming/Channels/002 -tune zerolatency -vcodec libx264 -pix_fmt + -c:v copy -c:a aac -strict experimental -f flv rtmp://a.rtmp.youtube.com/live2/yjrt-zgs2-mpf4-7x75
+ffmpeg -f lavfi -i anullsrc -rtsp_transport tcp -i rtsp://stream:Stream7791@dxvnkthd.ddns.net:554/Streaming/Channels/1 -tune zerolatency -vcodec libx264 -pix_fmt + -c:v copy -c:a aac -strict experimental -f flv rtmp://a.rtmp.youtube.com/live2/yjrt-zgs2-mpf4-7x75
+
+# http://stream:Stream7791@dxvnkthd.ddns.net:80/Streaming/Channels/1/picture
+# http://stream:Stream7791@dxvnkthd.ddns.net:80/ISAPI/Streaming/channels/102/httpPreview
