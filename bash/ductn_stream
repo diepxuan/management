@@ -1,1 +1,1 @@
-ffmpeg -f lavfi -i anullsrc -rtsp_transport tcp -i rtsp://stream:stream7791@192.168.1.64:554/Streaming/Channels/101 -tune zerolatency -vcodec libx264 -pix_fmt + -c:v copy -c:a aac -strict experimental -f flv rtmp://a.rtmp.youtube.com/live2/yjrt-zgs2-mpf4-7x75
+ffmpeg -f lavfi -i anullsrc -rtsp_transport tcp -i rtsp://stream:Stream7791@dxvnkthd.ddns.net:554/Streaming/Channels/002 -tune zerolatency -vcodec libx264 -pix_fmt + -c:v copy -c:a aac -strict experimental -f flv rtmp://a.rtmp.youtube.com/live2/yjrt-zgs2-mpf4-7x75
