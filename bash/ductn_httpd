@@ -6,6 +6,7 @@
 cat /var/www/base/httpd/httpd.conf | sudo tee /etc/apache2/sites-available/ductn.conf
 printf "\n\n" >>/etc/apache2/sites-available/ductn.conf
 find /var/www/base/httpd/*/httpd.conf -type f -exec cat {} \; | sudo tee -a /etc/apache2/sites-available/ductn.conf
+mkdir -p /var/www/DavLock
 
 # APPLY APACHE CONFIG
 #####################
