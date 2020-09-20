@@ -12,6 +12,7 @@ find /var/www/base/httpd/*/httpd.conf -type f -exec cat {} \; | sudo tee -a /etc
 sudo a2ensite ductn.conf
 sudo a2dismod php?.? mpm_prefork mpm_worker mpm_event
 sudo a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias php7.1 ssl env dir mime &>/dev/null
+sudo a2enmod dav dav_fs &>/dev/null
 
 sudo apache2ctl configtest
 sudo service apache2 restart
