@@ -12,7 +12,7 @@ find /var/www/base/httpd/*/httpd.conf -type f -exec cat {} \; | sudo tee -a /etc
 mkdir -p /var/www/DavLock
 sudo mkdir -p /home/cloud/public_html/cloud
 sudo chmod -R 777 /home/cloud/public_html/cloud
-sudo a2enmod dav dav_fs &>/dev/null
+sudo a2enmod dav dav_fs auth_digest &>/dev/null
 
 # APPLY APACHE CONFIG
 #####################
