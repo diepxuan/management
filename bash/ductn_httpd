@@ -6,14 +6,21 @@
 cat /var/www/base/httpd/httpd.conf | sudo tee /etc/apache2/sites-available/ductn.conf
 printf "\n\n" >>/etc/apache2/sites-available/ductn.conf
 find /var/www/base/httpd/*/httpd.conf -type f -exec cat {} \; | sudo tee -a /etc/apache2/sites-available/ductn.conf
+
+# CREATE Dav Access
+###################
+chmod -R 755
 mkdir -p /var/www/DavLock
+mkdir -p /home/cloud/public_html/cloud
+chown -R nobody /home/cloud/public_html/cloud/
+chgrp -R nobody /home/cloud/public_html/cloud/
+sudo a2enmod dav dav_fs &>/dev/null
 
 # APPLY APACHE CONFIG
 #####################
 sudo a2ensite ductn.conf
 sudo a2dismod php?.? mpm_prefork mpm_worker mpm_event
 sudo a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias php7.1 ssl env dir mime &>/dev/null
-sudo a2enmod dav dav_fs &>/dev/null
 
 sudo apache2ctl configtest
 sudo service apache2 restart
