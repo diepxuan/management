@@ -11,9 +11,9 @@ find /var/www/base/httpd/*/httpd.conf -type f -exec cat {} \; | sudo tee -a /etc
 ###################
 mkdir -p /var/www/DavLock
 sudo mkdir -p /home/cloud/public_html/cloud
-chmod -R 755 /home/cloud/public_html/cloud
-chown -R nobody /home/cloud/public_html/cloud/
-chgrp -R nobody /home/cloud/public_html/cloud/
+sudo chmod -R 755 /home/cloud/public_html/cloud
+sudo chown -R nobody /home/cloud/public_html/cloud/
+sudo chgrp -R nobody /home/cloud/public_html/cloud/
 sudo a2enmod dav dav_fs &>/dev/null
 
 # APPLY APACHE CONFIG
