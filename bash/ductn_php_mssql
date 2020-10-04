@@ -10,6 +10,7 @@ sudo apt install -y php?.?-dev php?.?-xml -y --allow-unauthenticated &>/dev/null
 #####################################################################
 curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
 curl https://packages.microsoft.com/config/ubuntu/19.04/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
+# curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
 sudo apt update
 sudo ACCEPT_EULA=Y apt install msodbcsql17 mssql-tools locales unixodbc-dev -y
 sudo locale-gen en_US.utf8

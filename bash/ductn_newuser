@@ -22,3 +22,5 @@ sudo mkdir -p           /home/${1}/.ssl
 sudo chown -R ${1}:${1} /home/${1}/.ssl
 "
 echo -e "--ok"
+
+# echo \"tciadmin ALL=(ALL) NOPASSWD:ALL\" | sudo tee /etc/sudoers.d/90-users
