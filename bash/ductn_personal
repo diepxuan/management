@@ -90,7 +90,7 @@ _cronjob() {
 #########################################
 _aliases
 ductn_ssh
-_tmux_install
+#_tmux_install
 #ductn_git
 #_Apache_install
 #ductn_php
