@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# sudo apt install bind9 bind9utils bind9-doc dnsutils -y
+
+cat /var/www/base/bash/dns/named.conf.options | sudo tee /etc/bind/named.conf.options
+sudo service bind9 restart
