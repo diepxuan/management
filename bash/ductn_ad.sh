@@ -6,8 +6,8 @@
 # sudo hostnamectl set-hostname ad
 # echo "125.212.237.119 ad.diepxuan.com ad" | sudo tee /etc/hosts
 
-# sudo apt install samba smbclient winbind libpam-winbind libnss-winbind krb5-kdc libpam-krb5 -y
-sudo apt install samba libpam-winbind -y
+sudo apt install samba smbclient winbind libpam-winbind libnss-winbind krb5-kdc libpam-krb5 -y --purge --auto-remove
+# sudo apt install samba libpam-winbind -y
 
 sudo mv /etc/samba/smb.conf /etc/samba/smb.conf.orig
 sudo mv /etc/krb5.conf /etc/krb5.conf.orig
