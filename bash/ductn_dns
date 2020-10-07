@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # sudo apt install bind9 bind9utils bind9-doc dnsutils -y
-
 cat /var/www/base/bash/dns/named.conf.options | sudo tee /etc/bind/named.conf.options
 sudo service bind9 restart
+
+# sudo apt install stunnel4 -y --purge --auto-remove
+# cat /var/www/base/bash/dns/stunnel.conf | sudo tee /etc/stunnel/stunnel.conf
+# sudo service bind9 restart
