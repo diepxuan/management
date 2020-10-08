@@ -38,3 +38,5 @@ sudo systemctl start samba-ad-dc
 sudo systemctl enable samba-ad-dc
 
 # sudo samba-tool user create user1
+
+# https://www.linuxbabe.com/linux-server/setup-your-own-pptp-vpn-server-on-debian-ubuntu-centos
