@@ -33,6 +33,8 @@ git config --global receive.denyCurrentBranch updateInstead
 # remote repository
 cat /var/www/base/bash/git/push-to-checkout > .git/hooks/push-to-checkout
 chmod +x .git/hooks/push-to-checkout
+cat /var/www/base/bash/git/post-receive > .git/hooks/post-receive
+chmod +x .git/hooks/post-receive
 
 # git config http.postBuffer 524288000
 # git config receive.denyCurrentBranch refuse
