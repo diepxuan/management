@@ -44,3 +44,8 @@ sudo service apache2 restart
 
 #  sudo cat /etc/letsencrypt/live/mail.diepxuan.com/fullchain.pem | ssh server3.diepxuan.com "sudo tee /etc/letsencrypt/live/mail.diepxuan.com/fullchain.pem"
 #  sudo cat /etc/letsencrypt/live/mail.diepxuan.com/privkey.pem | ssh server3.diepxuan.com "sudo tee /etc/letsencrypt/live/mail.diepxuan.com/privkey.pem"
+
+sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem"
+sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem"
+sudo cat /etc/letsencrypt/live/diepxuan.com/fullchain.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/fullchain.pem"
+sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem"
