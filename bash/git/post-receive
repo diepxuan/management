@@ -1,0 +1,3 @@
+#!/bin/sh
+set -ex
+git push dx3 -f
