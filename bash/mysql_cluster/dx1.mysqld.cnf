@@ -27,11 +27,11 @@ server-id=51
 ndb-nodeid=51
 ndb-connectstring=dx1.diepxuan.com
 
-# [mysql_cluster]
-# ndb-connectstring=dx1.diepxuan.com
+[mysql_cluster]
+ndb-connectstring=dx1.diepxuan.com
 # ndb-mgmd-host=dx1.diepxuan.com
 # connect-string=dx1.diepxuan.com
-# ndb-nodeid=101
+ndb-nodeid=101
 
 [ndbd]
 ndb-connectstring=dx1.diepxuan.com
