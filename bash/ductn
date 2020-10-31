@@ -3,7 +3,6 @@
 
 install(){
     cronjob(){
-        echo "cronjob"
         chmod u+x /var/www/base/bash/cronjob/*.sh
         chmod u+x /var/www/base/bash/cronjob/cronjob
         sudo crontab /var/www/base/bash/cronjob/cronjob.conf
@@ -99,6 +98,52 @@ install(){
         # https://cdn.mysql.com//Downloads/MySQL-Cluster-8.0/mysql-cluster-community-management-server_8.0.22-1ubuntu20.04_amd64.deb
     }
 
+    git(){
+        cat /var/www/base/bash/git/.gitignore >~/.gitignore
+        chmod 644 ~/.gitignore
+
+        # global gitignore
+        git config --global core.excludesfile ~/.gitignore
+
+        # setting
+        git config --global user.name "Tran Ngoc Duc"
+        git config --global user.email "caothu91@gmail.com"
+
+        # alias
+        git config --global alias.plog "log --graph --pretty=format:'%h -%d %s %n' --abbrev-commit --date=relative --branches"
+
+        # push
+        git config --global push.default simple
+
+        # file mode
+        git config --global core.fileMode false
+
+        # line endings
+        git config --global core.autocrlf false
+        git config --global core.eol lf
+
+        # Cleanup
+        git config --global gc.auto 0
+
+        # remote server
+        git config --global receive.denyCurrentBranch updateInstead
+
+
+        # remote repository
+        cat /var/www/base/bash/git/push-to-checkout > .git/hooks/push-to-checkout
+        chmod +x .git/hooks/push-to-checkout
+
+        rm .git/hooks/post-receive
+        if [[ $1 = "server" ]]; then
+            cat /var/www/base/bash/git/post-receive > .git/hooks/post-receive
+        fi
+
+        chmod +x .git/hooks/*
+
+        # git config http.postBuffer 524288000
+        # git config receive.denyCurrentBranch refuse
+    }
+
     $@
 }
 
@@ -126,6 +171,23 @@ update(){
     }
 
     $@
+
+}
+
+fix(){
+    #!/bin/bash
+
+    if [ $1 == 'apt' ]
+    then
+        sudo killall apt-get
+        sudo killall apt
+
+        sudo rm /var/lib/apt/lists/lock
+        sudo rm /var/cache/apt/archives/lock
+        sudo rm /var/lib/dpkg/lock
+
+        sudo dpkg --configure -a
+    fi
 
 }
 
