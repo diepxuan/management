@@ -21,7 +21,18 @@
 # The following values assume you have at least 32M ram
 
 [mysqld]
-bind-address = 0.0.0.0
-server-id = 3
-auto-increment-offset = 3
-report_host = server03
+bind-address=0.0.0.0
+ndbcluster
+server-id=51
+ndb-nodeid=51
+ndb-connectstring=dx1.diepxuan.com
+
+# [mysql_cluster]
+# ndb-connectstring=dx1.diepxuan.com
+# ndb-mgmd-host=dx1.diepxuan.com
+# connect-string=dx1.diepxuan.com
+# ndb-nodeid=101
+
+[ndbd]
+ndb-connectstring=dx1.diepxuan.com
+ndb-nodeid=1

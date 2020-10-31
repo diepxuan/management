@@ -1,0 +1,135 @@
+#!/bin/bash
+#!/usr/bin/env bash
+
+install(){
+    cronjob(){
+        echo "cronjob"
+        chmod u+x /var/www/base/bash/cronjob/*.sh
+        chmod u+x /var/www/base/bash/cronjob/cronjob
+        sudo crontab /var/www/base/bash/cronjob/cronjob.conf
+        sudo service cron restart
+    }
+
+    mysql_cluster(){
+        # ductn_hosts add 35.229.247.242  server.diepxuan.com
+        # ductn_hosts add 35.232.100.140  server2.diepxuan.com
+        # ductn_hosts add 103.56.156.159  server3.diepxuan.com
+        # wget https://repo.mysql.com//mysql-apt-config_0.8.15-1_all.deb -O mysql-apt-config.deb
+        # sudo dpkg -i mysql-apt-config.deb
+        # rm -rf mysql-apt-config.deb
+
+        cd "$(dirname "$0")"
+
+        add(){
+            cat mysql_cluster/mysql-cluster.config.ini  | ssh dx$@.diepxuan.com "sudo tee /var/lib/mysql-cluster/config.ini"
+            cat mysql_cluster/mysqld.cnf                | ssh dx$@.diepxuan.com "sudo tee /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
+            cat mysql_cluster/dx$@.mysqld.cnf           | ssh dx$@.diepxuan.com "sudo tee -a /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
+            cat mysql_cluster/ndb_mgmd.service          | ssh dx$@.diepxuan.com "sudo tee /etc/systemd/system/ndb_mgmd.service"
+            cat mysql_cluster/ndbd.service              | ssh dx$@.diepxuan.com "sudo tee /etc/systemd/system/ndbd.service"
+            ssh dx$@.diepxuan.com "
+            sudo systemctl daemon-reload
+            # sudo systemctl enable ndb_mgmd
+            # sudo systemctl restart ndb_mgmd
+            sudo killall ndb_mgmd
+            sudo rm -rf /usr/mysql-cluster/*
+            sudo service ndb_mgmd restart
+            sudo killall ndbd
+            sudo service ndbd restart
+            sudo service mysql restart
+            "
+        }
+
+        add 3
+        add 1
+
+        # ssh dx1.diepxuan.com "
+        # sudo apt install libtinfo5 -y
+        # wget https://dev.mysql.com/get/Downloads/MySQL-Cluster-7.6/mysql-cluster-community-management-server_7.6.6-1ubuntu18.04_amd64.deb -O mysql-cluster-community-management-server.deb
+        # sudo dpkg -i mysql-cluster-community-management-server.deb
+        # rm -rf mysql-cluster-community-management-server.deb
+        # sudo mkdir -p /var/lib/mysql-cluster"
+        # cat mysql_cluster/mysql-cluster.config.ini  | ssh dx1.diepxuan.com "sudo tee /var/lib/mysql-cluster/config.ini"
+        # cat mysql_cluster/mysqld.cnf                | ssh dx1.diepxuan.com "sudo tee /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
+        # cat mysql_cluster/dx1.mysqld.cnf            | ssh dx1.diepxuan.com "sudo tee -a /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
+        # cat mysql_cluster/ndb_mgmd.service          | ssh dx1.diepxuan.com "sudo tee /etc/systemd/system/ndb_mgmd.service"
+        # cat mysql_cluster/ndbd.service              | ssh dx1.diepxuan.com "sudo tee /etc/systemd/system/ndbd.service"
+        # ssh dx1.diepxuan.com "
+        # sudo systemctl daemon-reload
+        # # sudo systemctl enable ndb_mgmd
+        # # sudo systemctl restart ndb_mgmd
+        # sudo service ndb_mgmd restart
+        # # sudo service mysql restart
+        # # sudo service ndbd restart
+        # "
+
+        # ssh dx3.diepxuan.com "
+        # sudo apt install libclass-methodmaker-perl -y
+        # wget https://cdn.mysql.com//Downloads/MySQL-Cluster-8.0/mysql-cluster-community-data-node_8.0.22-1ubuntu20.04_amd64.deb -O mysql-cluster-community-data-node.deb
+        # sudo dpkg -i mysql-cluster-community-data-node.deb
+        # rm -rf mysql-cluster-community-data-node.deb
+        # sudo mkdir -p /var/lib/mysql-cluster"
+        # cat mysql_cluster/mysql-cluster.config.ini  | ssh dx3.diepxuan.com "sudo tee /var/lib/mysql-cluster/config.ini"
+        # cat mysql_cluster/mysqld.cnf                | ssh dx3.diepxuan.com "sudo tee /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
+        # cat mysql_cluster/dx3.mysqld.cnf            | ssh dx3.diepxuan.com "sudo tee -a /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
+        # cat mysql_cluster/ndb_mgmd.service          | ssh dx3.diepxuan.com "sudo tee /etc/systemd/system/ndb_mgmd.service"
+        # cat mysql_cluster/ndbd.service              | ssh dx3.diepxuan.com "sudo tee /etc/systemd/system/ndbd.service"
+        # ssh dx3.diepxuan.com "
+        # sudo systemctl daemon-reload
+        # sudo service ndb_mgmd restart
+        # # sudo service ndbd restart
+        # # sudo service mysql restart
+        # "
+
+        # echo "
+        # AuthType Basic
+        # AuthName \"phpMyAdmin Users Only\"
+        # AuthUserFile /home/pma/public_html/.htpasswd
+        # Require valid-user
+        # " | ssh pma@server2.diepxuan.com "tee /home/pma/public_html/.htaccess"
+        # cat /var/www/base/tool/php/phpmyadmin/config.inc.php | ssh pma@server2.diepxuan.com "tee /home/pma/public_html/config.inc.php"
+
+        # cat mysql_cluster/server2.diepxuan.com.cnf | ssh dx2.diepxuan.com "sudo tee /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
+        # cat mysql_cluster/mysqld.cnf | ssh dx2.diepxuan.com "sudo tee -a /etc/mysql/mysql.conf.d/mysqld_cluster.cnf
+        # sudo service mysql restart
+        # "
+
+        # cat mysql_cluster/server3.diepxuan.com.cnf | ssh dx3.diepxuan.com "sudo tee /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
+        # cat mysql_cluster/mysqld.cnf | ssh dx3.diepxuan.com "sudo tee -a /etc/mysql/mysql.conf.d/mysqld_cluster.cnf
+        # sudo service mysql restart
+        # "
+
+
+        # https://cdn.mysql.com//Downloads/MySQL-Cluster-8.0/mysql-cluster-community-management-server_8.0.22-1ubuntu20.04_amd64.deb
+    }
+
+    $@
+}
+
+log(){
+    ssh dx3.diepxuan.com "sudo tail -f /var/log/syslog" & ssh dx1.diepxuan.com "sudo tail -f /var/log/syslog"
+}
+
+update(){
+
+    allowip(){
+
+        allowdomain(){
+            getip(){
+                echo "$(host $@ | cut -f4 -d' ')"
+            }
+            local Current_IP="$(getip $@)"
+            sudo ufw allow from ${Current_IP} to any
+            # echo "${Current_IP}"
+        }
+
+        allowdomain dxvnkthd.ddns.net
+        allowdomain dxvnk113.ddns.net
+        allowdomain dxvnkkcn.ddns.net
+        allowdomain mg15vincom.ddns.net
+    }
+
+    $@
+
+}
+
+$@

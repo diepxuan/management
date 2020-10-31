@@ -1,0 +1,50 @@
+#!/bin/bash
+
+service(){
+    # Web Server
+    if [[ ! "$(sudo /usr/sbin/service apache2 status)" =~ "start/running" ]]; then
+        sudo /usr/sbin/service apache2 restart
+    fi
+    if [[ ! "$(sudo /usr/sbin/service mysql status)" =~ "start/running" ]]; then
+        # sudo rm -rf /swapfile
+        # sudo fallocate -l 5G /swapfile
+        # sudo chmod 600 /swapfile
+        # sudo mkswap /swapfile
+        # sudo swapon /swapfile
+        sudo /usr/sbin/service mysql restart
+    fi
+
+    # Mysql Cluster
+    if [[ ! "$(sudo /usr/sbin/service ndb_mgmd status)" =~ "start/running" ]]; then
+        sudo killall ndb_mgmd
+        sudo rm -rf /usr/mysql-cluster/*
+        sudo /usr/sbin/service ndb_mgmd restart
+    fi
+    if [[ ! "$(sudo /usr/sbin/service ndbd status)" =~ "start/running" ]]; then
+        sudo killall ndbd
+        sudo /usr/sbin/service ndbd restart
+    fi
+}
+
+update(){
+
+    updateblockip(){
+        allowdomain dxvnkthd.ddns.net
+        allowdomain dxvnk113.ddns.net
+        allowdomain dxvnkkcn.ddns.net
+        allowdomain mg15vincom.ddns.net
+
+        allowdomain(){
+            Current_IP = $(getip $@)
+
+            sudo ufw allow from "$Current_IP" to any
+
+            getip(){
+                $(host $@ | cut -f4 -d' ')
+            }
+        }
+    }
+
+}
+
+$@
