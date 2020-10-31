@@ -3,7 +3,7 @@
 service(){
     # Web Server
     if [[ ! "$(sudo /usr/sbin/service apache2 status)" =~ "start/running" ]]; then
-        sudo /usr/sbin/service apache2 restart
+        sudo /usr/sbin/service apache2 start
     fi
     if [[ ! "$(sudo /usr/sbin/service mysql status)" =~ "start/running" ]]; then
         # sudo rm -rf /swapfile
@@ -11,18 +11,18 @@ service(){
         # sudo chmod 600 /swapfile
         # sudo mkswap /swapfile
         # sudo swapon /swapfile
-        sudo /usr/sbin/service mysql restart
+        sudo /usr/sbin/service mysql start
     fi
 
     # Mysql Cluster
     if [[ ! "$(sudo /usr/sbin/service ndb_mgmd status)" =~ "start/running" ]]; then
         sudo killall ndb_mgmd
         sudo rm -rf /usr/mysql-cluster/*
-        sudo /usr/sbin/service ndb_mgmd restart
+        sudo /usr/sbin/service ndb_mgmd start
     fi
     if [[ ! "$(sudo /usr/sbin/service ndbd status)" =~ "start/running" ]]; then
         sudo killall ndbd
-        sudo /usr/sbin/service ndbd restart
+        sudo /usr/sbin/service ndbd start
     fi
 }
 
