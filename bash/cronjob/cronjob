@@ -6,11 +6,11 @@ service(){
         sudo /usr/sbin/service apache2 start
     fi
     if [[ ! "$(sudo /usr/sbin/service mysql status)" =~ "start/running" ]]; then
-        # sudo rm -rf /swapfile
-        # sudo fallocate -l 5G /swapfile
-        # sudo chmod 600 /swapfile
-        # sudo mkswap /swapfile
-        # sudo swapon /swapfile
+        sudo rm -rf /swapfile
+        sudo fallocate -l 5G /swapfile
+        sudo chmod 600 /swapfile
+        sudo mkswap /swapfile
+        sudo swapon /swapfile
         sudo /usr/sbin/service mysql start
     fi
 
@@ -29,7 +29,7 @@ service(){
 
 update(){
 
-    updateblockip(){
+    updateallowip(){
         allowdomain dxvnkthd.ddns.net
         allowdomain dxvnk113.ddns.net
         allowdomain dxvnkkcn.ddns.net
