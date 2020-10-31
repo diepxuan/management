@@ -30,10 +30,7 @@ install(){
             sudo systemctl daemon-reload
             # sudo systemctl enable ndb_mgmd
             # sudo systemctl restart ndb_mgmd
-            sudo killall ndb_mgmd
-            sudo rm -rf /usr/mysql-cluster/*
             sudo service ndb_mgmd restart
-            sudo killall ndbd
             sudo service ndbd restart
             sudo service mysql restart
             "
