@@ -26,12 +26,12 @@ install(){
             cat mysql_cluster/ndb_mgmd.service          | ssh dx$@.diepxuan.com "sudo tee /etc/systemd/system/ndb_mgmd.service"
             cat mysql_cluster/ndbd.service              | ssh dx$@.diepxuan.com "sudo tee /etc/systemd/system/ndbd.service"
             ssh dx$@.diepxuan.com "
-            sudo systemctl daemon-reload
-            # sudo systemctl enable ndb_mgmd
-            # sudo systemctl restart ndb_mgmd
-            sudo service ndb_mgmd restart
-            sudo service ndbd restart
-            sudo service mysql restart
+                sudo systemctl daemon-reload
+                # sudo systemctl enable ndb_mgmd
+                # sudo systemctl restart ndb_mgmd
+                sudo service ndb_mgmd restart
+                sudo service ndbd restart
+                sudo service mysql restart
             "
         }
 

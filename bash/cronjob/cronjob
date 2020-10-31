@@ -19,10 +19,11 @@ service(){
         sudo killall ndb_mgmd
         sudo rm -rf /usr/mysql-cluster/*
         sudo /usr/sbin/service ndb_mgmd start
-    fi
-    if [[ ! "$(sudo /usr/sbin/service ndbd status)" =~ "start/running" ]]; then
-        sudo killall ndbd
-        sudo /usr/sbin/service ndbd start
+
+        if [[ ! "$(sudo /usr/sbin/service ndbd status)" =~ "start/running" ]]; then
+            sudo killall ndbd
+            sudo /usr/sbin/service ndbd start
+        fi
     fi
 }
 
