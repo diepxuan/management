@@ -1,5 +1,5 @@
-#!/bin/bash
 #!/usr/bin/env bash
+#!/bin/bash
 
 install(){
     cronjob(){
@@ -7,6 +7,25 @@ install(){
         chmod u+x /var/www/base/bash/cronjob/cronjob
         sudo crontab /var/www/base/bash/cronjob/cronjob.conf
         sudo service cron restart
+    }
+
+    mysql_replicate(){
+        # echo "
+        # AuthType Basic
+        # AuthName \"phpMyAdmin Users Only\"
+        # AuthUserFile /home/pma/public_html/.htpasswd
+        # Require valid-user
+        # " | ssh pma@server2.diepxuan.com "tee /home/pma/public_html/.htaccess"
+        # cat /var/www/base/tool/php/phpmyadmin/config.inc.php | ssh pma@server2.diepxuan.com "tee /home/pma/public_html/config.inc.php"
+
+        add(){
+            cat mysql_cluster/dx$@.mysqld.cnf           | ssh dx$@.diepxuan.com "sudo tee /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
+            cat mysql_cluster/mysqld.cnf                | ssh dx$@.diepxuan.com "sudo tee -a /etc/mysql/mysql.conf.d/mysqld_cluster.cnf
+            sudo service mysql restart
+            "
+        }
+        add 3
+        add 1
     }
 
     mysql_cluster(){
@@ -29,73 +48,14 @@ install(){
                 sudo systemctl daemon-reload
                 # sudo systemctl enable ndb_mgmd
                 # sudo systemctl restart ndb_mgmd
-                sudo service ndb_mgmd restart
-                sudo service ndbd restart
-                sudo service mysql restart
+                # sudo service ndb_mgmd restart
+                # sudo service ndbd restart
+                # sudo service mysql restart
             "
         }
 
         add 3
         add 1
-
-        # ssh dx1.diepxuan.com "
-        # sudo apt install libtinfo5 -y
-        # wget https://dev.mysql.com/get/Downloads/MySQL-Cluster-7.6/mysql-cluster-community-management-server_7.6.6-1ubuntu18.04_amd64.deb -O mysql-cluster-community-management-server.deb
-        # sudo dpkg -i mysql-cluster-community-management-server.deb
-        # rm -rf mysql-cluster-community-management-server.deb
-        # sudo mkdir -p /var/lib/mysql-cluster"
-        # cat mysql_cluster/mysql-cluster.config.ini  | ssh dx1.diepxuan.com "sudo tee /var/lib/mysql-cluster/config.ini"
-        # cat mysql_cluster/mysqld.cnf                | ssh dx1.diepxuan.com "sudo tee /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
-        # cat mysql_cluster/dx1.mysqld.cnf            | ssh dx1.diepxuan.com "sudo tee -a /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
-        # cat mysql_cluster/ndb_mgmd.service          | ssh dx1.diepxuan.com "sudo tee /etc/systemd/system/ndb_mgmd.service"
-        # cat mysql_cluster/ndbd.service              | ssh dx1.diepxuan.com "sudo tee /etc/systemd/system/ndbd.service"
-        # ssh dx1.diepxuan.com "
-        # sudo systemctl daemon-reload
-        # # sudo systemctl enable ndb_mgmd
-        # # sudo systemctl restart ndb_mgmd
-        # sudo service ndb_mgmd restart
-        # # sudo service mysql restart
-        # # sudo service ndbd restart
-        # "
-
-        # ssh dx3.diepxuan.com "
-        # sudo apt install libclass-methodmaker-perl -y
-        # wget https://cdn.mysql.com//Downloads/MySQL-Cluster-8.0/mysql-cluster-community-data-node_8.0.22-1ubuntu20.04_amd64.deb -O mysql-cluster-community-data-node.deb
-        # sudo dpkg -i mysql-cluster-community-data-node.deb
-        # rm -rf mysql-cluster-community-data-node.deb
-        # sudo mkdir -p /var/lib/mysql-cluster"
-        # cat mysql_cluster/mysql-cluster.config.ini  | ssh dx3.diepxuan.com "sudo tee /var/lib/mysql-cluster/config.ini"
-        # cat mysql_cluster/mysqld.cnf                | ssh dx3.diepxuan.com "sudo tee /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
-        # cat mysql_cluster/dx3.mysqld.cnf            | ssh dx3.diepxuan.com "sudo tee -a /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
-        # cat mysql_cluster/ndb_mgmd.service          | ssh dx3.diepxuan.com "sudo tee /etc/systemd/system/ndb_mgmd.service"
-        # cat mysql_cluster/ndbd.service              | ssh dx3.diepxuan.com "sudo tee /etc/systemd/system/ndbd.service"
-        # ssh dx3.diepxuan.com "
-        # sudo systemctl daemon-reload
-        # sudo service ndb_mgmd restart
-        # # sudo service ndbd restart
-        # # sudo service mysql restart
-        # "
-
-        # echo "
-        # AuthType Basic
-        # AuthName \"phpMyAdmin Users Only\"
-        # AuthUserFile /home/pma/public_html/.htpasswd
-        # Require valid-user
-        # " | ssh pma@server2.diepxuan.com "tee /home/pma/public_html/.htaccess"
-        # cat /var/www/base/tool/php/phpmyadmin/config.inc.php | ssh pma@server2.diepxuan.com "tee /home/pma/public_html/config.inc.php"
-
-        # cat mysql_cluster/server2.diepxuan.com.cnf | ssh dx2.diepxuan.com "sudo tee /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
-        # cat mysql_cluster/mysqld.cnf | ssh dx2.diepxuan.com "sudo tee -a /etc/mysql/mysql.conf.d/mysqld_cluster.cnf
-        # sudo service mysql restart
-        # "
-
-        # cat mysql_cluster/server3.diepxuan.com.cnf | ssh dx3.diepxuan.com "sudo tee /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
-        # cat mysql_cluster/mysqld.cnf | ssh dx3.diepxuan.com "sudo tee -a /etc/mysql/mysql.conf.d/mysqld_cluster.cnf
-        # sudo service mysql restart
-        # "
-
-
-        # https://cdn.mysql.com//Downloads/MySQL-Cluster-8.0/mysql-cluster-community-management-server_8.0.22-1ubuntu20.04_amd64.deb
     }
 
     git(){
@@ -144,7 +104,45 @@ install(){
         # git config receive.denyCurrentBranch refuse
     }
 
+    dns(){
+        #!/bin/bash
+        cd "$(dirname "$0")"
+
+        # sudo apt install bind9 bind9utils bind9-doc dnsutils -y
+
+        cat dns/slave.conf.options  | ssh dx1.diepxuan.com "sudo tee /etc/bind/named.conf.options"
+        cat dns/slave.conf.local    | ssh dx1.diepxuan.com "sudo tee /etc/bind/named.conf.local"
+        ssh dx1.diepxuan.com "sudo service bind9 restart"
+
+        cat dns/master.conf.options | ssh dx3.diepxuan.com "sudo tee /etc/bind/named.conf.options"
+        cat dns/master.conf.local   | ssh dx3.diepxuan.com "sudo tee /etc/bind/named.conf.local"
+        ssh dx3.diepxuan.com "sudo service bind9 restart"
+
+        # sudo apt install stunnel4 -y --purge --auto-remove
+        # cat /var/www/base/bash/dns/stunnel.conf | sudo tee /etc/stunnel/stunnel.conf
+        # sudo service bind9 restart
+    }
+
     $@
+}
+
+remove(){
+    mysql_cluster(){
+        sudo systemctl stop ndb_mgmd
+        sudo systemctl disable ndb_mgmd
+        sudo systemctl stop ndbd
+        sudo systemctl disable ndbd
+
+        sudo rm -rf /var/lib/mysql-cluster/config.ini
+        sudo rm -rf /etc/mysql/mysql.conf.d/mysqld_cluster.cnf
+        sudo rm -rf /etc/systemd/system/ndb_mgmd.service
+        sudo rm -rf /etc/systemd/system/ndbd.service
+        sudo rm -rf /var/lib/mysql-cluster
+
+        sudo apt remove mysql-apt-config mysql-cluster-community-management-server -y --purge --auto-remove
+        sudo apt update
+        sudo apt dist-upgrade -y --purge --auto-remove
+    }
 }
 
 log(){
@@ -177,7 +175,7 @@ update(){
 fix(){
     #!/bin/bash
 
-    if [ $1 == 'apt' ]
+    if [[ $1 = 'apt' ]]
     then
         sudo killall apt-get
         sudo killall apt
@@ -185,6 +183,7 @@ fix(){
         sudo rm /var/lib/apt/lists/lock
         sudo rm /var/cache/apt/archives/lock
         sudo rm /var/lib/dpkg/lock
+        sudo rm /var/lib/dpkg/lock-frontend
 
         sudo dpkg --configure -a
     fi

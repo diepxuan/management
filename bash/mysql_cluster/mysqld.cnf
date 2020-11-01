@@ -43,3 +43,8 @@ log-slave-updates = 1
 # #slave_skip_errors = all
 # slave_skip_errors = ddl_exist_errors
 # slave-rows-search-algorithms = 'INDEX_SCAN,HASH_SCAN'
+
+# # cluster settings
+# #############################################
+# safe-mode=true
+# skip-grant-tables
