@@ -15,36 +15,38 @@ service(){
     fi
 
     # Mysql Cluster
-    if [[ ! "$(sudo /usr/sbin/service ndb_mgmd status)" =~ "start/running" ]]; then
-        sudo killall ndb_mgmd
-        sudo rm -rf /usr/mysql-cluster/*
-        sudo /usr/sbin/service ndb_mgmd start
+    # if [[ ! "$(sudo /usr/sbin/service ndb_mgmd status)" =~ "start/running" ]]; then
+    #     sudo killall ndb_mgmd
+    #     sudo rm -rf /usr/mysql-cluster/*
+    #     sudo /usr/sbin/service ndb_mgmd start
 
-        if [[ ! "$(sudo /usr/sbin/service ndbd status)" =~ "start/running" ]]; then
-            sudo killall ndbd
-            sudo /usr/sbin/service ndbd start
-        fi
-    fi
+    #     if [[ ! "$(sudo /usr/sbin/service ndbd status)" =~ "start/running" ]]; then
+    #         sudo killall ndbd
+    #         sudo /usr/sbin/service ndbd start
+    #     fi
+    # fi
 }
 
 update(){
 
     updateallowip(){
+
+        allowdomain(){
+
+            getip(){
+                host $@ | cut -f4 -d' '
+            }
+
+            sudo ufw allow proto tcp from "$(getip $@)" to any port 1433
+        }
+
         allowdomain dxvnkthd.ddns.net
         allowdomain dxvnk113.ddns.net
         allowdomain dxvnkkcn.ddns.net
         allowdomain mg15vincom.ddns.net
-
-        allowdomain(){
-            Current_IP = $(getip $@)
-
-            sudo ufw allow from "$Current_IP" to any
-
-            getip(){
-                $(host $@ | cut -f4 -d' ')
-            }
-        }
     }
+
+    $@
 
 }
 
