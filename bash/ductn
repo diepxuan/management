@@ -170,7 +170,7 @@ install(){
 
         #!/bin/bash
 
-        _certbot_install() {
+        --install() {
           sudo apt install software-properties-common -y --purge --auto-remove
           # sudo add-apt-repository universe
           sudo add-apt-repository ppa:certbot/certbot
@@ -179,9 +179,8 @@ install(){
           sudo pip install certbot-dns-cloudflare
         }
 
-        if [[ $1 = "install" ]]; then
-            _certbot_install
-        fi
+        $@
+
 
         #sudo certbot certonly --apache \
         #  --expand \
