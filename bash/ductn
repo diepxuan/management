@@ -173,10 +173,10 @@ install(){
         --install() {
           sudo apt install software-properties-common -y --purge --auto-remove
           # sudo add-apt-repository universe
-          sudo add-apt-repository ppa:certbot/certbot
+          # sudo add-apt-repository ppa:certbot/certbot
           sudo apt update
-          sudo apt install -y certbot python-certbot-apache python-pip --purge --auto-remove
-          sudo pip install certbot-dns-cloudflare
+          sudo apt install -y --purge --auto-remove python3-pip
+          sudo pip3 install certbot certbot-dns-cloudflare
         }
 
         $@
@@ -214,12 +214,12 @@ install(){
         #  sudo cat /etc/letsencrypt/live/mail.diepxuan.com/fullchain.pem | ssh server3.diepxuan.com "sudo tee /etc/letsencrypt/live/mail.diepxuan.com/fullchain.pem"
         #  sudo cat /etc/letsencrypt/live/mail.diepxuan.com/privkey.pem | ssh server3.diepxuan.com "sudo tee /etc/letsencrypt/live/mail.diepxuan.com/privkey.pem"
 
-        # sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem"
-        # sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem"
-        # sudo cat /etc/letsencrypt/live/diepxuan.com/fullchain.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/fullchain.pem"
-        # sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem"
+        sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem"
+        sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem"
+        sudo cat /etc/letsencrypt/live/diepxuan.com/fullchain.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/fullchain.pem"
+        sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem"
 
-        scp -r /etc/letsencrypt/live/* dx3.diepxuan.com:/etc/letsencrypt/live/
+        # sudo scp -r /etc/letsencrypt/live/* dx3.diepxuan.com:/etc/letsencrypt/live/
     }
 
     $@
