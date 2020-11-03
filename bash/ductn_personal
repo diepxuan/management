@@ -100,9 +100,6 @@ _tmux_install
 #_sendmail_install
 
 #ductn_ssl
-#_certbot_install
-#ductn_certbot install
-#ductn_certbot
 #ductn_httpd
 
 #_completion
