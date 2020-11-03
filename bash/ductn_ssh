@@ -50,3 +50,7 @@ ssh-keygen -f ~/.ssh/id_rsa -y >~/.ssh/id_rsa.pub
 # ssh-keygen -f ~/.ssh/gem -y > ~/.ssh/gem.pub
 
 # ssh-copy-id user@123.45.56.78
+
+# cat /var/www/base/ssh/id_rsa        | ssh dx1.diepxuan.com "cat > ~/.ssh/id_rsa"
+# cat /var/www/base/ssh/id_rsa.pub    | ssh dx1.diepxuan.com "cat > ~/.ssh/id_rsa.pub"
+# ssh dx1.diepxuan.com "chmod 600 ~/.ssh/*"

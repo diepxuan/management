@@ -6,8 +6,8 @@
 // organization
 //include "/etc/bind/zones.rfc1918";
 
-    zone "diepxuan.com" {
-        type master;
-        file "/etc/bind/db.diepxuan.com";
-        allow-transfer { 35.232.100.140; };
-    };
+// zone "diepxuan.com" {
+//     type master;
+//     file "/etc/bind/zones/db.diepxuan.com";
+//     allow-transfer { 35.232.100.140; };
+// };

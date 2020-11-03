@@ -6,8 +6,8 @@
 // organization
 //include "/etc/bind/zones.rfc1918";
 
-    zone "diepxuan.com" {
-        type slave;
-        file "/etc/bind/db.diepxuan.com";
-        masters { 125.212.237.119; };
-    };
+// zone "diepxuan.com" {
+//     type slave;
+//     file "/etc/bind/zones/db.diepxuan.com";
+//     masters { 125.212.237.119; };
+// };

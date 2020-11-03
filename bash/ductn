@@ -112,15 +112,58 @@ install(){
 
         cat dns/slave.conf.options  | ssh dx1.diepxuan.com "sudo tee /etc/bind/named.conf.options"
         cat dns/slave.conf.local    | ssh dx1.diepxuan.com "sudo tee /etc/bind/named.conf.local"
-        ssh dx1.diepxuan.com "sudo service bind9 restart"
+        scp dns/db.* ductn@dx1.diepxuan.com
+        ssh dx1.diepxuan.com "
+            mkdir /etc/bind/zones
+            sudo mv db.* /etc/bind/zones
+            sudo service bind9 restart
+        "
 
         cat dns/master.conf.options | ssh dx3.diepxuan.com "sudo tee /etc/bind/named.conf.options"
         cat dns/master.conf.local   | ssh dx3.diepxuan.com "sudo tee /etc/bind/named.conf.local"
-        ssh dx3.diepxuan.com "sudo service bind9 restart"
-
+        scp dns/db.* ductn@dx3.diepxuan.com:~/
+        ssh dx3.diepxuan.com "
+            mkdir -p /etc/bind/zones
+            sudo mv ~/db.* /etc/bind/zones
+            sudo service bind9 restart
+        "
         # sudo apt install stunnel4 -y --purge --auto-remove
         # cat /var/www/base/bash/dns/stunnel.conf | sudo tee /etc/stunnel/stunnel.conf
         # sudo service bind9 restart
+    }
+
+    httpd(){
+        #!/usr/bin/env bash
+
+        # CREATE ductn SITE
+        ###################
+        #shellcheck disable=SC2002
+        cat /var/www/base/httpd/httpd.conf | sudo tee /etc/apache2/sites-available/ductn.conf
+        printf "\n\n" >>/etc/apache2/sites-available/ductn.conf
+        find /var/www/base/httpd/*/httpd.conf -type f -exec cat {} \; | sudo tee -a /etc/apache2/sites-available/ductn.conf
+
+        # CREATE Dav Access
+        ###################
+        # mkdir -p /var/www/DavLock
+        sudo mkdir -p /home/cloud/public_html/cloud
+        sudo chmod -R 777 /home/cloud/public_html/cloud
+        sudo a2enmod dav dav_fs auth_digest &>/dev/null
+
+        # APPLY APACHE CONFIG
+        #####################
+        sudo a2ensite ductn.conf
+        sudo a2dismod mpm_prefork mpm_worker mpm_event
+        sudo a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias ssl env dir mime &>/dev/null
+        # sudo a2dismod php?.?
+        # sudo a2enmod php7.1
+
+        sudo apache2ctl configtest
+        sudo service apache2 restart
+        # sudo service apache2 status
+
+        #  rm -rf /var/www/html/live/pma.diepxuan.vn/config.inc.php
+        #  ln /var/www/base/tool/php/phpmyadmin/config.inc.php /var/www/html/live/pma.diepxuan.vn/
+
     }
 
     $@
