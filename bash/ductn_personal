@@ -66,12 +66,6 @@ _solr_install() {
   sudo usermod -aG solr $(whoami)
 }
 
-_aliases() {
-  echo ". /var/www/base/bash/.bash_aliases" > ~/.bash_aliases
-  chmod 644 ~/.bash_aliases
-  chmod +x /var/www/base/bash/*
-}
-
 _completion() {
   composer global require bamarni/symfony-console-autocomplete
   chmod u+x /var/www/base/bash/completion/*.setup
@@ -88,9 +82,9 @@ _cronjob() {
 }
 
 #########################################
-_aliases
+# _aliases
 # ductn_ssh
-_tmux_install
+# _tmux_install
 #ductn_git
 #_Apache_install
 #ductn_php
