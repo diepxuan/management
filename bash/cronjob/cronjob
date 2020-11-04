@@ -14,17 +14,6 @@ service(){
         sudo /usr/sbin/service mysql start
     fi
 
-    # Mysql Cluster
-    # if [[ ! "$(sudo /usr/sbin/service ndb_mgmd status)" =~ "start/running" ]]; then
-    #     sudo killall ndb_mgmd
-    #     sudo rm -rf /usr/mysql-cluster/*
-    #     sudo /usr/sbin/service ndb_mgmd start
-
-    #     if [[ ! "$(sudo /usr/sbin/service ndbd status)" =~ "start/running" ]]; then
-    #         sudo killall ndbd
-    #         sudo /usr/sbin/service ndbd start
-    #     fi
-    # fi
 }
 
 update(){
