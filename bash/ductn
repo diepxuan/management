@@ -9,25 +9,6 @@ install(){
         sudo service cron restart
     }
 
-    mysql_replicate(){
-        # echo "
-        # AuthType Basic
-        # AuthName \"phpMyAdmin Users Only\"
-        # AuthUserFile /home/pma/public_html/.htpasswd
-        # Require valid-user
-        # " | ssh pma@server2.diepxuan.com "tee /home/pma/public_html/.htaccess"
-        # cat /var/www/base/tool/php/phpmyadmin/config.inc.php | ssh pma@server2.diepxuan.com "tee /home/pma/public_html/config.inc.php"
-
-        add(){
-            cat mysql_cluster/dx$@.mysqld.cnf           | ssh dx$@.diepxuan.com "sudo tee /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
-            cat mysql_cluster/mysqld.cnf                | ssh dx$@.diepxuan.com "sudo tee -a /etc/mysql/mysql.conf.d/mysqld_cluster.cnf
-            sudo service mysql restart
-            "
-        }
-        add 3
-        add 1
-    }
-
     mysql_cluster(){
         # ductn_hosts add 35.229.247.242  server.diepxuan.com
         # ductn_hosts add 35.232.100.140  server2.diepxuan.com
@@ -178,48 +159,52 @@ install(){
           sudo apt install -y --purge --auto-remove python3-pip
           sudo pip3 install certbot certbot-dns-cloudflare
         }
-
-        $@
-
-
-        #sudo certbot certonly --apache \
-        #  --expand \
-        #  --no-redirect \
-        #  --keep-until-expiring \
-        #  --break-my-certs \
-        #  --pre-hook /var/www/base/bash/certbot/authenticator.sh \
-        #  -m caothu91@gmail.com \
-        #  --server https://acme-v02.api.letsencrypt.org/directory
-
-        _certbot() {
-
-          chmod 600 /var/www/base/bash/certbot/cloudflare.ini
-
-          sudo certbot certonly \
-            --expand \
-            --keep-until-expiring \
-            --dns-cloudflare \
-            --dns-cloudflare-credentials /var/www/base/bash/certbot/cloudflare.ini \
-            --agree-tos \
-            --email caothu91@gmail.com \
-            --eff-email \
-            -d $1
+        
+        --setup(){
+        
+	        #sudo certbot certonly --apache \
+	        #  --expand \
+	        #  --no-redirect \
+	        #  --keep-until-expiring \
+	        #  --break-my-certs \
+	        #  --pre-hook /var/www/base/bash/certbot/authenticator.sh \
+	        #  -m caothu91@gmail.com \
+	        #  --server https://acme-v02.api.letsencrypt.org/directory
+	
+	        _certbot() {
+	
+	          chmod 600 /var/www/base/bash/certbot/cloudflare.ini
+	
+	          sudo certbot certonly \
+	            --expand \
+	            --keep-until-expiring \
+	            --dns-cloudflare \
+	            --dns-cloudflare-credentials /var/www/base/bash/certbot/cloudflare.ini \
+	            --agree-tos \
+	            --email caothu91@gmail.com \
+	            --eff-email \
+	            -d $1
+	        }
+	
+	        #_certbot solzatech.com,www.solzatech.com
+	        _certbot diepxuan.com,www.diepxuan.com,luong.diepxuan.com,pma.diepxuan.com,cloud.diepxuan.com
+	
+	        sudo service apache2 restart
+	
+	        #  sudo cat /etc/letsencrypt/live/mail.diepxuan.com/fullchain.pem | ssh server3.diepxuan.com "sudo tee /etc/letsencrypt/live/mail.diepxuan.com/fullchain.pem"
+	        #  sudo cat /etc/letsencrypt/live/mail.diepxuan.com/privkey.pem | ssh server3.diepxuan.com "sudo tee /etc/letsencrypt/live/mail.diepxuan.com/privkey.pem"
+	
+	        sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem"
+	        sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem"
+	        sudo cat /etc/letsencrypt/live/diepxuan.com/fullchain.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/fullchain.pem"
+	        sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem"
+	
+	        # sudo scp -r /etc/letsencrypt/live/* dx3.diepxuan.com:/etc/letsencrypt/live/
         }
 
-        #_certbot solzatech.com,www.solzatech.com
-        _certbot diepxuan.com,www.diepxuan.com,luong.diepxuan.com,pma.diepxuan.com,cloud.diepxuan.com
+        $@
+		--setup
 
-        sudo service apache2 restart
-
-        #  sudo cat /etc/letsencrypt/live/mail.diepxuan.com/fullchain.pem | ssh server3.diepxuan.com "sudo tee /etc/letsencrypt/live/mail.diepxuan.com/fullchain.pem"
-        #  sudo cat /etc/letsencrypt/live/mail.diepxuan.com/privkey.pem | ssh server3.diepxuan.com "sudo tee /etc/letsencrypt/live/mail.diepxuan.com/privkey.pem"
-
-        sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem"
-        sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem"
-        sudo cat /etc/letsencrypt/live/diepxuan.com/fullchain.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/fullchain.pem"
-        sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem"
-
-        # sudo scp -r /etc/letsencrypt/live/* dx3.diepxuan.com:/etc/letsencrypt/live/
     }
 
     $@
