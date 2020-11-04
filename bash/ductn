@@ -159,9 +159,9 @@ install(){
           sudo apt install -y --purge --auto-remove python3-pip
           sudo pip3 install certbot certbot-dns-cloudflare
         }
-        
+
         --setup(){
-        
+
 	        #sudo certbot certonly --apache \
 	        #  --expand \
 	        #  --no-redirect \
@@ -170,11 +170,11 @@ install(){
 	        #  --pre-hook /var/www/base/bash/certbot/authenticator.sh \
 	        #  -m caothu91@gmail.com \
 	        #  --server https://acme-v02.api.letsencrypt.org/directory
-	
+
 	        _certbot() {
-	
+
 	          chmod 600 /var/www/base/bash/certbot/cloudflare.ini
-	
+
 	          sudo certbot certonly \
 	            --expand \
 	            --keep-until-expiring \
@@ -185,26 +185,41 @@ install(){
 	            --eff-email \
 	            -d $1
 	        }
-	
+
 	        #_certbot solzatech.com,www.solzatech.com
 	        _certbot diepxuan.com,www.diepxuan.com,luong.diepxuan.com,pma.diepxuan.com,cloud.diepxuan.com
-	
+
 	        sudo service apache2 restart
-	
+
 	        #  sudo cat /etc/letsencrypt/live/mail.diepxuan.com/fullchain.pem | ssh server3.diepxuan.com "sudo tee /etc/letsencrypt/live/mail.diepxuan.com/fullchain.pem"
 	        #  sudo cat /etc/letsencrypt/live/mail.diepxuan.com/privkey.pem | ssh server3.diepxuan.com "sudo tee /etc/letsencrypt/live/mail.diepxuan.com/privkey.pem"
-	
+
 	        sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem"
 	        sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem"
 	        sudo cat /etc/letsencrypt/live/diepxuan.com/fullchain.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/fullchain.pem"
 	        sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem | ssh dx3.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem"
-	
+
 	        # sudo scp -r /etc/letsencrypt/live/* dx3.diepxuan.com:/etc/letsencrypt/live/
         }
 
         $@
 		--setup
 
+    }
+
+    $@
+}
+
+
+composer(){
+    --install(){
+        cd ~
+        curl -sS https://getcomposer.org/installer -o composer-setup.php
+        HASH=`curl -sS https://composer.github.io/installer.sig`
+        php -r "if (hash_file('SHA384', 'composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+        sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+        php -r "unlink('composer-setup.php');"
+        rm -rf composer-setup.php
     }
 
     $@
