@@ -1,84 +1,8 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-install(){
-
-
-    git(){
-        cat /var/www/base/bash/git/.gitignore >~/.gitignore
-        chmod 644 ~/.gitignore
-
-        # global gitignore
-        git config --global core.excludesfile ~/.gitignore
-
-        # setting
-        git config --global user.name "Tran Ngoc Duc"
-        git config --global user.email "caothu91@gmail.com"
-
-        # alias
-        git config --global alias.plog "log --graph --pretty=format:'%h -%d %s %n' --abbrev-commit --date=relative --branches"
-
-        # push
-        git config --global push.default simple
-
-        # file mode
-        git config --global core.fileMode false
-
-        # line endings
-        git config --global core.autocrlf false
-        git config --global core.eol lf
-
-        # Cleanup
-        git config --global gc.auto 0
-
-        # remote server
-        git config --global receive.denyCurrentBranch updateInstead
-
-
-        # remote repository
-        cat /var/www/base/bash/git/push-to-checkout > .git/hooks/push-to-checkout
-        chmod +x .git/hooks/push-to-checkout
-
-        rm .git/hooks/post-receive
-        if [[ $1 = "server" ]]; then
-            cat /var/www/base/bash/git/post-receive > .git/hooks/post-receive
-        fi
-
-        chmod +x .git/hooks/*
-
-        # git config http.postBuffer 524288000
-        # git config receive.denyCurrentBranch refuse
-    }
-
-    dns(){
-        #!/bin/bash
-        cd "$(dirname "$0")"
-
-        # sudo apt install bind9 bind9utils bind9-doc dnsutils -y
-
-        cat dns/slave.conf.options  | ssh dx1.diepxuan.com "sudo tee /etc/bind/named.conf.options"
-        cat dns/slave.conf.local    | ssh dx1.diepxuan.com "sudo tee /etc/bind/named.conf.local"
-        scp dns/db.* ductn@dx1.diepxuan.com
-        ssh dx1.diepxuan.com "
-            mkdir /etc/bind/zones
-            sudo mv db.* /etc/bind/zones
-            sudo service bind9 restart
-        "
-
-        cat dns/master.conf.options | ssh dx3.diepxuan.com "sudo tee /etc/bind/named.conf.options"
-        cat dns/master.conf.local   | ssh dx3.diepxuan.com "sudo tee /etc/bind/named.conf.local"
-        scp dns/db.* ductn@dx3.diepxuan.com:~/
-        ssh dx3.diepxuan.com "
-            mkdir -p /etc/bind/zones
-            sudo mv ~/db.* /etc/bind/zones
-            sudo service bind9 restart
-        "
-        # sudo apt install stunnel4 -y --purge --auto-remove
-        # cat /var/www/base/bash/dns/stunnel.conf | sudo tee /etc/stunnel/stunnel.conf
-        # sudo service bind9 restart
-    }
-
-    httpd(){
+httpd(){
+    --install(){
         #!/usr/bin/env bash
 
         # CREATE ductn SITE
@@ -115,7 +39,6 @@ install(){
     $@
 }
 
-
 composer(){
     --install(){
         cd ~
@@ -130,7 +53,87 @@ composer(){
     $@
 }
 
+dns(){
+    --install(){
+        #!/bin/bash
+        cd "$(dirname "$0")"
 
+        # sudo apt install bind9 bind9utils bind9-doc dnsutils -y
+
+        cat dns/slave.conf.options  | ssh dx1.diepxuan.com "sudo tee /etc/bind/named.conf.options"
+        cat dns/slave.conf.local    | ssh dx1.diepxuan.com "sudo tee /etc/bind/named.conf.local"
+        scp dns/db.* ductn@dx1.diepxuan.com
+        ssh dx1.diepxuan.com "
+            mkdir /etc/bind/zones
+            sudo mv db.* /etc/bind/zones
+            sudo service bind9 restart
+        "
+
+        cat dns/master.conf.options | ssh dx3.diepxuan.com "sudo tee /etc/bind/named.conf.options"
+        cat dns/master.conf.local   | ssh dx3.diepxuan.com "sudo tee /etc/bind/named.conf.local"
+        scp dns/db.* ductn@dx3.diepxuan.com:~/
+        ssh dx3.diepxuan.com "
+            mkdir -p /etc/bind/zones
+            sudo mv ~/db.* /etc/bind/zones
+            sudo service bind9 restart
+        "
+        # sudo apt install stunnel4 -y --purge --auto-remove
+        # cat /var/www/base/bash/dns/stunnel.conf | sudo tee /etc/stunnel/stunnel.conf
+        # sudo service bind9 restart
+    }
+
+    $@
+}
+
+git(){
+    cat /var/www/base/bash/git/.gitignore >~/.gitignore
+    chmod 644 ~/.gitignore
+
+    # global gitignore
+    git config --global core.excludesfile ~/.gitignore
+
+    # setting
+    git config --global user.name "Tran Ngoc Duc"
+    git config --global user.email "caothu91@gmail.com"
+
+    # alias
+    git config --global alias.plog "log --graph --pretty=format:'%h -%d %s %n' --abbrev-commit --date=relative --branches"
+
+    # push
+    git config --global push.default simple
+
+    # file mode
+    git config --global core.fileMode false
+
+    # line endings
+    git config --global core.autocrlf false
+    git config --global core.eol lf
+
+    # Cleanup
+    git config --global gc.auto 0
+
+    # remote server
+    git config --global receive.denyCurrentBranch updateInstead
+
+
+    # remote repository
+    cat /var/www/base/bash/git/push-to-checkout > .git/hooks/push-to-checkout
+    chmod +x .git/hooks/push-to-checkout
+
+    rm .git/hooks/post-receive
+
+    --server(){
+        cat /var/www/base/bash/git/post-receive > .git/hooks/post-receive
+    }
+
+    chmod +x .git/hooks/*
+
+    # git config http.postBuffer 524288000
+    # git config receive.denyCurrentBranch refuse
+
+
+    $@
+}
 
 ssl(){
 
@@ -170,19 +173,20 @@ ssl(){
             --agree-tos \
             --email caothu91@gmail.com \
             --eff-email \
-            -d "$@"
+            -d $@
         }
 
         _upload(){
-            sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem | ssh dx"$@".diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem"
-            sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem | ssh dx"$@".diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem"
-            sudo cat /etc/letsencrypt/live/diepxuan.com/fullchain.pem | ssh dx"$@".diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/fullchain.pem"
-            sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem | ssh dx"$@".diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem"
+            sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem        | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem"
+            sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem       | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem"
+            sudo cat /etc/letsencrypt/live/diepxuan.com/fullchain.pem   | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/fullchain.pem"
+            sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem     | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem"
         }
 
         #_certbot solzatech.com,www.solzatech.com
         _certbot diepxuan.com,www.diepxuan.com,luong.diepxuan.com,pma.diepxuan.com,cloud.diepxuan.com,work.diepxuan.com
-        _upload 2 3
+        # _upload "dx2.diepxuan.com"
+        # _upload "dx3.diepxuan.com"
 
         sudo service apache2 restart
 
@@ -256,6 +260,43 @@ ssh(){
         # cat /var/www/base/ssh/id_rsa        | ssh dx1.diepxuan.com "cat > ~/.ssh/id_rsa"
         # cat /var/www/base/ssh/id_rsa.pub    | ssh dx1.diepxuan.com "cat > ~/.ssh/id_rsa.pub"
         # ssh dx1.diepxuan.com "chmod 600 ~/.ssh/*"
+
+    }
+
+    $@
+}
+
+user(){
+    --new(){
+        #!/bin/bash
+
+        ssh $2 -tt "
+        sudo adduser ${1} --disabled-password --gecos \"\"
+        sudo adduser ${1} www-data
+        id -u ${1}
+
+        sudo mkdir -p /home/${1}/.ssh
+        sudo chmod 777 /home/${1}/.ssh
+
+
+        cat ~/.ssh/id_rsa          | sudo tee /home/${1}/.ssh/id_rsa
+        cat ~/.ssh/id_rsa.pub      | sudo tee /home/${1}/.ssh/id_rsa.pub
+        cat ~/.ssh/authorized_keys | sudo tee /home/${1}/.ssh/authorized_keys
+
+        sudo chmod    755       /home/${1}
+        sudo chmod -R 600       /home/${1}/.ssh
+        sudo chmod    700       /home/${1}/.ssh
+        sudo chown -R ${1}:${1} /home/${1}/.ssh
+
+        sudo mkdir -p               /home/${1}/public_html
+        sudo chown -R ${1}:www-data /home/${1}/public_html
+
+        sudo mkdir -p           /home/${1}/.ssl
+        sudo chown -R ${1}:${1} /home/${1}/.ssl
+        "
+        echo -e "--ok"
+
+        # echo \"tciadmin ALL=(ALL) NOPASSWD:ALL\" | sudo tee /etc/sudoers.d/90-users
 
     }
 
