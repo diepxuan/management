@@ -155,8 +155,6 @@ ssl(){
         sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem     | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem"
     }
 
-    $@
-
     --setup(){
 
         #sudo certbot certonly --apache \
@@ -196,7 +194,7 @@ ssl(){
         # sudo scp -r /etc/letsencrypt/live/* dx3.diepxuan.com:/etc/letsencrypt/live/
     }
 
-    --setup
+    $@
 
 }
 
