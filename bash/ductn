@@ -48,6 +48,11 @@ swap(){
         sudo swapon /swapfile
     }
 
+    --remove(){
+        sudo swapoff -v /swapfile
+        sudo rm /swapfile
+    }
+
     $@
 }
 
@@ -302,7 +307,6 @@ user(){
     --new(){
         #!/bin/bash
 
-        ssh $2 -tt "
         sudo adduser ${1} --disabled-password --gecos \"\"
         sudo adduser ${1} www-data
         id -u ${1}
@@ -325,8 +329,6 @@ user(){
 
         sudo mkdir -p           /home/${1}/.ssl
         sudo chown -R ${1}:${1} /home/${1}/.ssl
-        "
-        echo -e "--ok"
 
         # echo \"tciadmin ALL=(ALL) NOPASSWD:ALL\" | sudo tee /etc/sudoers.d/90-users
 
