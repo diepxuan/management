@@ -170,19 +170,19 @@ ssl(){
             --agree-tos \
             --email caothu91@gmail.com \
             --eff-email \
-            -d $@
+            -d "$@"
         }
 
         _upload(){
-            sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem | ssh dx$@.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem"
-            sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem | ssh dx$@.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem"
-            sudo cat /etc/letsencrypt/live/diepxuan.com/fullchain.pem | ssh dx$@.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/fullchain.pem"
-            sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem | ssh dx$@.diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem"
+            sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem | ssh dx"$@".diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem"
+            sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem | ssh dx"$@".diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem"
+            sudo cat /etc/letsencrypt/live/diepxuan.com/fullchain.pem | ssh dx"$@".diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/fullchain.pem"
+            sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem | ssh dx"$@".diepxuan.com "sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem"
         }
 
         #_certbot solzatech.com,www.solzatech.com
         _certbot diepxuan.com,www.diepxuan.com,luong.diepxuan.com,pma.diepxuan.com,cloud.diepxuan.com,work.diepxuan.com
-        _upload 1 2 3
+        _upload 2 3
 
         sudo service apache2 restart
 
