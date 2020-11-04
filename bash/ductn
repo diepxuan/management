@@ -2,42 +2,7 @@
 #!/bin/bash
 
 install(){
-    cronjob(){
-        chmod u+x /var/www/base/bash/cronjob/*.sh
-        chmod u+x /var/www/base/bash/cronjob/cronjob
-        sudo crontab /var/www/base/bash/cronjob/cronjob.conf
-        sudo service cron restart
-    }
 
-    mysql_cluster(){
-        # ductn_hosts add 35.229.247.242  server.diepxuan.com
-        # ductn_hosts add 35.232.100.140  server2.diepxuan.com
-        # ductn_hosts add 103.56.156.159  server3.diepxuan.com
-        # wget https://repo.mysql.com//mysql-apt-config_0.8.15-1_all.deb -O mysql-apt-config.deb
-        # sudo dpkg -i mysql-apt-config.deb
-        # rm -rf mysql-apt-config.deb
-
-        cd "$(dirname "$0")"
-
-        add(){
-            cat mysql_cluster/mysql-cluster.config.ini  | ssh dx$@.diepxuan.com "sudo tee /var/lib/mysql-cluster/config.ini"
-            cat mysql_cluster/mysqld.cnf                | ssh dx$@.diepxuan.com "sudo tee /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
-            cat mysql_cluster/dx$@.mysqld.cnf           | ssh dx$@.diepxuan.com "sudo tee -a /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
-            cat mysql_cluster/ndb_mgmd.service          | ssh dx$@.diepxuan.com "sudo tee /etc/systemd/system/ndb_mgmd.service"
-            cat mysql_cluster/ndbd.service              | ssh dx$@.diepxuan.com "sudo tee /etc/systemd/system/ndbd.service"
-            ssh dx$@.diepxuan.com "
-                sudo systemctl daemon-reload
-                # sudo systemctl enable ndb_mgmd
-                # sudo systemctl restart ndb_mgmd
-                # sudo service ndb_mgmd restart
-                # sudo service ndbd restart
-                # sudo service mysql restart
-            "
-        }
-
-        add 3
-        add 1
-    }
 
     git(){
         cat /var/www/base/bash/git/.gitignore >~/.gitignore
@@ -289,9 +254,38 @@ ssh(){
     $@
 }
 
-remove(){
-    mysql_cluster(){
+mysql_cluster(){
+    --install(){
+        # ductn_hosts add 35.229.247.242  server.diepxuan.com
+        # ductn_hosts add 35.232.100.140  server2.diepxuan.com
+        # ductn_hosts add 103.56.156.159  server3.diepxuan.com
+        # wget https://repo.mysql.com//mysql-apt-config_0.8.15-1_all.deb -O mysql-apt-config.deb
+        # sudo dpkg -i mysql-apt-config.deb
+        # rm -rf mysql-apt-config.deb
 
+        cd "$(dirname "$0")"
+
+        add(){
+            cat mysql_cluster/mysql-cluster.config.ini  | ssh dx$@.diepxuan.com "sudo tee /var/lib/mysql-cluster/config.ini"
+            cat mysql_cluster/mysqld.cnf                | ssh dx$@.diepxuan.com "sudo tee /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
+            cat mysql_cluster/dx$@.mysqld.cnf           | ssh dx$@.diepxuan.com "sudo tee -a /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
+            cat mysql_cluster/ndb_mgmd.service          | ssh dx$@.diepxuan.com "sudo tee /etc/systemd/system/ndb_mgmd.service"
+            cat mysql_cluster/ndbd.service              | ssh dx$@.diepxuan.com "sudo tee /etc/systemd/system/ndbd.service"
+            ssh dx$@.diepxuan.com "
+                sudo systemctl daemon-reload
+                # sudo systemctl enable ndb_mgmd
+                # sudo systemctl restart ndb_mgmd
+                # sudo service ndb_mgmd restart
+                # sudo service ndbd restart
+                # sudo service mysql restart
+            "
+        }
+
+        add 3
+        add 1
+    }
+
+    --remove(){
         _exec(){
             ssh dx$@.diepxuan.com "
                 sudo systemctl stop ndb_mgmd
@@ -313,6 +307,20 @@ remove(){
 
         _exec 3
         _exec 1
+    }
+
+    $@
+}
+
+cronjob(){
+    --install(){
+        chmod u+x /var/www/base/bash/cronjob/*.sh
+        chmod u+x /var/www/base/bash/cronjob/cronjob
+        sudo crontab /var/www/base/bash/cronjob/cronjob.conf
+    }
+
+    --reload(){
+        sudo service cron restart
     }
 
     $@
