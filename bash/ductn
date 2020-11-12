@@ -126,54 +126,61 @@ dns(){
     $@
 }
 
-git(){
-    cat /var/www/base/bash/git/.gitignore >~/.gitignore
-    chmod 644 ~/.gitignore
+gitconfig(){
 
-    # global gitignore
-    git config --global core.excludesfile ~/.gitignore
+    --install(){
+        echo "installing"
+        cat /var/www/base/bash/git/.gitignore >~/.gitignore
+        chmod 644 ~/.gitignore
 
-    # setting
-    git config --global user.name "Tran Ngoc Duc"
-    git config --global user.email "caothu91@gmail.com"
+        # global gitignore
+        git config --global core.excludesfile ~/.gitignore
 
-    # alias
-    git config --global alias.plog "log --graph --pretty=format:'%h -%d %s %n' --abbrev-commit --date=relative --branches"
+        # setting
+        git config --global user.name "Tran Ngoc Duc"
+        git config --global user.email "caothu91@gmail.com"
 
-    # push
-    git config --global push.default simple
+        # alias
+        git config --global alias.plog "log --graph --pretty=format:'%h -%d %s %n' --abbrev-commit --date=relative --branches"
 
-    # file mode
-    git config --global core.fileMode false
+        # push
+        git config --global push.default simple
 
-    # line endings
-    git config --global core.autocrlf false
-    git config --global core.eol lf
+        # file mode
+        git config --global core.fileMode false
 
-    # Cleanup
-    git config --global gc.auto 0
+        # line endings
+        git config --global core.autocrlf false
+        git config --global core.eol lf
 
-    # remote server
-    git config --global receive.denyCurrentBranch updateInstead
+        # Cleanup
+        git config --global gc.auto 0
+
+        # remote server
+        git config --global receive.denyCurrentBranch updateInstead
 
 
-    # remote repository
-    cat /var/www/base/bash/git/push-to-checkout > .git/hooks/push-to-checkout
-    chmod +x .git/hooks/push-to-checkout
+        # remote repository
+        cat /var/www/base/bash/git/push-to-checkout > .git/hooks/push-to-checkout
+        chmod +x .git/hooks/push-to-checkout
 
-    rm .git/hooks/post-receive
-
-    --server(){
-        cat /var/www/base/bash/git/post-receive > .git/hooks/post-receive
+        rm -rf .git/hooks/post-receive
+        chmod +x .git/hooks/*
     }
 
-    chmod +x .git/hooks/*
+    --server(){
+        echo "server update"
+        cat /var/www/base/bash/git/post-receive > .git/hooks/post-receive
+        chmod +x .git/hooks/*
+    }
+
+    $@
+
+    echo "Done!"
 
     # git config http.postBuffer 524288000
     # git config receive.denyCurrentBranch refuse
 
-
-    $@
 }
 
 ssl(){
@@ -330,7 +337,7 @@ user(){
         sudo mkdir -p           /home/${1}/.ssl
         sudo chown -R ${1}:${1} /home/${1}/.ssl
 
-        # echo \"tciadmin ALL=(ALL) NOPASSWD:ALL\" | sudo tee /etc/sudoers.d/90-users
+        # echo "ductn ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/90-users
 
     }
 
