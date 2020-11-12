@@ -39,7 +39,7 @@ httpd(){
     $@
 }
 
-swap(){
+--swap(){
     --install(){
         sudo rm -rf /swapfile
         sudo fallocate -l 2G /swapfile
@@ -53,12 +53,16 @@ swap(){
         sudo rm /swapfile
     }
 
+    -i(){
+        --install
+    }
+
     $@
 }
 
 mysql(){
     --install(){
-        swap --install
+        --swap --install
         sudo apt install -y --purge --auto-remove mysql-server
         # sudo mysql_secure_installation
     }
@@ -66,11 +70,15 @@ mysql(){
     $@
 }
 
-aliases() {
+--aliases() {
     --install(){
         echo ". /var/www/base/bash/.bash_aliases" > ~/.bash_aliases
         chmod 644 ~/.bash_aliases
         chmod +x /var/www/base/bash/*
+    }
+
+    -i(){
+        --install
     }
 
     --remove(){
@@ -80,7 +88,7 @@ aliases() {
     $@
 }
 
-composer(){
+--composer(){
     --install(){
         cd ~
         curl -sS https://getcomposer.org/installer -o composer-setup.php
@@ -94,7 +102,7 @@ composer(){
     $@
 }
 
-dns(){
+--dns(){
     --install(){
         #!/bin/bash
         cd "$(dirname "$0")"
@@ -126,9 +134,11 @@ dns(){
     $@
 }
 
-gitconfig(){
+--gitconfig(){
 
     --install(){
+        cd /var/www/base/
+
         echo "installing"
         cat /var/www/base/bash/git/.gitignore >~/.gitignore
         chmod 644 ~/.gitignore
@@ -168,6 +178,10 @@ gitconfig(){
         chmod +x .git/hooks/*
     }
 
+    -i(){
+        --install
+    }
+
     --server(){
         echo "server update"
         cat /var/www/base/bash/git/post-receive > .git/hooks/post-receive
@@ -183,7 +197,11 @@ gitconfig(){
 
 }
 
-ssl(){
+--git(){
+    --gitconfig $@
+}
+
+--ssl(){
 
     #!/bin/bash
 
@@ -246,7 +264,7 @@ ssl(){
 
 }
 
-ssh(){
+--ssh(){
     --install(){
         #!/bin/bash
 
@@ -307,10 +325,14 @@ ssh(){
 
     }
 
+    -i(){
+        --install
+    }
+
     $@
 }
 
-user(){
+--user(){
     --new(){
         #!/bin/bash
 
@@ -372,6 +394,7 @@ mysql_cluster(){
         }
 
         add 3
+        add 2
         add 1
     }
 
@@ -402,7 +425,7 @@ mysql_cluster(){
     $@
 }
 
-cronjob(){
+--cronjob(){
     --install(){
         chmod u+x /var/www/base/bash/cronjob/*.sh
         chmod u+x /var/www/base/bash/cronjob/cronjob
@@ -413,18 +436,22 @@ cronjob(){
         sudo service cron restart
     }
 
+    -i(){
+        --install
+    }
+
     $@
 }
 
-cron(){
-    cronjob
+--cron(){
+    --cronjob
 }
 
 log(){
     ssh dx3.diepxuan.com "sudo tail -f /var/log/syslog" & ssh dx1.diepxuan.com "sudo tail -f /var/log/syslog"
 }
 
-update(){
+--update(){
 
     allowip(){
 
@@ -463,6 +490,16 @@ fix(){
     }
 
     $@
+}
+
+--init(){
+    sudo timedatectl set-timezone Asia/Ho_Chi_Minh
+
+    --cronjob -i
+    --update allowip
+    --ssh -i
+    --git -i
+    --aliases -i
 }
 
 $@
