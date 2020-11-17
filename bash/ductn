@@ -366,6 +366,52 @@ mysql(){
     $@
 }
 
+--hosts(){
+    #!/usr/bin/env bash
+    # copy from https://gist.github.com/irazasyed/a7b0a079e7727a4315b9
+
+    # PATH TO YOUR HOSTS FILE
+    ETC_HOSTS=/etc/hosts
+
+    # DEFAULT IP FOR HOSTNAME
+    IP=$2
+
+    # Hostname to add/remove.
+    HOSTNAME=$3
+
+    remove() {
+        echo "removing host";
+        if [[ -n "$(grep $HOSTNAME /etc/hosts)" ]]
+        then
+            echo "$HOSTNAME Found in your $ETC_HOSTS, Removing now...";
+            sudo sed -i".bak" "/$HOSTNAME/d" ${ETC_HOSTS}
+        else
+            echo "$HOSTNAME was not found in your $ETC_HOSTS";
+        fi
+    }
+
+    add() {
+        echo "adding host";
+        HOSTS_LINE="$IP\t$HOSTNAME"
+        if [[ -n "$(grep $HOSTNAME /etc/hosts)" ]]
+            then
+                echo "$HOSTNAME already exists : $(grep $HOSTNAME ${ETC_HOSTS})"
+            else
+                echo "Adding $HOSTNAME to your $ETC_HOSTS";
+                sudo -- sh -c -e "echo '$HOSTS_LINE' >> /etc/hosts";
+
+                if [[ -n "$(grep $HOSTNAME /etc/hosts)" ]]
+                    then
+                        echo "$HOSTNAME was added successfully \n $(grep $HOSTNAME /etc/hosts)";
+                    else
+                        echo "Failed to Add $HOSTNAME, Try again!";
+                fi
+        fi
+    }
+
+    $@
+}
+
 mysql_cluster(){
     --install(){
         # ductn_hosts add 35.229.247.242  server.diepxuan.com
@@ -378,9 +424,16 @@ mysql_cluster(){
         cd "$(dirname "$0")"
 
         add(){
+            echo "dx$@.diepxuan.com"
+            ssh dx$@.diepxuan.com "
+                sudo mkdir -p /var/lib/mysql-cluster/
+                echo \"net.ipv4.ip_forward = 1\"        | sudo tee /etc/sysctl.d/999-mysql-cluster.conf
+                echo \"net.ipv4.ip_nonlocal_bind = 1\"  | sudo tee -a /etc/sysctl.d/999-mysql-cluster.conf
+                sudo sysctl -f /etc/sysctl.d/999-mysql-cluster.conf
+            "
             cat mysql_cluster/mysql-cluster.config.ini  | ssh dx$@.diepxuan.com "sudo tee /var/lib/mysql-cluster/config.ini"
-            cat mysql_cluster/mysqld.cnf                | ssh dx$@.diepxuan.com "sudo tee /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
-            cat mysql_cluster/dx$@.mysqld.cnf           | ssh dx$@.diepxuan.com "sudo tee -a /etc/mysql/mysql.conf.d/mysqld_cluster.cnf"
+            cat mysql_cluster/mysqld.cnf                | ssh dx$@.diepxuan.com "sudo tee /etc/mysql/conf.d/mysqld_cluster.cnf"
+            cat mysql_cluster/dx$@.mysqld.cnf           | ssh dx$@.diepxuan.com "sudo tee -a /etc/mysql/conf.d/mysqld_cluster.cnf"
             cat mysql_cluster/ndb_mgmd.service          | ssh dx$@.diepxuan.com "sudo tee /etc/systemd/system/ndb_mgmd.service"
             cat mysql_cluster/ndbd.service              | ssh dx$@.diepxuan.com "sudo tee /etc/systemd/system/ndbd.service"
             ssh dx$@.diepxuan.com "
@@ -419,6 +472,7 @@ mysql_cluster(){
         }
 
         _exec 3
+        _exec 2
         _exec 1
     }
 
