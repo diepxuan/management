@@ -40,6 +40,10 @@
         --install
     }
 
+    --config(){
+        sudo chown -R :www-data /home/*/public_html/
+    }
+
     $@
 }
 
@@ -609,14 +613,23 @@ log(){
     $@
 }
 
+init(){
+    _INIT="on"
+}
+
+$@
+
 --init(){
     sudo timedatectl set-timezone Asia/Ho_Chi_Minh
 
     --cronjob -i
-    --update allowip
+    # --update allowip
     --ssh -i
-    --git -i
+    # --git -i
     --aliases -i
+    --httpd --config
 }
 
-$@
+if [[ $_INIT = "on" ]]; then
+    --init
+fi
