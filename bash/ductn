@@ -264,6 +264,14 @@ mysql(){
         # sudo scp -r /etc/letsencrypt/live/* dx3.diepxuan.com:/etc/letsencrypt/live/
     }
 
+    --pull(){
+        sudo mkdir -p /etc/letsencrypt/live/diepxuan.com/
+        ssh $@ "sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem"        | sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem
+        ssh $@ "sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem"       | sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem
+        ssh $@ "sudo cat /etc/letsencrypt/live/diepxuan.com/fullchain.pem"   | sudo tee /etc/letsencrypt/live/diepxuan.com/fullchain.pem
+        ssh $@ "sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem"     | sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem
+    }
+
     $@
 
 }
