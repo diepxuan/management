@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
+_MYSQL_REPLICATE=""
+_MYSQL_REPLICATE_TOOGLE=""
+_MYSQL_REPLICATE_TOOGLE=""
+_MYSQL_REPLICATE_HOST=0
+
+_DEBUG=0
+
 --httpd(){
     --install(){
         #!/usr/bin/env bash
@@ -495,57 +502,6 @@ mysql(){
     $@
 }
 
---mysql-replicate(){
-    --install(){
-        # ductn_hosts add 35.229.247.242  server.diepxuan.com
-        # ductn_hosts add 35.232.100.140  server2.diepxuan.com
-        # ductn_hosts add 103.56.156.159  server3.diepxuan.com
-        # wget https://repo.mysql.com//mysql-apt-config_0.8.15-1_all.deb -O mysql-apt-config.deb
-        # sudo dpkg -i mysql-apt-config.deb
-        # rm -rf mysql-apt-config.deb
-
-        cd "$(dirname "$0")"
-
-        _exec(){
-            echo "dx$@.diepxuan.com"
-            ssh dx$@.diepxuan.com "
-                sudo mkdir -p /var/lib/mysql-cluster/
-                echo \"net.ipv4.ip_forward = 1\"        | sudo tee /etc/sysctl.d/999-mysql-cluster.conf
-                echo \"net.ipv4.ip_nonlocal_bind = 1\"  | sudo tee -a /etc/sysctl.d/999-mysql-cluster.conf
-                sudo sysctl -f /etc/sysctl.d/999-mysql-cluster.conf
-            "
-            cat mysql_replicate/mysqld.cnf                | ssh dx$@.diepxuan.com "sudo tee /etc/mysql/conf.d/mysqld_cluster.cnf"
-            cat mysql_replicate/dx$@.mysqld.cnf           | ssh dx$@.diepxuan.com "sudo tee -a /etc/mysql/conf.d/mysqld_cluster.cnf"
-            cat mysql_replicate/ndb_mgmd.service          | ssh dx$@.diepxuan.com "sudo tee /etc/systemd/system/ndb_mgmd.service"
-            cat mysql_replicate/ndbd.service              | ssh dx$@.diepxuan.com "sudo tee /etc/systemd/system/ndbd.service"
-            ssh dx$@.diepxuan.com "
-                sudo systemctl daemon-reload
-                # sudo systemctl enable ndb_mgmd
-                # sudo systemctl restart ndb_mgmd
-                # sudo service ndb_mgmd restart
-                # sudo service ndbd restart
-                # sudo service mysql restart
-            "
-        }
-
-        _exec 3
-        _exec 2
-        _exec 1
-    }
-
-    --remove(){
-        _exec(){
-            sudo rm -rf /etc/mysql/conf.d/mysqld_cluster.cnf
-            sudo service mysql stop
-        }
-
-        $@
-
-    }
-
-    $@
-}
-
 --cronjob(){
     --install(){
         chmod u+x /var/www/base/bash/cronjob/*.sh
@@ -617,9 +573,33 @@ init(){
     _INIT="on"
 }
 
+mysql-replicate(){
+    _MYSQL_REPLICATE="on"
+
+    while [ $# -gt 0 ]
+    do
+        case $1 in
+            -i|--install)   _MYSQL_REPLICATE_TOOGLE="on" ;;
+            --remove)       _MYSQL_REPLICATE_TOOGLE="off" ;;
+            --host=?*|-h=?*)_MYSQL_REPLICATE_HOST=${1#*=} ;;
+            --host|-h)      _MYSQL_REPLICATE_HOST=$2; shift ;;
+            --host=)
+                die 'ERROR: "--host" requires a non-empty option argument.'
+                ;;
+            --) break ;;
+            -?*) printf 'WARN: Unknown option (ignored): %s\n' "$1" >&2 ;;
+            *) break ;;
+        esac
+
+        shift
+    done
+
+
+}
+
 $@
 
---init(){
+F_init(){
     sudo timedatectl set-timezone Asia/Ho_Chi_Minh
 
     --cronjob -i
@@ -630,6 +610,51 @@ $@
     --httpd --config
 }
 
+
+F_mysql_replicate(){
+
+    --install(){
+        # ductn_hosts add 35.229.247.242  server.diepxuan.com
+        # ductn_hosts add 35.232.100.140  server2.diepxuan.com
+        # ductn_hosts add 103.56.156.159  server3.diepxuan.com
+        # wget https://repo.mysql.com//mysql-apt-config_0.8.15-1_all.deb -O mysql-apt-config.deb
+        # sudo dpkg -i mysql-apt-config.deb
+        # rm -rf mysql-apt-config.deb
+
+        cd "$(dirname "$0")"
+
+        sudo mkdir -p /var/lib/mysql-cluster/
+
+        cat mysql_replicate/mysqld.cnf                | sudo tee /etc/mysql/conf.d/mysqld_cluster.cnf
+        cat mysql_replicate/dx$@.mysqld.cnf           | sudo tee -a /etc/mysql/conf.d/mysqld_cluster.cnf
+
+        sudo service mysql restart
+
+        sudo mysql < mysql_replicate/replicate.sql
+
+    }
+
+    --remove(){
+        sudo rm -rf /etc/mysql/conf.d/mysqld_cluster.cnf
+        sudo service mysql restart
+
+    }
+
+    $@
+}
+
 if [[ $_INIT = "on" ]]; then
-    --init
+    # echo "_INIT = $_INIT"
+    F_init
+fi
+
+if [[ $_MYSQL_REPLICATE = "on" ]]; then
+    # echo "_MYSQL_REPLICATE = $_MYSQL_REPLICATE"
+    if [[ $_MYSQL_REPLICATE_TOOGLE = "on" ]]; then
+        # echo "_MYSQL_REPLICATE_TOOGLE = $_MYSQL_REPLICATE_TOOGLE"
+        # echo "_MYSQL_REPLICATE_HOST = $_MYSQL_REPLICATE_HOST"
+        F_mysql_replicate --install $_MYSQL_REPLICATE_HOST
+    else
+        F_mysql_replicate --remove
+    fi
 fi
