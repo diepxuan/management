@@ -22,3 +22,10 @@
 
 [mysqld]
 bind-address=0.0.0.0
+ndbcluster
+ndb-connectstring=dx3.diepxuan.com
+ndb-nodeid=53
+server-id=53
+
+[mysql_cluster]
+ndb-connectstring=dx3.diepxuan.com

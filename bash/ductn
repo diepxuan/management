@@ -423,7 +423,7 @@ mysql_cluster(){
 
         cd "$(dirname "$0")"
 
-        add(){
+        _exec(){
             echo "dx$@.diepxuan.com"
             ssh dx$@.diepxuan.com "
                 sudo mkdir -p /var/lib/mysql-cluster/
@@ -446,9 +446,9 @@ mysql_cluster(){
             "
         }
 
-        add 3
-        add 2
-        add 1
+        _exec 3
+        _exec 2
+        _exec 1
     }
 
     --remove(){
@@ -460,12 +460,79 @@ mysql_cluster(){
                 sudo systemctl disable ndbd
 
                 sudo rm -rf /var/lib/mysql-cluster/config.ini
-                sudo rm -rf /etc/mysql/mysql.conf.d/mysqld_cluster.cnf
+                sudo rm -rf /etc/mysql/conf.d/mysqld_cluster.cnf
                 sudo rm -rf /etc/systemd/system/ndb_mgmd.service
                 sudo rm -rf /etc/systemd/system/ndbd.service
                 sudo rm -rf /var/lib/mysql-cluster
 
                 sudo apt remove mysql-apt-config mysql-cluster-community-management-server -y --purge --auto-remove
+                sudo apt update
+                sudo apt dist-upgrade -y --purge --auto-remove
+            "
+        }
+
+        _exec 3
+        _exec 2
+        _exec 1
+    }
+
+    $@
+}
+
+--mysql-replicate(){
+    --install(){
+        # ductn_hosts add 35.229.247.242  server.diepxuan.com
+        # ductn_hosts add 35.232.100.140  server2.diepxuan.com
+        # ductn_hosts add 103.56.156.159  server3.diepxuan.com
+        # wget https://repo.mysql.com//mysql-apt-config_0.8.15-1_all.deb -O mysql-apt-config.deb
+        # sudo dpkg -i mysql-apt-config.deb
+        # rm -rf mysql-apt-config.deb
+
+        cd "$(dirname "$0")"
+
+        _exec(){
+            echo "dx$@.diepxuan.com"
+            ssh dx$@.diepxuan.com "
+                sudo mkdir -p /var/lib/mysql-cluster/
+                echo \"net.ipv4.ip_forward = 1\"        | sudo tee /etc/sysctl.d/999-mysql-cluster.conf
+                echo \"net.ipv4.ip_nonlocal_bind = 1\"  | sudo tee -a /etc/sysctl.d/999-mysql-cluster.conf
+                sudo sysctl -f /etc/sysctl.d/999-mysql-cluster.conf
+            "
+            cat mysql_replicate/mysqld.cnf                | ssh dx$@.diepxuan.com "sudo tee /etc/mysql/conf.d/mysqld_cluster.cnf"
+            cat mysql_replicate/dx$@.mysqld.cnf           | ssh dx$@.diepxuan.com "sudo tee -a /etc/mysql/conf.d/mysqld_cluster.cnf"
+            cat mysql_replicate/ndb_mgmd.service          | ssh dx$@.diepxuan.com "sudo tee /etc/systemd/system/ndb_mgmd.service"
+            cat mysql_replicate/ndbd.service              | ssh dx$@.diepxuan.com "sudo tee /etc/systemd/system/ndbd.service"
+            ssh dx$@.diepxuan.com "
+                sudo systemctl daemon-reload
+                # sudo systemctl enable ndb_mgmd
+                # sudo systemctl restart ndb_mgmd
+                # sudo service ndb_mgmd restart
+                # sudo service ndbd restart
+                # sudo service mysql restart
+            "
+        }
+
+        _exec 3
+        _exec 2
+        _exec 1
+    }
+
+    --remove(){
+        _exec(){
+            ssh dx$@.diepxuan.com "
+                sudo systemctl stop ndb_mgmd
+                sudo systemctl disable ndb_mgmd
+                sudo systemctl stop ndbd
+                sudo systemctl disable ndbd
+
+                sudo rm -rf /var/lib/mysql-cluster/config.ini
+                sudo rm -rf /etc/mysql/conf.d/mysqld_cluster.cnf
+                sudo rm -rf /etc/systemd/system/ndb_mgmd.service
+                sudo rm -rf /etc/systemd/system/ndbd.service
+                sudo rm -rf /var/lib/mysql-cluster
+                sudo rm -rf /etc/sysctl.d/999-mysql-cluster.conf
+
+                sudo apt remove mysql-cluster-community-management-server -y --purge --auto-remove
                 sudo apt update
                 sudo apt dist-upgrade -y --purge --auto-remove
             "
@@ -528,7 +595,7 @@ log(){
 
 }
 
-fix(){
+--fix(){
     #!/bin/bash
 
     apt(){
