@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-httpd(){
+--httpd(){
     --install(){
         #!/usr/bin/env bash
 
@@ -34,6 +34,10 @@ httpd(){
         #  rm -rf /var/www/html/live/pma.diepxuan.vn/config.inc.php
         #  ln /var/www/base/tool/php/phpmyadmin/config.inc.php /var/www/html/live/pma.diepxuan.vn/
 
+    }
+
+    -i(){
+        --install
     }
 
     $@
@@ -412,7 +416,7 @@ mysql(){
     $@
 }
 
-mysql_cluster(){
+--mysql-cluster(){
     --install(){
         # ductn_hosts add 35.229.247.242  server.diepxuan.com
         # ductn_hosts add 35.232.100.140  server2.diepxuan.com
@@ -519,28 +523,12 @@ mysql_cluster(){
 
     --remove(){
         _exec(){
-            ssh dx$@.diepxuan.com "
-                sudo systemctl stop ndb_mgmd
-                sudo systemctl disable ndb_mgmd
-                sudo systemctl stop ndbd
-                sudo systemctl disable ndbd
-
-                sudo rm -rf /var/lib/mysql-cluster/config.ini
-                sudo rm -rf /etc/mysql/conf.d/mysqld_cluster.cnf
-                sudo rm -rf /etc/systemd/system/ndb_mgmd.service
-                sudo rm -rf /etc/systemd/system/ndbd.service
-                sudo rm -rf /var/lib/mysql-cluster
-                sudo rm -rf /etc/sysctl.d/999-mysql-cluster.conf
-
-                sudo apt remove mysql-cluster-community-management-server -y --purge --auto-remove
-                sudo apt update
-                sudo apt dist-upgrade -y --purge --auto-remove
-            "
+            sudo rm -rf /etc/mysql/conf.d/mysqld_cluster.cnf
+            sudo service mysql stop
         }
 
-        _exec 3
-        _exec 2
-        _exec 1
+        $@
+
     }
 
     $@
