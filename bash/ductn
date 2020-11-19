@@ -38,8 +38,9 @@ _DEBUG=0
         sudo service apache2 restart
         # sudo service apache2 status
 
-        #  rm -rf /var/www/html/live/pma.diepxuan.vn/config.inc.php
-        #  ln /var/www/base/tool/php/phpmyadmin/config.inc.php /var/www/html/live/pma.diepxuan.vn/
+        sudo mkdir -p /home/pma/public_html
+        rm -rf /var/www/html/live/pma.diepxuan.vn/config.inc.php
+        ln /var/www/base/httpd/diepxuan.com/config.inc.php /var/www/html/live/pma.diepxuan.vn/
 
     }
 
