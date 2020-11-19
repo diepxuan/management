@@ -23,6 +23,8 @@ _DEBUG=0
         ###################
         # mkdir -p /var/www/DavLock
         sudo a2enmod dav dav_fs auth_digest &>/dev/null
+        sudo chmod 775 /var/www/
+        sudo chown :www-data /var/www/
 
         # APPLY APACHE CONFIG
         #####################
