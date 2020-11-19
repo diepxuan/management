@@ -600,7 +600,7 @@ mysql-replicate(){
 }
 
 mysql-galera(){
-    sudo apt install install -y --purge --auto-remove software-properties-common
+    sudo apt install -y --purge --auto-remove software-properties-common
     sudo apt-key adv --keyserver keyserver.ubuntu.com --recv BC19DDBA
 
     echo "# Codership Repository (Galera Cluster for MySQL)
@@ -663,8 +663,8 @@ F_mysql_replicate(){
 
     --remove(){
         sudo rm -rf /etc/mysql/conf.d/mysqld_cluster.cnf
+        sudo mysql < mysql_replicate/remove.sql
         sudo service mysql restart
-
     }
 
     $@
