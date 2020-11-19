@@ -22,8 +22,6 @@ _DEBUG=0
         # CREATE Dav Access
         ###################
         # mkdir -p /var/www/DavLock
-        sudo mkdir -p /home/cloud/public_html/cloud
-        sudo chmod -R 777 /home/cloud/public_html/cloud
         sudo a2enmod dav dav_fs auth_digest &>/dev/null
 
         # APPLY APACHE CONFIG
@@ -38,10 +36,6 @@ _DEBUG=0
         sudo service apache2 restart
         # sudo service apache2 status
 
-        sudo mkdir -p /home/pma/public_html
-        rm -rf /var/www/html/live/pma.diepxuan.vn/config.inc.php
-        ln /var/www/base/httpd/diepxuan.com/config.inc.php /var/www/html/live/pma.diepxuan.vn/
-
     }
 
     -i(){
@@ -49,6 +43,13 @@ _DEBUG=0
     }
 
     --config(){
+        sudo mkdir -p /home/pma/public_html
+        rm -rf /var/www/html/live/pma.diepxuan.vn/config.inc.php
+        ln /var/www/base/httpd/diepxuan.com/config.inc.php /var/www/html/live/pma.diepxuan.vn/
+
+        sudo mkdir -p /home/cloud/public_html/cloud
+        sudo chmod -R 777 /home/cloud/public_html/cloud
+
         sudo chown -R :www-data /home/*/public_html/
     }
 
