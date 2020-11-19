@@ -626,6 +626,8 @@ pull(){
 
 $@
 
+cd "$(dirname "$0")"
+
 F_init(){
     sudo timedatectl set-timezone Asia/Ho_Chi_Minh
 
@@ -648,7 +650,7 @@ F_mysql_replicate(){
         # sudo dpkg -i mysql-apt-config.deb
         # rm -rf mysql-apt-config.deb
 
-        cd "$(dirname "$0")"
+
 
         sudo mkdir -p /var/lib/mysql-cluster/
 
