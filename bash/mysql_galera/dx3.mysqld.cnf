@@ -27,18 +27,32 @@ server-id = 3
 binlog_format=ROW
 default-storage-engine=innodb
 innodb_autoinc_lock_mode=2
+wsrep_sst_method=rsync
 
-# Galera Provider Configuration
 wsrep_on=ON
 wsrep_provider=/usr/lib/galera/libgalera_smm.so
 
-# Galera Cluster Configuration
 wsrep_cluster_name="galera_cluster"
 wsrep_cluster_address="gcomm://34.105.113.116,35.185.12.215,125.212.237.119"
 
-# Galera Synchronization Configuration
+wsrep_node_address="125.212.237.119"
+wsrep_node_name="dx3.diepxuan.com"
+
+
+[galera]
+bind-address=0.0.0.0
+server-id = 3
+
+binlog_format=row
+default_storage_engine=InnoDB
+innodb_autoinc_lock_mode=2
 wsrep_sst_method=rsync
 
-# Galera Node Configuration
+wsrep_on=ON
+wsrep_provider=/usr/lib/galera/libgalera_smm.so
+
+wsrep_cluster_name="galera_cluster"
+wsrep_cluster_address="gcomm://34.105.113.116,35.185.12.215,125.212.237.119"
+
 wsrep_node_address="125.212.237.119"
-wsrep_node_name="dx3"
+wsrep_node_name="dx3.diepxuan.com"

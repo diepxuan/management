@@ -36,7 +36,7 @@ wsrep_cluster_name="galera_cluster"
 wsrep_cluster_address="gcomm://34.105.113.116,35.185.12.215,125.212.237.119"
 
 wsrep_node_address="34.105.113.116"
-wsrep_node_name="dx1"
+wsrep_node_name="dx1.diepxuan.com"
 
 
 [galera]
