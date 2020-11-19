@@ -594,7 +594,12 @@ mysql-replicate(){
         shift
     done
 
+}
 
+pull(){
+    cd "$(dirname "$0")"
+    git fetch -ap
+    git reset --hard origin/master
 }
 
 $@
