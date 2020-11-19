@@ -3,8 +3,11 @@ UNINSTALL PLUGIN validate_password;
 
 CREATE USER IF NOT EXISTS 'slave' IDENTIFIED WITH mysql_native_password BY 'ductn@123';
 CREATE USER IF NOT EXISTS 'sa' IDENTIFIED WITH mysql_native_password BY 'ductn@123';
+CREATE USER IF NOT EXISTS 'sa' IDENTIFIED BY 'ductn@123';
 GRANT REPLICATION SLAVE ON *.* TO 'slave';
 GRANT ALL PRIVILEGES ON * . * TO 'sa';
+
+GRANT ALL PRIVILEGES ON *.* TO 'sa' IDENTIFIED BY 'ductn@123' WITH GRANT OPTION;
 
 -- INSTALL COMPONENT "file://component_validate_password";
 INSTALL PLUGIN validate_password SONAME 'validate_password.so';
