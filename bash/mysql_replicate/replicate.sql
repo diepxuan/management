@@ -1,9 +1,9 @@
 SET GLOBAL validate_password.policy=LOW;
-CREATE USER 'slave' IDENTIFIED WITH mysql_native_password BY 'ductn@123';
-CREATE USER 'sa' IDENTIFIED WITH mysql_native_password BY 'ductn@123';
+CREATE USER IF NOT EXISTS 'slave' IDENTIFIED WITH mysql_native_password BY 'ductn@123';
+CREATE USER IF NOT EXISTS 'sa' IDENTIFIED WITH mysql_native_password BY 'ductn@123';
 GRANT REPLICATION SLAVE ON *.* TO 'slave';
 GRANT ALL PRIVILEGES ON * . * TO 'sa';
-SET GLOBAL validate_password.policy=MEDIUM;
+-- SET GLOBAL validate_password.policy=MEDIUM;
 FLUSH PRIVILEGES;
 
 STOP SLAVE;
