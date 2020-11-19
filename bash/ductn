@@ -602,11 +602,13 @@ mysql-replicate(){
 mysql-galera(){
 
     _MYSQL_GALERA="on"
+    _MYSQL_GALERA_HOST=1
 
     while [ $# -gt 0 ]
     do
         case $1 in
             -i|--install)   _MYSQL_GALERA_TOOGLE="on" ;;
+            --setup)        _MYSQL_GALERA_SETUP="on" ;;
             --remove)       _MYSQL_GALERA_TOOGLE="off" ;;
             --host=?*|-h=?*)_MYSQL_GALERA_HOST=${1#*=} ;;
             --host|-h)      _MYSQL_GALERA_HOST=$2; shift ;;
@@ -676,46 +678,6 @@ F_mysql_replicate(){
     $@
 }
 
-F_mysql_galera(){
-
-    --setup(){
-        sudo apt install -y --purge --auto-remove software-properties-common
-        sudo apt-key adv --keyserver keyserver.ubuntu.com --recv BC19DDBA
-
-        echo "# Codership Repository (Galera Cluster for MySQL)
-    deb https://galeracluster.com/wsrep_8.0.19-26.3-rc/galera-4/ubuntu bionic main
-    deb https://galeracluster.com/wsrep_8.0.19-26.3-rc/mysql-wsrep-8.0/ubuntu bionic main
-    " | sudo tee /etc/apt/sources.list.d/galera.list
-
-        echo "# Prefer Codership repository
-    Package: *
-    Pin: origin releases.galeracluster.com
-    Pin-Priority: 1001
-    " | sudo tee /etc/apt/preferences.d/galera.pref
-
-        sudo apt update
-    }
-
-    --install(){
-
-        cat mysql_galera/mysqld.cnf                | sudo tee /etc/mysql/conf.d/mysqld_cluster.cnf
-        cat mysql_galera/dx$@.mysqld.cnf           | sudo tee -a /etc/mysql/conf.d/mysqld_cluster.cnf
-
-        sudo service mysql restart
-    }
-
-    --remove(){
-        sudo rm -rf /etc/mysql/conf.d/mysqld_cluster.cnf
-        sudo rm -rf /etc/apt/sources.list.d/galera.list
-        sudo rm -rf /etc/apt/preferences.d/galera.pref
-
-        sudo apt update
-        sudo service mysql restart
-    }
-
-    $@
-}
-
 if [[ $_INIT = "on" ]]; then
     # echo "_INIT = $_INIT"
     F_init
@@ -732,13 +694,44 @@ if [[ $_MYSQL_REPLICATE = "on" ]]; then
     fi
 fi
 
+F_mysql_galera(){
+
+    --setup(){
+        cd ~
+        sudo add-apt-repository universe
+        sudo apt install -y --purge --auto-remove software-properties-common apt-transport-https
+        sudo add-apt-repository universe -r
+        wget https://downloads.mariadb.com/MariaDB/mariadb_repo_setup -O mariasetup
+        chmod +x mariasetup
+        sudo ./mariasetup --mariadb-server-version="mariadb-10.3"
+        sudo rm -rf ~/mariadb_repo_setup*
+        sudo rm -rf ~/mariasetup*
+    }
+
+    --install(){
+        cd "$(dirname "$0")"
+
+        cat mysql_galera/mysqld.cnf                         | sudo tee /etc/mysql/conf.d/mysqld_cluster.cnf
+        cat mysql_galera/dx${_MYSQL_GALERA_HOST}.mysqld.cnf | sudo tee -a /etc/mysql/conf.d/mysqld_cluster.cnf
+    }
+
+    --remove(){
+        sudo rm -rf /etc/mysql/conf.d/mysqld_cluster.cnf
+        sudo rm -rf /etc/apt/sources.list.d/galera.list
+        sudo rm -rf /etc/apt/preferences.d/galera.pref
+    }
+
+    $@
+}
+
 if [[ $_MYSQL_GALERA = "on" ]]; then
-    # echo "_MYSQL_GALERA = $_MYSQL_GALERA"
+    if [[ $_MYSQL_GALERA_SETUP = "on" ]]; then
+        F_mysql_galera --setup
+    fi
+
     if [[ $_MYSQL_GALERA_TOOGLE = "on" ]]; then
-        # echo "_MYSQL_GALERA_TOOGLE = $_MYSQL_GALERA_TOOGLE"
-        # echo "_MYSQL_GALERA_HOST = $_MYSQL_GALERA_HOST"
-        F_mysql_galera --install $_MYSQL_GALERA_HOST
-    else
+        F_mysql_galera --install
+    elif [[ $_MYSQL_GALERA_TOOGLE = "off" ]]; then
         F_mysql_galera --remove
     fi
 fi
