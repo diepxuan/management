@@ -44,8 +44,8 @@ _DEBUG=0
 
     --config(){
         sudo mkdir -p /home/pma/public_html
-        rm -rf /var/www/html/live/pma.diepxuan.vn/config.inc.php
-        ln /var/www/base/httpd/diepxuan.com/config.inc.php /var/www/html/live/pma.diepxuan.vn/
+        rm -rf /home/pma/public_html/config.inc.php
+        ln /var/www/base/httpd/diepxuan.com/config.inc.php /home/pma/public_html/
 
         sudo mkdir -p /home/cloud/public_html/cloud
         sudo chmod -R 777 /home/cloud/public_html/cloud
