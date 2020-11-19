@@ -601,7 +601,7 @@ mysql-replicate(){
 
 mysql-galera(){
     sudo apt install install -y --purge --auto-remove software-properties-common
-    apt-key adv --keyserver keyserver.ubuntu.com --recv BC19DDBA
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv BC19DDBA
 
     echo "# Codership Repository (Galera Cluster for MySQL)
 deb https://galeracluster.com/wsrep_8.0.19-26.3-rc/galera-4/ubuntu focal main
