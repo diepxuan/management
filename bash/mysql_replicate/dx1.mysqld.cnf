@@ -24,4 +24,3 @@
 bind-address = 0.0.0.0
 server-id = 1
 auto-increment-offset = 1
-report_host = server01

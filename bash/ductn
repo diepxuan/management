@@ -600,16 +600,21 @@ mysql-replicate(){
 }
 
 mysql-galera(){
+    sudo apt install install -y --purge --auto-remove software-properties-common
+    apt-key adv --keyserver keyserver.ubuntu.com --recv BC19DDBA
+
     echo "# Codership Repository (Galera Cluster for MySQL)
-deb https://galeracluster.com/wsrep_8.0.19-26.3-rc/galera-4/ubuntu bionic main
-deb https://galeracluster.com/wsrep_8.0.19-26.3-rc/mysql-wsrep-8.0/ubuntu bionic main
+deb https://galeracluster.com/wsrep_8.0.19-26.3-rc/galera-4/ubuntu focal main
+deb https://galeracluster.com/wsrep_8.0.19-26.3-rc/mysql-wsrep-8.0/ubuntu focal main
 " | sudo tee /etc/apt/sources.list.d/galera.list
+
     echo "# Prefer Codership repository
 Package: *
 Pin: origin releases.galeracluster.com
 Pin-Priority: 1001
-
 " | sudo tee /etc/apt/preferences.d/galera.pref
+
+    sudo apt update
 
 }
 
