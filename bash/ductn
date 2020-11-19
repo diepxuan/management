@@ -706,6 +706,9 @@ F_mysql_galera(){
         sudo ./mariasetup --mariadb-server-version="mariadb-10.3"
         sudo rm -rf ~/mariadb_repo_setup*
         sudo rm -rf ~/mariasetup*
+
+        sudo apt update
+        sudo apt install rsync mariadb-server mariadb-client
     }
 
     --install(){
