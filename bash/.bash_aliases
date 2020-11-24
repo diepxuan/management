@@ -71,11 +71,11 @@ unset -f _m2ch
 # find var vendor pub/static pub/media app/etc -type d -print0 -printf '\r\n' -exec chmod g+ws {} \;
 "
 
-alias m2group="sudo usermod -aG $WEBSERVER_GROUP `whoami`"
+alias m2group="usermod -aG $WEBSERVER_GROUP `whoami`"
 alias m2urn="bin/magento dev:urn-catalog:generate .idea/misc.xml"
 
 alias m2perm="
-sudo chown -R `whoami`:$WEBSERVER_GROUP .
+chown -R `whoami`:$WEBSERVER_GROUP .
 chmod u+x bin/magento
 m2ch
 "
@@ -86,11 +86,11 @@ find generated generated/code generation generation/code var/generation -maxdept
 magerun2 generation:flush"
 
 alias m2static="
-sudo rm -rf var/view_preprocessed/* pub/static/frontend/* pub/static/adminhtml/* pub/static/_requirejs/*
+rm -rf var/view_preprocessed/* pub/static/frontend/* pub/static/adminhtml/* pub/static/_requirejs/*
 magerun2 dev:asset:clear"
 
 alias m2cache="
-sudo rm -rf var/cache/* var/page_cache/* var/tmp/* var/generation/* var/di/*
+rm -rf var/cache/* var/page_cache/* var/tmp/* var/generation/* var/di/*
 magerun2 cache:clean
 magerun2 cache:flush"
 
