@@ -12,6 +12,9 @@ _DEBUG=0
     --install(){
         #!/usr/bin/env bash
 
+        # sudo apt-get install libapache2-mpm-itk
+        # sudo a2enmod mpm_itk
+
         # CREATE ductn SITE
         ###################
         #shellcheck disable=SC2002
