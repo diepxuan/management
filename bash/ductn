@@ -586,21 +586,21 @@ log(){
     # Clean all the log file
     # for logs in `find /var/log -type f`;  do > $logs; done
 
-    logs=`sudo find /var/log -type f`
+    logs=`sudo find /var/log /var/opt/mssql/log -type f`
     for i in $logs
     do
-    sudo tee $i
+    truncate -s 0 $i
     done
 
     #Getting rid of partial packages
-    sudo apt-get clean && sudo apt-get autoclean
+    # sudo apt-get clean && sudo apt-get autoclean
     # apt-get remove --purge -y software-properties-common
 
     #Getting rid of no longer required packages
-    sudo apt-get autoremove -y
+    # sudo apt-get autoremove -y
 
     #Getting rid of orphaned packages
-    deborphan | xargs sudo apt-get -y remove --purge
+    # deborphan | xargs sudo apt-get -y remove --purge
 
     #Free up space by clean out the cached packages
     # apt-get clean
@@ -614,8 +614,10 @@ log(){
     sudo rm -rf /usr/share/man/??_*
 
     #Delete all .gz and rotated file
-    sudo find /var/log -type f -regex ".*\.gz$" | xargs sudo rm -Rf
-    sudo find /var/log -type f -regex ".*\.[0-9]$" | xargs sudo rm -Rf
+    # sudo find /var/log -type f -regex ".*\.gz$" | xargs sudo rm -Rf
+    # sudo find /var/log -type f -regex ".*\.[0-9]$" | xargs sudo rm -Rf
+    sudo find /var/log /var/opt/mssql/log -type f -regex ".*\.gz$" -delete
+    sudo find /var/log /var/opt/mssql/log -type f -regex ".*\.[0-9]$" -delete
 
     #Cleaning the old kernels
     # dpkg-query -l|grep linux-im*
