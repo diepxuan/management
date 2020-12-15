@@ -589,7 +589,7 @@ log(){
     logs=`sudo find /var/log /var/opt/mssql/log -type f`
     for i in $logs
     do
-    truncate -s 0 $i
+    sudo truncate -s 0 $i
     done
 
     #Getting rid of partial packages
