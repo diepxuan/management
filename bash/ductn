@@ -32,7 +32,7 @@ _DEBUG=0
         # APPLY APACHE CONFIG
         #####################
         sudo a2ensite ductn.conf
-        sudo a2dismod mpm_prefork mpm_worker mpm_event
+        # sudo a2dismod mpm_prefork mpm_worker mpm_event
         sudo a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias ssl env dir mime &>/dev/null
         # sudo a2dismod php?.?
         # sudo a2enmod php7.1
