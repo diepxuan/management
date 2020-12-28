@@ -369,6 +369,7 @@ mysql(){
 
         sudo adduser ${1} --disabled-password --gecos \"\"
         sudo adduser ${1} www-data
+        usermod -aG www-data ${1}
         id -u ${1}
 
         sudo mkdir -p /home/${1}/.ssh
@@ -385,6 +386,7 @@ mysql(){
         sudo chown -R ${1}:${1} /home/${1}/.ssh
 
         sudo mkdir -p               /home/${1}/public_html
+        sudo chmod    755           /home/${1}/public_html
         sudo chown -R ${1}:www-data /home/${1}/public_html
 
         sudo mkdir -p           /home/${1}/.ssl
