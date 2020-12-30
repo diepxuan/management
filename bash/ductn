@@ -125,6 +125,18 @@ mysql(){
     $@
 }
 
+--wslcli(){
+    --install(){
+        if grep -q Microsoft /proc/version; then
+            mkdir -p /mnt/c/wslcli/
+            cat /var/www/base/bash/win10/php.bat > /mnt/c/wslcli/php.bat
+            cat /var/www/base/bash/win10/yarn.bat > /mnt/c/wslcli/yarn.bat
+        fi
+    }
+
+    $@
+}
+
 --dns(){
     --install(){
         #!/bin/bash
