@@ -236,6 +236,20 @@ mysql() {
     --gitconfig $@
 }
 
+--certbot(){
+    chmod 600 /var/www/base/bash/certbot/cloudflare.ini
+
+    sudo certbot certonly \
+        --expand \
+        --keep-until-expiring \
+        --dns-cloudflare \
+        --dns-cloudflare-credentials /var/www/base/bash/certbot/cloudflare.ini \
+        --agree-tos \
+        --email caothu91@gmail.com \
+        --eff-email \
+        -d $@
+}
+
 --ssl() {
 
     #!/bin/bash
@@ -268,18 +282,7 @@ mysql() {
         #  --server https://acme-v02.api.letsencrypt.org/directory
 
         _certbot() {
-
-            chmod 600 /var/www/base/bash/certbot/cloudflare.ini
-
-            sudo certbot certonly \
-                --expand \
-                --keep-until-expiring \
-                --dns-cloudflare \
-                --dns-cloudflare-credentials /var/www/base/bash/certbot/cloudflare.ini \
-                --agree-tos \
-                --email caothu91@gmail.com \
-                --eff-email \
-                -d $@
+            --certbot
         }
 
         #_certbot solzatech.com,www.solzatech.com
