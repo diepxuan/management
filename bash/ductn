@@ -72,7 +72,6 @@ mysql() {
 --ssl() {
     cd "$(dirname "$0")"
     ./bash/ductn_ssl
-
 }
 
 --ssh() {
