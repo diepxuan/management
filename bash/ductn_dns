@@ -1,9 +1,31 @@
 #!/bin/bash
 
-# sudo apt install bind9 bind9utils bind9-doc dnsutils -y
-cat /var/www/base/bash/dns/named.conf.options | sudo tee /etc/bind/named.conf.options
-sudo service bind9 restart
+--install() {
+    #!/bin/bash
+    cd "$(dirname "$0")"
 
-# sudo apt install stunnel4 -y --purge --auto-remove
-# cat /var/www/base/bash/dns/stunnel.conf | sudo tee /etc/stunnel/stunnel.conf
-# sudo service bind9 restart
+    # sudo apt install bind9 bind9utils bind9-doc dnsutils -y
+
+    cat dns/slave.conf.options | ssh dx1.diepxuan.com "sudo tee /etc/bind/named.conf.options"
+    cat dns/slave.conf.local | ssh dx1.diepxuan.com "sudo tee /etc/bind/named.conf.local"
+    scp dns/db.* ductn@dx1.diepxuan.com
+    ssh dx1.diepxuan.com "
+            mkdir /etc/bind/zones
+            sudo mv db.* /etc/bind/zones
+            sudo service bind9 restart
+        "
+
+    cat dns/master.conf.options | ssh dx3.diepxuan.com "sudo tee /etc/bind/named.conf.options"
+    cat dns/master.conf.local | ssh dx3.diepxuan.com "sudo tee /etc/bind/named.conf.local"
+    scp dns/db.* ductn@dx3.diepxuan.com:~/
+    ssh dx3.diepxuan.com "
+            mkdir -p /etc/bind/zones
+            sudo mv ~/db.* /etc/bind/zones
+            sudo service bind9 restart
+        "
+    # sudo apt install stunnel4 -y --purge --auto-remove
+    # cat /var/www/base/bash/dns/stunnel.conf | sudo tee /etc/stunnel/stunnel.conf
+    # sudo service bind9 restart
+}
+
+$@

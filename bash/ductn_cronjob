@@ -1,0 +1,17 @@
+#!/bin/sh
+
+--install() {
+    chmod u+x /var/www/base/bash/cronjob/*.sh
+    chmod u+x /var/www/base/bash/cronjob/cronjob
+    sudo crontab /var/www/base/bash/cronjob/cronjob.conf
+}
+
+--reload() {
+    sudo service cron restart
+}
+
+-i() {
+    --install
+}
+
+$@
