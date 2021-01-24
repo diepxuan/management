@@ -1,0 +1,4 @@
+#!/bin/sh
+
+ssh dx3.diepxuan.com "sudo tail -f /var/log/syslog" &
+ssh dx1.diepxuan.com "sudo tail -f /var/log/syslog"

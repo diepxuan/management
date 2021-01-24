@@ -9,120 +9,28 @@ _MYSQL_REPLICATE_HOST=0
 _DEBUG=0
 
 --httpd() {
-    --install() {
-        #!/usr/bin/env bash
-
-        # sudo apt-get install libapache2-mpm-itk
-        # sudo a2enmod mpm_itk
-
-        # CREATE ductn SITE
-        ###################
-        #shellcheck disable=SC2002
-        cat /var/www/base/httpd/httpd.conf | sudo tee /etc/apache2/sites-available/ductn.conf
-        printf "\n\n" >>/etc/apache2/sites-available/ductn.conf
-        find /var/www/base/httpd/*/httpd.conf -type f -exec cat {} \; | sudo tee -a /etc/apache2/sites-available/ductn.conf
-
-        # CREATE Dav Access
-        ###################
-        # mkdir -p /var/www/DavLock
-        sudo a2enmod dav dav_fs auth_digest &>/dev/null
-        sudo chmod 775 /var/www/
-        sudo chown :www-data /var/www/
-
-        # APPLY APACHE CONFIG
-        #####################
-        sudo a2ensite ductn.conf
-        # sudo a2dismod mpm_prefork mpm_worker mpm_event
-        sudo a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias ssl env dir mime &>/dev/null
-        # sudo a2dismod php?.?
-        # sudo a2enmod php7.1
-
-        sudo apache2ctl configtest
-        sudo service apache2 restart
-        # sudo service apache2 status
-
-    }
-
-    -i() {
-        --install
-    }
-
-    --config() {
-        sudo mkdir -p /home/pma/public_html/tmp
-        sudo rm -rf /home/pma/public_html/config.inc.php
-        sudo ln /var/www/base/httpd/diepxuan.com/config.inc.php /home/pma/public_html/
-        sudo chmod -R 777 /home/pma/public_html/tmp
-
-        sudo mkdir -p /home/cloud/public_html/cloud
-        sudo chmod -R 777 /home/cloud/public_html/cloud
-
-        sudo chown -R :www-data /home/*/public_html/
-    }
-
-    $@
+    cd "$(dirname "$0")"
+    ./bash/ductn_httpd
 }
 
 --swap() {
-    --install() {
-        sudo rm -rf /swapfile
-        sudo fallocate -l 2G /swapfile
-        sudo chmod 600 /swapfile
-        sudo mkswap /swapfile
-        sudo swapon /swapfile
-    }
-
-    --remove() {
-        sudo swapoff -v /swapfile
-        sudo rm /swapfile
-    }
-
-    -i() {
-        --install
-    }
-
-    $@
+    cd "$(dirname "$0")"
+    ./bash/ductn_swap
 }
 
 mysql() {
-    --install() {
-        --swap --install
-        sudo apt install -y --purge --auto-remove mysql-server
-        # sudo mysql_secure_installation
-    }
-
-    $@
+    cd "$(dirname "$0")"
+    ./bash/ductn_mysql
 }
 
 --aliases() {
-    --install() {
-        echo ". /var/www/base/bash/.bash_aliases" >~/.bash_aliases
-        chmod 644 ~/.bash_aliases
-        chmod +x /var/www/base/bash/*
-    }
-
-    -i() {
-        --install
-    }
-
-    --remove() {
-        rm -rf ~/.bash_aliases
-    }
-
-    $@
+    cd "$(dirname "$0")"
+    ./bash/ductn_init aliases
 }
 
 --composer() {
-    --install() {
-        cd ~
-        curl -sS https://getcomposer.org/installer -o composer-setup.php
-        HASH=$(curl -sS https://composer.github.io/installer.sig)
-        php -r "if (hash_file('SHA384', 'composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-        sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
-        php -r "unlink('composer-setup.php');"
-        rm -rf composer-setup.php
-    }
-
-    $@
+    cd "$(dirname "$0")"
+    ./bash/ductn_composer
 }
 
 --wslcli() {
@@ -135,97 +43,22 @@ mysql() {
         fi
     }
 
-    $@
-}
-
---dns() {
-    --install() {
-        #!/bin/bash
-        cd "$(dirname "$0")"
-
-        # sudo apt install bind9 bind9utils bind9-doc dnsutils -y
-
-        cat dns/slave.conf.options | ssh dx1.diepxuan.com "sudo tee /etc/bind/named.conf.options"
-        cat dns/slave.conf.local | ssh dx1.diepxuan.com "sudo tee /etc/bind/named.conf.local"
-        scp dns/db.* ductn@dx1.diepxuan.com
-        ssh dx1.diepxuan.com "
-            mkdir /etc/bind/zones
-            sudo mv db.* /etc/bind/zones
-            sudo service bind9 restart
-        "
-
-        cat dns/master.conf.options | ssh dx3.diepxuan.com "sudo tee /etc/bind/named.conf.options"
-        cat dns/master.conf.local | ssh dx3.diepxuan.com "sudo tee /etc/bind/named.conf.local"
-        scp dns/db.* ductn@dx3.diepxuan.com:~/
-        ssh dx3.diepxuan.com "
-            mkdir -p /etc/bind/zones
-            sudo mv ~/db.* /etc/bind/zones
-            sudo service bind9 restart
-        "
-        # sudo apt install stunnel4 -y --purge --auto-remove
-        # cat /var/www/base/bash/dns/stunnel.conf | sudo tee /etc/stunnel/stunnel.conf
-        # sudo service bind9 restart
-    }
-
-    $@
-}
-
---gitconfig() {
-
-    --install() {
-        cd /var/www/base/
-
-        echo "installing"
-        cat /var/www/base/bash/git/.gitignore >~/.gitignore
-        chmod 644 ~/.gitignore
-
-        # global gitignore
-        git config --global core.excludesfile ~/.gitignore
-
-        # setting
-        git config --global user.name "Tran Ngoc Duc"
-        git config --global user.email "caothu91@gmail.com"
-
-        # alias
-        git config --global alias.plog "log --graph --pretty=format:'%h -%d %s %n' --abbrev-commit --date=relative --branches"
-
-        # push
-        git config --global push.default simple
-
-        # file mode
-        git config --global core.fileMode false
-
-        # line endings
-        git config --global core.autocrlf false
-        git config --global core.eol lf
-
-        # Cleanup
-        git config --global gc.auto 0
-
-        # remote server
-        git config --global receive.denyCurrentBranch updateInstead
-
-        # remote repository
-        cat /var/www/base/bash/git/push-to-checkout >.git/hooks/push-to-checkout
-        chmod +x .git/hooks/push-to-checkout
-
-        rm -rf .git/hooks/post-receive
-        chmod +x .git/hooks/*
-    }
-
     -i() {
         --install
     }
 
-    --server() {
-        echo "server update"
-        cat /var/www/base/bash/git/post-receive >.git/hooks/post-receive
-        chmod +x .git/hooks/*
-    }
-
     $@
+}
 
-    echo "Done!"
+--dns() {
+    cd "$(dirname "$0")"
+    ./bash/ductn_dns
+}
+
+--gitconfig() {
+
+    cd "$(dirname "$0")"
+    ./ductn_git $@
 
     # git config http.postBuffer 524288000
     # git config receive.denyCurrentBranch refuse
@@ -237,176 +70,19 @@ mysql() {
 }
 
 --ssl() {
-
-    #!/bin/bash
-
-    --install() {
-        sudo apt install software-properties-common -y --purge --auto-remove
-        # sudo add-apt-repository universe
-        # sudo add-apt-repository ppa:certbot/certbot
-        sudo apt update
-        sudo apt install -y --purge --auto-remove python3-pip
-        sudo pip3 install certbot certbot-dns-cloudflare
-    }
-
-    --upload() {
-        sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem"
-        sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem"
-        sudo cat /etc/letsencrypt/live/diepxuan.com/fullchain.pem | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/fullchain.pem"
-        sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem"
-    }
-
-    --setup() {
-
-        #sudo certbot certonly --apache \
-        #  --expand \
-        #  --no-redirect \
-        #  --keep-until-expiring \
-        #  --break-my-certs \
-        #  --pre-hook /var/www/base/bash/certbot/authenticator.sh \
-        #  -m caothu91@gmail.com \
-        #  --server https://acme-v02.api.letsencrypt.org/directory
-
-        _certbot() {
-
-            chmod 600 /var/www/base/bash/certbot/cloudflare.ini
-
-            sudo certbot certonly \
-                --expand \
-                --keep-until-expiring \
-                --dns-cloudflare \
-                --dns-cloudflare-credentials /var/www/base/bash/certbot/cloudflare.ini \
-                --agree-tos \
-                --email caothu91@gmail.com \
-                --eff-email \
-                -d $@
-        }
-
-        #_certbot solzatech.com,www.solzatech.com
-        # _certbot diepxuan.com,www.diepxuan.com,luong.diepxuan.com,pma.diepxuan.com,cloud.diepxuan.com,work.diepxuan.com,shop.diepxuan.com
-        _certbot diepxuan.com,*.diepxuan.com
-
-        sudo service apache2 restart
-
-        #  sudo cat /etc/letsencrypt/live/mail.diepxuan.com/fullchain.pem | ssh server3.diepxuan.com "sudo tee /etc/letsencrypt/live/mail.diepxuan.com/fullchain.pem"
-        #  sudo cat /etc/letsencrypt/live/mail.diepxuan.com/privkey.pem | ssh server3.diepxuan.com "sudo tee /etc/letsencrypt/live/mail.diepxuan.com/privkey.pem"
-
-        # sudo scp -r /etc/letsencrypt/live/* dx3.diepxuan.com:/etc/letsencrypt/live/
-    }
-
-    --pull() {
-        sudo mkdir -p /etc/letsencrypt/live/diepxuan.com/
-        ssh $@ "sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem" | sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem
-        ssh $@ "sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem" | sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem
-        ssh $@ "sudo cat /etc/letsencrypt/live/diepxuan.com/fullchain.pem" | sudo tee /etc/letsencrypt/live/diepxuan.com/fullchain.pem
-        ssh $@ "sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem" | sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem
-    }
-
-    $@
+    cd "$(dirname "$0")"
+    ./bash/ductn_ssl
 
 }
 
 --ssh() {
-    --install() {
-        #!/bin/bash
-
-        ####################################
-        #
-        # SSH
-        #
-        ####################################
-        # Create PEM file
-        # ##############################
-        #
-        # openssl rsa -in id_rsa -outform PEM -out id_rsa.pem
-        # openssl x509 -outform der -in id_rsa.pem -out id_rsa.crt
-
-        # Change passphrase
-        # ##############################
-        # SYNOPSIS
-        # #ssh-keygen [-q] [-b bits] -t type [-N new_passphrase] [-C comment] [-f output_keyfile]
-        # #ssh-keygen -p [-P old_passphrase] [-N new_passphrase] [-f keyfile]
-        # #-f filename Specifies the filename of the key file.
-        # -N new_passphrase     Provides the new passphrase.
-        # -P passphrase         Provides the (old) passphrase.
-        # -p                    Requests changing the passphrase of a private key file instead of
-        #                       creating a new private key.  The program will prompt for the file
-        #                       containing the private key, for the old passphrase, and twice for
-        #                       the new passphrase.
-        #
-        # ssh-keygen -t rsa -y > ~/.ssh/id_rsa.pub
-        # ssh-keygen -f id_rsa -p
-
-        # Setup
-        # ##############################
-        mkdir -p ~/.ssh
-        # ssh config
-        cat /var/www/base/ssh/config >~/.ssh/config
-        printf "\n\n" >>~/.ssh/config
-        find /var/www/base/ssh/config.d/*.conf -type f -exec cat {} \; -exec printf "\n\n" \; >>~/.ssh/config
-
-        # ssh private key
-        cat /var/www/base/ssh/id_rsa >~/.ssh/id_rsa
-        # cat /var/www/base/ssh/gss > ~/.ssh/gss
-        # cat /var/www/base/ssh/tci > ~/.ssh/tci
-        # cat /var/www/base/ssh/gem > ~/.ssh/gem
-
-        chmod 700 ~/.ssh
-        chmod 600 ~/.ssh/*
-
-        ssh-keygen -f ~/.ssh/id_rsa -y >~/.ssh/id_rsa.pub
-        # ssh-keygen -f ~/.ssh/gss -y > ~/.ssh/gss.pub
-        # ssh-keygen -f ~/.ssh/tci -y > ~/.ssh/tci.pub
-        # ssh-keygen -f ~/.ssh/gem -y > ~/.ssh/gem.pub
-
-        # ssh-copy-id user@123.45.56.78
-
-        # cat /var/www/base/ssh/id_rsa        | ssh dx1.diepxuan.com "cat > ~/.ssh/id_rsa"
-        # cat /var/www/base/ssh/id_rsa.pub    | ssh dx1.diepxuan.com "cat > ~/.ssh/id_rsa.pub"
-        # ssh dx1.diepxuan.com "chmod 600 ~/.ssh/*"
-
-    }
-
-    -i() {
-        --install
-    }
-
-    $@
+    cd "$(dirname "$0")"
+    ./bash/ductn_ssh
 }
 
 --user() {
-    --new() {
-        #!/bin/bash
-
-        sudo adduser ${1} --disabled-password --gecos \"\"
-        sudo adduser ${1} www-data
-        usermod -aG www-data ${1}
-        id -u ${1}
-
-        sudo mkdir -p /home/${1}/.ssh
-        sudo chmod 777 /home/${1}/.ssh
-
-        cat ~/.ssh/id_rsa | sudo tee /home/${1}/.ssh/id_rsa
-        cat ~/.ssh/id_rsa.pub | sudo tee /home/${1}/.ssh/id_rsa.pub
-        cat ~/.ssh/authorized_keys | sudo tee /home/${1}/.ssh/authorized_keys
-
-        sudo chmod 755 /home/${1}
-        sudo chmod -R 600 /home/${1}/.ssh
-        sudo chmod 700 /home/${1}/.ssh
-        sudo chown -R ${1}:${1} /home/${1}/.ssh
-
-        sudo mkdir -p /home/${1}/public_html
-        sudo chmod 755 /home/${1}/public_html
-        sudo chown -R ${1}:www-data /home/${1}/public_html
-
-        sudo mkdir -p /home/${1}/.ssl
-        sudo chown -R ${1}:${1} /home/${1}/.ssl
-
-        # echo "ductn ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/90-users
-
-    }
-
-    $@
+    cd "$(dirname "$0")"
+    ./bash/ductn_user
 }
 
 --hosts() {
@@ -520,21 +196,8 @@ mysql() {
 }
 
 --cronjob() {
-    --install() {
-        chmod u+x /var/www/base/bash/cronjob/*.sh
-        chmod u+x /var/www/base/bash/cronjob/cronjob
-        sudo crontab /var/www/base/bash/cronjob/cronjob.conf
-    }
-
-    --reload() {
-        sudo service cron restart
-    }
-
-    -i() {
-        --install
-    }
-
-    $@
+    cd "$(dirname "$0")"
+    ./bash/ductn_cronjob
 }
 
 --cron() {
@@ -542,8 +205,8 @@ mysql() {
 }
 
 log() {
-    ssh dx3.diepxuan.com "sudo tail -f /var/log/syslog" &
-    ssh dx1.diepxuan.com "sudo tail -f /var/log/syslog"
+    cd "$(dirname "$0")"
+    ./bash/ductn_log
 }
 
 --update() {
@@ -584,69 +247,67 @@ log() {
         sudo dpkg --configure -a
     }
 
-    log() {
-        mssqllog() {
-            #!/bin/sh
-            if [ -d "/var/opt/mssql/log" ]; then
-                sudo find /var/opt/mssql/log -type f -regex ".*\.gz$" -delete
-                sudo find /var/opt/mssql/log -type f -regex ".*\.[0-9]$" -delete
-                logs=$(sudo find /var/opt/mssql/log -type f)
-                for i in $logs; do
-                    sudo truncate -s 0 $i
-                done
-            fi
-        }
-        mssqllog
-        #!/bin/sh
-
-        # Check the Drive Space Used by Cached Files
-        # du -sh /var/cache/apt/archives
-
-        # Clean all the log file
-        # for logs in `find /var/log -type f`;  do > $logs; done
-
-        #Getting rid of partial packages
-        # sudo apt-get clean && sudo apt-get autoclean
-        # apt-get remove --purge -y software-properties-common
-
-        #Getting rid of no longer required packages
-        # sudo apt-get autoremove -y
-
-        #Getting rid of orphaned packages
-        # deborphan | xargs sudo apt-get -y remove --purge
-
-        #Free up space by clean out the cached packages
-        # apt-get clean
-
-        # Remove the Trash
-        sudo rm -rf /home/*/.local/share/Trash/*/**
-        sudo rm -rf /root/.local/share/Trash/*/**
-
-        # Remove Man
-        sudo rm -rf /usr/share/man/??
-        sudo rm -rf /usr/share/man/??_*
-
-        #Delete all .gz and rotated file
-        # sudo find /var/log -type f -regex ".*\.gz$" | xargs sudo rm -Rf
-        # sudo find /var/log -type f -regex ".*\.[0-9]$" | xargs sudo rm -Rf
-        sudo find /var/log -type f -regex ".*\.gz$" -delete
-        sudo find /var/log -type f -regex ".*\.[0-9]$" -delete
-
-        #Cleaning the old kernels
-        # dpkg-query -l|grep linux-im*
-        #dpkg-query -l |grep linux-im*|awk '{print $2}'
-        # apt-get purge $(dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | head -n -1) --assume-yes
-        # apt-get install linux-headers-`uname -r|cut -d'-' -f3`-`uname -r|cut -d'-' -f4`
-
-        #Cleaning is completed
-        echo "Cleaning is completed"
-    }
-
     $@
 }
 
+--cleanup() {
+    #!/bin/sh
+
+    # Check the Drive Space Used by Cached Files
+    # du -sh /var/cache/apt/archives
+
+    # Clean all the log file
+    # for logs in `find /var/log -type f`;  do > $logs; done
+
+    logs=$(sudo find /var/log /var/opt/mssql/log -type f)
+    for i in $logs; do
+        sudo truncate -s 0 $i
+    done
+
+    #Getting rid of partial packages
+    # sudo apt-get clean && sudo apt-get autoclean
+    # apt-get remove --purge -y software-properties-common
+
+    #Getting rid of no longer required packages
+    # sudo apt-get autoremove -y
+
+    #Getting rid of orphaned packages
+    # deborphan | xargs sudo apt-get -y remove --purge
+
+    #Free up space by clean out the cached packages
+    # apt-get clean
+
+    # Remove the Trash
+    sudo rm -rf /home/*/.local/share/Trash/*/**
+    sudo rm -rf /root/.local/share/Trash/*/**
+
+    # Remove Man
+    sudo rm -rf /usr/share/man/??
+    sudo rm -rf /usr/share/man/??_*
+
+    #Delete all .gz and rotated file
+    # sudo find /var/log -type f -regex ".*\.gz$" | xargs sudo rm -Rf
+    # sudo find /var/log -type f -regex ".*\.[0-9]$" | xargs sudo rm -Rf
+    sudo find /var/log /var/opt/mssql/log -type f -regex ".*\.gz$" -delete
+    sudo find /var/log /var/opt/mssql/log -type f -regex ".*\.[0-9]$" -delete
+
+    #Cleaning the old kernels
+    # dpkg-query -l|grep linux-im*
+    #dpkg-query -l |grep linux-im*|awk '{print $2}'
+    # apt-get purge $(dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | head -n -1) --assume-yes
+    # apt-get install linux-headers-`uname -r|cut -d'-' -f3`-`uname -r|cut -d'-' -f4`
+
+    #Cleaning is completed
+    echo "Cleaning is completed"
+}
+
 init() {
-    _INIT="on"
+    --init
+}
+
+--init() {
+    cd "$(dirname "$0")"
+    ./ductn_init
 }
 
 mysql-replicate() {
@@ -712,17 +373,6 @@ $@
 
 cd "$(dirname "$0")"
 
-F_init() {
-    sudo timedatectl set-timezone Asia/Ho_Chi_Minh
-
-    --cronjob -i
-    # --update allowip
-    --ssh -i
-    # --git -i
-    --aliases -i
-    --httpd --config
-}
-
 F_mysql_replicate() {
 
     --install() {
@@ -752,11 +402,6 @@ F_mysql_replicate() {
 
     $@
 }
-
-if [[ $_INIT = "on" ]]; then
-    # echo "_INIT = $_INIT"
-    F_init
-fi
 
 if [[ $_MYSQL_REPLICATE = "on" ]]; then
     # echo "_MYSQL_REPLICATE = $_MYSQL_REPLICATE"
