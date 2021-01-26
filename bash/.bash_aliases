@@ -78,7 +78,9 @@ if ! shopt -oq posix; then
 fi
 
 if [[ -d "/var/www/base/bash" ]]; then
-    chmod +x /var/www/base/bash/*
+    if [ "$(whoami)" = "ductn" ]; then
+        chmod +x /var/www/base/bash/*
+    fi
     PATH="$PATH:/var/www/base/bash"
 fi
 
