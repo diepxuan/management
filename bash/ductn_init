@@ -22,8 +22,10 @@ ln /var/www/base/bash/.vimrc ~/.vimrc
 ln -s /var/www/base/bash/.vimrc ~/.vimrc
 chmod 644 ~/.bash_aliases
 chmod 644 ~/.vimrc
-chmod +x /var/www/base/bash/*
 
+if [ "$(whoami)" = "ductn" ]; then
+    chmod +x /var/www/base/bash/*
+fi
 ./ductn --git -i
 
 if [[ $_IS_SERVER = "on" ]]; then
