@@ -1,11 +1,6 @@
 #!/bin/bash
 
 --install() {
-    cd /var/www/base/
-
-    cat /var/www/base/bash/git/.gitignore >~/.gitignore
-    chmod 644 ~/.gitignore
-
     # global gitignore
     git config --global core.excludesfile ~/.gitignore
 
@@ -32,12 +27,19 @@
     # remote server
     git config --global receive.denyCurrentBranch updateInstead
 
-    # remote repository
-    cat /var/www/base/bash/git/push-to-checkout >.git/hooks/push-to-checkout
-    chmod +x .git/hooks/push-to-checkout
+    if [ "$(whoami)" = "ductn" ]; then
+        cd /var/www/base/
 
-    rm -rf .git/hooks/post-receive
-    chmod +x .git/hooks/*
+        cat /var/www/base/bash/git/.gitignore >~/.gitignore
+        chmod 644 ~/.gitignore
+
+        # remote repository
+        cat /var/www/base/bash/git/push-to-checkout >.git/hooks/push-to-checkout
+        chmod +x .git/hooks/push-to-checkout
+
+        rm -rf .git/hooks/post-receive
+        chmod +x .git/hooks/*
+    fi
 }
 
 -i() {
