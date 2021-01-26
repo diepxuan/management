@@ -13,9 +13,6 @@ _IS_SUDOER="off"
 $@
 
 cd "$(dirname "$0")"
-
-sudo timedatectl set-timezone Asia/Ho_Chi_Minh
-
 echo ". /var/www/base/bash/.bash_aliases" >~/.bash_aliases
 rm ~/.vimrc
 ln /var/www/base/bash/.vimrc ~/.vimrc
@@ -25,6 +22,7 @@ chmod 644 ~/.vimrc
 
 if [ "$(whoami)" = "ductn" ]; then
     chmod +x /var/www/base/bash/*
+    sudo timedatectl set-timezone Asia/Ho_Chi_Minh
 fi
 ./ductn --git -i
 
