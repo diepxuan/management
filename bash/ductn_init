@@ -42,6 +42,14 @@ if [[ $_IS_SERVER = "on" ]]; then
     # ductn@dx1.diepxuan.com:/home/ductn/public_html  /dxvn/luong  fuse.sshfs  defaults  0  0
 fi
 
-if [[ $_IS_SUDOER = "on" ]]; then
+if [ $_IS_SUDOER = "on" ] || [ "$(whoami)" = "ductn" ]; then
     echo "ductn ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/90-users >/dev/null
+fi
+
+if [ "$(whoami)" = "ductn" ]; then
+    ./ductn_hosts add 10.8.0.1  dx2
+    ./ductn_hosts add 10.8.0.2  dx1
+    ./ductn_hosts add 10.8.0.3  dx3
+    ./ductn_hosts add 10.8.0.10 vn11
+    ./ductn_hosts add 10.8.0.11 mg15
 fi
