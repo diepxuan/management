@@ -39,6 +39,12 @@ update(){
             getip(){
                 host $@ | cut -f4 -d' '
             }
+            
+            if [ "$(whoami)" = "ductn" ]; then
+                sudo ufw allow proto tcp from "$(getip $@)" to any port 1433
+            fi
+        }
+        
         allowdomain dxvnkthd.ddns.net
         allowdomain dxvnk113.ddns.net
         allowdomain dxvnkkcn.ddns.net
