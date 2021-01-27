@@ -14,4 +14,39 @@
     --install
 }
 
+service(){
+    # Web Server
+    if [[ ! "$(sudo /usr/sbin/service apache2 status)" =~ "start/running" ]]; then
+        sudo /usr/sbin/service apache2 start
+    fi
+    if [[ ! "$(sudo /usr/sbin/service mysql status)" =~ "start/running" ]]; then
+        sudo rm -rf /swapfile
+        sudo fallocate -l 2G /swapfile
+        sudo chmod 600 /swapfile
+        sudo mkswap /swapfile
+        sudo swapon /swapfile
+        sudo /usr/sbin/service mysql start
+    fi
+
+}
+
+update(){
+
+    updateallowip(){
+
+        allowdomain(){
+
+            getip(){
+                host $@ | cut -f4 -d' '
+            }
+        allowdomain dxvnkthd.ddns.net
+        allowdomain dxvnk113.ddns.net
+        allowdomain dxvnkkcn.ddns.net
+        allowdomain mg15vincom.ddns.net
+    }
+
+    $@
+
+}
+
 $@
