@@ -19,6 +19,7 @@ ln /var/www/base/bash/.vimrc ~/.vimrc
 ln -s /var/www/base/bash/.vimrc ~/.vimrc
 chmod 644 ~/.bash_aliases
 chmod 644 ~/.vimrc
+sed -i 's/.*force_color_prompt\=.*/force_color_prompt=yes/' ~/.bashrc
 
 if [ "$(whoami)" = "ductn" ]; then
     chmod +x /var/www/base/bash/*
