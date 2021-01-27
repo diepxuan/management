@@ -203,6 +203,10 @@ mysql() {
     --cronjob
 }
 
+cron(){
+    --cron 
+}
+
 log() {
     cd "$(dirname "$0")"
     ./bash/ductn_log
