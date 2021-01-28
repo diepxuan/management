@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cd /var/www/base
-bash bash/ductn_cronjob $@
+./bash/ductn cron $@

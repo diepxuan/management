@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 --install() {
     chmod u+x /var/www/base/bash/cronjob/*.sh
