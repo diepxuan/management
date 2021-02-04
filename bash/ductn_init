@@ -24,6 +24,8 @@ sed -i 's/.*force_color_prompt\=.*/force_color_prompt=yes/' ~/.bashrc
 if [ "$(whoami)" = "ductn" ]; then
     chmod +x /var/www/base/bash/*
     sudo timedatectl set-timezone Asia/Ho_Chi_Minh
+    sudo cp /var/www/base/bash/ductn /usr/local/bin/ductn
+    sudo chown root:root /var/www/base/bash/ductn
 fi
 ./ductn --git -i
 
