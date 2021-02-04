@@ -81,7 +81,7 @@ if [[ -d "/var/www/base/bash" ]]; then
     if [ "$(whoami)" = "ductn" ]; then
         chmod +x /var/www/base/bash/*
     fi
-    PATH="$PATH:/var/www/base/bash"
+    # PATH="$PATH:/var/www/base/bash"
 fi
 
 if [[ -d "/opt/mssql-tools/bin" ]]; then
