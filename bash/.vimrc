@@ -44,7 +44,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'vim-scripts/grep.vim'
 Plug 'vim-scripts/CSApprox'
 Plug 'Raimondi/delimitMate'
-Plug 'majutsushi/tagbar                          '
+"Plug 'majutsushi/tagbar                          '
 Plug 'dense-analysis/ale'
 Plug 'Yggdroot/indentLine'
 Plug 'editor-bootstrap/vim-bootstrap-updater'
@@ -94,6 +94,9 @@ Plug 'jelera/vim-javascript-syntax'
 Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install --no-dev -o'}
 Plug 'stephpy/vim-php-cs-fixer'
 
+" bash
+"Plug 'WolfgangMehner/bash-support'
+
 " My Plugin
 
 
@@ -110,6 +113,7 @@ call plug#end()
 
 " Required:
 filetype plugin indent on
+filetype plugin on
 
 
 "*****************************************************************************
