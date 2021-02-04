@@ -7,29 +7,31 @@ _MYSQL_REPLICATE_TOOGLE=""
 _MYSQL_REPLICATE_HOST=0
 
 _DEBUG=0
+_BASEDIR="/var/www/base"
+_BASHDIR="$_BASEDIR/bash"
 
 --httpd() {
-    cd "$(dirname "$0")"
+    cd "$_BASEDIR"
     ./bash/ductn_httpd
 }
 
 --swap() {
-    cd "$(dirname "$0")"
+    cd "$_BASEDIR"
     ./bash/ductn_swap
 }
 
 mysql() {
-    cd "$(dirname "$0")"
+    cd "$_BASEDIR"
     ./bash/ductn_mysql
 }
 
 --aliases() {
-    cd "$(dirname "$0")"
+    cd "$_BASEDIR"
     ./bash/ductn_init aliases
 }
 
 --composer() {
-    cd "$(dirname "$0")"
+    cd "$_BASEDIR"
     ./bash/ductn_composer
 }
 
@@ -51,13 +53,13 @@ mysql() {
 }
 
 --dns() {
-    cd "$(dirname "$0")"
-    ./bash/ductn_dns
+    cd "$_BASHDIR"
+    ./ductn_dns
 }
 
 --gitconfig() {
 
-    cd "$(dirname "$0")"
+    cd "$_BASHDIR"
     ./ductn_git $@
 
     # git config http.postBuffer 524288000
@@ -70,17 +72,17 @@ mysql() {
 }
 
 --ssl() {
-    cd "$(dirname "$0")"
+    cd "$_BASEDIR"
     ./bash/ductn_ssl
 }
 
 --ssh() {
-    cd "$(dirname "$0")"
+    cd "$_BASEDIR"
     ./bash/ductn_ssh
 }
 
 --user() {
-    cd "$(dirname "$0")"
+    cd "$_BASEDIR"
     ./bash/ductn_user
 }
 
@@ -136,7 +138,7 @@ mysql() {
         # sudo dpkg -i mysql-apt-config.deb
         # rm -rf mysql-apt-config.deb
 
-        cd "$(dirname "$0")"
+        cd "$_BASHDIR"
 
         _exec() {
             echo "dx$@.diepxuan.com"
@@ -195,17 +197,21 @@ mysql() {
 }
 
 --cronjob() {
-    cd "$(dirname "$0")"
-    ./bash/ductn_cronjob
+    cd "$_BASHDIR"
+    ./ductn_cronjob
 }
 
 --cron() {
     --cronjob
 }
 
+cron(){
+    --cron 
+}
+
 log() {
-    cd "$(dirname "$0")"
-    ./bash/ductn_log
+    cd "$_BASHDIR"
+    ./ductn_log
 }
 
 --update() {
@@ -305,7 +311,7 @@ init() {
 }
 
 --init() {
-    cd "$(dirname "$0")"
+    cd "$_BASHDIR"
     ./ductn_init
 }
 
@@ -363,14 +369,14 @@ mysql-galera() {
 }
 
 pull() {
-    cd "$(dirname "$0")"
+    cd "$_BASEDIR"
     git fetch -ap
     git reset --hard origin/master
 }
 
 $@
 
-cd "$(dirname "$0")"
+cd "$_BASEDIR"
 
 F_mysql_replicate() {
 
