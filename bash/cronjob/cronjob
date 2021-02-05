@@ -1,4 +1,3 @@
 #!/bin/bash
 
-cd /var/www/base
-./bash/ductn cron $@
+ductn cron $@
