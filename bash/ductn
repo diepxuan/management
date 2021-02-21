@@ -364,10 +364,12 @@ F_mysql_replicate() {
         # sudo dpkg -i mysql-apt-config.deb
         # rm -rf mysql-apt-config.deb
 
+        cd "$_BASHDIR"
+
         sudo mkdir -p /var/lib/mysql-cluster/
 
-        cat mysql_replicate/mysqld.cnf | sudo tee /etc/mysql/conf.d/mysqld_cluster.cnf
-        cat mysql_replicate/dx$@.mysqld.cnf | sudo tee -a /etc/mysql/conf.d/mysqld_cluster.cnf
+        cat $_BASHDIR/mysql_replicate/mysqld.cnf | sudo tee /etc/mysql/conf.d/mysqld_cluster.cnf
+        cat $_NASHDIR/mysql_replicate/dx$@.mysqld.cnf | sudo tee -a /etc/mysql/conf.d/mysqld_cluster.cnf
 
         sudo service mysql restart
 
@@ -415,8 +417,8 @@ F_mysql_galera() {
     --install() {
         cd "$(dirname "$0")"
 
-        cat mysql_galera/mysqld.cnf | sudo tee /etc/mysql/conf.d/mysqld_cluster.cnf
-        cat mysql_galera/dx${_MYSQL_GALERA_HOST}.mysqld.cnf | sudo tee -a /etc/mysql/conf.d/mysqld_cluster.cnf
+        cat $_BASHDIR/mysql_galera/mysqld.cnf | sudo tee /etc/mysql/conf.d/mysqld_cluster.cnf
+        cat $_BASHDIR/mysql_galera/dx${_MYSQL_GALERA_HOST}.mysqld.cnf | sudo tee -a /etc/mysql/conf.d/mysqld_cluster.cnf
 
         sudo galera_new_cluster
         sudo service mysql restart
