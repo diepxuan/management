@@ -11,28 +11,31 @@ _BASEDIR="/var/www/base"
 _BASHDIR="$_BASEDIR/bash"
 
 --httpd() {
-    cd "$_BASEDIR"
-    ./bash/ductn_httpd
+    $_BASEDIR/bash/ductn_httpd $@
 }
 
 --swap() {
-    cd "$_BASEDIR"
-    ./bash/ductn_swap
+    $_BASEDIR/bash/ductn_swap $@
 }
 
 mysql() {
-    cd "$_BASEDIR"
-    ./bash/ductn_mysql
+    $_BASEDIR/bash/ductn_mysql $@
 }
 
 --aliases() {
-    cd "$_BASEDIR"
-    ./bash/ductn_init aliases
+    $_BASEDIR/bash/ductn_init aliases
+}
+
+aliases() {
+    --aliases $@
 }
 
 --composer() {
-    cd "$_BASEDIR"
-    ./bash/ductn_composer
+    $_BASEDIR/bash/ductn_composer $@
+}
+
+composer() {
+    --composer $@
 }
 
 --wslcli() {
@@ -53,14 +56,12 @@ mysql() {
 }
 
 --dns() {
-    cd "$_BASHDIR"
-    ./ductn_dns
+    $_BASHDIR/ductn_dns $@
 }
 
 --gitconfig() {
 
-    cd "$_BASHDIR"
-    ./ductn_git $@
+    $_BASHDIR/ductn_git $@
 
     # git config http.postBuffer 524288000
     # git config receive.denyCurrentBranch refuse
@@ -71,19 +72,20 @@ mysql() {
     --gitconfig $@
 }
 
+git() {
+    --gitconfig $@
+}
+
 --ssl() {
-    cd "$_BASEDIR"
-    ./bash/ductn_ssl
+    $_BASEDIR/bash/ductn_ssl $@
 }
 
 --ssh() {
-    cd "$_BASEDIR"
-    ./bash/ductn_ssh
+    $_BASEDIR/bash/ductn_ssh $@
 }
 
 --user() {
-    cd "$_BASEDIR"
-    ./bash/ductn_user
+    $_BASEDIR/bash/ductn_user $@
 }
 
 --hosts() {
@@ -197,44 +199,19 @@ mysql() {
 }
 
 --cronjob() {
-    cd "$_BASHDIR"
-    ./ductn_cronjob
+    $_BASHDIR/ductn_cronjob $@
 }
 
 --cron() {
-    --cronjob
+    --cronjob $@
 }
 
 cron(){
-    --cron 
+    --cronjob $@ 
 }
 
 log() {
-    cd "$_BASHDIR"
-    ./ductn_log
-}
-
---update() {
-
-    allowip() {
-
-        allowdomain() {
-            getip() {
-                echo "$(host $@ | cut -f4 -d' ')"
-            }
-            local Current_IP="$(getip $@)"
-            sudo ufw allow from ${Current_IP} to any
-            # echo "${Current_IP}"
-        }
-
-        allowdomain dxvnkthd.ddns.net
-        allowdomain dxvnk113.ddns.net
-        allowdomain dxvnkkcn.ddns.net
-        allowdomain mg15vincom.ddns.net
-    }
-
-    $@
-
+    $_BASHDIR/ductn_log
 }
 
 --fix() {
@@ -311,8 +288,7 @@ init() {
 }
 
 --init() {
-    cd "$_BASHDIR"
-    ./ductn_init
+    $_BASHDIR/ductn_init
 }
 
 mysql-replicate() {
