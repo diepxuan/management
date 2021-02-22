@@ -14,7 +14,7 @@
     --install
 }
 
-service(){
+service() {
     # Web Server
     if [[ ! "$(sudo /usr/sbin/service apache2 status)" =~ "start/running" ]]; then
         sudo /usr/sbin/service apache2 start
@@ -30,21 +30,22 @@ service(){
 
 }
 
-update(){
+update() {
 
-    updateallowip(){
+    getip() {
+        host $@ | cut -f4 -d' '
+    }
 
-        allowdomain(){
+    allowdomain() {
 
-            getip(){
-                host $@ | cut -f4 -d' '
-            }
-            
-            if [ "$(whoami)" = "ductn" ]; then
-                sudo ufw allow proto tcp from "$(getip $@)" to any port 1433
-            fi
-        }
-        
+        if [ "$(whoami)" = "ductn" ]; then
+            # sudo ufw allow proto tcp from "$(getip $@)" to any port 1433
+            sudo ufw allow proto tcp from "$(getip $@)"
+        fi
+    }
+
+    updateallowip() {
+
         allowdomain dxvnkthd.ddns.net
         allowdomain dxvnk113.ddns.net
         allowdomain dxvnkkcn.ddns.net
