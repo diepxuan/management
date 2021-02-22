@@ -50,9 +50,9 @@ if [ $_IS_SUDOER = "on" ] || [ "$(whoami)" = "ductn" ]; then
 fi
 
 if [ "$(whoami)" = "ductn" ]; then
-    ./ductn --hosts remove 10.8.0.1 dx2
-    ./ductn --hosts remove 10.8.0.1 dx1
-    ./ductn --hosts remove 10.8.0.3 dx3
+    ./ductn --hosts add 10.8.0.3 dx2
+    ./ductn --hosts add 10.8.0.2 dx1
+    ./ductn --hosts add 10.8.0.1 dx3
     ./ductn --hosts add 10.8.0.10 vn11
     ./ductn --hosts add 10.8.0.11 mg15
 fi
