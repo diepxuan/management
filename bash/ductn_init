@@ -51,16 +51,14 @@ fi
 
 if [ "$(whoami)" = "ductn" ]; then
     ./ductn --hosts add 10.8.0.3 dx2
-    ./ductn --hosts add 10.8.0.3 dx2.diepxuan.com
-
     ./ductn --hosts add 10.8.0.2 dx1
-    ./ductn --hosts add 10.8.0.2 dx1.diepxuan.com
-
     ./ductn --hosts add 10.8.0.1 dx3
-    ./ductn --hosts add 10.8.0.1 dx3.diepxuan.com
-
     ./ductn --hosts add 10.8.0.10 vn11
     ./ductn --hosts add 10.8.0.11 mg15
+
+    ./ductn --hosts remove 10.8.0.2 dx1.diepxuan.com
+    ./ductn --hosts remove 10.8.0.3 dx2.diepxuan.com
+    ./ductn --hosts remove 10.8.0.1 dx3.diepxuan.com
 
     echo "dx1,10.8.0.2
 dx2,10.8.0.3
