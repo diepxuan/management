@@ -18,8 +18,16 @@ _BASHDIR="$_BASEDIR/bash"
     $_BASEDIR/bash/ductn_swap $@
 }
 
-mysql() {
+--mysql() {
     $_BASEDIR/bash/ductn_mysql $@
+}
+
+mysql() {
+    --mysql $@
+}
+
+mysql-galera() {
+    $_BASHDIR/ductn mysql galera $@
 }
 
 --aliases() {
@@ -206,8 +214,8 @@ git() {
     --cronjob $@
 }
 
-cron(){
-    --cronjob $@ 
+cron() {
+    --cronjob $@
 }
 
 log() {
@@ -316,38 +324,19 @@ mysql-replicate() {
 
 }
 
-mysql-galera() {
-
-    _MYSQL_GALERA="on"
-    _MYSQL_GALERA_HOST=1
-
-    while [ $# -gt 0 ]; do
-        case $1 in
-        -i | --install) _MYSQL_GALERA_TOOGLE="on" ;;
-        --setup) _MYSQL_GALERA_SETUP="on" ;;
-        --remove) _MYSQL_GALERA_TOOGLE="off" ;;
-        --host=?* | -h=?*) _MYSQL_GALERA_HOST=${1#*=} ;;
-        --host | -h)
-            _MYSQL_GALERA_HOST=$2
-            shift
-            ;;
-        --host=)
-            die 'ERROR: "--host" requires a non-empty option argument.'
-            ;;
-        --) break ;;
-        -?*) printf 'WARN: Unknown option (ignored): %s\n' "$1" >&2 ;;
-        *) break ;;
-        esac
-
-        shift
-    done
-
-}
-
 pull() {
     cd "$_BASEDIR"
     git fetch -ap
     git reset --hard origin/master
+}
+
+selfupdate() {
+    $_BASHDIR/ductn pull
+    $_BASHDIR/ductn init
+}
+
+self-update() {
+    selfupdate
 }
 
 $@
@@ -394,53 +383,5 @@ if [[ $_MYSQL_REPLICATE = "on" ]]; then
         F_mysql_replicate --install $_MYSQL_REPLICATE_HOST
     else
         F_mysql_replicate --remove
-    fi
-fi
-
-F_mysql_galera() {
-
-    --setup() {
-        cd ~
-        sudo add-apt-repository universe
-        sudo apt install -y --purge --auto-remove software-properties-common apt-transport-https
-        sudo add-apt-repository universe -r
-        wget https://downloads.mariadb.com/MariaDB/mariadb_repo_setup -O mariasetup
-        chmod +x mariasetup
-        sudo ./mariasetup --mariadb-server-version="mariadb-10.3"
-        sudo rm -rf ~/mariadb_repo_setup*
-        sudo rm -rf ~/mariasetup*
-
-        sudo apt update
-        sudo apt install rsync mariadb-server mariadb-client
-    }
-
-    --install() {
-        cd "$(dirname "$0")"
-
-        cat $_BASHDIR/mysql_galera/mysqld.cnf | sudo tee /etc/mysql/conf.d/mysqld_cluster.cnf
-        cat $_BASHDIR/mysql_galera/dx${_MYSQL_GALERA_HOST}.mysqld.cnf | sudo tee -a /etc/mysql/conf.d/mysqld_cluster.cnf
-
-        sudo galera_new_cluster
-        sudo service mysql restart
-    }
-
-    --remove() {
-        sudo rm -rf /etc/mysql/conf.d/mysqld_cluster.cnf
-        sudo rm -rf /etc/apt/sources.list.d/galera.list
-        sudo rm -rf /etc/apt/preferences.d/galera.pref
-    }
-
-    $@
-}
-
-if [[ $_MYSQL_GALERA = "on" ]]; then
-    if [[ $_MYSQL_GALERA_SETUP = "on" ]]; then
-        F_mysql_galera --setup
-    fi
-
-    if [[ $_MYSQL_GALERA_TOOGLE = "on" ]]; then
-        F_mysql_galera --install
-    elif [[ $_MYSQL_GALERA_TOOGLE = "off" ]]; then
-        F_mysql_galera --remove
     fi
 fi
