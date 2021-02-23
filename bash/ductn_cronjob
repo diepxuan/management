@@ -45,7 +45,6 @@ update() {
     }
 
     updateallowip() {
-
         allowdomain dxvnkthd.ddns.net
         allowdomain dxvnk113.ddns.net
         allowdomain dxvnkkcn.ddns.net
