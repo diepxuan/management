@@ -55,14 +55,9 @@ if [ "$(whoami)" = "ductn" ]; then
     ./ductn --hosts add 10.8.0.1 dx3
     ./ductn --hosts add 10.8.0.10 vn11
     ./ductn --hosts add 10.8.0.11 mg15
+    ./ductn --hosts add 10.8.0.12 mg15kt
 
     ./ductn --hosts remove 10.8.0.2 dx1.diepxuan.com
     ./ductn --hosts remove 10.8.0.3 dx2.diepxuan.com
     ./ductn --hosts remove 10.8.0.1 dx3.diepxuan.com
-
-    echo "dx1,10.8.0.2
-dx2,10.8.0.3
-venue,10.8.0.10
-mg15,10.8.0.11
-mg15kt,10.8.0.12" | sudo tee /etc/openvpn/ipp.txt
 fi
