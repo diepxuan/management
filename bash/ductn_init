@@ -1,4 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+_BASEDIR="/var/www/base"
+_BASHDIR="$_BASEDIR/bash"
 
 _IS_SERVER="off"
 --server() {
@@ -12,28 +15,28 @@ _IS_SUDOER="off"
 
 $@
 
-cd "$(dirname "$0")"
-echo ". /var/www/base/bash/.bash_aliases" >~/.bash_aliases
+echo ". $_BASHDIR/.bash_aliases" >~/.bash_aliases
+
 rm ~/.vimrc
-ln /var/www/base/bash/.vimrc ~/.vimrc
-ln -s /var/www/base/bash/.vimrc ~/.vimrc
+ln $_BASHDIR/.vimrc ~/.vimrc
+ln -s $_BASHDIR/.vimrc ~/.vimrc
+
 chmod 644 ~/.bash_aliases
 chmod 644 ~/.vimrc
 sed -i 's/.*force_color_prompt\=.*/force_color_prompt=yes/' ~/.bashrc
 
 if [ "$(whoami)" = "ductn" ]; then
-    chmod +x /var/www/base/bash/*
+    chmod +x $_BASHDIR/*
     sudo timedatectl set-timezone Asia/Ho_Chi_Minh
-    sudo cp /var/www/base/bash/ductn /usr/local/bin/ductn
+    sudo cp $_BASHDIR/ductn /usr/local/bin/ductn
     sudo chown root:root /usr/local/bin/ductn
 fi
-./ductn --git -i
+$_BASHDIR/ductn --git -i
 
 if [[ $_IS_SERVER = "on" ]]; then
-    cd "$(dirname "$0")"
-    ./ductn --cronjob -i
-    ./ductn --httpd --config
-    ./ductn --ssh -i
+    $_BASHDIR/ductn --cronjob -i
+    $_BASHDIR/ductn --httpd --config
+    $_BASHDIR/ductn --ssh -i
     # ./bash/ductn --update allowip
     # else
     # sudo mkdir -p /etc/auto.master.d/
@@ -50,14 +53,14 @@ if [ $_IS_SUDOER = "on" ] || [ "$(whoami)" = "ductn" ]; then
 fi
 
 if [ "$(whoami)" = "ductn" ]; then
-    ./ductn --hosts add 10.8.0.3 dx2
-    ./ductn --hosts add 10.8.0.2 dx1
-    ./ductn --hosts add 10.8.0.1 dx3
-    ./ductn --hosts add 10.8.0.10 vn11
-    ./ductn --hosts add 10.8.0.11 mg15
-    ./ductn --hosts add 10.8.0.12 mg15kt
+    $_BASHDIR/ductn --hosts add 10.8.0.3 dx2
+    $_BASHDIR/ductn --hosts add 10.8.0.2 dx1
+    $_BASHDIR/ductn --hosts add 10.8.0.1 dx3
+    $_BASHDIR/ductn --hosts add 10.8.0.10 vn11
+    $_BASHDIR/ductn --hosts add 10.8.0.11 mg15
+    $_BASHDIR/ductn --hosts add 10.8.0.12 mg15kt
 
-    ./ductn --hosts remove 10.8.0.2 dx1.diepxuan.com
-    ./ductn --hosts remove 10.8.0.3 dx2.diepxuan.com
-    ./ductn --hosts remove 10.8.0.1 dx3.diepxuan.com
+    $_BASHDIR/ductn --hosts remove 10.8.0.2 dx1.diepxuan.com
+    $_BASHDIR/ductn --hosts remove 10.8.0.3 dx2.diepxuan.com
+    $_BASHDIR/ductn --hosts remove 10.8.0.1 dx3.diepxuan.com
 fi

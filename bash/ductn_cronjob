@@ -1,18 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
---install() {
-    chmod u+x /var/www/base/bash/cronjob/*.sh
-    chmod u+x /var/www/base/bash/cronjob/cronjob
-    sudo crontab /var/www/base/bash/cronjob/cronjob.conf
-}
-
---reload() {
-    sudo service cron restart
-}
-
--i() {
-    --install
-}
+_BASEDIR="/var/www/base"
+_BASHDIR="$_BASEDIR/bash"
 
 service() {
     # Web Server
@@ -20,14 +9,10 @@ service() {
         sudo /usr/sbin/service apache2 start
     fi
     if [[ ! "$(sudo /usr/sbin/service mysql status)" =~ "start/running" ]]; then
-        sudo rm -rf /swapfile
-        sudo fallocate -l 2G /swapfile
-        sudo chmod 600 /swapfile
-        sudo mkswap /swapfile
-        sudo swapon /swapfile
+        $_BASHDIR/ductn --swap
         sudo /usr/sbin/service mysql start
     fi
-
+    exit 0
 }
 
 update() {
@@ -37,7 +22,6 @@ update() {
     }
 
     allowdomain() {
-
         if [ "$(whoami)" = "ductn" ]; then
             # sudo ufw allow proto tcp from "$(getip $@)" to any port 1433
             sudo ufw allow proto tcp from "$(getip $@)"
@@ -45,7 +29,6 @@ update() {
     }
 
     updateallowip() {
-
         allowdomain dxvnkthd.ddns.net
         allowdomain dxvnk113.ddns.net
         allowdomain dxvnkkcn.ddns.net
@@ -54,6 +37,14 @@ update() {
 
     $@
 
+    exit 0
+
 }
 
 $@
+
+chmod u+x $_BASHDIR/cronjob/*.sh
+chmod u+x $_BASHDIR/cronjob/cronjob
+sudo crontab $_BASHDIR/cronjob/cronjob.conf
+
+sudo service cron restart
