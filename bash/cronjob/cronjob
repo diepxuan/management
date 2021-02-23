@@ -1,3 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-ductn cron $@
+_BASEDIR="/var/www/base"
+_BASHDIR="$_BASEDIR/bash"
+
+$_BASHDIR/ductn --cron $@
