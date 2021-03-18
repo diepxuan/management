@@ -23,7 +23,7 @@
         cat ~/.ssh/authorized_keys | sudo tee /home/${1}/.ssh/authorized_keys >/dev/null
     fi
     sudo touch /home/${1}/.bash_aliases
-    echo ". /var/www/base/bash/.bash_aliases" >/home/${1}/.bash_aliases >/dev/null
+    echo ". /var/www/base/bash/.bash_aliases" | sudo tee /home/${1}/.bash_aliases >/dev/null
 
     sudo chmod 755 /home/${1}
     sudo chmod -R 600 /home/${1}/.ssh
