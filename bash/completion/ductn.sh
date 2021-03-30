@@ -32,6 +32,10 @@ _ductn()
             opts="${opts} --install --configure --pull --push"
             ;;
 
+            ssh)
+            opts="${opts} --install"
+            ;;
+
             setup:backup)
             opts="${opts} --code --media --db --magento-init-params"
             ;;
@@ -174,7 +178,7 @@ _ductn()
 
     # completing for a command
     if [[ $cur == $com ]]; then
-        coms="git ssl sys:init sys:init"
+        coms="git ssl ssh sys:init sys:init"
 
         COMPREPLY=($(compgen -W "${coms}" -- ${cur}))
         __ltrim_colon_completions "$cur"
