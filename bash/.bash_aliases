@@ -77,6 +77,16 @@ if ! shopt -oq posix; then
     fi
 fi
 
+# bash completion for the `ductn cli` command
+# ################################################################
+if ! shopt -oq posix; then
+    if [[ -f /var/www/base/bash/completion/ductn.sh ]]; then
+        . /var/www/base/bash/completion/ductn.sh
+    elif [[ -f $HOME/.completion/ductn.sh ]]; then
+        . $HOME/.completion/ductn.sh
+    fi
+fi
+
 if [[ -d "/var/www/base/bash" ]]; then
     if [ "$(whoami)" = "ductn" ]; then
         chmod +x /var/www/base/bash/*

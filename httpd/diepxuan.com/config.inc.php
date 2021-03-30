@@ -25,7 +25,7 @@ $cfg['AllowArbitraryServer'] = true;
 $i = 0;
 
 $servers = [
-    'dx1.diepxuan.com',
+    // 'dx1.diepxuan.com',
     'dx2.diepxuan.com',
     'dx3.diepxuan.com',
 ];

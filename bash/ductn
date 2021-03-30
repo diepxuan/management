@@ -171,7 +171,7 @@ composer() {
     --cronjob $@
 }
 
-log() {
+--log() {
     $_BASHDIR/ductn_log
 }
 
@@ -244,15 +244,11 @@ log() {
     echo "Cleaning is completed"
 }
 
-init() {
-    --init
-}
-
---init() {
+--sys:init() {
     $_BASHDIR/ductn_init
 }
 
-mysql-replicate() {
+--mysql-replicate() {
     _MYSQL_REPLICATE="on"
 
     while [ $# -gt 0 ]; do
@@ -277,22 +273,23 @@ mysql-replicate() {
 
 }
 
-pull() {
+--pull() {
     cd "$_BASEDIR"
     git fetch -ap
     git reset --hard origin/master
 }
 
-selfupdate() {
+--selfupdate() {
     $_BASHDIR/ductn pull
     $_BASHDIR/ductn init
 }
 
-self-update() {
-    selfupdate
+--self-update() {
+    --selfupdate
 }
 
-$@
+# $@
+"--$@"
 
 cd "$_BASEDIR"
 

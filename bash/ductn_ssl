@@ -6,14 +6,8 @@
     # sudo add-apt-repository ppa:certbot/certbot
     sudo apt update
     sudo apt install -y --purge --auto-remove python3-pip
-    sudo pip3 install certbot certbot-dns-cloudflare
-}
-
---upload() {
-    sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem"
-    sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem"
-    sudo cat /etc/letsencrypt/live/diepxuan.com/fullchain.pem | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/fullchain.pem"
-    sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem"
+    # sudo pip3 install certbot certbot-dns-cloudflare
+    sudo apt install -y --purge --auto-remove certbot python3-certbot-dns-cloudflare
 }
 
 --setup() {
@@ -60,6 +54,21 @@
     ssh $@ "sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem" | sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem
     ssh $@ "sudo cat /etc/letsencrypt/live/diepxuan.com/fullchain.pem" | sudo tee /etc/letsencrypt/live/diepxuan.com/fullchain.pem
     ssh $@ "sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem" | sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem
+}
+
+--push() {
+    sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem"
+    sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem"
+    sudo cat /etc/letsencrypt/live/diepxuan.com/fullchain.pem | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/fullchain.pem"
+    sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem"
+}
+
+--upload() {
+    --push
+}
+
+--configure() {
+    --setup
 }
 
 $@
