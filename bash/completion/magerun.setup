@@ -7,8 +7,7 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-header()
-{
+header() {
     cat <<EOF
 #!/bin/bash
 # Installation:
@@ -28,10 +27,10 @@ outfile=/var/www/base/bash/completion/magerun.sh
 
 echo "creating magerun1 bash autocomplete file (this takes a little moment) ..."
 
-header > "${outfile}"
-symfony-autocomplete -- "${base}" \
-  | sed '1d ; $ s/$/.phar '"${name} ${base}"'/' \
-  >> "${outfile}"
+header >"${outfile}"
+symfony-autocomplete -- "${base}" |
+    sed '1d ; $ s/$/.phar '"${name} ${base}"'/' \
+        >>"${outfile}"
 # sed: remove first line and expand last line to more command names (aliases)
 
 echo "updated \"${outfile}\"."

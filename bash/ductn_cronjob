@@ -33,18 +33,31 @@ update() {
         allowdomain dxvnk113.ddns.net
         allowdomain dxvnkkcn.ddns.net
         allowdomain mg15vincom.ddns.net
+
+        exit 0
     }
 
     $@
+    updateallowip
 
     exit 0
 
 }
 
+--service() {
+    service
+}
+
+--update() {
+    update
+}
+
+if [ "$(whoami)" = "ductn" ]; then
+    chmod u+x $_BASHDIR/cronjob/*.sh
+    chmod u+x $_BASHDIR/cronjob/cronjob
+    crontab $_BASHDIR/cronjob/cronjob.conf
+fi
+
 $@
 
-chmod u+x $_BASHDIR/cronjob/*.sh
-chmod u+x $_BASHDIR/cronjob/cronjob
-crontab $_BASHDIR/cronjob/cronjob.conf
-
-sudo service cron restart
+# sudo service cron restart

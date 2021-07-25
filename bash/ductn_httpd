@@ -45,9 +45,6 @@
     sudo ln /var/www/base/httpd/diepxuan.com/config.inc.php /home/pma/public_html/
     sudo chmod -R 777 /home/pma/public_html/tmp
 
-    sudo mkdir -p /home/cloud/public_html/cloud
-    sudo chmod -R 777 /home/cloud/public_html/cloud
-
     sudo chown -R :www-data /home/*/public_html/
 }
 
