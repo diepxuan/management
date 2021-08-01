@@ -41,6 +41,11 @@ foreach ( $servers as $key => $server ) {
     // $cfg['Servers'][ $i ]['password']  = 'ductn@123';
     /* Server parameters */
     $cfg['Servers'][ $i ]['host']            = $server;
+    $cfg['Servers'][ $i ]['ssl']             = true;
+    $cfg['Servers'][ $i ]['ssl_key']         = '/etc/mysql/certs/client-key.pem';
+    $cfg['Servers'][ $i ]['ssl_cert']        = '/etc/mysql/certs/client-cert.pem';
+    $cfg['Servers'][ $i ]['ssl_ca']          = '/etc/mysql/certs/ca-cert.pem';
+    $cfg['Servers'][ $i ]['ssl_verify']      = true;
     $cfg['Servers'][ $i ]['compress']        = false;
     $cfg['Servers'][ $i ]['AllowNoPassword'] = false;
 
