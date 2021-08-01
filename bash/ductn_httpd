@@ -4,9 +4,6 @@
 --install() {
     #!/usr/bin/env bash
 
-    # sudo apt-get install libapache2-mpm-itk
-    # sudo a2enmod mpm_itk
-
     # CREATE ductn SITE
     ###################
     #shellcheck disable=SC2002
@@ -25,7 +22,12 @@
     #####################
     sudo a2ensite ductn.conf
     # sudo a2dismod mpm_prefork mpm_worker mpm_event
+
+    # sudo apt-get install libapache2-mpm-itk
+    # sudo a2enmod mpm_itk
+
     sudo a2enmod proxy proxy_http headers deflate expires rewrite mcrypt reqtimeout vhost_alias ssl env dir mime &>/dev/null
+
     # sudo a2dismod php?.?
     # sudo a2enmod php7.1
 
@@ -48,4 +50,4 @@
     sudo chown -R :www-data /home/*/public_html/
 }
 
-$@
+"--$@"

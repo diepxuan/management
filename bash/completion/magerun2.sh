@@ -79,12 +79,36 @@ _magerun2()
             opts="${opts} --activate --deactivate"
             ;;
 
+            admin:user:create)
+            opts="${opts} --admin-user --admin-password --admin-email --admin-firstname --admin-lastname --magento-init-params"
+            ;;
+
             admin:user:delete)
             opts="${opts} --force"
             ;;
 
             admin:user:list)
             opts="${opts} --format"
+            ;;
+
+            admin:user:unlock)
+            opts="${opts} "
+            ;;
+
+            app:config:dump)
+            opts="${opts} "
+            ;;
+
+            app:config:import)
+            opts="${opts} "
+            ;;
+
+            app:config:status)
+            opts="${opts} "
+            ;;
+
+            braintree:migrate)
+            opts="${opts} --host --dbname --username --password"
             ;;
 
             cache:clean)
@@ -111,8 +135,20 @@ _magerun2()
             opts="${opts} --fpc --tags --mtime --filter-id --filter-tag --format"
             ;;
 
+            cache:status)
+            opts="${opts} --bootstrap"
+            ;;
+
             cache:view)
             opts="${opts} --fpc --unserialize"
+            ;;
+
+            catalog:images:resize)
+            opts="${opts} --async"
+            ;;
+
+            catalog:product:attributes:cleanup)
+            opts="${opts} "
             ;;
 
             cms:block:toggle)
@@ -139,6 +175,18 @@ _magerun2()
             opts="${opts} --format"
             ;;
 
+            config:sensitive:set)
+            opts="${opts} --interactive --scope --scope-code"
+            ;;
+
+            config:set)
+            opts="${opts} --scope --scope-code --lock-env --lock-config --lock"
+            ;;
+
+            config:show)
+            opts="${opts} --scope --scope-code"
+            ;;
+
             config:store:delete)
             opts="${opts} --scope --scope-id --all"
             ;;
@@ -151,12 +199,28 @@ _magerun2()
             opts="${opts} --scope --scope-id --encrypt --no-null"
             ;;
 
+            cron:install)
+            opts="${opts} --force --non-optional"
+            ;;
+
+            cron:remove)
+            opts="${opts} "
+            ;;
+
+            cron:run)
+            opts="${opts} --group --bootstrap"
+            ;;
+
             customer:change-password)
             opts="${opts} "
             ;;
 
             customer:create)
             opts="${opts} --format"
+            ;;
+
+            customer:hash:upgrade)
+            opts="${opts} "
             ;;
 
             customer:info)
@@ -215,6 +279,14 @@ _magerun2()
             opts="${opts} --connection --format --rounding --no-description"
             ;;
 
+            deploy:mode:set)
+            opts="${opts} --skip-compilation"
+            ;;
+
+            deploy:mode:show)
+            opts="${opts} "
+            ;;
+
             design:demo-notice)
             opts="${opts} --on --off --global"
             ;;
@@ -225,6 +297,10 @@ _magerun2()
 
             dev:console)
             opts="${opts} --area"
+            ;;
+
+            dev:di:info)
+            opts="${opts} "
             ;;
 
             dev:module:create)
@@ -239,8 +315,28 @@ _magerun2()
             opts="${opts} --format --sort"
             ;;
 
+            dev:profiler:disable)
+            opts="${opts} "
+            ;;
+
+            dev:profiler:enable)
+            opts="${opts} "
+            ;;
+
+            dev:query-log:disable)
+            opts="${opts} "
+            ;;
+
+            dev:query-log:enable)
+            opts="${opts} --include-all-queries --query-time-threshold --include-call-stack"
+            ;;
+
             dev:report:count)
             opts="${opts} "
+            ;;
+
+            dev:source-theme:deploy)
+            opts="${opts} --type --locale --area --theme"
             ;;
 
             dev:symlinks)
@@ -255,8 +351,60 @@ _magerun2()
             opts="${opts} --on --off"
             ;;
 
+            dev:template-hints:disable)
+            opts="${opts} "
+            ;;
+
+            dev:template-hints:enable)
+            opts="${opts} "
+            ;;
+
+            dev:template-hints:status)
+            opts="${opts} "
+            ;;
+
+            dev:tests:run)
+            opts="${opts} --arguments"
+            ;;
+
             dev:theme:list)
             opts="${opts} --format"
+            ;;
+
+            dev:urn-catalog:generate)
+            opts="${opts} --ide"
+            ;;
+
+            dev:xml:convert)
+            opts="${opts} --overwrite"
+            ;;
+
+            dotdigital:connector:automap)
+            opts="${opts} "
+            ;;
+
+            dotdigital:connector:enable)
+            opts="${opts} --username --password --automap-datafields --enable-syncs --remove-ip-restriction --enable-email-capture"
+            ;;
+
+            dotdigital:migrate)
+            opts="${opts} "
+            ;;
+
+            dotdigital:sync)
+            opts="${opts} --from"
+            ;;
+
+            downloadable:domains:add)
+            opts="${opts} "
+            ;;
+
+            downloadable:domains:remove)
+            opts="${opts} "
+            ;;
+
+            downloadable:domains:show)
+            opts="${opts} "
             ;;
 
             eav:attribute:list)
@@ -271,8 +419,24 @@ _magerun2()
             opts="${opts} --format"
             ;;
 
+            encryption:payment-data:update)
+            opts="${opts} "
+            ;;
+
             generation:flush)
             opts="${opts} "
+            ;;
+
+            i18n:collect-phrases)
+            opts="${opts} --output --magento"
+            ;;
+
+            i18n:pack)
+            opts="${opts} --mode --allow-duplicates"
+            ;;
+
+            i18n:uninstall)
+            opts="${opts} --backup-code"
             ;;
 
             index:list)
@@ -280,6 +444,70 @@ _magerun2()
             ;;
 
             index:trigger:recreate)
+            opts="${opts} "
+            ;;
+
+            indexer:info)
+            opts="${opts} "
+            ;;
+
+            indexer:reindex)
+            opts="${opts} "
+            ;;
+
+            indexer:reset)
+            opts="${opts} "
+            ;;
+
+            indexer:set-dimensions-mode)
+            opts="${opts} "
+            ;;
+
+            indexer:set-mode)
+            opts="${opts} "
+            ;;
+
+            indexer:show-dimensions-mode)
+            opts="${opts} "
+            ;;
+
+            indexer:show-mode)
+            opts="${opts} "
+            ;;
+
+            indexer:status)
+            opts="${opts} "
+            ;;
+
+            info:adminuri)
+            opts="${opts} "
+            ;;
+
+            info:backups:list)
+            opts="${opts} "
+            ;;
+
+            info:currency:list)
+            opts="${opts} "
+            ;;
+
+            info:dependencies:show-framework)
+            opts="${opts} --output"
+            ;;
+
+            info:dependencies:show-modules)
+            opts="${opts} --output"
+            ;;
+
+            info:dependencies:show-modules-circular)
+            opts="${opts} --output"
+            ;;
+
+            info:language:list)
+            opts="${opts} "
+            ;;
+
+            info:timezone:list)
             opts="${opts} "
             ;;
 
@@ -299,8 +527,88 @@ _magerun2()
             opts="${opts} "
             ;;
 
+            inventory:reservation:create-compensations)
+            opts="${opts} --raw"
+            ;;
+
+            inventory:reservation:list-inconsistencies)
+            opts="${opts} --complete-orders --incomplete-orders --bunch-size --raw"
+            ;;
+
+            inventory-geonames:import)
+            opts="${opts} "
+            ;;
+
+            maintenance:allow-ips)
+            opts="${opts} --none --add --magento-init-params"
+            ;;
+
+            maintenance:disable)
+            opts="${opts} --ip --magento-init-params"
+            ;;
+
+            maintenance:enable)
+            opts="${opts} --ip --magento-init-params"
+            ;;
+
+            maintenance:status)
+            opts="${opts} --magento-init-params"
+            ;;
+
             media:dump)
             opts="${opts} --strip"
+            ;;
+
+            media-content:sync)
+            opts="${opts} "
+            ;;
+
+            media-gallery:sync)
+            opts="${opts} "
+            ;;
+
+            module:config:status)
+            opts="${opts} "
+            ;;
+
+            module:disable)
+            opts="${opts} --force --all --clear-static-content --magento-init-params"
+            ;;
+
+            module:enable)
+            opts="${opts} --force --all --clear-static-content --magento-init-params"
+            ;;
+
+            module:status)
+            opts="${opts} --enabled --disabled --magento-init-params"
+            ;;
+
+            module:uninstall)
+            opts="${opts} --remove-data --backup-code --backup-media --backup-db --non-composer --clear-static-content --magento-init-params"
+            ;;
+
+            newrelic:create:deploy-marker)
+            opts="${opts} "
+            ;;
+
+            queue:consumers:list)
+            opts="${opts} "
+            ;;
+
+            queue:consumers:start)
+            opts="${opts} --max-messages --batch-size --area-code --single-thread --pid-file-path"
+            ;;
+
+            sampledata:deploy)
+            opts="${opts} --no-update"
+            ;;
+
+            sampledata:remove)
+            opts="${opts} --no-update"
+            ;;
+
+            sampledata:reset)
+            opts="${opts} "
             ;;
 
             script:repo:list)
@@ -313,6 +621,82 @@ _magerun2()
 
             search:engine:list)
             opts="${opts} --format"
+            ;;
+
+            security:recaptcha:disable-for-user-forgot-password)
+            opts="${opts} "
+            ;;
+
+            security:recaptcha:disable-for-user-login)
+            opts="${opts} "
+            ;;
+
+            setup:backup)
+            opts="${opts} --code --media --db --magento-init-params"
+            ;;
+
+            setup:config:set)
+            opts="${opts} --backend-frontname --enable-debug-logging --enable-syslog-logging --amqp-host --amqp-port --amqp-user --amqp-password --amqp-virtualhost --amqp-ssl --amqp-ssl-options --consumers-wait-for-messages --key --db-host --db-name --db-user --db-engine --db-password --db-prefix --db-model --db-init-statements --skip-db-validation --http-cache-hosts --db-ssl-key --db-ssl-cert --db-ssl-ca --db-ssl-verify --session-save --session-save-redis-host --session-save-redis-port --session-save-redis-password --session-save-redis-timeout --session-save-redis-persistent-id --session-save-redis-db --session-save-redis-compression-threshold --session-save-redis-compression-lib --session-save-redis-log-level --session-save-redis-max-concurrency --session-save-redis-break-after-frontend --session-save-redis-break-after-adminhtml --session-save-redis-first-lifetime --session-save-redis-bot-first-lifetime --session-save-redis-bot-lifetime --session-save-redis-disable-locking --session-save-redis-min-lifetime --session-save-redis-max-lifetime --session-save-redis-sentinel-master --session-save-redis-sentinel-servers --session-save-redis-sentinel-verify-master --session-save-redis-sentinel-connect-retires --cache-backend --cache-backend-redis-server --cache-backend-redis-db --cache-backend-redis-port --cache-backend-redis-password --cache-backend-redis-compress-data --cache-backend-redis-compression-lib --cache-id-prefix --allow-parallel-generation --page-cache --page-cache-redis-server --page-cache-redis-db --page-cache-redis-port --page-cache-redis-password --page-cache-redis-compress-data --page-cache-redis-compression-lib --page-cache-id-prefix --lock-provider --lock-db-prefix --lock-zookeeper-host --lock-zookeeper-path --lock-file-path --document-root-is-pub --magento-init-params"
+            ;;
+
+            setup:db-data:upgrade)
+            opts="${opts} --magento-init-params"
+            ;;
+
+            setup:db-declaration:generate-patch)
+            opts="${opts} --revertable --type"
+            ;;
+
+            setup:db-declaration:generate-whitelist)
+            opts="${opts} --module-name"
+            ;;
+
+            setup:db-schema:upgrade)
+            opts="${opts} --convert-old-scripts --magento-init-params"
+            ;;
+
+            setup:db:status)
+            opts="${opts} --magento-init-params"
+            ;;
+
+            setup:di:compile)
+            opts="${opts} "
+            ;;
+
+            setup:install)
+            opts="${opts} --backend-frontname --enable-debug-logging --enable-syslog-logging --amqp-host --amqp-port --amqp-user --amqp-password --amqp-virtualhost --amqp-ssl --amqp-ssl-options --consumers-wait-for-messages --key --db-host --db-name --db-user --db-engine --db-password --db-prefix --db-model --db-init-statements --skip-db-validation --http-cache-hosts --db-ssl-key --db-ssl-cert --db-ssl-ca --db-ssl-verify --session-save --session-save-redis-host --session-save-redis-port --session-save-redis-password --session-save-redis-timeout --session-save-redis-persistent-id --session-save-redis-db --session-save-redis-compression-threshold --session-save-redis-compression-lib --session-save-redis-log-level --session-save-redis-max-concurrency --session-save-redis-break-after-frontend --session-save-redis-break-after-adminhtml --session-save-redis-first-lifetime --session-save-redis-bot-first-lifetime --session-save-redis-bot-lifetime --session-save-redis-disable-locking --session-save-redis-min-lifetime --session-save-redis-max-lifetime --session-save-redis-sentinel-master --session-save-redis-sentinel-servers --session-save-redis-sentinel-verify-master --session-save-redis-sentinel-connect-retires --cache-backend --cache-backend-redis-server --cache-backend-redis-db --cache-backend-redis-port --cache-backend-redis-password --cache-backend-redis-compress-data --cache-backend-redis-compression-lib --cache-id-prefix --allow-parallel-generation --page-cache --page-cache-redis-server --page-cache-redis-db --page-cache-redis-port --page-cache-redis-password --page-cache-redis-compress-data --page-cache-redis-compression-lib --page-cache-id-prefix --lock-provider --lock-db-prefix --lock-zookeeper-host --lock-zookeeper-path --lock-file-path --document-root-is-pub --base-url --language --timezone --currency --use-rewrites --use-secure --base-url-secure --use-secure-admin --admin-use-security-key --admin-user --admin-password --admin-email --admin-firstname --admin-lastname --search-engine --elasticsearch-host --elasticsearch-port --elasticsearch-enable-auth --elasticsearch-username --elasticsearch-password --elasticsearch-index-prefix --elasticsearch-timeout --cleanup-database --sales-order-increment-prefix --use-sample-data --enable-modules --disable-modules --convert-old-scripts --interactive --safe-mode --data-restore --dry-run --magento-init-params"
+            ;;
+
+            setup:performance:generate-fixtures)
+            opts="${opts} --skip-reindex"
+            ;;
+
+            setup:rollback)
+            opts="${opts} --code-file --media-file --db-file --magento-init-params"
+            ;;
+
+            setup:static-content:deploy)
+            opts="${opts} --force --strategy --area --exclude-area --theme --exclude-theme --language --exclude-language --jobs --max-execution-time --symlink-locale --content-version --refresh-content-version-only --no-javascript --no-js-bundle --no-css --no-less --no-images --no-fonts --no-html --no-misc --no-html-minify"
+            ;;
+
+            setup:store-config:set)
+            opts="${opts} --base-url --language --timezone --currency --use-rewrites --use-secure --base-url-secure --use-secure-admin --admin-use-security-key --magento-init-params"
+            ;;
+
+            setup:uninstall)
+            opts="${opts} --magento-init-params"
+            ;;
+
+            setup:upgrade)
+            opts="${opts} --keep-generated --convert-old-scripts --safe-mode --data-restore --dry-run --magento-init-params"
+            ;;
+
+            store:list)
+            opts="${opts} "
+            ;;
+
+            store:website:list)
+            opts="${opts} "
             ;;
 
             sys:check)
@@ -371,6 +755,26 @@ _magerun2()
             opts="${opts} --format"
             ;;
 
+            theme:uninstall)
+            opts="${opts} --backup-code --clear-static-content"
+            ;;
+
+            varnish:vcl:generate)
+            opts="${opts} --access-list --backend-host --backend-port --export-version --grace-period --output-file"
+            ;;
+
+            yotpo:reset)
+            opts="${opts} --entity"
+            ;;
+
+            yotpo:sync)
+            opts="${opts} --entity --limit"
+            ;;
+
+            yotpo:update-metadata)
+            opts="${opts} "
+            ;;
+
         esac
 
         COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
@@ -381,7 +785,7 @@ _magerun2()
 
     # completing for a command
     if [[ $cur == $com ]]; then
-        coms="help install list open-browser script self-update shell admin:notifications admin:token:create admin:user:change-password admin:user:change-status admin:user:delete admin:user:list cache:clean cache:disable cache:enable cache:flush cache:list cache:report cache:view cms:block:toggle config:data:acl config:data:di config:env:create config:env:set config:env:show config:store:delete config:store:get config:store:set customer:change-password customer:create customer:info customer:list customer:token:create db:add-default-authorization-entries db:console db:create db:drop db:dump db:import db:info db:maintain:check-tables db:query db:status db:variables design:demo-notice dev:asset:clear dev:console dev:module:create dev:module:list dev:module:observer:list dev:report:count dev:symlinks dev:template-hints dev:template-hints-blocks dev:theme:list eav:attribute:list eav:attribute:remove eav:attribute:view generation:flush index:list index:trigger:recreate integration:create integration:delete integration:list integration:show media:dump script:repo:list script:repo:run search:engine:list sys:check sys:cron:history sys:cron:list sys:cron:run sys:cron:schedule sys:info sys:maintenance sys:setup:change-version sys:setup:compare-versions sys:setup:downgrade-versions sys:store:config:base-url:list sys:store:list sys:url:list sys:website:list"
+        coms="help install list open-browser script self-update shell admin:notifications admin:token:create admin:user:change-password admin:user:change-status admin:user:create admin:user:delete admin:user:list admin:user:unlock app:config:dump app:config:import app:config:status braintree:migrate cache:clean cache:disable cache:enable cache:flush cache:list cache:report cache:status cache:view catalog:images:resize catalog:product:attributes:cleanup cms:block:toggle config:data:acl config:data:di config:env:create config:env:set config:env:show config:sensitive:set config:set config:show config:store:delete config:store:get config:store:set cron:install cron:remove cron:run customer:change-password customer:create customer:hash:upgrade customer:info customer:list customer:token:create db:add-default-authorization-entries db:console db:create db:drop db:dump db:import db:info db:maintain:check-tables db:query db:status db:variables deploy:mode:set deploy:mode:show design:demo-notice dev:asset:clear dev:console dev:di:info dev:module:create dev:module:list dev:module:observer:list dev:profiler:disable dev:profiler:enable dev:query-log:disable dev:query-log:enable dev:report:count dev:source-theme:deploy dev:symlinks dev:template-hints dev:template-hints-blocks dev:template-hints:disable dev:template-hints:enable dev:template-hints:status dev:tests:run dev:theme:list dev:urn-catalog:generate dev:xml:convert dotdigital:connector:automap dotdigital:connector:enable dotdigital:migrate dotdigital:sync downloadable:domains:add downloadable:domains:remove downloadable:domains:show eav:attribute:list eav:attribute:remove eav:attribute:view encryption:payment-data:update generation:flush i18n:collect-phrases i18n:pack i18n:uninstall index:list index:trigger:recreate indexer:info indexer:reindex indexer:reset indexer:set-dimensions-mode indexer:set-mode indexer:show-dimensions-mode indexer:show-mode indexer:status info:adminuri info:backups:list info:currency:list info:dependencies:show-framework info:dependencies:show-modules info:dependencies:show-modules-circular info:language:list info:timezone:list integration:create integration:delete integration:list integration:show inventory:reservation:create-compensations inventory:reservation:list-inconsistencies inventory-geonames:import maintenance:allow-ips maintenance:disable maintenance:enable maintenance:status media:dump media-content:sync media-gallery:sync module:config:status module:disable module:enable module:status module:uninstall newrelic:create:deploy-marker queue:consumers:list queue:consumers:start sampledata:deploy sampledata:remove sampledata:reset script:repo:list script:repo:run search:engine:list security:recaptcha:disable-for-user-forgot-password security:recaptcha:disable-for-user-login setup:backup setup:config:set setup:db-data:upgrade setup:db-declaration:generate-patch setup:db-declaration:generate-whitelist setup:db-schema:upgrade setup:db:status setup:di:compile setup:install setup:performance:generate-fixtures setup:rollback setup:static-content:deploy setup:store-config:set setup:uninstall setup:upgrade store:list store:website:list sys:check sys:cron:history sys:cron:list sys:cron:run sys:cron:schedule sys:info sys:maintenance sys:setup:change-version sys:setup:compare-versions sys:setup:downgrade-versions sys:store:config:base-url:list sys:store:list sys:url:list sys:website:list theme:uninstall varnish:vcl:generate yotpo:reset yotpo:sync yotpo:update-metadata"
 
         COMPREPLY=($(compgen -W "${coms}" -- ${cur}))
         __ltrim_colon_completions "$cur"

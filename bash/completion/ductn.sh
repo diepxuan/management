@@ -43,8 +43,12 @@ _ductn() {
             opts="${opts} --install"
             ;;
 
-        setup:backup)
-            opts="${opts} --code --media --db --magento-init-params"
+        httpd:install)
+            opts="${opts}"
+            ;;
+
+        httpd:config)
+            opts="${opts}"
             ;;
 
         setup:config:set)
@@ -189,7 +193,7 @@ _ductn() {
 
     # completing for a command
     if [[ $cur == $com ]]; then
-        coms="apt:fix git ssl ssh sys:init self-update user:new"
+        coms="apt:fix git ssl ssh sys:init self-update user:new httpd:install httpd:config"
 
         COMPREPLY=($(compgen -W "${coms}" -- ${cur}))
         __ltrim_colon_completions "$cur"

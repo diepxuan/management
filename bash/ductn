@@ -10,16 +10,20 @@ _DEBUG=0
 _BASEDIR="/var/www/base"
 _BASHDIR="$_BASEDIR/bash"
 
---httpd() {
-    $_BASEDIR/bash/ductn_httpd $@
+--httpd:install() {
+    $_BASHDIR/ductn_httpd install
+}
+
+--httpd:config() {
+    $_BASHDIR/ductn_httpd config
 }
 
 --swap() {
-    $_BASEDIR/bash/ductn_swap $@
+    $_BASHDIR/ductn_swap $@
 }
 
 --mysql() {
-    $_BASEDIR/bash/ductn_mysql $@
+    $_BASHDIR/ductn_mysql $@
 }
 
 mysql-galera() {
