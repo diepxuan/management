@@ -22,8 +22,8 @@ _BASHDIR="$_BASEDIR/bash"
     $_BASHDIR/ductn_swap $@
 }
 
---mysql() {
-    $_BASHDIR/ductn_mysql $@
+--mysql:ssl:enable() {
+    $_BASHDIR/ductn_mysql ssl:enable
 }
 
 mysql-galera() {
