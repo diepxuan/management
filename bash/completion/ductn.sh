@@ -51,8 +51,8 @@ _ductn() {
             opts="${opts}"
             ;;
 
-        setup:config:set)
-            opts="${opts} --backend-frontname --key --db-host --db-name --db-user --db-engine --db-password --db-prefix --db-model --db-init-statements --skip-db-validation --http-cache-hosts --session-save --session-save-redis-host --session-save-redis-port --session-save-redis-password --session-save-redis-timeout --session-save-redis-persistent-id --session-save-redis-db --session-save-redis-compression-threshold --session-save-redis-compression-lib --session-save-redis-log-level --session-save-redis-max-concurrency --session-save-redis-break-after-frontend --session-save-redis-break-after-adminhtml --session-save-redis-first-lifetime --session-save-redis-bot-first-lifetime --session-save-redis-bot-lifetime --session-save-redis-disable-locking --session-save-redis-min-lifetime --session-save-redis-max-lifetime --cache-backend --cache-backend-redis-server --cache-backend-redis-db --cache-backend-redis-port --page-cache --page-cache-redis-server --page-cache-redis-db --page-cache-redis-port --page-cache-redis-compress-data --magento-init-params"
+        mysql:ssl:enable)
+            opts="${opts}"
             ;;
 
         setup:cron:run)
@@ -193,7 +193,7 @@ _ductn() {
 
     # completing for a command
     if [[ $cur == $com ]]; then
-        coms="apt:fix git ssl ssh sys:init self-update user:new httpd:install httpd:config"
+        coms="apt:fix git ssl ssh sys:init self-update user:new httpd:install httpd:config mysql:ssl:enable"
 
         COMPREPLY=($(compgen -W "${coms}" -- ${cur}))
         __ltrim_colon_completions "$cur"
