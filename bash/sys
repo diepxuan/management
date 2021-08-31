@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+_BASEDIR="/var/www/base"
+_BASHDIR="$_BASEDIR/bash"
+
+. $_BASHDIR/sysddnsallow
