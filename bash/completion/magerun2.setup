@@ -8,7 +8,7 @@ set -euo pipefail
 IFS=$'\n\t'
 
 header() {
-  cat <<EOF
+    cat <<EOF
 #!/bin/bash
 # Installation:
 #  Copy to /etc/bash_completion.d/n98-magerun.phar
@@ -16,8 +16,8 @@ header() {
 #  Append to ~/.bash_completion
 # open new or restart existing shell session
 
-# alias m2setupcli="curl -O https://files.magerun.net/n98-magerun2.phar && chmod +x n98-magerun2.phar && mkdir -p ~/bin && mv n98-magerun2.phar ~/bin/magerun2"
-alias m2setupcli="curl -O https://files.magerun.net/n98-magerun2.phar && chmod +x n98-magerun2.phar && sudo mv n98-magerun2.phar /usr/local/bin/magerun2"
+alias m2setupcli="curl -O https://files.magerun.net/n98-magerun2.phar && chmod +x n98-magerun2.phar && mkdir -p ~/bin && mv n98-magerun2.phar ~/bin/magerun2"
+# alias m2setupcli="curl -O https://files.magerun.net/n98-magerun2.phar && chmod +x n98-magerun2.phar && sudo mv n98-magerun2.phar /usr/local/bin/magerun2"
 
 EOF
 }

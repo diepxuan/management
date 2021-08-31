@@ -25,22 +25,27 @@ $cfg['AllowArbitraryServer'] = true;
 $i = 0;
 
 $servers = [
-    'dx1.diepxuan.com',
-    'dx2.diepxuan.com',
+    // 'dx1.diepxuan.com',
+    // 'dx2.diepxuan.com',
     'dx3.diepxuan.com',
 ];
 
 /**
  * Initial server
  */
-foreach ( $servers as $server ) {
-    $i ++;
+foreach ( $servers as $key => $server ) {
+    $i = $key + 1;
     /* Authentication type */
-    $cfg['Servers'][ $i ]['auth_type'] = 'config';
-    $cfg['Servers'][ $i ]['user']      = 'sa';
-    $cfg['Servers'][ $i ]['password']  = 'ductn@123';
+    $cfg['Servers'][ $i ]['auth_type'] = 'http';
+    // $cfg['Servers'][ $i ]['user']      = 'sa';
+    // $cfg['Servers'][ $i ]['password']  = 'ductn@123';
     /* Server parameters */
     $cfg['Servers'][ $i ]['host']            = $server;
+    $cfg['Servers'][ $i ]['ssl']             = true;
+    $cfg['Servers'][ $i ]['ssl_key']         = '/etc/mysql/certs/client-key.pem';
+    $cfg['Servers'][ $i ]['ssl_cert']        = '/etc/mysql/certs/client-cert.pem';
+    $cfg['Servers'][ $i ]['ssl_ca']          = '/etc/mysql/certs/ca-cert.pem';
+    $cfg['Servers'][ $i ]['ssl_verify']      = true;
     $cfg['Servers'][ $i ]['compress']        = false;
     $cfg['Servers'][ $i ]['AllowNoPassword'] = false;
 

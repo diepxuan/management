@@ -46,6 +46,10 @@
     --install
 }
 
+--configure() {
+    --install
+}
+
 --server() {
     echo "server update"
     cat /var/www/base/bash/git/post-receive >.git/hooks/post-receive

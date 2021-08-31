@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+--log:watch() {
+    ssh dx3.diepxuan.com "sudo tail -f /var/log/syslog" &
+    ssh dx1.diepxuan.com "sudo tail -f /var/log/syslog"
+}
+
+--log:cleanup() {
+
+    # #!/bin/sh
+    # if [ -d "/var/opt/mssql/log" ]; then
+    #     sudo find /var/opt/mssql/log -type f -regex ".*\.gz$" -delete
+    #     sudo find /var/opt/mssql/log -type f -regex ".*\.[0-9]$" -delete
+    #     logs=$(sudo find /var/opt/mssql/log -type f)
+    #     for i in $logs; do
+    #         sudo truncate -s 0 $i
+    #     done
+    # fi
+
+    #!/bin/sh
+
+    # Check the Drive Space Used by Cached Files
+    # du -sh /var/cache/apt/archives
+
+    # Clean all the log file
+    # for logs in `find /var/log -type f`;  do > $logs; done
+
+    logs=$(sudo find /var/log /var/opt/mssql/log -type f)
+    for i in $logs; do
+        sudo truncate -s 0 $i
+    done
+
+    #Getting rid of partial packages
+    # sudo apt-get clean && sudo apt-get autoclean
+    # apt-get remove --purge -y software-properties-common
+
+    #Getting rid of no longer required packages
+    # sudo apt-get autoremove -y
+
+    #Getting rid of orphaned packages
+    # deborphan | xargs sudo apt-get -y remove --purge
+
+    #Free up space by clean out the cached packages
+    # apt-get clean
+
+    # Remove the Trash
+    sudo rm -rf /home/*/.local/share/Trash/*/**
+    sudo rm -rf /root/.local/share/Trash/*/**
+
+    # Remove Man
+    sudo rm -rf /usr/share/man/??
+    sudo rm -rf /usr/share/man/??_*
+
+    #Delete all .gz and rotated file
+    # sudo find /var/log -type f -regex ".*\.gz$" | xargs sudo rm -Rf
+    # sudo find /var/log -type f -regex ".*\.[0-9]$" | xargs sudo rm -Rf
+    sudo find /var/log /var/opt/mssql/log -type f -regex ".*\.gz$" -delete
+    sudo find /var/log /var/opt/mssql/log -type f -regex ".*\.[0-9]$" -delete
+
+    #Cleaning the old kernels
+    # dpkg-query -l|grep linux-im*
+    #dpkg-query -l |grep linux-im*|awk '{print $2}'
+    # apt-get purge $(dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | head -n -1) --assume-yes
+    # apt-get install linux-headers-`uname -r|cut -d'-' -f3`-`uname -r|cut -d'-' -f4`
+
+    #Cleaning is completed
+    echo "Cleaning is completed"
+}

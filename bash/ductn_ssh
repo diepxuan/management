@@ -30,29 +30,35 @@
 # Setup
 # ##############################
 mkdir -p ~/.ssh
-# ssh config
-cat /var/www/base/ssh/config >~/.ssh/config
-printf "\n\n" >>~/.ssh/config
-find /var/www/base/ssh/config.d/*.conf -type f -exec cat {} \; -exec printf "\n\n" \; >>~/.ssh/config
+--install() {
+    # ssh config
+    cat /var/www/base/ssh/config >~/.ssh/config
+    printf "\n\n" >>~/.ssh/config
+    find /var/www/base/ssh/config.d/*.conf -type f -exec cat {} \; -exec printf "\n\n" \; >>~/.ssh/config
 
-# ssh private key
-cat /var/www/base/ssh/id_rsa >~/.ssh/id_rsa
-# cat /var/www/base/ssh/gss > ~/.ssh/gss
-# cat /var/www/base/ssh/tci > ~/.ssh/tci
-# cat /var/www/base/ssh/gem > ~/.ssh/gem
+    # ssh private key
+    cat /var/www/base/ssh/id_rsa >~/.ssh/id_rsa
+    # cat /var/www/base/ssh/gss > ~/.ssh/gss
+    # cat /var/www/base/ssh/tci > ~/.ssh/tci
+    # cat /var/www/base/ssh/gem > ~/.ssh/gem
 
-chmod 700 ~/.ssh
-chmod 600 ~/.ssh/*
+    # ssh public key
+    ssh-keygen -f ~/.ssh/id_rsa -y >~/.ssh/id_rsa.pub
+    # ssh-keygen -f ~/.ssh/gss -y > ~/.ssh/gss.pub
+    # ssh-keygen -f ~/.ssh/tci -y > ~/.ssh/tci.pub
+    # ssh-keygen -f ~/.ssh/gem -y > ~/.ssh/gem.pub
 
-ssh-keygen -f ~/.ssh/id_rsa -y >~/.ssh/id_rsa.pub
-# ssh-keygen -f ~/.ssh/gss -y > ~/.ssh/gss.pub
-# ssh-keygen -f ~/.ssh/tci -y > ~/.ssh/tci.pub
-# ssh-keygen -f ~/.ssh/gem -y > ~/.ssh/gem.pub
+    # ssh-copy-id user@123.45.56.78
 
-# ssh-copy-id user@123.45.56.78
+    # cat /var/www/base/ssh/id_rsa        | ssh dx1.diepxuan.com "cat > ~/.ssh/id_rsa"
+    # cat /var/www/base/ssh/id_rsa.pub    | ssh dx1.diepxuan.com "cat > ~/.ssh/id_rsa.pub"
+    # ssh dx1.diepxuan.com "chmod 600 ~/.ssh/*"
+}
 
-# cat /var/www/base/ssh/id_rsa        | ssh dx1.diepxuan.com "cat > ~/.ssh/id_rsa"
-# cat /var/www/base/ssh/id_rsa.pub    | ssh dx1.diepxuan.com "cat > ~/.ssh/id_rsa.pub"
-# ssh dx1.diepxuan.com "chmod 600 ~/.ssh/*"
+--permision() {
+    chmod 700 ~/.ssh
+    chmod 600 ~/.ssh/*
+}
 
 $@
+--permision

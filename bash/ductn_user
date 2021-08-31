@@ -1,5 +1,20 @@
 #!/bin/bash
 
+# options_found=0
+# while getopts ":u" opt; do
+#     options_found=1
+#     case $opt in
+#     u)
+#         username=$OPTARG
+#         echo "username = $OPTARG"
+#         ;;
+#     esac
+# done
+
+# if ((!options_found)); then
+#     echo "no options found"
+# fi
+
 --new() {
     #!/bin/bash
 
@@ -45,4 +60,4 @@
     echo "ductn ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/90-users >/dev/null
 }
 
-$@
+"--$@"
