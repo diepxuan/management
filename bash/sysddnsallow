@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+_BASEDIR="/var/www/base"
+_BASHDIR="$_BASEDIR/bash"
+
+--sys:ddns-allow() {
+
+    local regex="Anywhere.*ALLOW.*IN.*${ip}"
+
+    # sudo ufw status | sed -i -r "/(((1?[0-9][0-9]?|2[0-4][0-9]|25[0-5])\.){3}(1?[0-9][0-9]?|2[0-4][0-9]|25[0-5]))/"
+    sudo ufw status numbered | sed -rn -e 's,.*Anywhere[[:space:]]\+ALLOW.*([0-9.]+)\/tcp,p'
+
+    getip() {
+        host $@ | cut -f4 -d' '
+    }
+
+    allowdomain() {
+        if [ "$(whoami)" = "ductn" ]; then
+            # sudo ufw allow proto tcp from "$(getip $@)" to any port 1433
+            sudo ufw allow proto tcp from "$(getip $@)"
+        fi
+    }
+
+    updateallowip() {
+        allowdomain dxvnkthd.ddns.net
+        allowdomain dxvnk113.ddns.net
+        allowdomain dxvnkkcn.ddns.net
+        allowdomain mg15vincom.ddns.net
+
+        exit 0
+    }
+
+    exit 0
+
+}

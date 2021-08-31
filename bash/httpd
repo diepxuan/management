@@ -1,14 +1,14 @@
 #!/bin/bash
 #!/bin/sh
 
---install() {
+--httpd:install() {
     #!/usr/bin/env bash
 
     # CREATE ductn SITE
     ###################
     #shellcheck disable=SC2002
     cat /var/www/base/httpd/httpd.conf | sudo tee /etc/apache2/sites-available/ductn.conf
-    printf "\n\n" >>/etc/apache2/sites-available/ductn.conf
+    printf "\n\n" | sudo tee -a /etc/apache2/sites-available/ductn.conf
     find /var/www/base/httpd/*/httpd.conf -type f -exec cat {} \; | sudo tee -a /etc/apache2/sites-available/ductn.conf
 
     # CREATE Dav Access
@@ -37,11 +37,7 @@
 
 }
 
--i() {
-    --install
-}
-
---config() {
+--httpd:config() {
     sudo mkdir -p /home/pma/public_html/tmp
     sudo rm -rf /home/pma/public_html/config.inc.php
     sudo ln /var/www/base/httpd/diepxuan.com/config.inc.php /home/pma/public_html/
@@ -49,5 +45,3 @@
 
     sudo chown -R :www-data /home/*/public_html/
 }
-
-"--$@"

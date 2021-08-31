@@ -1,6 +1,6 @@
 #!/bin/bash
 
---install() {
+--ssl:install() {
     sudo apt install software-properties-common -y --purge --auto-remove
     # sudo add-apt-repository universe
     # sudo add-apt-repository ppa:certbot/certbot
@@ -10,7 +10,22 @@
     sudo apt install -y --purge --auto-remove certbot python3-certbot-dns-cloudflare
 }
 
---setup() {
+--ssl:certbot() {
+
+    chmod 600 /var/www/base/bash/certbot/cloudflare.ini
+
+    sudo certbot certonly \
+        --expand \
+        --keep-until-expiring \
+        --dns-cloudflare \
+        --dns-cloudflare-credentials /var/www/base/bash/certbot/cloudflare.ini \
+        --agree-tos \
+        --email caothu91@gmail.com \
+        --eff-email \
+        -d $@
+}
+
+--ssl:setup() {
 
     #sudo certbot certonly --apache \
     #  --expand \
@@ -21,24 +36,9 @@
     #  -m caothu91@gmail.com \
     #  --server https://acme-v02.api.letsencrypt.org/directory
 
-    _certbot() {
-
-        chmod 600 /var/www/base/bash/certbot/cloudflare.ini
-
-        sudo certbot certonly \
-            --expand \
-            --keep-until-expiring \
-            --dns-cloudflare \
-            --dns-cloudflare-credentials /var/www/base/bash/certbot/cloudflare.ini \
-            --agree-tos \
-            --email caothu91@gmail.com \
-            --eff-email \
-            -d $@
-    }
-
     #_certbot solzatech.com,www.solzatech.com
     # _certbot diepxuan.com,www.diepxuan.com,luong.diepxuan.com,pma.diepxuan.com,cloud.diepxuan.com,work.diepxuan.com,shop.diepxuan.com
-    _certbot diepxuan.com,*.diepxuan.com
+    --ssl:certbot diepxuan.com,*.diepxuan.com
 
     sudo service apache2 restart
 
@@ -48,7 +48,7 @@
     # sudo scp -r /etc/letsencrypt/live/* dx3.diepxuan.com:/etc/letsencrypt/live/
 }
 
---pull() {
+--ssl:pull() {
     sudo mkdir -p /etc/letsencrypt/live/diepxuan.com/
     ssh $@ "sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem" | sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem
     ssh $@ "sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem" | sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem
@@ -56,19 +56,17 @@
     ssh $@ "sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem" | sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem
 }
 
---push() {
+--ssl:push() {
     sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem"
     sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem"
     sudo cat /etc/letsencrypt/live/diepxuan.com/fullchain.pem | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/fullchain.pem"
     sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem"
 }
 
---upload() {
+--ssl:upload() {
     --push
 }
 
---configure() {
+--ssl:configure() {
     --setup
 }
-
-$@
