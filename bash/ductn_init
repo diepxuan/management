@@ -31,12 +31,13 @@ if [ "$(whoami)" = "ductn" ]; then
     sudo cp $_BASHDIR/ductn /usr/local/bin/ductn
     sudo chown root:root /usr/local/bin/ductn
 fi
-$_BASHDIR/ductn --git -i
+
+$_BASHDIR/ductn git -i
 
 if [[ $_IS_SERVER = "on" ]]; then
-    $_BASHDIR/ductn --cronjob -i
-    $_BASHDIR/ductn --httpd --config
-    $_BASHDIR/ductn --ssh -i
+    $_BASHDIR/ductn cronjob -i
+    $_BASHDIR/ductn httpd --config
+    $_BASHDIR/ductn ssh -i
     # ./bash/ductn --update allowip
     # else
     # sudo mkdir -p /etc/auto.master.d/
@@ -53,14 +54,18 @@ if [ $_IS_SUDOER = "on" ] || [ "$(whoami)" = "ductn" ]; then
 fi
 
 if [ "$(whoami)" = "ductn" ]; then
-    $_BASHDIR/ductn --hosts add 10.8.0.3 dx2
-    $_BASHDIR/ductn --hosts add 10.8.0.2 dx1
-    $_BASHDIR/ductn --hosts add 10.8.0.1 dx3
-    $_BASHDIR/ductn --hosts add 10.8.0.10 vn11
-    $_BASHDIR/ductn --hosts add 10.8.0.11 mg15
-    $_BASHDIR/ductn --hosts add 10.8.0.12 mg15kt
+    $_BASHDIR/ductn hosts remove 10.8.0.3 dx2
+    $_BASHDIR/ductn hosts remove 10.8.0.2 dx1
+    $_BASHDIR/ductn hosts remove 10.8.0.1 dx3
+    $_BASHDIR/ductn hosts remove 10.8.0.10 vn11
+    $_BASHDIR/ductn hosts remove 10.8.0.11 mg15
+    $_BASHDIR/ductn hosts remove 10.8.0.12 mg15kt
 
-    $_BASHDIR/ductn --hosts remove 10.8.0.2 dx1.diepxuan.com
-    $_BASHDIR/ductn --hosts remove 10.8.0.3 dx2.diepxuan.com
-    $_BASHDIR/ductn --hosts remove 10.8.0.1 dx3.diepxuan.com
+    $_BASHDIR/ductn hosts remove 10.8.0.2 dx1.diepxuan.com
+    $_BASHDIR/ductn hosts remove 10.8.0.3 dx2.diepxuan.com
+    $_BASHDIR/ductn hosts remove 10.8.0.1 dx3.diepxuan.com
 fi
+
+source ~/.bashrc
+
+exit 0

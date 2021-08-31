@@ -1,5 +1,4 @@
-"require":
-{
+"require": {
     "magento/product-community-edition": "2.1.7",
     "composer/composer": "@alpha",
     "diepxuan/theme-frontend-dxvn": "0.0.1",
