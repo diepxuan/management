@@ -15,41 +15,8 @@ service() {
     exit 0
 }
 
-update() {
-
-    getip() {
-        host $@ | cut -f4 -d' '
-    }
-
-    allowdomain() {
-        if [ "$(whoami)" = "ductn" ]; then
-            # sudo ufw allow proto tcp from "$(getip $@)" to any port 1433
-            sudo ufw allow proto tcp from "$(getip $@)"
-        fi
-    }
-
-    updateallowip() {
-        allowdomain dxvnkthd.ddns.net
-        allowdomain dxvnk113.ddns.net
-        allowdomain dxvnkkcn.ddns.net
-        allowdomain mg15vincom.ddns.net
-
-        exit 0
-    }
-
-    $@
-    updateallowip
-
-    exit 0
-
-}
-
 --service() {
     service
-}
-
---update() {
-    update
 }
 
 if [ "$(whoami)" = "ductn" ]; then
@@ -58,6 +25,6 @@ if [ "$(whoami)" = "ductn" ]; then
     crontab $_BASHDIR/cronjob/cronjob.conf
 fi
 
-$@
+"--$@"
 
 # sudo service cron restart
