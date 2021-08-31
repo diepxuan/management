@@ -1,0 +1,36 @@
+#!/bin/bash
+
+update() {
+
+    getip() {
+        host $@ | cut -f4 -d' '
+    }
+
+    allowdomain() {
+        if [ "$(whoami)" = "ductn" ]; then
+            # sudo ufw allow proto tcp from "$(getip $@)" to any port 1433
+            sudo ufw allow proto tcp from "$(getip $@)"
+        fi
+    }
+
+    updateallowip() {
+        allowdomain dxvnkthd.ddns.net
+        allowdomain dxvnk113.ddns.net
+        allowdomain dxvnkkcn.ddns.net
+        allowdomain mg15vincom.ddns.net
+
+        exit 0
+    }
+
+    $@
+    updateallowip
+
+    exit 0
+
+}
+
+--update() {
+    update
+}
+
+"--$@"

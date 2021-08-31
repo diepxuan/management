@@ -5,8 +5,8 @@
 #  Append to ~/.bash_completion
 # open new or restart existing shell session
 
-# alias m2setupcli="curl -O https://files.magerun.net/n98-magerun2.phar && chmod +x n98-magerun2.phar && mkdir -p ~/bin && mv n98-magerun2.phar ~/bin/magerun2"
-alias m2setupcli="curl -O https://files.magerun.net/n98-magerun2.phar && chmod +x n98-magerun2.phar && sudo mv n98-magerun2.phar /usr/local/bin/magerun2"
+alias m2setupcli="curl -O https://files.magerun.net/n98-magerun2.phar && chmod +x n98-magerun2.phar && mkdir -p ~/bin && mv n98-magerun2.phar ~/bin/magerun2"
+# alias m2setupcli="curl -O https://files.magerun.net/n98-magerun2.phar && chmod +x n98-magerun2.phar && sudo mv n98-magerun2.phar /usr/local/bin/magerun2"
 
 _magerun2()
 {
@@ -31,12 +31,12 @@ _magerun2()
 
     # completing for an option
     if [[ ${cur} == --* ]] ; then
-        opts="--help --quiet --verbose --version --ansi --no-ansi --no-interaction --root-dir --skip-config --skip-root-check --skip-core-commands"
+        opts="--help --quiet --verbose --version --ansi --no-ansi --no-interaction --root-dir --skip-config --skip-root-check --skip-core-commands --skip-magento-compatibility-check"
 
         case "$com" in
 
             help)
-            opts="${opts} --xml --format --raw"
+            opts="${opts} --format --raw"
             ;;
 
             install)
@@ -44,7 +44,7 @@ _magerun2()
             ;;
 
             list)
-            opts="${opts} --xml --raw --format"
+            opts="${opts} --raw --format"
             ;;
 
             open-browser)
@@ -75,6 +75,10 @@ _magerun2()
             opts="${opts} "
             ;;
 
+            admin:user:change-status)
+            opts="${opts} --activate --deactivate"
+            ;;
+
             admin:user:create)
             opts="${opts} --admin-user --admin-password --admin-email --admin-firstname --admin-lastname --magento-init-params"
             ;;
@@ -101,6 +105,10 @@ _magerun2()
 
             app:config:status)
             opts="${opts} "
+            ;;
+
+            braintree:migrate)
+            opts="${opts} --host --dbname --username --password"
             ;;
 
             cache:clean)
@@ -136,10 +144,14 @@ _magerun2()
             ;;
 
             catalog:images:resize)
-            opts="${opts} "
+            opts="${opts} --async"
             ;;
 
             catalog:product:attributes:cleanup)
+            opts="${opts} "
+            ;;
+
+            cms:block:toggle)
             opts="${opts} "
             ;;
 
@@ -149,6 +161,18 @@ _magerun2()
 
             config:data:di)
             opts="${opts} --scope"
+            ;;
+
+            config:env:create)
+            opts="${opts} "
+            ;;
+
+            config:env:set)
+            opts="${opts} "
+            ;;
+
+            config:env:show)
+            opts="${opts} --format"
             ;;
 
             config:sensitive:set)
@@ -176,7 +200,7 @@ _magerun2()
             ;;
 
             cron:install)
-            opts="${opts} --force"
+            opts="${opts} --force --non-optional"
             ;;
 
             cron:remove)
@@ -211,8 +235,12 @@ _magerun2()
             opts="${opts} --no-newline"
             ;;
 
-            db:console)
+            db:add-default-authorization-entries)
             opts="${opts} --connection"
+            ;;
+
+            db:console)
+            opts="${opts} --use-mycli-instead-of-mysql --no-auto-rehash --connection"
             ;;
 
             db:create)
@@ -224,11 +252,11 @@ _magerun2()
             ;;
 
             db:dump)
-            opts="${opts} --connection --add-time --compression --only-command --print-only-filename --dry-run --no-single-transaction --human-readable --git-friendly --add-routines --stdout --strip --exclude --force"
+            opts="${opts} --connection --add-time --compression --only-command --print-only-filename --dry-run --set-gtid-purged-off --no-single-transaction --human-readable --git-friendly --add-routines --no-tablespaces --stdout --strip --exclude --include --force --keep-column-statistics"
             ;;
 
             db:import)
-            opts="${opts} --connection --compression --only-command --only-if-empty --optimize --drop --drop-tables"
+            opts="${opts} --connection --compression --only-command --only-if-empty --optimize --drop --drop-tables --force --skip-authorization-entry-creation"
             ;;
 
             db:info)
@@ -268,7 +296,7 @@ _magerun2()
             ;;
 
             dev:console)
-            opts="${opts} "
+            opts="${opts} --area"
             ;;
 
             dev:di:info)
@@ -276,7 +304,7 @@ _magerun2()
             ;;
 
             dev:module:create)
-            opts="${opts} --minimal --add-blocks --add-helpers --add-models --add-setup --add-all --enable --modman --add-readme --add-composer --author-name --author-email --description"
+            opts="${opts} --minimal --add-blocks --add-helpers --add-models --add-setup --add-all --enable --modman --add-readme --add-composer --add-strict-types --author-name --author-email --description"
             ;;
 
             dev:module:list)
@@ -331,6 +359,10 @@ _magerun2()
             opts="${opts} "
             ;;
 
+            dev:template-hints:status)
+            opts="${opts} "
+            ;;
+
             dev:tests:run)
             opts="${opts} --arguments"
             ;;
@@ -347,6 +379,34 @@ _magerun2()
             opts="${opts} --overwrite"
             ;;
 
+            dotdigital:connector:automap)
+            opts="${opts} "
+            ;;
+
+            dotdigital:connector:enable)
+            opts="${opts} --username --password --automap-datafields --enable-syncs --remove-ip-restriction --enable-email-capture"
+            ;;
+
+            dotdigital:migrate)
+            opts="${opts} "
+            ;;
+
+            dotdigital:sync)
+            opts="${opts} --from"
+            ;;
+
+            downloadable:domains:add)
+            opts="${opts} "
+            ;;
+
+            downloadable:domains:remove)
+            opts="${opts} "
+            ;;
+
+            downloadable:domains:show)
+            opts="${opts} "
+            ;;
+
             eav:attribute:list)
             opts="${opts} --add-source --add-backend --filter-type --format"
             ;;
@@ -357,6 +417,10 @@ _magerun2()
 
             eav:attribute:view)
             opts="${opts} --format"
+            ;;
+
+            encryption:payment-data:update)
+            opts="${opts} "
             ;;
 
             generation:flush)
@@ -395,7 +459,15 @@ _magerun2()
             opts="${opts} "
             ;;
 
+            indexer:set-dimensions-mode)
+            opts="${opts} "
+            ;;
+
             indexer:set-mode)
+            opts="${opts} "
+            ;;
+
+            indexer:show-dimensions-mode)
             opts="${opts} "
             ;;
 
@@ -439,6 +511,34 @@ _magerun2()
             opts="${opts} "
             ;;
 
+            integration:create)
+            opts="${opts} --consumer-key --consumer-secret --access-token --access-token-secret --resource"
+            ;;
+
+            integration:delete)
+            opts="${opts} "
+            ;;
+
+            integration:list)
+            opts="${opts} --format"
+            ;;
+
+            integration:show)
+            opts="${opts} "
+            ;;
+
+            inventory:reservation:create-compensations)
+            opts="${opts} --raw"
+            ;;
+
+            inventory:reservation:list-inconsistencies)
+            opts="${opts} --complete-orders --incomplete-orders --bunch-size --raw"
+            ;;
+
+            inventory-geonames:import)
+            opts="${opts} "
+            ;;
+
             maintenance:allow-ips)
             opts="${opts} --none --add --magento-init-params"
             ;;
@@ -459,6 +559,18 @@ _magerun2()
             opts="${opts} --strip"
             ;;
 
+            media-content:sync)
+            opts="${opts} "
+            ;;
+
+            media-gallery:sync)
+            opts="${opts} "
+            ;;
+
+            module:config:status)
+            opts="${opts} "
+            ;;
+
             module:disable)
             opts="${opts} --force --all --clear-static-content --magento-init-params"
             ;;
@@ -468,15 +580,23 @@ _magerun2()
             ;;
 
             module:status)
-            opts="${opts} --magento-init-params"
+            opts="${opts} --enabled --disabled --magento-init-params"
             ;;
 
             module:uninstall)
-            opts="${opts} --remove-data --backup-code --backup-media --backup-db --clear-static-content --magento-init-params"
+            opts="${opts} --remove-data --backup-code --backup-media --backup-db --non-composer --clear-static-content --magento-init-params"
             ;;
 
             newrelic:create:deploy-marker)
             opts="${opts} "
+            ;;
+
+            queue:consumers:list)
+            opts="${opts} "
+            ;;
+
+            queue:consumers:start)
+            opts="${opts} --max-messages --batch-size --area-code --single-thread --pid-file-path"
             ;;
 
             sampledata:deploy)
@@ -503,24 +623,36 @@ _magerun2()
             opts="${opts} --format"
             ;;
 
+            security:recaptcha:disable-for-user-forgot-password)
+            opts="${opts} "
+            ;;
+
+            security:recaptcha:disable-for-user-login)
+            opts="${opts} "
+            ;;
+
             setup:backup)
             opts="${opts} --code --media --db --magento-init-params"
             ;;
 
             setup:config:set)
-            opts="${opts} --backend-frontname --key --db-host --db-name --db-user --db-engine --db-password --db-prefix --db-model --db-init-statements --skip-db-validation --http-cache-hosts --session-save --session-save-redis-host --session-save-redis-port --session-save-redis-password --session-save-redis-timeout --session-save-redis-persistent-id --session-save-redis-db --session-save-redis-compression-threshold --session-save-redis-compression-lib --session-save-redis-log-level --session-save-redis-max-concurrency --session-save-redis-break-after-frontend --session-save-redis-break-after-adminhtml --session-save-redis-first-lifetime --session-save-redis-bot-first-lifetime --session-save-redis-bot-lifetime --session-save-redis-disable-locking --session-save-redis-min-lifetime --session-save-redis-max-lifetime --cache-backend --cache-backend-redis-server --cache-backend-redis-db --cache-backend-redis-port --page-cache --page-cache-redis-server --page-cache-redis-db --page-cache-redis-port --page-cache-redis-compress-data --magento-init-params"
-            ;;
-
-            setup:cron:run)
-            opts="${opts} --magento-init-params"
+            opts="${opts} --backend-frontname --enable-debug-logging --enable-syslog-logging --amqp-host --amqp-port --amqp-user --amqp-password --amqp-virtualhost --amqp-ssl --amqp-ssl-options --consumers-wait-for-messages --key --db-host --db-name --db-user --db-engine --db-password --db-prefix --db-model --db-init-statements --skip-db-validation --http-cache-hosts --db-ssl-key --db-ssl-cert --db-ssl-ca --db-ssl-verify --session-save --session-save-redis-host --session-save-redis-port --session-save-redis-password --session-save-redis-timeout --session-save-redis-persistent-id --session-save-redis-db --session-save-redis-compression-threshold --session-save-redis-compression-lib --session-save-redis-log-level --session-save-redis-max-concurrency --session-save-redis-break-after-frontend --session-save-redis-break-after-adminhtml --session-save-redis-first-lifetime --session-save-redis-bot-first-lifetime --session-save-redis-bot-lifetime --session-save-redis-disable-locking --session-save-redis-min-lifetime --session-save-redis-max-lifetime --session-save-redis-sentinel-master --session-save-redis-sentinel-servers --session-save-redis-sentinel-verify-master --session-save-redis-sentinel-connect-retires --cache-backend --cache-backend-redis-server --cache-backend-redis-db --cache-backend-redis-port --cache-backend-redis-password --cache-backend-redis-compress-data --cache-backend-redis-compression-lib --cache-id-prefix --allow-parallel-generation --page-cache --page-cache-redis-server --page-cache-redis-db --page-cache-redis-port --page-cache-redis-password --page-cache-redis-compress-data --page-cache-redis-compression-lib --page-cache-id-prefix --lock-provider --lock-db-prefix --lock-zookeeper-host --lock-zookeeper-path --lock-file-path --document-root-is-pub --magento-init-params"
             ;;
 
             setup:db-data:upgrade)
             opts="${opts} --magento-init-params"
             ;;
 
+            setup:db-declaration:generate-patch)
+            opts="${opts} --revertable --type"
+            ;;
+
+            setup:db-declaration:generate-whitelist)
+            opts="${opts} --module-name"
+            ;;
+
             setup:db-schema:upgrade)
-            opts="${opts} --magento-init-params"
+            opts="${opts} --convert-old-scripts --magento-init-params"
             ;;
 
             setup:db:status)
@@ -532,7 +664,7 @@ _magerun2()
             ;;
 
             setup:install)
-            opts="${opts} --backend-frontname --key --db-host --db-name --db-user --db-engine --db-password --db-prefix --db-model --db-init-statements --skip-db-validation --http-cache-hosts --session-save --session-save-redis-host --session-save-redis-port --session-save-redis-password --session-save-redis-timeout --session-save-redis-persistent-id --session-save-redis-db --session-save-redis-compression-threshold --session-save-redis-compression-lib --session-save-redis-log-level --session-save-redis-max-concurrency --session-save-redis-break-after-frontend --session-save-redis-break-after-adminhtml --session-save-redis-first-lifetime --session-save-redis-bot-first-lifetime --session-save-redis-bot-lifetime --session-save-redis-disable-locking --session-save-redis-min-lifetime --session-save-redis-max-lifetime --cache-backend --cache-backend-redis-server --cache-backend-redis-db --cache-backend-redis-port --page-cache --page-cache-redis-server --page-cache-redis-db --page-cache-redis-port --page-cache-redis-compress-data --base-url --language --timezone --currency --use-rewrites --use-secure --base-url-secure --use-secure-admin --admin-use-security-key --admin-user --admin-password --admin-email --admin-firstname --admin-lastname --cleanup-database --sales-order-increment-prefix --use-sample-data --interactive --magento-init-params"
+            opts="${opts} --backend-frontname --enable-debug-logging --enable-syslog-logging --amqp-host --amqp-port --amqp-user --amqp-password --amqp-virtualhost --amqp-ssl --amqp-ssl-options --consumers-wait-for-messages --key --db-host --db-name --db-user --db-engine --db-password --db-prefix --db-model --db-init-statements --skip-db-validation --http-cache-hosts --db-ssl-key --db-ssl-cert --db-ssl-ca --db-ssl-verify --session-save --session-save-redis-host --session-save-redis-port --session-save-redis-password --session-save-redis-timeout --session-save-redis-persistent-id --session-save-redis-db --session-save-redis-compression-threshold --session-save-redis-compression-lib --session-save-redis-log-level --session-save-redis-max-concurrency --session-save-redis-break-after-frontend --session-save-redis-break-after-adminhtml --session-save-redis-first-lifetime --session-save-redis-bot-first-lifetime --session-save-redis-bot-lifetime --session-save-redis-disable-locking --session-save-redis-min-lifetime --session-save-redis-max-lifetime --session-save-redis-sentinel-master --session-save-redis-sentinel-servers --session-save-redis-sentinel-verify-master --session-save-redis-sentinel-connect-retires --cache-backend --cache-backend-redis-server --cache-backend-redis-db --cache-backend-redis-port --cache-backend-redis-password --cache-backend-redis-compress-data --cache-backend-redis-compression-lib --cache-id-prefix --allow-parallel-generation --page-cache --page-cache-redis-server --page-cache-redis-db --page-cache-redis-port --page-cache-redis-password --page-cache-redis-compress-data --page-cache-redis-compression-lib --page-cache-id-prefix --lock-provider --lock-db-prefix --lock-zookeeper-host --lock-zookeeper-path --lock-file-path --document-root-is-pub --base-url --language --timezone --currency --use-rewrites --use-secure --base-url-secure --use-secure-admin --admin-use-security-key --admin-user --admin-password --admin-email --admin-firstname --admin-lastname --search-engine --elasticsearch-host --elasticsearch-port --elasticsearch-enable-auth --elasticsearch-username --elasticsearch-password --elasticsearch-index-prefix --elasticsearch-timeout --cleanup-database --sales-order-increment-prefix --use-sample-data --enable-modules --disable-modules --convert-old-scripts --interactive --safe-mode --data-restore --dry-run --magento-init-params"
             ;;
 
             setup:performance:generate-fixtures)
@@ -544,7 +676,7 @@ _magerun2()
             ;;
 
             setup:static-content:deploy)
-            opts="${opts} --force --strategy --area --exclude-area --theme --exclude-theme --language --exclude-language --jobs --symlink-locale --content-version --refresh-content-version-only --no-javascript --no-css --no-less --no-images --no-fonts --no-html --no-misc --no-html-minify"
+            opts="${opts} --force --strategy --area --exclude-area --theme --exclude-theme --language --exclude-language --jobs --max-execution-time --symlink-locale --content-version --refresh-content-version-only --no-javascript --no-js-bundle --no-css --no-less --no-images --no-fonts --no-html --no-misc --no-html-minify"
             ;;
 
             setup:store-config:set)
@@ -556,7 +688,7 @@ _magerun2()
             ;;
 
             setup:upgrade)
-            opts="${opts} --keep-generated --magento-init-params"
+            opts="${opts} --keep-generated --convert-old-scripts --safe-mode --data-restore --dry-run --magento-init-params"
             ;;
 
             store:list)
@@ -631,6 +763,18 @@ _magerun2()
             opts="${opts} --access-list --backend-host --backend-port --export-version --grace-period --output-file"
             ;;
 
+            yotpo:reset)
+            opts="${opts} --entity"
+            ;;
+
+            yotpo:sync)
+            opts="${opts} --entity --limit"
+            ;;
+
+            yotpo:update-metadata)
+            opts="${opts} "
+            ;;
+
         esac
 
         COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
@@ -641,7 +785,7 @@ _magerun2()
 
     # completing for a command
     if [[ $cur == $com ]]; then
-        coms="help install list open-browser script self-update shell admin:notifications admin:token:create admin:user:change-password admin:user:create admin:user:delete admin:user:list admin:user:unlock app:config:dump app:config:import app:config:status cache:clean cache:disable cache:enable cache:flush cache:list cache:report cache:status cache:view catalog:images:resize catalog:product:attributes:cleanup config:data:acl config:data:di config:sensitive:set config:set config:show config:store:delete config:store:get config:store:set cron:install cron:remove cron:run customer:change-password customer:create customer:hash:upgrade customer:info customer:list customer:token:create db:console db:create db:drop db:dump db:import db:info db:maintain:check-tables db:query db:status db:variables deploy:mode:set deploy:mode:show design:demo-notice dev:asset:clear dev:console dev:di:info dev:module:create dev:module:list dev:module:observer:list dev:profiler:disable dev:profiler:enable dev:query-log:disable dev:query-log:enable dev:report:count dev:source-theme:deploy dev:symlinks dev:template-hints dev:template-hints-blocks dev:template-hints:disable dev:template-hints:enable dev:tests:run dev:theme:list dev:urn-catalog:generate dev:xml:convert eav:attribute:list eav:attribute:remove eav:attribute:view generation:flush i18n:collect-phrases i18n:pack i18n:uninstall index:list index:trigger:recreate indexer:info indexer:reindex indexer:reset indexer:set-mode indexer:show-mode indexer:status info:adminuri info:backups:list info:currency:list info:dependencies:show-framework info:dependencies:show-modules info:dependencies:show-modules-circular info:language:list info:timezone:list maintenance:allow-ips maintenance:disable maintenance:enable maintenance:status media:dump module:disable module:enable module:status module:uninstall newrelic:create:deploy-marker sampledata:deploy sampledata:remove sampledata:reset script:repo:list script:repo:run search:engine:list setup:backup setup:config:set setup:cron:run setup:db-data:upgrade setup:db-schema:upgrade setup:db:status setup:di:compile setup:install setup:performance:generate-fixtures setup:rollback setup:static-content:deploy setup:store-config:set setup:uninstall setup:upgrade store:list store:website:list sys:check sys:cron:history sys:cron:list sys:cron:run sys:cron:schedule sys:info sys:maintenance sys:setup:change-version sys:setup:compare-versions sys:setup:downgrade-versions sys:store:config:base-url:list sys:store:list sys:url:list sys:website:list theme:uninstall varnish:vcl:generate"
+        coms="help install list open-browser script self-update shell admin:notifications admin:token:create admin:user:change-password admin:user:change-status admin:user:create admin:user:delete admin:user:list admin:user:unlock app:config:dump app:config:import app:config:status braintree:migrate cache:clean cache:disable cache:enable cache:flush cache:list cache:report cache:status cache:view catalog:images:resize catalog:product:attributes:cleanup cms:block:toggle config:data:acl config:data:di config:env:create config:env:set config:env:show config:sensitive:set config:set config:show config:store:delete config:store:get config:store:set cron:install cron:remove cron:run customer:change-password customer:create customer:hash:upgrade customer:info customer:list customer:token:create db:add-default-authorization-entries db:console db:create db:drop db:dump db:import db:info db:maintain:check-tables db:query db:status db:variables deploy:mode:set deploy:mode:show design:demo-notice dev:asset:clear dev:console dev:di:info dev:module:create dev:module:list dev:module:observer:list dev:profiler:disable dev:profiler:enable dev:query-log:disable dev:query-log:enable dev:report:count dev:source-theme:deploy dev:symlinks dev:template-hints dev:template-hints-blocks dev:template-hints:disable dev:template-hints:enable dev:template-hints:status dev:tests:run dev:theme:list dev:urn-catalog:generate dev:xml:convert dotdigital:connector:automap dotdigital:connector:enable dotdigital:migrate dotdigital:sync downloadable:domains:add downloadable:domains:remove downloadable:domains:show eav:attribute:list eav:attribute:remove eav:attribute:view encryption:payment-data:update generation:flush i18n:collect-phrases i18n:pack i18n:uninstall index:list index:trigger:recreate indexer:info indexer:reindex indexer:reset indexer:set-dimensions-mode indexer:set-mode indexer:show-dimensions-mode indexer:show-mode indexer:status info:adminuri info:backups:list info:currency:list info:dependencies:show-framework info:dependencies:show-modules info:dependencies:show-modules-circular info:language:list info:timezone:list integration:create integration:delete integration:list integration:show inventory:reservation:create-compensations inventory:reservation:list-inconsistencies inventory-geonames:import maintenance:allow-ips maintenance:disable maintenance:enable maintenance:status media:dump media-content:sync media-gallery:sync module:config:status module:disable module:enable module:status module:uninstall newrelic:create:deploy-marker queue:consumers:list queue:consumers:start sampledata:deploy sampledata:remove sampledata:reset script:repo:list script:repo:run search:engine:list security:recaptcha:disable-for-user-forgot-password security:recaptcha:disable-for-user-login setup:backup setup:config:set setup:db-data:upgrade setup:db-declaration:generate-patch setup:db-declaration:generate-whitelist setup:db-schema:upgrade setup:db:status setup:di:compile setup:install setup:performance:generate-fixtures setup:rollback setup:static-content:deploy setup:store-config:set setup:uninstall setup:upgrade store:list store:website:list sys:check sys:cron:history sys:cron:list sys:cron:run sys:cron:schedule sys:info sys:maintenance sys:setup:change-version sys:setup:compare-versions sys:setup:downgrade-versions sys:store:config:base-url:list sys:store:list sys:url:list sys:website:list theme:uninstall varnish:vcl:generate yotpo:reset yotpo:sync yotpo:update-metadata"
 
         COMPREPLY=($(compgen -W "${coms}" -- ${cur}))
         __ltrim_colon_completions "$cur"
