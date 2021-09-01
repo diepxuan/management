@@ -29,8 +29,7 @@
 
 # Setup
 # ##############################
-mkdir -p ~/.ssh
---install() {
+--ssh:install() {
     # ssh config
     cat /var/www/base/ssh/config >~/.ssh/config
     printf "\n\n" >>~/.ssh/config
@@ -41,12 +40,14 @@ mkdir -p ~/.ssh
     # cat /var/www/base/ssh/gss > ~/.ssh/gss
     # cat /var/www/base/ssh/tci > ~/.ssh/tci
     # cat /var/www/base/ssh/gem > ~/.ssh/gem
+    --ssh:permision
 
     # ssh public key
     ssh-keygen -f ~/.ssh/id_rsa -y >~/.ssh/id_rsa.pub
     # ssh-keygen -f ~/.ssh/gss -y > ~/.ssh/gss.pub
     # ssh-keygen -f ~/.ssh/tci -y > ~/.ssh/tci.pub
     # ssh-keygen -f ~/.ssh/gem -y > ~/.ssh/gem.pub
+    --ssh:permision
 
     # ssh-copy-id user@123.45.56.78
 
@@ -55,10 +56,9 @@ mkdir -p ~/.ssh
     # ssh dx1.diepxuan.com "chmod 600 ~/.ssh/*"
 }
 
---permision() {
+--ssh:permision() {
+    mkdir -p ~/.ssh
     chmod 700 ~/.ssh
     chmod 600 ~/.ssh/*
 }
 
-$@
---permision

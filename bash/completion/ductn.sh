@@ -39,12 +39,8 @@ _ductn() {
             opts="${opts} --install --configure --pull --push"
             ;;
 
-        ssh)
-            opts="${opts} --install"
-            ;;
-
         ssh:install)
-            opts="${opts} --install"
+            opts="${opts}"
             ;;
 
         httpd:install)
@@ -113,10 +109,14 @@ _ductn() {
 
     # completing for a command
     if [[ $cur == $com ]]; then
-        coms=("sqlsrv:php:install" "mssql:php:install" "sqlsrv:php:enable" "mssql:php:enable")
-        coms=("sqlsrv:install" "mssql:install")
+        coms=("sys:init")
 
-        coms+=("apt:fix" "git" "ssl" "ssh" "ssh:install" "sys:init" "self-update" "user:new" "httpd:install")
+        coms+=("ssh:install")
+
+        coms+=("sqlsrv:php:install" "mssql:php:install" "sqlsrv:php:enable" "mssql:php:enable")
+        coms+=("sqlsrv:install" "mssql:install")
+
+        coms+=("apt:fix" "git" "ssl" "self-update" "user:new" "httpd:install")
         coms+=("httpd:config" "mysql:ssl:enable" "cron:update" "cron:service" "ddns:update" "sys:ddns-allow")
         coms+=("log:watch" "log:cheanup")
 
