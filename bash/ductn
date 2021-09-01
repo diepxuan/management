@@ -10,6 +10,7 @@ _DEBUG=0
 _BASEDIR="/var/www/base"
 _BASHDIR="$_BASEDIR/bash"
 
+. $_BASHDIR/ssh
 . $_BASHDIR/ssl
 . $_BASHDIR/sys
 . $_BASHDIR/vpn/pptp
@@ -74,14 +75,6 @@ aliases() {
 
 --git() {
     --gitconfig $@
-}
-
---ssh() {
-    $_BASEDIR/bash/ductn_ssh $@
-}
-
---ssh:install() {
-    $_BASEDIR/bash/ductn_ssh --install
 }
 
 --user:new() {
