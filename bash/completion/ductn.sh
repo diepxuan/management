@@ -99,6 +99,14 @@ _ductn() {
             opts="${opts} "
             ;;
 
+        wsl:cli:install)
+            opts="${opts} "
+            ;;
+
+        swap:remove|swap:install)
+            opts="${opts} "
+            ;;
+
         esac
 
         COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
@@ -112,9 +120,10 @@ _ductn() {
         coms=("sys:init")
 
         coms+=("ssh:install")
-
+        coms+=("wsl:cli:install")
         coms+=("sqlsrv:php:install" "mssql:php:install" "sqlsrv:php:enable" "mssql:php:enable")
         coms+=("sqlsrv:install" "mssql:install")
+        coms+=("swap:remove" "swap:install")
 
         coms+=("apt:fix" "git" "ssl" "self-update" "user:new" "httpd:install")
         coms+=("httpd:config" "mysql:ssl:enable" "cron:update" "cron:service" "ddns:update" "sys:ddns-allow")
