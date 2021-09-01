@@ -91,6 +91,18 @@ _ductn() {
             opts="${opts} "
             ;;
 
+        sqlsrv:php:install|mssql:php:install)
+            opts="${opts} "
+            ;;
+
+        sqlsrv:php:enable|mssql:php:enable)
+            opts="${opts} "
+            ;;
+
+        sqlsrv:install|mssql:install)
+            opts="${opts} "
+            ;;
+
         esac
 
         COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
@@ -102,6 +114,7 @@ _ductn() {
     # completing for a command
     if [[ $cur == $com ]]; then
         coms=("sqlsrv:php:install" "mssql:php:install" "sqlsrv:php:enable" "mssql:php:enable")
+        coms=("sqlsrv:install" "mssql:install")
 
         coms+=("apt:fix" "git" "ssl" "ssh" "ssh:install" "sys:init" "self-update" "user:new" "httpd:install")
         coms+=("httpd:config" "mysql:ssl:enable" "cron:update" "cron:service" "ddns:update" "sys:ddns-allow")

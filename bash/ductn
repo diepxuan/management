@@ -15,6 +15,7 @@ _BASHDIR="$_BASEDIR/bash"
 . $_BASHDIR/vpn/pptp
 . $_BASHDIR/httpd
 . $_BASHDIR/log
+. $_BASHDIR/mssql
 . $_BASHDIR/mssql_php
 
 --swap() {
