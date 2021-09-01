@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#!/bin/bash
+
+--wsl:cli:install() {
+    if grep -q Microsoft /proc/version; then
+        _wsl:cli:install
+    fi
+    if grep -q microsoft /proc/version; then
+        _wsl:cli:install
+    fi
+}
+
+_wsl:cli:install() {
+    mkdir -p /mnt/c/wslcli/
+    cat /var/www/base/bash/win10/php.bat >/mnt/c/wslcli/php.bat
+    cat /var/www/base/bash/win10/yarn.bat >/mnt/c/wslcli/yarn.bat
+    cat /var/www/base/bash/win10/phpcs.bat >/mnt/c/wslcli/phpcs.bat
+    cat /var/www/base/bash/win10/git.bat >/mnt/c/wslcli/git.bat
+}
