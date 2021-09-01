@@ -1,0 +1,15 @@
+#!/bin/bash
+
+--swap:remove() {
+    sudo swapoff -v /swapfile
+    sudo rm /swapfile
+    exit 0
+}
+
+--swap:install() {
+    sudo rm -rf /swapfile
+    sudo fallocate -l 2G /swapfile
+    sudo chmod 600 /swapfile
+    sudo mkswap /swapfile
+    sudo swapon /swapfile
+}
