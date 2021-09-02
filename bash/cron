@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
+#!/bin/bash
 
 _BASEDIR="/var/www/base"
 _BASHDIR="$_BASEDIR/bash"
 
-service() {
+--cron:service() {
     # Web Server
     if [[ ! "$(sudo /usr/sbin/service apache2 status)" =~ "start/running" ]]; then
         sudo /usr/sbin/service apache2 start
@@ -12,19 +13,18 @@ service() {
         $_BASHDIR/ductn --swap
         sudo /usr/sbin/service mysql start
     fi
-    exit 0
 }
 
---service() {
-    service
+--cron:update() {
+    --ddns:update
+    --sys:hosts
+    --sys:ufw
 }
 
-if [ "$(whoami)" = "ductn" ]; then
-    chmod u+x $_BASHDIR/cronjob/*.sh
-    chmod u+x $_BASHDIR/cronjob/cronjob
-    crontab $_BASHDIR/cronjob/cronjob.conf
-fi
-
-"--$@"
-
-# sudo service cron restart
+--cron:fix() {
+    if [ "$(whoami)" = "ductn" ]; then
+        chmod u+x $_BASHDIR/cronjob/*.sh
+        chmod u+x $_BASHDIR/cronjob/cronjob
+        crontab $_BASHDIR/cronjob/cronjob.conf
+    fi
+}

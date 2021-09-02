@@ -16,4 +16,5 @@ _wsl:cli:install() {
     cat /var/www/base/bash/win10/yarn.bat >/mnt/c/wslcli/yarn.bat
     cat /var/www/base/bash/win10/phpcs.bat >/mnt/c/wslcli/phpcs.bat
     cat /var/www/base/bash/win10/git.bat >/mnt/c/wslcli/git.bat
+    cat /var/www/base/bash/win10/shfmt.bat >/mnt/c/wslcli/shfmt.bat
 }

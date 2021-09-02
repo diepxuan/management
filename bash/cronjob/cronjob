@@ -3,4 +3,6 @@
 _BASEDIR="/var/www/base"
 _BASHDIR="$_BASEDIR/bash"
 
-$_BASHDIR/ductn cron $@
+# cron:update
+# cron:service
+$_BASHDIR/ductn cron:$@
