@@ -1,6 +1,46 @@
 #!/usr/bin/env bash
+#!/bin/bash
 
 _BASEDIR="/var/www/base"
 _BASHDIR="$_BASEDIR/bash"
 
-. $_BASHDIR/sysddnsallow
+--sys:ufw() {
+    --ufw:cleanup
+}
+
+--sys:hosts() {
+    --hosts:remove $(--ddns:getip dxvnmg15.diepxuan.com) mg15
+    --hosts:add $(--ddns:getip dxvnmg15.diepxuan.com) mg15
+}
+
+--ufw:cleanup() {
+    TYPE=$1
+
+    DDNS_IPS=()
+    for domain in "${DDNS_DOMAINS[@]}"; do
+        IP="$(--ddns:getip $domain)"
+        DDNS_IPS+=($IP)
+    done
+
+    sudo ufw status numbered | sed -n '/Anywhere[[:space:]]\+ALLOW IN[[:space:]]\+/p' | while read line; do
+        line="$(echo "$line" | sed -r 's/[[:space:]*[0-9]+][[:space:]]Anywhere[[:space:]]+ALLOW IN[[:space:]]+//g')"
+        line="$(echo "$line" | sed -r 's/\/tcp//g')"
+
+        if [[ " ${DDNS_IPS[*]} " =~ " ${line} " ]]; then
+            [[ $TYPE =~ "cmd" ]] && echo "Exist $line"
+        else
+            sudo ufw delete allow proto tcp from "$line"
+            [[ $TYPE =~ "cmd" ]] && echo "Remove $line"
+        fi
+
+        # local match=false
+
+        # for domain in "${DDNS_DOMAINS[@]}"; do
+        #     [[ " $(--ddns:getip $domain) " =~ " ${value} " ]] && match=true
+        # done
+
+        # [[ $match ]] && echo $line
+    done
+
+    --ddns:update
+}

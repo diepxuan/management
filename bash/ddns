@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+#!/bin/bash
+
+DDNS_DOMAINS=("dxvnkthd.diepxuan.com" "dxvnk113.diepxuan.com" "dxvnkkcn.diepxuan.com" "dxvnmg15.diepxuan.com" "dx3.diepxuan.com")
+
+--ddns:getip() {
+    host $@ | cut -f4 -d' '
+}
+
+--ddns:_allow() {
+    if [ "$(whoami)" = "ductn" ]; then
+        # sudo ufw allow proto tcp from "$(--ddns:getip $@)" to any port 1433
+        sudo ufw allow proto tcp from "$(--ddns:getip $@)"
+    fi
+}
+
+--ddns:update() {
+    --ddns:allow
+}
+
+--ddns:allow() {
+    for domain in "${DDNS_DOMAINS[@]}"; do
+        --ddns:_allow $domain
+    done
+}

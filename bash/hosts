@@ -4,37 +4,36 @@
 # PATH TO YOUR HOSTS FILE
 ETC_HOSTS=/etc/hosts
 
-# DEFAULT IP FOR HOSTNAME
-IP=$2
+--hosts:remove() {
+    IP=$1
+    HOSTNAME=$2
 
-# Hostname to add/remove.
-HOSTNAME=$3
-
-remove() {
     if [[ -n "$(grep $HOSTNAME /etc/hosts)" ]]; then
-        echo "$HOSTNAME Found in your $ETC_HOSTS, Removing now..."
+        echo "Remove $HOSTNAME from $ETC_HOSTS"
         sudo sed -i".bak" "/$HOSTNAME/d" ${ETC_HOSTS}
     else
         echo "$HOSTNAME was not found!"
     fi
 }
 
-add() {
+--hosts:add() {
+    IP=$1
+    HOSTNAME=$2
+
     HOSTS_LINE="$IP\t$HOSTNAME"
     if [[ -n "$(grep $HOSTNAME /etc/hosts)" ]]; then
         echo "$HOSTNAME already exists : $(grep $HOSTNAME ${ETC_HOSTS})"
     else
-        echo "Adding $HOSTNAME to your $ETC_HOSTS"
         sudo -- sh -c -e "echo '$HOSTS_LINE' >> /etc/hosts"
 
         if [[ -n "$(grep $HOSTNAME /etc/hosts)" ]]; then
-            echo "$HOSTNAME was added successfully \n $(grep $HOSTNAME /etc/hosts)"
+            echo ">> Done |$(grep $HOSTNAME /etc/hosts)"
         else
             echo "Failed to Add $HOSTNAME, Try again!"
         fi
     fi
 }
 
-$@
-
-exit 0
+--hosts() {
+    "--hosts:$@"
+}

@@ -20,3 +20,7 @@
 --mssql:install() {
     --sqlsrv:install
 }
+
+--sqlsrv:cron() {
+    --sqlsrv:install
+}

@@ -87,15 +87,15 @@ _ductn() {
             opts="${opts} "
             ;;
 
-        sqlsrv:php:install|mssql:php:install)
+        sqlsrv:php:install | mssql:php:install)
             opts="${opts} "
             ;;
 
-        sqlsrv:php:enable|mssql:php:enable)
+        sqlsrv:php:enable | mssql:php:enable)
             opts="${opts} "
             ;;
 
-        sqlsrv:install|mssql:install)
+        sqlsrv:install | mssql:install)
             opts="${opts} "
             ;;
 
@@ -103,7 +103,7 @@ _ductn() {
             opts="${opts} "
             ;;
 
-        swap:remove|swap:install)
+        swap:remove | swap:install)
             opts="${opts} "
             ;;
 
@@ -117,16 +117,17 @@ _ductn() {
 
     # completing for a command
     if [[ $cur == $com ]]; then
-        coms=("sys:init")
+        coms=("sys:ufw" "sys:hosts" "sys:init")
 
         coms+=("ssh:install")
         coms+=("wsl:cli:install")
         coms+=("sqlsrv:php:install" "mssql:php:install" "sqlsrv:php:enable" "mssql:php:enable")
         coms+=("sqlsrv:install" "mssql:install")
         coms+=("swap:remove" "swap:install")
+        coms+=("cron:update" "cron:service" "cron:fix")
 
         coms+=("apt:fix" "git" "ssl" "self-update" "user:new" "httpd:install")
-        coms+=("httpd:config" "mysql:ssl:enable" "cron:update" "cron:service" "ddns:update" "sys:ddns-allow")
+        coms+=("httpd:config" "mysql:ssl:enable" "ddns:update")
         coms+=("log:watch" "log:cheanup")
 
         separator=" "

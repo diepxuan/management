@@ -10,6 +10,7 @@ _DEBUG=0
 _BASEDIR="/var/www/base"
 _BASHDIR="$_BASEDIR/bash"
 
+. $_BASHDIR/hosts
 . $_BASHDIR/ssh
 . $_BASHDIR/ssl
 . $_BASHDIR/sys
@@ -20,6 +21,8 @@ _BASHDIR="$_BASEDIR/bash"
 . $_BASHDIR/mssql_php
 . $_BASHDIR/wsl
 . $_BASHDIR/swap
+. $_BASHDIR/cron
+. $_BASHDIR/ddns
 
 --mysql:ssl:enable() {
     $_BASHDIR/ductn_mysql ssl:enable
@@ -62,9 +65,9 @@ aliases() {
     $_BASHDIR/ductn_user new $@
 }
 
---hosts() {
-    $_BASHDIR/ductn_hosts $@
-}
+# --hosts() {
+#     $_BASHDIR/ductn_hosts $@
+# }
 
 --mysql-cluster() {
     --install() {
@@ -133,34 +136,6 @@ aliases() {
     $@
 }
 
---ddns:update() {
-    $_BASHDIR/ductn_ddns update
-}
-
---cronjob() {
-    $_BASHDIR/ductn_cronjob $@
-}
-
---cron:service() {
-    --cronjob service
-}
-
---cron:update() {
-    --ddns:update
-}
-
---cron:--service() {
-    --cronjob service
-}
-
---cron:--update() {
-    --ddns:update
-}
-
---cron() {
-    --cron:$@
-}
-
 --apt:fix() {
     #!/bin/bash
 
@@ -212,7 +187,7 @@ aliases() {
 
 --selfupdate() {
     $_BASHDIR/ductn pull
-    $_BASHDIR/ductn init
+    $_BASHDIR/ductn sys:init
 }
 
 --self-update() {
