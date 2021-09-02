@@ -54,12 +54,12 @@ if [ $_IS_SUDOER = "on" ] || [ "$(whoami)" = "ductn" ]; then
 fi
 
 if [ "$(whoami)" = "ductn" ]; then
-    $_BASHDIR/ductn hosts remove 10.8.0.3 dx2
-    $_BASHDIR/ductn hosts remove 10.8.0.2 dx1
-    $_BASHDIR/ductn hosts remove 10.8.0.1 dx3
-    $_BASHDIR/ductn hosts remove 10.8.0.10 vn11
-    $_BASHDIR/ductn hosts remove 10.8.0.11 mg15
-    $_BASHDIR/ductn hosts remove 10.8.0.12 mg15kt
+    # $_BASHDIR/ductn hosts remove 10.8.0.3 dx2
+    # $_BASHDIR/ductn hosts remove 10.8.0.2 dx1
+    # $_BASHDIR/ductn hosts remove 10.8.0.1 dx3
+    # $_BASHDIR/ductn hosts remove 10.8.0.10 vn11
+    # $_BASHDIR/ductn hosts remove 10.8.0.11 mg15
+    # $_BASHDIR/ductn hosts remove 10.8.0.12 mg15kt
 
     $_BASHDIR/ductn hosts remove 10.8.0.2 dx1.diepxuan.com
     $_BASHDIR/ductn hosts remove 10.8.0.3 dx2.diepxuan.com
