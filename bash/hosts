@@ -22,15 +22,15 @@ ETC_HOSTS=/etc/hosts
 
     HOSTS_LINE="$IP\t$HOSTNAME"
     if [[ -n "$(grep $HOSTNAME /etc/hosts)" ]]; then
-        echo "$HOSTNAME already exists : $(grep $HOSTNAME ${ETC_HOSTS})"
-    else
-        sudo -- sh -c -e "echo '$HOSTS_LINE' >> /etc/hosts"
+        sudo sed -i".bak" "/$HOSTNAME/d" ${ETC_HOSTS}
+    fi
 
-        if [[ -n "$(grep $HOSTNAME /etc/hosts)" ]]; then
-            echo ">> Done |$(grep $HOSTNAME /etc/hosts)"
-        else
-            echo "Failed to Add $HOSTNAME, Try again!"
-        fi
+    sudo -- sh -c -e "echo '$HOSTS_LINE' >> /etc/hosts"
+
+    if [[ -n "$(grep $HOSTNAME /etc/hosts)" ]]; then
+        echo ">> Done |$(grep $HOSTNAME /etc/hosts)"
+    else
+        echo "Failed to Add $HOSTNAME, Try again!"
     fi
 }
 
