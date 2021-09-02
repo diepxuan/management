@@ -32,20 +32,8 @@ mysql-galera() {
     $_BASHDIR/ductn mysql galera $@
 }
 
---aliases() {
-    $_BASEDIR/bash/ductn_init aliases
-}
-
-aliases() {
-    --aliases $@
-}
-
 --composer() {
     $_BASEDIR/bash/ductn_composer $@
-}
-
---dns() {
-    $_BASHDIR/ductn_dns $@
 }
 
 --gitconfig() {
@@ -148,10 +136,6 @@ aliases() {
     sudo rm /var/lib/dpkg/lock-frontend
 
     sudo dpkg --configure -a
-}
-
---sys:init() {
-    $_BASHDIR/ductn_init
 }
 
 --mysql-replicate() {

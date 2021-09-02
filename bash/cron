@@ -21,7 +21,7 @@ _BASHDIR="$_BASEDIR/bash"
     --sys:ufw
 }
 
---cron:fix() {
+--cron:crontab:install() {
     if [ "$(whoami)" = "ductn" ]; then
         chmod u+x $_BASHDIR/cronjob/*.sh
         chmod u+x $_BASHDIR/cronjob/cronjob

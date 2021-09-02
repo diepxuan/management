@@ -124,7 +124,9 @@ _ductn() {
         coms+=("sqlsrv:php:install" "mssql:php:install" "sqlsrv:php:enable" "mssql:php:enable")
         coms+=("sqlsrv:install" "mssql:install")
         coms+=("swap:remove" "swap:install")
-        coms+=("cron:update" "cron:service" "cron:fix")
+        coms+=("cron:update" "cron:service" "cron:crontab:install")
+        coms+=("ddns:getip" "ddns:update" "ddns:allow")
+        coms+=("hosts:add" "hosts:remove" "hosts")
 
         coms+=("apt:fix" "git" "ssl" "self-update" "user:new" "httpd:install")
         coms+=("httpd:config" "mysql:ssl:enable" "ddns:update")
