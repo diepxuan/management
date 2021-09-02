@@ -33,13 +33,6 @@ _BASHDIR="$_BASEDIR/bash"
             [[ $TYPE =~ "cmd" ]] && echo "Remove $line"
         fi
 
-        # local match=false
-
-        # for domain in "${DDNS_DOMAINS[@]}"; do
-        #     [[ " $(--ddns:getip $domain) " =~ " ${value} " ]] && match=true
-        # done
-
-        # [[ $match ]] && echo $line
     done
 
     --ddns:update
