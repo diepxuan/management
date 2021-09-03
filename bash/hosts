@@ -18,8 +18,11 @@ ETC_HOSTS=/etc/hosts
     HOSTNAME=$2
 
     HOSTS_LINE="$IP\t$HOSTNAME"
-    if [[ ! -n $(grep -P "$IP[[:space:]]$HOSTNAME" $ETC_HOSTS) ]]; then
-        sudo sed -i".bak" "/$HOSTNAME/d" ${ETC_HOSTS}
+
+    if [[ ! "$(--ddns:getip $HOSTNAME)" =~ "$IP" ]]; then
+        if [[ ! -n $(grep -P "$IP[[:space:]]$HOSTNAME" $ETC_HOSTS) ]]; then
+            sudo sed -i".bak" "/$HOSTNAME/d" ${ETC_HOSTS}
+        fi
         sudo -- sh -c -e "echo '$HOSTS_LINE' >> /etc/hosts"
     fi
 
