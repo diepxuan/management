@@ -5,7 +5,9 @@ _BASEDIR="/var/www/base"
 _BASHDIR="$_BASEDIR/bash"
 
 --sys:ufw() {
-    --ufw:cleanup
+    --sys:ufw:cleanup
+    --sys:ufw:update
+    --sys:hosts
 }
 
 --sys:hosts() {
@@ -34,7 +36,13 @@ _BASHDIR="$_BASEDIR/bash"
         fi
 
     done
+}
 
+--sys:ufw:cleanup() {
+    --ufw:cleanup
+}
+
+--sys:ufw:update() {
     --ddns:update
 }
 
@@ -103,4 +111,10 @@ _BASHDIR="$_BASEDIR/bash"
     fi
 
     source ~/.bashrc
+}
+
+--sys:selfupdate() {
+    cd "$_BASEDIR"
+    git fetch -ap
+    git reset --hard origin/master
 }

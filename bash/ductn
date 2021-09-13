@@ -9,6 +9,7 @@ _MYSQL_REPLICATE_HOST=0
 _DEBUG=0
 _BASEDIR="/var/www/base"
 _BASHDIR="$_BASEDIR/bash"
+export PATH="$PATH:$_BASEDIR/bash"
 
 . $_BASHDIR/hosts
 . $_BASHDIR/ssh
@@ -23,6 +24,8 @@ _BASHDIR="$_BASEDIR/bash"
 . $_BASHDIR/swap
 . $_BASHDIR/cron
 . $_BASHDIR/ddns
+. $_BASHDIR/php
+. $_BASHDIR/composer
 
 --mysql:ssl:enable() {
     $_BASHDIR/ductn_mysql ssl:enable
@@ -30,10 +33,6 @@ _BASHDIR="$_BASEDIR/bash"
 
 mysql-galera() {
     $_BASHDIR/ductn mysql galera $@
-}
-
---composer() {
-    $_BASEDIR/bash/ductn_composer $@
 }
 
 --gitconfig() {
@@ -163,15 +162,9 @@ mysql-galera() {
 
 }
 
---pull() {
-    cd "$_BASEDIR"
-    git fetch -ap
-    git reset --hard origin/master
-}
-
 --selfupdate() {
-    $_BASHDIR/ductn pull
-    $_BASHDIR/ductn sys:init
+    --sys:selfupdate
+    --sys:init
 }
 
 --self-update() {
