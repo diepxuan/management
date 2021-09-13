@@ -16,8 +16,6 @@ _BASHDIR="$_BASEDIR/bash"
 }
 
 --cron:update() {
-    --ddns:update
-    --sys:hosts
     --sys:ufw
 }
 

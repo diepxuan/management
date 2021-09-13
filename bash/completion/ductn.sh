@@ -117,11 +117,13 @@ _ductn() {
 
     # completing for a command
     if [[ $cur == $com ]]; then
-        coms=("sys:ufw" "sys:hosts" "sys:init")
+        coms=("sys:ufw" "sys:hosts" "sys:init" "sys:selfupdate" "")
 
+        coms+=("selfupdate" "self-update")
         coms+=("ssh:install")
         coms+=("wsl:cli:install")
         coms+=("sqlsrv:php:install" "mssql:php:install" "sqlsrv:php:enable" "mssql:php:enable")
+        coms+=("php:composer:install" "php:phpcsfixer:install")
         coms+=("sqlsrv:install" "mssql:install")
         coms+=("swap:remove" "swap:install")
         coms+=("cron:update" "cron:service" "cron:crontab:install")

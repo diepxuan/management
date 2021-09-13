@@ -33,7 +33,7 @@ $servers = [
 /**
  * Initial server
  */
-foreach ( $servers as $key => $server ) {
+foreach ($servers as $key => $server) {
     $i = $key + 1;
     /* Authentication type */
     $cfg['Servers'][ $i ]['auth_type'] = 'http';
@@ -57,7 +57,7 @@ foreach ( $servers as $key => $server ) {
     $cfg['Servers'][ $i ]['controlhost'] = $server;
     $cfg['Servers'][ $i ]['controlport'] = '3306';
     $cfg['Servers'][ $i ]['controluser'] = 'sa';
-    $cfg['Servers'][ $i ]['controlpass'] = 'ductn@123';
+    $cfg['Servers'][ $i ]['controlpass'] = 'ductn@7691';
 
     /* Storage database and tables */
     $cfg['Servers'][ $i ]['pmadb']             = 'phpmyadmin';

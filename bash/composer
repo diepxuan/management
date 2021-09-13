@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-
-
---install() {
+--php:composer:install() {
     cd ~
     curl -sS https://getcomposer.org/installer -o composer-setup.php
     HASH=$(curl -sS https://composer.github.io/installer.sig)
@@ -12,5 +10,3 @@
     php -r "unlink('composer-setup.php');"
     rm -rf composer-setup.php
 }
-
-$@

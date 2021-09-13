@@ -5,4 +5,4 @@ _BASHDIR="$_BASEDIR/bash"
 
 # cron:update
 # cron:service
-$_BASHDIR/ductn cron:$@
+$_BASHDIR/ductn cron:$@ >/dev/null 2>&1
