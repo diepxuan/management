@@ -26,6 +26,7 @@ export PATH="$PATH:$_BASEDIR/bash"
 . $_BASHDIR/ddns
 . $_BASHDIR/php
 . $_BASHDIR/composer
+. $_BASHDIR/ufw
 
 --mysql:ssl:enable() {
     $_BASHDIR/ductn_mysql ssl:enable
