@@ -129,10 +129,10 @@ _ductn() {
         coms+=("cron:update" "cron:service" "cron:crontab:install")
         coms+=("ddns:getip" "ddns:update" "ddns:allow")
         coms+=("hosts:add" "hosts:remove" "hosts")
-
         coms+=("apt:fix" "git" "ssl" "self-update" "user:new" "httpd:install")
         coms+=("httpd:config" "mysql:ssl:enable" "ddns:update")
         coms+=("log:watch" "log:cheanup")
+        coms+=("ufw:geoip:install" "ufw:geoip:update" "ufw:geoip:configuration")
 
         separator=" "
         coms="$(printf "${separator}%s" "${coms[@]}")"
