@@ -133,6 +133,7 @@ _ductn() {
         coms+=("httpd:config" "mysql:ssl:enable" "ddns:update")
         coms+=("log:watch" "log:cheanup")
         coms+=("ufw:geoip:install" "ufw:geoip:update" "ufw:geoip:configuration")
+        coms+=("ufw:fail2ban:install" "ufw:fail2ban:configuration")
 
         separator=" "
         coms="$(printf "${separator}%s" "${coms[@]}")"
