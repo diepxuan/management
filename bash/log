@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
 --log:watch() {
-    ssh dx3.diepxuan.com "sudo tail -f /var/log/syslog" &
-    ssh dx1.diepxuan.com "sudo tail -f /var/log/syslog"
+    # ssh dx3.diepxuan.com "sudo tail -f /var/log/syslog" &
+    # ssh dx1.diepxuan.com "sudo tail -f /var/log/syslog"
+    sudo tail -f /var/log/*log /var/opt/mssql/log/errorlog
 }
 
 --log:cleanup() {
