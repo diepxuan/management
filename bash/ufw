@@ -174,3 +174,10 @@ ignoreregex =" | sudo tee /etc/fail2ban/filter.d/mssql-server.conf
 
     sudo service fail2ban restart
 }
+
+--ufw:mssql:profile() {
+    echo "[SQLServer]
+title=SQLServer
+description=SQLServer server.
+ports=1433/tcp|1434/udp" | sudo tee /etc/ufw/applications.d/mssql.ufw.profile
+}

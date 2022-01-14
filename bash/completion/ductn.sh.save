@@ -134,7 +134,7 @@ _ductn() {
         coms+=("log:watch" "log:cheanup")
         coms+=("ufw:geoip:install" "ufw:geoip:update" "ufw:geoip:configuration" "ufw:geoip:allowCloudflare")
         coms+=("ufw:fail2ban:install" "ufw:fail2ban:configuration")
-        coms+=("dns:update")
+
 
         separator=" "
         coms="$(printf "${separator}%s" "${coms[@]}")"

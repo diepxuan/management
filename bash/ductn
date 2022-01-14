@@ -24,6 +24,7 @@ export PATH="$PATH:$_BASEDIR/bash"
 . $_BASHDIR/swap
 . $_BASHDIR/cron
 . $_BASHDIR/ddns
+. $_BASHDIR/dns
 . $_BASHDIR/php
 . $_BASHDIR/composer
 . $_BASHDIR/ufw

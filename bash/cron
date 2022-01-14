@@ -17,6 +17,7 @@ _BASHDIR="$_BASEDIR/bash"
 
 --cron:update() {
     --sys:ufw
+    --dns:update
 }
 
 --cron:crontab:install() {
