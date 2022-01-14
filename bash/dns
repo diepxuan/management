@@ -1,6 +1,36 @@
 #!/bin/bash
 
---install() {
+DNS=false
+
+--dns:update() {
+    DNS="$(--ddns:getip dc2.diepxuan.com)"
+    --dns:update:named
+
+}
+
+--dns:update:nameservers() {
+    if [[ -f /etc/resolvconf/resolv.conf.d/base ]]; then
+        echo "nameserver "$DNS"" | sudo tee /etc/resolvconf/resolv.conf.d/base > /dev/null
+    fi
+    sudo netplan set ethernets.ens192.nameservers.addresses=[1.1.1.1,8.8.8.8]
+    sudo netplan apply
+}
+
+--dns:update:named() {
+    echo "zone \"diepxuan.com\" {
+    type slave;
+    file \"db.diepxuan.com\";
+    masters { "$DNS"; };
+};
+zone \"_msdcs.vswit.ch\" IN {
+     type slave;
+     file \"db._msdcs.diepxuan.com\";
+     masters { "$DNS"; };
+};" | sudo tee /etc/bind/named.conf.local > /dev/null
+    sudo service named restart
+}
+
+--dns:server:install() {
     #!/bin/bash
     cd "$(dirname "$0")"
 
@@ -28,4 +58,3 @@
     # sudo service bind9 restart
 }
 
-$@
