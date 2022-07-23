@@ -29,6 +29,7 @@ _LIBDIR="$_BASEDIR/lib"
 . $_BASHDIR/php
 . $_BASHDIR/composer
 . $_BASHDIR/ufw
+. $_BASHDIR/user
 
 --mysql:ssl:enable() {
     $_BASHDIR/ductn_mysql ssl:enable
@@ -36,10 +37,6 @@ _LIBDIR="$_BASEDIR/lib"
 
 mysql-galera() {
     $_BASHDIR/ductn mysql galera $@
-}
-
---user:new() {
-    $_BASHDIR/ductn_user new $@
 }
 
 "--$@"
