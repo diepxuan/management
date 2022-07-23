@@ -102,7 +102,6 @@ _ductn() {
     # completing for a command
     if [[ $cur == $com ]]; then
         coms=("sys:ufw" "sys:hosts" "sys:init" "sys:selfupdate" "sys:apt:fix")
-
         coms+=("selfupdate" "self-update")
         coms+=("ssh:install")
         coms+=("wsl:cli:install")
@@ -115,7 +114,7 @@ _ductn() {
         coms+=("hosts:add" "hosts:remove" "hosts")
         coms+=("user:new" "user:config")
         coms+=("ssl" "self-update" "httpd:install")
-        coms+=("httpd:config" "ddns:update")
+        coms+=("httpd:config" "ddns:update" "httpd:restart")
         coms+=("mysql:setup" "mysql:ssl:enable")
         coms+=("log:watch" "log:cleanup" "log:watch:service")
         coms+=("ufw:geoip:install" "ufw:geoip:update" "ufw:geoip:configuration" "ufw:geoip:allowCloudflare")
