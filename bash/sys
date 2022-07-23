@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-_BASEDIR="/var/www/base"
-_BASHDIR="$_BASEDIR/bash"
-
 --sys:ufw() {
     --sys:ufw:cleanup
     --sys:ufw:allow
@@ -63,7 +60,7 @@ _BASHDIR="$_BASEDIR/bash"
         sudo chown root:root /usr/local/bin/ductn
     fi
 
-    $_BASHDIR/ductn git -i
+    --git:configure
 
     if [[ $_IS_SERVER = "on" ]]; then
         --cron:install
@@ -104,4 +101,17 @@ _BASHDIR="$_BASEDIR/bash"
     cd "$_BASEDIR"
     git fetch -ap
     git reset --hard origin/master
+}
+
+--selfupdate() {
+    --sys:selfupdate
+    --sys:init
+}
+
+--self-update() {
+    --selfupdate
+}
+
+--sys:apt:fix() {
+    --apt:fix
 }

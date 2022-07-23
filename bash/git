@@ -1,6 +1,9 @@
+#!/usr/bin/env bash
 #!/bin/bash
 
---install() {
+_GITDIR="$_LIBDIR/git"
+
+--git:configure() {
     # global gitignore
     git config --global core.excludesfile ~/.gitignore
 
@@ -30,30 +33,20 @@
     if [ "$(whoami)" = "ductn" ]; then
         cd /var/www/base/
 
-        cat /var/www/base/bash/git/.gitignore >~/.gitignore
+        cat $_GITDIR/.gitignore >~/.gitignore
         chmod 644 ~/.gitignore
 
         # remote repository
-        cat /var/www/base/bash/git/push-to-checkout >.git/hooks/push-to-checkout
-        chmod +x .git/hooks/push-to-checkout
+        cat $_GITDIR/push-to-checkout >$_BASEDIR/.git/hooks/push-to-checkout
+        chmod +x $_BASEDIR/.git/hooks/push-to-checkout
 
-        rm -rf .git/hooks/post-receive
-        chmod +x .git/hooks/*
+        rm -rf $_BASEDIR/.git/hooks/post-receive
+        chmod +x $_BASEDIR/.git/hooks/*
     fi
 }
 
--i() {
-    --install
-}
-
---configure() {
-    --install
-}
-
---server() {
+--git:configure:server() {
     echo "server update"
-    cat /var/www/base/bash/git/post-receive >.git/hooks/post-receive
+    cat $_GITDIR/post-receive >$_BASEDIR/.git/hooks/post-receive
     chmod +x .git/hooks/*
 }
-
-$@

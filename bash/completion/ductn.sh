@@ -23,16 +23,8 @@ _ductn() {
 
         case "$com" in
 
-        apt:fix)
-            opts="${opts}"
-            ;;
-
         cron)
             opts="${opts} --service --update"
-            ;;
-
-        git)
-            opts="${opts} --configure"
             ;;
 
         ssl)
@@ -117,7 +109,7 @@ _ductn() {
 
     # completing for a command
     if [[ $cur == $com ]]; then
-        coms=("sys:ufw" "sys:hosts" "sys:init" "sys:selfupdate" "")
+        coms=("sys:ufw" "sys:hosts" "sys:init" "sys:selfupdate" "sys:apt:fix")
 
         coms+=("selfupdate" "self-update")
         coms+=("ssh:install")
@@ -129,12 +121,13 @@ _ductn() {
         coms+=("cron:update" "cron:service" "cron:crontab:install")
         coms+=("ddns:getip" "ddns:update" "ddns:allow")
         coms+=("hosts:add" "hosts:remove" "hosts")
-        coms+=("apt:fix" "git" "ssl" "self-update" "user:new" "httpd:install")
+        coms+=("ssl" "self-update" "user:new" "httpd:install")
         coms+=("httpd:config" "mysql:ssl:enable" "ddns:update")
         coms+=("log:watch" "log:cleanup" "log:watch:service")
         coms+=("ufw:geoip:install" "ufw:geoip:update" "ufw:geoip:configuration" "ufw:geoip:allowCloudflare")
         coms+=("ufw:fail2ban:install" "ufw:fail2ban:configuration")
         coms+=("dns:update")
+        coms+=("git:configure" "git:configure:server")
 
         separator=" "
         coms="$(printf "${separator}%s" "${coms[@]}")"
