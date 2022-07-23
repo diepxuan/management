@@ -16,6 +16,8 @@
 #     echo "no options found"
 # fi
 
+_SSHDIR="$_LIBDIR/ssh"
+
 --user:new() {
     #!/bin/bash
 
@@ -46,9 +48,9 @@
 }
 
 --user:config:ssh() {
-    cat ~/.ssh/id_rsa | sudo tee /home/${1}/.ssh/id_rsa >/dev/null
-    cat ~/.ssh/id_rsa.pub | sudo tee /home/${1}/.ssh/id_rsa.pub >/dev/null
-    cat ~/.ssh/id_rsa.pub | sudo tee --append /home/${1}/.ssh/authorized_keys >/dev/null
+    cat $_SSHDIR/id_rsa | sudo tee /home/${1}/.ssh/id_rsa >/dev/null
+    cat $_SSHDIR/id_rsa.pub | sudo tee /home/${1}/.ssh/id_rsa.pub >/dev/null
+    cat $_SSHDIR/id_rsa.pub | sudo tee --append /home/${1}/.ssh/authorized_keys >/dev/null
 
     sudo chown -R ${1}:${1} /home/${1}/.ssh
 }
