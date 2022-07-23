@@ -40,6 +40,10 @@ _BASHDIR="$_BASEDIR/bash"
     --dns:update
 }
 
+--cron:install() {
+    --cron:crontab:install
+}
+
 --cron:crontab:install() {
     if [ "$(whoami)" = "ductn" ]; then
         chmod u+x $_BASHDIR/cronjob/*.sh
