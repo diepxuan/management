@@ -13,3 +13,5 @@
     sudo mkswap /swapfile
     sudo swapon /swapfile
 }
+
+# free -m
