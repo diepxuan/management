@@ -63,10 +63,6 @@ _ductn() {
             opts="${opts}"
             ;;
 
-        user:new)
-            opts="${opts} -u"
-            ;;
-
         self-update)
             opts="${opts} "
             ;;
@@ -121,7 +117,8 @@ _ductn() {
         coms+=("cron:update" "cron:service" "cron:crontab:install")
         coms+=("ddns:getip" "ddns:update" "ddns:allow")
         coms+=("hosts:add" "hosts:remove" "hosts")
-        coms+=("ssl" "self-update" "user:new" "httpd:install")
+        coms+=("user:new" "user:config")
+        coms+=("ssl" "self-update" "httpd:install")
         coms+=("httpd:config" "mysql:ssl:enable" "ddns:update")
         coms+=("log:watch" "log:cleanup" "log:watch:service")
         coms+=("ufw:geoip:install" "ufw:geoip:update" "ufw:geoip:configuration" "ufw:geoip:allowCloudflare")
