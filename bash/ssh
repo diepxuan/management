@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 #!/bin/bash
 
 ####################################
@@ -40,7 +41,6 @@
     # cat /var/www/base/ssh/gss > ~/.ssh/gss
     # cat /var/www/base/ssh/tci > ~/.ssh/tci
     # cat /var/www/base/ssh/gem > ~/.ssh/gem
-    --ssh:permision
 
     # ssh public key
     ssh-keygen -f ~/.ssh/id_rsa -y >~/.ssh/id_rsa.pub
@@ -61,4 +61,3 @@
     chmod 700 ~/.ssh
     chmod 600 ~/.ssh/*
 }
-
