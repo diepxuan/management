@@ -43,10 +43,6 @@ _ductn() {
             opts="${opts}"
             ;;
 
-        mysql:ssl:enable)
-            opts="${opts}"
-            ;;
-
         ddns:update)
             opts="${opts}"
             ;;
@@ -119,7 +115,8 @@ _ductn() {
         coms+=("hosts:add" "hosts:remove" "hosts")
         coms+=("user:new" "user:config")
         coms+=("ssl" "self-update" "httpd:install")
-        coms+=("httpd:config" "mysql:ssl:enable" "ddns:update")
+        coms+=("httpd:config" "ddns:update")
+        coms+=("mysql:setup" "mysql:ssl:enable")
         coms+=("log:watch" "log:cleanup" "log:watch:service")
         coms+=("ufw:geoip:install" "ufw:geoip:update" "ufw:geoip:configuration" "ufw:geoip:allowCloudflare")
         coms+=("ufw:fail2ban:install" "ufw:fail2ban:configuration")
