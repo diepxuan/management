@@ -44,6 +44,7 @@ _BASHDIR="$_BASEDIR/bash"
 }
 
 --sqlsrv:php:enable() {
+    --sqlsrv:php:disable
     # printf "priority=20\nextension=sqlsrv.so\n" | sudo tee /etc/php/5.6/mods-available/sqlsrv.ini
     # printf "priority=30\nextension=pdo_sqlsrv.so\n" | sudo tee /etc/php/5.6/mods-available/pdo_sqlsrv.ini
 
@@ -64,7 +65,7 @@ _BASHDIR="$_BASEDIR/bash"
 
     # printf "; priority=20\nextension=sqlsrv.so\n" | sudo tee /etc/php/8.0/mods-available/sqlsrv.ini
     # printf "; priority=30\nextension=pdo_sqlsrv.so\n" | sudo tee /etc/php/8.0/mods-available/pdo_sqlsrv.ini
-
+    $(php --ini | grep "Configuration File (php.ini)" | sed -e "s|.*:\s*||" -e "s/\/cli$//")
     printf "priority=20\nextension=sqlsrv.so\n" | sudo tee $(php --ini | grep "Configuration File (php.ini)" | sed -e "s|.*:\s*||" -e "s/\/cli$//")/mods-available/sqlsrv.ini
     printf "priority=30\nextension=pdo_sqlsrv.so\n" | sudo tee $(php --ini | grep "Configuration File (php.ini)" | sed -e "s|.*:\s*||" -e "s/\/cli$//")/mods-available/pdo_sqlsrv.ini
 
@@ -77,4 +78,14 @@ _BASHDIR="$_BASEDIR/bash"
 
 --mssql:php:enable() {
     --sqlsrv:php:enable
+    sudo /usr/sbin/service apache2 start
+}
+
+--sqlsrv:php:disable() {
+    sudo phpdismod sqlsrv pdo_sqlsrv
+    sudo /usr/sbin/service apache2 restart
+}
+
+--mssql:php:disable() {
+    --sqlsrv:php:disable
 }
