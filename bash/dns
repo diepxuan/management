@@ -2,32 +2,59 @@
 
 DNS=false
 
---dns:update() {
-    DNS="$(--ddns:getip dc2.diepxuan.com)"
-    --dns:update:named
+--dns:init() {
+    if [[ -z ${DNS+x} ]]; then return 1; else DNS="$(--ddns:getip dc1.diepxuan.com)"; fi
+}
 
+--dns:update() {
+    --dns:init
+    if [[ "$DNS" =~ $(</var/cache/bind/ip.diepxuan.com) ]]; then
+        return 1
+    fi
+
+    echo "$DNS" | sudo tee /var/cache/bind/ip.diepxuan.com >/dev/null
+
+    --dns:update:nameservers
+    --dns:update:options
+    --dns:update:named
 }
 
 --dns:update:nameservers() {
+    --dns:init
     if [[ -f /etc/resolvconf/resolv.conf.d/base ]]; then
-        echo "nameserver "$DNS"" | sudo tee /etc/resolvconf/resolv.conf.d/base > /dev/null
+        echo "nameserver "$DNS"" | sudo tee /etc/resolvconf/resolv.conf.d/base >/dev/null
     fi
-    sudo netplan set ethernets.ens192.nameservers.addresses=[1.1.1.1,8.8.8.8]
+    sudo netplan set ethernets.ens192.nameservers.addresses=["$DNS",1.1.1.1,8.8.8.8]
     sudo netplan apply
 }
 
 --dns:update:named() {
+    --dns:init
     echo "zone \"diepxuan.com\" {
     type slave;
-    file \"db.diepxuan.com\";
+    file \"/var/cache/bind/db.diepxuan.com\";
     masters { "$DNS"; };
 };
-zone \"_msdcs.vswit.ch\" IN {
+zone \"_msdcs.diepxuan.com\" IN {
      type slave;
-     file \"db._msdcs.diepxuan.com\";
+     file \"/var/cache/bind/db._msdcs.diepxuan.com\";
      masters { "$DNS"; };
-};" | sudo tee /etc/bind/named.conf.local > /dev/null
+};" | sudo tee /etc/bind/named.conf.local >/dev/null
     sudo service named restart
+}
+
+--dns:update:options() {
+    --dns:init
+    echo "options {
+        directory \"/var/cache/bind\";
+        forwarders {
+             "$DNS";
+             1.1.1.1;
+             8.8.8.8;
+        };
+        dnssec-validation auto;
+        listen-on-v6 { any; };
+};" | sudo tee /etc/bind/named.conf.options >/dev/null
 }
 
 --dns:server:install() {
@@ -36,25 +63,25 @@ zone \"_msdcs.vswit.ch\" IN {
 
     # sudo apt install bind9 bind9utils bind9-doc dnsutils -y
 
-    cat dns/slave.conf.options | ssh dx1.diepxuan.com "sudo tee /etc/bind/named.conf.options"
-    cat dns/slave.conf.local | ssh dx1.diepxuan.com "sudo tee /etc/bind/named.conf.local"
-    scp dns/db.* ductn@dx1.diepxuan.com
-    ssh dx1.diepxuan.com "
-            mkdir /etc/bind/zones
-            sudo mv db.* /etc/bind/zones
-            sudo service bind9 restart
-        "
+    # cat dns/slave.conf.options | ssh dx1.diepxuan.com "sudo tee /etc/bind/named.conf.options"
+    # cat dns/slave.conf.local | ssh dx1.diepxuan.com "sudo tee /etc/bind/named.conf.local"
+    # scp dns/db.* ductn@dx1.diepxuan.com
+    # ssh dx1.diepxuan.com "
+    #         mkdir /etc/bind/zones
+    #         sudo mv db.* /etc/bind/zones
+    #         sudo service bind9 restart
+    #     "
 
-    cat dns/master.conf.options | ssh dx3.diepxuan.com "sudo tee /etc/bind/named.conf.options"
-    cat dns/master.conf.local | ssh dx3.diepxuan.com "sudo tee /etc/bind/named.conf.local"
-    scp dns/db.* ductn@dx3.diepxuan.com:~/
-    ssh dx3.diepxuan.com "
-            mkdir -p /etc/bind/zones
-            sudo mv ~/db.* /etc/bind/zones
-            sudo service bind9 restart
-        "
+    # cat dns/master.conf.options | ssh dx3.diepxuan.com "sudo tee /etc/bind/named.conf.options"
+    # cat dns/master.conf.local | ssh dx3.diepxuan.com "sudo tee /etc/bind/named.conf.local"
+    # scp dns/db.* ductn@dx3.diepxuan.com:~/
+    # ssh dx3.diepxuan.com "
+    #         mkdir -p /etc/bind/zones
+    #         sudo mv ~/db.* /etc/bind/zones
+    #         sudo service bind9 restart
+    #     "
+
     # sudo apt install stunnel4 -y --purge --auto-remove
     # cat /var/www/base/bash/dns/stunnel.conf | sudo tee /etc/stunnel/stunnel.conf
     # sudo service bind9 restart
 }
-

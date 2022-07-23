@@ -9,7 +9,6 @@ _MYSQL_REPLICATE_HOST=0
 _DEBUG=0
 _BASEDIR="/var/www/base"
 _BASHDIR="$_BASEDIR/bash"
-export PATH="$PATH:$_BASEDIR/bash"
 
 . $_BASHDIR/hosts
 . $_BASHDIR/ssh
@@ -18,11 +17,11 @@ export PATH="$PATH:$_BASEDIR/bash"
 . $_BASHDIR/vpn/pptp
 . $_BASHDIR/httpd
 . $_BASHDIR/log
-. $_BASHDIR/mssql
-. $_BASHDIR/mssql_php
+. $_BASHDIR/bin/mssql
+. $_BASHDIR/bin/mssql_php
 . $_BASHDIR/wsl
 . $_BASHDIR/swap
-. $_BASHDIR/cron
+. $_BASHDIR/bin/cron
 . $_BASHDIR/ddns
 . $_BASHDIR/dns
 . $_BASHDIR/php

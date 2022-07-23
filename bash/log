@@ -6,6 +6,10 @@
     sudo tail -f /var/log/*log /var/opt/mssql/log/errorlog
 }
 
+--log:watch:service() {
+    sudo journalctl -u "$@".service -f
+}
+
 --log:cleanup() {
 
     # #!/bin/sh

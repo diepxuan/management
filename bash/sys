@@ -6,8 +6,8 @@ _BASHDIR="$_BASEDIR/bash"
 
 --sys:ufw() {
     --sys:ufw:cleanup
-    --sys:ufw:update
-    --sys:hosts
+    --sys:ufw:allow
+    # --sys:hosts
 }
 
 --sys:hosts() {
@@ -15,35 +15,22 @@ _BASHDIR="$_BASEDIR/bash"
     --hosts:add $(--ddns:getip dx3.diepxuan.com) dx3
 }
 
---ufw:cleanup() {
-    TYPE=$1
-
-    DDNS_IPS=()
-    for domain in "${DDNS_DOMAINS[@]}"; do
-        IP="$(--ddns:getip $domain)"
-        DDNS_IPS+=($IP)
-    done
-
-    sudo ufw status numbered | sed -n '/Anywhere[[:space:]]\+ALLOW IN[[:space:]]\+/p' | while read line; do
-        line="$(echo "$line" | sed -r 's/[[:space:]*[0-9]+][[:space:]]Anywhere[[:space:]]+ALLOW IN[[:space:]]+//g')"
-        line="$(echo "$line" | sed -r 's/\/tcp//g')"
-
-        if [[ " ${DDNS_IPS[*]} " =~ " ${line} " ]]; then
-            [[ $TYPE =~ "cmd" ]] && echo "Exist $line"
-        else
-            sudo ufw delete allow proto tcp from "$line"
-            [[ $TYPE =~ "cmd" ]] && echo "Remove $line"
-        fi
-
-    done
-}
-
 --sys:ufw:cleanup() {
     --ufw:cleanup
 }
 
---sys:ufw:update() {
-    --ddns:update
+--sys:ufw:_allow() {
+    if [ "$(whoami)" = "ductn" ]; then
+        # sudo ufw allow proto tcp from "$(--ddns:getip $@)" to any port 1433
+        sudo ufw allow from "$(--ddns:getip $@)"
+    fi
+}
+
+--sys:ufw:allow() {
+    for domain in "${DDNS_DOMAINS[@]}"; do
+        # echo $domain
+        --sys:ufw:_allow $domain
+    done
 }
 
 --sys:init() {
@@ -97,18 +84,18 @@ _BASHDIR="$_BASEDIR/bash"
         echo "ductn ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/90-users >/dev/null
     fi
 
-    if [ "$(whoami)" = "ductn" ]; then
-        # $_BASHDIR/ductn hosts remove 10.8.0.3 dx2
-        # $_BASHDIR/ductn hosts remove 10.8.0.2 dx1
-        # $_BASHDIR/ductn hosts remove 10.8.0.1 dx3
-        # $_BASHDIR/ductn hosts remove 10.8.0.10 vn11
-        # $_BASHDIR/ductn hosts remove 10.8.0.11 mg15
-        # $_BASHDIR/ductn hosts remove 10.8.0.12 mg15kt
+    # if [ "$(whoami)" = "ductn" ]; then
+    # $_BASHDIR/ductn hosts remove 10.8.0.3 dx2
+    # $_BASHDIR/ductn hosts remove 10.8.0.2 dx1
+    # $_BASHDIR/ductn hosts remove 10.8.0.1 dx3
+    # $_BASHDIR/ductn hosts remove 10.8.0.10 vn11
+    # $_BASHDIR/ductn hosts remove 10.8.0.11 mg15
+    # $_BASHDIR/ductn hosts remove 10.8.0.12 mg15kt
 
-        $_BASHDIR/ductn hosts remove 10.8.0.2 dx1.diepxuan.com
-        $_BASHDIR/ductn hosts remove 10.8.0.3 dx2.diepxuan.com
-        $_BASHDIR/ductn hosts remove 10.8.0.1 dx3.diepxuan.com
-    fi
+    # $_BASHDIR/ductn hosts remove 10.8.0.2 dx1.diepxuan.com
+    # $_BASHDIR/ductn hosts remove 10.8.0.3 dx2.diepxuan.com
+    # $_BASHDIR/ductn hosts remove 10.8.0.1 dx3.diepxuan.com
+    # fi
 
     source ~/.bashrc
 }
