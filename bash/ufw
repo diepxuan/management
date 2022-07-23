@@ -3,181 +3,39 @@
 
 _BASEDIR="/var/www/base"
 _BASHDIR="$_BASEDIR/bash"
-export PATH="$PATH:$_BASEDIR/bash"
 
---ufw:geoip:install() {
-    sudo apt install curl unzip perl -y --purge --auto-remove
-    sudo apt install xtables-addons-common -y --purge --auto-remove
-    sudo apt install libtext-csv-xs-perl libmoosex-types-netaddr-ip-perl -y --purge --auto-remove
+. $_BASHDIR/ufw.geoip
+. $_BASHDIR/ufw.fail2ban
+
+--ufw:cleanup() {
+    TYPE=$1
+
+    DDNS_IPS=()
+    for domain in "${DDNS_DOMAINS[@]}"; do
+        IP="$(--ddns:getip $domain)"
+        DDNS_IPS+=($IP)
+    done
+
+    sudo ufw status numbered | sed -n '/Anywhere[[:space:]]\+ALLOW IN[[:space:]]\+/p' | while read line; do
+        line="$(echo "$line" | sed -r 's/[[:space:]*[0-9]+][[:space:]]Anywhere[[:space:]]+ALLOW IN[[:space:]]+//g')"
+        line="$(echo "$line" | sed -r 's/\/tcp//g')"
+
+        if [[ " ${DDNS_IPS[*]} " =~ " ${line} " ]]; then
+            [[ $TYPE =~ "cmd" ]] && echo "Exist $line"
+        else
+            # sudo ufw delete allow proto tcp from "$line"
+            sudo ufw delete allow from "$line"
+            [[ $TYPE =~ "cmd" ]] && echo "Remove $line"
+        fi
+
+    done
 }
 
---ufw:geoip:update() {
-    MON=$(date +"%m")
-    YR=$(date +"%Y")
-    sudo mkdir -p /usr/share/xt_geoip
-    sudo chmod +x /usr/lib/xtables-addons/*
-
-    sudo rm /usr/share/xt_geoip/dbip-country-lite.csv
-    (cd /usr/share/xt_geoip && sudo /usr/lib/xtables-addons/xt_geoip_dl)
-
-    # sudo wget https://download.db-ip.com/free/dbip-country-lite-${YR}-${MON}.csv.gz -O /usr/share/xt_geoip/dbip-country-lite.csv.gz
-    # sudo gunzip /usr/share/xt_geoip/dbip-country-lite.csv.gz
-
-    sudo /usr/lib/xtables-addons/xt_geoip_build -D /usr/share/xt_geoip/ -S /usr/share/xt_geoip/
-    sudo rm /usr/share/xt_geoip/dbip-country-lite.csv
+--ufw:profile:mssql() {
+    echo $ufw_profile_mssql | sudo tee /etc/ufw/applications.d/mssql.ufw.profile
 }
 
---ufw:geoip:configuration() {
-    --ufw:geoip:update
-    sudo modprobe xt_geoip
-    # lsmod | grep ^xt_geoip
-    # iptables -m geoip -h
-
-    ##########################
-    # /etc/ufw/before.rules  #
-    # /etc/ufw/before6.rules #
-    ##########################
-    # GeoIp
-    # -A ufw-before-input -m geoip ! --src-cc VN -j LOG --log-prefix "[BLOCKED COUNTRIES] "
-    # -A ufw-before-input -m geoip ! --src-cc VN -j DROP
-
-    # Allow Cloudflare IP
-    # https://www.cloudflare.com/ips-v4
-    # https://www.cloudflare.com/ips-v6
-    # iptables -I INPUT -p tcp -m multiport --dports http,https -s $ip -j ACCEPT
-    # -A ufw-before-input -p tcp -m multiport --dports http,https -s $ip -j ACCEPT
-}
-
---ufw:geoip:allowCloudflare() {
-    v4ips="https://www.cloudflare.com/ips-v4"
-    echo "# v4: /etc/ufw/before.rules"
-    while IFS= read -r line; do
-        echo "-A ufw-before-input -p tcp -m multiport --dports http,https -s ${line} -j ACCEPT"
-    done < <(curl -s $v4ips)
-
-    v6ips="https://www.cloudflare.com/ips-v6"
-    echo "# v6: /etc/ufw/before6.rules"
-    while IFS= read -r line; do
-        echo "-A ufw-before-input -p tcp -m multiport --dports http,https -s ${line} -j ACCEPT"
-    done < <(curl -s $v6ips)
-}
-
---ufw:fail2ban:install() {
-    sudo apt install fail2ban -y --purge --auto-remove
-}
-
---ufw:fail2ban:configuration() {
-
-    ##########################
-    # mysql
-    ##########################
-    echo "# To log wrong MySQL access attempts add to /etc/my.cnf in [mysqld] or
-# equivalent section:
-# log-warnings = 2
-#
-# for syslog (daemon facility)
-# [mysqld_safe]
-# syslog
-#
-# for own logfile
-# [mysqld]
-# log-error=/var/log/mysqld.log
-[mysql-auth]
-enabled  = true
-maxretry = 3
-port     = 3306
-logpath  = /var/log/syslog
-backend  = %(mysql_backend)s" | sudo tee /etc/fail2ban/jail.d/mysql.conf
-
-    echo "# Fail2Ban filter for unsuccesful MySQL authentication attempts
-#
-#
-# To log wrong MySQL access attempts add to /etc/my.cnf in [mysqld]:
-# log-error=/var/log/mysqld.log
-# log-warnings = 2
-#
-# If using mysql syslog [mysql_safe] has syslog in /etc/my.cnf
-
-[INCLUDES]
-
-# Read common prefixes. If any customizations available -- read them from
-# common.local
-before = common.conf
-
-[Definition]
-
-_daemon = mysql
-
-failregex = ^%(__prefix_line)s(?:(?:\d{6}|\d{4}-\d{2}-\d{2})[ T]\s?\d{1,2}:\d{2}:\d{2} )?(?:\d+ )?\[\w+\] (?:\[[^\]]+\] )*Access denied for user '[^']+'@'<HOST>' (to database '[^']*'|\(using password: (YES|NO)\))*\s*$
-
-ignoreregex =
-
-# DEV Notes:
-#
-# Technically __prefix_line can equate to an empty string hence it can support
-# syslog and non-syslog at once.
-# Example:
-# 130322 11:26:54 [Warning] Access denied for user 'root'@'127.0.0.1' (using password: YES)
-#
-# Authors: Artur Penttinen
-#          Yaroslav O. Halchenko" | sudo tee /etc/fail2ban/filter.d/mysql-auth.conf
-
-    ##########################
-    # sshd invaliduser
-    ##########################
-    echo "[sshd-invaliduser]
-enabled = true
-maxretry = 1
-port    = ssh
-logpath = %(sshd_log)s
-backend = %(sshd_backend)s" | sudo tee /etc/fail2ban/jail.d/sshd-invaliduser.conf
-
-    echo "[INCLUDES]
-before = common.conf
-
-[Definition]
-_daemon = sshd
-
-failregex = ^%(__prefix_line)s[iI](?:llegal|nvalid) user .*? from <HOST>(?: port \d+)?\s*$
-ignoreregex =
-
-[Init]
-journalmatch = _SYSTEMD_UNIT=sshd.service + _COMM=sshd" | sudo tee /etc/fail2ban/filter.d/sshd-invaliduser.conf
-
-    ##########################
-    # mssqld invaliduser
-    ##########################
-    echo "[mssql-server]
-enabled = true
-port    = 1433
-logpath = /var/opt/mssql/log/errorlog
-backend = %(default_backend)s" | sudo tee /etc/fail2ban/jail.d/mssql-server.conf
-
-    echo "# Fail2Ban filter for unsuccesfull MSSQL authentication attempts
-
-[INCLUDES]
-
-# Read common prefixes. If any customizations available -- read them from
-# common.local
-before = common.conf
-
-[Definition]
-
-_daemon = mssql-server
-
-failregex = ^%(__prefix_line)s.*Login failed for user '[A-Za-z ]*'. Reason: .*provided. \[CLIENT: <HOST>\]
-
-#failregex = ^%(__prefix_line)s.*Login failed for user '[A-Za-z ]*'. Reason: Password did not match that for the login provided. \[CLIENT: <HOST>
-#Login failed for user 'sa'. Reason: Password did not match that for the login provided. [CLIENT: <HOST>]*\s*$
-
-ignoreregex =" | sudo tee /etc/fail2ban/filter.d/mssql-server.conf
-
-    sudo service fail2ban restart
-}
-
---ufw:mssql:profile() {
-    echo "[SQLServer]
+ufw_profile_mssql="[SQLServer]
 title=SQLServer
 description=SQLServer server.
-ports=1433/tcp|1434/udp" | sudo tee /etc/ufw/applications.d/mssql.ufw.profile
-}
+ports=1433/tcp|1434/udp"
