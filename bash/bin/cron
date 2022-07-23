@@ -8,6 +8,7 @@ _BASHDIR="$_BASEDIR/bash"
     --cron:service:httpd
     --cron:service:mysql
     --cron:service:mssql
+    --cron:service:ufw
 }
 
 --cron:service:httpd() {
@@ -32,6 +33,13 @@ _BASHDIR="$_BASEDIR/bash"
         $_BASHDIR/ductn swap:install
         $_BASHDIR/ductn log:cleanup
         sudo /usr/sbin/service mssql-server start
+    fi
+}
+
+--cron:service:ufw() {
+    sudo ufw status | grep ' active' >/dev/null 2>&1
+    if [ $? != 0 ]; then
+        sudo ufw enable
     fi
 }
 
