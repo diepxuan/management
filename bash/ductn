@@ -15,7 +15,7 @@ _LIBDIR="$_BASEDIR/lib"
 . $_BASHDIR/ssh
 . $_BASHDIR/ssl
 . $_BASHDIR/sys
-. $_BASHDIR/vpn/pptp
+# . $_BASHDIR/vpn/pptp
 . $_BASHDIR/httpd
 . $_BASHDIR/log
 . $_BASHDIR/git
