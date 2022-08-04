@@ -116,3 +116,5 @@
 --sys:apt:fix() {
     --apt:fix
 }
+
+. $_BASHDIR/sys.sysctl
