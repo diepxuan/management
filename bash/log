@@ -30,7 +30,7 @@
     # Clean all the log file
     # for logs in `find /var/log -type f`;  do > $logs; done
 
-    logs=$(sudo find /var/log /var/opt/mssql/log -type f)
+    logs=$(sudo find /var/log -type f)
     for i in $logs; do
         sudo truncate -s 0 $i
     done
@@ -70,4 +70,23 @@
 
     #Cleaning is completed
     echo "Cleaning is completed"
+}
+
+--log:config() {
+    echo "/home/store/public_html/var/log/*.log {
+    su store www-data
+    size 1M
+    copytruncate
+    rotate 1
+}
+/var/opt/mssql/log/errorlog /var/opt/mssql/log/*.log {
+    su mssql mssql
+    size 10M
+    copytruncate
+    missingok
+    rotate 1
+}" | sudo tee /etc/logrotate.d/ductn >/dev/null
+
+    sudo logrotate -f /etc/logrotate.d/ductn
+    cat /var/lib/logrotate/status
 }
