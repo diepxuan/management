@@ -1,59 +1,95 @@
 #!/bin/bash
 
-DNS=false
+NS1=false
+NS2=false
+DEV=0
 
 --dns:init() {
-    if [[ -z ${DNS+x} ]]; then return 1; else DNS="$(--ddns:getip dc1.diepxuan.com)"; fi
+    if [[ -z ${NS1+x} ]]; then return; else
+        _ip="$(--ddns:getip dc1.diepxuan.com)"
+        if [[ $_ip =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            NS1=$_ip
+        else
+            exit 1
+        fi
+    fi
+    if [[ -z ${NS2+x} ]]; then return; else
+        _ip="$(--ddns:getip dc2.diepxuan.com)"
+        if [[ $_ip =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            NS2=$_ip
+        else
+            exit 1
+        fi
+    fi
 }
 
 --dns:update() {
     --dns:init
-    if [[ "$DNS" =~ $(</var/cache/bind/ip.diepxuan.com) ]]; then
-        return 1
-    fi
 
-    echo "$DNS" | sudo tee /var/cache/bind/ip.diepxuan.com >/dev/null
+    if [[ -f /var/cache/bind/ns1.diepxuan.com ]] && [[ -f /var/cache/bind/ns2.diepxuan.com ]]; then
+        if [[ "$NS1" =~ $(</var/cache/bind/ns1.diepxuan.com) ]] && [[ "$NS2" =~ $(</var/cache/bind/ns2.diepxuan.com) ]]; then
+            echo ""
+            if [[ $DEV -eq 0 ]]; then
+                return 0
+            fi
+        else
+            echo "$NS1" | sudo tee /var/cache/bind/ns1.diepxuan.com >/dev/null
+            echo "$NS2" | sudo tee /var/cache/bind/ns2.diepxuan.com >/dev/null
+        fi
+    fi
 
     --dns:update:nameservers
     --dns:update:options
     --dns:update:named
+
+    sudo systemd-resolve --flush-caches
+    sudo rndc flush
+    sudo rndc reload
+    sudo service named restart
 }
 
 --dns:update:nameservers() {
-    --dns:init
     if [[ -f /etc/resolvconf/resolv.conf.d/base ]]; then
-        echo "nameserver "$DNS"" | sudo tee /etc/resolvconf/resolv.conf.d/base >/dev/null
+        echo "nameserver "$NS1"" | sudo tee /etc/resolvconf/resolv.conf.d/base >/dev/null
     fi
-    sudo netplan set ethernets.ens192.nameservers.addresses=["$DNS",1.1.1.1,8.8.8.8]
+    sudo netplan set ethernets.ens192.nameservers.addresses=["$NS1","$NS2",1.1.1.1,8.8.8.8]
     sudo netplan apply
 }
 
 --dns:update:named() {
-    --dns:init
-    echo "zone \"diepxuan.com\" {
+    _local="zone \"diepxuan.site\" {
     type slave;
-    file \"/var/cache/bind/db.diepxuan.com\";
-    masters { "$DNS"; };
-};
-zone \"_msdcs.diepxuan.com\" IN {
-     type slave;
-     file \"/var/cache/bind/db._msdcs.diepxuan.com\";
-     masters { "$DNS"; };
-};" | sudo tee /etc/bind/named.conf.local >/dev/null
-    sudo service named restart
+    file \"/var/cache/bind/db.diepxuan.site\";
+    masters {
+        "$NS1";
+        "$NS2";
+    };
+};"
+    # echo $_local | sudo tee /etc/bind/named.conf.local >/dev/null
+    echo "" | sudo tee /etc/bind/named.conf.local >/dev/null
 }
 
 --dns:update:options() {
-    --dns:init
     echo "options {
         directory \"/var/cache/bind\";
         forwarders {
-             "$DNS";
-             1.1.1.1;
-             8.8.8.8;
+            "$NS1";
+            "$NS2";
+            1.1.1.1;
+            8.8.8.8;
         };
+        forward only;
         dnssec-validation auto;
+
+        allow-recursion { any; };
+        recursion yes;
+
+        auth-nxdomain no;
+        allow-transfer { any; };
+
         listen-on-v6 { any; };
+
+        masterfile-format text;
 };" | sudo tee /etc/bind/named.conf.options >/dev/null
 }
 

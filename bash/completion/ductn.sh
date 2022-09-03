@@ -117,7 +117,7 @@ _ductn() {
         coms+=("ssl" "self-update" "httpd:install")
         coms+=("httpd:config" "ddns:update" "httpd:restart")
         coms+=("mysql:setup" "mysql:ssl:enable")
-        coms+=("log:watch" "log:cleanup" "log:watch:service")
+        coms+=("log:watch" "log:cleanup" "log:watch:service" "log:config")
         coms+=("ufw:geoip:install" "ufw:geoip:update" "ufw:geoip:configuration" "ufw:geoip:allowCloudflare")
         coms+=("ufw:fail2ban:install" "ufw:fail2ban:configuration")
         coms+=("dns:update")
