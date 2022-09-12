@@ -91,6 +91,10 @@ _ductn() {
             opts="${opts} "
             ;;
 
+        dns:update)
+            opts="${opts} --force"
+            ;;
+
         esac
 
         COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
@@ -114,14 +118,15 @@ _ductn() {
         coms+=("ddns:getip" "ddns:update" "ddns:allow")
         coms+=("hosts:add" "hosts:remove" "hosts")
         coms+=("user:new" "user:config")
-        coms+=("ssl" "self-update" "httpd:install")
-        coms+=("httpd:config" "ddns:update" "httpd:restart")
+        coms+=("self-update" "httpd:install")
+        coms+=("httpd:config" "httpd:restart")
         coms+=("mysql:setup" "mysql:ssl:enable")
         coms+=("log:watch" "log:cleanup" "log:watch:service" "log:config")
         coms+=("ufw:geoip:install" "ufw:geoip:update" "ufw:geoip:configuration" "ufw:geoip:allowCloudflare")
         coms+=("ufw:fail2ban:install" "ufw:fail2ban:configuration")
         coms+=("dns:update")
         coms+=("git:configure" "git:configure:server")
+        coms+=("ssl:configure" "ssl:install")
 
         separator=" "
         coms="$(printf "${separator}%s" "${coms[@]}")"
