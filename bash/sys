@@ -41,14 +41,10 @@
         _IS_SUDOER="on"
     }
 
-    $@
-
     echo ". $_BASHDIR/.bash_aliases" >~/.bash_aliases
 
     rm ~/.vimrc
     ln $_BASHDIR/.vimrc ~/.vimrc
-    ln -s $_BASHDIR/.vimrc ~/.vimrc
-
     chmod 644 ~/.bash_aliases
     chmod 644 ~/.vimrc
     sed -i 's/.*force_color_prompt\=.*/force_color_prompt=yes/' ~/.bashrc
@@ -56,7 +52,8 @@
     if [ "$(whoami)" = "ductn" ]; then
         chmod +x $_BASHDIR/*
         sudo timedatectl set-timezone Asia/Ho_Chi_Minh
-        sudo cp $_BASHDIR/ductn /usr/local/bin/ductn
+
+        echo ". $_BASHDIR/ductn" | sudo tee /usr/local/bin/ductn >/dev/null
         sudo chown root:root /usr/local/bin/ductn
     fi
 

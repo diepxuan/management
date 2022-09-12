@@ -25,10 +25,9 @@ DEV=0
 
 --dns:update() {
     --dns:init
-
+    if [[ $@ =~ "--force" ]]; then DEV=1; fi
     if [[ -f /var/cache/bind/ns1.diepxuan.com ]] && [[ -f /var/cache/bind/ns2.diepxuan.com ]]; then
         if [[ "$NS1" =~ $(</var/cache/bind/ns1.diepxuan.com) ]] && [[ "$NS2" =~ $(</var/cache/bind/ns2.diepxuan.com) ]]; then
-            echo ""
             if [[ $DEV -eq 0 ]]; then
                 return 0
             fi
@@ -43,8 +42,9 @@ DEV=0
     --dns:update:named
 
     sudo systemd-resolve --flush-caches
-    sudo rndc flush
-    sudo rndc reload
+    # sudo rndc flush
+    # sudo rndc reload
+    sudo rndc reconfig
     sudo service named restart
 }
 
@@ -69,27 +69,44 @@ DEV=0
     echo "" | sudo tee /etc/bind/named.conf.local >/dev/null
 }
 
+--dns:update:tsl() {
+    sudo mkdir -p /etc/bind/ssl/diepxuan.com
+    sudo cp /etc/letsencrypt/live/diepxuan.com/privkey.pem /etc/bind/ssl/diepxuan.com/privkey.pem
+    sudo cp /etc/letsencrypt/live/diepxuan.com/fullchain.pem /etc/bind/ssl/diepxuan.com/fullchain.pem
+    sudo chmod 755 /etc/bind/ssl/diepxuan.com
+    sudo chmod -R 644 /etc/bind/ssl/diepxuan.com/*
+}
+
 --dns:update:options() {
-    echo "options {
-        directory \"/var/cache/bind\";
+    --dns:update:tsl
+    echo "# tls local-tls {
+#    key-file \"/etc/bind/ssl/diepxuan.com/privkey.pem\";
+#    cert-file \"/etc/bind/ssl/diepxuan.com/fullchain.pem\";
+# };
+options {
+    directory \"/var/cache/bind\";
         forwarders {
+            94.140.14.14;
+            94.140.15.15;
             "$NS1";
             "$NS2";
             1.1.1.1;
             8.8.8.8;
         };
-        forward only;
-        dnssec-validation auto;
+    forward only;
+    dnssec-validation auto;
 
-        allow-recursion { any; };
-        recursion yes;
+    allow-recursion { any; };
+    recursion yes;
 
-        auth-nxdomain no;
-        allow-transfer { any; };
+    auth-nxdomain no;
+    allow-transfer { any; };
 
-        listen-on-v6 { any; };
+    listen-on-v6 {any;};
+    # listen-on port 8443 tls local-tls http default {any;};
+    # listen-on-v6 port 8443 tls local-tls http default {any;};
 
-        masterfile-format text;
+    masterfile-format text;
 };" | sudo tee /etc/bind/named.conf.options >/dev/null
 }
 
@@ -120,4 +137,16 @@ DEV=0
     # sudo apt install stunnel4 -y --purge --auto-remove
     # cat /var/www/base/bash/dns/stunnel.conf | sudo tee /etc/stunnel/stunnel.conf
     # sudo service bind9 restart
+
+    # sudo nano /etc/apparmor.d/local/usr.sbin.named
+    # add line:
+    # /etc/letsencrypt/** r,
+    #
+    # sudo apparmor_parser -r /etc/apparmor.d/usr.sbin.named
+    # sudo service apparmor restart
+    #
+    # sudo chmod 750 /etc/letsencrypt/live/
+    # sudo chmod 750 /etc/letsencrypt/archive/
+    # sudo chgrp bind /etc/letsencrypt/live/diepxuan.com/privkey.pem
+    # sudo chmod 0640 /etc/letsencrypt/live/diepxuan.com/privkey.pem
 }
