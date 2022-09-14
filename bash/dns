@@ -5,14 +5,14 @@ NS2="$(--ddns:getip dc2.diepxuan.com)"
 DEV=0
 
 --dns:init() {
-        if [[ ! $NS1 =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            NS1=192.168.11.9
-            exit 1
-        fi
-        if [[ ! $NS2 =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            NS2=192.168.11.29
-            exit 1
-        fi
+    if [[ ! $NS1 =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+        NS1=192.168.11.9
+        exit 1
+    fi
+    if [[ ! $NS2 =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+        NS2=192.168.11.29
+        exit 1
+    fi
 }
 
 --dns:update() {
@@ -64,12 +64,10 @@ DEV=0
     allow-update {
         "$NS1";
         "$NS2";
-        125.212.237.119;
     };
     allow-transfer {
         "$NS1";
         "$NS2";
-        125.212.237.119;
      };
 };
 zone \"diepxuan.com\" {
@@ -79,12 +77,10 @@ zone \"diepxuan.com\" {
     allow-update {
         "$NS1";
         "$NS2";
-        125.212.237.119;
     };
     allow-transfer {
         "$NS1";
         "$NS2";
-        125.212.237.119;
      };
 };" | sudo tee /etc/bind/named.conf.local >/dev/null
     # echo "" | sudo tee /etc/bind/named.conf.local >/dev/null
