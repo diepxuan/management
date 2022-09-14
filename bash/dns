@@ -60,6 +60,7 @@ DEV=0
         echo "nameserver "$NS1"" | sudo tee /etc/resolvconf/resolv.conf.d/base >/dev/null
     fi
     sudo netplan set ethernets.ens192.nameservers.addresses=["$NS1","$NS2",1.1.1.1,8.8.8.8]
+    sudo netplan set ethernets.ens192.nameservers.search=["diepxuan.com","diepxuan.site"]
     sudo netplan apply
 }
 
