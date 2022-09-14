@@ -71,17 +71,27 @@ DEV=0
     masters {
         "$NS1";
         "$NS2";
+        125.212.237.119;
     };
-    allow-transfer { 10.128.20.12; };
+    allow-transfer {
+        "$NS1";
+        "$NS2";
+        125.212.237.119;
+     };
 };
 zone \"diepxuan.com\" {
     type slave;
-    file \"/var/cache/bind/db.diepxuan.site\";
+    file \"/var/cache/bind/db.diepxuan.com\";
     masters {
         "$NS1";
         "$NS2";
+        125.212.237.119;
     };
-    allow-transfer { 10.128.20.12; };
+    allow-transfer {
+        "$NS1";
+        "$NS2";
+        125.212.237.119;
+     };
 };" | sudo tee /etc/bind/named.conf.local >/dev/null
     # echo "" | sudo tee /etc/bind/named.conf.local >/dev/null
 }
