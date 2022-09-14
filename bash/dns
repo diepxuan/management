@@ -65,24 +65,35 @@ DEV=0
 }
 
 --dns:update:named() {
-    _local="zone \"diepxuan.site\" {
+    echo "zone \"diepxuan.site\" {
     type slave;
     file \"/var/cache/bind/db.diepxuan.site\";
     masters {
         "$NS1";
         "$NS2";
     };
-};"
-    echo $_local | sudo tee /etc/bind/named.conf.local >/dev/null
+    allow-transfer { 10.128.20.12; };
+};
+zone \"diepxuan.com\" {
+    type slave;
+    file \"/var/cache/bind/db.diepxuan.site\";
+    masters {
+        "$NS1";
+        "$NS2";
+    };
+    allow-transfer { 10.128.20.12; };
+};" | sudo tee /etc/bind/named.conf.local >/dev/null
     # echo "" | sudo tee /etc/bind/named.conf.local >/dev/null
 }
 
 --dns:update:tsl() {
-    sudo mkdir -p /etc/bind/ssl/diepxuan.com
-    sudo cp /etc/letsencrypt/live/diepxuan.com/privkey.pem /etc/bind/ssl/diepxuan.com/privkey.pem
-    sudo cp /etc/letsencrypt/live/diepxuan.com/fullchain.pem /etc/bind/ssl/diepxuan.com/fullchain.pem
-    sudo chmod 755 /etc/bind/ssl/diepxuan.com
-    sudo chmod -R 644 /etc/bind/ssl/diepxuan.com/*
+    if [[ -f /etc/letsencrypt/live/diepxuan.com/privkey.pem ]]; then
+        sudo mkdir -p /etc/bind/ssl/diepxuan.com
+        sudo cp /etc/letsencrypt/live/diepxuan.com/privkey.pem /etc/bind/ssl/diepxuan.com/privkey.pem
+        sudo cp /etc/letsencrypt/live/diepxuan.com/fullchain.pem /etc/bind/ssl/diepxuan.com/fullchain.pem
+        sudo chmod 755 /etc/bind/ssl/diepxuan.com
+        sudo chmod -R 644 /etc/bind/ssl/diepxuan.com/*
+    fi
 }
 
 --dns:update:options() {
