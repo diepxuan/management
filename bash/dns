@@ -1,26 +1,18 @@
 #!/bin/bash
 
-NS1=false
-NS2=false
+NS1="$(--ddns:getip dc1.diepxuan.com)"
+NS2="$(--ddns:getip dc2.diepxuan.com)"
 DEV=0
 
 --dns:init() {
-    if [[ -z ${NS1+x} ]]; then return; else
-        _ip="$(--ddns:getip dc1.diepxuan.com)"
-        if [[ $_ip =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            NS1=$_ip
-        else
+        if [[ ! $NS1 =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            NS1=192.168.11.9
             exit 1
         fi
-    fi
-    if [[ -z ${NS2+x} ]]; then return; else
-        _ip="$(--ddns:getip dc2.diepxuan.com)"
-        if [[ $_ip =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            NS2=$_ip
-        else
+        if [[ ! $NS2 =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            NS2=192.168.11.29
             exit 1
         fi
-    fi
 }
 
 --dns:update() {
@@ -59,16 +51,17 @@ DEV=0
     if [[ -f /etc/resolvconf/resolv.conf.d/base ]]; then
         echo "nameserver "$NS1"" | sudo tee /etc/resolvconf/resolv.conf.d/base >/dev/null
     fi
-    sudo netplan set ethernets.ens192.nameservers.addresses=["$NS1","$NS2",1.1.1.1,8.8.8.8]
+    sudo netplan set ethernets.ens192.nameservers.addresses=[127.0.0.1,1.1.1.1,8.8.8.8]
     sudo netplan set ethernets.ens192.nameservers.search=["diepxuan.com","diepxuan.site"]
     sudo netplan apply
 }
 
 --dns:update:named() {
     echo "zone \"diepxuan.site\" {
-    type slave;
+    type master;
     file \"/var/cache/bind/db.diepxuan.site\";
-    masters {
+    notify yes;
+    allow-update {
         "$NS1";
         "$NS2";
         125.212.237.119;
@@ -80,9 +73,10 @@ DEV=0
      };
 };
 zone \"diepxuan.com\" {
-    type slave;
+    type master;
     file \"/var/cache/bind/db.diepxuan.com\";
-    masters {
+    notify yes;
+    allow-update {
         "$NS1";
         "$NS2";
         125.212.237.119;
@@ -136,6 +130,11 @@ options {
     # listen-on-v6 port 8443 tls local-tls http default {any;};
 
     masterfile-format text;
+    also-notify {
+        "$NS1";
+        "$NS2";
+        125.212.237.119;
+    };
 };" | sudo tee /etc/bind/named.conf.options >/dev/null
 }
 
