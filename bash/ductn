@@ -31,7 +31,7 @@ _LIBDIR="$_BASEDIR/lib"
 . $_BASHDIR/ufw
 . $_BASHDIR/user
 . $_BASHDIR/bin/mysql
-. $_BASHDIR/bin/version
+. $_BASHDIR/bin/version.sh
 
 "--$@"
 exit 0
