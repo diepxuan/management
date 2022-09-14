@@ -55,6 +55,7 @@
 
         echo ". $_BASHDIR/ductn" | sudo tee /usr/local/bin/ductn >/dev/null
         sudo chown root:root /usr/local/bin/ductn
+        sudo chmod +x /usr/local/bin/ductn
     fi
 
     --git:configure

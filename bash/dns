@@ -24,8 +24,15 @@ DEV=0
 }
 
 --dns:update() {
+    --force() {
+        DEV=1
+    }
+    $@
     --dns:init
-    if [[ $@ =~ "--force" ]]; then DEV=1; fi
+    --dns:_update
+}
+
+--dns:_update() {
     if [[ -f /var/cache/bind/ns1.diepxuan.com ]] && [[ -f /var/cache/bind/ns2.diepxuan.com ]]; then
         if [[ "$NS1" =~ $(</var/cache/bind/ns1.diepxuan.com) ]] && [[ "$NS2" =~ $(</var/cache/bind/ns2.diepxuan.com) ]]; then
             if [[ $DEV -eq 0 ]]; then
@@ -65,8 +72,8 @@ DEV=0
         "$NS2";
     };
 };"
-    # echo $_local | sudo tee /etc/bind/named.conf.local >/dev/null
-    echo "" | sudo tee /etc/bind/named.conf.local >/dev/null
+    echo $_local | sudo tee /etc/bind/named.conf.local >/dev/null
+    # echo "" | sudo tee /etc/bind/named.conf.local >/dev/null
 }
 
 --dns:update:tsl() {
@@ -86,8 +93,8 @@ DEV=0
 options {
     directory \"/var/cache/bind\";
         forwarders {
-            94.140.14.14;
-            94.140.15.15;
+            # 94.140.14.14;
+            # 94.140.15.15;
             "$NS1";
             "$NS2";
             1.1.1.1;

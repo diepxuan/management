@@ -31,15 +31,14 @@ _GITDIR="$_LIBDIR/git"
     git config --global receive.denyCurrentBranch updateInstead
 
     if [ "$(whoami)" = "ductn" ]; then
-        cd /var/www/base/
+        cd $_BASEDIR
 
         cat $_GITDIR/.gitignore >~/.gitignore
         chmod 644 ~/.gitignore
 
         # remote repository
         cat $_GITDIR/push-to-checkout >$_BASEDIR/.git/hooks/push-to-checkout
-        chmod +x $_BASEDIR/.git/hooks/push-to-checkout
-
+        cat $_GITDIR/pre-commit >$_BASEDIR/.git/hooks/pre-commit
         rm -rf $_BASEDIR/.git/hooks/post-receive
         chmod +x $_BASEDIR/.git/hooks/*
     fi
