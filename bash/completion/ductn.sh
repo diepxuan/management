@@ -35,12 +35,12 @@ _ductn() {
             opts="${opts}"
             ;;
 
-        httpd:install)
-            opts="${opts}"
+        httpd:restart)
+            opts="${opts} --chmod"
             ;;
 
         httpd:config)
-            opts="${opts}"
+            opts="${opts} --chmod"
             ;;
 
         ddns:update)
