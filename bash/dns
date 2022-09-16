@@ -1,17 +1,23 @@
 #!/bin/bash
 
-NS1="$(--ddns:getip dc1.diepxuan.com)"
-NS2="$(--ddns:getip dc2.diepxuan.com)"
+NS1=false
+NS2=false
 DEV=0
 
 --dns:init() {
-    if [[ ! $NS1 =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-        NS1=192.168.11.9
-        exit 1
+    if [[ -z ${NS1+x} ]]; then return; else
+        NS1="$(--ddns:getip dc1.diepxuan.com)"
+        if [[ ! $NS1 =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            NS1=192.168.11.9
+            exit 1
+        fi
     fi
-    if [[ ! $NS2 =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-        NS2=192.168.11.29
-        exit 1
+    if [[ -z ${NS1+x} ]]; then return; else
+        NS2="$(--ddns:getip dc2.diepxuan.com)"
+        if [[ ! $NS2 =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            NS2=192.168.11.9
+            exit 1
+        fi
     fi
 }
 
@@ -68,7 +74,7 @@ DEV=0
     allow-transfer {
         "$NS1";
         "$NS2";
-     };
+    };
 };
 zone \"diepxuan.com\" {
     type master;
@@ -81,9 +87,9 @@ zone \"diepxuan.com\" {
     allow-transfer {
         "$NS1";
         "$NS2";
-     };
+    };
 };" | sudo tee /etc/bind/named.conf.local >/dev/null
-    # echo "" | sudo tee /etc/bind/named.conf.local >/dev/null
+    echo "" | sudo tee /etc/bind/named.conf.local >/dev/null
 }
 
 --dns:update:tsl() {
@@ -104,14 +110,14 @@ zone \"diepxuan.com\" {
 # };
 options {
     directory \"/var/cache/bind\";
-        forwarders {
-            # 94.140.14.14;
-            # 94.140.15.15;
-            "$NS1";
-            "$NS2";
-            1.1.1.1;
-            8.8.8.8;
-        };
+    forwarders {
+        # 94.140.14.14;
+        # 94.140.15.15;
+        "$NS1";
+        "$NS2";
+        1.1.1.1;
+        8.8.8.8;
+    };
     forward only;
     dnssec-validation auto;
 
@@ -119,7 +125,10 @@ options {
     recursion yes;
 
     auth-nxdomain no;
-    allow-transfer { any; };
+    allow-transfer {
+        "$NS1";
+        "$NS2";
+    };
 
     listen-on-v6 {any;};
     # listen-on port 8443 tls local-tls http default {any;};
@@ -129,7 +138,6 @@ options {
     also-notify {
         "$NS1";
         "$NS2";
-        125.212.237.119;
     };
 };" | sudo tee /etc/bind/named.conf.options >/dev/null
 }
