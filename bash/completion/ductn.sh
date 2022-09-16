@@ -107,6 +107,7 @@ _ductn() {
     if [[ $cur == $com ]]; then
         coms=("sys:ufw" "sys:hosts" "sys:init" "sys:selfupdate" "sys:apt:fix")
         coms+=("sys:sysctl:max_user_watches")
+        coms+=("sys:ad:install")
         coms+=("selfupdate" "self-update")
         coms+=("ssh:install")
         coms+=("wsl:cli:install")
