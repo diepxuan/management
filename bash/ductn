@@ -10,6 +10,7 @@ _DEBUG=0
 _BASEDIR="/var/www/base"
 _BASHDIR="$_BASEDIR/bash"
 _LIBDIR="$_BASEDIR/lib"
+_BINDIR="$_BASHDIR/bin"
 
 . $_BASHDIR/hosts
 . $_BASHDIR/ssh
@@ -19,20 +20,35 @@ _LIBDIR="$_BASEDIR/lib"
 . $_BASHDIR/httpd
 . $_BASHDIR/log
 . $_BASHDIR/git
-. $_BASHDIR/bin/mssql
-. $_BASHDIR/bin/mssql_php
 . $_BASHDIR/wsl
 . $_BASHDIR/swap
-. $_BASHDIR/bin/cron.sh
 . $_BASHDIR/ddns
 . $_BASHDIR/dns
 . $_BASHDIR/php
 . $_BASHDIR/composer
 . $_BASHDIR/ufw
 . $_BASHDIR/user
-. $_BASHDIR/bin/mysql
-. $_BASHDIR/bin/version.sh
-. $_BASHDIR/bin/sys.ad.sh
+. $_BINDIR/cron.sh
+. $_BINDIR/ip.sh
+. $_BINDIR/cloudflare.sh
+. $_BINDIR/host.sh
+. $_BINDIR/mysql
+. $_BINDIR/mssql
+. $_BINDIR/mssql_php
+. $_BINDIR/sys.ad.sh
+. $_BINDIR/version.sh
 
-"--$@"
+if [[ ! -z ${@+x} ]]; then
+    "--$@"
+    exit 0
+else
+    --ip:domain
+
+    # printf "%s " "Press enter to continue"
+    # read ans
+
+    read -t 5 -n 1 -s -r -p "Press any key to continue"
+    exit 0
+fi
+
 exit 0
