@@ -23,7 +23,7 @@ _LIBDIR="$_BASEDIR/lib"
 . $_BASHDIR/bin/mssql_php
 . $_BASHDIR/wsl
 . $_BASHDIR/swap
-. $_BASHDIR/bin/cron
+. $_BASHDIR/bin/cron.sh
 . $_BASHDIR/ddns
 . $_BASHDIR/dns
 . $_BASHDIR/php
