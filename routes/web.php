@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Middleware\ClearCache;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::domain("vps.diepxuan.com")->group(function () {
+    Route::middleware([ClearCache::class])->group(function () {
+        // Route::get('/', function () {
+        //     return view('welcome');
+        // });
+
+        Route::get("/{hostname?}/{ip?}", [App\Http\Controllers\Dyndns\HomeController::class, "index"]);
+    });
 });
