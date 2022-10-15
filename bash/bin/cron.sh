@@ -51,6 +51,7 @@ _BASHDIR="$_BASEDIR/bash"
 --cron:update() {
     --sys:ufw
     --dns:update
+    --sys:selfupdate
 }
 
 --cron:install() {
@@ -59,8 +60,8 @@ _BASHDIR="$_BASEDIR/bash"
 
 --cron:crontab:install() {
     if [ "$(whoami)" = "ductn" ]; then
-        chmod u+x $_BASHDIR/cronjob/*.sh
-        chmod u+x $_BASHDIR/cronjob/cronjob
+        # chmod u+x $_BASHDIR/cronjob/*.sh
+        # chmod u+x $_BASHDIR/cronjob/cronjob
         crontab $_BASHDIR/cronjob/cronjob.conf
     fi
 }
