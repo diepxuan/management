@@ -4,7 +4,7 @@
 _BASEDIR="/var/www/base"
 _BASHDIR="$_BASEDIR/bash"
 
---cron:cronjob(){
+--cron:cronjob() {
     --cron:update
     --cron:service
 }

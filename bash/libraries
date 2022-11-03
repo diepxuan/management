@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+#!/bin/bash
+
+. $_BASHDIR/hosts
+. $_BASHDIR/ssh
+. $_BASHDIR/ssl
+. $_BASHDIR/sys
+# . $_BASHDIR/vpn/pptp
+. $_BASHDIR/httpd
+. $_BASHDIR/log
+. $_BASHDIR/git
+. $_BASHDIR/wsl
+. $_BASHDIR/swap
+. $_BASHDIR/ddns
+. $_BASHDIR/dns
+. $_BASHDIR/php
+. $_BASHDIR/composer
+. $_BASHDIR/ufw
+. $_BASHDIR/user
+
+. $_BINDIR/mysql
+. $_BINDIR/mssql
+. $_BINDIR/mssql_php
+
+--import() {
+    if [ -d $_BINDIR ]; then
+        for f in $_BINDIR/*.sh; do
+            if [[ -f $f ]]; then
+                source $f
+                # test -x $f && source $f
+                # echo $f
+            fi
+        done
+    fi
+}
+
+--import

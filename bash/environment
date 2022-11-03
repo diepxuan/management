@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#!/bin/bash
+
+_MYSQL_REPLICATE=""
+_MYSQL_REPLICATE_TOOGLE=""
+_MYSQL_REPLICATE_TOOGLE=""
+_MYSQL_REPLICATE_HOST=0
+
+_DEBUG=0
+_BASEDIR="/var/www/base"
+_BASHDIR="$_BASEDIR/bash"
+_LIBDIR="$_BASEDIR/lib"
+_BINDIR="$_BASHDIR/bin"
