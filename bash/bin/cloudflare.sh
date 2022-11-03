@@ -35,8 +35,9 @@
     # -H "Content-Type: application/json")
     dns_record_info=$(curl -s -X GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
         -H "X-Auth-Email: $(--cloudflare:email)" \
-        -H "Authorization: Bearer $(--cloudflare:token)" \
+        -H "X-Auth-Key: $(--cloudflare:token)" \
         -H "Content-Type:application/json")
+    # -H "Authorization: Bearer $(--cloudflare:token)" \
     # if [[ ${dns_record_info} == *"\"success\":false"* ]]; then
     #     echo ${dns_record_info}
     #     echo "Error! Can't get dns record info from cloudflare's api"
