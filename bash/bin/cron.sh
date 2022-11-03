@@ -51,7 +51,11 @@ _BASHDIR="$_BASEDIR/bash"
 --cron:update() {
     --sys:ufw
     --dns:update
-    --sys:selfupdate
+    if [[ "$(--sys:env:debug)" -eq 1 ]]; then
+        --sys:selfupdate
+        # else
+        # echo "not update"
+    fi
 }
 
 --cron:install() {

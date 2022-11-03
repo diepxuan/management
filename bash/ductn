@@ -9,4 +9,13 @@ _BINDIR="$_BASHDIR/bin"
 . $_BASHDIR/libraries
 . $_BASHDIR/main.sh
 
+if [[ ! -z ${@+x} ]]; then
+    "--$@"
+    exit 0
+else
+    --sys:env
+    main
+    exit 0
+fi
+
 exit 0
