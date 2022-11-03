@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-_CURRENTDIR="$(pwd)/bash"
-. $_CURRENTDIR/environment
-. $_CURRENTDIR/libraries
-. $_CURRENTDIR/main.sh
+_BASEDIR="/var/www/base"
+_BASHDIR="$_BASEDIR/bash"
+_LIBDIR="$_BASEDIR/lib"
+_BINDIR="$_BASHDIR/bin"
+
+. $_BASHDIR/libraries
+. $_BASHDIR/main.sh
 
 exit 0

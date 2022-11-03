@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
+. $_BASHDIR/environment
+
 . $_BASHDIR/hosts
 . $_BASHDIR/ssh
 . $_BASHDIR/ssl
