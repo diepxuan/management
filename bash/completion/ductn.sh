@@ -108,6 +108,7 @@ _ductn() {
         coms=("sys:ufw" "sys:hosts" "sys:init" "sys:selfupdate" "sys:apt:fix")
         coms+=("sys:sysctl:max_user_watches")
         coms+=("sys:ad:install")
+        coms+=("sys:disk:check")
         coms+=("selfupdate" "self-update")
         coms+=("ssh:install")
         coms+=("wsl:cli:install")

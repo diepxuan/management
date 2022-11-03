@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-if [[ ! -z ${@+x} ]]; then
-    "--$@"
-    exit 0
-else
+main() {
+
     --host:domain
     # --host:domain
 
@@ -12,5 +10,5 @@ else
     # read ans
 
     read -t 5 -n 1 -s -r -p "Press any key to continue"
-    exit 0
-fi
+
+}
