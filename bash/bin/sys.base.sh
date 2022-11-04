@@ -2,7 +2,7 @@
 #!/bin/bash
 
 --sys:base:upgrade() {
-    if [[ "$(--sys:env:dev)" -eq 1 ]]; then
+    if [[ $(--sys:env:dev) -eq 1 ]]; then
         --sys:base:dev
     else
         --sys:base:bin
@@ -24,7 +24,7 @@
 }
 
 --sys:selfupdate() {
-    if [[ "$(--version:islatest)" -eq 1 ]]; then
+    if [[ $(--version:islatest) -eq 1 ]]; then
         --sys:base:upgrade
     fi
 }

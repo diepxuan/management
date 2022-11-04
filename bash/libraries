@@ -27,6 +27,8 @@
 --init() {
     mkdir -p $DIRTMP
     sudo chmod 777 -R $DIRTMP
+
+    --sys:env
 }
 
 --import() {
@@ -42,12 +44,12 @@
 }
 
 --install() {
-
     if [[ "$(--sys:apt:check jq)" -eq 1 ]]; then
         --sys:apt:install jq
     fi
 }
 
---init
 --import
+--init
+
 --install

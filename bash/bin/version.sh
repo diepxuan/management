@@ -15,7 +15,7 @@
 }
 
 --version:islatest() {
-    if [ "$(--version)" = "$(--version:latest)" ]; then
+    if [[ "$(--version)" == "$(--version:latest)" ]]; then
         echo 1
     else
         echo 0
