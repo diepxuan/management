@@ -48,6 +48,8 @@ _SSHDIR="$_LIBDIR/ssh"
 }
 
 --user:config:ssh() {
+    sudo mkdir -p /home/${1}/.ssh
+
     cat $_SSHDIR/id_rsa | sudo tee /home/${1}/.ssh/id_rsa >/dev/null
     cat $_SSHDIR/id_rsa.pub | sudo tee /home/${1}/.ssh/id_rsa.pub >/dev/null
     cat $_SSHDIR/id_rsa.pub | sudo tee --append /home/${1}/.ssh/authorized_keys >/dev/null
