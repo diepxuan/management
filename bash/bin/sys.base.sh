@@ -24,7 +24,7 @@
 }
 
 --sys:selfupdate() {
-    if [[ $(--version:islatest) -eq 1 ]]; then
+    if [[ $(--version:islatest) -eq 0 ]]; then
         --sys:base:upgrade
     fi
 }
