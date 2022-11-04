@@ -12,3 +12,7 @@
 --sys:env:debug() {
     echo $DEBUG
 }
+
+--sys:env:dev() {
+    echo $DEV
+}
