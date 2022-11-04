@@ -97,9 +97,11 @@
 }
 
 --sys:selfupdate() {
-    cd "$_BASEDIR"
-    git fetch -ap
-    git reset --hard origin/master
+    if [[ "$(--version:islatest)" -eq 1 ]]; then
+        cd "$_BASEDIR"
+        git fetch -ap
+        git reset --hard origin/master
+    fi
 }
 
 --selfupdate() {
