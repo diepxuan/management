@@ -7,16 +7,11 @@ DDNS_DOMAINS+=("dc1.diepxuan.com" "dc2.diepxuan.com" "dc3.diepxuan.com")
 DDNS_DOMAINS+=("dx1.diepxuan.com" "dx2.diepxuan.com" "dx3.diepxuan.com")
 
 --ddns:update() {
-    --ddns:cloudflare
+    --cloudflare:sync
 }
 
 --ddns:getip() {
     --host:ip $@
-}
-
---ddns:cloudflare() {
-    # //
-    --cloudflare:sync
 }
 
 # --ddns:_allow() {
