@@ -96,23 +96,6 @@
     source ~/.bash_aliases
 }
 
---sys:selfupdate() {
-    if [[ "$(--version:islatest)" -eq 1 ]]; then
-        cd "$_BASEDIR"
-        git fetch -ap
-        git reset --hard origin/master
-    fi
-}
-
---selfupdate() {
-    --sys:selfupdate
-    --sys:init
-}
-
---self-update() {
-    --selfupdate
-}
-
 --sys:apt:fix() {
     --apt:fix
 }
