@@ -50,7 +50,7 @@ _BASHDIR="$_BASEDIR/bash"
 
 --cron:update() {
     --sys:ufw
-    --dns:update
+    # --dns:update
     --ddns:update
     if [[ $(--sys:env:debug) -eq 1 ]]; then
         --sys:selfupdate

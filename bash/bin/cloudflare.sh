@@ -115,10 +115,9 @@ CLFR_API="https://api.cloudflare.com/client/v4"
 --cloudflare:patch:recordByName() {
     for zoneid in $(--cloudflare:get:zones); do
         record=$(--cloudflare:get $CLFR_API/zones/$zoneid/dns_records\?type=A\&name=${1} | jq -r -c '.result[]')
-        echo $record
         record=$(echo $record | jq -c -r --arg ip $(--ip:wan) '. + {"content": $ip}')
-        echo $record
         recordid=$(echo $record | jq -r '.id')
-        echo $(--cloudflare:patch $CLFR_API/zones/$zoneid/dns_records/$recordid $record)
+        record=$(--cloudflare:patch $CLFR_API/zones/$zoneid/dns_records/$recordid $record)
+        # echo $record
     done
 }
