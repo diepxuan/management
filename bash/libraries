@@ -4,7 +4,7 @@
 . $_BASHDIR/environment
 
 . $_BASHDIR/hosts
-. $_BASHDIR/ssh
+# . $_BASHDIR/ssh
 . $_BASHDIR/ssl
 . $_BASHDIR/sys
 # . $_BASHDIR/vpn/pptp
@@ -24,6 +24,12 @@
 . $_BINDIR/mssql
 . $_BINDIR/mssql_php
 
+--init() {
+    mkdir -p $DIRTMP
+}
+
+--init
+
 --import() {
     if [ -d $_BINDIR ]; then
         for f in $_BINDIR/*.sh; do
@@ -35,5 +41,4 @@
         done
     fi
 }
-
 --import

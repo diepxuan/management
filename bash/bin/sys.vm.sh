@@ -6,3 +6,7 @@
     sudo systemctl enable qemu-guest-agent
     sudo systemctl restart qemu-guest-agent
 }
+
+--sys:vm:new() {
+    --ssh:copy $1@$2
+}
