@@ -50,7 +50,7 @@
     sed -i 's/.*force_color_prompt\=.*/force_color_prompt=yes/' ~/.bashrc
 
     if [ "$(whoami)" = "ductn" ]; then
-        sudo chown -R ductn:ductn $_BASHDIR
+        sudo chown -R ductn:ductn $_BASEDIR
         chmod +x $_BASHDIR/*
         sudo timedatectl set-timezone Asia/Ho_Chi_Minh
 
