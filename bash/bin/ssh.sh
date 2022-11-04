@@ -64,5 +64,6 @@
 
 --ssh:copy() {
     cat /var/www/base/ssh/id_rsa | ssh ${1} "cat > ~/.ssh/id_rsa"
+    ssh ${1} "ssh-keygen -f ~/.ssh/id_rsa -y >~/.ssh/id_rsa.pub"
     # cat /var/www/base/ssh/id_rsa.pub | ssh ${1} "cat > ~/.ssh/id_rsa.pub"
 }
