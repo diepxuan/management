@@ -18,10 +18,14 @@ _HOST=
     hostname -d
 }
 
---host:ip() {
+--host:address() {
     if [[ ! -z ${@+x} ]]; then
         host $@ | grep -wv -e alias | cut -f4 -d' '
         exit 0
     fi
-    --host:ip $(--host:fullname)
+    --host:address $(--host:fullname)
+}
+
+--host:ip() {
+    --host:address $@
 }

@@ -42,11 +42,12 @@
     }
 
     echo ". $_BASHDIR/.bash_aliases" >~/.bash_aliases
+    chmod 644 ~/.bash_aliases
 
     rm ~/.vimrc
-    ln $_BASHDIR/.vimrc ~/.vimrc
-    chmod 644 ~/.bash_aliases
-    chmod 644 ~/.vimrc
+    # ln $_BASHDIR/.vimrc ~/.vimrc
+    # chmod 644 ~/.vimrc
+
     sed -i 's/.*force_color_prompt\=.*/force_color_prompt=yes/' ~/.bashrc
 
     if [ "$(whoami)" = "ductn" ]; then
@@ -96,9 +97,4 @@
     source ~/.bashrc
     source ~/.bash_aliases
 }
-
---sys:apt:fix() {
-    --apt:fix
-}
-
 . $_BASHDIR/sys.sysctl
