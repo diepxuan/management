@@ -44,7 +44,7 @@
     echo ". $_BASHDIR/.bash_aliases" >~/.bash_aliases
     chmod 644 ~/.bash_aliases
 
-    rm ~/.vimrc
+    rm -rf ~/.vimrc
     # ln $_BASHDIR/.vimrc ~/.vimrc
     # chmod 644 ~/.vimrc
 
