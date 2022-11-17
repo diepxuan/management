@@ -15,5 +15,7 @@
 }
 
 --sys:apt:install() {
-    sudo apt -q install $@ -y --purge --auto-remove >/dev/null 2>&1
+    if [[ "$(--sys:apt:check $@)" -eq 1 ]]; then
+        sudo apt -q install $@ -y --purge --auto-remove >/dev/null 2>&1
+    fi
 }
