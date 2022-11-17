@@ -65,7 +65,7 @@ _BASHDIR="$_BASEDIR/bash"
     --sys:ufw
     # --dns:update
     --ddns:update
-    if [[ $(--sys:env:debug) -eq 1 ]]; then
+    if [[ $(--sys:env:debug) -eq 0 ]]; then
         --sys:selfupdate
         # else
         # echo "not update"
