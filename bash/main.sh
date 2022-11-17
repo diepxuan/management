@@ -3,7 +3,9 @@
 
 main() {
 
-    --host:domain
+    echo "Server  $(--host:domain)($(--host:address))"
+    echo "IP      $(--ip:wan)"
+    echo "Version $(--version) (latest $(--version:latest))"
     # --host:domain
 
     # printf "%s " "Press enter to continue"

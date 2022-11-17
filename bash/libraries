@@ -44,9 +44,7 @@
 }
 
 --install() {
-    if [[ "$(--sys:apt:check jq)" -eq 1 ]]; then
-        --sys:apt:install jq
-    fi
+    --sys:apt:install jq
 }
 
 --import
