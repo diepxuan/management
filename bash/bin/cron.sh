@@ -14,6 +14,7 @@ _BASHDIR="$_BASEDIR/bash"
 
 --cron:cronjob:hour() {
     # --ufw:geoip:configuration
+    --cron:service
 }
 
 --cron:cronjob:month() {
