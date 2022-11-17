@@ -4,9 +4,20 @@
 _BASEDIR="/var/www/base"
 _BASHDIR="$_BASEDIR/bash"
 
---cron:cronjob() {
-    --cron:update
+--cron:cronjob:min() {
     --cron:service
+}
+
+--cron:cronjob:5min() {
+    --cron:update
+}
+
+--cron:cronjob:hour() {
+    # --ufw:geoip:configuration
+}
+
+--cron:cronjob:month() {
+    --ufw:geoip:configuration
 }
 
 --cron:service() {
@@ -49,6 +60,7 @@ _BASHDIR="$_BASEDIR/bash"
 }
 
 --cron:update() {
+    --cron:install
     --sys:ufw
     # --dns:update
     --ddns:update
