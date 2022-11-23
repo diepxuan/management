@@ -53,12 +53,18 @@ DEV=0
     sudo service named restart
 }
 
+--dns:uninstall() {
+    sudo netplan set ethernets.ens192=
+    sudo netplan apply
+    sudo apt remove bind9 bind9utils bind9-doc -y
+}
+
 --dns:update:nameservers() {
     if [[ -f /etc/resolvconf/resolv.conf.d/base ]]; then
         echo "nameserver "$NS1"" | sudo tee /etc/resolvconf/resolv.conf.d/base >/dev/null
     fi
-    sudo netplan set ethernets.ens192.nameservers.addresses=[127.0.0.1,1.1.1.1,8.8.8.8]
-    sudo netplan set ethernets.ens192.nameservers.search=["diepxuan.com","diepxuan.site"]
+    # sudo netplan set ethernets.ens192.nameservers.addresses=[127.0.0.1,1.1.1.1,8.8.8.8]
+    # sudo netplan set ethernets.ens192.nameservers.search=["diepxuan.com","diepxuan.site"]
     sudo netplan apply
 }
 
