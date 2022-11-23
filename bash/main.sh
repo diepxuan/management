@@ -3,7 +3,7 @@
 
 main() {
 
-    echo "Server  $(--host:domain)($(--host:address))"
+    echo "Server  $(--host:fullname)($(--host:address))"
     echo "IP      $(--ip:wan)"
     echo "Version $(--version) (latest $(--version:latest))"
     # --host:domain
