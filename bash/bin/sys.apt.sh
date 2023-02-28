@@ -16,6 +16,10 @@
 
 --sys:apt:install() {
     if [[ "$(--sys:apt:check $@)" -eq 1 ]]; then
-        sudo apt -q install $@ -y --purge --auto-remove >/dev/null 2>&1
+        sudo apt install $@ -y --purge --auto-remove
     fi
+}
+
+--sys:apt:remove() {
+    sudo apt remove $@ -y --purge --auto-remove
 }
