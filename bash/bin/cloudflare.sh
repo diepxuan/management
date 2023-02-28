@@ -31,11 +31,11 @@ CLFR_API="https://api.cloudflare.com/client/v4"
 }
 
 --cloudflare:ip() {
-    --host:fullname
+    --cloudflare:get:recordIP $(--cloudflare:fullname)
 }
 
 --cloudflare:check() {
-    if [[ "$(--host:address)" == "$(--ip:wan)" ]]; then
+    if [[ "$(--cloudflare:ip)" == "$(--ip:wan)" ]]; then
         echo 1
     else
         echo 0
@@ -53,6 +53,8 @@ CLFR_API="https://api.cloudflare.com/client/v4"
     dns_record_info=$(
         curl -s -X GET $1 \
             --http1.1 \
+            -H "Cache-Control: no-cache, no-store" \
+            -H "Pragma: no-cache" \
             -H "X-Auth-Email: $(--cloudflare:email)" \
             -H "X-Auth-Key: $(--cloudflare:token)" \
             -H "Content-Type:application/json"
@@ -73,6 +75,8 @@ CLFR_API="https://api.cloudflare.com/client/v4"
     dns_record_info=$(
         curl -s -X PATCH $1 \
             --http1.1 \
+            -H "Cache-Control: no-cache, no-store" \
+            -H "Pragma: no-cache" \
             -H "X-Auth-Email: $(--cloudflare:email)" \
             -H "X-Auth-Key: $(--cloudflare:token)" \
             -H "Content-Type: application/json" \
@@ -110,6 +114,10 @@ CLFR_API="https://api.cloudflare.com/client/v4"
 
 --cloudflare:get:recordid() {
     --cloudflare:get:recordByName $1 | jq -r '.id'
+}
+
+--cloudflare:get:recordIP() {
+    --cloudflare:get:recordByName $1 | jq -r '.content'
 }
 
 --cloudflare:patch:recordByName() {

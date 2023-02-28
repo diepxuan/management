@@ -105,10 +105,13 @@ _ductn() {
 
     # completing for a command
     if [[ $cur == $com ]]; then
-        coms=("sys:ufw" "sys:hosts" "sys:init" "sys:selfupdate" "sys:apt:fix")
+        coms=("sys:ufw" "sys:hosts" "sys:init" "sys:selfupdate")
+        coms+=("sys:apt:fix" "sys:apt:remove" "sys:apt:install" "sys:apt:check")
         coms+=("sys:sysctl:max_user_watches")
         coms+=("sys:ad:install")
         coms+=("sys:disk:check")
+        coms+=("sys:hosts:add" "sys:hosts:remove" "sys:hosts:domain")
+        coms+=("hosts:add" "hosts:remove" "hosts")
         coms+=("selfupdate" "self-update")
         coms+=("ssh:install")
         coms+=("wsl:cli:install")
@@ -118,7 +121,6 @@ _ductn() {
         coms+=("swap:remove" "swap:install")
         coms+=("cron:update" "cron:service" "cron:crontab:install")
         coms+=("ddns:getip" "ddns:update" "ddns:allow")
-        coms+=("hosts:add" "hosts:remove" "hosts")
         coms+=("user:new" "user:config")
         coms+=("self-update" "httpd:install")
         coms+=("httpd:config" "httpd:restart")
@@ -129,6 +131,11 @@ _ductn() {
         coms+=("dns:update")
         coms+=("git:configure" "git:configure:server")
         coms+=("ssl:configure" "ssl:install")
+        coms+=("host:name" "host:fullname" "host:address" "host:domain" "host:ip")
+        coms+=("ip:wan" "ip:wanv4" "ip:wanv6" "ip:local")
+        coms+=("cloudflare:sync" "cloudflare:get" "cloudflare:ip" "cloudflare:check" "cloudflare:fullname")
+        coms+=("cloudflare:get:records" "cloudflare:get:zones" "cloudflare:get:userid")
+        coms+=("cloudflare:get:recordByName" "cloudflare:get:recordid" "cloudflare:get:recordIP")
 
         separator=" "
         coms="$(printf "${separator}%s" "${coms[@]}")"

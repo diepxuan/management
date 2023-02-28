@@ -70,7 +70,7 @@ DEV=0
 
 --dns:update:named() {
     echo "zone \"diepxuan.site\" {
-    type master;
+    type slave;
     file \"/var/cache/bind/db.diepxuan.site\";
     notify yes;
     allow-update {
@@ -83,7 +83,7 @@ DEV=0
     };
 };
 zone \"diepxuan.com\" {
-    type master;
+    type slave;
     file \"/var/cache/bind/db.diepxuan.com\";
     notify yes;
     allow-update {
