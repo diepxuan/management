@@ -10,3 +10,4 @@ DEBUG=0
 DEV=0
 
 DIRTMP="/tmp/ductn"
+ETC_HOSTS=/etc/hosts
