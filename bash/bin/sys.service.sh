@@ -49,7 +49,11 @@
 }
 
 --sys:service:isactive() {
-    IS_ACTIVE=$(sudo systemctl is-active $SERVICE_NAME)
+    _SERVICE_NAME=$SERVICE_NAME
+    if [[ ! -z ${@+x} ]]; then
+        _SERVICE_NAME="$@"
+    fi
+    IS_ACTIVE=$(sudo systemctl is-active $_SERVICE_NAME)
     echo $IS_ACTIVE
 }
 
