@@ -8,7 +8,10 @@
         ((timer += 1))
         timer=$(($timer % 100000))
         # // Your statements go here
-        logger "Service is $(--sys:service:isactive) $timer"
+
+        if [[ $(--sys:env:dev) -eq 1 ]]; then
+            logger "Service is $(--sys:service:isactive) $timer"
+        fi
 
         if [ $(($timer % 30)) = 0 ]; then
             --cron:cronjob:min
