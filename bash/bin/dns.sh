@@ -6,14 +6,14 @@ NS2=false
 
 --dns:init() {
     if [[ -z ${NS1+x} ]]; then return; else
-        NS1="$(--ddns:getip dc1.diepxuan.com)"
+        NS1="$(--host:address dc1.diepxuan.com)"
         if [[ ! $NS1 =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             NS1=192.168.11.9
             exit 1
         fi
     fi
     if [[ -z ${NS1+x} ]]; then return; else
-        NS2="$(--ddns:getip dc2.diepxuan.com)"
+        NS2="$(--host:address dc2.diepxuan.com)"
         if [[ ! $NS2 =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             NS2=192.168.11.9
             exit 1

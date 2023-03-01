@@ -11,8 +11,8 @@ _DUCTN_COMMANDS+=("sys:ufw")
 }
 
 --sys:hosts() {
-    # --hosts:add $(--ddns:getip dxvnmg15.diepxuan.com) mg15
-    # --hosts:add $(--ddns:getip dx3.diepxuan.com) dx3
+    # --hosts:add $(--host:address dxvnmg15.diepxuan.com) mg15
+    # --hosts:add $(--host:address dx3.diepxuan.com) dx3
 
     --do_no_thing
 }
@@ -23,10 +23,10 @@ _DUCTN_COMMANDS+=("sys:ufw:cleanup")
 }
 
 --sys:ufw:_allow() {
-    if [ "$(whoami)" = "ductn" ]; then
-        # sudo ufw allow proto tcp from "$(--ddns:getip $@)" to any port 1433
-        sudo ufw allow from "$(--ddns:getip $@)"
-    fi
+    # if [ "$(whoami)" = "ductn" ]; then
+    # sudo ufw allow proto tcp from "$(--host:address $@)" to any port 1433
+    sudo ufw allow from "$(--host:address $@)"
+    # fi
 }
 
 _DUCTN_COMMANDS+=("sys:ufw:allow")

@@ -100,7 +100,7 @@ _DUCTN_COMMANDS+=("cron:update")
 _DUCTN_COMMANDS+=("cron:install")
 --cron:install() { --cron:crontab:install; }
 --cron:crontab:install() {
-    if [! "$(--sys:service:isactive)" == "active" ]; then
+    if [ ! "$(--sys:service:isactive)" == "active" ]; then
         if [ "$(whoami)" = "ductn" ]; then
             # chmod u+x $_BASHDIR/cronjob/*.sh
             # chmod u+x $_BASHDIR/cronjob/cronjob
