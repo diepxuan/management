@@ -1,0 +1,116 @@
+#!/usr/bin/env bash
+#!/bin/bash
+
+--sys:service:main() {
+    timer=0
+    while true; do
+        sleep 1
+        ((timer += 1))
+        timer=$(($timer % 100000))
+        # // Your statements go here
+        logger "Service is $(--sys:service:isactive) $timer"
+
+        if [ $(($timer % 30)) = 0 ]; then
+            --cron:cronjob:min
+        fi
+
+        if [ $(($timer % 300)) = 0 ]; then
+            --cron:cronjob:5min
+        fi
+
+        if [ $(($timer % 3600)) = 0 ]; then
+            --cron:cronjob:hour
+        fi
+
+        # case "$timer" in
+
+        # 60)
+        #     --cron:cronjob:min
+        #     ((timer += 1))
+        #     ;;
+
+        # esac
+    done
+
+    read -t 5 -n 1 -s -r -p "Press any key to continue (5 seconds)"
+}
+
+--run_as_service() {
+    --sys:service:main
+}
+
+--sys:service() {
+    if [ "$(--sys:service:isactive)" == "active" ]; then
+        --cron:crontab:uninstall >/dev/null 2>&1
+    fi
+}
+
+--sys:service:isactive() {
+    IS_ACTIVE=$(sudo systemctl is-active $SERVICE_NAME)
+    echo $IS_ACTIVE
+}
+
+--sys:service:restart() {
+    if [ "$(--sys:service:isactive)" == "active" ]; then
+        sudo systemctl restart ${SERVICE_NAME//'.service'/}
+    fi
+}
+
+--sys:service:re-install() {
+    --sys:service:unistall
+    --sys:service:install
+}
+
+--sys:service:install() {
+    # sudo systemctl daemon-reload
+    if [ "$(--sys:service:isactive)" == "failed" ]; then
+        --sys:service:unistall
+    fi
+
+    if [ "$(--sys:service:isactive)" == "inactive" ] || [ "$(--sys:service:isactive)" == "failed" ]; then
+        # restart the service
+        #     echo "Service is running"
+        #     echo "Restarting service"
+        #     sudo systemctl restart $SERVICE_NAME
+        #     echo "Service restarted"
+        # else
+
+        # create service file
+        # echo "Creating service file"
+        echo "[Unit]
+Description=${SERVICE_DESC//'"'/}
+After=network-online.target auditd.service network.target
+
+[Service]
+User=ductn
+Group=root
+ExecStart=${SERVICE_PATH//'"'/}
+# KillMode=process
+Restart=on-failure
+# RestartSec=5s
+# Type=notify
+RuntimeDirectory=ductn
+SyslogIdentifier=Diskutilization
+
+[Install]
+Alias=${SERVICE_NAME//'"'/}.service" | sudo tee /usr/lib/systemd/system/${SERVICE_NAME//'"'/}.service >/dev/null 2>&1
+        # ls -la /usr/lib/systemd/system/ | grep ductn
+        # ls -la /etc/systemd/system/ | grep ductn
+        # restart daemon, enable and start service
+        # echo "Reloading daemon and enabling service"
+        sudo systemctl daemon-reload
+        sudo systemctl enable ${SERVICE_NAME//'.service'/} # remove the extension
+        sudo systemctl start ${SERVICE_NAME//'.service'/}
+        sudo systemctl status ${SERVICE_NAME//'.service'/}
+    # echo "Service Started"
+    # echo "aaa" | sudo tee /etc/systemd/system/ductn.service
+    fi
+}
+
+--sys:service:unistall() {
+    sudo systemctl kill ${SERVICE_NAME//'.service'/}    # remove the extension
+    sudo systemctl stop ${SERVICE_NAME//'.service'/}    # remove the extension
+    sudo systemctl disable ${SERVICE_NAME//'.service'/} # remove the extension
+    sudo rm -rf /etc/systemd/system/*${SERVICE_NAME//'"'/}.service
+    sudo rm -rf /usr/lib/systemd/system/*${SERVICE_NAME//'"'/}.service
+}
