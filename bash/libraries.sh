@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-. $_BASHDIR/environment
+. $_BASHDIR/environment.sh
 
 --init() {
     mkdir -p $DIRTMP
