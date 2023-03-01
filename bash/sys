@@ -30,38 +30,43 @@
     done
 }
 
---sys:init() {
-    _IS_SERVER="off"
-    --server() {
-        _IS_SERVER="on"
-    }
-
-    _IS_SUDOER="off"
-    --admin() {
-        _IS_SUDOER="on"
-    }
-
-    echo -e "#!/usr/bin/env bash\n#!/bin/bash\n\n. $_BASHDIR/.bash_aliases" >~/.bash_aliases
-    chmod 644 ~/.bash_aliases
-
+--sys:init:system_files() {
     rm -rf ~/.vimrc
     # ln $_BASHDIR/.vimrc ~/.vimrc
     # chmod 644 ~/.vimrc
 
-    sed -i 's/.*force_color_prompt\=.*/force_color_prompt=yes/' ~/.bashrc
+    sed -i 's/.*force_color_prompt\=.*/force_color_prompt\=yes/' ~/.bashrc
+    source ~/.bashrc
+
+    echo -e "#!/usr/bin/env bash\n#!/bin/bash\n\n. $_BASHDIR/.bash_aliases" >~/.bash_aliases
+    chmod 644 ~/.bash_aliases
+    source ~/.bash_aliases
+
+    sudo chown -R ductn:ductn $_BASEDIR
+    chmod +x $_BASHDIR/*
+
+    echo -e "#!/usr/bin/env bash\n#!/bin/bash\n\n. $_BASHDIR/ductn" | sudo tee /usr/local/bin/ductn >/dev/null
+    sudo chown root:root /usr/local/bin/ductn
+    sudo chmod +x /usr/local/bin/ductn
+}
+
+--sys:init() {
+    _IS_SERVER="off"
+    _IS_SUDOER="off"
+
+    --server() { _IS_SERVER="on"; }
+    --admin() { _IS_SUDOER="on"; }
+
+    sudo timedatectl set-timezone Asia/Ho_Chi_Minh
+
+    --sys:init:system_files
 
     # if [[ -f /etc/resolvconf/resolv.conf.d/head ]]; then
     # echo "nameserver 1.1.1.1" | sudo tee /etc/resolvconf/resolv.conf.d/head >/dev/null
     # fi
 
     # if [ "$(whoami)" = "ductn" ]; then
-    sudo chown -R ductn:ductn $_BASEDIR
-    chmod +x $_BASHDIR/*
-    sudo timedatectl set-timezone Asia/Ho_Chi_Minh
 
-    echo -e "#!/usr/bin/env bash\n#!/bin/bash\n\n. $_BASHDIR/ductn" | sudo tee /usr/local/bin/ductn >/dev/null
-    sudo chown root:root /usr/local/bin/ductn
-    sudo chmod +x /usr/local/bin/ductn
     # fi
 
     --git:configure
@@ -98,7 +103,5 @@
     # $_BASHDIR/ductn hosts remove 10.8.0.1 dx3.diepxuan.com
     # fi
 
-    source ~/.bashrc
-    source ~/.bash_aliases
 }
 # . $_BASHDIR/sys.sysctl

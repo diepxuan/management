@@ -7,6 +7,7 @@
     else
         --sys:base:bin
     fi
+    --sys:init
     --sys:service:restart
 }
 
