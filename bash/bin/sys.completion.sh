@@ -4,12 +4,11 @@
 _DUCTN_COMMANDS+=("sys:completion" "sys:completion:commands")
 
 --sys:completion() {
-    ductn exists 2>/dev/null && --sys:completion:base
-    magerun 2>/dev/null && --sys:completion:magerun
-    magerun2 2>/dev/null && --sys:completion:magerun2
-    wp 2>/dev/null && --sys:completion:wp
-    ng 2>/dev/null && --sys:completion:angular
-    --sys:completion:wp
+    [ $(ductn sys:completion:exists ductn) ] && --sys:completion:base
+    [ $(ductn sys:completion:exists magerun) ] && --sys:completion:magerun
+    [ $(ductn sys:completion:exists magerun2) ] && --sys:completion:magerun2
+    [ $(ductn sys:completion:exists wp) ] && --sys:completion:wp
+    [ $(ductn sys:completion:exists angular) ] && --sys:completion:angular
 }
 
 --sys:completion:base() {
@@ -75,4 +74,8 @@ _DUCTN_COMMANDS+=("sys:completion" "sys:completion:commands")
 
 --sys:completion:commands() {
     echo "${_DUCTN_COMMANDS[*]}"
+}
+
+--sys:completion:exists() {
+    [ ! -x "$(command -v $@)" ] || echo 1
 }
