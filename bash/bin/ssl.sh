@@ -1,5 +1,7 @@
+#!/usr/bin/env bash
 #!/bin/bash
 
+_DUCTN_COMMANDS+=("ssl:install")
 --ssl:install() {
     sudo apt install software-properties-common -y --purge --auto-remove
     # sudo add-apt-repository universe
@@ -10,20 +12,8 @@
     sudo apt install -y --purge --auto-remove certbot python3-certbot-dns-cloudflare
 }
 
---ssl:certbot() {
-
-    chmod 600 /var/www/base/bash/certbot/cloudflare.ini
-
-    sudo certbot certonly \
-        --expand \
-        --keep-until-expiring \
-        --dns-cloudflare \
-        --dns-cloudflare-credentials /var/www/base/bash/certbot/cloudflare.ini \
-        --agree-tos \
-        --email caothu91@gmail.com \
-        --eff-email \
-        -d $@
-}
+_DUCTN_COMMANDS+=("ssl:configure")
+--ssl:configure() { --ssl:setup; }
 
 --ssl:setup() {
 
@@ -49,6 +39,21 @@
     # sudo scp -r /etc/letsencrypt/live/* dx3.diepxuan.com:/etc/letsencrypt/live/
 }
 
+--ssl:certbot() {
+
+    chmod 600 /var/www/base/bash/certbot/cloudflare.ini
+
+    sudo certbot certonly \
+        --expand \
+        --keep-until-expiring \
+        --dns-cloudflare \
+        --dns-cloudflare-credentials /var/www/base/bash/certbot/cloudflare.ini \
+        --agree-tos \
+        --email caothu91@gmail.com \
+        --eff-email \
+        -d $@
+}
+
 --ssl:pull() {
     sudo mkdir -p /etc/letsencrypt/live/diepxuan.com/
     ssh $@ "sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem" | sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem
@@ -66,8 +71,4 @@
 
 --ssl:upload() {
     --push
-}
-
---ssl:configure() {
-    --setup
 }

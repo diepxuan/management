@@ -30,6 +30,7 @@
 
 # Setup
 # ##############################
+_DUCTN_COMMANDS+=("ssh:install")
 --ssh:install() {
     # ssh config
     cat /var/www/base/ssh/config >~/.ssh/config

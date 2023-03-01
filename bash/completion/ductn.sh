@@ -105,38 +105,11 @@ _ductn() {
 
     # completing for a command
     if [[ $cur == $com ]]; then
-        coms=("sys:ufw" "sys:hosts" "sys:init" "sys:selfupdate")
-        coms+=("sys:apt:fix" "sys:apt:remove" "sys:apt:install" "sys:apt:check")
-        coms+=("sys:sysctl:max_user_watches")
-        coms+=("sys:ad:install")
-        coms+=("sys:disk:check")
-        coms+=("sys:hosts:add" "sys:hosts:remove" "sys:hosts:domain")
-        coms+=("hosts:add" "hosts:remove" "hosts")
-        coms+=("selfupdate" "self-update")
-        coms+=("ssh:install")
-        coms+=("wsl:cli:install")
-        coms+=("sqlsrv:php:install" "mssql:php:install" "sqlsrv:php:enable" "mssql:php:enable" "sqlsrv:php:disable" "mssql:php:disable")
-        coms+=("php:composer:install" "php:phpcsfixer:install")
-        coms+=("sqlsrv:install" "mssql:install")
-        coms+=("swap:remove" "swap:install")
-        coms+=("cron:update" "cron:service" "cron:crontab:install" "cron:crontab:uninstall")
-        coms+=("ddns:getip" "ddns:update" "ddns:allow")
-        coms+=("user:new" "user:config")
-        coms+=("self-update" "httpd:install")
-        coms+=("httpd:config" "httpd:restart")
-        coms+=("mysql:setup" "mysql:ssl:enable")
-        coms+=("log:watch" "log:cleanup" "log:watch:service" "log:config")
-        coms+=("ufw:geoip:install" "ufw:geoip:update" "ufw:geoip:configuration" "ufw:geoip:allowCloudflare")
-        coms+=("ufw:fail2ban:install" "ufw:fail2ban:configuration")
-        coms+=("dns:update")
-        coms+=("git:configure" "git:configure:server")
-        coms+=("ssl:configure" "ssl:install")
-        coms+=("host:name" "host:fullname" "host:address" "host:domain" "host:ip")
-        coms+=("ip:wan" "ip:wanv4" "ip:wanv6" "ip:local")
-        coms+=("cloudflare:sync" "cloudflare:get" "cloudflare:ip" "cloudflare:check" "cloudflare:fullname")
-        coms+=("cloudflare:get:records" "cloudflare:get:zones" "cloudflare:get:userid")
-        coms+=("cloudflare:get:recordByName" "cloudflare:get:recordid" "cloudflare:get:recordIP")
-        coms+=("sys:service:install" "sys:service:re-install" "sys:service:uninstall" "sys:service:restart")
+
+        coms=()
+        for _com in $(ductn sys:completion:commands); do
+            coms+=($_com)
+        done
 
         separator=" "
         coms="$(printf "${separator}%s" "${coms[@]}")"

@@ -1,35 +1,6 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
---sys:ufw() {
-    --sys:ufw:cleanup
-    --sys:ufw:allow
-    # --sys:hosts
-}
-
---sys:hosts() {
-    --hosts:add $(--ddns:getip dxvnmg15.diepxuan.com) mg15
-    --hosts:add $(--ddns:getip dx3.diepxuan.com) dx3
-}
-
---sys:ufw:cleanup() {
-    --ufw:cleanup
-}
-
---sys:ufw:_allow() {
-    if [ "$(whoami)" = "ductn" ]; then
-        # sudo ufw allow proto tcp from "$(--ddns:getip $@)" to any port 1433
-        sudo ufw allow from "$(--ddns:getip $@)"
-    fi
-}
-
---sys:ufw:allow() {
-    for domain in "${DDNS_DOMAINS[@]}"; do
-        # echo $domain
-        --sys:ufw:_allow $domain
-    done
-}
-
 --sys:init:system_files() {
     rm -rf ~/.vimrc
     # ln $_BASHDIR/.vimrc ~/.vimrc
@@ -50,6 +21,7 @@
     sudo chmod +x /usr/local/bin/ductn
 }
 
+_DUCTN_COMMANDS+=("sys:init")
 --sys:init() {
     _IS_SERVER="off"
     _IS_SUDOER="off"

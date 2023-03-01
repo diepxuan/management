@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-_BASEDIR="/var/www/base"
-_BASHDIR="$_BASEDIR/bash"
-
+_DUCTN_COMMANDS+=("ufw:fail2ban:install")
 --ufw:fail2ban:install() {
     sudo apt install fail2ban -y --purge --auto-remove
 }
 
+_DUCTN_COMMANDS+=("ufw:fail2ban:configuration")
 --ufw:fail2ban:configuration() {
 
     ##########################

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
+_DUCTN_COMMANDS+=("php:composer:install")
 --php:composer:install() {
     cd ~
     curl -sS https://getcomposer.org/installer -o composer-setup.php

@@ -1,4 +1,0 @@
-#!/bin/bash
-#!/bin/sh
-
-/var/www/base/bash/ductn_init aliases

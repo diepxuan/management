@@ -3,27 +3,6 @@
 
 . $_BASHDIR/environment
 
-. $_BASHDIR/hosts
-# . $_BASHDIR/ssh
-. $_BASHDIR/ssl
-. $_BASHDIR/sys
-# . $_BASHDIR/vpn/pptp
-. $_BASHDIR/httpd
-. $_BASHDIR/log
-. $_BASHDIR/git
-. $_BASHDIR/wsl
-. $_BASHDIR/swap
-. $_BASHDIR/ddns
-. $_BASHDIR/dns
-. $_BASHDIR/php
-. $_BASHDIR/composer
-. $_BASHDIR/ufw
-. $_BASHDIR/user
-
-. $_BINDIR/mysql
-. $_BINDIR/mssql
-. $_BINDIR/mssql_php
-
 --init() {
     mkdir -p $DIRTMP
     sudo chmod 777 -R $DIRTMP

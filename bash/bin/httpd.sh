@@ -3,6 +3,7 @@
 
 _HTTPDDIR="$_LIBDIR/httpd"
 
+_DUCTN_COMMANDS+=("httpd:install")
 --httpd:install() {
     #!/usr/bin/env bash
 
@@ -32,6 +33,7 @@ _HTTPDDIR="$_LIBDIR/httpd"
 
 }
 
+_DUCTN_COMMANDS+=("httpd:config")
 --httpd:config() {
     --chmod() {
         --httpd:config:chmod
@@ -59,6 +61,7 @@ _HTTPDDIR="$_LIBDIR/httpd"
     find $_HTTPDDIR/*/httpd.conf $_HTTPDDIR/*/httpd.conf.d/*.conf -type f | sort -n | xargs cat | sudo tee -a /etc/apache2/sites-available/ductn.conf
 }
 
+_DUCTN_COMMANDS+=("httpd:restart")
 --httpd:restart() {
     --httpd:config $@
     sudo service apache2 restart

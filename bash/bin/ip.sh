@@ -3,6 +3,7 @@
 
 _IP_EXTEND=
 
+_DUCTN_COMMANDS+=("ip:wan")
 --ip:wan() {
 
     # IPANY="$(dig @ns1.google.com -t txt o-o.myaddr.l.google.com +short | tr -d \")"
@@ -29,10 +30,12 @@ _IP_EXTEND=
     dig @resolver1.ipv6-sandbox.opendns.com AAAA myip.opendns.com +short -6
 }
 
+_DUCTN_COMMANDS+=("ip:local")
 --ip:local() {
     hostname -I | awk '{print $1}'
 }
 
+_DUCTN_COMMANDS+=("ip:check")
 --ip:check() {
     # Specify DNS server
     dnsserver="8.8.8.8"

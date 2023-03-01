@@ -16,6 +16,8 @@
     cd "$_BASEDIR"
     git fetch -ap
     git reset --hard origin/master
+    --git:configure
+
     echo "DEV=1" >>$_BASEDIR/.env
 }
 
@@ -25,6 +27,7 @@
     git archive --remote=git@bitbucket.org:DXVN/code.git master | tar -x -C "${_BASEDIR}"
 }
 
+_DUCTN_COMMANDS+=("sys:selfupdate" "selfupdate" "self-update")
 --sys:selfupdate() {
     if [[ $(--version:islatest) -eq 0 ]]; then
         --sys:base:upgrade
@@ -33,7 +36,6 @@
 
 --selfupdate() {
     --sys:selfupdate
-    --sys:init
 }
 
 --self-update() {

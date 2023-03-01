@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-_BASEDIR="/var/www/base"
-_BASHDIR="$_BASEDIR/bash"
-
 --cron:cronjob:min() {
     --cron:service
 }
@@ -29,6 +26,7 @@ _BASHDIR="$_BASEDIR/bash"
     --ufw:geoip:configuration
 }
 
+_DUCTN_COMMANDS+=("cron:service")
 --cron:service() {
     --cron:service:httpd
     --cron:service:mysql
@@ -49,53 +47,56 @@ _BASHDIR="$_BASEDIR/bash"
 
 --cron:service:mysql() {
     if [ "$(--sys:service:isactive mysql)" == "failed" ]; then
-        $_BASHDIR/ductn swap:install
-        $_BASHDIR/ductn log:cleanup
+        --swap:install
+        --log:cleanup
         sudo systemctl restart mysql
     fi
 
     # sudo /usr/sbin/service mysql status | grep 'active' >/dev/null 2>&1
     # if [ $? != 0 ]; then
-    #     $_BASHDIR/ductn swap:install
-    #     $_BASHDIR/ductn log:cleanup
+    #     --swap:install
+    #     --log:cleanup
     #     sudo /usr/sbin/service mysql start
     # fi
 }
 
 --cron:service:mssql() {
     if [ "$(--sys:service:isactive mssql-server)" == "failed" ]; then
-        $_BASHDIR/ductn swap:install
-        $_BASHDIR/ductn log:cleanup
+        --swap:install
+        --log:cleanup
         sudo /usr/sbin/service mssql-server start
     fi
 
     # sudo /usr/sbin/service mssql-server status | grep 'active' >/dev/null 2>&1
     # if [ $? != 0 ]; then
-    #     $_BASHDIR/ductn swap:install
-    #     $_BASHDIR/ductn log:cleanup
+    #     --swap:install
+    #     --log:cleanup
     #     sudo /usr/sbin/service mssql-server start
     # fi
 }
 
 --cron:service:ufw() {
-    sudo ufw status | grep ' active' >/dev/null 2>&1
-    if [ $? != 0 ]; then
+    if [ "$(--sys:service:isactive ufw)" == "failed" ]; then
         sudo ufw enable
     fi
+
+    # sudo ufw status | grep ' active' >/dev/null 2>&1
+    # if [ $? != 0 ]; then
+    #     sudo ufw enable
+    # fi
 }
 
 --cron:cronjob() {
     --cron:cronjob:5min
 }
 
+_DUCTN_COMMANDS+=("cron:update")
 --cron:update() {
     --cron:cronjob:5min
 }
 
---cron:install() {
-    --cron:crontab:install
-}
-
+_DUCTN_COMMANDS+=("cron:install")
+--cron:install() { --cron:crontab:install; }
 --cron:crontab:install() {
     if [ "$(whoami)" = "ductn" ]; then
         # chmod u+x $_BASHDIR/cronjob/*.sh
@@ -104,6 +105,8 @@ _BASHDIR="$_BASEDIR/bash"
     fi
 }
 
+_DUCTN_COMMANDS+=("cron:uninstall")
+--cron:uninstall() { --cron:crontab:uninstall; }
 --cron:crontab:uninstall() {
     crontab -r
     sudo service cron restart

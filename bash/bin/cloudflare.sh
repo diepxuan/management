@@ -3,6 +3,7 @@
 
 CLFR_API="https://api.cloudflare.com/client/v4"
 
+_DUCTN_COMMANDS+=("cloudflare:sync")
 --cloudflare:sync() {
     if [[ "$(--cloudflare:check)" -eq 0 ]]; then
         --cloudflare:patch:recordByName $(--cloudflare:fullname)
@@ -26,14 +27,17 @@ CLFR_API="https://api.cloudflare.com/client/v4"
     --host:name
 }
 
+_DUCTN_COMMANDS+=("cloudflare:fullname")
 --cloudflare:fullname() {
     --host:fullname
 }
 
+_DUCTN_COMMANDS+=("cloudflare:ip")
 --cloudflare:ip() {
     --cloudflare:get:recordIP $(--cloudflare:fullname)
 }
 
+_DUCTN_COMMANDS+=("cloudflare:check")
 --cloudflare:check() {
     if [[ "$(--cloudflare:ip)" == "$(--ip:wan)" ]]; then
         echo 1
@@ -90,32 +94,38 @@ CLFR_API="https://api.cloudflare.com/client/v4"
     fi
 }
 
+_DUCTN_COMMANDS+=("cloudflare:get:userid")
 --cloudflare:get:userid() {
     echo $(--cloudflare:get $CLFR_API/user | jq -r '.result.id')
 }
 
+_DUCTN_COMMANDS+=("cloudflare:get:zones")
 --cloudflare:get:zones() {
     for value in $(--cloudflare:get $CLFR_API/zones | jq -r '.result[].id'); do
         echo $value
     done
 }
 
+_DUCTN_COMMANDS+=("cloudflare:get:records")
 --cloudflare:get:records() {
     for zoneid in $(--cloudflare:get:zones); do
         echo $(--cloudflare:get $CLFR_API/zones/$zoneid/dns_records | jq -r '.result[].name')
     done
 }
 
+_DUCTN_COMMANDS+=("cloudflare:get:recordByName")
 --cloudflare:get:recordByName() {
     for zoneid in $(--cloudflare:get:zones); do
         echo $(--cloudflare:get $CLFR_API/zones/$zoneid/dns_records\?type=A\&name=${1} | jq -r '.result[]')
     done
 }
 
+_DUCTN_COMMANDS+=("cloudflare:get:recordid")
 --cloudflare:get:recordid() {
     --cloudflare:get:recordByName $1 | jq -r '.id'
 }
 
+_DUCTN_COMMANDS+=("cloudflare:get:recordIP")
 --cloudflare:get:recordIP() {
     --cloudflare:get:recordByName $1 | jq -r '.content'
 }

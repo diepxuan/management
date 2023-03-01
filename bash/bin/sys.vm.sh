@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
+_DUCTN_COMMANDS+=("sys:vm:enable")
 --sys:vm:enable() {
     sudo apt install qemu-guest-agent -y --purge --auto-remove
     sudo systemctl enable qemu-guest-agent
     sudo systemctl restart qemu-guest-agent
 }
 
+_DUCTN_COMMANDS+=("sys:vm:new")
 --sys:vm:new() {
     --ssh:copy $1@$2
     ssh $1@$2 "mkdir -p $_BASEDIR"

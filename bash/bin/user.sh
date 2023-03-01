@@ -18,6 +18,7 @@
 
 _SSHDIR="$_LIBDIR/ssh"
 
+_DUCTN_COMMANDS+=("user:new")
 --user:new() {
     #!/bin/bash
 
@@ -29,6 +30,7 @@ _SSHDIR="$_LIBDIR/ssh"
     --user:config ${1}
 }
 
+_DUCTN_COMMANDS+=("user:config")
 --user:config() {
     if [[ ${1} = "ductn" ]]; then
         --user:config:admin

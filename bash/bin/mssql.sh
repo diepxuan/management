@@ -9,7 +9,9 @@
     # sudo apt update
 }
 
+_DUCTN_COMMANDS+=("sqlsrv:install")
 --sqlsrv:install() {
+    --sqlsrv:apt:install
 
     # Install SQL Server
     ####################
@@ -20,6 +22,7 @@
     sudo /opt/mssql/bin/mssql-conf setup
 }
 
+_DUCTN_COMMANDS+=("mssql:install")
 --mssql:install() {
     --sqlsrv:install
 }
