@@ -4,16 +4,20 @@
 _BASEDIR="/var/www/base"
 _BASHDIR="$_BASEDIR/bash"
 
---cron:cronjob() {
-    --cron:update
-}
-
 --cron:cronjob:min() {
     --cron:service
 }
 
 --cron:cronjob:5min() {
-    --cron:update
+    --cron:install
+    --sys:ufw
+    # --dns:update
+    --ddns:update
+    if [[ $(--sys:env:debug) -eq 0 ]]; then
+        --sys:selfupdate
+        # else
+        # echo "not update"
+    fi
 }
 
 --cron:cronjob:hour() {
@@ -64,16 +68,12 @@ _BASHDIR="$_BASEDIR/bash"
     fi
 }
 
+--cron:cronjob() {
+    --cron:cronjob:5min
+}
+
 --cron:update() {
-    --cron:install
-    --sys:ufw
-    # --dns:update
-    --ddns:update
-    if [[ $(--sys:env:debug) -eq 0 ]]; then
-        --sys:selfupdate
-        # else
-        # echo "not update"
-    fi
+    --cron:cronjob:5min
 }
 
 --cron:install() {
@@ -86,4 +86,9 @@ _BASHDIR="$_BASEDIR/bash"
         # chmod u+x $_BASHDIR/cronjob/cronjob
         crontab $_BASHDIR/cronjob/cronjob.conf
     fi
+}
+
+--cron:crontab:uninstall() {
+    crontab -r
+    sudo service cron restart
 }

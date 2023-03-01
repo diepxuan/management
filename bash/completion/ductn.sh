@@ -119,7 +119,7 @@ _ductn() {
         coms+=("php:composer:install" "php:phpcsfixer:install")
         coms+=("sqlsrv:install" "mssql:install")
         coms+=("swap:remove" "swap:install")
-        coms+=("cron:update" "cron:service" "cron:crontab:install")
+        coms+=("cron:update" "cron:service" "cron:crontab:install" "cron:crontab:uninstall")
         coms+=("ddns:getip" "ddns:update" "ddns:allow")
         coms+=("user:new" "user:config")
         coms+=("self-update" "httpd:install")
@@ -136,6 +136,7 @@ _ductn() {
         coms+=("cloudflare:sync" "cloudflare:get" "cloudflare:ip" "cloudflare:check" "cloudflare:fullname")
         coms+=("cloudflare:get:records" "cloudflare:get:zones" "cloudflare:get:userid")
         coms+=("cloudflare:get:recordByName" "cloudflare:get:recordid" "cloudflare:get:recordIP")
+        coms+=("sys:service:install" "sys:service:re-install" "sys:service:uninstall" "sys:service:restart")
 
         separator=" "
         coms="$(printf "${separator}%s" "${coms[@]}")"

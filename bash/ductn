@@ -9,6 +9,8 @@ _BINDIR="$_BASHDIR/bin"
 . $_BASHDIR/libraries
 . $_BASHDIR/main.sh
 
+if [[ ! "$(whoami)" == "ductn" ]]; then exit 1; fi
+
 if [[ ! -z ${@+x} ]]; then
     "--$@"
     exit 0
