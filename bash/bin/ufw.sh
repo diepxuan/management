@@ -16,11 +16,11 @@ _DUCTN_COMMANDS+=("ufw:cleanup")
         line="$(echo "$line" | sed -r 's/\/tcp//g')"
 
         if [[ " ${DDNS_IPS[*]} " =~ " ${line} " ]]; then
-            [[ $TYPE =~ "cmd" ]] && echo "Exist $line"
+            [[ $TYPE =~ "cmd" ]] && --echo "Exist $line"
         else
             # sudo ufw delete allow proto tcp from "$line"
             sudo ufw delete allow from "$line"
-            [[ $TYPE =~ "cmd" ]] && echo "Remove $line"
+            [[ $TYPE =~ "cmd" ]] && --echo "Remove $line"
         fi
 
     done
