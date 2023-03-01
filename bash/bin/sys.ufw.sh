@@ -10,23 +10,9 @@ _DUCTN_COMMANDS+=("sys:ufw")
     fi
 }
 
---sys:hosts() {
-    # --hosts:add $(--host:address dxvnmg15.diepxuan.com) mg15
-    # --hosts:add $(--host:address dx3.diepxuan.com) dx3
-
-    --do_no_thing
-}
-
 _DUCTN_COMMANDS+=("sys:ufw:cleanup")
 --sys:ufw:cleanup() {
     --ufw:cleanup
-}
-
---sys:ufw:_allow() {
-    # if [ "$(whoami)" = "ductn" ]; then
-    # sudo ufw allow proto tcp from "$(--host:address $@)" to any port 1433
-    sudo ufw allow from "$(--host:address $@)"
-    # fi
 }
 
 _DUCTN_COMMANDS+=("sys:ufw:allow")
@@ -51,4 +37,19 @@ _DUCTN_COMMANDS+=("sys:ufw:is_active")
     # else
     #     echo deactive
     # fi
+}
+
+--sys:hosts() {
+    # --hosts:add $(--host:address dxvnmg15.diepxuan.com) mg15
+    # --hosts:add $(--host:address dx3.diepxuan.com) dx3
+
+    --do_no_thing
+}
+
+--sys:ufw:_allow() {
+    # sudo ufw allow proto tcp from "$(--host:address $@)" to any port 1433
+    _IP=$(--host:address $@)
+    if [ ! "$_IP" = "127.0.0.1" ]; then
+        sudo ufw allow from "$(--host:address $@)"
+    fi
 }
