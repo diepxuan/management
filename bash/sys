@@ -41,7 +41,7 @@
         _IS_SUDOER="on"
     }
 
-    echo ". $_BASHDIR/.bash_aliases" >~/.bash_aliases
+    echo -e "#!/usr/bin/env bash\n#!/bin/bash\n\n. $_BASHDIR/.bash_aliases" >~/.bash_aliases
     chmod 644 ~/.bash_aliases
 
     rm -rf ~/.vimrc
@@ -59,9 +59,7 @@
     chmod +x $_BASHDIR/*
     sudo timedatectl set-timezone Asia/Ho_Chi_Minh
 
-    echo "#!/usr/bin/env bash
-#!/bin/bash
-. $_BASHDIR/ductn" | sudo tee /usr/local/bin/ductn >/dev/null
+    echo -e "#!/usr/bin/env bash\n#!/bin/bash\n\n. $_BASHDIR/ductn" | sudo tee /usr/local/bin/ductn >/dev/null
     sudo chown root:root /usr/local/bin/ductn
     sudo chmod +x /usr/local/bin/ductn
     # fi
