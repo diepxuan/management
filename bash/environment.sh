@@ -18,3 +18,5 @@ SERVICE_NAME=ductnd
 SERVICE_PATH="/usr/local/bin/ductn run_as_service"
 
 _DUCTN_COMMANDS=()
+
+. $_BASHDIR/environment.color.sh

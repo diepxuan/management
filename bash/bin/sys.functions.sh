@@ -20,12 +20,12 @@
 }
 
 --echo() {
-    echo -e $@
+    echo -e $@ >$(tty)
 }
 
 --debug() {
     if [[ $(--sys:env:dev) -eq 1 ]]; then
-        echo $@
+        echo -e $@
     fi
 }
 
