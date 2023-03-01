@@ -7,7 +7,7 @@ _DUCTN_COMMANDS+=("ufw:cleanup")
 
     DDNS_IPS=()
     for domain in "${DDNS_DOMAINS[@]}"; do
-        IP="$(--ddns:getip $domain)"
+        IP="$(--host:address $domain)"
         DDNS_IPS+=($IP)
     done
 

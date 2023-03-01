@@ -11,15 +11,10 @@ _DUCTN_COMMANDS+=("ddns:update")
     --cloudflare:sync
 }
 
-_DUCTN_COMMANDS+=("ddns:getip")
---ddns:getip() {
-    --host:ip $@
-}
-
 # --ddns:_allow() {
 #     if [ "$(whoami)" = "ductn" ]; then
-#         # sudo ufw allow proto tcp from "$(--ddns:getip $@)" to any port 1433
-#         sudo ufw allow from "$(--ddns:getip $@)"
+#         # sudo ufw allow proto tcp from "$(--host:address $@)" to any port 1433
+#         sudo ufw allow from "$(--host:address $@)"
 #     fi
 # }
 
