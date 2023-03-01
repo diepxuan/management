@@ -7,6 +7,7 @@
     else
         --sys:base:bin
     fi
+    --sys:service:restart
 }
 
 --sys:base:dev() {
