@@ -56,7 +56,7 @@ function _ductn_completion() {
     done
 
 }
-ductn -T 2>/dev/null && _ductn_completion
+ductn do_no_thing 2>/dev/null && _ductn_completion
 
 # SSH AGENT autostart
 # ################################################################
