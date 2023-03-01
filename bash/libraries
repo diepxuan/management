@@ -46,6 +46,8 @@
 --install() {
     --sys:apt:install jq
     # --sys:apt:install resolvconf
+
+    --sys:service:install
 }
 
 --import

@@ -6,7 +6,7 @@ CLFR_API="https://api.cloudflare.com/client/v4"
 --cloudflare:sync() {
     if [[ "$(--cloudflare:check)" -eq 0 ]]; then
         --cloudflare:patch:recordByName $(--cloudflare:fullname)
-        --host:address
+        --cloudflare:ip
     fi
 }
 
