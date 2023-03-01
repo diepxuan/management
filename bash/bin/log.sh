@@ -64,7 +64,7 @@ _DUCTN_COMMANDS+=("log:cleanup")
     # sudo find /var/log -type f -regex ".*\.gz$" | xargs sudo rm -Rf
     # sudo find /var/log -type f -regex ".*\.[0-9]$" | xargs sudo rm -Rf
     sudo find /var/log /var/opt/mssql/log -type f -regex ".*\.gz$" -delete
-    sudo find /var/log /var/opt/mssql/log -type f -regex ".*\.[0-9]$" -delete
+    sudo find /var/log /var/opt/mssql/log -type f -regex ".*\.[0-9]*$" -delete
 
     #Cleaning the old kernels
     # dpkg-query -l|grep linux-im*
@@ -73,7 +73,7 @@ _DUCTN_COMMANDS+=("log:cleanup")
     # apt-get install linux-headers-`uname -r|cut -d'-' -f3`-`uname -r|cut -d'-' -f4`
 
     #Cleaning is completed
-    echo "Cleaning is completed"
+    --debug "Cleaning is completed"
 }
 
 _DUCTN_COMMANDS+=("log:config")
@@ -93,5 +93,7 @@ _DUCTN_COMMANDS+=("log:config")
 }" | sudo tee /etc/logrotate.d/ductn >/dev/null
 
     sudo logrotate -f /etc/logrotate.d/ductn
-    cat /var/lib/logrotate/status
+    if [[ $(--sys:env:dev) -eq 1 ]]; then
+        cat /var/lib/logrotate/status
+    fi
 }
