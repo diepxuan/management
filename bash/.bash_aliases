@@ -54,7 +54,6 @@ function _ductn_completion() {
     for _completion_path in $(ductn sys:completion); do
         . $_completion_path
     done
-
 }
 ductn do_no_thing 2>/dev/null && _ductn_completion
 
