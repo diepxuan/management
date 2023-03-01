@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
+_DUCTN_COMMANDS+=("sys:ad:install")
 --sys:ad:install() {
     sudo apt install -y realmd libnss-sss libpam-sss sssd sssd-tools adcli samba-common-bin oddjob oddjob-mkhomedir packagekit
 

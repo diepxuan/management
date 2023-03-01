@@ -16,3 +16,5 @@ SERVICE_DESC="Ductn service"
 SERVICE_NAME=ductnd
 # SERVICE_PATH="/var/www/base/bash/ductn.sh run_as_service"
 SERVICE_PATH="/usr/local/bin/ductn run_as_service"
+
+_DUCTN_COMMANDS=()

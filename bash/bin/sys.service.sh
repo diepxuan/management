@@ -38,16 +38,19 @@
     read -t 5 -n 1 -s -r -p "Press any key to continue (5 seconds)"
 }
 
+_DUCTN_COMMANDS+=("run_as_service")
 --run_as_service() {
     --sys:service:main
 }
 
+_DUCTN_COMMANDS+=("sys:service")
 --sys:service() {
     if [ "$(--sys:service:isactive)" == "active" ]; then
         --cron:crontab:uninstall >/dev/null 2>&1
     fi
 }
 
+_DUCTN_COMMANDS+=("sys:service:isactive")
 --sys:service:isactive() {
     _SERVICE_NAME=$SERVICE_NAME
     if [[ ! -z ${@+x} ]]; then
@@ -57,17 +60,20 @@
     echo $IS_ACTIVE
 }
 
+_DUCTN_COMMANDS+=("sys:service:restart")
 --sys:service:restart() {
     if [ "$(--sys:service:isactive)" == "active" ]; then
         sudo systemctl restart ${SERVICE_NAME//'.service'/}
     fi
 }
 
+_DUCTN_COMMANDS+=("sys:service:re-install")
 --sys:service:re-install() {
     --sys:service:unistall
     --sys:service:install
 }
 
+_DUCTN_COMMANDS+=("sys:service:install")
 --sys:service:install() {
     # sudo systemctl daemon-reload
     if [ "$(--sys:service:isactive)" == "failed" ]; then
@@ -114,6 +120,7 @@ Alias=${SERVICE_NAME//'"'/}.service" | sudo tee /usr/lib/systemd/system/${SERVIC
     fi
 }
 
+_DUCTN_COMMANDS+=("sys:service:uninstall")
 --sys:service:unistall() {
     sudo systemctl kill ${SERVICE_NAME//'.service'/}    # remove the extension
     sudo systemctl stop ${SERVICE_NAME//'.service'/}    # remove the extension

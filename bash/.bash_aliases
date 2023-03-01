@@ -24,7 +24,7 @@ PS1="\n$PS1"
 #     tmux attach -t default || tmux new -s default
 # fi
 
-# composer
+# composer PATH
 # ################################################################
 # COMPOSER_HOME=$HOME/.composer
 # export COMPOSER_HOME=$HOME/.composer
@@ -35,68 +35,28 @@ elif [ -d $HOME/.composer ]; then
     export PATH=$PATH:$HOME/.composer/vendor/bin
 fi
 
-# completion magerun2
+# mssql-server PATH
 # ################################################################
-# https://raw.githubusercontent.com/netz98/n98-magerun2/develop/res/autocompletion/bash/n98-magerun2.phar.bash
-if ! shopt -oq posix; then
-    if [[ -f /var/www/base/bash/completion/magerun2.sh ]]; then
-        . /var/www/base/bash/completion/magerun2.sh
-    elif [[ -f $HOME/.completion/magerun2.sh ]]; then
-        . $HOME/.completion/magerun2.sh
-    fi
-fi
-
-# completion magerun
-# ################################################################
-# https://raw.githubusercontent.com/netz98/n98-magerun/develop/res/autocompletion/bash/n98-magerun.phar.bash
-if ! shopt -oq posix; then
-    if [[ -f /var/www/base/bash/completion/magerun.sh ]]; then
-        . /var/www/base/bash/completion/magerun.sh
-    elif [[ -f $HOME/.completion/magerun.sh ]]; then
-        . $HOME/.completion/magerun.sh
-    fi
-fi
-
-# bash completion for the `wp` command
-# ################################################################
-if ! shopt -oq posix; then
-    if [[ -f /var/www/base/bash/completion/wp.sh ]]; then
-        . /var/www/base/bash/completion/wp.sh
-    elif [[ -f $HOME/.completion/wp.sh ]]; then
-        . $HOME/.completion/wp.sh
-    fi
-fi
-
-# bash completion for the `angular cli` command
-# ################################################################
-if ! shopt -oq posix; then
-    if [[ -f /var/www/base/bash/completion/angular2.sh ]]; then
-        . /var/www/base/bash/completion/angular2.sh
-    elif [[ -f $HOME/.completion/angular2.sh ]]; then
-        . $HOME/.completion/angular2.sh
-    fi
-fi
-
-# bash completion for the `ductn cli` command
-# ################################################################
-if ! shopt -oq posix; then
-    if [[ -f /var/www/base/bash/completion/ductn.sh ]]; then
-        . /var/www/base/bash/completion/ductn.sh
-    elif [[ -f $HOME/.completion/ductn.sh ]]; then
-        . $HOME/.completion/ductn.sh
-    fi
-fi
-
-if [[ -d "/var/www/base/bash" ]]; then
-    if [ "$(whoami)" = "ductn" ]; then
-        chmod +x /var/www/base/bash/*
-    fi
-    # PATH="$PATH:/var/www/base/bash"
-fi
-
 if [[ -d "/opt/mssql-tools/bin" ]]; then
     PATH="$PATH:/opt/mssql-tools/bin"
 fi
+
+# ductn proccess PATH
+# ################################################################
+if [[ -d "/var/www/base/bash" ]] && [ "$(whoami)" = "ductn" ]; then
+    chmod +x /var/www/base/bash/*
+    # PATH="$PATH:/var/www/base/bash"
+fi
+
+# completion
+# ################################################################
+function _ductn_completion() {
+    for _completion_path in $(ductn sys:completion); do
+        . $_completion_path
+    done
+
+}
+ductn -T 2>/dev/null && _ductn_completion
 
 # SSH AGENT autostart
 # ################################################################
@@ -126,6 +86,7 @@ fi
 # Missing command
 # ################################################################
 ll 2>/dev/null || alias ll="ls -alF"
+cdd 2>/dev/null || alias cdd="cd $(ductn pwd)"
 
 # reload
 #alias ductn_personal="/var/www/base/bash/personal.sh"
