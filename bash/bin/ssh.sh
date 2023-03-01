@@ -63,6 +63,7 @@ _DUCTN_COMMANDS+=("ssh:install")
     chmod 600 ~/.ssh/*
 }
 
+_DUCTN_COMMANDS+=("ssh:copy")
 --ssh:copy() {
     cat /var/www/base/ssh/id_rsa | ssh ${1} "cat > ~/.ssh/id_rsa"
     ssh ${1} "ssh-keygen -f ~/.ssh/id_rsa -y >~/.ssh/id_rsa.pub"
