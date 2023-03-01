@@ -10,7 +10,7 @@ _DUCTN_COMMANDS+=("sys:hosts:add")
 
     HOSTS_LINE="$IP\t$HOSTNAME"
 
-    if [[ ! "$(--ddns:getip $HOSTNAME)" =~ "$IP" ]]; then
+    if [[ ! "$(--host:address $HOSTNAME)" =~ "$IP" ]]; then
         if [[ ! -n $(grep -P "$IP[[:space:]]$HOSTNAME" $ETC_HOSTS) ]]; then
             sudo sed -i".bak" "/$HOSTNAME/d" ${ETC_HOSTS}
         fi
