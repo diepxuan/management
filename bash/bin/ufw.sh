@@ -1,12 +1,7 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-_BASEDIR="/var/www/base"
-_BASHDIR="$_BASEDIR/bash"
-
-. $_BASHDIR/ufw.geoip
-. $_BASHDIR/ufw.fail2ban
-
+_DUCTN_COMMANDS+=("ufw:cleanup")
 --ufw:cleanup() {
     TYPE=$1
 
@@ -31,6 +26,7 @@ _BASHDIR="$_BASEDIR/bash"
     done
 }
 
+_DUCTN_COMMANDS+=("ufw:profile:mssql")
 --ufw:profile:mssql() {
     echo $ufw_profile_mssql | sudo tee /etc/ufw/applications.d/mssql.ufw.profile
 }

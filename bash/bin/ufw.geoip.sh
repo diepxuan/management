@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-_BASEDIR="/var/www/base"
-_BASHDIR="$_BASEDIR/bash"
-
+_DUCTN_COMMANDS+=("ufw:geoip:install")
 --ufw:geoip:install() {
     sudo apt install curl unzip perl -y --purge --auto-remove
     sudo apt install xtables-addons-common -y --purge --auto-remove
     sudo apt install libtext-csv-xs-perl libmoosex-types-netaddr-ip-perl -y --purge --auto-remove
 }
 
+_DUCTN_COMMANDS+=("ufw:geoip:update")
 --ufw:geoip:update() {
     MON=$(date +"%m")
     YR=$(date +"%Y")
@@ -26,6 +25,7 @@ _BASHDIR="$_BASEDIR/bash"
     sudo rm /usr/share/xt_geoip/dbip-country-lite.csv
 }
 
+_DUCTN_COMMANDS+=("ufw:geoip:configuration")
 --ufw:geoip:configuration() {
     --ufw:geoip:update
     sudo modprobe xt_geoip
@@ -41,6 +41,7 @@ _BASHDIR="$_BASEDIR/bash"
     # -A ufw-before-input -m geoip ! --src-cc VN -j DROP
 }
 
+_DUCTN_COMMANDS+=("ufw:geoip:allowCloudflare")
 --ufw:geoip:allowCloudflare() {
     # Allow Cloudflare IP
     # https://www.cloudflare.com/ips-v4
@@ -49,13 +50,17 @@ _BASHDIR="$_BASEDIR/bash"
     # -A ufw-before-input -p tcp -m multiport --dports http,https -s $ip -j ACCEPT
 
     v4ips="https://www.cloudflare.com/ips-v4"
-    echo "# v4: /etc/ufw/before.rules"
+    echo "# v4: add to file /etc/ufw/before.rules"
+    echo "########################################"
     while IFS= read -r line; do
         echo "-A ufw-before-input -p tcp -m multiport --dports http,https -s ${line} -j ACCEPT"
     done < <(curl -s $v4ips)
 
+    echo -e "\n\n"
+
     v6ips="https://www.cloudflare.com/ips-v6"
-    echo "# v6: /etc/ufw/before6.rules"
+    echo "# v6: add to file /etc/ufw/before6.rules"
+    echo "########################################"
     while IFS= read -r line; do
         echo "-A ufw-before-input -p tcp -m multiport --dports http,https -s ${line} -j ACCEPT"
     done < <(curl -s $v6ips)

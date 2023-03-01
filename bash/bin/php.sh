@@ -7,6 +7,7 @@
     # sudo apt install -y php-dev php-xml -y --allow-unauthenticated &>/dev/null
 }
 
+_DUCTN_COMMANDS+=("php:install")
 --php:install() {
     --php:apt:install
 
@@ -34,6 +35,7 @@
     # sudo service apache2 restart
 }
 
+_DUCTN_COMMANDS+=("php:phpcsfixer:install")
 --php:phpcsfixer:install() {
     cd ~
     curl -sS https://cs.symfony.com/download/php-cs-fixer-v3.phar -o php-cs-fixer

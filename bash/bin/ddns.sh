@@ -6,10 +6,12 @@ DDNS_DOMAINS+=("dxvnkthd.diepxuan.com" "dxvnk113.diepxuan.com" "dxvnkkcn.diepxua
 DDNS_DOMAINS+=("dc1.diepxuan.com" "dc2.diepxuan.com" "dc3.diepxuan.com")
 DDNS_DOMAINS+=("dx1.diepxuan.com" "dx2.diepxuan.com" "dx3.diepxuan.com")
 
+_DUCTN_COMMANDS+=("ddns:update")
 --ddns:update() {
     --cloudflare:sync
 }
 
+_DUCTN_COMMANDS+=("ddns:getip")
 --ddns:getip() {
     --host:ip $@
 }

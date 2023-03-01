@@ -1,15 +1,19 @@
 #!/usr/bin/env bash
+#!/bin/bash
 
+_DUCTN_COMMANDS+=("log:watch")
 --log:watch() {
     # ssh dx3.diepxuan.com "sudo tail -f /var/log/syslog" &
     # ssh dx1.diepxuan.com "sudo tail -f /var/log/syslog"
     sudo tail -f /var/log/*log /var/opt/mssql/log/errorlog
 }
 
+_DUCTN_COMMANDS+=("log:watch:service")
 --log:watch:service() {
     sudo journalctl -u "$@".service -f
 }
 
+_DUCTN_COMMANDS+=("log:cleanup")
 --log:cleanup() {
 
     # #!/bin/sh
@@ -72,6 +76,7 @@
     echo "Cleaning is completed"
 }
 
+_DUCTN_COMMANDS+=("log:config")
 --log:config() {
     echo "/home/store/public_html/var/log/*.log {
     su store www-data

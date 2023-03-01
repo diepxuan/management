@@ -4,12 +4,14 @@
 CERTDIR=/etc/mysql/certs/
 _MYSQLDIR="$_LIBDIR/mysql"
 
+_DUCTN_COMMANDS+=("mysql:setup")
 --mysql:setup() {
     $_BASHDIR/ductn --swap --install
     sudo apt install -y --purge --auto-remove mysql-server
     # sudo mysql_secure_installation
 }
 
+_DUCTN_COMMANDS+=("mysql:ssl:enable")
 --mysql:ssl:enable() {
     mkdir $CERTDIR
     # openssl genrsa 4096 | sudo tee ca-key.pem

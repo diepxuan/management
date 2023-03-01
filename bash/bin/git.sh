@@ -3,6 +3,7 @@
 
 _GITDIR="$_LIBDIR/git"
 
+_DUCTN_COMMANDS+=("git:configure")
 --git:configure() {
     if [[ -d $_BASEDIR/.git ]]; then
         # global gitignore
@@ -46,6 +47,7 @@ _GITDIR="$_LIBDIR/git"
     fi
 }
 
+_DUCTN_COMMANDS+=("git:configure:server")
 --git:configure:server() {
     if [[ -d $_BASEDIR/.git ]]; then
         echo "server update"

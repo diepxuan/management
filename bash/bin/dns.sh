@@ -2,7 +2,7 @@
 
 NS1=false
 NS2=false
-DEV=0
+# DEV=0
 
 --dns:init() {
     if [[ -z ${NS1+x} ]]; then return; else

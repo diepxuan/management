@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-_BASEDIR="/var/www/base"
-_BASHDIR="$_BASEDIR/bash"
-
 #sudo apt install -y unixodbc tdsodbc php?.?-sybase &>/dev/null
 #sudo phpenmod sybase
 
+_DUCTN_COMMANDS+=("sqlsrv:php:install")
 --sqlsrv:php:install() {
     # Install PHP and other required packages
     #########################################
@@ -39,10 +37,7 @@ _BASHDIR="$_BASEDIR/bash"
     # sudo pecl install sqlsrv-5.7.0preview pdo_sqlsrv-5.7.0preview
 }
 
---mssql:php:install() {
-    --sqlsrv:php:install
-}
-
+_DUCTN_COMMANDS+=("sqlsrv:php:enable")
 --sqlsrv:php:enable() {
     --sqlsrv:php:disable
     # printf "priority=20\nextension=sqlsrv.so\n" | sudo tee /etc/php/5.6/mods-available/sqlsrv.ini
@@ -76,16 +71,24 @@ _BASHDIR="$_BASEDIR/bash"
     #echo extension=pdo_sqlsrv.so | sudo tee -a `php --ini | grep "Scan for additional .ini files" | sed -e "s|.*:\s*||"`/30-pdo_sqlsrv.ini
 }
 
---mssql:php:enable() {
-    --sqlsrv:php:enable
-    sudo /usr/sbin/service apache2 start
-}
-
+_DUCTN_COMMANDS+=("sqlsrv:php:disable")
 --sqlsrv:php:disable() {
     sudo phpdismod sqlsrv pdo_sqlsrv
     sudo /usr/sbin/service apache2 restart
 }
 
+_DUCTN_COMMANDS+=("mssql:php:install")
+--mssql:php:install() {
+    --sqlsrv:php:install
+}
+
+_DUCTN_COMMANDS+=("mssql:php:enable")
+--mssql:php:enable() {
+    --sqlsrv:php:enable
+    sudo /usr/sbin/service apache2 start
+}
+
+_DUCTN_COMMANDS+=("mssql:php:disable")
 --mssql:php:disable() {
     --sqlsrv:php:disable
 }
