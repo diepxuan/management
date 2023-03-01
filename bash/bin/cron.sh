@@ -36,6 +36,8 @@ _DUCTN_COMMANDS+=("cron:service")
 
 --cron:service:httpd() {
     if [ "$(--sys:service:isactive apache2)" == "failed" ]; then
+        --swap:install
+        --log:cleanup
         sudo systemctl restart apache2
     fi
 
@@ -98,10 +100,12 @@ _DUCTN_COMMANDS+=("cron:update")
 _DUCTN_COMMANDS+=("cron:install")
 --cron:install() { --cron:crontab:install; }
 --cron:crontab:install() {
-    if [ "$(whoami)" = "ductn" ]; then
-        # chmod u+x $_BASHDIR/cronjob/*.sh
-        # chmod u+x $_BASHDIR/cronjob/cronjob
-        crontab $_BASHDIR/cronjob/cronjob.conf
+    if [! "$(--sys:service:isactive)" == "active" ]; then
+        if [ "$(whoami)" = "ductn" ]; then
+            # chmod u+x $_BASHDIR/cronjob/*.sh
+            # chmod u+x $_BASHDIR/cronjob/cronjob
+            crontab $_BASHDIR/cronjob/cronjob.conf
+        fi
     fi
 }
 

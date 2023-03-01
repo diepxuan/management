@@ -3,9 +3,11 @@
 
 _DUCTN_COMMANDS+=("sys:ufw")
 --sys:ufw() {
-    --sys:ufw:cleanup
-    --sys:ufw:allow
-    # --sys:hosts
+    if [ "$(--sys:ufw:is_active)" == "active" ]; then
+        --sys:ufw:cleanup
+        --sys:ufw:allow
+        # --sys:hosts
+    fi
 }
 
 --sys:hosts() {
@@ -33,4 +35,20 @@ _DUCTN_COMMANDS+=("sys:ufw:allow")
         # echo $domain
         --sys:ufw:_allow $domain
     done
+}
+
+_DUCTN_COMMANDS+=("sys:ufw:is_active")
+--sys:ufw:is_active() {
+    if [ "$(--sys:service:isactive ufw)" == "active" ]; then
+        echo active
+    else
+        echo inactive
+    fi
+
+    # sudo ufw status | grep 'active' >/dev/null 2>&1
+    # if [ $? = 0 ]; then
+    #     echo active
+    # else
+    #     echo deactive
+    # fi
 }

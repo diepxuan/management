@@ -17,4 +17,5 @@ main() {
 
 main:init() {
     --sys:service
+    --log:config
 }

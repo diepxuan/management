@@ -14,3 +14,23 @@
 --pwd() {
     echo $_BASEDIR
 }
+
+--logger() {
+    logger "$@"
+}
+
+--echo() {
+    echo -e $@
+}
+
+--debug() {
+    if [[ $(--sys:env:dev) -eq 1 ]]; then
+        echo $@
+    fi
+}
+
+--dlogger() {
+    if [[ $(--sys:env:dev) -eq 1 ]]; then
+        logger "$@"
+    fi
+}
