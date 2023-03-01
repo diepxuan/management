@@ -49,7 +49,16 @@ _DUCTN_COMMANDS+=("sys:ufw:is_active")
 --sys:ufw:_allow() {
     # sudo ufw allow proto tcp from "$(--host:address $@)" to any port 1433
     _IP=$(--host:address $@)
-    if [ ! "$_IP" = "127.0.0.1" ]; then
+    if [ ! "$_IP" = "127.0.0.1" ] && [ $(--sys:ufw:is_exist $_IP) = 0 ]; then
         sudo ufw allow from "$(--host:address $@)"
+    fi
+}
+
+--sys:ufw:is_exist() {
+    sudo ufw status | grep $@ >/dev/null 2>&1
+    if [ $? != 0 ]; then
+        echo 0
+    else
+        echo 1
     fi
 }

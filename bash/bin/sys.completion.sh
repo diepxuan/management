@@ -4,11 +4,11 @@
 _DUCTN_COMMANDS+=("sys:completion" "sys:completion:commands")
 
 --sys:completion() {
-    [ $(ductn sys:completion:exists ductn) ] && --sys:completion:base
-    [ $(ductn sys:completion:exists magerun) ] && --sys:completion:magerun
-    [ $(ductn sys:completion:exists magerun2) ] && --sys:completion:magerun2
-    [ $(ductn sys:completion:exists wp) ] && --sys:completion:wp
-    [ $(ductn sys:completion:exists angular) ] && --sys:completion:angular
+    [ $(--sys:completion:exists ductn) ] && --sys:completion:base
+    [ $(--sys:completion:exists magerun) ] && --sys:completion:magerun
+    [ $(--sys:completion:exists magerun2) ] && --sys:completion:magerun2
+    [ $(--sys:completion:exists wp) ] && --sys:completion:wp
+    [ $(--sys:completion:exists angular) ] && --sys:completion:angular
 }
 
 --sys:completion:base() {
