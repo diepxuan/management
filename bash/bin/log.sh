@@ -78,22 +78,38 @@ _DUCTN_COMMANDS+=("log:cleanup")
 
 _DUCTN_COMMANDS+=("log:config")
 --log:config() {
-    echo "/home/store/public_html/var/log/*.log {
-    su store www-data
-    size 1M
-    copytruncate
-    rotate 1
-}
-/var/opt/mssql/log/errorlog /var/opt/mssql/log/*.log {
-    su mssql mssql
-    size 10M
-    copytruncate
-    missingok
-    rotate 1
-}" | sudo tee /etc/logrotate.d/ductn >/dev/null
+    sudo truncate -s 0 /etc/logrotate.d/ductn
+    --log:config:store
+    --log:config:mssql
 
     sudo logrotate -f /etc/logrotate.d/ductn
     if [[ $(--sys:env:dev) -eq 1 ]]; then
         cat /var/lib/logrotate/status
     fi
+}
+
+--log:config:store() {
+    if id "store" &>/dev/null; then
+        echo "/home/store/public_html/var/log/*.log {
+    su store www-data
+    size 1M
+    copytruncate
+    rotate 1
+}
+" | sudo tee --append /etc/logrotate.d/ductn >/dev/null
+    fi
+}
+
+--log:config:mssql() {
+    if id "mssql" &>/dev/null; then
+        echo "/var/opt/mssql/log/errorlog /var/opt/mssql/log/*.log {
+    su mssql mssql
+    size 10M
+    copytruncate
+    missingok
+    rotate 1
+}
+" | sudo tee --append /etc/logrotate.d/ductn >/dev/null
+    fi
+
 }
