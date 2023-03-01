@@ -123,6 +123,10 @@ else
     start_agent
 fi
 
+# Missing command
+# ################################################################
+ll 2>/dev/null || alias ll="ls -alF"
+
 # reload
 #alias ductn_personal="/var/www/base/bash/personal.sh"
 # alias ductn_tci="
