@@ -82,6 +82,7 @@ fi
 # ################################################################
 alias ll >/dev/null 2>&1 || alias ll="ls -alF"
 alias cdd >/dev/null 2>&1 || alias cdd="cd $(ductn pwd)"
+alias dsudo >/dev/null 2>&1 || alias dsudo="ductn"
 
 # reload
 #alias ductn_personal="/var/www/base/bash/personal.sh"
