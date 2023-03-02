@@ -28,7 +28,12 @@ _DUCTN_COMMANDS+=("sys:ufw:is_active")
     if [ "$(--sys:service:isactive ufw)" == "active" ]; then
         echo active
     else
-        echo inactive
+        if [ $(--sys:ufw:is_exist) -eq 1 ]; then
+            sudo ufw status | grep 'inactive' >/dev/null 2>&1
+            [ $? = 0 ] && echo inactive || echo active
+        else
+            echo inactive
+        fi
     fi
 
     # sudo ufw status | grep 'active' >/dev/null 2>&1
