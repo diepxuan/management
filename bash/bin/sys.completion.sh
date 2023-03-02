@@ -77,5 +77,5 @@ _DUCTN_COMMANDS+=("sys:completion" "sys:completion:commands")
 }
 
 --sys:completion:exists() {
-    [ ! -x "$(command -v $@)" ] || echo 1
+    [ ! -x "$(command -v $@)" ] && echo 0 || echo 1
 }
