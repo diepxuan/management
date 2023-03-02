@@ -84,8 +84,8 @@ fi
 
 # Missing command
 # ################################################################
-ll 2>/dev/null || alias ll="ls -alF"
-cdd 2>/dev/null || alias cdd="cd $(ductn pwd)"
+alias ll >/dev/null 2>&1 || alias ll="ls -alF"
+alias cdd >/dev/null 2>&1 || alias cdd="cd $(ductn pwd)"
 
 # reload
 #alias ductn_personal="/var/www/base/bash/personal.sh"
