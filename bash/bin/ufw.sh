@@ -28,10 +28,11 @@ _DUCTN_COMMANDS+=("ufw:cleanup")
 
 _DUCTN_COMMANDS+=("ufw:profile:mssql")
 --ufw:profile:mssql() {
-    echo $ufw_profile_mssql | sudo tee /etc/ufw/applications.d/mssql.ufw.profile
+    echo -e "$ufw_profile_mssql" | sudo tee /etc/ufw/applications.d/mssql.ufw.profile >/dev/null
 }
 
 ufw_profile_mssql="[SQLServer]
 title=SQLServer
 description=SQLServer server.
-ports=1433/tcp|1434/udp"
+ports=1433/tcp|1434/udp
+"
