@@ -29,24 +29,20 @@ PS1="\n$PS1"
 # COMPOSER_HOME=$HOME/.composer
 # export COMPOSER_HOME=$HOME/.composer
 export PATH=$PATH:$HOME/bin:$HOME/.composer/vendor/bin
-if [ -d $HOME/.config/composer ]; then
-    export PATH=$PATH:$HOME/.config/composer/vendor/bin
-elif [ -d $HOME/.composer ]; then
-    export PATH=$PATH:$HOME/.composer/vendor/bin
-fi
+[ -d $HOME/.config/composer ] && export PATH=$PATH:$HOME/.config/composer/vendor/bin
+[ -d $HOME/.composer ] && export PATH=$PATH:$HOME/.composer/vendor/bin
 
 # mssql-server PATH
 # ################################################################
-if [[ -d "/opt/mssql-tools/bin" ]]; then
-    PATH="$PATH:/opt/mssql-tools/bin"
-fi
+[ -d /opt/mssql-tools/bin/ ] && PATH="$PATH:/opt/mssql-tools/bin"
+[ -d /opt/mssql/bin/ ] && PATH="$PATH:/opt/mssql/bin"
 
 # ductn proccess PATH
 # ################################################################
-if [[ -d "/var/www/base/bash" ]] && [ "$(whoami)" = "ductn" ]; then
-    chmod +x /var/www/base/bash/*
-    # PATH="$PATH:/var/www/base/bash"
-fi
+# if [[ -d "/var/www/base/bash" ]] && [ "$(whoami)" = "ductn" ]; then
+#     chmod +x /var/www/base/bash/*
+#     # PATH="$PATH:/var/www/base/bash"
+# fi
 
 # completion
 # ################################################################
