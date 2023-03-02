@@ -55,10 +55,5 @@ _DUCTN_COMMANDS+=("sys:ufw:is_active")
 }
 
 --sys:ufw:is_exist() {
-    sudo ufw status | grep $@ >/dev/null 2>&1
-    if [ $? != 0 ]; then
-        echo 0
-    else
-        echo 1
-    fi
+    [ ! -x "$(command -v ufw)" ] && echo 0 || echo 1
 }
