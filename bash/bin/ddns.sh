@@ -2,9 +2,10 @@
 #!/bin/bash
 
 DDNS_DOMAINS=()
-DDNS_DOMAINS+=("dxvnkthd.diepxuan.com" "dxvnk113.diepxuan.com" "dxvnkkcn.diepxuan.com" "dxvnmg15.diepxuan.com")
+# DDNS_DOMAINS+=("dxvnkthd.diepxuan.com" "dxvnk113.diepxuan.com" "dxvnkkcn.diepxuan.com" "dxvnmg15.diepxuan.com")
 DDNS_DOMAINS+=("dc1.diepxuan.com" "dc2.diepxuan.com" "dc3.diepxuan.com")
 DDNS_DOMAINS+=("dx1.diepxuan.com" "dx2.diepxuan.com" "dx3.diepxuan.com")
+DDNS_DOMAINS+=("sql1.diepxuan.com" "sql2.diepxuan.com")
 
 _DUCTN_COMMANDS+=("ddns:update")
 --ddns:update() {
