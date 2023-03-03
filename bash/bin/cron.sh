@@ -10,11 +10,7 @@
     --sys:ufw
     # --dns:update
     --ddns:update
-    if [[ $(--sys:env:debug) -eq 0 ]]; then
-        --sys:selfupdate
-        # else
-        # echo "not update"
-    fi
+    [[ $(ductn sys:env:debug) -eq 0 ]] && --sys:selfupdate
 }
 
 --cron:cronjob:hour() {
