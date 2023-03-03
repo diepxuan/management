@@ -22,3 +22,7 @@ SERVICE_PATH="/usr/local/bin/ductn run_as_service"
 _DUCTN_COMMANDS=()
 
 _IPTUNEL=("pve2:35.230.52.242")
+
+_HOSTS=("pve2.vpn:35.230.52.242")
+
+_DDNS_DOMAINS="dc1.diepxuan.com dc2.diepxuan.com dc3.diepxuan.com dx1.diepxuan.com dx2.diepxuan.com dx3.diepxuan.com sql1.diepxuan.com sql2.diepxuan.com"

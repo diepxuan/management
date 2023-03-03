@@ -7,7 +7,7 @@
     mkdir -p $DIRTMP
     sudo chmod 777 -R $DIRTMP
 
-    --sys:env
+    --sys:env:import
 }
 
 --import() {
