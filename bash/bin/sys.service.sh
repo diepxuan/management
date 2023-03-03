@@ -43,15 +43,8 @@ _DUCTN_COMMANDS+=("run_as_service")
     --sys:service:main
 }
 
-_DUCTN_COMMANDS+=("sys:service")
---sys:service() {
-    if [ "$(--sys:service:isactive)" == "active" ]; then
-        --cron:crontab:uninstall >/dev/null 2>&1
-    fi
-}
-
 _DUCTN_COMMANDS+=("sys:service:isactive")
---sys:service:isactive() {
+--sys:service:isactive() { #SERVICE_NAME
     _SERVICE_NAME=$SERVICE_NAME
     if [[ ! -z ${@+x} ]]; then
         _SERVICE_NAME="$@"
@@ -61,9 +54,13 @@ _DUCTN_COMMANDS+=("sys:service:isactive")
 }
 
 _DUCTN_COMMANDS+=("sys:service:restart")
---sys:service:restart() {
-    if [ "$(--sys:service:isactive)" == "active" ]; then
-        sudo systemctl restart ${SERVICE_NAME//'.service'/}
+--sys:service:restart() { #SERVICE_NAME
+    _SERVICE_NAME=$SERVICE_NAME
+    if [[ ! -z ${@+x} ]]; then
+        _SERVICE_NAME="$@"
+    fi
+    if [ ! "$(--sys:service:isactive $_SERVICE_NAME)" == "inactive" ]; then
+        sudo systemctl restart ${_SERVICE_NAME//'.service'/}
     fi
 }
 

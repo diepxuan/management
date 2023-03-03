@@ -2,7 +2,7 @@
 #!/bin/bash
 
 --cron:cronjob:min() {
-    --cron:service
+    --sys:service:cron
 }
 
 --cron:cronjob:5min() {
@@ -22,67 +22,10 @@
     --ufw:geoip:configuration
 }
 
-_DUCTN_COMMANDS+=("cron:service")
---cron:service() {
-    --cron:service:httpd
-    --cron:service:mysql
-    --cron:service:mssql
-    --cron:service:ufw
-}
-
---cron:service:httpd() {
-    if [ "$(--sys:service:isactive apache2)" == "failed" ]; then
-        --swap:install
-        --log:cleanup
-        sudo systemctl restart apache2
-    fi
-
-    # sudo /usr/sbin/service apache2 status | grep 'active' >/dev/null 2>&1
-    # if [ $? != 0 ]; then
-    #     sudo /usr/sbin/service apache2 start
-    # fi
-}
-
---cron:service:mysql() {
-    if [ "$(--sys:service:isactive mysql)" == "failed" ]; then
-        --swap:install
-        --log:cleanup
-        sudo systemctl restart mysql
-    fi
-
-    # sudo /usr/sbin/service mysql status | grep 'active' >/dev/null 2>&1
-    # if [ $? != 0 ]; then
-    #     --swap:install
-    #     --log:cleanup
-    #     sudo /usr/sbin/service mysql start
-    # fi
-}
-
---cron:service:mssql() {
-    if [ "$(--sys:service:isactive mssql-server)" == "failed" ]; then
-        --swap:install
-        --log:cleanup
-        sudo /usr/sbin/service mssql-server start
-    fi
-
-    # sudo /usr/sbin/service mssql-server status | grep 'active' >/dev/null 2>&1
-    # if [ $? != 0 ]; then
-    #     --swap:install
-    #     --log:cleanup
-    #     sudo /usr/sbin/service mssql-server start
-    # fi
-}
-
---cron:service:ufw() {
-    if [ "$(--sys:service:isactive ufw)" == "failed" ]; then
-        [[ $(--sys:ufw:is_exist) -eq 1 ]] && sudo ufw enable
-    fi
-
-    # sudo ufw status | grep ' active' >/dev/null 2>&1
-    # if [ $? != 0 ]; then
-    #     sudo ufw enable
-    # fi
-}
+# _DUCTN_COMMANDS+=("cron:service")
+# --cron:service() {
+#     --sys:service:cron
+# }
 
 --cron:cronjob() {
     --cron:cronjob:5min
