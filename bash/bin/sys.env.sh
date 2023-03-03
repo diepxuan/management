@@ -11,15 +11,15 @@ _DUCTN_COMMANDS+=("sys:env")
     fi
 }
 
---sys:env:domains() {
-    IFS=', ' read -r -a domains <<<$(--sys:env _DDNS_DOMAINS)
-    for domain in "${domains[@]}"; do
-        echo $domain
+--sys:env:list() {
+    IFS=', ' read -r -a array <<<$(--sys:env $@)
+    for item in "${array[@]}"; do
+        echo $item
     done
 }
 
---sys:env:test() {
-    for domain in $(--sys:env:domains); do
+--sys:env:domains() {
+    for domain in $(--sys:env:list "_DDNS_DOMAINS"); do
         echo $domain
     done
 }
@@ -28,8 +28,6 @@ _DUCTN_COMMANDS+=("sys:env")
     if [[ -f $_BASEDIR/.env ]]; then
         source $_BASEDIR/.env
     fi
-    # DEBUG
-    # echo $DEBUG
 }
 
 --sys:env:debug() {
