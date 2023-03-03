@@ -6,12 +6,7 @@
     # ln $_BASHDIR/.vimrc ~/.vimrc
     # chmod 644 ~/.vimrc
 
-    sed -i 's/.*force_color_prompt\=.*/force_color_prompt\=yes/' ~/.bashrc
-    source ~/.bashrc
-
-    echo -e "#!/usr/bin/env bash\n#!/bin/bash\n\n. $_BASHDIR/.bash_aliases" >~/.bash_aliases
-    chmod 644 ~/.bash_aliases
-    source ~/.bash_aliases
+    --user:config $(whoami)
 
     sudo chown -R ductn:ductn $_BASEDIR
     chmod +x $_BASHDIR/*
@@ -23,11 +18,6 @@
 
 _DUCTN_COMMANDS+=("sys:init")
 --sys:init() {
-    _IS_SERVER="off"
-    _IS_SUDOER="off"
-
-    --server() { _IS_SERVER="on"; }
-    --admin() { _IS_SUDOER="on"; }
 
     sudo timedatectl set-timezone Asia/Ho_Chi_Minh
 
@@ -43,7 +33,11 @@ _DUCTN_COMMANDS+=("sys:init")
 
     --git:configure
 
-    if [[ $_IS_SERVER = "on" ]]; then
+    if [ "$(whoami)" = "ductn" ]; then
+        --user:config:admin
+    fi
+
+    --server() {
         --cron:install
         --httpd:config
         --ssh:install
@@ -56,11 +50,7 @@ _DUCTN_COMMANDS+=("sys:init")
         # use /etc/fstab
         # sudo mkdir -p /dxvn/luong
         # ductn@dx1.diepxuan.com:/home/ductn/public_html  /dxvn/luong  fuse.sshfs  defaults  0  0
-    fi
-
-    if [ $_IS_SUDOER = "on" ] || [ "$(whoami)" = "ductn" ]; then
-        echo "ductn ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/90-users >/dev/null
-    fi
+    }
 
     # if [ "$(whoami)" = "ductn" ]; then
     # $_BASHDIR/ductn hosts remove 10.8.0.3 dx2
@@ -74,6 +64,6 @@ _DUCTN_COMMANDS+=("sys:init")
     # $_BASHDIR/ductn hosts remove 10.8.0.3 dx2.diepxuan.com
     # $_BASHDIR/ductn hosts remove 10.8.0.1 dx3.diepxuan.com
     # fi
-
+    "--$@"
 }
 # . $_BASHDIR/sys.sysctl
