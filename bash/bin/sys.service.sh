@@ -90,32 +90,49 @@ _DUCTN_COMMANDS+=("sys:service:install")
 
         # create service file
         # echo "Creating service file"
-        echo "[Unit]
+        echo -e "[Unit]
 Description=${SERVICE_DESC//'"'/}
-After=network-online.target auditd.service network.target
+After=network-online.target network.target
 
 [Service]
-User=ductn
-Group=root
 ExecStart=${SERVICE_PATH//'"'/}
-# KillMode=process
+User=ductn
+WorkingDirectory=$_BASEDIR
+
+# Kill root process
+KillMode=process
+
+# Wait up to 30 minutes for service to start/stop
+TimeoutSec=1min
+
+# Remove process, file, thread limits
+#
+LimitNPROC=infinity
+LimitNOFILE=infinity
+TasksMax=infinity
+UMask=007
+# Restart on non-successful exits.
 Restart=on-failure
-# RestartSec=5s
+
+# Don't restart if we've restarted more than 10 times in 1 minute.
+StartLimitInterval=60
+StartLimitBurst=10
+
+RestartSec=5s
 # Type=notify
-RuntimeDirectory=ductn
-SyslogIdentifier=Diskutilization
+# SyslogIdentifier=Diskutilization
 
 [Install]
 WantedBy=multi-user.target
-Alias=${SERVICE_NAME//'"'/}.service" | sudo tee /usr/lib/systemd/system/${SERVICE_NAME//'"'/}.service >/dev/null 2>&1
+Alias=${SERVICE_NAME//'"'/}.service\n" | sudo tee /usr/lib/systemd/system/${SERVICE_NAME//'"'/}.service >/dev/null 2>&1
         # ls -la /usr/lib/systemd/system/ | grep ductn
         # ls -la /etc/systemd/system/ | grep ductn
         # restart daemon, enable and start service
         # echo "Reloading daemon and enabling service"
         sudo systemctl daemon-reload
         sudo systemctl enable ${SERVICE_NAME//'.service'/} # remove the extension
-        sudo systemctl start ${SERVICE_NAME//'.service'/}
-        sudo systemctl status ${SERVICE_NAME//'.service'/}
+        sudo systemctl restart ${SERVICE_NAME//'.service'/}
+        # sudo systemctl status ${SERVICE_NAME//'.service'/}
     # echo "Service Started"
     # echo "aaa" | sudo tee /etc/systemd/system/ductn.service
     fi
