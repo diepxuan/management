@@ -34,6 +34,8 @@ _DUCTN_COMMANDS+=("user:config")
 --user:config() {
     if [[ ${1} = "ductn" ]]; then
         --user:config:admin
+
+        sudo usermod -aG mssql ${1} >/dev/null 2>&1
     fi
 
     --user:config:bash ${1}
@@ -42,11 +44,15 @@ _DUCTN_COMMANDS+=("user:config")
 }
 
 --user:config:bash() {
+    sudo sed -i 's/.*force_color_prompt\=.*/force_color_prompt\=yes/' /home/${1}/.bashrc >/dev/null
+
     sudo touch /home/${1}/.bash_aliases
-    echo ". /var/www/base/bash/.bash_aliases" | sudo tee /home/${1}/.bash_aliases >/dev/null
+    echo -e "#!/usr/bin/env bash\n#!/bin/bash\n\n. $_BASHDIR/.bash_aliases" | sudo tee /home/${1}/.bash_aliases >/dev/null
 
     sudo chmod 644 /home/${1}/.bash_aliases
     sudo chown -R ${1}:${1} /home/${1}/.bash_aliases
+
+    [ "$(whoami)" = "$1" ] && source /home/${1}/.bashrc
 }
 
 --user:config:ssh() {
