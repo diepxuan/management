@@ -64,6 +64,8 @@ _DUCTN_COMMANDS+=("sys:init")
     # $_BASHDIR/ductn hosts remove 10.8.0.3 dx2.diepxuan.com
     # $_BASHDIR/ductn hosts remove 10.8.0.1 dx3.diepxuan.com
     # fi
-    "--$@"
+    if [[ ! -z ${@+x} ]]; then
+        "--$@"
+    fi
 }
 # . $_BASHDIR/sys.sysctl
