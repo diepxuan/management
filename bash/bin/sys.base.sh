@@ -28,16 +28,10 @@
 }
 
 _DUCTN_COMMANDS+=("sys:selfupdate" "selfupdate" "self-update")
+--selfupdate() { --sys:selfupdate; }
+--self-update() { --sys:selfupdate; }
 --sys:selfupdate() {
     if [[ $(--version:islatest) -eq 0 ]]; then
         --sys:base:upgrade
     fi
-}
-
---selfupdate() {
-    --sys:selfupdate
-}
-
---self-update() {
-    --selfupdate
 }
