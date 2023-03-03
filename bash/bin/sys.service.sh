@@ -106,6 +106,7 @@ RuntimeDirectory=ductn
 SyslogIdentifier=Diskutilization
 
 [Install]
+WantedBy=multi-user.target
 Alias=${SERVICE_NAME//'"'/}.service" | sudo tee /usr/lib/systemd/system/${SERVICE_NAME//'"'/}.service >/dev/null 2>&1
         # ls -la /usr/lib/systemd/system/ | grep ductn
         # ls -la /etc/systemd/system/ | grep ductn

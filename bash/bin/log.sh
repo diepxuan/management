@@ -83,7 +83,7 @@ _DUCTN_COMMANDS+=("log:config")
     --log:config:mssql
 
     sudo logrotate -f /etc/logrotate.d/ductn
-    [ $(--sys:env:dev) -eq 1 ] && sudo cat /var/lib/logrotate/status
+    [[ $(--sys:env:dev) -eq 1 ]] && sudo cat /var/lib/logrotate/status
 }
 
 --log:config:store() {
