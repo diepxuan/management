@@ -51,7 +51,7 @@ _DUCTN_COMMANDS+=("ip:check")
             fi
             # use host command for DNS lookup operations
             host -t ${query_type} ${hostname} ${dnsserver} &>/dev/null
-            if [ "$?" -eq "0" ]; then
+            if [[ "$?" -eq "0" ]]; then
                 # get ip address
                 ip_address="$(host -t ${query_type} ${hostname} ${dnsserver} | awk '/has.*address/{print $NF; exit}')"
             else

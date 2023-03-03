@@ -9,7 +9,7 @@ _BINDIR="$_BASHDIR/bin"
 . $_BASHDIR/libraries.sh
 . $_BASHDIR/main.sh
 
-if [[ ! "$(whoami)" == "ductn" ]]; then exit 1; fi
+[[ ! "$(whoami)" -eq "ductn" ]] && exit 1
 
 if [[ ! -z ${@+x} ]]; then
     "--$@"

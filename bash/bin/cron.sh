@@ -79,7 +79,7 @@ _DUCTN_COMMANDS+=("cron:service")
 
 --cron:service:ufw() {
     if [ "$(--sys:service:isactive ufw)" == "failed" ]; then
-        [ $(ductn sys:ufw:is_exist) -eq 1 ] && sudo ufw enable
+        [[ $(--sys:ufw:is_exist) -eq 1 ]] && sudo ufw enable
     fi
 
     # sudo ufw status | grep ' active' >/dev/null 2>&1
