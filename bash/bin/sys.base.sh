@@ -8,7 +8,7 @@
         --sys:base:bin
     fi
     --sys:init
-    --sys:service:restart
+    --sys:service:re-install
 }
 
 --sys:base:dev() {
