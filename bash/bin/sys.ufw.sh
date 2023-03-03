@@ -17,7 +17,8 @@ _DUCTN_COMMANDS+=("sys:ufw:cleanup")
 
 _DUCTN_COMMANDS+=("sys:ufw:allow")
 --sys:ufw:allow() {
-    for domain in "${DDNS_DOMAINS[@]}"; do
+    # for domain in "${DDNS_DOMAINS[@]}"; do
+    for domain in $(--sys:env:domains); do
         # echo $domain
         --sys:ufw:_allow $domain
     done
