@@ -20,7 +20,7 @@ _DUCTN_COMMANDS+=("sys:dhcp:setup")
 
     ### /etc/dhcp/dhcpd.conf
     [ ! -f /etc/dhcp/dhcpd.conf.org ] && sudo cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.org
-    echo -e $"_DHCPD_CONF" | sudo tee /etc/dhcp/dhcpd.conf >/dev/null
+    echo -e "$_DHCPD_CONF" | sudo tee /etc/dhcp/dhcpd.conf >/dev/null
 
     sudo killall dhcpd
     sudo rm -rf /var/run/dhcpd.pid
