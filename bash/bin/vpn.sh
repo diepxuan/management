@@ -45,30 +45,30 @@ _DUCTN_COMMANDS+=("vpn:init")
     # iptables-restore < /etc/iptables.rules
 
     # push config to client
-    if [[ -f /etc/openvpn/server/server.conf ]]; then
-        sudo mkdir /etc/openvpn/server/ccd
-        if [[ ! -n $(grep -P "client-config-dir" /etc/openvpn/server/server.conf) ]]; then
-            echo -e "client-config-dir /etc/openvpn/server/ccd" | sudo tee -a /etc/openvpn/server/server.conf >/dev/null
-        else
-            sudo sed -i 's/client-config-dir .*/client-config-dir \/etc\/openvpn\/server\/ccd/' /etc/openvpn/server/server.conf >/dev/null
-        fi
-    fi
+    # if [[ -f /etc/openvpn/server/server.conf ]]; then
+    #     sudo mkdir /etc/openvpn/server/ccd
+    #     if [[ ! -n $(grep -P "client-config-dir" /etc/openvpn/server/server.conf) ]]; then
+    #         echo -e "client-config-dir /etc/openvpn/server/ccd" | sudo tee -a /etc/openvpn/server/server.conf >/dev/null
+    #     else
+    #         sudo sed -i 's/client-config-dir .*/client-config-dir \/etc\/openvpn\/server\/ccd/' /etc/openvpn/server/server.conf >/dev/null
+    #     fi
+    # fi
 
     # push "route 10.10.0.0 255.255.255.0"
     # /etc/openvpn/server/server.conf
-    _SRV_NUM=${hostname:3}
-    _SRV_NUM=10.0.$_SRV_NUM.0
-    --vpn:server:client_router $_SRV_NUM 255.255.255.0
+    # _SRV_NUM=${hostname:3}
+    # _SRV_NUM=10.0.$_SRV_NUM.0
+    # --vpn:server:client_router $_SRV_NUM 255.255.255.0
 
-    --sys:service:restart openvpn-server@server.service
+    # --sys:service:restart openvpn-server@server.service
 }
 
---vpn:server:client_router() {
-    _router="push \"route $1 $2\""
-    if [[ -f /etc/openvpn/server/server.conf ]] && [[ ! -n $(grep -P "push.*$1.*" /etc/openvpn/server/server.conf) ]]; then
-        echo -e $_router | sudo tee -a /etc/openvpn/server/server.conf >/dev/null
-    fi
-}
+# --vpn:server:client_router() {
+#     _router="push \"route $1 $2\""
+#     if [[ -f /etc/openvpn/server/server.conf ]] && [[ ! -n $(grep -P "push.*$1.*" /etc/openvpn/server/server.conf) ]]; then
+#         echo -e $_router | sudo tee -a /etc/openvpn/server/server.conf >/dev/null
+#     fi
+# }
 
 --vpn:server() {
     [[ "$(--vpn:type)" == "server" ]] && --vpn:server:init $hostname

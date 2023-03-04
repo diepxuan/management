@@ -16,12 +16,14 @@ _DUCTN_COMMANDS+=("sys:dhcp:setup")
     ### /etc/default/isc-dhcp-server
     sudo sed -i 's/INTERFACES=.*/INTERFACES="vmbr1"/' $_DHCP_DEFAULT >/dev/null
     sudo sed -i 's/INTERFACESv4=.*/INTERFACESv4="vmbr1"/' $_DHCP_DEFAULT >/dev/null
-    sudo sed -i 's/INTERFACESv6=.*/INTERFACESv6="vmbr1"/' $_DHCP_DEFAULT >/dev/null
+    # sudo sed -i 's/INTERFACESv6=.*/INTERFACESv6="vmbr1"/' $_DHCP_DEFAULT >/dev/null
 
     ### /etc/dhcp/dhcpd.conf
     [ ! -f /etc/dhcp/dhcpd.conf.org ] && sudo cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.org
     echo -e $"_DHCPD_CONF" | sudo tee /etc/dhcp/dhcpd.conf >/dev/null
 
+    sudo killall dhcpd
+    sudo rm -rf /var/run/dhcpd.pid
     --sys:service:restart isc-dhcp-server
 }
 _DHCPD_HOST=$(--host:name)
