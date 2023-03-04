@@ -10,14 +10,11 @@ _DUCTN_COMMANDS+=("sys:hosts:add")
 
     HOSTS_LINE="$IP\t$HOSTNAME"
 
-    if [[ ! "$(--host:address $HOSTNAME)" =~ "$IP" ]]; then
-        if [[ ! -n $(grep -P "$IP[[:space:]]$HOSTNAME" $ETC_HOSTS) ]]; then
-            sudo sed -i".bak" "/$HOSTNAME/d" ${ETC_HOSTS}
-        fi
-        sudo -- sh -c -e "echo '$HOSTS_LINE' >> /etc/hosts"
+    if [[ ! -n $(grep -P "$IP[[:space:]]$HOSTNAME" $ETC_HOSTS) ]]; then
+        echo -e $HOSTS_LINE | sudo tee -a /etc/hosts >/dev/null
     fi
 
-    [[ -n $(grep -P "$IP[[:space:]]$HOSTNAME" $ETC_HOSTS) ]] && echo ">> Hosts added: $(grep $HOSTNAME $ETC_HOSTS)" || echo "Failed to Add $HOSTNAME, Try again!"
+    # [[ -n $(grep -P "$IP[[:space:]]$HOSTNAME" $ETC_HOSTS) ]] && echo ">> Hosts added: $(grep $HOSTNAME $ETC_HOSTS)" || echo "Failed to Add $HOSTNAME, Try again!"
 }
 
 _DUCTN_COMMANDS+=("sys:hosts:remove")
@@ -25,9 +22,10 @@ _DUCTN_COMMANDS+=("sys:hosts:remove")
     IP=$1
     HOSTNAME=$2
 
-    sudo sed -i".bak" "/$HOSTNAME/d" ${ETC_HOSTS}
+    sudo sed -i "/$HOSTNAME/d" $ETC_HOSTS
+    # grep -P "pve2.vpn" | sudo tee $ETC_HOSTS
 
-    [[ -n "$(grep $HOSTNAME /etc/hosts)" ]] && echo ">> Hosts removed: $HOSTNAME" || echo "$HOSTNAME was not found!"
+    # [[ -n "$(grep $HOSTNAME /etc/hosts)" ]] && echo ">> Hosts removed: $HOSTNAME" || echo "$HOSTNAME was not found!"
 }
 
 _DUCTN_COMMANDS+=("sys:hosts:domain")
