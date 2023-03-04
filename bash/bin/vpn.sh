@@ -48,7 +48,7 @@ _DUCTN_COMMANDS+=("vpn:init")
 
     # push config to client
     if [[ -f /etc/openvpn/server/server.conf ]] && [[ ! -n $(grep -P "client-config-dir ccd" /etc/openvpn/server/server.conf) ]]; then
-        echo -e "client-config-dir ccd" | sudo tee /etc/openvpn/server/server.conf
+        echo -e "client-config-dir ccd" | sudo tee -a /etc/openvpn/server/server.conf
     fi
 
     # push "route 10.10.0.0 255.255.255.0"
@@ -62,7 +62,7 @@ _DUCTN_COMMANDS+=("vpn:init")
 --vpn:server:client_router() {
     _router="push \"route $1 $2\""
     if [[ -f /etc/openvpn/server/server.conf ]] && [[ ! -n $(grep -P "push.*$1.*" /etc/openvpn/server/server.conf) ]]; then
-        echo -e $_router | sudo tee /etc/openvpn/server/server.conf
+        echo -e $_router | sudo tee -a /etc/openvpn/server/server.conf
     fi
 }
 
