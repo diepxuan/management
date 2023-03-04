@@ -21,7 +21,10 @@ _DUCTN_COMMANDS+=("vpn:init")
 }
 
 --vpn:server:init() {
-    --vpn:openvpn
+    if [ "$(--sys:service:isactive "openvpn-server@server.service")" == "inactive" ]; then
+        --vpn:openvpn
+    fi
+
     # cd $_VPN_PATH
     # $_VPN_PATH/easyrsa init-pki
 
@@ -42,6 +45,25 @@ _DUCTN_COMMANDS+=("vpn:init")
     # sudo iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o ens4 -j MASQUERADE
     # sudo bash -c "iptables-save > /etc/iptables.rules"
     # iptables-restore < /etc/iptables.rules
+
+    # push config to client
+    if [[ -f /etc/openvpn/server/server.conf ]] && [[ ! -n $(grep -P "client-config-dir ccd" /etc/openvpn/server/server.conf) ]]; then
+        echo -e "client-config-dir ccd" | sudo tee /etc/openvpn/server/server.conf
+    fi
+
+    # push "route 10.10.0.0 255.255.255.0"
+    # /etc/openvpn/server/server.conf
+    _DHCPD_HOST=$(--host:name)
+    _DHCPD_HOST=${_DHCPD_HOST:3}
+    _DHCPD_HOST=10.0.$_DHCPD_HOST.0
+    --vpn:server:client_router $_DHCPD_HOST 255.255.255.0
+}
+
+--vpn:server:client_router() {
+    _router="push \"route $1 $2\""
+    if [[ -f /etc/openvpn/server/server.conf ]] && [[ ! -n $(grep -P "push.*$1.*" /etc/openvpn/server/server.conf) ]]; then
+        echo -e $_router | sudo tee /etc/openvpn/server/server.conf
+    fi
 }
 
 --vpn:server() {
@@ -93,7 +115,6 @@ _DUCTN_COMMANDS+=("vpn:init")
     [[ "$(--host:domain)" == "diepxuan.com" ]] && echo "client"
     [[ "$(--host:domain)" == "vpn" ]] && echo "server"
     echo "none"
-    exit 1
 }
 
 --vpn:openvpn() {
@@ -102,10 +123,10 @@ _DUCTN_COMMANDS+=("vpn:init")
         wget https://git.io/vpn -O $USER_BIN_PATH/openvpn-ubuntu-installer.sh
         chmod +x $USER_BIN_PATH/openvpn-ubuntu-installer.sh
     else
-        sudo $(command -v openvpn-ubuntu-installer.sh)
+        [ -x "$(command -v openvpn-ubuntu-installer.sh)" ] && sudo $(command -v openvpn-ubuntu-installer.sh)
     fi
 
-    echo 1 # missing command openvpn-ubuntu-installer.sh
+    # exit 1 # missing command openvpn-ubuntu-installer.sh
 
     # --sys:apt:install openvpn easy-rsa
 
