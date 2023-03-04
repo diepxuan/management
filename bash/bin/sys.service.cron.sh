@@ -10,4 +10,5 @@
     --sys:service:mysql
     --sys:service:mssql
     --sys:service:ufw
+    --sys:service:vpn
 }
