@@ -40,6 +40,11 @@ _DUCTN_COMMANDS+=("sys:apt:remove")
     sudo apt remove $@ -y --purge --auto-remove
 }
 
+_DUCTN_COMMANDS+=("sys:apt:uninstall")
+--sys:apt:uninstall() {
+    --sys:apt:remove $@
+}
+
 --apt:fix() {
     #!/bin/bash
 

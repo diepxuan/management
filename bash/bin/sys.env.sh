@@ -5,7 +5,7 @@ _DUCTN_COMMANDS+=("sys:env")
 --sys:env() {
     if [[ ! -z ${@+x} ]]; then
         for str in "${!@}"; do
-            echo $str
+            echo -e "$str"
             # echo "${!@}"
         done
     fi

@@ -75,3 +75,9 @@
     #     sudo ufw enable
     # fi
 }
+
+--sys:service:dhcp() {
+    if [ $(--host:is_server) = 1 ] && [ "$(--sys:service:isactive isc-dhcp-server)" == "failed" ]; then
+        --sys:service:restart isc-dhcp-server
+    fi
+}
