@@ -109,9 +109,13 @@ _DUCTN_COMMANDS+=("vpn:init")
 }
 
 --vpn:type() {
-    [[ "$(--host:domain)" == "diepxuan.com" ]] && echo "client"
-    [[ "$(--host:domain)" == "vpn" ]] && echo "server"
-    echo "none"
+    if [[ "$(--host:domain)" == "diepxuan.com" ]]; then
+        echo "client"
+    elif [[ "$(--host:domain)" == "vpn" ]]; then
+        echo "server"
+    else
+        echo "none"
+    fi
 }
 
 --vpn:openvpn() {
