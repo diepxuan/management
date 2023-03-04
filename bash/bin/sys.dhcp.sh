@@ -20,7 +20,7 @@ _DUCTN_COMMANDS+=("sys:dhcp:setup")
 
     ### /etc/dhcp/dhcpd.conf
     [ ! -f /etc/dhcp/dhcpd.conf.org ] && sudo cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.org
-    echo -e $_DHCPD_CONF | sudo tee /etc/dhcp/dhcpd.conf >/dev/null
+    echo -e $"_DHCPD_CONF" | sudo tee /etc/dhcp/dhcpd.conf >/dev/null
 
     --sys:service:restart isc-dhcp-server
 }
@@ -28,6 +28,7 @@ _DHCPD_HOST=$(--host:name)
 _DHCPD_HOST=${_DHCPD_HOST:3}
 _DHCPD_CONF="
 option domain-name \"diepxuan.com\";
+option domain-search \"diepxuan.com\";
 option domain-name-servers 1.1.1.1, 10.0.1.10, 10.0.2.10;
 
 default-lease-time 600;
@@ -36,9 +37,12 @@ max-lease-time 7200;
 ddns-update-style none;
 authoritative;
 
-subnet 10.0.$_DHCPD_HOST.0 netmask 255.255.255.255 {
+subnet 10.0.$_DHCPD_HOST.0 netmask 255.255.255.0 {
     range 10.0.$_DHCPD_HOST.50 10.0.$_DHCPD_HOST.80;
+
     option routers 10.0.$_DHCPD_HOST.2;
+    option subnet-mask 255.255.255.0;
+    option broadcast-address 10.0.0.255;
 }
 
 host dc2 {
