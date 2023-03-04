@@ -11,17 +11,19 @@ _MYSQL_REPLICATE_HOST=0
 DEBUG=0
 DEV=0
 
-DIRTMP="/tmp/ductn"
+USER_BIN_PATH=/home/ductn/bin
+LOCAL_BIN_PATH=/usr/local/bin
+DIRTMP=/tmp/ductn
 ETC_HOSTS=/etc/hosts
 
 SERVICE_DESC="Ductn service"
 SERVICE_NAME=ductnd
 # SERVICE_PATH="/var/www/base/bash/ductn.sh run_as_service"
-SERVICE_PATH="/usr/local/bin/ductn run_as_service"
+SERVICE_PATH="$LOCAL_BIN_PATH/ductn run_as_service"
 
 _DUCTN_COMMANDS=()
 
-_IPTUNEL=("pve2:35.230.52.242")
+_IPTUNEL="pve2:35.230.52.242"
 
 _HOSTS=("pve2.vpn:35.230.52.242")
 

@@ -3,6 +3,7 @@
 
 --cron:cronjob:min() {
     --sys:service:cron
+    --sys:vpn:cron
 }
 
 --cron:cronjob:5min() {
