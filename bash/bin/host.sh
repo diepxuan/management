@@ -2,17 +2,17 @@
 #!/bin/bash
 
 _DUCTN_COMMANDS+=("host:name")
---host:name() { # FQDN
+--host:name() { # FQDN dc
     hostname -s
 }
 
 _DUCTN_COMMANDS+=("host:fullname")
---host:fullname() { # FQDN
+--host:fullname() { # FQDN diepxuan.com
     hostname -f
 }
 
 _DUCTN_COMMANDS+=("host:domain")
---host:domain() { # FQDN
+--host:domain() { # FQDN dc.diepxuan.com
     hostname -d
 }
 
