@@ -78,6 +78,8 @@
 
 --sys:service:dhcp() {
     if [ $(--host:is_server) = 1 ] && [ "$(--sys:service:isactive isc-dhcp-server)" == "failed" ]; then
+        sudo killall dhcpd
+        sudo rm -rf /var/run/dhcpd.pid
         --sys:service:restart isc-dhcp-server
     fi
 }

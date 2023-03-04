@@ -60,6 +60,7 @@ _DUCTN_COMMANDS+=("sys:service:restart")
         _SERVICE_NAME="$@"
     fi
     if [ ! "$(--sys:service:isactive $_SERVICE_NAME)" == "inactive" ]; then
+        sudo systemctl stop ${_SERVICE_NAME//'.service'/}
         sudo systemctl restart ${_SERVICE_NAME//'.service'/}
     fi
 }
