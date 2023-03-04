@@ -12,7 +12,7 @@ _DUCTN_COMMANDS+=("sys:env")
 }
 
 --sys:env:list() {
-    IFS=', ' read -r -a array <<<$(--sys:env $@)
+    IFS=', ' read -r -a array <<<$(--sys:env "$@")
     for item in "${array[@]}"; do
         echo $item
     done

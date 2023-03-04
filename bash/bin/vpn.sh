@@ -5,18 +5,15 @@
 
 _DUCTN_COMMANDS+=("vpn:init")
 --vpn:init() {
-    for vpn in $(--sys:env:list "_IPTUNEL"); do
+    for vpn in $(--sys:env:list _IPTUNEL); do
         IFS=':' read -r -a array <<<$vpn
         client="${array[0]}"
         server="${array[1]}"
 
-        --hosts:add $serve "$client.vpn"
+        --hosts:add $server "$client.vpn"
 
         [[ $(--host:name) == $client ]] && --vpn:server "$client"
-        [[ $(--host:name) == $client ]] && --vpn:client $serve $client
-
-        # 35.230.52.242
-        # [[ "$(ductn host:name)" == "pve2" ]] && echo 1 || echo 0
+        [[ $(--host:name) == $client ]] && --vpn:client $server $client
     done
 }
 
