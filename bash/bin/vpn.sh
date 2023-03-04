@@ -7,21 +7,21 @@ _DUCTN_COMMANDS+=("vpn:init")
 --vpn:init() {
     for vpn in $(--sys:env:list _IPTUNEL); do
         IFS=':' read -r -a array <<<$vpn
-        client="${array[0]}"
-        server="${array[1]}"
+        hostname="${array[0]}"
+        address="${array[1]}"
 
-        --hosts:add $server "$client.vpn"
+        --hosts:add $address "$hostname.vpn"
 
-        [[ $(--host:name) == $client ]] && --vpn:server "$client"
-        [[ $(--host:name) == $client ]] && --vpn:client $server $client
+        [[ $(--host:name) == $hostname ]] && --vpn:server $hostname
+        [[ $(--host:name) == $hostname ]] && --vpn:client $address $hostname
     done
 }
 
 --vpn:server:init() {
-    if [ "$(--sys:service:isactive "openvpn-server@server.service")" == "inactive" ]; then
-        echo -e "Please run command 'ductn vpn:openvpn'"
-        exit 0
-    fi
+    hostname=$@
+    # if [ "$(--sys:service:isactive "openvpn-server@server.service")" == "inactive" ]; then
+    # echo -e "Please run command 'ductn vpn:openvpn'"
+    # fi
 
     # cd $_VPN_PATH
     # $_VPN_PATH/easyrsa init-pki
@@ -51,8 +51,7 @@ _DUCTN_COMMANDS+=("vpn:init")
 
     # push "route 10.10.0.0 255.255.255.0"
     # /etc/openvpn/server/server.conf
-    _SRV_NUM=$(--host:name)
-    _SRV_NUM=${_SRV_NUM:3}
+    _SRV_NUM=${hostname:3}
     _SRV_NUM=10.0.$_SRV_NUM.0
     --vpn:server:client_router $_SRV_NUM 255.255.255.0
 }
@@ -65,27 +64,27 @@ _DUCTN_COMMANDS+=("vpn:init")
 }
 
 --vpn:server() {
-    [[ "$(--vpn:type)" == "server" ]] && --vpn:server:init
+    [[ "$(--vpn:type)" == "server" ]] && --vpn:server:init $hostname
 }
 
 --vpn:client:init() {
-    $server=$1
-    $client=$2
+    address=$1
+    hostname=$2
     --sys:apt:install openvpn
     sudo sed -i 's/.*AUTOSTART="all"/AUTOSTART="all"/' /etc/default/openvpn >/dev/null
 
-    ssh $server "sudo cat /root/$client.ovpn" | tee ~/$client.ovpn >/dev/null
-    # sudo openvpn --config ~/$client.ovpn
-    sudo cp ~/$client.ovpn /etc/openvpn/$client.conf
+    ssh $address "sudo cat /root/$hostname.ovpn" | sudo tee /etc/openvpn/$hostname.conf >/dev/null
+    # sudo openvpn --config ~/$hostname.ovpn
+    # sudo cp ~/$hostname.ovpn /etc/openvpn/$hostname.conf
 
     # Authenicate by pass
     # check ‘auth-user-pass’ to ‘auth-user-pass pass’ in ovpn
     # echo -e "<IVPN Account ID>\n<IVPN Account Pass>" | sudo tee /etc/openvpn/pass >/dev/null
     # sudo chmod 400 /etc/openvpn/pass
 
-    sudo systemctl enable openvpn@$client.service
+    sudo systemctl enable openvpn@$hostname.service
     sudo systemctl daemon-reload
-    sudo systemctl restart openvpn@$client.service
+    sudo systemctl restart openvpn@$hostname.service
 
     # --vpn:openvpn
     # cd $_VPN_PATH
