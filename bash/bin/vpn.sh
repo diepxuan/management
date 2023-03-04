@@ -22,7 +22,8 @@ _DUCTN_COMMANDS+=("vpn:init")
 
 --vpn:server:init() {
     if [ "$(--sys:service:isactive "openvpn-server@server.service")" == "inactive" ]; then
-        --vpn:openvpn
+        echo -e "Please run command 'ductn vpn:openvpn'"
+        exit 0
     fi
 
     # cd $_VPN_PATH
@@ -53,10 +54,10 @@ _DUCTN_COMMANDS+=("vpn:init")
 
     # push "route 10.10.0.0 255.255.255.0"
     # /etc/openvpn/server/server.conf
-    _DHCPD_HOST=$(--host:name)
-    _DHCPD_HOST=${_DHCPD_HOST:3}
-    _DHCPD_HOST=10.0.$_DHCPD_HOST.0
-    --vpn:server:client_router $_DHCPD_HOST 255.255.255.0
+    _SRV_NUM=$(--host:name)
+    _SRV_NUM=${_SRV_NUM:3}
+    _SRV_NUM=10.0.$_SRV_NUM.0
+    --vpn:server:client_router $_SRV_NUM 255.255.255.0
 }
 
 --vpn:server:client_router() {
