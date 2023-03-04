@@ -45,8 +45,13 @@ _DUCTN_COMMANDS+=("vpn:init")
     # iptables-restore < /etc/iptables.rules
 
     # push config to client
-    if [[ -f /etc/openvpn/server/server.conf ]] && [[ ! -n $(grep -P "client-config-dir ccd" /etc/openvpn/server/server.conf) ]]; then
-        echo -e "client-config-dir ccd" | sudo tee -a /etc/openvpn/server/server.conf
+    if [[ -f /etc/openvpn/server/server.conf ]]; then
+        sudo mkdir /etc/openvpn/server/ccd
+        if [[ ! -n $(grep -P "client-config-dir" /etc/openvpn/server/server.conf) ]]; then
+            echo -e "client-config-dir /etc/openvpn/server/ccd" | sudo tee -a /etc/openvpn/server/server.conf >/dev/null
+        else
+            sudo sed -i 's/client-config-dir .*/client-config-dir \/etc\/openvpn\/server\/ccd/' /etc/openvpn/server/server.conf >/dev/null
+        fi
     fi
 
     # push "route 10.10.0.0 255.255.255.0"
@@ -54,12 +59,14 @@ _DUCTN_COMMANDS+=("vpn:init")
     _SRV_NUM=${hostname:3}
     _SRV_NUM=10.0.$_SRV_NUM.0
     --vpn:server:client_router $_SRV_NUM 255.255.255.0
+
+    --sys:service:restart openvpn-server@server.service
 }
 
 --vpn:server:client_router() {
     _router="push \"route $1 $2\""
     if [[ -f /etc/openvpn/server/server.conf ]] && [[ ! -n $(grep -P "push.*$1.*" /etc/openvpn/server/server.conf) ]]; then
-        echo -e $_router | sudo tee -a /etc/openvpn/server/server.conf
+        echo -e $_router | sudo tee -a /etc/openvpn/server/server.conf >/dev/null
     fi
 }
 
@@ -71,9 +78,10 @@ _DUCTN_COMMANDS+=("vpn:init")
     address=$1
     hostname=$2
     --sys:apt:install openvpn
-    sudo sed -i 's/.*AUTOSTART="all"/AUTOSTART="all"/' /etc/default/openvpn >/dev/null
+    sudo sed -i 's/.*AUTOSTART="all".*/AUTOSTART="all"/' /etc/default/openvpn >/dev/null
 
     ssh $address "sudo cat /root/$hostname.ovpn" | sudo tee /etc/openvpn/$hostname.conf >/dev/null
+    sudo mkdir -p /etc/openvpn/server/ccd
     # sudo openvpn --config ~/$hostname.ovpn
     # sudo cp ~/$hostname.ovpn /etc/openvpn/$hostname.conf
 
