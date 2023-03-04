@@ -45,7 +45,7 @@ _DUCTN_COMMANDS+=("vpn:init")
 }
 
 --vpn:server() {
-    [[ "$(--host:domain)" == "vpn" ]] && --vpn:server:init
+    [[ "$(--vpn:type)" == "server" ]] && --vpn:server:init
 }
 
 --vpn:client:init() {
@@ -86,7 +86,14 @@ _DUCTN_COMMANDS+=("vpn:init")
 }
 
 --vpn:client() {
-    [[ "$(--host:domain)" == "diepxuan.com" ]] && --vpn:client:init $@
+    [[ "$(--vpn:type)" == "client" ]] && --vpn:client:init $@
+}
+
+--vpn:type() {
+    [[ "$(--host:domain)" == "diepxuan.com" ]] && echo "client"
+    [[ "$(--host:domain)" == "vpn" ]] && echo "server"
+    echo "none"
+    exit 1
 }
 
 --vpn:openvpn() {

@@ -54,3 +54,24 @@
     #     sudo ufw enable
     # fi
 }
+
+--sys:service:vpn() {
+    if [[ "$(--vpn:type)" == "client" ]]; then
+        _SERVICE="openvpn@$(--host:name).service"
+        if [ "$(--sys:service:isactive $_SERVICE)" == "failed" ]; then
+            --sys:service:restart $_SERVICE
+        fi
+    fi
+
+    if [[ "$(--vpn:type)" == "server" ]]; then
+        _SERVICE="openvpn-server@server.service"
+        if [ "$(--sys:service:isactive $_SERVICE)" == "failed" ]; then
+            --sys:service:restart $_SERVICE
+        fi
+    fi
+
+    # sudo ufw status | grep ' active' >/dev/null 2>&1
+    # if [ $? != 0 ]; then
+    #     sudo ufw enable
+    # fi
+}
