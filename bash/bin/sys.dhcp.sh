@@ -28,8 +28,7 @@ _DUCTN_COMMANDS+=("sys:dhcp:setup")
 }
 _DHCPD_HOST=$(--host:name)
 _DHCPD_HOST=${_DHCPD_HOST:3}
-_DHCPD_CONF="
-option domain-name \"diepxuan.com\";
+_DHCPD_CONF="option domain-name \"diepxuan.com\";
 option domain-search \"diepxuan.com\";
 option domain-name-servers 1.1.1.1, 10.0.1.10, 10.0.2.10;
 
@@ -58,9 +57,9 @@ subnet 10.0.$_DHCPD_HOST.0 netmask 255.255.255.0 {
 }
 
 host dc1 {
-        hardware ethernet ba:1f:4a:6a:63:a1;
-        fixed-address 10.0.1.10;
-        option host-name \"dc1\";
+    hardware ethernet ba:1f:4a:6a:63:a1;
+    fixed-address 10.0.1.10;
+    option host-name \"dc1\";
 }
 
 host dc2 {
@@ -69,15 +68,15 @@ host dc2 {
     option host-name \"dc2\";
 }
 
+host sql1 {
+    hardware ethernet ae:fa:53:5f:00:f1;
+    fixed-address 10.0.1.11;
+    option host-name \"sql1\";
+}
+
 host sql2 {
     hardware ethernet 16:13:D5:80:B3:58;
     fixed-address 10.0.2.11;
     option host-name \"sql2\";
-}
-
-host sql1 {
-        hardware ethernet ae:fa:53:5f:00:f1;
-        fixed-address 10.0.1.11;
-        option host-name \"sql1\";
 }
 "
