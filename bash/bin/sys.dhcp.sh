@@ -39,21 +39,45 @@ max-lease-time 7200;
 ddns-update-style none;
 authoritative;
 
-subnet 10.0.$_DHCPD_HOST.0 netmask 255.255.255.0 {
-    range 10.0.$_DHCPD_HOST.50 10.0.$_DHCPD_HOST.80;
+one-lease-per-client true;
+deny duplicates;
+update-conflict-detection false;
 
-    option routers 10.0.$_DHCPD_HOST.2;
+subnet 10.0.$_DHCPD_HOST.0 netmask 255.255.255.0 {
+    pool {
+        option domain-name-servers 1.1.1.1,10.0.1.10,10.0.2.10;
+        range 10.0.$_DHCPD_HOST.150 10.0.$_DHCPD_HOST.199;
+    }
+
+    option domain-name-servers 1.1.1.1,10.0.1.10,10.0.2.10;
+
+    option routers 10.0.$_DHCPD_HOST.1;
     option subnet-mask 255.255.255.0;
-    option broadcast-address 10.0.0.255;
+
+    ping-check true;
+}
+
+host dc1 {
+        hardware ethernet ba:1f:4a:6a:63:a1;
+        fixed-address 10.0.1.10;
+        option host-name \"dc1\";
 }
 
 host dc2 {
     hardware ethernet 62:F0:9D:12:02:61;
     fixed-address 10.0.2.10;
+    option host-name \"dc2\";
 }
 
 host sql2 {
     hardware ethernet 16:13:D5:80:B3:58;
     fixed-address 10.0.2.11;
+    option host-name \"sql2\";
+}
+
+host sql1 {
+        hardware ethernet ae:fa:53:5f:00:f1;
+        fixed-address 10.0.1.11;
+        option host-name \"sql1\";
 }
 "
