@@ -50,18 +50,18 @@ _DUCTN_COMMANDS+=("ufw:geoip:allowCloudflare")
     # -A ufw-before-input -p tcp -m multiport --dports http,https -s $ip -j ACCEPT
 
     v4ips="https://www.cloudflare.com/ips-v4"
-    echo "# v4: add to file /etc/ufw/before.rules"
-    echo "########################################"
+    # echo "# v4: add to file /etc/ufw/before.rules"
+    # echo "########################################"
     while IFS= read -r line; do
-        echo "-A ufw-before-input -p tcp -m multiport --dports http,https -s ${line} -j ACCEPT"
+        echo -e "-A ufw-before-input -p tcp -m multiport --dports http,https -s ${line} -j ACCEPT\n"
     done < <(curl -s $v4ips)
 
     echo -e "\n\n"
 
     v6ips="https://www.cloudflare.com/ips-v6"
-    echo "# v6: add to file /etc/ufw/before6.rules"
-    echo "########################################"
+    # echo "# v6: add to file /etc/ufw/before6.rules"
+    # echo "########################################"
     while IFS= read -r line; do
-        echo "-A ufw-before-input -p tcp -m multiport --dports http,https -s ${line} -j ACCEPT"
+        echo -e "-A ufw-before-input -p tcp -m multiport --dports http,https -s ${line} -j ACCEPT\n"
     done < <(curl -s $v6ips)
 }
