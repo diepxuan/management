@@ -44,3 +44,7 @@ _DUCTN_COMMANDS+=("host:address")
 --host:is_server() {
     [[ $(--host:fullname) =~ ^pve[0-9].diepxuan.com$ ]] && echo 1 || echo 0
 }
+
+--host:is_vpn_server() {
+    [[ $(--host:fullname) =~ ^pve[0-9].vpn$ ]] && echo 1 || echo 0
+}

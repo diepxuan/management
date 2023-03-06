@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
---sys:init:system_files() {
-    rm -rf ~/.vimrc
-    # ln $_BASHDIR/.vimrc ~/.vimrc
-    # chmod 644 ~/.vimrc
-
-    --user:config $(whoami)
+_DUCTN_COMMANDS+=("sys:init")
+--sys:init() {
+    sudo timedatectl set-timezone Asia/Ho_Chi_Minh
 
     sudo chown -R ductn:ductn $_BASEDIR
     chmod +x $_BASHDIR/*
@@ -14,23 +11,13 @@
     echo -e "#!/usr/bin/env bash\n#!/bin/bash\n\n. $_BASHDIR/ductn" | sudo tee /usr/local/bin/ductn >/dev/null
     sudo chown root:root /usr/local/bin/ductn
     sudo chmod +x /usr/local/bin/ductn
-}
 
-_DUCTN_COMMANDS+=("sys:init")
---sys:init() {
+    --user:config $(whoami)
+    rm -rf ~/.vimrc
+    # ln $_BASHDIR/.vimrc ~/.vimrc
+    # chmod 644 ~/.vimrc
 
-    sudo timedatectl set-timezone Asia/Ho_Chi_Minh
-
-    --sys:init:system_files
-
-    # if [[ -f /etc/resolvconf/resolv.conf.d/head ]]; then
-    # echo "nameserver 1.1.1.1" | sudo tee /etc/resolvconf/resolv.conf.d/head >/dev/null
-    # fi
-
-    # if [ "$(whoami)" = "ductn" ]; then
-
-    # fi
-
+    --ufw:iptables
     --git:configure
 
     if [ "$(whoami)" = "ductn" ]; then
