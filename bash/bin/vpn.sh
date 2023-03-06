@@ -19,9 +19,29 @@ _DUCTN_COMMANDS+=("vpn:init")
 
 --vpn:server:init() {
     hostname=$@
-    # if [ "$(--sys:service:isactive "openvpn-server@server.service")" == "inactive" ]; then
-    # echo -e "Please run command 'ductn vpn:openvpn'"
-    # fi
+    if [ "$(--sys:service:isactive "openvpn-server@server.service")" == "inactive" ]; then
+        APPROVE_INSTALL=y APPROVE_IP=y IPV6_SUPPORT=n PORT_CHOICE=1 PROTOCOL_CHOICE=1 DNS=1 COMPRESSION_ENABLED=n CUSTOMIZE_ENC=n CLIENT=$hostname PASS=1 ENDPOINT=$(curl -4 ifconfig.co)
+        # echo -e "Please run command 'ductn vpn:openvpn'"
+        #!/bin/bash
+        # export MENU_OPTION="1"
+        # export CLIENT="foo"
+        # export PASS="1"
+        # ductn vpn:openvpn
+
+        # AUTO_INSTALL=y ./openvpn-install.sh
+
+        # or
+
+        # export AUTO_INSTALL=y
+        # ./openvpn-install.sh
+
+        # sudo openvpn --genkey --secret /etc/openvpn/server/ta.key
+
+        #         echo -e "# Site-to-site
+        # client-config-dir /etc/openvpn/ccd
+        # tls-auth ta.key 0" | sudo tee -a /etc/openvpn/server/server.conf
+
+    fi
 
     # cd $_VPN_PATH
     # $_VPN_PATH/easyrsa init-pki
