@@ -1,7 +1,7 @@
 ############ network ############
 
 sudo nano /etc/network/interfaces
-
+##########
 <<EOF
 auto vmbr1
 iface vmbr1 inet manual
@@ -14,10 +14,29 @@ iface vmbr1 inet manual
     post-down iptables -t nat -D POSTROUTING -s '10.0.1.0/24' -o vmbr0 -j MASQUERADE
     post-up iptables -t raw -I PREROUTING -i fwbr+ -j CT --zone 1
     post-down iptables -t raw -D PREROUTING -i fwbr+ -j CT --zone 1
-    post-up iptables -t nat -A PREROUTING -p tcp -m tcp --dport 0:8005 -j DNAT --to-destination 10.0.1.10:0-8005
-    post-down iptables -t nat -D PREROUTING -p tcp -m tcp --dport 0:8005 -j DNAT --to-destination 10.0.1.10:0-8005
 EOF
 sudo ifup vmbr1
+
+sudo nano /etc/network/interfaces.d/ifcnf
+##########
+# Fix FW block VM
+post-up iptables -t raw -I PREROUTING -i fwbr+ -j CT --zone 1
+post-down iptables -t raw -D PREROUTING -i fwbr+ -j CT --zone 1
+
+post-up iptables -t nat -A PREROUTING -p tcp -m tcp --dport 0:8005 -j DNAT --to-destination 10.0.1.10:0-8005
+post-down iptables -t nat -D PREROUTING -p tcp -m tcp --dport 0:8005 -j DNAT --to-destination 10.0.1.10:0-8005
+
+# HTTP
+post-up iptables -t nat -A PREROUTING -i vmbr0 -p tcp --dport 80 -j DNAT --to 192.168.0.2:80
+post-down iptables -t nat -D PREROUTING -i vmbr0 -p tcp --dport 80 -j DNAT --to 192.168.0.2:80
+
+# HTTPS
+post-up iptables -t nat -A PREROUTING -i vmbr0 -p tcp --dport 443 -j DNAT --to 192.168.0.2:443
+post-down iptables -t nat -D PREROUTING -i vmbr0 -p tcp --dport 443 -j DNAT --to 192.168.0.2:443
+
+# PLEX
+post-up iptables -t nat -A PREROUTING -i vmbr0 -p tcp --dport 32400 -j DNAT --to 192.168.0.2:32400
+post-down iptables -t nat -D PREROUTING -i vmbr0 -p tcp --dport 32400 -j DNAT --to 192.168.0.2:32400
 
 ############### dnsmasq ###########
 sudo apt install dnsmasq dnsutils -y
