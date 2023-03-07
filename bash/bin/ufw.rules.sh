@@ -62,9 +62,9 @@ WantedBy=multi-user.target" | sudo tee /usr/lib/systemd/system/ductn-iptables.se
 
     # sudo  systemctl enable --now ductn-iptables.service
 
-    # sudo systemctl daemon-reload
-    # sudo systemctl enable ductn-iptables # remove the extension
-    # sudo systemctl restart ductn-iptables
+    sudo systemctl daemon-reload
+    sudo systemctl enable ductn-iptables # remove the extension
+    sudo systemctl restart ductn-iptables
 }
 
 --ufw:iptables:path4() {
