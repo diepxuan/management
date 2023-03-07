@@ -62,8 +62,18 @@ _DUCTN_COMMANDS+=("ufw:iptables")
         _rule_nat "10.8.0.2" 3389
         _rule_nat "10.8.0.2" 1433
 
-        # _INET_IP="$(--ip:wan)"
-        # _INET_IF="$(route | grep '^default' | grep -o '[^ ]*$')"
+        # Do some checks for obviously spoofed IP's
+        _INET_IP="$(--ip:wan)"
+        _INET_IF="$(route | grep '^default' | grep -o '[^ ]*$')"
+        _rule_out "-t nat -A PREROUTING -i $_INET_IF -s $_INET_IP -j DROP"
+
+        # Get rid of bad TCP packets
+        _rule_out "-A FORWARD -p tcp ! --syn -m state --state NEW -j LOG --log-prefix \"New not syn: \""
+        _rule_out "-A FORWARD -p tcp ! --syn -m state --state NEW -j DROP"
+
+        # General rules
+        _rule_out "-A FORWARD -i tun0 -o $_INET_IF -j ACCEPT"
+        _rule_out "-A FORWARD -i $_INET_IF -o tun0 -m state --state ESTABLISHED,RELATED -j ACCEPT"
 
         # "-t nat -A PREROUTING -i $eth0 -p tcp -d ${PUBLIC_IP} --dport 80 -j DNAT --to ${INTERNAL_IP}:80"
         # "-t nat -A PREROUTING -p TCP -i $_INET_IF -d $_INET_IP --dport 80 -j DNAT --to-destination 10.8.0.2"
@@ -71,9 +81,9 @@ _DUCTN_COMMANDS+=("ufw:iptables")
         # "-t nat -A PREROUTING -p TCP -i $_INET_IF -d $_INET_IP --dport 3389 -j DNAT --to-destination 10.8.0.2"
         # -t nat -A PREROUTING -p TCP --dport 3389 -j DNAT --to-destination 10.8.0.2
 
-        # "-t nat -A PREROUTING -p TCP -i $INET_IFACE -d $HTTP_IP --dport 80 -j DNAT --to-destination $DMZ_HTTP_IP"
+        # "-t nat -A PREROUTING -p TCP -i $_INET_IF -d $HTTP_IP --dport 80 -j DNAT --to-destination $DMZ_HTTP_IP"
 
-        # -t nat -A POSTROUTING -o $INET_IFACE -j SNAT --to-source $_public_ip
+        # -t nat -A POSTROUTING -o $_INET_IF -j SNAT --to-source $_public_ip
         # -t nat -A POSTROUTING -s 10.8.0.0/24 ! -d 10.8.0.0/24 -j SNAT --to 10.138.0.2
 
     fi
