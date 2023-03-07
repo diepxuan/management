@@ -60,6 +60,7 @@ _DUCTN_COMMANDS+=("ufw:iptables")
     ######### VPN Firewall DMZ to Pve server #########
     if [[ $(--host:is_vpn_server) == 1 ]]; then
         _rule_nat "10.8.0.2" 3389
+        _rule_nat "10.8.0.2" 1433
 
         # _INET_IP="$(--ip:wan)"
         # _INET_IF="$(route | grep '^default' | grep -o '[^ ]*$')"
@@ -88,7 +89,7 @@ $iptables_rules_FOOT
 
 RemainAfterExit=yes
 [Install]
-WantedBy=multi-user.target" | sudo tee /usr/lib/systemd/system/ductn-iptables.service >/dev/null
+WantedBy=multi-user.target" | sudo tee /usr/lib/systemd/system/ductn-iptables.service
 
     # cat /usr/lib/systemd/system/ductn-iptables.service
 
