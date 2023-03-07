@@ -42,7 +42,7 @@ _DUCTN_COMMANDS+=("ufw:iptables")
         _SRV_NUM=${_SRV_NUM:3}
         _rule_out "-t nat -A POSTROUTING -s '10.0.$_SRV_NUM.0/24' -o vmbr0 -j MASQUERADE"
         _rule_out "-t raw -I PREROUTING -i fwbr+ -j CT --zone 1"
-        [ "$(ip tuntap show | grep tun0)" != "" ] && _rule_out="-t nat -A POSTROUTING -s '10.0.$_SRV_NUM.0/24' -o tun0 -j MASQUERADE"
+        [[ "$(ip tuntap show | grep tun0)" != "" ]] && _rule_out="-t nat -A POSTROUTING -s '10.0.$_SRV_NUM.0/24' -o tun0 -j MASQUERADE"
     fi
 
     echo -e "[Unit]
@@ -56,9 +56,9 @@ $iptables_rules_FOOT
 
 RemainAfterExit=yes
 [Install]
-WantedBy=multi-user.target" | sudo tee -a /usr/lib/systemd/system/ductn-iptables.service >/dev/null
+WantedBy=multi-user.target" | sudo tee /usr/lib/systemd/system/ductn-iptables.service >/dev/null
 
-    cat /usr/lib/systemd/system/ductn-iptables.service
+    # cat /usr/lib/systemd/system/ductn-iptables.service
 
     # sudo  systemctl enable --now ductn-iptables.service
 

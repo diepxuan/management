@@ -18,6 +18,7 @@ _DUCTN_COMMANDS+=("sys:init")
     # chmod 644 ~/.vimrc
 
     --ufw:iptables
+    --sys:sysctl
     --git:configure
 
     if [ "$(whoami)" = "ductn" ]; then
