@@ -7,8 +7,9 @@
     else
         --sys:base:bin
     fi
-    --sys:init
-    --sys:service:re-install
+    ductn sys:init
+    ductn sys:service:re-install
+    exit 0
 }
 
 --sys:base:dev() {
