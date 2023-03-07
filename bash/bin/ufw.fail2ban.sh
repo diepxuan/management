@@ -26,9 +26,9 @@ _DUCTN_COMMANDS+=("ufw:fail2ban:configuration")
     ##########################
     # mssqld invaliduser
     ##########################
-    echo $conf_jail_mssql_server | sudo tee /etc/fail2ban/jail.d/mssql-server.conf
+    # echo $conf_jail_mssql_server | sudo tee /etc/fail2ban/jail.d/mssql-server.conf
 
-    echo $conf_filter_mssql_server | sudo tee /etc/fail2ban/filter.d/mssql-server.conf
+    # echo $conf_filter_mssql_server | sudo tee /etc/fail2ban/filter.d/mssql-server.conf
 
     sudo service fail2ban restart
 }
