@@ -21,6 +21,8 @@ _DUCTN_COMMANDS+=("vpn:init")
     hostname=$@
     if [ "$(--sys:service:isactive "openvpn-server@server.service")" == "inactive" ]; then
         APPROVE_INSTALL=y APPROVE_IP=y IPV6_SUPPORT=n PORT_CHOICE=1 PROTOCOL_CHOICE=1 DNS=1 COMPRESSION_ENABLED=n CUSTOMIZE_ENC=n CLIENT=$hostname PASS=1 ENDPOINT=$(curl -4 ifconfig.co)
+        sudo mkdir -p /etc/openvpn/server/ccd
+        echo "ifconfig-push 10.8.0.2 255.255.255.0" >/etc/openvpn/ccd/$hostname
         # echo -e "Please run command 'ductn vpn:openvpn'"
         #!/bin/bash
         # export MENU_OPTION="1"
@@ -101,7 +103,7 @@ _DUCTN_COMMANDS+=("vpn:init")
     sudo sed -i 's/.*AUTOSTART="all".*/AUTOSTART="all"/' /etc/default/openvpn >/dev/null
 
     ssh $address "sudo cat /root/$hostname.ovpn" | sudo tee /etc/openvpn/$hostname.conf >/dev/null
-    sudo mkdir -p /etc/openvpn/server/ccd
+
     # sudo openvpn --config ~/$hostname.ovpn
     # sudo cp ~/$hostname.ovpn /etc/openvpn/$hostname.conf
 

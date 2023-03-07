@@ -15,10 +15,12 @@ _DUCTN_COMMANDS+=("ip:wan")
     # printf '$GOOG:\t%s\t%s\t%s\n' "${IPANY}" "${GOOGv4}" "${GOOGv6}"
     # printf '$AKAM:\t%s\n$CSCO:\t%s\t%s\n' "${AKAMv4}" "${CSCOv4}" "${CSCOv6}"
 
-    if [[ -z ${_IP_EXTEND+x} ]]; then continue; else
-        # _IP_EXTEND=$(dig @resolver4.opendns.com myip.opendns.com +short)
-        _IP_EXTEND=$(dig -4 @ns1.google.com -t txt o-o.myaddr.l.google.com +short | tr -d \")
-    fi
+    # if [[ -z ${_IP_EXTEND+x} ]]; then continue; else
+    #     # _IP_EXTEND=$(dig @resolver4.opendns.com myip.opendns.com +short)
+    #     _IP_EXTEND=$(dig -4 @ns1.google.com -t txt o-o.myaddr.l.google.com +short | tr -d \")
+    # fi
+
+    [[ -z "$_IP_EXTEND" ]] && _IP_EXTEND="$(dig -4 @ns1.google.com -t txt o-o.myaddr.l.google.com +short | tr -d \")"
     echo $_IP_EXTEND
 }
 
@@ -35,7 +37,7 @@ _DUCTN_COMMANDS+=("ip:local")
     hostname -I | awk '{print $1}'
 }
 
-_DUCTN_COMMANDS+=("ip:check")
+# _DUCTN_COMMANDS+=("ip:check")
 --ip:check() {
     # Specify DNS server
     dnsserver="8.8.8.8"
