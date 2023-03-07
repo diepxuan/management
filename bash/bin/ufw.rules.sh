@@ -59,7 +59,7 @@ _DUCTN_COMMANDS+=("ufw:iptables")
 
     ######### VPN Firewall DMZ to Pve server #########
     if [[ $(--host:is_vpn_server) == 1 ]]; then
-        _rule_nat "10.8.0.2"
+        _rule_nat "10.8.0.2" 3389
 
         # _INET_IP="$(--ip:wan)"
         # _INET_IF="$(route | grep '^default' | grep -o '[^ ]*$')"
