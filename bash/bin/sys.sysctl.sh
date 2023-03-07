@@ -8,7 +8,7 @@ net.ipv4.ip_forward=1"
 
     while IFS= read -r rule; do
         sudo sysctl -w $rule
-    done <$_sysctl
+    done <<<"$_sysctl"
 
     echo "$_sysctl" | sudo tee /etc/sysctl.d/99-ductn.conf
     sudo sysctl -p
