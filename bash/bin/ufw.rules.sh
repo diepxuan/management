@@ -25,7 +25,7 @@ _DUCTN_COMMANDS+=("ufw:iptables")
         _ip=$1
         _port=$2
         [[ -z "$_port" ]] && _port="--dport $_port" || _port=""
-        [[ -n $_ip ]] && _rule_out "-t nat -A PREROUTING -p TCP $_port -j DNAT --to-destination $ip"
+        [[ -n $_ip ]] && _rule_out "-t nat -A PREROUTING -p TCP $_port -j DNAT --to-destination $_ip"
     }
 
     ######### UFW allow Cloudflare ips #########
