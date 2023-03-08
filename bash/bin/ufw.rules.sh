@@ -18,9 +18,9 @@ _DUCTN_COMMANDS+=("ufw:iptables")
             [[ -n $_rule ]] && iptables_rules_HEAD="$iptables_rules_HEAD\nExecStart=$iptables_path $_rule"
             _rule=${_rule//'-A '/'-D '}
             _rule=${_rule//'-I '/'-D '}
-            _rule=${_rule//'-N '/'-D '}
+            _rule=${_rule//'-N '/'-X '}
             # [[ -n $_rule ]] && echo -e "ExecStop=$iptables_path\t$_rule" | sudo tee -a /usr/lib/systemd/system/ductn-iptables.service
-            [[ -n $_rule ]] && iptables_rules_FOOT="$iptables_rules_FOOT\nExecStop=$iptables_path $_rule"
+            [[ -n $_rule ]] && iptables_rules_FOOT="ExecStop=$iptables_path $_rule\n$iptables_rules_FOOT"
         done <<<"$@"
     }
 
@@ -113,8 +113,8 @@ Before=network.target
 [Service]
 Type=oneshot
 $iptables_rules_HEAD
-$iptables_rules_FOOT
 
+$iptables_rules_FOOT
 RemainAfterExit=yes
 [Install]
 WantedBy=multi-user.target" | sudo tee /usr/lib/systemd/system/ductn-iptables.service
@@ -123,6 +123,11 @@ WantedBy=multi-user.target" | sudo tee /usr/lib/systemd/system/ductn-iptables.se
 
     sudo systemctl daemon-reload
     sudo systemctl enable ductn-iptables
+    sudo systemctl stop ductn-iptables
+    sudo $iptables_path -X bad_tcp_packets 2>/dev/null
+    sudo $iptables_path -X allowed 2>/dev/null
+    sudo $iptables_path -X icmp_packets 2>/dev/null
+
     sudo systemctl restart ductn-iptables
 
     if [ "$(--sys:service:isactive ductn-iptables)" == "failed" ]; then
@@ -172,6 +177,11 @@ WantedBy=multi-user.target" | sudo tee /usr/lib/systemd/system/ductn-iptables.se
     echo "-A bad_tcp_packets -p tcp ! --syn -m state --state NEW -j LOG --log-prefix \"New not syn:\""
     echo "-A bad_tcp_packets -p tcp ! --syn -m state --state NEW -j DROP"
 
+    echo "-A bad_tcp_packets -i $INET_IFACE -s 192.168.0.0/16 -j DROP"
+    echo "-A bad_tcp_packets -i $INET_IFACE -s 10.0.0.0/8 -j DROP"
+    echo "-A bad_tcp_packets -i $INET_IFACE -s 172.16.0.0/12 -j DROP"
+    echo "-A bad_tcp_packets -i $INET_IFACE -s $INET_IP -j DROP"
+
     echo "-A allowed -p TCP --syn -j ACCEPT"
     echo "-A allowed -p TCP -m state --state ESTABLISHED,RELATED -j ACCEPT"
     echo "-A allowed -p TCP -j DROP"
@@ -208,10 +218,10 @@ WantedBy=multi-user.target" | sudo tee /usr/lib/systemd/system/ductn-iptables.se
     echo "-t nat -A PREROUTING -p TCP -i $INET_IFACE -d $INET_IP --dport 53 -j DNAT --to-destination $DMZ_IP"
     echo "-t nat -A PREROUTING -p UDP -i $INET_IFACE -d $INET_IP --dport 53 -j DNAT --to-destination $DMZ_IP"
 
-    echo "-t nat -A INPUT -i $INET_IFACE -s 192.168.0.0/16 -j DROP"
-    echo "-t nat -A INPUT -i $INET_IFACE -s 10.0.0.0/8 -j DROP"
-    echo "-t nat -A INPUT -i $INET_IFACE -s 172.16.0.0/12 -j DROP"
-    echo "-t nat -A INPUT -i $INET_IFACE -s $INET_IP -j DROP"
+    # echo "-t nat -A PREROUTING -i $INET_IFACE -s 192.168.0.0/16 -j DROP"
+    # echo "-t nat -A PREROUTING -i $INET_IFACE -s 10.0.0.0/8 -j DROP"
+    # echo "-t nat -A PREROUTING -i $INET_IFACE -s 172.16.0.0/12 -j DROP"
+    # echo "-t nat -A PREROUTING -i $INET_IFACE -s $INET_IP -j DROP"
 }
 
 --ufw:DMZ_example() {
