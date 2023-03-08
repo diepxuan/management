@@ -26,14 +26,7 @@ _DUCTN_COMMANDS+=("host:address")
 }
 
 --host:address:valid() {
-    _IP=$@
-    if expr "$_IP" : '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' >/dev/null; then
-        echo $_IP
-        exit 0
-    else
-        echo 127.0.0.1
-        exit 1
-    fi
+    --ip:valid $@
 }
 
 #_DUCTN_COMMANDS+=("host:ip")

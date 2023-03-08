@@ -18,6 +18,7 @@ _DUCTN_COMMANDS+=("ufw:iptables")
             [[ -n $_rule ]] && iptables_rules_HEAD="$iptables_rules_HEAD\nExecStart=$iptables_path $_rule"
             _rule=${_rule//'-A '/'-D '}
             _rule=${_rule//'-I '/'-D '}
+            _rule=${_rule//'-N '/'-D '}
             # [[ -n $_rule ]] && echo -e "ExecStop=$iptables_path\t$_rule" | sudo tee -a /usr/lib/systemd/system/ductn-iptables.service
             [[ -n $_rule ]] && iptables_rules_FOOT="$iptables_rules_FOOT\nExecStop=$iptables_path $_rule"
         done <<<"$@"
@@ -72,10 +73,6 @@ _DUCTN_COMMANDS+=("ufw:iptables")
         sudo /sbin/modprobe ipt_limit
         sudo /sbin/modprobe ipt_state
         sudo /sbin/modprobe ipt_MASQUERADE
-
-        # sudo $iptables_path -N bad_tcp_packets
-        # sudo $iptables_path -N allowed
-        # sudo $iptables_path -N icmp_packets
 
         _rule_out "$(--ufw:dmz)"
         # _rule_out "-A FORWARD -p tcp ! --syn -m state --state NEW -j DROP"
@@ -166,6 +163,11 @@ WantedBy=multi-user.target" | sudo tee /usr/lib/systemd/system/ductn-iptables.se
 
     LO_IFACE="lo"
     LO_IP="127.0.0.1"
+
+    # echo "-X bad_tcp_packets"
+    echo "-N bad_tcp_packets"
+    echo "-N allowed"
+    echo "-N icmp_packets"
 
     echo "-A bad_tcp_packets -p tcp ! --syn -m state --state NEW -j LOG --log-prefix \"New not syn:\""
     echo "-A bad_tcp_packets -p tcp ! --syn -m state --state NEW -j DROP"
