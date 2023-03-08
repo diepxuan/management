@@ -20,8 +20,8 @@ _DUCTN_COMMANDS+=("ip:wan")
     #     _IP_EXTEND=$(dig -4 @ns1.google.com -t txt o-o.myaddr.l.google.com +short | tr -d \")
     # fi
 
-    [[ -z "$_IP_EXTEND" ]] && _IP_EXTEND="$(dig -4 @ns1.google.com -t txt o-o.myaddr.l.google.com +short | tr -d \")"
-    echo $_IP_EXTEND
+    [[ -z "$_IP_EXTEND" ]] && _IP_EXTEND="$(dig -4 @ns1.google.com -t txt o-o.myaddr.l.google.com +short | tr -d \" 2>/dev/null)"
+    echo $(--ip:valid $_IP_EXTEND)
 }
 
 --ip:wanv4() {
@@ -35,6 +35,17 @@ _DUCTN_COMMANDS+=("ip:wan")
 _DUCTN_COMMANDS+=("ip:local")
 --ip:local() {
     hostname -I | awk '{print $1}'
+}
+
+--ip:valid() {
+    _IP=$@
+    if expr "$_IP" : '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' >/dev/null; then
+        echo $_IP
+        exit 0
+    else
+        echo $(--ip:local)
+        exit 1
+    fi
 }
 
 # _DUCTN_COMMANDS+=("ip:check")
