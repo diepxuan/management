@@ -20,9 +20,11 @@ _DUCTN_COMMANDS+=("vpn:init")
 --vpn:server:init() {
     hostname=$@
     if [ "$(--sys:service:isactive "openvpn-server@server.service")" == "inactive" ]; then
+        # $(APPROVE_INSTALL=y APPROVE_IP=y IPV6_SUPPORT=n PORT_CHOICE=1 PROTOCOL_CHOICE=1 DNS=1 COMPRESSION_ENABLED=n CUSTOMIZE_ENC=n CLIENT=$hostname PASS=1 ENDPOINT=$(curl -4 ifconfig.co) --vpn:openvpn)
         APPROVE_INSTALL=y APPROVE_IP=y IPV6_SUPPORT=n PORT_CHOICE=1 PROTOCOL_CHOICE=1 DNS=1 COMPRESSION_ENABLED=n CUSTOMIZE_ENC=n CLIENT=$hostname PASS=1 ENDPOINT=$(curl -4 ifconfig.co)
-        sudo mkdir -p /etc/openvpn/server/ccd
-        echo "ifconfig-push 10.8.0.2 255.255.255.0" >/etc/openvpn/ccd/$hostname
+        --vpn:openvpn
+        sudo mkdir -p /etc/openvpn/ccd
+        echo "ifconfig-push 10.8.0.2 255.255.255.0" | sudo tee /etc/openvpn/ccd/$hostname
         # echo -e "Please run command 'ductn vpn:openvpn'"
         #!/bin/bash
         # export MENU_OPTION="1"
@@ -150,11 +152,12 @@ _DUCTN_COMMANDS+=("vpn:init")
 
 --vpn:openvpn() {
     [ ! -d $USER_BIN_PATH ] && mkdir -p $USER_BIN_PATH
-    if [ ! -x $(command -v openvpn-ubuntu-installer.sh) ]; then
+    if [ -z $(command -v openvpn-ubuntu-installer.sh) ]; then
+        echo "here"
         wget https://git.io/vpn -O $USER_BIN_PATH/openvpn-ubuntu-installer.sh
-        chmod +x $USER_BIN_PATH/openvpn-ubuntu-installer.sh
+        # chmod +x $USER_BIN_PATH/openvpn-ubuntu-installer.sh
     else
-        [ -x "$(command -v openvpn-ubuntu-installer.sh)" ] && sudo $(command -v openvpn-ubuntu-installer.sh)
+        [ ! -z "$(command -v openvpn-ubuntu-installer.sh)" ] && sudo $(command -v openvpn-ubuntu-installer.sh)
     fi
 
     # exit 1 # missing command openvpn-ubuntu-installer.sh
