@@ -24,6 +24,7 @@
 
 --install() {
     --sys:apt:install jq
+    --sys:apt:install net-tools
     # --sys:apt:install resolvconf
 
     --sys:service:install
