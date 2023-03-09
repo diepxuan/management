@@ -12,90 +12,35 @@ _DUCTN_COMMANDS+=("vpn:init")
 
         --hosts:add $address "$hostname.vpn"
 
-        [[ $(--host:name) == $hostname ]] && --vpn:server $hostname
-        [[ $(--host:name) == $hostname ]] && --vpn:client $address $hostname
+        [[ $(--host:name) == $hostname ]] && [[ "$(--vpn:type)" == "server" ]] && --vpn:server:init $hostname
+        [[ $(--host:name) == $hostname ]] && [[ "$(--vpn:type)" == "client" ]] && --vpn:client:init $address $hostname
     done
 }
 
 --vpn:server:init() {
     hostname=$@
+
     if [ "$(--sys:service:isactive "openvpn-server@server.service")" == "inactive" ]; then
-        # $(APPROVE_INSTALL=y APPROVE_IP=y IPV6_SUPPORT=n PORT_CHOICE=1 PROTOCOL_CHOICE=1 DNS=1 COMPRESSION_ENABLED=n CUSTOMIZE_ENC=n CLIENT=$hostname PASS=1 ENDPOINT=$(curl -4 ifconfig.co) --vpn:openvpn)
-        APPROVE_INSTALL=y APPROVE_IP=y IPV6_SUPPORT=n PORT_CHOICE=1 PROTOCOL_CHOICE=1 DNS=1 COMPRESSION_ENABLED=n CUSTOMIZE_ENC=n CLIENT=$hostname PASS=1 ENDPOINT=$(curl -4 ifconfig.co)
-        --vpn:openvpn
-        sudo mkdir -p /etc/openvpn/ccd
-        echo "ifconfig-push 10.8.0.2 255.255.255.0" | sudo tee /etc/openvpn/ccd/$hostname
-        # echo -e "Please run command 'ductn vpn:openvpn'"
-        #!/bin/bash
-        # export MENU_OPTION="1"
-        # export CLIENT="foo"
-        # export PASS="1"
-        # ductn vpn:openvpn
-
-        # AUTO_INSTALL=y ./openvpn-install.sh
-
-        # or
-
-        # export AUTO_INSTALL=y
-        # ./openvpn-install.sh
+        # --vpn:openvpn
+        echo -e "Please run command 'ductn vpn:openvpn'"
 
         # sudo openvpn --genkey --secret /etc/openvpn/server/ta.key
-
         #         echo -e "# Site-to-site
         # client-config-dir /etc/openvpn/ccd
         # tls-auth ta.key 0" | sudo tee -a /etc/openvpn/server/server.conf
-
     fi
 
-    # cd $_VPN_PATH
-    # $_VPN_PATH/easyrsa init-pki
-
-    # $_VPN_PATH/easyrsa gen-req server nopass
-    # sudo cp $_VPN_PATH/pki/private/server.key /etc/openvpn/server/
-
-    # if [ -d /etc/ssh/sshd_config.d/ ]; then
-    # echo -e "PermitRootLogin without-password\nPermitTunnel yes" | sudo tee /etc/ssh/sshd_config.d/99-vpn.conf >/dev/null
-    # echo -e "PermitRootLogin without-password\nPermitTunnel point-to-point" | sudo tee /etc/ssh/sshd_config.d/99-vpn.conf >/dev/null
-    # sudo systemctl restart sshd.service
-    # fi
-
-    # sudo ip tuntap add mode tun dev tun0
-
-    # sudo sysctl -w net.ipv4.ip_forward=1
-    # echo "net.ipv4.ip_forward = 1" | sudo tee /etc/sysctl.d/99-vpn.conf
-
-    # sudo iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o ens4 -j MASQUERADE
-    # sudo bash -c "iptables-save > /etc/iptables.rules"
-    # iptables-restore < /etc/iptables.rules
-
     # push config to client
-    # if [[ -f /etc/openvpn/server/server.conf ]]; then
-    #     sudo mkdir /etc/openvpn/server/ccd
-    #     if [[ ! -n $(grep -P "client-config-dir" /etc/openvpn/server/server.conf) ]]; then
-    #         echo -e "client-config-dir /etc/openvpn/server/ccd" | sudo tee -a /etc/openvpn/server/server.conf >/dev/null
-    #     else
-    #         sudo sed -i 's/client-config-dir .*/client-config-dir \/etc\/openvpn\/server\/ccd/' /etc/openvpn/server/server.conf >/dev/null
-    #     fi
-    # fi
+    if [[ -f /etc/openvpn/server/server.conf ]]; then
+        sudo mkdir -p /etc/openvpn/ccd
+        #     if [[ ! -n $(grep -P "client-config-dir" /etc/openvpn/server/server.conf) ]]; then
+        #         echo -e "client-config-dir /etc/openvpn/ccd" | sudo tee -a /etc/openvpn/server/server.conf >/dev/null
+        #     else
+        #         sudo sed -i 's/client-config-dir .*/client-config-dir \/etc\/openvpn\/ccd/' /etc/openvpn/server/server.conf >/dev/null
+        #     fi
+        echo "ifconfig-push 10.8.0.2 255.255.255.0" | sudo tee /etc/openvpn/ccd/$hostname >/dev/null
+    fi
 
-    # push "route 10.10.0.0 255.255.255.0"
-    # /etc/openvpn/server/server.conf
-    # _SRV_NUM=${hostname:3}
-    # _SRV_NUM=10.0.$_SRV_NUM.0
-    # --vpn:server:client_router $_SRV_NUM 255.255.255.0
-
-    # --sys:service:restart openvpn-server@server.service
-}
-
-# --vpn:server:client_router() {
-#     _router="push \"route $1 $2\""
-#     if [[ -f /etc/openvpn/server/server.conf ]] && [[ ! -n $(grep -P "push.*$1.*" /etc/openvpn/server/server.conf) ]]; then
-#         echo -e $_router | sudo tee -a /etc/openvpn/server/server.conf >/dev/null
-#     fi
-# }
-
---vpn:server() {
-    [[ "$(--vpn:type)" == "server" ]] && --vpn:server:init $hostname
 }
 
 --vpn:client:init() {
@@ -136,10 +81,6 @@ _DUCTN_COMMANDS+=("vpn:init")
     # echo "autossh -M 0 -o \"ServerAliveInterval 30\" -o \"ServerAliveCountMax 3\" -NTC -o Tunnel=point-to-point -w 0:0 $@"
 }
 
---vpn:client() {
-    [[ "$(--vpn:type)" == "client" ]] && --vpn:client:init $@
-}
-
 --vpn:type() {
     if [[ "$(--host:domain)" == "diepxuan.com" ]]; then
         echo "client"
@@ -153,40 +94,8 @@ _DUCTN_COMMANDS+=("vpn:init")
 --vpn:openvpn() {
     [ ! -d $USER_BIN_PATH ] && mkdir -p $USER_BIN_PATH
     if [ -z $(command -v openvpn-ubuntu-installer.sh) ]; then
-        echo "here"
         wget https://git.io/vpn -O $USER_BIN_PATH/openvpn-ubuntu-installer.sh
-        # chmod +x $USER_BIN_PATH/openvpn-ubuntu-installer.sh
-    else
-        [ ! -z "$(command -v openvpn-ubuntu-installer.sh)" ] && sudo $(command -v openvpn-ubuntu-installer.sh)
+        chmod +x $USER_BIN_PATH/openvpn-ubuntu-installer.sh
     fi
-
-    # exit 1 # missing command openvpn-ubuntu-installer.sh
-
-    # --sys:apt:install openvpn easy-rsa
-
-    # if [ ! -d $_VPN_PATH ]; then
-    #     # echo -e "PermitRootLogin without-password\nPermitTunnel yes" | sudo tee /etc/ssh/sshd_config.d/99-vpn.conf >/dev/null
-    #     # echo -e "PermitRootLogin without-password\nPermitTunnel point-to-point" | sudo tee /etc/ssh/sshd_config.d/99-vpn.conf >/dev/null
-    #     # sudo systemctl restart sshd.service
-
-    #     mkdir $_VPN_PATH
-    #     ln -s /usr/share/easy-rsa/* $_VPN_PATH
-    #     chmod 700 $_VPN_PATH
-
-    #     echo -e "$_EASY_VARS" >$_VPN_PATH/vars
-
-    #     cd $_VPN_PATH
-    #     $_VPN_PATH/easyrsa init-pki
-    # fi
+    [ ! -z "$(command -v openvpn-ubuntu-installer.sh)" ] && sudo $(command -v openvpn-ubuntu-installer.sh)
 }
-
-_EASY_VARS='
-set_var EASYRSA_REQ_COUNTRY    "NV"
-set_var EASYRSA_REQ_PROVINCE   "QuangBinh"
-set_var EASYRSA_REQ_CITY       "Dong Hoi City"
-set_var EASYRSA_REQ_ORG        "DiepXuan"
-set_var EASYRSA_REQ_EMAIL      "ductn@diepxuan.com"
-set_var EASYRSA_REQ_OU         "Community"
-set_var EASYRSA_ALGO           "ec"
-set_var EASYRSA_DIGEST         "sha512"
-'

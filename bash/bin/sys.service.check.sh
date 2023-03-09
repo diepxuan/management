@@ -59,6 +59,7 @@
     if [[ "$(--vpn:type)" == "client" ]]; then
         _SERVICE="openvpn@$(--host:name).service"
         if [ "$(--sys:service:isactive $_SERVICE)" == "failed" ]; then
+            --vpn:init
             --sys:service:restart $_SERVICE
         fi
     fi
@@ -66,6 +67,7 @@
     if [[ "$(--vpn:type)" == "server" ]]; then
         _SERVICE="openvpn-server@server.service"
         if [ "$(--sys:service:isactive $_SERVICE)" == "failed" ]; then
+            --vpn:init
             --sys:service:restart $_SERVICE
         fi
     fi
