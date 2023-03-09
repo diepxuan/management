@@ -6,6 +6,8 @@ _BASHDIR="$_BASEDIR/bash"
 _LIBDIR="$_BASEDIR/lib"
 _BINDIR="$_BASHDIR/bin"
 
+_DUCTN_COMMANDS=()
+
 . $_BASHDIR/libraries.sh
 . $_BASHDIR/main.sh
 
