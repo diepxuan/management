@@ -20,7 +20,7 @@
 }
 
 --echo() {
-    echo -e $@ >$(tty)
+    echo -e $@ 2>/dev/null
 }
 
 --debug() {
