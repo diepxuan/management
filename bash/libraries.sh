@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-. $_BASHDIR/environment.sh
-
 --init() {
-    mkdir -p $DIRTMP
-    sudo chmod 777 -R $DIRTMP
+    mkdir -p /tmp/ductn
+    sudo chmod 777 -R /tmp/ductn
 
-    --sys:env:import
+    --import
+    --install
 }
 
 --import() {
@@ -20,6 +19,9 @@
             fi
         done
     fi
+
+    # Load default environment
+    . $_BASHDIR/environment.sh
 }
 
 --install() {
@@ -30,7 +32,4 @@
     --sys:service:install
 }
 
---import
 --init
-
---install

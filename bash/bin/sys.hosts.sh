@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
+ETC_HOSTS=/etc/hosts
+
 # sed -i 's/var=.*/var=new_value/' file_name
 
 _DUCTN_COMMANDS+=("sys:hosts:add")

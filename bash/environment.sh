@@ -14,17 +14,17 @@ DEV=0
 USER_BIN_PATH=/home/ductn/bin
 LOCAL_BIN_PATH=/usr/local/bin
 DIRTMP=/tmp/ductn
-ETC_HOSTS=/etc/hosts
 
 SERVICE_DESC="Ductn service"
 SERVICE_NAME=ductnd
 # SERVICE_PATH="/var/www/base/bash/ductn.sh run_as_service"
 SERVICE_PATH="$LOCAL_BIN_PATH/ductn run_as_service"
 
-_DUCTN_COMMANDS=()
+# Ket noi den vpn server
+# _IPTUNEL="pve2:1.1.1.1"
 
-_IPTUNEL="pve2:34.170.109.33"
+# Danh sach domain luon luon allow
+# DDNS_DOMAINS="domain1.diepxuan.com domain2.diepxuan.com"
 
-_HOSTS=("pve2.vpn:34.170.109.33")
-
-_DDNS_DOMAINS="dc1.diepxuan.com dc2.diepxuan.com dc3.diepxuan.com dx1.diepxuan.com dx2.diepxuan.com dx3.diepxuan.com sql1.diepxuan.com sql2.diepxuan.com"
+# Load user environment
+--sys:env:import

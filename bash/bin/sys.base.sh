@@ -18,8 +18,7 @@
     git fetch -ap
     git reset --hard origin/master
     --git:configure
-
-    echo "DEV=1" >>$_BASEDIR/.env
+    --sys:env DEV 1
 }
 
 --sys:base:bin() {
