@@ -2,6 +2,7 @@
 #!/bin/bash
 
 # _VPN_PATH=~/easy-rsa
+_IPTUNEL="pve2:34.170.109.33"
 
 _DUCTN_COMMANDS+=("vpn:init")
 --vpn:init() {
