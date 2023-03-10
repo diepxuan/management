@@ -26,5 +26,8 @@ SERVICE_PATH="$LOCAL_BIN_PATH/ductn run_as_service"
 # Danh sach domain luon luon allow
 # DDNS_DOMAINS="domain1.diepxuan.com domain2.diepxuan.com"
 
+NAT="3389:10.0.pve.10"
+NAT="1433:10.0.pve.11"
+
 # Load user environment
 --sys:env:import
