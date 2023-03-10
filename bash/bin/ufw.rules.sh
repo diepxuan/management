@@ -202,9 +202,14 @@ WantedBy=multi-user.target" | sudo tee /usr/lib/systemd/system/ductn-iptables.se
     echo "-A OUTPUT -m limit --limit 3/minute --limit-burst 3 -j LOG --log-prefix \"IPT OUTPUT packet died: \""
 
     echo "-t nat -A POSTROUTING -o $INET_IFACE -j SNAT --to-source $INET_IP"
-    echo "-t nat -A PREROUTING -p TCP -i $INET_IFACE -d $INET_IP --dport 3389 -j DNAT --to-destination $DMZ_IP"
     echo "-t nat -A PREROUTING -p TCP -i $INET_IFACE -d $INET_IP --dport 53 -j DNAT --to-destination $DMZ_IP"
     echo "-t nat -A PREROUTING -p UDP -i $INET_IFACE -d $INET_IP --dport 53 -j DNAT --to-destination $DMZ_IP"
+
+    # NAT port to vm client
+    for nat in $(--sys:env nat); do
+        port=${nat#*:} # remove prefix ending in "_"
+        [[ -n $port ]] && echo "-t nat -A PREROUTING -p TCP -i $INET_IFACE -d $INET_IP --dport $port -j DNAT --to-destination $DMZ_IP"
+    done
 
     # echo "-t nat -A PREROUTING -i $INET_IFACE -s 192.168.0.0/16 -j DROP"
     # echo "-t nat -A PREROUTING -i $INET_IFACE -s 10.0.0.0/8 -j DROP"
