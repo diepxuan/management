@@ -69,8 +69,8 @@ _DUCTN_COMMANDS+=("ufw:iptables")
             # port=$(echo $nat | cut -d':' -f 1)
             # address=$(echo $nat | cut -d':' -f 2)
 
-            port=${nat#*:}    # remove prefix ending in "_"
-            address=${nat%:*} # remove suffix starting with "_"
+            port=${nat%:*}    # remove suffix starting with "_"
+            address=${nat#*:} # remove prefix ending in "_"
 
             [[ -n $port ]] && [[ -n $address ]] && _rule_out "-t nat -A PREROUTING -p TCP --dport $port -j DNAT --to-destination $address"
         done
@@ -207,7 +207,7 @@ WantedBy=multi-user.target" | sudo tee /usr/lib/systemd/system/ductn-iptables.se
 
     # NAT port to vm client
     for nat in $(--sys:env nat); do
-        port=${nat#*:} # remove prefix ending in "_"
+        port=${nat%:*} # remove suffix starting with "_"
         [[ -n $port ]] && echo "-t nat -A PREROUTING -p TCP -i $INET_IFACE -d $INET_IP --dport $port -j DNAT --to-destination $DMZ_IP"
     done
 
