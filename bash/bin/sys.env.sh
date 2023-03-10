@@ -1,27 +1,43 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-DDNS_DOMAINS="dc1.diepxuan.com dc2.diepxuan.com dc3.diepxuan.com dx1.diepxuan.com dx2.diepxuan.com dx3.diepxuan.com sql1.diepxuan.com sql2.diepxuan.com"
+DDNS_DOMAINS="$DDNS_DOMAINS dc1.diepxuan.com dc2.diepxuan.com dc3.diepxuan.com dx1.diepxuan.com dx2.diepxuan.com dx3.diepxuan.com sql1.diepxuan.com sql2.diepxuan.com"
 
 _DUCTN_COMMANDS+=("sys:env")
 --sys:env() {
     if [[ $# == 1 ]]; then
-        echo -e "${!@}"
+        case "$@" in
+        domains | DDNS_DOMAINS)
+            # echo hehe
+            # echo -e "$(--sys:env:domains)"
+            echo -e "$DDNS_DOMAINS" | xargs
+            ;;
+        NAT | nat)
+            echo -e "$(--sys:env:multi NAT)"
+            ;;
+        *)
+            echo -e "${!@}" | xargs
+            ;;
+        esac
     elif [[ $# > 1 ]]; then
-        _PARAM=$1
-        _VALUE=""
+        --sys:env:set $@
+    fi
+}
 
-        for val in "$@"; do
-            if [[ ! $_PARAM == $val ]]; then
-                [[ $_VALUE == "" ]] && _VALUE=$val || _VALUE="$_VALUE $val"
-            fi
-        done
+--sys:env:set() {
+    _PARAM=$1
+    _VALUE=""
 
-        if [[ ! -n $(grep -P "$1" $_BASEDIR/.env) ]]; then
-            echo "$_PARAM=\"$_VALUE\"" >>$_BASEDIR/.env
-        else
-            sed -i -E "s/$_PARAM=.*/$_PARAM=\"$_VALUE\"/" $_BASEDIR/.env
+    for val in "$@"; do
+        if [[ ! $_PARAM == $val ]]; then
+            [[ $_VALUE == "" ]] && _VALUE=$val || _VALUE="$_VALUE $val"
         fi
+    done
+
+    if [[ ! -n $(grep -P "$1" $_BASEDIR/.env) ]]; then
+        echo "$_PARAM=\"$_VALUE\"" >>$_BASEDIR/.env
+    else
+        sed -i -E "s/$_PARAM=.*/$_PARAM=\"$_VALUE\"/" $_BASEDIR/.env
     fi
 }
 
@@ -60,10 +76,25 @@ _DUCTN_COMMANDS+=("sys:env")
     fi
 }
 
+--sys:env:multi() {
+    _PARAM=$@
+    _VALUE=()
+    if [[ ! -z $_PARAM ]] && [[ -f $_BASEDIR/.env ]]; then
+        while read -r _env; do
+            if [[ $_env =~ ^$_PARAM* ]]; then
+                # echo $_PARAM
+                _env=${_env//"$_PARAM="/}
+                _env=${_env//'"'/}
+                echo $_env
+            fi
+        done <"$_BASEDIR/.env"
+    fi
+}
+
 --sys:env:debug() {
-    echo $DEBUG
+    --sys:env DEBUG
 }
 
 --sys:env:dev() {
-    echo $DEV
+    --sys:env DEV
 }

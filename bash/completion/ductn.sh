@@ -31,8 +31,8 @@ _ductn() {
             opts="${opts} --install --configure --pull --push"
             ;;
 
-        ssh:install)
-            opts="${opts}"
+        ssh:env)
+            opts="${opts} domains DDNS_DOMAINS nat NAT"
             ;;
 
         httpd:restart)

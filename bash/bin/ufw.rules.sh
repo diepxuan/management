@@ -14,11 +14,15 @@ _DUCTN_COMMANDS+=("ufw:iptables")
     function _rule_out() {
         # echo -e "$@"
         while IFS= read -r _rule; do
+            _rule=${_rule//'.pve.'/".$_SRV_NUM."}
+
             # [[ -n $_rule ]] && echo -e "ExecStart=$iptables_path\t$_rule" | sudo tee -a /usr/lib/systemd/system/ductn-iptables.service
             [[ -n $_rule ]] && iptables_rules_HEAD="$iptables_rules_HEAD\nExecStart=$iptables_path $_rule"
+
             _rule=${_rule//'-A '/'-D '}
             _rule=${_rule//'-I '/'-D '}
             _rule=${_rule//'-N '/'-X '}
+
             # [[ -n $_rule ]] && echo -e "ExecStop=$iptables_path\t$_rule" | sudo tee -a /usr/lib/systemd/system/ductn-iptables.service
             [[ -n $_rule ]] && iptables_rules_FOOT="ExecStop=$iptables_path $_rule\n$iptables_rules_FOOT"
         done <<<"$@"
@@ -52,12 +56,24 @@ _DUCTN_COMMANDS+=("ufw:iptables")
     ######### VPN Firewall Site-to-Site #########
     if [[ $(--host:is_server) == 1 ]]; then
         # Allow internet access for vm clients
-        _rule_out "-t nat -A POSTROUTING -s '10.0.$_SRV_NUM.0/24' -o vmbr0 -j MASQUERADE"
+        _rule_out "-t nat -A POSTROUTING -s '10.0.pve.0/24' -o vmbr0 -j MASQUERADE"
         _rule_out "-t raw -I PREROUTING -i fwbr+ -j CT --zone 1"
-        [[ "$(ip tuntap show | grep tun0)" != "" ]] && _rule_out "-t nat -A POSTROUTING -s '10.0.$_SRV_NUM.0/24' -o tun0 -j MASQUERADE"
+        [[ "$(ip tuntap show | grep tun0)" != "" ]] && _rule_out "-t nat -A POSTROUTING -s '10.0.pve.0/24' -o tun0 -j MASQUERADE"
+
         # NAT port to vm client
-        _rule_out "-t nat -A PREROUTING -p TCP --dport 3389 -j DNAT --to-destination 10.0.$_SRV_NUM.10"
-        _rule_out "-t nat -A PREROUTING -p TCP --dport 1433 -j DNAT --to-destination 10.0.$_SRV_NUM.11"
+        for nat in $(--sys:env nat); do
+            # IFS=':' read -r -a array <<<$nat
+            # port="${array[0]}"
+            # address="${array[1]}"
+
+            # port=$(echo $nat | cut -d':' -f 1)
+            # address=$(echo $nat | cut -d':' -f 2)
+
+            port=${nat#*:}    # remove prefix ending in "_"
+            address=${nat%:*} # remove suffix starting with "_"
+
+            [[ -n $port ]] && [[ -n $address ]] && _rule_out "-t nat -A PREROUTING -p TCP --dport $port -j DNAT --to-destination $address"
+        done
     fi
 
     ######### VPN Firewall DMZ to Pve server #########
@@ -91,6 +107,7 @@ RemainAfterExit=yes
 WantedBy=multi-user.target" | sudo tee /usr/lib/systemd/system/ductn-iptables.service
 
     # sudo  systemctl enable --now ductn-iptables.service
+    # cat /usr/lib/systemd/system/ductn-iptables.service
 
     sudo systemctl daemon-reload
     sudo systemctl enable ductn-iptables
