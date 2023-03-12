@@ -1,2 +1,10 @@
 .idea
 .env
+
+**/debian/ductn.substvars
+**/debian/debhelper-build-stamp
+**/debian/files
+**/debian/patches
+**/debian/ductn
+**/debian/.debhelper
+**/.pc
