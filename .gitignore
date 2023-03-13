@@ -8,3 +8,7 @@
 **/debian/ductn
 **/debian/.debhelper
 **/.pc
+
+**/*_amd64.build
+**/*_amd64.build
+**/*_amd64.buildinfo

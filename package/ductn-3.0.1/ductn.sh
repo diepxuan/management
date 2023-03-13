@@ -4,7 +4,6 @@
 _BASEDIR="/var/www/base"
 _BASHDIR="$_BASEDIR/bash"
 _LIBDIR="$_BASEDIR/lib"
-_BINDIR="$_BASHDIR/bin"
 
 _DUCTN_COMMANDS=()
 
@@ -16,14 +15,13 @@ _MYSQL_REPLICATE_HOST=0
 DEBUG=0
 DEV=0
 
-USER_BIN_PATH=/home/ductn/bin
-LOCAL_BIN_PATH=/usr/local/bin
+USER_BIN_PATH=~/bin
 DIRTMP=/tmp/ductn
 
 SERVICE_DESC="Ductn service"
 SERVICE_NAME=ductnd
 # SERVICE_PATH="/var/www/base/bash/ductn.sh run_as_service"
-SERVICE_PATH="$LOCAL_BIN_PATH/ductn run_as_service"
+SERVICE_PATH="ductn run_as_service"
 
 # Ket noi den vpn server
 # _IPTUNEL="pve2:1.1.1.1"
@@ -2481,18 +2479,6 @@ _DUCTN_COMMANDS+=("sys:vm:enable")
     sudo systemctl enable qemu-guest-agent
     sudo systemctl restart qemu-guest-agent
 }
-
-_DUCTN_COMMANDS+=("sys:vm:new")
---sys:vm:new() {
-    --ssh:copy $1@$2
-    ssh $1@$2 "sudo mkdir -p $_BASEDIR"
-    ssh $1@$2 "sudo chown -R ductn:ductn $_BASEDIR"
-    ssh $1@$2 "git archive --remote=git@bitbucket.org:DXVN/code.git master | tar -x -C $_BASEDIR"
-    ssh $1@$2 "$_BASHDIR/ductn user:new ductn"
-    ssh $1@$2 "$_BASHDIR/ductn sys:init"
-}
-#!/usr/bin/env bash
-#!/bin/bash
 
 _DUCTN_COMMANDS+=("ufw:fail2ban:install")
 --ufw:fail2ban:install() {
