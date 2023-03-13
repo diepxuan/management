@@ -5,13 +5,6 @@ _BASEDIR="/var/www/base"
 _BASHDIR="$_BASEDIR/bash"
 _LIBDIR="$_BASEDIR/lib"
 
-_DUCTN_COMMANDS=()
-
-_MYSQL_REPLICATE=""
-_MYSQL_REPLICATE_TOOGLE=""
-_MYSQL_REPLICATE_TOOGLE=""
-_MYSQL_REPLICATE_HOST=0
-
 USER_BIN_PATH=~/bin
 DIRTMP=/tmp/ductn
 
@@ -28,9 +21,6 @@ SERVICE_PATH="ductn run_as_service"
 
 NAT="3389:10.0.pve.10"
 NAT="1433:10.0.pve.11"
-
-#!/usr/bin/env bash
-#!/bin/bash
 
 # printf "I ${RED}love${NC} Stack Overflow\n"
 # echo -e "I ${RED}love${NC} Stack Overflow"
@@ -2185,56 +2175,22 @@ _DUCTN_COMMANDS+=("sys:init")
 --sys:init() {
     sudo timedatectl set-timezone Asia/Ho_Chi_Minh
 
-    sudo chown -R ductn:ductn $_BASEDIR
-    chmod +x $_BASHDIR/*
-
     --user:config $(whoami)
-    rm -rf ~/.vimrc
-    # ln $_BASHDIR/.vimrc ~/.vimrc
-    # chmod 644 ~/.vimrc
 
     --sys:sysctl >/dev/null
     --ufw:iptables >/dev/null
     --git:configure
 
-    if [ "$(whoami)" = "ductn" ]; then
-        --user:config:admin
-    fi
-
     --server() {
         --cron:install
         --httpd:config
         --ssh:install
-        # ./bash/ductn --update allowip
-        # else
-        # sudo mkdir -p /etc/auto.master.d/
-        # echo "/dxvn /etc/auto.master.d/dxvn.sshfs --timeout=30" | sudo tee /etc/auto.master.d/dxvn.autofs
-        # echo "luong -fstype=nfs,rw,soft,intr,IdentityFile=/home/ductn/.ssh/id_rsa dx1.diepxuan.com:public_html" | sudo tee /etc/auto.master.d/dxvn.sshfs
-
-        # use /etc/fstab
-        # sudo mkdir -p /dxvn/luong
-        # ductn@dx1.diepxuan.com:/home/ductn/public_html  /dxvn/luong  fuse.sshfs  defaults  0  0
     }
 
-    # if [ "$(whoami)" = "ductn" ]; then
-    # $_BASHDIR/ductn hosts remove 10.8.0.3 dx2
-    # $_BASHDIR/ductn hosts remove 10.8.0.2 dx1
-    # $_BASHDIR/ductn hosts remove 10.8.0.1 dx3
-    # $_BASHDIR/ductn hosts remove 10.8.0.10 vn11
-    # $_BASHDIR/ductn hosts remove 10.8.0.11 mg15
-    # $_BASHDIR/ductn hosts remove 10.8.0.12 mg15kt
-
-    # $_BASHDIR/ductn hosts remove 10.8.0.2 dx1.diepxuan.com
-    # $_BASHDIR/ductn hosts remove 10.8.0.3 dx2.diepxuan.com
-    # $_BASHDIR/ductn hosts remove 10.8.0.1 dx3.diepxuan.com
-    # fi
     if [[ -n "$*" ]]; then
         "--$*"
     fi
 }
-# . $_BASHDIR/sys.sysctl
-#!/usr/bin/env bash
-#!/bin/bash
 
 _DUCTN_COMMANDS+=("sys:sysctl")
 --sys:sysctl() {
@@ -3411,26 +3367,18 @@ _DUCTN_COMMANDS+=("user:new")
 _DUCTN_COMMANDS+=("user:config")
 --user:config() {
     if [[ ${1} = "ductn" ]]; then
+        --user:config:ssh ${1}
         --user:config:admin
 
         sudo usermod -aG mssql ${1} >/dev/null 2>&1
     fi
 
     --user:config:bash ${1}
-    --user:config:ssh ${1}
     --user:config:chmod ${1}
 }
 
 --user:config:bash() {
     sudo sed -i 's/.*force_color_prompt\=.*/force_color_prompt\=yes/' /home/${1}/.bashrc >/dev/null
-
-    sudo touch /home/${1}/.bash_aliases
-    echo -e "#!/usr/bin/env bash\n#!/bin/bash\n\n. $_BASHDIR/.bash_aliases" | sudo tee /home/${1}/.bash_aliases >/dev/null
-
-    sudo chmod 644 /home/${1}/.bash_aliases
-    sudo chown -R ${1}:${1} /home/${1}/.bash_aliases
-
-    [ "$(whoami)" = "$1" ] && source /home/${1}/.bashrc
 }
 
 --user:config:ssh() {
