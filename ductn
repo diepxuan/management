@@ -23,8 +23,8 @@ if [ -d /var/lib/ductn ]; then
     done
 fi
 
-if [ -d /var/www/base/var/lib/ductn ]; then
-    for f in /var/lib/*.sh; do
+if [ -d /var/www/base/var/lib ]; then
+    for f in /var/www/base/var/lib/*.sh; do
         [[ -f $f ]] && source $f
     done
 fi
