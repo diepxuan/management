@@ -1,5 +1,11 @@
-ductn (3.0.1-1) unstable; urgency=medium
+ductn (3.0.1ppa1-1) focal; urgency=medium
 
-  * Initial release (Closes: 3.0.1)
+  * Initial release (Closes: 3.0.1ppa1)
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 12 Mar 2023 18:03:21 +0700
+
+ductn (3.0.1-ubuntu1.1) focal; urgency=medium
+
+  * Update config to build package in Ubuntu 20.04
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 13 Mar 2023 13:21:00 +0700
