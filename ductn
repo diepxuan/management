@@ -12,9 +12,6 @@ _MYSQL_REPLICATE_TOOGLE=""
 _MYSQL_REPLICATE_TOOGLE=""
 _MYSQL_REPLICATE_HOST=0
 
-DEBUG=0
-DEV=0
-
 USER_BIN_PATH=~/bin
 DIRTMP=/tmp/ductn
 
@@ -206,7 +203,6 @@ On_IWhite='\033[0;107m'  # White
 # |         48 | 8/24     |                    This is for special use of 8-bit or 24-bit                                            |                                                                                       |
 # |------------+----------+---------+-------+------------------+------------------------------+--------------------------------------|
 
-
 --init() {
     mkdir -p /tmp/ductn
     sudo chmod 777 -R /tmp/ductn
@@ -368,7 +364,6 @@ _DUCTN_COMMANDS+=("cloudflare:get:recordIP")
     --sys:ufw
     # --dns:update
     --ddns:update
-    [[ $(ductn sys:env:debug) -eq 0 ]] && --sys:selfupdate
 }
 
 --cron:cronjob:hour() {
@@ -464,7 +459,7 @@ NS2=false
     --force() {
         DEV=1
     }
-    $@
+    "$@"
     --dns:init
     --dns:_update
 }
@@ -704,7 +699,7 @@ _DUCTN_COMMANDS+=("host:fullname")
 
 _DUCTN_COMMANDS+=("host:address")
 --host:address() {
-    if [[ ! -z ${@+x} ]]; then
+    if [[ -n "$*" ]]; then
         --host:address:valid $(host $@ | grep -wv -e alias | cut -f4 -d' ')
         exit 0
     fi
@@ -712,12 +707,12 @@ _DUCTN_COMMANDS+=("host:address")
 }
 
 --host:address:valid() {
-    --ip:valid $@
+    --ip:valid "$@"
 }
 
 #_DUCTN_COMMANDS+=("host:ip")
 --host:ip() {
-    --host:address $@
+    --host:address "$@"
 }
 
 --host:is_server() {
@@ -726,25 +721,6 @@ _DUCTN_COMMANDS+=("host:address")
 
 --host:is_vpn_server() {
     [[ $(--host:fullname) =~ ^pve[0-9].vpn$ ]] && echo 1 || echo 0
-}
-#!/usr/bin/env bash
-#!/bin/bash
-
-# copy from https://gist.github.com/irazasyed/a7b0a079e7727a4315b9
-
-_DUCTN_COMMANDS+=("hosts:remove")
---hosts:remove() {
-    --sys:hosts:remove $1 $2
-}
-
-_DUCTN_COMMANDS+=("hosts:add")
---hosts:add() {
-    --sys:hosts:add $1 $2
-}
-
-_DUCTN_COMMANDS+=("hosts")
---hosts() {
-    "--hosts:$@"
 }
 #!/usr/bin/env bash
 #!/bin/bash
@@ -979,9 +955,6 @@ _DUCTN_COMMANDS+=("log:cleanup")
     #dpkg-query -l |grep linux-im*|awk '{print $2}'
     # apt-get purge $(dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | head -n -1) --assume-yes
     # apt-get install linux-headers-`uname -r|cut -d'-' -f3`-`uname -r|cut -d'-' -f4`
-
-    #Cleaning is completed
-    --debug "Cleaning is completed"
 }
 
 _DUCTN_COMMANDS+=("log:config")
@@ -1430,17 +1403,17 @@ _DUCTN_COMMANDS+=("ssl:configure")
 
 --ssl:pull() {
     sudo mkdir -p /etc/letsencrypt/live/diepxuan.com/
-    ssh $@ "sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem" | sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem
-    ssh $@ "sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem" | sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem
-    ssh $@ "sudo cat /etc/letsencrypt/live/diepxuan.com/fullchain.pem" | sudo tee /etc/letsencrypt/live/diepxuan.com/fullchain.pem
-    ssh $@ "sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem" | sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem
+    ssh "$@" "sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem" | sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem
+    ssh "$@" "sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem" | sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem
+    ssh "$@" "sudo cat /etc/letsencrypt/live/diepxuan.com/fullchain.pem" | sudo tee /etc/letsencrypt/live/diepxuan.com/fullchain.pem
+    ssh "$@" "sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem" | sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem
 }
 
 --ssl:push() {
-    sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem"
-    sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem"
-    sudo cat /etc/letsencrypt/live/diepxuan.com/fullchain.pem | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/fullchain.pem"
-    sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem | ssh ${@} "sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem"
+    sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem | ssh "$@" "sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem"
+    sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem | ssh "$@" "sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem"
+    sudo cat /etc/letsencrypt/live/diepxuan.com/fullchain.pem | ssh "$@" "sudo tee /etc/letsencrypt/live/diepxuan.com/fullchain.pem"
+    sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem | ssh "$@" "sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem"
 }
 
 --ssl:upload() {
@@ -1467,125 +1440,6 @@ _DUCTN_COMMANDS+=("swap:install")
 }
 
 # free -m
-#!/usr/bin/env bash
-#!/bin/bash
-
-_DUCTN_COMMANDS+=("sys:ad:install")
---sys:ad:install() {
-    sudo apt install -y realmd libnss-sss libpam-sss sssd sssd-tools adcli samba-common-bin oddjob oddjob-mkhomedir packagekit
-
-    realm discover diepxuan.com
-    # Join Domain
-    --sys:ad:krb5conf
-    sudo realm join -U Administrator diepxuan.com
-
-    # Domain User Config
-    --sys:ad:mkhomedir
-    --sys:ad:sssd
-    sudo systemctl restart sssd
-
-    # Domain User Login
-    --sys:ad:sudoers
-    --sys:ad:sshd
-}
-
---sys:ad:krb5conf() {
-    --force() {
-        sudo rm -rf /etc/krb5.conf
-    }
-
-    $@
-    if [[ -f /etc/krb5.conf ]]; then
-        sudo sed -i 's/.*rdns.*/rdns = false/' /etc/krb5.conf
-    else
-        echo "[logging]
-default = FILE:/var/log/krb5libs.log
-kdc = FILE:/var/log/krb5kdc.log
-admin_server = FILE:/var/log/kadmind.log
-
-[libdefaults]
-udp_preference_limit = 0
-dns_lookup_realm = true
-dns_lookup_kdc = true
-ticket_lifetime = 24h
-renew_lifetime = 7d
-forwardable = true
-rdns = false
-default_realm = DIEPXUAN.COM
-default_ccache_name = KEYRING:persistent:%{uid}
-# default_ccache_name = FILE:/tmp/krb5cc_%{uid}
-
-[realms]
-DIEPXUAN.COM = {
-    kdc = DC.DIEPXUAN.COM:88
-    admin_server = DC.DIEPXUAN.COM
-    default_domain = DIEPXUAN.COM
-}
-
-[domain_realm]
-diepxuan.com = DIEPXUAN.COM
-.diepxuan.com = DIEPXUAN.COM
-" | sudo tee /etc/krb5.conf >/dev/null
-    fi
-}
-
---sys:ad:mkhomedir() {
-    echo "Name: Create home directory on login
-Default: yes
-Priority: 900
-Session-Type: Additional
-Session:
-        optional                        pam_mkhomedir.so skel=/etc/skel umask=077" | sudo tee /usr/share/pam-configs/mkhomedir >/dev/null
-    sudo pam-auth-update --enable mkhomedir
-}
-
---sys:ad:sssd() {
-    # access_provider = ad
-    sudo sed -i 's/.*use_fully_qualified_names.*/use_fully_qualified_names = True/' /etc/sssd/sssd.conf
-    sudo sed -i 's/.*fallback_homedir.*/fallback_homedir = \/home\/%d\/%u/' /etc/sssd/sssd.conf
-    sudo systemctl restart sssd
-}
-
---sys:ad:sudoers() {
-    sudo realm permit 'Domain Users' 'Users'
-    if [ "$(whoami)" = "ductn" ]; then
-        echo "
-%quantri@diepxuan.com           ALL=(ALL) NOPASSWD:ALL
-%Domain\ Admins@diepxuan.com    ALL=(ALL) NOPASSWD:ALL
-
-%DIEPXUAN.COM\\Domain\ Admins   ALL=(ALL) NOPASSWD:ALL
-%DIEPXUAN.COM\\Quantri          ALL=(ALL) NOPASSWD:ALL
-
-%Domain\ Admins                 ALL=(ALL) NOPASSWD:ALL
-%Quantri                        ALL=(ALL) NOPASSWD:ALL
-" | sudo tee /etc/sudoers.d/91-domain-admins >/dev/null
-    fi
-
-}
-
---sys:ad:sshd() {
-    # /etc/ssh/sshd_config.d/
-    echo "# Settings that override the global settings for matching groups only
-# AllowGroups diepxuan.com\Quantri
-Match Group Quantri
-    PasswordAuthentication yes
-" | sudo tee /etc/ssh/sshd_config.d/91-domain-admins.conf >/dev/null
-    sudo sed -i 's/.*PubkeyAuthentication/PubkeyAuthentication yes/' /etc/ssh/sshd_config
-    sudo sed -i 's/.*PasswordAuthentication/PasswordAuthentication no/' /etc/ssh/sshd_config
-
-    sudo sed -i 's/.*UsePAM yes/UsePAM no/' /etc/ssh/sshd_config
-
-    sudo sed -i 's/.*ChallengeResponseAuthentication\ yes/ChallengeResponseAuthentication\ no/' /etc/ssh/sshd_config
-    sudo sed -i 's/.*GSSAPIAuthentication.*/#GSSAPIAuthenticationc no/' /etc/ssh/sshd_config
-    sudo sed -i 's/.*GSSAPICleanupCredentials.*/#GSSAPICleanupCredentials yes/' /etc/ssh/sshd_config
-
-    sudo sed -i 's/.*KerberosAuthentication.*/#KerberosAuthentication yes/' /etc/ssh/sshd_config
-    sudo sed -i 's/.*KerberosOrLocalPasswd.*/#KerberosOrLocalPasswd yes/' /etc/ssh/sshd_config
-
-    sudo service sshd restart
-}
-#!/usr/bin/env bash
-#!/bin/bash
 
 _DUCTN_COMMANDS+=("sys:apt:fix")
 --sys:apt:fix() {
@@ -1616,19 +1470,19 @@ _DUCTN_COMMANDS+=("sys:apt:check")
 
 _DUCTN_COMMANDS+=("sys:apt:install")
 --sys:apt:install() {
-    if [[ "$(--sys:apt:check $@)" -eq 0 ]]; then
-        sudo apt install $@ -y --purge --auto-remove
+    if [[ "$(--sys:apt:check $*)" -eq 0 ]]; then
+        sudo apt install $* -y --purge --auto-remove
     fi
 }
 
 _DUCTN_COMMANDS+=("sys:apt:remove")
 --sys:apt:remove() {
-    sudo apt remove $@ -y --purge --auto-remove
+    sudo apt remove $* -y --purge --auto-remove
 }
 
 _DUCTN_COMMANDS+=("sys:apt:uninstall")
 --sys:apt:uninstall() {
-    --sys:apt:remove $@
+    --sys:apt:remove $*
 }
 
 --apt:fix() {
@@ -1881,7 +1735,7 @@ _DUCTN_COMMANDS+=("sys:disk:check512k")
     sudo proxmox-boot-tool status
 }
 --zfs:disk:replace_disk() {
-    --dlogger "replace_disk $_pool_name $_old_zfs_part $_new_zfs_part"
+    --logger "replace_disk $_pool_name $_old_zfs_part $_new_zfs_part"
     _pool_name=$1
     _old_zfs_part=$2
     _new_zfs_part=$3
@@ -1889,7 +1743,7 @@ _DUCTN_COMMANDS+=("sys:disk:check512k")
 }
 
 --zfs:disk:replace_boot_disk() {
-    --dlogger "replace_boot_disk"
+    --logger "replace_boot_disk"
     # Copying the partition table, reissuing GUIDs and replacing the ZFS partition are the same.
     # To make the system bootable from the new disk, different steps are needed which depend on the bootloader in use.
 
@@ -1899,7 +1753,7 @@ _DUCTN_COMMANDS+=("sys:disk:check512k")
 }
 
 --zfs:disk:format_boot_disk() {
-    --dlogger "format_boot_disk"
+    --logger "format_boot_disk"
     # ESP stands for EFI System Partition, which is setup as partition #2 on bootable disks setup by the Proxmox
 
     # sudo proxmox-boot-tool format /dev/sdb2
@@ -1997,16 +1851,6 @@ _DUCTN_COMMANDS+=("sys:env")
     fi
 }
 
---sys:env:debug() {
-    --sys:env DEBUG
-}
-
---sys:env:dev() {
-    --sys:env DEV
-}
-#!/usr/bin/env bash
-#!/bin/bash
-
 --test() {
     echo -e "ductn proccess version: $(--version)"
 }
@@ -2026,22 +1870,25 @@ _DUCTN_COMMANDS+=("sys:env")
 }
 
 --echo() {
-    echo -e $@ 2>/dev/null
+    echo -e "$@" 2>/dev/null
 }
 
---debug() {
-    if [[ $(--sys:env:dev) -eq 1 ]]; then
-        echo -e $@
-    fi
+# copy from https://gist.github.com/irazasyed/a7b0a079e7727a4315b9
+
+_DUCTN_COMMANDS+=("hosts:remove")
+--hosts:remove() {
+    --sys:hosts:remove $1 $2
 }
 
---dlogger() {
-    if [[ $(--sys:env:dev) -eq 1 ]]; then
-        logger "$@"
-    fi
+_DUCTN_COMMANDS+=("hosts:add")
+--hosts:add() {
+    --sys:hosts:add $1 $2
 }
-#!/usr/bin/env bash
-#!/bin/bash
+
+_DUCTN_COMMANDS+=("hosts")
+--hosts() {
+    "--hosts:$*"
+}
 
 ETC_HOSTS=/etc/hosts
 
@@ -2054,7 +1901,7 @@ _DUCTN_COMMANDS+=("sys:hosts:add")
 
     HOSTS_LINE="$IP\t$HOSTNAME"
 
-    if [[ ! -n $(grep -P "$IP[[:space:]]$HOSTNAME" $ETC_HOSTS) ]]; then
+    if [[ ! -n $(grep -P "${IP}[[:space:]]${HOSTNAME}" $ETC_HOSTS) ]]; then
         echo -e $HOSTS_LINE | sudo tee -a /etc/hosts >/dev/null
     fi
 
@@ -2341,10 +2188,6 @@ _DUCTN_COMMANDS+=("sys:init")
     sudo chown -R ductn:ductn $_BASEDIR
     chmod +x $_BASHDIR/*
 
-    echo -e "#!/usr/bin/env bash\n#!/bin/bash\n\n. $_BASHDIR/ductn" | sudo tee /usr/local/bin/ductn >/dev/null
-    sudo chown root:root /usr/local/bin/ductn
-    sudo chmod +x /usr/local/bin/ductn
-
     --user:config $(whoami)
     rm -rf ~/.vimrc
     # ln $_BASHDIR/.vimrc ~/.vimrc
@@ -2385,8 +2228,8 @@ _DUCTN_COMMANDS+=("sys:init")
     # $_BASHDIR/ductn hosts remove 10.8.0.3 dx2.diepxuan.com
     # $_BASHDIR/ductn hosts remove 10.8.0.1 dx3.diepxuan.com
     # fi
-    if [[ ! -z ${@+x} ]]; then
-        "--$@"
+    if [[ -n "$*" ]]; then
+        "--$*"
     fi
 }
 # . $_BASHDIR/sys.sysctl
@@ -3784,7 +3627,6 @@ _wsl:cli:install() {
     fi
     cat /var/www/base/bash/win10/shfmt.bat >/mnt/c/wslcli/shfmt.bat
 }
-
 
 --install() {
     --sys:apt:install jq
