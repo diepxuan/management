@@ -1496,15 +1496,6 @@ _DUCTN_COMMANDS+=("sys:disk:check512k")
 
     # sudo proxmox-boot-tool format /dev/sdb2
 }
-#!/usr/bin/env bash
-#!/bin/bash
-
---sys:env:domains() {
-    cat $ETC_PATH/domains
-}
---sys:env:nat() {
-    cat $ETC_PATH/nat
-}
 
 --test() {
     echo -e "ductn proccess version: $(--version)"
