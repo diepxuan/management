@@ -1,0 +1,11 @@
+Source: ductn
+Section: devel
+Priority: optional
+Maintainer: Tran Ngoc Duc <ductn@diepxuan.com>
+Build-Depends: debhelper-compat (= 12)
+Standards-Version: 3.0.1
+
+Package: ductn
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, net-tools, jq, curl
+Description: Ductn super package
