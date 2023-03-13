@@ -5,6 +5,7 @@ _BASEDIR="/var/www/base"
 _BASHDIR="$_BASEDIR/bash"
 _LIBDIR="$_BASEDIR/lib"
 
+ETC_PATH=/etc/ductn
 USER_BIN_PATH=~/bin
 DIRTMP=/tmp/ductn
 
@@ -16,193 +17,24 @@ SERVICE_PATH="ductn run_as_service"
 # Ket noi den vpn server
 # _IPTUNEL="pve2:1.1.1.1"
 
-# Danh sach domain luon luon allow
-# DDNS_DOMAINS="domain1.diepxuan.com domain2.diepxuan.com"
+if [ -d /var/lib/ductn ]; then
+    for f in /var/lib/*.sh; do
+        [[ -f $f ]] && source $f
+    done
+fi
 
-NAT="3389:10.0.pve.10"
-NAT="1433:10.0.pve.11"
-
-# printf "I ${RED}love${NC} Stack Overflow\n"
-# echo -e "I ${RED}love${NC} Stack Overflow"
-
-# Reset
-Color_Off='\033[0m' # Text Reset
-NC='\033[0m'        # No Color
-
-# Regular Colors
-Black='\033[0;30m'  # Black
-Red='\033[0;31m'    # Red
-Green='\033[0;32m'  # Green
-Yellow='\033[0;33m' # Yellow
-Blue='\033[0;34m'   # Blue
-Purple='\033[0;35m' # Purple
-Cyan='\033[0;36m'   # Cyan
-White='\033[0;37m'  # White
-
-# Bold
-BBlack='\033[1;30m'  # Black
-BRed='\033[1;31m'    # Red
-BGreen='\033[1;32m'  # Green
-BYellow='\033[1;33m' # Yellow
-BBlue='\033[1;34m'   # Blue
-BPurple='\033[1;35m' # Purple
-BCyan='\033[1;36m'   # Cyan
-BWhite='\033[1;37m'  # White
-
-# Underline
-UBlack='\033[4;30m'  # Black
-URed='\033[4;31m'    # Red
-UGreen='\033[4;32m'  # Green
-UYellow='\033[4;33m' # Yellow
-UBlue='\033[4;34m'   # Blue
-UPurple='\033[4;35m' # Purple
-UCyan='\033[4;36m'   # Cyan
-UWhite='\033[4;37m'  # White
-
-# Background
-On_Black='\033[40m'  # Black
-On_Red='\033[41m'    # Red
-On_Green='\033[42m'  # Green
-On_Yellow='\033[43m' # Yellow
-On_Blue='\033[44m'   # Blue
-On_Purple='\033[45m' # Purple
-On_Cyan='\033[46m'   # Cyan
-On_White='\033[47m'  # White
-
-# High Intensity
-IBlack='\033[0;90m'  # Black
-IRed='\033[0;91m'    # Red
-IGreen='\033[0;92m'  # Green
-IYellow='\033[0;93m' # Yellow
-IBlue='\033[0;94m'   # Blue
-IPurple='\033[0;95m' # Purple
-ICyan='\033[0;96m'   # Cyan
-IWhite='\033[0;97m'  # White
-
-# Bold High Intensity
-BIBlack='\033[1;90m'  # Black
-BIRed='\033[1;91m'    # Red
-BIGreen='\033[1;92m'  # Green
-BIYellow='\033[1;93m' # Yellow
-BIBlue='\033[1;94m'   # Blue
-BIPurple='\033[1;95m' # Purple
-BICyan='\033[1;96m'   # Cyan
-BIWhite='\033[1;97m'  # White
-
-# High Intensity backgrounds
-On_IBlack='\033[0;100m'  # Black
-On_IRed='\033[0;101m'    # Red
-On_IGreen='\033[0;102m'  # Green
-On_IYellow='\033[0;103m' # Yellow
-On_IBlue='\033[0;104m'   # Blue
-On_IPurple='\033[0;105m' # Purple
-On_ICyan='\033[0;106m'   # Cyan
-On_IWhite='\033[0;107m'  # White
-
-# |       | bash  | hex     | octal   | NOTE                         |
-# |-------+-------+---------+---------+------------------------------|
-# | start | \e    | \x1b    | \033    |                              |
-# | start | \E    | \x1B    | -       | x cannot be capital          |
-# | end   | \e[0m | \x1b[0m | \033[0m |                              |
-# | end   | \e[m  | \x1b[m  | \033[m  | 0 is appended if you omit it |
-# |       |       |         |         |                              |
-# regular usage: \033[32mThis is in green\033[0m
-# for PS0/1/2/4: \[\033[32m\]This is in green\[\033[m\]
-
-# | color       | bash         | hex            | octal          | NOTE                                  |
-# |-------------+--------------+----------------+----------------+---------------------------------------|
-# | start green | \e[32m<text> | \x1b[32m<text> | \033[32m<text> | m is NOT optional                     |
-# | reset       | <text>\e[0m  | <text>\1xb[0m  | <text>\033[om  | o is optional (do it as best practice |
-# |             |              |                |                |                                       |
-
-################# 24 bit #########################
-# |------------+-----------+-----------+---------+-------------+------------------------------------------+-----------------|
-# | foreground | octal     | hex       | bash    | description | example                                  | NOTE            |
-# |------------+-----------+-----------+---------+-------------+------------------------------------------+-----------------|
-# |      0-255 | \033[38;2 | \x1b[38;2 | \e[38;2 | R = red     | echo -e '\033[38;2;255;0;02m####\033[m'  | R=255, G=0, B=0 |
-# |      0-255 | \033[38;2 | \x1b[38;2 | \e[38;2 | G = green   | echo -e '\033[38;2;;0;255;02m####\033[m' | R=0, G=255, B=0 |
-# |      0-255 | \033[38;2 | \x1b[38;2 | \e[38;2 | B = blue    | echo -e '\033[38;2;0;0;2552m####\033[m'  | R=0, G=0, B=255 |
-# |------------+-----------+-----------+---------+-------------+------------------------------------------+-----------------|
-# | background | octal     | hex       | bash    | description | example                                  | NOTE            |
-# |------------+-----------+-----------+---------+-------------+------------------------------------------+-----------------|
-# |      0-255 | \033[48;2 | \x1b[48;2 | \e[48;2 | R = red     | echo -e '\033[48;2;255;0;02m####\033[m'  | R=255, G=0, B=0 |
-# |      0-255 | \033[48;2 | \x1b[48;2 | \e[48;2 | G = green   | echo -e '\033[48;2;;0;255;02m####\033[m' | R=0, G=255, B=0 |
-# |      0-255 | \033[48;2 | \x1b[48;2 | \e[48;2 | B = blue    | echo -e '\033[48;2;0;0;2552m####\033[m'  | R=0, G=0, B=255 |
-# |------------+-----------+-----------+---------+-------------+------------------------------------------+-----------------|
-
-################# 8 bit #########################
-# |------------+-----------+-----------+---------+------------------+------------------------------------+-------------------------|
-# | foreground | octal     | hex       | bash    | description      | example                            | NOTE                    |
-# |------------+-----------+-----------+---------+------------------+------------------------------------+-------------------------|
-# |        0-7 | \033[38;5 | \x1b[38;5 | \e[38;5 | standard. normal | echo -e '\033[38;5;1m####\033[m'   |                         |
-# |       8-15 |           |           |         | standard. light  | echo -e '\033[38;5;9m####\033[m'   |                         |
-# |     16-231 |           |           |         | more resolution  | echo -e '\033[38;5;45m####\033[m'  | has no specific pattern |
-# |    232-255 |           |           |         |                  | echo -e '\033[38;5;242m####\033[m' | from black to white     |
-# |------------+-----------+-----------+---------+------------------+------------------------------------+-------------------------|
-# | foreground | octal     | hex       | bash    | description      | example                            | NOTE                    |
-# |------------+-----------+-----------+---------+------------------+------------------------------------+-------------------------|
-# |        0-7 |           |           |         | standard. normal | echo -e '\033[48;5;1m####\033[m'   |                         |
-# |       8-15 |           |           |         | standard. light  | echo -e '\033[48;5;9m####\033[m'   |                         |
-# |     16-231 |           |           |         | more resolution  | echo -e '\033[48;5;45m####\033[m'  |                         |
-# |    232-255 |           |           |         |                  | echo -e '\033[48;5;242m####\033[m' | from black to white     |
-# |------------+-----------+-----------+---------+------------------+------------------------------------+-------------------------|
-# for code in {0..255}; do echo -e "\e[38;05;${code}m $code: Test"; done
-
-################# 3/4 bit #########################
-# |------------+----------+---------+-------+------------------+------------------------------+--------------------------------------|
-# | color-mode | octal    | hex     | bash  | description      | example (= in octal)         | NOTE                                 |
-# |------------+----------+---------+-------+------------------+------------------------------+--------------------------------------|
-# |          0 | \033[0m  | \x1b[0m | \e[0m | reset any affect | echo -e "\033[0m"            | 0m equals to m                       |
-# |          1 | \033[1m  |         |       | light (= bright) | echo -e "\033[1m####\033[m"  | -                                    |
-# |          2 | \033[2m  |         |       | dark (= fade)    | echo -e "\033[2m####\033[m"  | -                                    |
-# |------------+----------+---------+-------+------------------+------------------------------+--------------------------------------|
-# |  text-mode | ~        |         |       | ~                | ~                            | ~                                    |
-# |------------+----------+---------+-------+------------------+------------------------------+--------------------------------------|
-# |          3 | \033[3m  |         |       | italic           | echo -e "\033[3m####\033[m"  |                                      |
-# |          4 | \033[4m  |         |       | underline        | echo -e "\033[4m####\033[m"  |                                      |
-# |          5 | \033[5m  |         |       | blink (slow)     | echo -e "\033[3m####\033[m"  |                                      |
-# |          6 | \033[6m  |         |       | blink (fast)     | ?                            | not wildly support                   |
-# |          7 | \003[7m  |         |       | reverse          | echo -e "\033[7m####\033[m"  | it affects the background/foreground |
-# |          8 | \033[8m  |         |       | hide             | echo -e "\033[8m####\033[m"  | it affects the background/foreground |
-# |          9 | \033[9m  |         |       | cross            | echo -e "\033[9m####\033[m"  |                                      |
-# |------------+----------+---------+-------+------------------+------------------------------+--------------------------------------|
-# | foreground | ~        |         |       | ~                | ~                            | ~                                    |
-# |------------+----------+---------+-------+------------------+------------------------------+--------------------------------------|
-# |         30 | \033[30m |         |       | black            | echo -e "\033[30m####\033[m" |                                      |
-# |         31 | \033[31m |         |       | red              | echo -e "\033[31m####\033[m" |                                      |
-# |         32 | \033[32m |         |       | green            | echo -e "\033[32m####\033[m" |                                      |
-# |         33 | \033[33m |         |       | yellow           | echo -e "\033[33m####\033[m" |                                      |
-# |         34 | \033[34m |         |       | blue             | echo -e "\033[34m####\033[m" |                                      |
-# |         35 | \033[35m |         |       | purple           | echo -e "\033[35m####\033[m" | real name: magenta = reddish-purple  |
-# |         36 | \033[36m |         |       | cyan             | echo -e "\033[36m####\033[m" |                                      |
-# |         37 | \033[37m |         |       | white            | echo -e "\033[37m####\033[m" |                                      |
-# |------------+----------+---------+-------+------------------+------------------------------+--------------------------------------|
-# |         38 | 8/24     |                    This is for special use of 8-bit or 24-bit                                            |
-# |------------+----------+---------+-------+------------------+------------------------------+--------------------------------------|
-# | background | ~        |         |       | ~                | ~                            | ~                                    |
-# |------------+----------+---------+-------+------------------+------------------------------+--------------------------------------|
-# |         40 | \033[40m |         |       | black            | echo -e "\033[40m####\033[m" |                                      |
-# |         41 | \033[41m |         |       | red              | echo -e "\033[41m####\033[m" |                                      |
-# |         42 | \033[42m |         |       | green            | echo -e "\033[42m####\033[m" |                                      |
-# |         43 | \033[43m |         |       | yellow           | echo -e "\033[43m####\033[m" |                                      |
-# |         44 | \033[44m |         |       | blue             | echo -e "\033[44m####\033[m" |                                      |
-# |         45 | \033[45m |         |       | purple           | echo -e "\033[45m####\033[m" | real name: magenta = reddish-purple  |
-# |         46 | \033[46m |         |       | cyan             | echo -e "\033[46m####\033[m" |                                      |
-# |         47 | \033[47m |         |       | white            | echo -e "\033[47m####\033[m" |                                      |
-# |------------+----------+---------+-------+------------------+------------------------------+--------------------------------------|
-# |         48 | 8/24     |                    This is for special use of 8-bit or 24-bit                                            |                                                                                       |
-# |------------+----------+---------+-------+------------------+------------------------------+--------------------------------------|
+if [ -d /var/www/base/var/lib/ductn ]; then
+    for f in /var/lib/*.sh; do
+        [[ -f $f ]] && source $f
+    done
+fi
 
 --init() {
     mkdir -p /tmp/ductn
     sudo chmod 777 -R /tmp/ductn
 
-    --sys:env:import
     --install
 }
-
-#!/usr/bin/env bash
-#!/bin/bash
 
 CLFR_API="https://api.cloudflare.com/client/v4"
 
@@ -342,8 +174,6 @@ _DUCTN_COMMANDS+=("cloudflare:get:recordIP")
         # echo $record
     done
 }
-#!/usr/bin/env bash
-#!/bin/bash
 
 --cron:cronjob:min() {
     --sys:service:cron
@@ -365,68 +195,18 @@ _DUCTN_COMMANDS+=("cloudflare:get:recordIP")
     --ufw:geoip:configuration
 }
 
-# _DUCTN_COMMANDS+=("cron:service")
-# --cron:service() {
-#     --sys:service:cron
-# }
-
---cron:cronjob() {
-    --cron:cronjob:5min
-}
-
 _DUCTN_COMMANDS+=("cron:update")
 --cron:update() {
     --cron:cronjob:5min
 }
-
-_DUCTN_COMMANDS+=("cron:install")
---cron:install() { --cron:crontab:install; }
---cron:crontab:install() {
-    if [ ! "$(--sys:service:isactive)" == "active" ]; then
-        if [ "$(whoami)" = "ductn" ]; then
-            # chmod u+x $_BASHDIR/cronjob/*.sh
-            # chmod u+x $_BASHDIR/cronjob/cronjob
-            crontab $_BASHDIR/cronjob/cronjob.conf
-        fi
-    fi
-}
-
-_DUCTN_COMMANDS+=("cron:uninstall")
---cron:uninstall() { --cron:crontab:uninstall; }
---cron:crontab:uninstall() {
-    crontab -r
-    sudo service cron restart
-}
-#!/usr/bin/env bash
-#!/bin/bash
 
 _DUCTN_COMMANDS+=("ddns:update")
 --ddns:update() {
     --cloudflare:sync
 }
 
-# --ddns:_allow() {
-#     if [ "$(whoami)" = "ductn" ]; then
-#         # sudo ufw allow proto tcp from "$(--host:address $@)" to any port 1433
-#         sudo ufw allow from "$(--host:address $@)"
-#     fi
-# }
-
-# --ddns:update() {
-#     --ddns:allow
-# }
-
-# --ddns:allow() {
-#     for domain in "${DDNS_DOMAINS[@]}"; do
-#     for domain in $(--sys:env:domains); do
-#         --ddns:_allow $domain
-#     done
-# }
-#!/bin/bash
-
 NS1=false
 NS2=false
-# DEV=0
 
 --dns:init() {
     if [[ -z ${NS1+x} ]]; then return; else
@@ -954,7 +734,6 @@ _DUCTN_COMMANDS+=("log:config")
     --log:config:mssql
 
     sudo logrotate -f /etc/logrotate.d/ductn
-    [[ $(--sys:env:dev) -eq 1 ]] && sudo cat /var/lib/logrotate/status
 }
 
 --log:config:store() {
@@ -1488,45 +1267,14 @@ _DUCTN_COMMANDS+=("sys:apt:uninstall")
 
     sudo dpkg --configure -a
 }
-#!/usr/bin/env bash
-#!/bin/bash
 
---sys:base:upgrade() {
-    if [[ $(--sys:env:dev) -eq 1 ]]; then
-        --sys:base:dev
-    else
-        --sys:base:bin
-    fi
+_DUCTN_COMMANDS+=("sys:upgrade" "selfupdate")
+--selfupdate() { --sys:upgrade; }
+--sys:upgrade() {
+    sudo apt install --only-upgrade ductn -y --purge --auto-remove
     ductn sys:init
     ductn sys:service:re-install
-    exit 0
 }
-
---sys:base:dev() {
-    mkdir -p "$_BASEDIR"
-    cd "$_BASEDIR"
-    git fetch -ap
-    git reset --hard origin/master
-    --git:configure
-    --sys:env DEV 1
-}
-
---sys:base:bin() {
-    mkdir -p "$_BASEDIR"
-    cd "$_BASEDIR"
-    git archive --remote=git@bitbucket.org:DXVN/code.git master | tar -x -C "${_BASEDIR}"
-}
-
-_DUCTN_COMMANDS+=("sys:selfupdate" "selfupdate" "self-update")
---selfupdate() { --sys:selfupdate; }
---self-update() { --sys:selfupdate; }
---sys:selfupdate() {
-    if [[ $(--version:islatest) -eq 0 ]]; then
-        --sys:base:upgrade
-    fi
-}
-#!/usr/bin/env bash
-#!/bin/bash
 
 _DUCTN_COMMANDS+=("sys:completion" "sys:completion:commands")
 
@@ -1751,94 +1499,11 @@ _DUCTN_COMMANDS+=("sys:disk:check512k")
 #!/usr/bin/env bash
 #!/bin/bash
 
-DDNS_DOMAINS="$DDNS_DOMAINS dc1.diepxuan.com dc2.diepxuan.com dc3.diepxuan.com dx1.diepxuan.com dx2.diepxuan.com dx3.diepxuan.com sql1.diepxuan.com sql2.diepxuan.com"
-
-_DUCTN_COMMANDS+=("sys:env")
---sys:env() {
-    if [[ $# == 1 ]]; then
-        case "$@" in
-        domains | DDNS_DOMAINS)
-            # echo hehe
-            # echo -e "$(--sys:env:domains)"
-            echo -e "$DDNS_DOMAINS" | xargs
-            ;;
-        NAT | nat)
-            echo -e "$(--sys:env:multi NAT)"
-            ;;
-        *)
-            echo -e "${!@}" | xargs
-            ;;
-        esac
-    elif [[ $# > 1 ]]; then
-        --sys:env:set $@
-    fi
-}
-
---sys:env:set() {
-    _PARAM=$1
-    _VALUE=""
-
-    for val in "$@"; do
-        if [[ ! $_PARAM == $val ]]; then
-            [[ $_VALUE == "" ]] && _VALUE=$val || _VALUE="$_VALUE $val"
-        fi
-    done
-
-    if [[ ! -n $(grep -P "$1" $_BASEDIR/.env) ]]; then
-        echo "$_PARAM=\"$_VALUE\"" >>$_BASEDIR/.env
-    else
-        sed -i -E "s/$_PARAM=.*/$_PARAM=\"$_VALUE\"/" $_BASEDIR/.env
-    fi
-}
-
---sys:env:list() {
-    IFS=', ' read -r -a array <<<$(--sys:env "$@")
-    for item in "${array[@]}"; do
-        echo $item
-    done
-}
-
 --sys:env:domains() {
-    for domain in $(--sys:env:list "DDNS_DOMAINS"); do
-        echo $domain
-    done
+    cat $ETC_PATH/domains
 }
-
---sys:env:import() {
-    if [[ -f $_BASEDIR/.env ]]; then
-
-        # while read -r _env; do
-        #     if [[ ! $_env =~ ^#.* ]] && [[ $_env == *'='* ]]; then
-        #         # echo $_env
-        #         $_env= $(echo $_env | xargs) 2>/dev/null
-        #         IFS='=' read -r -a _array <<<$_env
-        #         _PARAM=$(echo "${_array[0]}" | xargs)
-        #         _VALUE="$(echo "${_array[1]}" | xargs)"
-        #         # eval $_PARAM=$_VALUE
-        #         eval "declare $_PARAM='$_VALUE'"
-        #         # echo ${!_PARAM}
-        #         # eval $_PARAM="$_VALUE"
-        #         # echo "$_PARAM=$_VALUE"
-        #     fi
-        # done <"$_BASEDIR/.env"
-
-        source $_BASEDIR/.env
-    fi
-}
-
---sys:env:multi() {
-    _PARAM=$@
-    _VALUE=()
-    if [[ ! -z $_PARAM ]] && [[ -f $_BASEDIR/.env ]]; then
-        while read -r _env; do
-            if [[ $_env =~ ^$_PARAM* ]]; then
-                # echo $_PARAM
-                _env=${_env//"$_PARAM="/}
-                _env=${_env//'"'/}
-                echo $_env
-            fi
-        done <"$_BASEDIR/.env"
-    fi
+--sys:env:nat() {
+    cat $ETC_PATH/nat
 }
 
 --test() {
@@ -2033,10 +1698,6 @@ _DUCTN_COMMANDS+=("sys:hosts:update")
         timer=$(($timer % 100000))
         # // Your statements go here
 
-        if [[ $(--sys:env:dev) -eq 1 ]]; then
-            logger "Service is $(--sys:service:isactive) $timer"
-        fi
-
         if [ $(($timer % 30)) = 0 ]; then
             --cron:cronjob:min
         fi
@@ -2094,6 +1755,8 @@ _DUCTN_COMMANDS+=("sys:service:re-install")
     --sys:service:unistall
     --sys:service:install
 }
+
+# _DUCTN_SERVICE
 
 _DUCTN_COMMANDS+=("sys:service:install")
 --sys:service:install() {
@@ -2223,7 +1886,6 @@ _DUCTN_COMMANDS+=("sys:ufw:cleanup")
 
 _DUCTN_COMMANDS+=("sys:ufw:allow")
 --sys:ufw:allow() {
-    # for domain in "${DDNS_DOMAINS[@]}"; do
     for domain in $(--sys:env:domains); do
         # echo $domain
         --sys:ufw:_allow $domain
@@ -2535,7 +2197,7 @@ _DUCTN_COMMANDS+=("ufw:iptables")
         [[ "$(ip tuntap show | grep tun0)" != "" ]] && _rule_out "-t nat -A POSTROUTING -s '10.0.pve.0/24' -o tun0 -j MASQUERADE"
 
         # NAT port to vm client
-        for nat in $(--sys:env nat); do
+        for nat in $(--sys:env:nat); do
             # IFS=':' read -r -a array <<<$nat
             # port="${array[0]}"
             # address="${array[1]}"
@@ -2680,7 +2342,7 @@ WantedBy=multi-user.target" | sudo tee /usr/lib/systemd/system/ductn-iptables.se
     echo "-t nat -A PREROUTING -p UDP -i $INET_IFACE -d $INET_IP --dport 53 -j DNAT --to-destination $DMZ_IP"
 
     # NAT port to vm client
-    for nat in $(--sys:env nat); do
+    for nat in $(--sys:env:nat); do
         port=${nat%:*} # remove suffix starting with "_"
         [[ -n $port ]] && echo "-t nat -A PREROUTING -p TCP -i $INET_IFACE -d $INET_IP --dport $port -j DNAT --to-destination $DMZ_IP"
     done
@@ -3299,9 +2961,8 @@ WantedBy=multi-user.target" | sudo tee /usr/lib/systemd/system/ductn-iptables.se
 _DUCTN_COMMANDS+=("ufw:cleanup")
 --ufw:cleanup() {
     TYPE=$1
-
     DDNS_IPS=()
-    # for domain in "${DDNS_DOMAINS[@]}"; do
+
     for domain in $(--sys:env:domains); do
         IP="$(--host:address $domain)"
         DDNS_IPS+=($IP)
