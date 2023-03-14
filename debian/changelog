@@ -1,10 +1,14 @@
-ductn (3.0.1-ubuntu1-1) focal; urgency=medium
+ductn (3.0.1ubuntu1-2) focal; urgency=medium
 
   * Update config to build package in Ubuntu 20.04
-    - use APT to upgrade package
-    - remove all Cron functions
-    - add /etc/ductn/domains and update function for domains
-    - add /etc/ductn/nat and update function for that
-    - create /var/lib dir and move lib to it
+    Move in app functions to libraries
+    - ufw
+    - cloudflare
+    - env
+    - git config
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 13 Mar 2023 13:21:00 +0700
+    Check dev version to use before stable version
+    Remove unuse functions
+    - dns server
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com> 14/03/2023

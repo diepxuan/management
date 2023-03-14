@@ -1,3 +1,0 @@
-#!/bin/sh
-set -ex
-git read-tree --reset -u HEAD "$1"
