@@ -2,26 +2,20 @@
 #!/bin/bash
 
 --cron:cronjob:min() {
-    --sys:service:cron
+    --sys:service:valid
 }
 
 --cron:cronjob:5min() {
     --cron:install
     --sys:ufw
-    # --dns:update
-    --ddns:update
+    --cloudflare:sync
 }
 
 --cron:cronjob:hour() {
     # --ufw:geoip:configuration
-    --cron:service
+    --sys:service:valid
 }
 
 --cron:cronjob:month() {
     --ufw:geoip:configuration
-}
-
-_DUCTN_COMMANDS+=("cron:update")
---cron:update() {
-    --cron:cronjob:5min
 }
