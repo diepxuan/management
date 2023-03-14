@@ -3,8 +3,7 @@
 
 dpkg -s ductn 2>/dev/null | grep 'install ok installed' >/dev/null 2>&1
 if [ $? != 0 ]; then
-    sudo add-apt-repository ppa:caothu91/ppa
-    sudo apt install ductn -y --purge --auto-remove
+    curl -s https://diepxuan.github.io/ppa/install.sh | sudo bash
 else
     /usr/bin/ductn "$*"
 fi
