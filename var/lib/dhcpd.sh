@@ -26,7 +26,7 @@ _DUCTN_COMMANDS+=("sys:dhcp:setup")
     sudo rm -rf /var/run/dhcpd.pid
     --sys:service:restart isc-dhcp-server
 }
-_DHCPD_HOST=$(--host:name)
+_DHCPD_HOST=$(hostname -s)
 _DHCPD_HOST=${_DHCPD_HOST:3}
 _DHCPD_CONF="option domain-name \"diepxuan.com\";
 option domain-search \"diepxuan.com\";

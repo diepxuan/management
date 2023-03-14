@@ -1,12 +1,12 @@
 _DUCTN_COMMANDS+=("sys:completion" "sys:completion:commands")
 
---sys:completion() {
-    # [ $(--sys:completion:exists ductn) ] && --sys:completion:base
-    # [ $(--sys:completion:exists magerun) ] && --sys:completion:magerun
-    # [ $(--sys:completion:exists magerun2) ] && --sys:completion:magerun2
-    # [ $(--sys:completion:exists wp) ] && --sys:completion:wp
-    # [ $(--sys:completion:exists angular) ] && --sys:completion:angular
-}
+# --sys:completion() {
+# [ $(--sys:completion:exists ductn) ] && --sys:completion:base
+# [ $(--sys:completion:exists magerun) ] && --sys:completion:magerun
+# [ $(--sys:completion:exists magerun2) ] && --sys:completion:magerun2
+# [ $(--sys:completion:exists wp) ] && --sys:completion:wp
+# [ $(--sys:completion:exists angular) ] && --sys:completion:angular
+# }
 
 --sys:completion:base() {
     # bash completion for the `ductn cli` command
