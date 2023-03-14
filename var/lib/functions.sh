@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
---test() {
-    echo -e "ductn proccess version: $(--version)"
-}
 ---T() { --test; }
 --exists() {
     # nothing to do

@@ -17,13 +17,6 @@ PS1="\n$PS1"
 # ################################################################
 # [[ $TERM != "screen" ]] && sudo service apache2 start
 
-# tmux
-# ################################################################
-# [[ $TERM != "screen" ]] && exec tmux
-# if [ -z "$TMUX" ] && ! grep -q Microsoft /proc/version; then
-#     tmux attach -t default || tmux new -s default
-# fi
-
 # composer PATH
 # ################################################################
 # COMPOSER_HOME=$HOME/.composer

@@ -1,19 +1,6 @@
-ductn (3.0.2ppa1) focal; urgency=medium
+ductn (3.0.2ppa1-2) focal; urgency=medium
 
-  * Update config to build package in Ubuntu 20.04
-    Move in app functions to libraries
-    - mysql
-    - mssql
-    - php
-    - ssh
-    - ssl
-    - swap
-    - sys
-    - apt
-
-    Remove unuse functions
-    - version
-
-    Create package copyright
+  * Upgrade package to run at Ubuntu 20.04
+    Fix cloudflare config path
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Tue, 14 Mar 2023 08:15:00 +0700

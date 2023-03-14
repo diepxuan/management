@@ -2,11 +2,11 @@
 #!/bin/bash
 
 CERTDIR=/etc/mysql/certs/
-_MYSQLDIR="$_LIBDIR/mysql"
+# _MYSQLDIR="/var/www/base/lib/mysql"
 
 _DUCTN_COMMANDS+=("mysql:setup")
 --mysql:setup() {
-    $_BASHDIR/ductn --swap --install
+    --swap:install
     sudo apt install -y --purge --auto-remove mysql-server
     # sudo mysql_secure_installation
 }

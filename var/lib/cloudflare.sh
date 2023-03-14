@@ -12,11 +12,11 @@ _DUCTN_COMMANDS+=("cloudflare:sync")
 }
 
 --cloudflare:email() {
-    cat $_BASHDIR/certbot/cloudflare.ini | grep -o 'dns_cloudflare_email[[:space:]]*=[[:space:]]*[^,]*' | grep -o '[^= ]*$'
+    cat /etc/ductn/cloudflare | grep -o 'dns_cloudflare_email[[:space:]]*=[[:space:]]*[^,]*' | grep -o '[^= ]*$'
 }
 
 --cloudflare:token() {
-    cat $_BASHDIR/certbot/cloudflare.ini | grep -o 'dns_cloudflare_api_key[[:space:]]*=[[:space:]]*[^,]*' | grep -o '[^= ]*$'
+    cat /etc/ductn/cloudflare | grep -o 'dns_cloudflare_api_key[[:space:]]*=[[:space:]]*[^,]*' | grep -o '[^= ]*$'
 }
 
 --cloudflare:domain() {
