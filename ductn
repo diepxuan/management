@@ -9,388 +9,48 @@ ETC_PATH=/etc/ductn
 USER_BIN_PATH=~/bin
 DIRTMP=/tmp/ductn
 
-SERVICE_NAME=ductnd
-
 if [ -d /var/lib/ductn ]; then
     for f in /var/lib/*.sh; do
         [[ -f $f ]] && source $f
     done
 fi
 
-if [ -d /var/www/base/var/lib ]; then
-    for f in /var/www/base/var/lib/*.sh; do
-        [[ -f $f ]] && source $f
-    done
-fi
-
 if [[ ! $BASH_SOURCE = /var/www/base/ductn ]] && [[ -f /var/www/base/ductn ]]; then
     source /var/www/base/ductn
+
+    if [ -d /var/www/base/var/lib ]; then
+        for f in /var/www/base/var/lib/*.sh; do
+            [[ -f $f ]] && source $f
+        done
+    fi
     exit 0
 fi
 
---init() {
+_init() {
     mkdir -p /tmp/ductn
     sudo chmod 777 -R /tmp/ductn
 
     --sys:service:install
 }
 
-#!/usr/bin/env bash
-#!/bin/bash
-
-_DUCTN_COMMANDS+=("php:composer:install")
---php:composer:install() {
-    cd ~
-    curl -sS https://getcomposer.org/installer -o composer-setup.php
-    HASH=$(curl -sS https://composer.github.io/installer.sig)
-    php -r "if (hash_file('SHA384', 'composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-    sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
-    php -r "unlink('composer-setup.php');"
-    rm -rf composer-setup.php
-}
-#!/usr/bin/env bash
-#!/bin/bash
-
---php:apt:install() {
-    sudo add-apt-repository ppa:ondrej/php -y
-    sudo apt update
-    # sudo apt install -y php-dev php-xml -y --allow-unauthenticated &>/dev/null
-}
-
-_DUCTN_COMMANDS+=("php:install")
---php:install() {
-    --php:apt:install
-
-    #!/bin/bash
-
-    # sudo add-apt-repository ppa:ondrej/php
-    # sudo apt update
-    # sudo apt install libapache2-mod-php?.? -y --purge --auto-remove
-    # sudo update-alternatives --config php
-
-    #sudo update-alternatives --set php /usr/bin/php5.6
-    #sudo update-alternatives --set phar /usr/bin/phar5.6
-    #sudo update-alternatives --set phar.phar /usr/bin/phar.phar5.6
-    #sudo update-alternatives --set phpize /usr/bin/phpize5.6
-    #sudo update-alternatives --set php-config /usr/bin/php-config5.6
-
-    # INSTALL PHP MODULES
-    ########################
-    # sudo apt install phpmd -y --purge --auto-remove &>/dev/null
-    # sudo apt install composer -y --purge --auto-remove &>/dev/null
-
-    # sudo apt install -y libapache2-mod-php?.? php?.? php?.?-mysql php?.?-mbstring php?.?-mysqli php?.?-intl php?.?-curl php?.?-gd php?.?-mcrypt php?.?-soap php?.?-dom php?.?-xml php?.?-zip php?.?-bcmath php?.?-imagick &>/dev/null
-    # sudo apt install -y php?.?-mongodb &>/dev/null
-    # ductn_php_mssql
-    # sudo service apache2 restart
-}
-
-_DUCTN_COMMANDS+=("php:phpcsfixer:install")
---php:phpcsfixer:install() {
-    cd ~
-    curl -sS https://cs.symfony.com/download/php-cs-fixer-v3.phar -o php-cs-fixer
-    if [ "$(whoami)" = "ductn" ]; then
-        chmod +x php-cs-fixer
-        sudo mv php-cs-fixer /usr/local/bin/php-cs-fixer
-        sudo chown root:root /usr/local/bin/php-cs-fixer
-    fi
-}
-#!/usr/bin/env bash
-#!/bin/bash
-
-####################################
-#
-# SSH
-#
-####################################
-# Create PEM file
-# ##############################
-#
-# openssl rsa -in id_rsa -outform PEM -out id_rsa.pem
-# openssl x509 -outform der -in id_rsa.pem -out id_rsa.crt
-
-# Change passphrase
-# ##############################
-# SYNOPSIS
-# #ssh-keygen [-q] [-b bits] -t type [-N new_passphrase] [-C comment] [-f output_keyfile]
-# #ssh-keygen -p [-P old_passphrase] [-N new_passphrase] [-f keyfile]
-# #-f filename Specifies the filename of the key file.
-# -N new_passphrase     Provides the new passphrase.
-# -P passphrase         Provides the (old) passphrase.
-# -p                    Requests changing the passphrase of a private key file instead of
-#                       creating a new private key.  The program will prompt for the file
-#                       containing the private key, for the old passphrase, and twice for
-#                       the new passphrase.
-#
-# ssh-keygen -t rsa -y > ~/.ssh/id_rsa.pub
-# ssh-keygen -f id_rsa -p
-
-# Setup
-# ##############################
-_DUCTN_COMMANDS+=("ssh:install")
---ssh:install() {
-    # ssh config
-    cat /var/www/base/ssh/config >~/.ssh/config
-    printf "\n\n" >>~/.ssh/config
-    find /var/www/base/ssh/config.d/*.conf -type f -exec cat {} \; -exec printf "\n\n" \; >>~/.ssh/config
-
-    # ssh private key
-    cat /var/www/base/ssh/id_rsa >~/.ssh/id_rsa
-    # cat /var/www/base/ssh/gss > ~/.ssh/gss
-    # cat /var/www/base/ssh/tci > ~/.ssh/tci
-    # cat /var/www/base/ssh/gem > ~/.ssh/gem
-
-    # ssh public key
-    ssh-keygen -f ~/.ssh/id_rsa -y >~/.ssh/id_rsa.pub
-    # ssh-keygen -f ~/.ssh/gss -y > ~/.ssh/gss.pub
-    # ssh-keygen -f ~/.ssh/tci -y > ~/.ssh/tci.pub
-    # ssh-keygen -f ~/.ssh/gem -y > ~/.ssh/gem.pub
-    --ssh:permision
-
-    # ssh-copy-id user@123.45.56.78
-
-    # cat /var/www/base/ssh/id_rsa        | ssh dx1.diepxuan.com "cat > ~/.ssh/id_rsa"
-    # cat /var/www/base/ssh/id_rsa.pub    | ssh dx1.diepxuan.com "cat > ~/.ssh/id_rsa.pub"
-    # ssh dx1.diepxuan.com "chmod 600 ~/.ssh/*"
-}
-
---ssh:permision() {
-    mkdir -p ~/.ssh
-    chmod 700 ~/.ssh
-    chmod 600 ~/.ssh/*
-}
-
-_DUCTN_COMMANDS+=("ssh:copy")
---ssh:copy() {
-    cat /var/www/base/ssh/id_rsa | ssh ${1} "cat > ~/.ssh/id_rsa"
-    ssh ${1} "chmod 600 ~/.ssh/*"
-    ssh ${1} "ssh-keygen -f ~/.ssh/id_rsa -y >~/.ssh/id_rsa.pub"
-    # cat /var/www/base/ssh/id_rsa.pub | ssh ${1} "cat > ~/.ssh/id_rsa.pub"
-}
-#!/usr/bin/env bash
-#!/bin/bash
-
-_DUCTN_COMMANDS+=("ssl:install")
---ssl:install() {
-    sudo apt install software-properties-common -y --purge --auto-remove
-    # sudo add-apt-repository universe
-    # sudo add-apt-repository ppa:certbot/certbot
-    sudo apt update
-    sudo apt install -y --purge --auto-remove python3-pip
-    # sudo pip3 install certbot certbot-dns-cloudflare
-    sudo apt install -y --purge --auto-remove certbot python3-certbot-dns-cloudflare
-}
-
-_DUCTN_COMMANDS+=("ssl:configure")
---ssl:configure() { --ssl:setup; }
-
---ssl:setup() {
-
-    #sudo certbot certonly --apache \
-    #  --expand \
-    #  --no-redirect \
-    #  --keep-until-expiring \
-    #  --break-my-certs \
-    #  --pre-hook /var/www/base/bash/certbot/authenticator.sh \
-    #  -m caothu91@gmail.com \
-    #  --server https://acme-v02.api.letsencrypt.org/directory
-
-    #_certbot solzatech.com,www.solzatech.com
-    # _certbot diepxuan.com,www.diepxuan.com,luong.diepxuan.com,pma.diepxuan.com,cloud.diepxuan.com,work.diepxuan.com,shop.diepxuan.com
-    --ssl:certbot diepxuan.com,*.diepxuan.com
-    --ssl:certbot vps.diepxuan.com,*.vps.diepxuan.com
-
-    sudo service apache2 restart
-
-    #  sudo cat /etc/letsencrypt/live/mail.diepxuan.com/fullchain.pem | ssh server3.diepxuan.com "sudo tee /etc/letsencrypt/live/mail.diepxuan.com/fullchain.pem"
-    #  sudo cat /etc/letsencrypt/live/mail.diepxuan.com/privkey.pem | ssh server3.diepxuan.com "sudo tee /etc/letsencrypt/live/mail.diepxuan.com/privkey.pem"
-
-    # sudo scp -r /etc/letsencrypt/live/* dx3.diepxuan.com:/etc/letsencrypt/live/
-}
-
---ssl:certbot() {
-
-    chmod 600 /var/www/base/bash/certbot/cloudflare.ini
-
-    sudo certbot certonly \
-        --expand \
-        --keep-until-expiring \
-        --dns-cloudflare \
-        --dns-cloudflare-credentials /var/www/base/bash/certbot/cloudflare.ini \
-        --agree-tos \
-        --email caothu91@gmail.com \
-        --eff-email \
-        -d $@
-}
-
---ssl:pull() {
-    sudo mkdir -p /etc/letsencrypt/live/diepxuan.com/
-    ssh "$@" "sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem" | sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem
-    ssh "$@" "sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem" | sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem
-    ssh "$@" "sudo cat /etc/letsencrypt/live/diepxuan.com/fullchain.pem" | sudo tee /etc/letsencrypt/live/diepxuan.com/fullchain.pem
-    ssh "$@" "sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem" | sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem
-}
-
---ssl:push() {
-    sudo cat /etc/letsencrypt/live/diepxuan.com/cert.pem | ssh "$@" "sudo tee /etc/letsencrypt/live/diepxuan.com/cert.pem"
-    sudo cat /etc/letsencrypt/live/diepxuan.com/chain.pem | ssh "$@" "sudo tee /etc/letsencrypt/live/diepxuan.com/chain.pem"
-    sudo cat /etc/letsencrypt/live/diepxuan.com/fullchain.pem | ssh "$@" "sudo tee /etc/letsencrypt/live/diepxuan.com/fullchain.pem"
-    sudo cat /etc/letsencrypt/live/diepxuan.com/privkey.pem | ssh "$@" "sudo tee /etc/letsencrypt/live/diepxuan.com/privkey.pem"
-}
-
---ssl:upload() {
-    --push
-}
-#!/usr/bin/env bash
-#!/bin/bash
-
-_DUCTN_COMMANDS+=("swap:remove")
---swap:remove() {
-    sudo swapoff -v /swapfile
-    sudo rm /swapfile
-    exit 0
-}
-
-_DUCTN_COMMANDS+=("swap:install")
---swap:install() {
-    --swap:remove
-    sudo rm -rf /swapfile
-    sudo fallocate -l 2G /swapfile
-    sudo chmod 600 /swapfile
-    sudo mkswap /swapfile
-    sudo swapon /swapfile
-}
-
-# free -m
-
-_DUCTN_COMMANDS+=("sys:apt:fix")
---sys:apt:fix() {
-    --apt:fix
-}
-
-_DUCTN_COMMANDS+=("sys:apt:check")
---sys:apt:check() {
-    dpkg -s $1 2>/dev/null | grep 'install ok installed' >/dev/null 2>&1
-    if [ $? != 0 ]; then
-        echo 0
-    else
-        echo 1
-    fi
-
-    # REQUIRED_PKG=$1
-    # PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG | grep "install ok installed")
-    # # echo Checking for $REQUIRED_PKG: $PKG_OK
-    # if [ "" = "$PKG_OK" ]; then
-    #     #     echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
-    #     #     sudo apt-get --yes install $REQUIRED_PKG
-    #     echo 0
-    # else
-    #     echo 1
-    # fi
-
-}
-
-_DUCTN_COMMANDS+=("sys:apt:install")
---sys:apt:install() {
-    if [[ "$(--sys:apt:check $*)" -eq 0 ]]; then
-        sudo apt install $* -y --purge --auto-remove
-    fi
-}
-
-_DUCTN_COMMANDS+=("sys:apt:remove")
---sys:apt:remove() {
-    sudo apt remove $* -y --purge --auto-remove
-}
-
-_DUCTN_COMMANDS+=("sys:apt:uninstall")
---sys:apt:uninstall() {
-    --sys:apt:remove $*
-}
-
---apt:fix() {
-    #!/bin/bash
-
-    sudo killall apt-get
-    sudo killall apt
-
-    sudo rm /var/lib/apt/lists/lock
-    sudo rm /var/cache/apt/archives/lock
-    sudo rm /var/lib/dpkg/lock
-    sudo rm /var/lib/dpkg/lock-frontend
-
-    sudo dpkg --configure -a
-}
-
-_DUCTN_COMMANDS+=("sys:upgrade" "selfupdate")
---selfupdate() { --sys:upgrade; }
---sys:upgrade() {
-    sudo apt install --only-upgrade ductn -y --purge --auto-remove
-    ductn sys:init
-    ductn sys:service:re-install
-}
-
-#!/usr/bin/env bash
-#!/bin/bash
-
-_DUCTN_COMMANDS+=("sys:init")
---sys:init() {
-    sudo timedatectl set-timezone Asia/Ho_Chi_Minh
-
-    --user:config $(whoami)
-    --git:configure
-
-    --sys:sysctl >/dev/null
-    --ufw:iptables >/dev/null
-
-    --server() {
-        --cron:install
-        --httpd:config
-        --ssh:install
-    }
-
-    if [[ -n "$*" ]]; then
-        "--$*"
-    fi
-}
-
-_DUCTN_COMMANDS+=("sys:sysctl")
---sys:sysctl() {
-    _sysctl="fs.inotify.max_user_watches=524288
-net.ipv4.ip_forward=1"
-
-    while IFS= read -r rule; do
-        sudo sysctl -w $rule
-    done <<<"$_sysctl"
-
-    echo "$_sysctl" | sudo tee /etc/sysctl.d/99-ductn.conf
-    sudo sysctl -p
-}
-
-main() {
-    main:init
+_main() {
+    --log:config
 
     --echo "Server\t\t$(--host:fullname)($(--host:address))"
     --echo "IP\t\t$(--ip:wan)"
 
     # read -t 5 -n 1 -s -r -p "Press any key to continue (5 seconds)"
-    # --echo \n
     exit 0
-}
-
-main:init() {
-    --log:config
 }
 
 [[ ! "$(whoami)" -eq "ductn" ]] && exit 1
 
---init
+_init
 
-if [[ ! -z ${@+x} ]]; then
+if [[ -n $* ]]; then
     "--$@"
-    exit 0
 else
-    main
-    exit 0
+    _main
 fi
 
 exit 0
