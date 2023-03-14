@@ -2,15 +2,18 @@ ductn (3.0.2ppa1) focal; urgency=medium
 
   * Update config to build package in Ubuntu 20.04
     Move in app functions to libraries
-    - completion
+    - mysql
+    - mssql
+    - php
+    - ssh
+    - ssl
+    - swap
+    - sys
+    - apt
 
-    Check dev version to use before stable version
     Remove unuse functions
-    - dns server
     - version
-    - wcli
 
-    Create etc files
-    - tunel
+    Create package copyright
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Tue, 14 Mar 2023 08:15:00 +0700
