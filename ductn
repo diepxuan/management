@@ -1,19 +1,9 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-_BASEDIR="/var/www/baseold"
-_BASHDIR="$_BASEDIR/bash"
-_LIBDIR="$_BASEDIR/lib"
-
 ETC_PATH=/etc/ductn
 USER_BIN_PATH=~/bin
 DIRTMP=/tmp/ductn
-
-if [ -d /var/lib/ductn ]; then
-    for f in /var/lib/*.sh; do
-        [[ -f $f ]] && source $f
-    done
-fi
 
 if [[ ! $BASH_SOURCE = /var/www/base/ductn ]] && [[ -f /var/www/base/ductn ]]; then
     source /var/www/base/ductn
@@ -24,6 +14,12 @@ if [[ ! $BASH_SOURCE = /var/www/base/ductn ]] && [[ -f /var/www/base/ductn ]]; t
         done
     fi
     exit 0
+else
+    if [ -d /var/lib/ductn ]; then
+        for f in /var/lib/ductn/*.sh; do
+            [[ -f $f ]] && source $f
+        done
+    fi
 fi
 
 _init() {
