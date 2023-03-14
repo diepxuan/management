@@ -35,8 +35,8 @@ _DUCTN_COMMANDS+=("git:configure")
 
         if [[ -d $_BASEDIR/.git ]]; then
             # remote repository
-            echo "$_push_to_checkout" >$_BASEDIR/.git/hooks/push-to-checkout
-            echo "$_pre_commit" >$_BASEDIR/.git/hooks/pre-commit
+            # echo "$_push_to_checkout" >$_BASEDIR/.git/hooks/push-to-checkout
+            # echo "$_pre_commit" >$_BASEDIR/.git/hooks/pre-commit
             rm -rf $_BASEDIR/.git/hooks/post-receive
             chmod +x $_BASEDIR/.git/hooks/*
         fi
@@ -168,7 +168,7 @@ EOF
 _DUCTN_COMMANDS+=("git:configure:server")
 --git:configure:server() {
     if [[ -d .git ]]; then
-        echo "$_post_receive" >.git/hooks/post-receive
+        # echo "$_post_receive" >.git/hooks/post-receive
         chmod +x .git/hooks/*
     fi
 }
