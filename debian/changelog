@@ -8,10 +8,18 @@ ductn (3.0.1ubuntu1-2) focal; urgency=medium
     - git config
     - httpd config
     - vpn
+    - log
+    - ip
+    - host
+    - disk
+    - dhcpd
+    - completion
 
     Check dev version to use before stable version
     Remove unuse functions
     - dns server
+    - version
+    - wcli
 
     Create etc files
     - tunel

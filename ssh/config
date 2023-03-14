@@ -1,7 +1,0 @@
-##########################
-### Global Host Config ###
-##########################
-
-Host *
-	ServerAliveInterval 30
-	
