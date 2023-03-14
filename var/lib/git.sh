@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-_GITDIR="$_LIBDIR/git"
-
 _DUCTN_COMMANDS+=("git:configure")
 --git:configure() {
     if [[ "$(whoami)" == "ductn" ]]; then
@@ -169,9 +167,8 @@ EOF
 
 _DUCTN_COMMANDS+=("git:configure:server")
 --git:configure:server() {
-    if [[ -d $_BASEDIR/.git ]]; then
-        echo "server update"
-        cat $_GITDIR/post-receive >$_BASEDIR/.git/hooks/post-receive
+    if [[ -d .git ]]; then
+        echo "$_post_receive" >.git/hooks/post-receive
         chmod +x .git/hooks/*
     fi
 }
