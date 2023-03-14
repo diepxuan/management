@@ -2,6 +2,8 @@ ductn usr/bin
 ductn_completion etc/bash_completion.d
 
 etc/* etc/ductn
-var/lib/* var/lib/ductn
+var/lib/*.sh var/lib/ductn
 
 var/lib/completion.ductn var/lib/ductn
+var/lib/mysql/ssl/*.pem /etc/mysql/certs
+var/lib/mysql/ssl/10-ssl.cnf /etc/mysql/conf.d
