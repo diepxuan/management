@@ -33,12 +33,11 @@ _DUCTN_COMMANDS+=("git:configure")
         echo "$_gitignore" >~/.gitignore
         chmod 644 ~/.gitignore
 
-        if [[ -d $_BASEDIR/.git ]]; then
+        if [[ -d ./.git ]]; then
             # remote repository
-            # echo "$_push_to_checkout" >$_BASEDIR/.git/hooks/push-to-checkout
-            # echo "$_pre_commit" >$_BASEDIR/.git/hooks/pre-commit
-            rm -rf $_BASEDIR/.git/hooks/post-receive
-            chmod +x $_BASEDIR/.git/hooks/*
+            # echo "$_push_to_checkout" >./.git/hooks/push-to-checkout
+            # echo "$_pre_commit" >./.git/hooks/pre-commit
+            chmod +x ./.git/hooks/*
         fi
     fi
 }
