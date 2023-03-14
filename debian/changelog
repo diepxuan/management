@@ -6,9 +6,14 @@ ductn (3.0.1ubuntu1-2) focal; urgency=medium
     - cloudflare
     - env
     - git config
+    - httpd config
+    - vpn
 
     Check dev version to use before stable version
     Remove unuse functions
     - dns server
+
+    Create etc files
+    - tunel
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Tue, 14 Mar 2023 08:15:00 +0700
