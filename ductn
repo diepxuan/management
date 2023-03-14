@@ -9,10 +9,7 @@ ETC_PATH=/etc/ductn
 USER_BIN_PATH=~/bin
 DIRTMP=/tmp/ductn
 
-SERVICE_DESC="Ductn service"
 SERVICE_NAME=ductnd
-# SERVICE_PATH="/var/www/base/bash/ductn.sh run_as_service"
-SERVICE_PATH="ductn run_as_service"
 
 if [ -d /var/lib/ductn ]; then
     for f in /var/lib/*.sh; do

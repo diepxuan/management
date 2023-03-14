@@ -11,10 +11,6 @@
 }
 --do_no_thing() { --exists; }
 
---pwd() {
-    echo $_BASEDIR
-}
-
 --logger() {
     logger "$@"
 }

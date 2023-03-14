@@ -1,18 +1,7 @@
-ductn (3.0.1ubuntu1-2) focal; urgency=medium
+ductn (3.0.2ppa1) focal; urgency=medium
 
   * Update config to build package in Ubuntu 20.04
     Move in app functions to libraries
-    - ufw
-    - cloudflare
-    - env
-    - git config
-    - httpd config
-    - vpn
-    - log
-    - ip
-    - host
-    - disk
-    - dhcpd
     - completion
 
     Check dev version to use before stable version
