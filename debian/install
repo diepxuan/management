@@ -1,5 +1,7 @@
 ductn usr/bin
-# ductn_completion etc/bash_completion.d
+ductn_completion etc/bash_completion.d
 
 etc/* etc/ductn
 var/lib/* var/lib/ductn
+
+var/lib/completion.ductn var/lib/ductn
