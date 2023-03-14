@@ -44,15 +44,6 @@ export PATH=$PATH:$HOME/bin:$HOME/.composer/vendor/bin
 #     # PATH="$PATH:/var/www/base/bash"
 # fi
 
-# completion
-# ################################################################
-function _ductn_completion() {
-    for _completion_path in $(ductn sys:completion); do
-        . $_completion_path
-    done
-}
-ductn do_no_thing 2>/dev/null && _ductn_completion
-
 # SSH AGENT autostart
 # ################################################################
 SSH_ENV="$HOME/.ssh/environment"
