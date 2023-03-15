@@ -7,5 +7,5 @@ Standards-Version: 3.0.1ppa1-1
 
 Package: ductn
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, net-tools, jq, curl, bash-completion, openssl
+Depends: ${misc:Depends}, net-tools, jq, curl, bash-completion, openssl
 Description: Ductn super package
