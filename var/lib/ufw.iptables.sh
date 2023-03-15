@@ -90,7 +90,7 @@ _DUCTN_COMMANDS+=("ufw:iptables")
         sudo /sbin/modprobe ipt_state
         sudo /sbin/modprobe ipt_MASQUERADE
 
-        _rule_out "$(--ufw:dmz)"
+        _rule_out "$(_ufw:dmz)"
     fi
 
     echo -e "[Unit]
@@ -142,7 +142,7 @@ WantedBy=multi-user.target" | sudo tee /usr/lib/systemd/system/ductn-iptables.se
     echo $ip6tables_path
 }
 
---ufw:dmz() {
+_ufw:dmz() {
     DMZ_RULES=""
 
     INET_IP="$(--ip:wan)"
