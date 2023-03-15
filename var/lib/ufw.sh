@@ -6,7 +6,6 @@ _DUCTN_COMMANDS+=("sys:ufw")
     if [ "$(--sys:ufw:is_active)" == "active" ]; then
         --sys:ufw:cleanup
         --sys:ufw:allow
-        # --sys:hosts
     fi
 }
 

@@ -13,7 +13,6 @@ _DUCTN_COMMANDS+=("sys:init")
     --ufw:iptables >/dev/null
 
     --server() {
-        --cron:install
         --httpd:config
         --ssh:install
     }
@@ -37,15 +36,22 @@ net.ipv4.ip_forward=1"
 }
 
 --sys:clean() {
+    # remove bin
     sudo rm -rf /usr/local/bin/ductn
+
+    # remove git configuration
     sudo rm -rf /var/www/base/.git/hooks/pre-commit
     sudo rm -rf /var/www/base/.git/hooks/push-to-checkout
     sudo rm -rf /var/www/base/.git/hooks/post-receive
+
+    # remove bash configuration
+    sed -i "/bash\/.bash_aliases/d" ~/.bash_aliases
 }
 
 _DUCTN_COMMANDS+=("sys:upgrade" "selfupdate")
 --selfupdate() { --sys:upgrade; }
 --sys:upgrade() {
+    sudo apt update
     sudo apt install --only-upgrade ductn -y --purge --auto-remove
     ductn sys:init
     ductn sys:clean
