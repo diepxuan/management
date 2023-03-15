@@ -36,10 +36,18 @@ net.ipv4.ip_forward=1"
     sudo sysctl -p
 }
 
+--sys:clean() {
+    sudo rm -rf /usr/local/bin/ductn
+    sudo rm -rf /var/www/base/.git/hooks/pre-commit
+    sudo rm -rf /var/www/base/.git/hooks/push-to-checkout
+    sudo rm -rf /var/www/base/.git/hooks/post-receive
+}
+
 _DUCTN_COMMANDS+=("sys:upgrade" "selfupdate")
 --selfupdate() { --sys:upgrade; }
 --sys:upgrade() {
     sudo apt install --only-upgrade ductn -y --purge --auto-remove
     ductn sys:init
+    ductn sys:clean
     ductn sys:service:re-install
 }
