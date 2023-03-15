@@ -1,8 +1,14 @@
-ductn (3.0.3ppa2-2) focal; urgency=medium
+ductn (3.0.3ppa2-3) focal; urgency=medium
 
-  * fixxing bug
-    - Fix EOF in file
+  * FUTURE: auto stop and reinstall service when install
+    - postinst:
+      add and start ductnd service
+      cleanup old version libs
+    - preinst:
+      stop main service ductnd
+      stop extend service ductn-iptables
 
-    Cleanup old libraries
+  * FUTURE: add ductn-iptables to valid and restart list
+    this service will restasrt when ductnd service is running
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 15 Mar 2023 11:23:00 +0700
