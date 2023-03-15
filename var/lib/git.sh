@@ -50,9 +50,9 @@ EOF
 
 _pre_commit= <<EOF
 #!/bin/sh
-echo $(tail -1 version | xargs) | awk -F. -v OFS=. '{$NF += 1 ; print}' >>version
-echo $(tail -1 version | xargs) >version
-git add version
+# echo $(tail -1 version | xargs) | awk -F. -v OFS=. '{$NF += 1 ; print}' >>version
+# echo $(tail -1 version | xargs) >version
+# git add version
 exit 0
 EOF
 

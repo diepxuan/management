@@ -8,6 +8,7 @@ _DUCTN_COMMANDS+=("sys:init")
     --user:config $(whoami)
     --git:configure
 
+    --log:config
     --sys:sysctl >/dev/null
     --ufw:iptables >/dev/null
 
