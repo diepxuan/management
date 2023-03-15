@@ -93,3 +93,9 @@
         --sys:service:restart isc-dhcp-server
     fi
 }
+
+--sys:service:iptables() {
+    if [[ ! "$(--sys:service:isactive ductn-iptables)" == "active" ]]; then
+        --ufw:iptables
+    fi
+}

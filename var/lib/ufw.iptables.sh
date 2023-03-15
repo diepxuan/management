@@ -109,13 +109,13 @@ WantedBy=multi-user.target" | sudo tee /usr/lib/systemd/system/ductn-iptables.se
     # sudo  systemctl enable --now ductn-iptables.service
     # cat /usr/lib/systemd/system/ductn-iptables.service
 
-    sudo systemctl daemon-reload
-    sudo systemctl enable ductn-iptables
     sudo systemctl stop ductn-iptables
     sudo $iptables_path -X bad_tcp_packets 2>/dev/null
     sudo $iptables_path -X allowed 2>/dev/null
     sudo $iptables_path -X icmp_packets 2>/dev/null
 
+    sudo systemctl daemon-reload
+    sudo systemctl enable ductn-iptables
     sudo systemctl restart ductn-iptables
 
     if [ "$(--sys:service:isactive ductn-iptables)" == "failed" ]; then
