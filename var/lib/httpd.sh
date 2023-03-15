@@ -50,7 +50,8 @@ _DUCTN_COMMANDS+=("httpd:restart")
     sudo service apache2 restart
 }
 
-_httpd_conf= <<EOF
+_httpd_conf=$(
+    cat <<EOF
 php_admin_value date.timezone           "Asia/Ho_Chi_Minh"
 
 php_value       display_errors          1
@@ -210,3 +211,4 @@ Group www-data
     SSLCertificateKeyFile   /etc/letsencrypt/live/diepxuan.com/privkey.pem
 </VirtualHost>
 EOF
+)
