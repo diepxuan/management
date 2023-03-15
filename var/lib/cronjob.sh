@@ -8,6 +8,8 @@
 --cron:cronjob:5min() {
     --cron:install
     --sys:ufw
+    --sys:service:iptables
+
     --cloudflare:sync
 }
 
