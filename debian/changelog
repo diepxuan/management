@@ -1,6 +1,91 @@
+ductn (3.0.3ppa2-2) focal; urgency=medium
+
+  * fixxing bug
+    - Fix EOF in file
+  * Cleanup old libraries
+
+  -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 15 Mar 2023 11:23:00 +0700
+
 ductn (3.0.3ppa2-1) focal; urgency=medium
 
   * Upgrade package to run at Ubuntu 20.04
     Fix version
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Tue, 14 Mar 2023 08:15:00 +0700
+    -- Tran Ngoc Duc <ductn@diepxuan.com>  Tue, 14 Mar 2023 08:15:00 +0700
+
+ductn (3.0.2ppa2) focal; urgency=medium
+ .
+   * Upgrade package to run at Ubuntu 20.04
+     Fix cloudflare config path
+
+    -- Tran Ngoc Duc <ductn@diepxuan.com>  Tue, 14 Mar 2023 08:15:00 +0700
+
+ductn (3.0.2ppa1-2) focal; urgency=medium
+
+  * Update config to build package in Ubuntu 20.04
+    Fix version not working
+
+    -- Tran Ngoc Duc <ductn@diepxuan.com>  Tue, 14 Mar 2023 08:15:00 +0700
+
+ductn (3.0.2ppa1) focal; urgency=medium
+
+  * Update config to build package in Ubuntu 20.04
+    Move in app functions to libraries
+    - mysql
+    - mssql
+    - php
+    - ssh
+    - ssl
+    - swap
+    - sys
+    - apt
+
+  * Remove unuse functions
+    - version
+
+  * Create package copyright
+
+  -- Tran Ngoc Duc <ductn@diepxuan.com>  Tue, 14 Mar 2023 08:15:00 +0700
+
+ductn (3.0.1-ubuntu1-2) focal; urgency=medium
+
+  * Update config to build package in Ubuntu 20.04
+    Move in app functions to libraries
+    - ufw
+    - cloudflare
+    - env
+    - git config
+    - httpd config
+    - vpn
+     - log
+    - ip
+    - host
+    - disk
+    - dhcpd
+    - completion
+
+    Check dev version to use before stable version
+    Remove unuse functions
+    - dns server
+    - version
+    - wcli
+    Create etc files
+    - tunel
+
+    -- Tran Ngoc Duc <ductn@diepxuan.com>  Tue, 14 Mar 2023 08:15:00 +0700
+
+ductn (3.0.1-ubuntu1-1) focal; urgency=medium
+
+  * Update config to build package in Ubuntu 20.04
+    - use APT to upgrade package
+    - remove all Cron functions
+    - add /etc/ductn/domains and update function for domains
+    - add /etc/ductn/nat and update function for that
+    - create /var/lib dir and move lib to it
+
+    -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 13 Mar 2023 13:21:00 +0700
+
+ductn (3.0.1ppa1-1) focal; urgency=medium
+
+  * Initial release (Closes: 3.0.1ppa1)
+    -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 12 Mar 2023 18:03:21 +0700

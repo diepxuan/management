@@ -1,5 +1,6 @@
 ductn usr/bin
 ductn_completion etc/bash_completion.d
+ductnd.service usr/lib/systemd/system
 
 etc/* etc/ductn
 var/lib/*.sh var/lib/ductn
