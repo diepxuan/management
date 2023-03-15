@@ -35,29 +35,28 @@ _DUCTN_COMMANDS+=("git:configure")
 
         if [[ -d ./.git ]]; then
             # remote repository
-            # echo "$_push_to_checkout" >./.git/hooks/push-to-checkout
-            # echo "$_pre_commit" >./.git/hooks/pre-commit
+
+            #             cat <<EOF >.git/hooks/push-to-checkout
+            # #!/bin/sh
+            # set -ex
+            # git read-tree --reset -u HEAD "$1"
+            # EOF
+
+            #             cat <<EOF >.git/hooks/pre-commit
+            # #!/bin/sh
+            # echo $(tail -1 version | xargs) | awk -F. -v OFS=. '{$NF += 1 ; print}' >>version
+            # echo $(tail -1 version | xargs) >version
+            # git add version
+            # exit 0
+            # EOF
             chmod +x ./.git/hooks/*
         fi
     fi
 }
 
-_push_to_checkout= <<EOF
-#!/bin/sh
-set -ex
-git read-tree --reset -u HEAD "$1"
-EOF
-
-_pre_commit= <<EOF
-#!/bin/sh
-# echo $(tail -1 version | xargs) | awk -F. -v OFS=. '{$NF += 1 ; print}' >>version
-# echo $(tail -1 version | xargs) >version
-# git add version
-exit 0
-EOF
-
-_gitignore= <<EOF
-.idea/*
+_gitignore=$(
+    cat <<EOF
+ .idea/*
 ### Node template
 # Logs
 logs
@@ -163,16 +162,18 @@ _book
 *.mobi
 *.pdf
 EOF
+)
 
 _DUCTN_COMMANDS+=("git:configure:server")
 --git:configure:server() {
     if [[ -d .git ]]; then
-        # echo "$_post_receive" >.git/hooks/post-receive
+
+        #         cat <<EOF >.git/hooks/post-receive
+        # #!/bin/sh
+        # set -ex
+        # git push dx3 -f
+        # EOF
+
         chmod +x .git/hooks/*
     fi
 }
-_post_receive= <<EOF
-#!/bin/sh
-set -ex
-git push dx3 -f
-EOF
