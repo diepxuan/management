@@ -15,8 +15,8 @@ set -e
 
 case "$1" in
 install | upgrade)
-    sudo systemctl stop ductnd
-    sudo systemctl stop ductn-iptables
+    [ -f /usr/lib/systemd/system/ductnd.service ] && sudo systemctl stop ductnd
+    [ -f /usr/lib/systemd/system/ductn-iptables.service ] && sudo systemctl stop ductn-iptables
     ;;
 
 abort-upgrade) ;;

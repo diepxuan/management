@@ -18,9 +18,7 @@ set -e
 # the debian-policy package
 
 case "$1" in
-configure) ;;
-
-abort-upgrade | abort-remove | abort-deconfigure)
+configure)
     sudo systemctl daemon-reload
     sudo systemctl enable ductnd
     sudo systemctl restart ductnd
@@ -28,6 +26,8 @@ abort-upgrade | abort-remove | abort-deconfigure)
     # remove oldest version
     sudo rm -rf /usr/local/bin/ductn
     ;;
+
+abort-upgrade | abort-remove | abort-deconfigure) ;;
 
 *)
     echo "postinst called with unknown argument \`$1'" >&2

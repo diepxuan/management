@@ -16,10 +16,33 @@ _DUCTN_COMMANDS+=("sys:ufw:cleanup")
 
 _DUCTN_COMMANDS+=("sys:ufw:allow")
 --sys:ufw:allow() {
+
+    _allowDomain() {
+        # sudo ufw allow proto tcp from "$(--host:address $@)" to any port 1433
+        _IP=$(--host:address $@)
+        if [ ! "$_IP" = "127.0.0.1" ] && [ $(_is_exist $_IP) = 0 ]; then
+            sudo ufw allow from "$(--host:address $@)"
+        fi
+    }
+
+    _allowPort() {
+        # sudo ufw allow proto tcp from "$(--host:address $@)" to any port 1433
+        _port=$*
+        if [ -n $_port ]; then
+            sudo ufw allow $_port
+        fi
+    }
+
     for domain in $(--sys:env:domains); do
         # echo $domain
-        --sys:ufw:_allow $domain
+        _allowDomain $domain
     done
+
+    if [ $(--host:is_vpn_server) == 1 ]; then
+        for nat in $(--sys:env:nat); do
+            port=${nat%:*} # remove suffix starting with "_"
+        done
+    fi
 }
 
 _DUCTN_COMMANDS+=("sys:ufw:is_active")
@@ -27,7 +50,7 @@ _DUCTN_COMMANDS+=("sys:ufw:is_active")
     if [ "$(--sys:service:isactive ufw)" == "active" ]; then
         echo active
     else
-        if [[ $(--sys:ufw:is_exist) -eq 1 ]]; then
+        if [[ $(_is_exist) -eq 1 ]]; then
             sudo ufw status | grep 'inactive' >/dev/null 2>&1
             [ $? = 0 ] && echo inactive || echo active
         else
@@ -50,15 +73,7 @@ _DUCTN_COMMANDS+=("sys:ufw:is_active")
     --do_no_thing
 }
 
---sys:ufw:_allow() {
-    # sudo ufw allow proto tcp from "$(--host:address $@)" to any port 1433
-    _IP=$(--host:address $@)
-    if [ ! "$_IP" = "127.0.0.1" ] && [ $(--sys:ufw:is_exist $_IP) = 0 ]; then
-        sudo ufw allow from "$(--host:address $@)"
-    fi
-}
-
---sys:ufw:is_exist() {
+_is_exist() {
     [ ! -x "$(command -v ufw)" ] && echo 0 || echo 1
 }
 
