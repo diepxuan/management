@@ -1,16 +1,12 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
+_DUCTN_COMMANDS+=("dev:build(")
 --dev:build() {
-    if [[ -d /var/www/base ]]; then
-        cd /var/www/base
-        dpkg-buildpackage
-    fi
+    dpkg-buildpackage
 }
 
---dev:depack() {
-    if [[ -d /var/www/base ]]; then
-        cd /var/www/base
-        debuild -S
-    fi
+_DUCTN_COMMANDS+=("dev:buildsource")
+--dev:buildsource() {
+    dpkg-buildpackage -S
 }
