@@ -51,6 +51,10 @@ _DUCTN_COMMANDS+=("ufw:iptables")
         while IFS= read -r rule; do
             _rule_out $rule
         done < <(--ufw:geoip:allowCloudflare)
+    else
+        while IFS= read -r rule; do
+            _rule_out ${rule//'ufw-before-input'/'INPUT'}
+        done < <(--ufw:geoip:allowCloudflare)
     fi
 
     ######### VPN Firewall Site-to-Site #########
