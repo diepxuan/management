@@ -15,3 +15,13 @@
 --echo() {
     echo -e "$@" 2>/dev/null
 }
+
+--version() {
+    version=$(dpkg -s ductn | grep Version)
+    version=${version//'Version: '/}
+    echo $version
+}
+
+---v() {
+    --version
+}

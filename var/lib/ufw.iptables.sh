@@ -3,6 +3,13 @@
 
 _DUCTN_COMMANDS+=("ufw:iptables")
 --ufw:iptables() {
+    if [ ! $(--host:is_server) == 1 ] && [ ! $(--host:is_vpn_server) == 1 ]; then
+        sudo systemctl stop ductn-iptables 2>/dev/null
+        sudo systemctl disable ductn-iptables 2>/dev/null
+        sudo rm -rf /usr/lib/systemd/system/ductn-iptables.service 2>/dev/null
+        sudo systemctl daemon-reload 2>/dev/null
+        return 0
+    fi
     iptables_path=$(--ufw:iptables:path4)
     ip6tables_path=$(--ufw:iptables:path6)
     iptables_rules_HEAD=""
@@ -81,7 +88,7 @@ _DUCTN_COMMANDS+=("ufw:iptables")
     fi
 
     ######### VPN Firewall DMZ to Pve server #########
-    if [[ $(--host:is_vpn_server) == 1 ]]; then
+    if [ $(--host:is_vpn_server) == 1 ]; then
         # load modules
         sudo /sbin/depmod -a
         sudo /sbin/modprobe ip_tables
