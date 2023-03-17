@@ -48,12 +48,15 @@ net.ipv4.ip_forward=1"
     sed -i "/bash\/.bash_aliases/d" ~/.bash_aliases
 }
 
-_DUCTN_COMMANDS+=("sys:upgrade" "selfupdate")
---selfupdate() { --sys:upgrade; }
+_DUCTN_COMMANDS+=("selfupdate")
+--selfupdate() {
+    --sys:upgrade
+    ductn sys:init
+}
 --sys:upgrade() {
     sudo apt update
     sudo apt install --only-upgrade ductn -y --purge --auto-remove
-    ductn sys:init
-    ductn sys:clean
-    ductn sys:service:re-install
+    # ductn sys:init
+    # ductn sys:clean
+    # ductn sys:service:re-install
 }

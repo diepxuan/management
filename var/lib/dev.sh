@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-_DUCTN_COMMANDS+=("dev:build(")
+_DUCTN_COMMANDS+=("dev:build")
 --dev:build() {
     dpkg-buildpackage
 }

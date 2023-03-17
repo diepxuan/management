@@ -24,7 +24,7 @@ configure)
     sudo systemctl restart ductnd
 
     # remove oldest version
-    sudo rm -rf /usr/local/bin/ductn
+    sudo rm -rf /usr/local/bin/ductn >/dev/null
     ;;
 
 abort-upgrade | abort-remove | abort-deconfigure) ;;
