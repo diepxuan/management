@@ -3,9 +3,17 @@
 
 _DUCTN_COMMANDS+=("ufw:geoip:install")
 --ufw:geoip:install() {
-    sudo apt install curl unzip perl -y --purge --auto-remove
+    # sudo apt install curl unzip perl -y --purge --auto-remove
     sudo apt install xtables-addons-common -y --purge --auto-remove
     sudo apt install libtext-csv-xs-perl libmoosex-types-netaddr-ip-perl -y --purge --auto-remove
+    sudo apt install libnet-cidr-lite-perl -y --purge --auto-remove
+}
+
+--ufw:geoip:uninstall() {
+    # sudo apt remove curl unzip perl -y --purge --auto-remove
+    sudo apt remove xtables-addons-common -y --purge --auto-remove
+    sudo apt remove libtext-csv-xs-perl libmoosex-types-netaddr-ip-perl -y --purge --auto-remove
+    sudo apt remove libnet-cidr-lite-perl -y --purge --auto-remove
 }
 
 _DUCTN_COMMANDS+=("ufw:geoip:update")
