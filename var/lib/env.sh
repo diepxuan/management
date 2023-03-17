@@ -16,3 +16,16 @@
 --sys:env:vpn() {
     cat $ETC_PATH/tunel
 }
+
+--sys:env:sync() {
+    _sync() {
+
+        for param in $@; do
+            _new=$(curl -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' -o - https://diepxuan.github.io/ppa/etc/$param?$RANDOM 2>/dev/null)
+            _old=$(cat $ETC_PATH/$param)
+            [[ ! $_old == $_new ]] && echo "$_new" | sudo tee $ETC_PATH/$param >/dev/null
+        done
+    }
+
+    _sync domains nat tunel
+}

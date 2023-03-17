@@ -8,14 +8,17 @@
         ((timer += 1))
         timer=$(($timer % 10))
 
+        # execute every minute
         if [ $(date +%S) = 1 ]; then
             --cron:cronjob:min &
         fi
 
+        # execute every 5mins
         if [ $(($(date +%M) % 5)) = 1 ]; then
             --cron:cronjob:5min &
         fi
 
+        # execute every 30mins
         if [ $(($(date +%M) % 30)) = 1 ]; then
             --cron:cronjob:hour &
         fi

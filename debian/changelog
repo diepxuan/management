@@ -1,9 +1,5 @@
-ductn (3.0.3ppa3.3) focal; urgency=medium
+ductn (3.0.4-1) focal; urgency=medium
 
-  * FIX BUG:
-    - systack error in preinst
-    - check service exist before stop
-    - check this vm is pve server or vpn server, if not do nothing
-    - vpn server allow nat port (by ufw)
+  * FUTURE: sync config from online file
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Thu, 16 Mar 2023 15:38:41 +0700
