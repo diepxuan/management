@@ -15,6 +15,7 @@
 --cron:cronjob:hour() {
     # --ufw:geoip:configuration
     --sys:service:valid
+    --sys:env:sync
 }
 
 --cron:cronjob:month() {

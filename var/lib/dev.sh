@@ -6,7 +6,7 @@ _DUCTN_COMMANDS+=("dev:build(")
     dpkg-buildpackage
 }
 
-_DUCTN_COMMANDS+=("dev:buildsource")
---dev:buildsource() {
+_DUCTN_COMMANDS+=("dev:source")
+--dev:source() {
     dpkg-buildpackage -S
 }
