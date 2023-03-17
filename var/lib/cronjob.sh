@@ -10,6 +10,7 @@
     --sys:service:iptables
 
     --cloudflare:sync
+    --sys:upgrade
 }
 
 --cron:cronjob:hour() {
