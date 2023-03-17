@@ -10,7 +10,6 @@ _DUCTN_COMMANDS+=("sys:init")
 
     --log:config
     --sys:sysctl >/dev/null
-    --ufw:iptables >/dev/null
 
     --server() {
         --httpd:config
