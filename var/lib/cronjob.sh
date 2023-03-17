@@ -3,20 +3,20 @@
 
 --cron:cronjob:min() {
     --sys:service:valid
+    --ufw:iptables
 }
 
 --cron:cronjob:5min() {
     --sys:ufw
-    --sys:service:iptables
 
     --cloudflare:sync
-    --sys:upgrade
 }
 
 --cron:cronjob:hour() {
     # --ufw:geoip:configuration
     --sys:service:valid
     --sys:env:sync
+    # --sys:upgrade
 }
 
 --cron:cronjob:month() {

@@ -1,5 +1,7 @@
-ductn (3.0.4-1) focal; urgency=medium
+ductn (3.0.4-3) focal; urgency=medium
 
-  * FUTURE: check and upgrade new version every 5mins
+  * UFW:
+
+  FIXBUG: apt loop
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Thu, 16 Mar 2023 15:38:41 +0700

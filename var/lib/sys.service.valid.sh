@@ -95,6 +95,8 @@
 }
 
 --sys:service:iptables() {
+    # DescriptionRemoved from 3.0.4-2
+    return 0
     if [[ ! "$(--sys:service:isactive ductn-iptables)" == "active" ]]; then
         --ufw:iptables
     fi
