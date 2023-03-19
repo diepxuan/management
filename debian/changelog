@@ -7,6 +7,7 @@ ductn (3.0.4-4) focal; urgency=medium
     - add new etc file: csf
     - remove UFW service checker
     - uninstall fail2ban
+    - add config for pve server
 
   FIXBUG:
     - iptables rules
