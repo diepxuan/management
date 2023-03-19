@@ -1,7 +1,5 @@
-ductn (3.0.5-1) focal; urgency=medium
+ductn (3.0.5-2) focal; urgency=medium
 
-  * Initial release: 3.0.5
-    - FIX: internet access for VMs client in PVE server without VPN
-    - Create README.md
+  * FIX BUG: fix csf rules missing in vpn server
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 19 Mar 2023 16:12:04 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 19 Mar 2023 19:51:50 +0700
