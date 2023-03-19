@@ -9,6 +9,13 @@ _DUCTN_COMMANDS+=("sys:ufw")
     fi
 }
 
+--sys:ufw:disable() {
+    if [ "$(--sys:ufw:is_active)" == "active" ]; then
+        sudo ufw disable
+        sudo systemctl stop ufw
+    fi
+}
+
 _DUCTN_COMMANDS+=("sys:ufw:cleanup")
 --sys:ufw:cleanup() {
     --ufw:cleanup
@@ -20,7 +27,7 @@ _DUCTN_COMMANDS+=("sys:ufw:allow")
     _allowDomain() {
         # sudo ufw allow proto tcp from "$(--host:address $@)" to any port 1433
         _IP=$(--host:address $@)
-        if [ ! "$_IP" = "127.0.0.1" ] && [ $(_is_exist $_IP) = 0 ]; then
+        if [ ! "$_IP" = "127.0.0.1" ] && [ $(_is_exist) = 0 ]; then
             sudo ufw allow from "$(--host:address $@)"
         fi
     }
@@ -47,16 +54,18 @@ _DUCTN_COMMANDS+=("sys:ufw:allow")
 
 _DUCTN_COMMANDS+=("sys:ufw:is_active")
 --sys:ufw:is_active() {
-    if [ "$(--sys:service:isactive ufw)" == "active" ]; then
-        echo active
+    if [[ $(_is_exist) -eq 1 ]]; then
+        sudo ufw status | grep 'inactive' >/dev/null 2>&1
+        [ $? = 0 ] && echo inactive || echo active
     else
-        if [[ $(_is_exist) -eq 1 ]]; then
-            sudo ufw status | grep 'inactive' >/dev/null 2>&1
-            [ $? = 0 ] && echo inactive || echo active
-        else
-            echo inactive
-        fi
+        echo inactive
     fi
+
+    # if [ "$(--sys:service:isactive ufw)" == "active" ]; then
+    #     echo active
+    # else
+    #     echo deactive
+    # fi
 
     # sudo ufw status | grep 'active' >/dev/null 2>&1
     # if [ $? = 0 ]; then

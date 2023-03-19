@@ -20,8 +20,8 @@ _DUCTN_COMMANDS+=("ip:wan")
     #     _IP_EXTEND=$(dig -4 @ns1.google.com -t txt o-o.myaddr.l.google.com +short | tr -d \")
     # fi
 
-    [[ -z "$_IP_EXTEND" ]] && _IP_EXTEND="$(dig -4 @ns1.google.com -t txt o-o.myaddr.l.google.com +short | tr -d \" 2>/dev/null)"
-    [[ -z "$_IP_EXTEND" ]] && $(--ip:valid $_IP_EXTEND)
+    [[ -z "$_IP_EXTEND" ]] && _IP_EXTEND="$(dig -4 @ns1.google.com -t txt o-o.myaddr.l.google.com +short 2>&1 | tr -d \" 2>/dev/null)"
+    [[ -z "$_IP_EXTEND" ]] && _IP_EXTEND=$(--ip:valid $_IP_EXTEND)
     echo "$_IP_EXTEND"
 }
 

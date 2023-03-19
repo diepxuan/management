@@ -71,9 +71,7 @@ _rules() {
     fi
 
     ######### VPN Firewall DMZ to Pve server #########
-    if [ $(--host:is_vpn_server) == 1 ]; then
-        echo "$(_dmz_rules)"
-    fi
+    # $_dmz_rules
 }
 
 _DUCTN_COMMANDS+=("ufw:iptables:uninstall")
@@ -103,76 +101,80 @@ _iptables_path6() {
     echo $ip6tables_path
 }
 
-_dmz_rules() {
-    DMZ_RULES=""
+# _dmz_rules() {
+#     if [[ ! $(--host:is_vpn_server) == 1 ]]; then
+#         return 0
+#     fi
 
-    INET_IP="$(--ip:wan)"
-    INET_IFACE="$(route | grep '^default' | head -1 | grep -o '[^ ]*$')"
+#     DMZ_RULES=""
 
-    LAN_IP="$(--ip:local)"
-    # LAN_IFACE="tun0"
+#     INET_IP="$(--ip:wan)"
+#     INET_IFACE="$(route | grep '^default' | head -1 | grep -o '[^ ]*$')"
 
-    DMZ_IP="10.8.0.2"
-    DMZ_IFACE="tun0"
+#     LAN_IP="$(--ip:local)"
+#     # LAN_IFACE="tun0"
 
-    LO_IFACE="lo"
-    LO_IP="127.0.0.1"
+#     DMZ_IP="10.8.0.2"
+#     DMZ_IFACE="tun0"
 
-    if [ ! "$(--sys:service:isactive ufw)" == "active" ]; then
-        # echo "-X bad_tcp_packets"
-        echo "-N bad_tcp_packets"
-        echo "-N allowed"
-        echo "-N icmp_packets"
+#     LO_IFACE="lo"
+#     LO_IP="127.0.0.1"
 
-        echo "-A bad_tcp_packets -p tcp ! --syn -m state --state NEW -j LOG --log-prefix \"New not syn:\""
-        echo "-A bad_tcp_packets -p tcp ! --syn -m state --state NEW -j DROP"
+#     if [ ! "$(--sys:service:isactive ufw)" == "active" ]; then
+#         # echo "-X bad_tcp_packets"
+#         echo "-N bad_tcp_packets"
+#         echo "-N allowed"
+#         echo "-N icmp_packets"
 
-        echo "-A bad_tcp_packets -i $INET_IFACE -s 192.168.0.0/16 -j DROP"
-        echo "-A bad_tcp_packets -i $INET_IFACE -s 10.0.0.0/8 -j DROP"
-        echo "-A bad_tcp_packets -i $INET_IFACE -s 172.16.0.0/12 -j DROP"
-        echo "-A bad_tcp_packets -i $INET_IFACE -s $INET_IP -j DROP"
+#         echo "-A bad_tcp_packets -p tcp ! --syn -m state --state NEW -j LOG --log-prefix \"New not syn:\""
+#         echo "-A bad_tcp_packets -p tcp ! --syn -m state --state NEW -j DROP"
 
-        echo "-A allowed -p TCP --syn -j ACCEPT"
-        echo "-A allowed -p TCP -m state --state ESTABLISHED,RELATED -j ACCEPT"
-        echo "-A allowed -p TCP -j DROP"
+#         echo "-A bad_tcp_packets -i $INET_IFACE -s 192.168.0.0/16 -j DROP"
+#         echo "-A bad_tcp_packets -i $INET_IFACE -s 10.0.0.0/8 -j DROP"
+#         echo "-A bad_tcp_packets -i $INET_IFACE -s 172.16.0.0/12 -j DROP"
+#         echo "-A bad_tcp_packets -i $INET_IFACE -s $INET_IP -j DROP"
 
-        echo "-A icmp_packets -p ICMP -s 0/0 --icmp-type 0 -j ACCEPT"
-        echo "-A icmp_packets -p ICMP -s 0/0 --icmp-type 3 -j ACCEPT"
-        echo "-A icmp_packets -p ICMP -s 0/0 --icmp-type 5 -j ACCEPT"
-        echo "-A icmp_packets -p ICMP -s 0/0 --icmp-type 8 -j ACCEPT"
-        echo "-A icmp_packets -p ICMP -s 0/0 --icmp-type 11 -j ACCEPT"
+#         echo "-A allowed -p TCP --syn -j ACCEPT"
+#         echo "-A allowed -p TCP -m state --state ESTABLISHED,RELATED -j ACCEPT"
+#         echo "-A allowed -p TCP -j DROP"
 
-        echo "-A INPUT -p tcp -j bad_tcp_packets"
-        echo "-A INPUT -p ICMP -i $INET_IFACE -j icmp_packets"
-        echo "-A INPUT -p ALL -i $DMZ_IFACE -d $DMZ_IP -j ACCEPT"
-        # echo "-A INPUT -p ALL -i $LAN_IFACE -d $LAN_IP -j ACCEPT"
-        # echo "-A INPUT -p ALL -i $LAN_IFACE -d $LAN_BROADCAST_ADDRESS -j ACCEPT"
-        echo "-A INPUT -p ALL -i $LO_IFACE -s $LO_IP -j ACCEPT"
-        echo "-A INPUT -p ALL -i $LO_IFACE -s $LAN_IP -j ACCEPT"
-        echo "-A INPUT -p ALL -i $LO_IFACE -s $INET_IP -j ACCEPT"
-        echo "-A INPUT -p ALL -d $INET_IP -m state --state ESTABLISHED,RELATED -j ACCEPT"
-        echo "-A INPUT -m limit --limit 3/minute --limit-burst 3 -j LOG --log-prefix \"IPT INPUT packet died: \""
+#         echo "-A icmp_packets -p ICMP -s 0/0 --icmp-type 0 -j ACCEPT"
+#         echo "-A icmp_packets -p ICMP -s 0/0 --icmp-type 3 -j ACCEPT"
+#         echo "-A icmp_packets -p ICMP -s 0/0 --icmp-type 5 -j ACCEPT"
+#         echo "-A icmp_packets -p ICMP -s 0/0 --icmp-type 8 -j ACCEPT"
+#         echo "-A icmp_packets -p ICMP -s 0/0 --icmp-type 11 -j ACCEPT"
 
-        echo "-A FORWARD -p tcp -j bad_tcp_packets"
-        echo "-A FORWARD -i $DMZ_IFACE -o $INET_IFACE -j ACCEPT"
-        echo "-A FORWARD -i $INET_IFACE -o $DMZ_IFACE -m state --state ESTABLISHED,RELATED -j ACCEPT"
-        # echo "-A FORWARD -i $LAN_IFACE -o $DMZ_IFACE -j ACCEPT"
-        # echo "-A FORWARD -i $DMZ_IFACE -o $LAN_IFACE -m state --state ESTABLISHED,RELATED -j ACCEPT"
-        echo "-A FORWARD -m limit --limit 3/minute --limit-burst 3 -j LOG --log-prefix \"IPT FORWARD packet died: \""
+#         echo "-A INPUT -p tcp -j bad_tcp_packets"
+#         echo "-A INPUT -p ICMP -i $INET_IFACE -j icmp_packets"
+#         echo "-A INPUT -p ALL -i $DMZ_IFACE -d $DMZ_IP -j ACCEPT"
+#         # echo "-A INPUT -p ALL -i $LAN_IFACE -d $LAN_IP -j ACCEPT"
+#         # echo "-A INPUT -p ALL -i $LAN_IFACE -d $LAN_BROADCAST_ADDRESS -j ACCEPT"
+#         echo "-A INPUT -p ALL -i $LO_IFACE -s $LO_IP -j ACCEPT"
+#         echo "-A INPUT -p ALL -i $LO_IFACE -s $LAN_IP -j ACCEPT"
+#         echo "-A INPUT -p ALL -i $LO_IFACE -s $INET_IP -j ACCEPT"
+#         echo "-A INPUT -p ALL -d $INET_IP -m state --state ESTABLISHED,RELATED -j ACCEPT"
+#         echo "-A INPUT -m limit --limit 3/minute --limit-burst 3 -j LOG --log-prefix \"IPT INPUT packet died: \""
 
-        echo "-A OUTPUT -p tcp -j bad_tcp_packets"
-        echo "-A OUTPUT -m limit --limit 3/minute --limit-burst 3 -j LOG --log-prefix \"IPT OUTPUT packet died: \""
-    fi
+#         echo "-A FORWARD -p tcp -j bad_tcp_packets"
+#         echo "-A FORWARD -i $DMZ_IFACE -o $INET_IFACE -j ACCEPT"
+#         echo "-A FORWARD -i $INET_IFACE -o $DMZ_IFACE -m state --state ESTABLISHED,RELATED -j ACCEPT"
+#         # echo "-A FORWARD -i $LAN_IFACE -o $DMZ_IFACE -j ACCEPT"
+#         # echo "-A FORWARD -i $DMZ_IFACE -o $LAN_IFACE -m state --state ESTABLISHED,RELATED -j ACCEPT"
+#         echo "-A FORWARD -m limit --limit 3/minute --limit-burst 3 -j LOG --log-prefix \"IPT FORWARD packet died: \""
 
-    # Enable simple IP Forwarding and Network Address Translation
-    echo "-t nat -A POSTROUTING -o $INET_IFACE -j SNAT --to-source $INET_IP"
+#         echo "-A OUTPUT -p tcp -j bad_tcp_packets"
+#         echo "-A OUTPUT -m limit --limit 3/minute --limit-burst 3 -j LOG --log-prefix \"IPT OUTPUT packet died: \""
+#     fi
 
-    echo "-t nat -A PREROUTING -p TCP -i $INET_IFACE -d $INET_IP --dport 53 -j DNAT --to-destination $DMZ_IP"
-    echo "-t nat -A PREROUTING -p UDP -i $INET_IFACE -d $INET_IP --dport 53 -j DNAT --to-destination $DMZ_IP"
+#     # Enable simple IP Forwarding and Network Address Translation
+#     echo "-t nat -A POSTROUTING -o $INET_IFACE -j SNAT --to-source $INET_IP"
 
-    # NAT port to vm client
-    for nat in $(--sys:env:nat); do
-        port=${nat%:*} # remove suffix starting with "_"
-        [[ -n $port ]] && echo "-t nat -A PREROUTING -p TCP -i $INET_IFACE -d $INET_IP --dport $port -j DNAT --to-destination $DMZ_IP"
-    done
-}
+#     echo "-t nat -A PREROUTING -p TCP -i $INET_IFACE -d $INET_IP --dport 53 -j DNAT --to-destination $DMZ_IP"
+#     echo "-t nat -A PREROUTING -p UDP -i $INET_IFACE -d $INET_IP --dport 53 -j DNAT --to-destination $DMZ_IP"
+
+#     # NAT port to vm client
+#     for nat in $(--sys:env:nat); do
+#         port=${nat%:*} # remove suffix starting with "_"
+#         [[ -n $port ]] && echo "-t nat -A PREROUTING -p TCP -i $INET_IFACE -d $INET_IP --dport $port -j DNAT --to-destination $DMZ_IP"
+#     done
+# }

@@ -1,7 +1,15 @@
-ductn (3.0.4-3) focal; urgency=medium
+ductn (3.0.4-4) focal; urgency=medium
 
-  * UFW:
+  * CSF (Config Server Firewall): Install new Firewall
+    - removw UFW
+    - remove UFW geoIp
+    - remove old ufw cron
+    - add new etc file: csf
+    - remove UFW service checker
+    - uninstall fail2ban
 
-  FIXBUG: apt loop
+  FIXBUG:
+    - iptables rules
+    - default ip when disconnect
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Thu, 16 Mar 2023 15:38:41 +0700
