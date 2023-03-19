@@ -78,6 +78,14 @@ _csf_rules() {
         echo "iptables -A FORWARD -i $INET_IFACE -o tun+ -m state --state RELATED,ESTABLISHED -j ACCEPT"
         echo "iptables -A FORWARD -i tun+ -o $LAN_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
         echo "iptables -A FORWARD -i $LAN_IFACE -o tun+ -m state --state RELATED,ESTABLISHED -j ACCEPT"
+
+        for nat in $(--sys:env:nat); do
+            port=${nat%:*}    # remove suffix starting with "_"
+            address=${nat#*:} # remove prefix ending in "_"
+            address=${address//'.pve.'/".$SRV_NUM."}
+
+            [[ -n $port ]] && [[ -n $address ]] && echo "iptables -t nat -A PREROUTING -p TCP --dport $port -j DNAT --to-destination $address"
+        done
     fi
 
     # # Enable simple IP Forwarding and Network Address Translation
