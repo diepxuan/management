@@ -32,7 +32,7 @@ _DUCTN_COMMANDS+=("csf:config")
     done < <(--sys:env:csf)
 
     [[ -f /etc/csf/csfpost.sh ]] || sudo touch /etc/csf/csfpost.sh
-    echo "$(_csf_rules)" | sudo tee /etc/csf/csfpost.sh >/dev/null
+    echo "$(_csf_rules)" | sudo tee /etc/csf/csfpost.sh
 
     sudo csf -r
 }
@@ -75,11 +75,17 @@ _csf_rules() {
     if [[ $(--host:is_server) == 1 ]]; then
         echo "iptables -t raw -I PREROUTING -i fwbr+ -j CT --zone 1"
 
-        echo "iptables -t nat -A POSTROUTING -o $INET_IFACE -j MASQUERADE"
-        # echo "iptables -t nat -A POSTROUTING -s '10.0.$SRV_NUM.0/24' -o vmbr0 -j MASQUERADE"
+        # echo "iptables -t nat -A POSTROUTING -o $INET_IFACE -j MASQUERADE"
+        echo "iptables -t nat -A POSTROUTING -s 10.0.$SRV_NUM.0/24 -o $INET_IFACE -j MASQUERADE"
+        echo "iptables -A INPUT -i $LAN_IFACE -j ACCEPT"
+        echo "iptables -A FORWARD -i $LAN_IFACE -j ACCEPT"
+        echo "iptables -A FORWARD -o $LAN_IFACE -j ACCEPT"
+
+        echo "iptables -A FORWARD -i $INET_IFACE -o $LAN_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
+        echo "iptables -A FORWARD -i $LAN_IFACE -o $INET_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
 
         if [[ "$(ip tuntap show | grep tun0)" != "" ]]; then
-            echo "iptables -t nat -A POSTROUTING -s '10.0.$SRV_NUM.0/24' -o tun0 -j MASQUERADE"
+            # echo "iptables -t nat -A POSTROUTING -s 10.0.$SRV_NUM.0/24 -o tun0 -j MASQUERADE"
             echo "iptables -A INPUT -i tun+ -j ACCEPT"
             echo "iptables -A FORWARD -i tun+ -j ACCEPT"
             echo "iptables -A FORWARD -o tun0 -j ACCEPT"
@@ -89,9 +95,6 @@ _csf_rules() {
             echo "iptables -A FORWARD -i tun+ -o $LAN_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
             echo "iptables -A FORWARD -i $LAN_IFACE -o tun+ -m state --state RELATED,ESTABLISHED -j ACCEPT"
         fi
-
-        echo "iptables -A FORWARD -i $INET_IFACE -o $LAN_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
-        echo "iptables -A FORWARD -i $LAN_IFACE -o $INET_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
 
         for nat in $(--sys:env:nat); do
             port=${nat%:*}
@@ -104,8 +107,4 @@ _csf_rules() {
 
     # # Enable simple IP Forwarding and Network Address Translation
     # echo "-t nat -A POSTROUTING -o $INET_IFACE -j SNAT --to-source $INET_IP"
-
-    # echo "-t nat -A PREROUTING -p TCP -i $INET_IFACE -d $INET_IP --dport 53 -j DNAT --to-destination $DMZ_IP"
-    # echo "-t nat -A PREROUTING -p UDP -i $INET_IFACE -d $INET_IP --dport 53 -j DNAT --to-destination $DMZ_IP"
-
 }
