@@ -68,7 +68,7 @@ _csf_rules() {
 
         for nat in $(--sys:env:nat); do
             port=${nat%:*}
-            [[ -n $port ]] && [[ -n $address ]] && echo "iptables -t nat -A PREROUTING -p TCP --dport $port -j DNAT --to-destination $DMZ_IP"
+            [[ -n $port ]] && echo "iptables -t nat -A PREROUTING -p TCP --dport $port -j DNAT --to-destination $DMZ_IP"
         done
     fi
 
