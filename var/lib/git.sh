@@ -56,7 +56,7 @@ _DUCTN_COMMANDS+=("git:configure")
 
 _gitignore=$(
     cat <<EOF
- .idea/*
+.idea/*
 ### Node template
 # Logs
 logs

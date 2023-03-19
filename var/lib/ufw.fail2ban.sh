@@ -6,29 +6,35 @@ _DUCTN_COMMANDS+=("ufw:fail2ban:install")
     sudo apt install fail2ban -y --purge --auto-remove
 }
 
+--ufw:fail2ban:uninstall() {
+    --sys:apt:remove fail2ban -y --purge --auto-remove
+}
+
 _DUCTN_COMMANDS+=("ufw:fail2ban:configuration")
 --ufw:fail2ban:configuration() {
 
     ##########################
     # mysql
     ##########################
-    echo "$conf_jail_mysql" | sudo tee /etc/fail2ban/jail.d/mysql.conf
-
-    echo "$conf_filter_mysql_auth" | sudo tee /etc/fail2ban/filter.d/mysql-auth.conf
+    echo "$conf_jail_mysql" | sudo tee /etc/fail2ban/jail.d/mysql.conf >/dev/null
+    echo "$conf_filter_mysql_auth" | sudo tee /etc/fail2ban/filter.d/mysql-auth.conf >/dev/null
 
     ##########################
     # sshd invaliduser
     ##########################
-    echo "$conf_jail_sshd_invaliduser" | sudo tee /etc/fail2ban/jail.d/sshd-invaliduser.conf
-
-    echo "$conf_filter_sshd_invaliduser" | sudo tee /etc/fail2ban/filter.d/sshd-invaliduser.conf
+    echo "$conf_jail_sshd_invaliduser" | sudo tee /etc/fail2ban/jail.d/sshd-invaliduser.conf >/dev/null
+    echo "$conf_filter_sshd_invaliduser" | sudo tee /etc/fail2ban/filter.d/sshd-invaliduser.conf >/dev/null
 
     ##########################
     # mssqld invaliduser
     ##########################
-    echo $conf_jail_mssql_server | sudo tee /etc/fail2ban/jail.d/mssql-server.conf
-
-    echo $conf_filter_mssql_server | sudo tee /etc/fail2ban/filter.d/mssql-server.conf
+    if [ "$(--sys:service:isactive mssql-server)" == "active" ]; then
+        echo "$conf_filter_mssql_server" | sudo tee /etc/fail2ban/filter.d/mssql-server.conf >/dev/null
+        echo "$conf_jail_mssql_server" | sudo tee /etc/fail2ban/jail.d/mssql-server.conf >/dev/null
+    else
+        sudo rm -rf /etc/fail2ban/filter.d/mssql-server.conf 2>/dev/null
+        sudo rm -rf /etc/fail2ban/jail.d/mssql-server.conf 2>/dev/null
+    fi
 
     sudo service fail2ban restart
 }

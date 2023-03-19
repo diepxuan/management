@@ -17,6 +17,10 @@
     cat $ETC_PATH/tunel
 }
 
+--sys:env:csf() {
+    cat $ETC_PATH/csf
+}
+
 --sys:env:sync() {
     _sync() {
 
@@ -27,5 +31,5 @@
         done
     }
 
-    _sync domains nat tunel
+    _sync domains nat tunel csf
 }
