@@ -9,11 +9,7 @@ _DUCTN_COMMANDS+=("csf:config")
 
 _DUCTN_COMMANDS+=("csf:install")
 --csf:install() {
-    --ufw:geoip:uninstall
-    --ufw:fail2ban:uninstall
     --sys:ufw:disable
-
-    --sys:apt:install libwww-perl perl
 
     curl http://download.configserver.com/csf.tgz -o /tmp/ductn/csf.tgz
     tar -xzf /tmp/ductn/csf.tgz -C /tmp/ductn
@@ -38,12 +34,6 @@ _DUCTN_COMMANDS+=("csf:config")
 }
 
 _csf_rules() {
-    # if [[ ! $(--host:is_vpn_server) == 1 ]]; then
-    # return 0
-    # fi
-
-    DMZ_RULES=""
-
     INET_IP="$(--ip:wan)"
     INET_IFACE="$(sudo route | grep '^default' | head -1 | grep -o '[^ ]*$')"
 
@@ -107,9 +97,4 @@ _csf_rules() {
     # echo "-t nat -A PREROUTING -p TCP -i $INET_IFACE -d $INET_IP --dport 53 -j DNAT --to-destination $DMZ_IP"
     # echo "-t nat -A PREROUTING -p UDP -i $INET_IFACE -d $INET_IP --dport 53 -j DNAT --to-destination $DMZ_IP"
 
-    # # NAT port to vm client
-    # for nat in $(--sys:env:nat); do
-    #     port=${nat%:*} # remove suffix starting with "_"
-    #     [[ -n $port ]] && echo "-t nat -A PREROUTING -p TCP -i $INET_IFACE -d $INET_IP --dport $port -j DNAT --to-destination $DMZ_IP"
-    # done
 }
