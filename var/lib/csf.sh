@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
+_DUCTN_COMMANDS+=("csf:config")
+--csf() {
+    --csf:install
+    --csf:config
+}
+
+_DUCTN_COMMANDS+=("csf:install")
 --csf:install() {
     --ufw:geoip:uninstall
     --ufw:fail2ban:uninstall
@@ -14,6 +21,7 @@
     cd /tmp/ductn/csf && sudo sh install.sh
 }
 
+_DUCTN_COMMANDS+=("csf:config")
 --csf:config() {
     while IFS= read -r cnf; do
         [[ -z $cnf ]] && continue
