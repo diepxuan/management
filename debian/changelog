@@ -8,6 +8,7 @@ ductn (3.0.4-4) focal; urgency=medium
     - remove UFW service checker
     - uninstall fail2ban
     - add config for pve server
+    - nat port for pve vm
 
   FIXBUG:
     - iptables rules
