@@ -1,140 +1,54 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-_DUCTN_COMMANDS+=("sys:ufw")
---sys:ufw() {
-    if [ "$(--sys:ufw:is_active)" == "active" ]; then
-        --sys:ufw:cleanup
-        --sys:ufw:allow
-    fi
-}
-
 --sys:ufw:disable() {
-    if [ "$(--sys:ufw:is_active)" == "active" ]; then
-        sudo ufw disable
-        sudo systemctl stop ufw
-    fi
+    sudo ufw disable 2>&1
+    sudo systemctl stop ufw 2>&1
+
+    --ufw:geoip:uninstall
+    --ufw:fail2ban:uninstall
+    --ufw:iptables:uninstall
 }
 
-_DUCTN_COMMANDS+=("sys:ufw:cleanup")
---sys:ufw:cleanup() {
-    --ufw:cleanup
+--ufw:geoip:uninstall() {
+    # sudo apt remove curl unzip perl -y --purge --auto-remove
+    sudo apt remove xtables-addons-common -y --purge --auto-remove
+    sudo apt remove libtext-csv-xs-perl libmoosex-types-netaddr-ip-perl -y --purge --auto-remove
+    sudo apt remove libnet-cidr-lite-perl -y --purge --auto-remove
 }
 
-_DUCTN_COMMANDS+=("sys:ufw:allow")
---sys:ufw:allow() {
+--ufw:geoip:allowCloudflare() {
+    # Allow Cloudflare IP
+    # https://www.cloudflare.com/ips-v4
+    # https://www.cloudflare.com/ips-v6
+    # iptables -I INPUT -p tcp -m multiport --dports http,https -s $ip -j ACCEPT
+    # -A ufw-before-input -p tcp -m multiport --dports http,https -s $ip -j ACCEPT
 
-    _allowDomain() {
-        # sudo ufw allow proto tcp from "$(--host:address $@)" to any port 1433
-        _IP=$(--host:address $@)
-        if [ ! "$_IP" = "127.0.0.1" ] && [ $(_is_exist) = 0 ]; then
-            sudo ufw allow from "$(--host:address $@)"
-        fi
-    }
+    v4ips="https://www.cloudflare.com/ips-v4"
+    # echo "# v4: add to file /etc/ufw/before.rules"
+    # echo "########################################"
+    while IFS= read -r line; do
+        echo -e "-A ufw-before-input -p tcp -m multiport --dports http,https -s ${line} -j ACCEPT\n"
+    done < <(curl -s $v4ips)
 
-    _allowPort() {
-        # sudo ufw allow proto tcp from "$(--host:address $@)" to any port 1433
-        _port=$*
-        if [ -n $_port ]; then
-            sudo ufw allow $_port
-        fi
-    }
+    echo -e "\n\n"
 
-    for domain in $(--sys:env:domains); do
-        # echo $domain
-        _allowDomain $domain
-    done
-
-    if [ $(--host:is_vpn_server) == 1 ]; then
-        for nat in $(--sys:env:nat); do
-            port=${nat%:*} # remove suffix starting with "_"
-        done
-    fi
+    v6ips="https://www.cloudflare.com/ips-v6"
+    # echo "# v6: add to file /etc/ufw/before6.rules"
+    # echo "########################################"
+    while IFS= read -r line; do
+        # echo -e "-A ufw-before-input -p tcp -m multiport --dports http,https -s ${line} -j ACCEPT\n"
+        echo ''
+    done < <(curl -s $v6ips)
 }
 
-_DUCTN_COMMANDS+=("sys:ufw:is_active")
---sys:ufw:is_active() {
-    if [[ $(_is_exist) -eq 1 ]]; then
-        sudo ufw status | grep 'inactive' >/dev/null 2>&1
-        [ $? = 0 ] && echo inactive || echo active
-    else
-        echo inactive
-    fi
-
-    # if [ "$(--sys:service:isactive ufw)" == "active" ]; then
-    #     echo active
-    # else
-    #     echo deactive
-    # fi
-
-    # sudo ufw status | grep 'active' >/dev/null 2>&1
-    # if [ $? = 0 ]; then
-    #     echo active
-    # else
-    #     echo deactive
-    # fi
+--ufw:fail2ban:uninstall() {
+    --sys:apt:remove fail2ban -y --purge --auto-remove
 }
 
---sys:hosts() {
-    # --hosts:add $(--host:address dxvnmg15.diepxuan.com) mg15
-    # --hosts:add $(--host:address dx3.diepxuan.com) dx3
-
-    --do_no_thing
+--ufw:iptables:uninstall() {
+    sudo systemctl stop ductn-iptables 2>/dev/null
+    sudo systemctl disable ductn-iptables 2>/dev/null
+    sudo rm -rf /usr/lib/systemd/system/ductn-iptables.service 2>/dev/null
+    sudo systemctl daemon-reload 2>/dev/null
 }
-
-_is_exist() {
-    [ ! -x "$(command -v ufw)" ] && echo 0 || echo 1
-}
-
-_DUCTN_COMMANDS+=("ufw:cleanup")
---ufw:cleanup() {
-    TYPE=$1
-    DDNS_IPS=()
-
-    for domain in $(--sys:env:domains); do
-        IP="$(--host:address $domain)"
-        DDNS_IPS+=($IP)
-    done
-
-    sudo ufw status numbered | sed -n '/Anywhere[[:space:]]\+ALLOW IN[[:space:]]\+/p' | while read line; do
-        line="$(echo "$line" | sed -r 's/[[:space:]*[0-9]+][[:space:]]Anywhere[[:space:]]+ALLOW IN[[:space:]]+//g')"
-        line="$(echo "$line" | sed -r 's/\/tcp//g')"
-
-        if [[ " ${DDNS_IPS[*]} " =~ " ${line} " ]]; then
-            [[ $TYPE =~ "cmd" ]] && --echo "Exist $line"
-        else
-            # sudo ufw delete allow proto tcp from "$line"
-            sudo ufw delete allow from "$line"
-            [[ $TYPE =~ "cmd" ]] && --echo "Remove $line"
-        fi
-
-    done
-}
-
-_DUCTN_COMMANDS+=("ufw:profile:mssql")
---ufw:profile:mssql() {
-    [[ -f /etc/ufw/applications.d/mssql.ufw.profile ]] || echo -e "$ufw_profile_mssql" | sudo tee /etc/ufw/applications.d/mssql.ufw.profile >/dev/null
-}
-
-ufw_profile_mssql="[SQLServer]
-title=SQLServer
-description=SQLServer server.
-ports=1433/tcp|1434/udp
-"
-#!/usr/bin/env bash
-#!/bin/bash
-
-# options_found=0
-# while getopts ":u" opt; do
-#     options_found=1
-#     case $opt in
-#     u)
-#         username=$OPTARG
-#         echo "username = $OPTARG"
-#         ;;
-#     esac
-# done
-
-# if ((!options_found)); then
-#     echo "no options found"
-# fi

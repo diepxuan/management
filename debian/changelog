@@ -1,18 +1,5 @@
-ductn (3.0.4-4) focal; urgency=medium
+ductn (3.0.4-5) focal; urgency=medium
 
-  * CSF (Config Server Firewall): Install new Firewall
-    - removw UFW
-    - remove UFW geoIp
-    - remove old ufw cron
-    - add new etc file: csf
-    - remove UFW service checker
-    - uninstall fail2ban
-    - add config for pve server
-    - nat port for pve vm
-    - nat port for openvpn client
-
-  FIXBUG:
-    - iptables rules
-    - default ip when disconnect
+  * Release (Closes: 3.0.4)
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Thu, 16 Mar 2023 15:38:41 +0700
