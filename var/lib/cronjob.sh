@@ -10,13 +10,10 @@
 }
 
 --cron:cronjob:hour() {
-    # --ufw:geoip:configuration
     --sys:service:valid
     --sys:env:sync
-    # --sys:upgrade
 }
 
 --cron:cronjob:month() {
-    # --ufw:geoip:configuration
     return 0
 }
