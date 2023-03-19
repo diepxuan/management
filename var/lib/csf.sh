@@ -28,13 +28,20 @@ _DUCTN_COMMANDS+=("csf:config")
         param=${cnf% = *}
         value=${cnf#* = }
         value=${value//\"/}
-        sudo sed -i "s/$param = .*/$param = \"$value\"/" /etc/csf/csf.conf
+        --csf:config:set $param $value
     done < <(--sys:env:csf)
 
     [[ -f /etc/csf/csfpost.sh ]] || sudo touch /etc/csf/csfpost.sh
     echo "$(_csf_rules)" | sudo tee /etc/csf/csfpost.sh
 
     sudo csf -r
+}
+
+_DUCTN_COMMANDS+=("csf:config:set")
+--csf:config:set() {
+    param=$1
+    value=$2
+    sudo sed -i "s/$param = .*/$param = \"$value\"/" /etc/csf/csf.conf
 }
 
 _csf_rules() {
@@ -75,8 +82,8 @@ _csf_rules() {
     if [[ $(--host:is_server) == 1 ]]; then
         echo "iptables -t raw -I PREROUTING -i fwbr+ -j CT --zone 1"
 
-        # echo "iptables -t nat -A POSTROUTING -o $INET_IFACE -j MASQUERADE"
-        echo "iptables -t nat -A POSTROUTING -s 10.0.$SRV_NUM.0/24 -o $INET_IFACE -j MASQUERADE"
+        # echo "iptables -t nat -A POSTROUTING -s 10.0.$SRV_NUM.0/24 -o $INET_IFACE -j MASQUERADE"
+        echo "iptables -t nat -A POSTROUTING -o $INET_IFACE -j MASQUERADE"
         echo "iptables -A INPUT -i $LAN_IFACE -j ACCEPT"
         echo "iptables -A FORWARD -i $LAN_IFACE -j ACCEPT"
         echo "iptables -A FORWARD -o $LAN_IFACE -j ACCEPT"
@@ -86,6 +93,7 @@ _csf_rules() {
 
         if [[ "$(ip tuntap show | grep tun0)" != "" ]]; then
             # echo "iptables -t nat -A POSTROUTING -s 10.0.$SRV_NUM.0/24 -o tun0 -j MASQUERADE"
+            echo "iptables -t nat -A POSTROUTING -o tun0 -j MASQUERADE"
             echo "iptables -A INPUT -i tun+ -j ACCEPT"
             echo "iptables -A FORWARD -i tun+ -j ACCEPT"
             echo "iptables -A FORWARD -o tun0 -j ACCEPT"
