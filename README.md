@@ -34,7 +34,7 @@ ductn -v
 
 ## Contributing
 
-    v3.0.5 --- updating...
+    v3.0.5 --- sync Clusters config
     |
     v3.0.4 --- use CSF replace UFW and manual iptables
     |
