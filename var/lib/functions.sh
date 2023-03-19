@@ -25,3 +25,8 @@
 ---v() {
     --version
 }
+
+_DUCTN_COMMANDS+=("hash_MD5")
+--hash_MD5() {
+    echo $RANDOM | md5sum | head -c 20
+}
