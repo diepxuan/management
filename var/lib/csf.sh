@@ -15,6 +15,10 @@ _DUCTN_COMMANDS+=("csf:install")
     tar -xzf /tmp/ductn/csf.tgz -C /tmp/ductn
 
     cd /tmp/ductn/csf && sudo sh install.sh
+
+    [[ -n $(command -v iptables) ]] && [[ $(which iptables) != /sbin/iptables ]] && [[ ! -f /sbin/iptables ]] && sudo ln $(which iptables) /sbin/iptables
+    [[ -n $(command -v iptables-save) ]] && [[ $(which iptables-save) != /sbin/iptables-save ]] && [[ ! -f /sbin/iptables-save ]] && sudo ln $(which iptables-save) /sbin/iptables-save
+    [[ -n $(command -v iptables-restore) ]] && [[ $(which iptables-restore) != /sbin/iptables-restore ]] && [[ ! -f /sbin/iptables-restore ]] && sudo ln $(which iptables-restore) /sbin/iptables-restore
 }
 
 _DUCTN_COMMANDS+=("csf:config")
@@ -50,12 +54,14 @@ _csf_rules() {
     SRV_NUM=${SRV_NUM:3}
 
     if [[ $(--host:is_vpn_server) == 1 ]]; then
-        echo "iptables -t nat -A POSTROUTING -o $INET_IFACE -j MASQUERADE"
         echo "iptables -t raw -I PREROUTING -i fwbr+ -j CT --zone 1"
+        echo "iptables -t nat -A POSTROUTING -o $INET_IFACE -j MASQUERADE"
 
-        echo "iptables -A INPUT -i tun+ -j ACCEPT"
-        echo "iptables -A FORWARD -i tun+ -j ACCEPT"
-        [[ "$(ip tuntap show | grep tun0)" != "" ]] && echo "iptables -A FORWARD -o tun0 -j ACCEPT"
+        if [[ "$(ip tuntap show | grep tun0)" != "" ]]; then
+            echo "iptables -A INPUT -i tun+ -j ACCEPT"
+            echo "iptables -A FORWARD -i tun+ -j ACCEPT"
+            echo "iptables -A FORWARD -o tun0 -j ACCEPT"
+        fi
 
         echo "iptables -A FORWARD -i tun+ -o $INET_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
         echo "iptables -A FORWARD -i $INET_IFACE -o tun+ -m state --state RELATED,ESTABLISHED -j ACCEPT"
@@ -67,20 +73,25 @@ _csf_rules() {
     fi
 
     if [[ $(--host:is_server) == 1 ]]; then
-        echo "iptables -t nat -A POSTROUTING -o $INET_IFACE -j MASQUERADE"
         echo "iptables -t raw -I PREROUTING -i fwbr+ -j CT --zone 1"
 
-        echo "iptables -A INPUT -i tun+ -j ACCEPT"
-        echo "iptables -A FORWARD -i tun+ -j ACCEPT"
-        [[ "$(ip tuntap show | grep tun0)" != "" ]] && echo "iptables -A FORWARD -o tun0 -j ACCEPT"
+        echo "iptables -t nat -A POSTROUTING -o $INET_IFACE -j MASQUERADE"
+        # echo "iptables -t nat -A POSTROUTING -s '10.0.$SRV_NUM.0/24' -o vmbr0 -j MASQUERADE"
 
-        echo "iptables -t nat -A POSTROUTING -s '10.0.$SRV_NUM.0/24' -o vmbr0 -j MASQUERADE"
-        [[ "$(ip tuntap show | grep tun0)" != "" ]] && echo "iptables -t nat -A POSTROUTING -s '10.0.$SRV_NUM.0/24' -o tun0 -j MASQUERADE"
+        if [[ "$(ip tuntap show | grep tun0)" != "" ]]; then
+            echo "iptables -t nat -A POSTROUTING -s '10.0.$SRV_NUM.0/24' -o tun0 -j MASQUERADE"
+            echo "iptables -A INPUT -i tun+ -j ACCEPT"
+            echo "iptables -A FORWARD -i tun+ -j ACCEPT"
+            echo "iptables -A FORWARD -o tun0 -j ACCEPT"
 
-        echo "iptables -A FORWARD -i tun+ -o $INET_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
-        echo "iptables -A FORWARD -i $INET_IFACE -o tun+ -m state --state RELATED,ESTABLISHED -j ACCEPT"
-        echo "iptables -A FORWARD -i tun+ -o $LAN_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
-        echo "iptables -A FORWARD -i $LAN_IFACE -o tun+ -m state --state RELATED,ESTABLISHED -j ACCEPT"
+            echo "iptables -A FORWARD -i tun+ -o $INET_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
+            echo "iptables -A FORWARD -i $INET_IFACE -o tun+ -m state --state RELATED,ESTABLISHED -j ACCEPT"
+            echo "iptables -A FORWARD -i tun+ -o $LAN_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
+            echo "iptables -A FORWARD -i $LAN_IFACE -o tun+ -m state --state RELATED,ESTABLISHED -j ACCEPT"
+        fi
+
+        echo "iptables -A FORWARD -i $INET_IFACE -o $LAN_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
+        echo "iptables -A FORWARD -i $LAN_IFACE -o $INET_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
 
         for nat in $(--sys:env:nat); do
             port=${nat%:*}
