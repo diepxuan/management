@@ -7,13 +7,18 @@ _DUCTN_COMMANDS+=("host:name")
 }
 
 _DUCTN_COMMANDS+=("host:domain")
---host:domain() { # FQDN dc.diepxuan.com
-    hostname -d
+--host:domain() { # FQDN diepxuan.com
+    domain=$(hostname -d)
+    [[ -z $domain ]] && domain=diepxuan.com
+    echo $domain
 }
 
 _DUCTN_COMMANDS+=("host:fullname")
---host:fullname() { # FQDN diepxuan.com
-    hostname -f
+--host:fullname() { # FQDN dc.diepxuan.com
+    # hostname -f
+    name=$(--host:name)
+    domain=$(--host:domain)
+    echo "$name.$domain"
 }
 
 _DUCTN_COMMANDS+=("host:address")

@@ -1,5 +1,5 @@
-ductn (3.0.5-4) focal; urgency=medium
+ductn (3.0.5-5) focal; urgency=medium
 
-  * FUTURE: add function fail to ban to CSF
+  * FIXBUG: missing domain in hostname
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 20 Mar 2023 19:09:40 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 20 Mar 2023 20:02:28 +0700

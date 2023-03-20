@@ -7,7 +7,7 @@ _DUCTN_COMMANDS+=("cloudflare:sync")
 --cloudflare:sync() {
     if [[ "$(--cloudflare:check)" -eq 0 ]]; then
         --cloudflare:patch:recordByName $(--cloudflare:fullname)
-        --cloudflare:ip
+        # --cloudflare:ip
     fi
 }
 
