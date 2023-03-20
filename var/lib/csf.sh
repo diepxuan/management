@@ -34,7 +34,8 @@ _DUCTN_COMMANDS+=("csf:config")
     [[ -f /etc/csf/csfpost.sh ]] || sudo touch /etc/csf/csfpost.sh
     echo "$(_csf_rules)" | sudo tee /etc/csf/csfpost.sh
 
-    sudo csf -r
+    # Restart firewall rules (csf) and then restart lfd daemon
+    sudo csf -ra
 }
 
 _DUCTN_COMMANDS+=("csf:config:set")
