@@ -5,7 +5,6 @@ _DUCTN_COMMANDS+=("swap:remove")
 --swap:remove() {
     sudo swapoff -v /swapfile
     sudo rm /swapfile
-    exit 0
 }
 
 _DUCTN_COMMANDS+=("swap:install")
