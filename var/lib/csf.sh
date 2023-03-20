@@ -42,7 +42,7 @@ _DUCTN_COMMANDS+=("csf:config:set")
 --csf:config:set() {
     param=$1
     value=$2
-    sudo sed -i "s/$param = .*/$param = \"$value\"/" /etc/csf/csf.conf
+    sudo sed -i "s|$param = .*|$param = \"$value\"|" /etc/csf/csf.conf
 }
 
 _csf_rules() {
