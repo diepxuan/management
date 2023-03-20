@@ -117,3 +117,8 @@ _csf_rules() {
     # # Enable simple IP Forwarding and Network Address Translation
     # echo "-t nat -A POSTROUTING -o $INET_IFACE -j SNAT --to-source $INET_IP"
 }
+
+--csf:regex() {
+    regex=$(curl -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' -o - https://diepxuan.github.io/ppa/usr/regex.custom.pm?$RANDOM 2>/dev/null)
+    [[ -n $regex ]] && echo "$regex" | sudo tee /usr/local/csf/bin/regex.custom.pm >/dev/null
+}
