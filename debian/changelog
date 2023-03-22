@@ -1,5 +1,6 @@
-ductn (3.0.5-6) focal; urgency=medium
+ductn (3.0.5-7) focal; urgency=medium
 
-  * FIXBUG: fix sed with path separator
+  * FUTURE: check update for csf regex
+  * FIXBUG: allow only root and ductn to proccess this package
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 20 Mar 2023 21:08:51 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 22 Mar 2023 19:13:01 +0700
