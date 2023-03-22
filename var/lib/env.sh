@@ -29,8 +29,11 @@
             _old=$(cat $ETC_PATH/$param)
 
             [[ ! $_old == $_new ]] && echo "$_new" | sudo tee $ETC_PATH/$param >/dev/null
-            [[ ! $_old == $_new ]] && [[ $param == "csf" ]] && --csf:regex
-            [[ ! $_old == $_new ]] && [[ $param == "csf" ]] && --csf:config
+
+            if [[ $param == "csf" ]]; then
+                --csf:regex
+                [[ ! $_old == $_new ]] && --csf:config
+            fi
         done
     }
 
