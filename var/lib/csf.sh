@@ -120,5 +120,6 @@ _csf_rules() {
 
 --csf:regex() {
     regex=$(curl -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' -o - https://diepxuan.github.io/ppa/usr/regex.custom.pm?$RANDOM 2>/dev/null)
-    [[ -n $regex ]] && echo "$regex" | sudo tee /usr/local/csf/bin/regex.custom.pm >/dev/null
+    _old=$(cat /usr/local/csf/bin/regex.custom.pm)
+    [[ -n $regex ]] && [[ ! $_old == $_new ]] && echo "$regex" | sudo tee /usr/local/csf/bin/regex.custom.pm >/dev/null
 }
