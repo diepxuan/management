@@ -3,26 +3,31 @@
 
 ETC_PATH=/etc/ductn
 USER_BIN_PATH=~/bin
-DIRTMP=/tmp/ductn
-
-if [[ ! $BASH_SOURCE = /var/www/base/ductn ]] && [[ -f /var/www/base/ductn ]]; then
-    source /var/www/base/ductn
-    exit 0
-fi
-
-if [[ $BASH_SOURCE = /var/www/base/ductn ]] && [[ -d /var/www/base/var/lib ]]; then
-    for f in /var/www/base/var/lib/*.sh; do
-        [[ -f $f ]] && source $f
-    done
-elif [ -d /var/lib/ductn ]; then
-    for f in /var/lib/ductn/*.sh; do
-        [[ -f $f ]] && source $f
-    done
-fi
+USERNAME=$(whoami)
 
 _init() {
-    mkdir -p /tmp/ductn
-    sudo chmod 777 -R /tmp/ductn
+    [[ $USERNAME == "root" ]] && USERNAME=ductn
+    [[ ! "$USERNAME" == "ductn" ]] && exit 1
+
+    if [[ ! -d /tmp/ductn ]]; then
+        mkdir -p /tmp/ductn
+        sudo chmod 777 -R /tmp/ductn
+    fi
+
+    if [[ ! $BASH_SOURCE = /var/www/base/ductn ]] && [[ -f /var/www/base/ductn ]]; then
+        source /var/www/base/ductn
+        exit 0
+    fi
+
+    if [[ $BASH_SOURCE = /var/www/base/ductn ]] && [[ -d /var/www/base/var/lib ]]; then
+        for f in /var/www/base/var/lib/*.sh; do
+            [[ -f $f ]] && source $f
+        done
+    elif [ -d /var/lib/ductn ]; then
+        for f in /var/lib/ductn/*.sh; do
+            [[ -f $f ]] && source $f
+        done
+    fi
 }
 
 _main() {
@@ -32,8 +37,6 @@ _main() {
     # read -t 5 -n 1 -s -r -p "Press any key to continue (5 seconds)"
     exit 0
 }
-
-[[ ! "$(whoami)" -eq "ductn" ]] && exit 1
 
 _init
 

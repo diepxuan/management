@@ -5,7 +5,7 @@ _DUCTN_COMMANDS+=("sys:init")
 --sys:init() {
     sudo timedatectl set-timezone Asia/Ho_Chi_Minh
 
-    --user:config $(whoami)
+    --user:config $USERNAME
     --git:configure
 
     --log:config
