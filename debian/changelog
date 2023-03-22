@@ -1,6 +1,5 @@
-ductn (3.0.5-7) focal; urgency=medium
+ductn (3.0.5-8) focal; urgency=medium
 
-  * FUTURE: check update for csf regex
-  * FIXBUG: allow only root and ductn to proccess this package
+  * FIXBUG: fix package break without error
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 22 Mar 2023 19:13:01 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 22 Mar 2023 22:28:14 +0700
