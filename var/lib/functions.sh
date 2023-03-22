@@ -9,7 +9,7 @@
 --do_no_thing() { --exists; }
 
 --logger() {
-    logger "$@"
+    logger "$*"
 }
 
 --echo() {

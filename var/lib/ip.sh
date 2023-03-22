@@ -43,10 +43,8 @@ _DUCTN_COMMANDS+=("ip:local")
     _IP=$@
     if expr "$_IP" : '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' >/dev/null; then
         echo $_IP
-        exit 0
     else
         echo $(--ip:local)
-        exit 1
     fi
 }
 
