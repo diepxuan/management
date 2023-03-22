@@ -25,9 +25,9 @@ _DUCTN_COMMANDS+=("host:address")
 --host:address() {
     if [[ -n "$*" ]]; then
         --host:address:valid $(host $@ | grep -wv -e alias | cut -f4 -d' ')
-        exit 0
+    else
+        --host:address $(--host:fullname)
     fi
-    --host:address $(--host:fullname)
 }
 
 --host:address:valid() {

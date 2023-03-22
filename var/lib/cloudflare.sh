@@ -5,7 +5,7 @@ CLFR_API="https://api.cloudflare.com/client/v4"
 
 _DUCTN_COMMANDS+=("cloudflare:sync")
 --cloudflare:sync() {
-    if [[ "$(--cloudflare:check)" -eq 0 ]]; then
+    if [[ "$(--cloudflare:check)" == 0 ]]; then
         --cloudflare:patch:recordByName $(--cloudflare:fullname)
         # --cloudflare:ip
     fi
@@ -47,6 +47,8 @@ _DUCTN_COMMANDS+=("cloudflare:check")
 }
 
 --cloudflare:get() {
+    # --logger "cloudflare:get $*"
+    [[ $# < 1 ]] && exit 1
     # echo "$(--cloudflare:token)"
     # echo "$(--cloudflare:dns:record)"
     # -H "Authorization: Bearer $(--cloudflare:token)" \
@@ -57,8 +59,6 @@ _DUCTN_COMMANDS+=("cloudflare:check")
     dns_record_info=$(
         curl -s -X GET $1 \
             --http1.1 \
-            -H "Cache-Control: no-cache, no-store" \
-            -H "Pragma: no-cache" \
             -H "X-Auth-Email: $(--cloudflare:email)" \
             -H "X-Auth-Key: $(--cloudflare:token)" \
             -H "Content-Type:application/json"
@@ -67,7 +67,7 @@ _DUCTN_COMMANDS+=("cloudflare:check")
     if [[ ${dns_record_info} == *"\"success\":false"* ]]; then
         # echo ${dns_record_info}
         # echo "Error! Can't get record info from cloudflare's api"
-        exit 0
+        exit 1
     else
         echo $dns_record_info
     fi
@@ -76,11 +76,10 @@ _DUCTN_COMMANDS+=("cloudflare:check")
 }
 
 --cloudflare:patch() {
+    [[ $# < 2 ]] && exit 1
     dns_record_info=$(
         curl -s -X PATCH $1 \
             --http1.1 \
-            -H "Cache-Control: no-cache, no-store" \
-            -H "Pragma: no-cache" \
             -H "X-Auth-Email: $(--cloudflare:email)" \
             -H "X-Auth-Key: $(--cloudflare:token)" \
             -H "Content-Type: application/json" \
@@ -88,21 +87,25 @@ _DUCTN_COMMANDS+=("cloudflare:check")
     )
     if [[ ${dns_record_info} == *"\"success\":false"* ]]; then
         echo $dns_record_info
-        exit 0
+        exit 1
     else
         echo $dns_record_info
     fi
 }
 
 _DUCTN_COMMANDS+=("cloudflare:get:userid")
+cloudflare_userid=
 --cloudflare:get:userid() {
-    echo $(--cloudflare:get $CLFR_API/user | jq -r '.result.id')
+    [[ -z $cloudflare_userid ]] && cloudflare_userid=$(--cloudflare:get $CLFR_API/user | jq -r '.result.id')
+    echo $cloudflare_userid
 }
 
 _DUCTN_COMMANDS+=("cloudflare:get:zones")
+cloudflare_zones=
 --cloudflare:get:zones() {
-    for value in $(--cloudflare:get $CLFR_API/zones | jq -r '.result[].id'); do
-        echo $value
+    [[ -z $cloudflare_zones ]] && cloudflare_zones=$(--cloudflare:get $CLFR_API/zones | jq -r '.result[].id')
+    for value in $cloudflare_zones; do
+        cloudflare_zones+=($value)
     done
 }
 
