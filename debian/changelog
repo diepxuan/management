@@ -1,5 +1,7 @@
-ductn (3.0.5-9) focal; urgency=medium
+ductn (3.0.5-10) focal; urgency=medium
 
-  * FIXBUG: fix loop many time in service cron
+  * FIXBUG:
+    - fix missing argument
+    - fix missing cloudflare zones
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Fri, 24 Mar 2023 07:28:07 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Fri, 24 Mar 2023 21:14:10 +0700

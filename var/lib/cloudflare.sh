@@ -104,9 +104,7 @@ _DUCTN_COMMANDS+=("cloudflare:get:zones")
 cloudflare_zones=
 --cloudflare:get:zones() {
     [[ -z $cloudflare_zones ]] && cloudflare_zones=$(--cloudflare:get $CLFR_API/zones | jq -r '.result[].id')
-    for value in $cloudflare_zones; do
-        cloudflare_zones+=($value)
-    done
+    echo $cloudflare_zones
 }
 
 _DUCTN_COMMANDS+=("cloudflare:get:records")
