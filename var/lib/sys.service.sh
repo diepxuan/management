@@ -7,19 +7,21 @@
         sleep 1
         ((timer += 1))
         timer=$(($timer % 10))
+        second=$(date +%S)
+        minute=$(date +%M)
 
-        # execute every minute
-        if [[ $(date +%S) == 1 ]]; then
+        # execute every minute at 1 second
+        if [[ $second == 1 ]]; then
             --cron:cronjob:min
         fi
 
-        # execute every 5mins
-        if [[ $(($(date +%M) % 5)) == 1 ]]; then
+        # execute every 5mins at 0 second
+        if [[ $second == 0 ]] && [[ $(($minute % 5)) == 0 ]]; then
             --cron:cronjob:5min
         fi
 
         # execute every 30mins
-        if [[ $(($(date +%M) % 30)) == 1 ]]; then
+        if [[ $second == 0 ]] && [[ $(($minute % 30)) == 0 ]]; then
             --cron:cronjob:hour
         fi
     done
