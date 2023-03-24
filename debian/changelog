@@ -1,5 +1,5 @@
-ductn (3.0.5-8) focal; urgency=medium
+ductn (3.0.5-9) focal; urgency=medium
 
-  * FIXBUG: fix package break without error
+  * FIXBUG: fix loop many time in service cron
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 22 Mar 2023 22:28:14 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Fri, 24 Mar 2023 07:28:07 +0700
