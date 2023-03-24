@@ -7,22 +7,27 @@ _DUCTN_COMMANDS+=("host:name")
 }
 
 _DUCTN_COMMANDS+=("host:domain")
---host:domain() { # FQDN dc.diepxuan.com
-    hostname -d
+--host:domain() { # FQDN diepxuan.com
+    domain=$(hostname -d)
+    [[ -z $domain ]] && domain=diepxuan.com
+    echo $domain
 }
 
 _DUCTN_COMMANDS+=("host:fullname")
---host:fullname() { # FQDN diepxuan.com
-    hostname -f
+--host:fullname() { # FQDN dc.diepxuan.com
+    # hostname -f
+    name=$(--host:name)
+    domain=$(--host:domain)
+    echo "$name.$domain"
 }
 
 _DUCTN_COMMANDS+=("host:address")
 --host:address() {
     if [[ -n "$*" ]]; then
         --host:address:valid $(host $@ | grep -wv -e alias | cut -f4 -d' ')
-        exit 0
+    else
+        --host:address $(--host:fullname)
     fi
-    --host:address $(--host:fullname)
 }
 
 --host:address:valid() {

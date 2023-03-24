@@ -1,5 +1,7 @@
-ductn (3.0.4-5) focal; urgency=medium
+ductn (3.0.5-10) focal; urgency=medium
 
-  * Release (Closes: 3.0.4)
+  * FIXBUG:
+    - fix missing argument
+    - fix missing cloudflare zones
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Thu, 16 Mar 2023 15:38:41 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Fri, 24 Mar 2023 21:14:10 +0700

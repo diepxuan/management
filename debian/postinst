@@ -21,7 +21,7 @@ case "$1" in
 configure)
     sudo systemctl daemon-reload
     sudo systemctl enable ductnd
-    sudo systemctl restart ductnd
+    sudo systemctl start ductnd
 
     # remove oldest version
     sudo rm -rf /usr/local/bin/ductn >/dev/null
