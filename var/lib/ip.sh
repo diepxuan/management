@@ -21,7 +21,8 @@ _DUCTN_COMMANDS+=("ip:wan")
     # fi
 
     [[ -z "$_IP_EXTEND" ]] && _IP_EXTEND="$(dig -4 @ns1.google.com -t txt o-o.myaddr.l.google.com +short 2>&1 | tr -d \" 2>/dev/null)"
-    [[ -z "$_IP_EXTEND" ]] && _IP_EXTEND=$(--ip:valid $_IP_EXTEND)
+
+    _IP_EXTEND=$(--ip:valid $_IP_EXTEND)
     echo "$_IP_EXTEND"
 }
 
@@ -42,10 +43,8 @@ _DUCTN_COMMANDS+=("ip:local")
     _IP=$@
     if expr "$_IP" : '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' >/dev/null; then
         echo $_IP
-        exit 0
     else
         echo $(--ip:local)
-        exit 1
     fi
 }
 

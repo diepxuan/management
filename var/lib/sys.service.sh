@@ -7,26 +7,34 @@
         sleep 1
         ((timer += 1))
         timer=$(($timer % 10))
+        second=$(date +%S)
+        minute=$(date +%M)
 
-        # execute every minute
-        if [ $(date +%S) = 1 ]; then
-            --cron:cronjob:min &
+        # execute every minute at 1 second
+        if [[ $second == 1 ]]; then
+            --cron:cronjob:min
         fi
 
-        # execute every 5mins
-        if [ $(($(date +%M) % 5)) = 1 ]; then
-            --cron:cronjob:5min &
+        # execute every 5mins at 0 second
+        if [[ $second == 0 ]] && [[ $(($minute % 5)) == 0 ]]; then
+            --cron:cronjob:5min
         fi
 
         # execute every 30mins
-        if [ $(($(date +%M) % 30)) = 1 ]; then
-            --cron:cronjob:hour &
+        if [[ $second == 0 ]] && [[ $(($minute % 30)) == 0 ]]; then
+            --cron:cronjob:hour
         fi
     done
 }
 
 --run_as_service() {
-    --sys:service:main
+    _SERVICE_NAME=ductnd
+    if [ ! "$(--sys:service:isactive $_SERVICE_NAME)" == "active" ]; then
+        sudo systemctl stop ${_SERVICE_NAME//'.service'/}
+        sudo systemctl start ${_SERVICE_NAME//'.service'/}
+    else
+        --sys:service:main
+    fi
 }
 
 _DUCTN_COMMANDS+=("sys:service:isactive")
