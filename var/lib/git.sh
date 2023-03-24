@@ -3,7 +3,7 @@
 
 _DUCTN_COMMANDS+=("git:configure")
 --git:configure() {
-    if [[ "$(whoami)" == "ductn" ]]; then
+    if [[ "$USERNAME" == "ductn" ]]; then
         # global gitignore
         git config --global core.excludesfile ~/.gitignore
 

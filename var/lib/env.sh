@@ -2,7 +2,7 @@
 #!/bin/bash
 
 --sys:env() {
-    echo -e $* | xargs
+    echo -e "${!@}" | xargs
 }
 
 --sys:env:domains() {
@@ -23,13 +23,16 @@
 
 --sys:env:sync() {
     _sync() {
-
         for param in $@; do
-            _new=$(curl -H 'Cache-Control: no-cache, no-store' -H 'Pragma: no-cache' -o - https://diepxuan.github.io/ppa/etc/$param?$RANDOM 2>/dev/null)
+            _new=$(curl -o - https://diepxuan.github.io/ppa/etc/$param?$RANDOM 2>/dev/null)
             _old=$(cat $ETC_PATH/$param)
 
             [[ ! $_old == $_new ]] && echo "$_new" | sudo tee $ETC_PATH/$param >/dev/null
-            [[ ! $_old == $_new ]] && [[ $param == "csf" ]] && --csf:config
+
+            if [[ $param == "csf" ]]; then
+                --csf:regex
+                [[ ! $_old == $_new ]] && --csf:config
+            fi
         done
     }
 

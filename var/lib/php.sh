@@ -1,4 +1,3 @@
-
 #!/usr/bin/env bash
 #!/bin/bash
 
@@ -53,7 +52,7 @@ _DUCTN_COMMANDS+=("php:phpcsfixer:install")
 --php:phpcsfixer:install() {
     cd ~
     curl -sS https://cs.symfony.com/download/php-cs-fixer-v3.phar -o php-cs-fixer
-    if [ "$(whoami)" = "ductn" ]; then
+    if [ "$USERNAME" = "ductn" ]; then
         chmod +x php-cs-fixer
         sudo mv php-cs-fixer /usr/local/bin/php-cs-fixer
         sudo chown root:root /usr/local/bin/php-cs-fixer
