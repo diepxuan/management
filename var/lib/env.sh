@@ -10,7 +10,38 @@
 }
 
 --sys:env:nat() {
-    cat $ETC_PATH/nat
+    serial=$(--host:serial)
+
+    ip=$1
+    [[ -z $ip ]] && ip=ip
+
+    protocol=$2
+    [[ -z $protocol ]] && protocol=tcp
+    protocols=("tcp" "udp")
+
+    while IFS= read -r line; do
+        [[ "$line" =~ ^#.*$ ]] && continue
+        [[ -z "$line" ]] && continue
+        readarray -d : -t strarr <<<"$line"
+
+        address=${strarr[0]}
+        address=${address//'.pve.'/".$serial."}
+        tcp=${strarr[1]}
+        udp=${strarr[2]}
+
+        if [[ $ip == "ip" ]]; then
+            echo "$address" | xargs
+        elif [[ $ip == "$address" ]]; then
+            if [[ " ${protocols[*]} " =~ " ${protocol} " ]]; then
+                echo -e "${!protocol}" | xargs
+            fi
+        fi
+
+        unset address tcp udp all
+    done <$ETC_PATH/portforward
+
+    unset ip protocol protocols serial
+
 }
 
 --sys:env:vpn() {
@@ -33,8 +64,9 @@
                 --csf:regex
                 [[ ! $_old == $_new ]] && --csf:config
             fi
+            unset _new _old
         done
     }
 
-    _sync domains nat tunel csf
+    _sync domains portforward tunel csf
 }
