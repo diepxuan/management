@@ -97,9 +97,9 @@
             if [[ $param == "csf" ]]; then
                 --csf:regex
                 [[ ! $_old == $_new ]] && --csf:config
-            fi
-
-            if [[ $param == "dhcp" ]]; then
+            elif [[ $param == "portforward" ]]; then
+                [[ ! $_old == $_new ]] && --csf:config
+            elif [[ $param == "dhcp" ]]; then
                 [[ ! $_old == $_new ]] && --sys:dhcp:config
             fi
             unset _new _old
