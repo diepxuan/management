@@ -79,8 +79,8 @@ _csf_rules() {
             tcp=$(--sys:env:nat $address tcp)
             udp=$(--sys:env:nat $address udp)
 
-            [[ -n $address ]] && [[ -n $tcp ]] && echo "iptables -t nat -A PREROUTING -p TCP --dport $tcp -j DNAT --to-destination $DMZ_IP"
-            [[ -n $address ]] && [[ -n $udp ]] && echo "iptables -t nat -A PREROUTING -p UDP --dport $udp -j DNAT --to-destination $DMZ_IP"
+            [[ -n $address ]] && [[ -n $tcp ]] && echo "iptables -t nat -A PREROUTING -p TCP -m multiport --dport $tcp -j DNAT --to-destination $DMZ_IP"
+            [[ -n $address ]] && [[ -n $udp ]] && echo "iptables -t nat -A PREROUTING -p UDP -m multiport --dport $udp -j DNAT --to-destination $DMZ_IP"
         done
     fi
 
@@ -114,8 +114,8 @@ _csf_rules() {
             tcp=$(--sys:env:nat $address tcp)
             udp=$(--sys:env:nat $address udp)
 
-            [[ -n $address ]] && [[ -n $tcp ]] && echo "iptables -t nat -A PREROUTING -p TCP --dport $tcp -j DNAT --to-destination $address"
-            [[ -n $address ]] && [[ -n $udp ]] && echo "iptables -t nat -A PREROUTING -p UDP --dport $udp -j DNAT --to-destination $address"
+            [[ -n $address ]] && [[ -n $tcp ]] && echo "iptables -t nat -A PREROUTING -p TCP -m multiport --dport $tcp -j DNAT --to-destination $address"
+            [[ -n $address ]] && [[ -n $udp ]] && echo "iptables -t nat -A PREROUTING -p UDP -m multiport --dport $udp -j DNAT --to-destination $address"
         done
     fi
 
