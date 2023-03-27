@@ -1,5 +1,5 @@
-ductn (3.0.6-6) focal; urgency=medium
+ductn (3.0.6-7) focal; urgency=medium
 
-  * FIXBUG: add interface to nat iptables
+  * Combine iptables nat rule to one line
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 27 Mar 2023 16:31:01 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 27 Mar 2023 22:39:32 +0700
