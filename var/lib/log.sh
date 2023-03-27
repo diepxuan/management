@@ -5,7 +5,9 @@ _DUCTN_COMMANDS+=("log:watch")
 --log:watch() {
     # ssh dx3.diepxuan.com "sudo tail -f /var/log/syslog" &
     # ssh dx1.diepxuan.com "sudo tail -f /var/log/syslog"
-    sudo tail -f /var/log/*log /var/opt/mssql/log/errorlog
+    _log=/var/log/*log
+    [[ -f /var/opt/mssql/log/errorlog ]] && _log="$_log /var/opt/mssql/log/errorlog"
+    sudo tail -f $_log
 }
 
 _DUCTN_COMMANDS+=("log:watch:service")

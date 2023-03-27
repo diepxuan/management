@@ -33,11 +33,15 @@
             echo "$address" | xargs
         elif [[ $ip == "$address" ]]; then
             if [[ " ${protocols[*]} " =~ " ${protocol} " ]]; then
-                echo -e "${!protocol}" | xargs
+                readarray -d , -t vals <<<${!protocol}
+                for val in ${vals[@]}; do
+                    echo $val
+                done
+                unset vals
             fi
         fi
 
-        unset address tcp udp all
+        unset address tcp udp
     done <$ETC_PATH/portforward
 
     unset ip protocol protocols serial
