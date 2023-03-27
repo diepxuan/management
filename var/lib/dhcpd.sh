@@ -11,24 +11,25 @@ _DUCTN_COMMANDS+=("sys:dhcp:setup")
 }
 
 --sys:dhcp:config() {
-    _DHCP_DEFAULT=/etc/default/isc-dhcp-server
-    serial=$(--host:serial)
+    if [[ $(--host:is_server) == 1 ]]; then
+        _DHCP_DEFAULT=/etc/default/isc-dhcp-server
+        serial=$(--host:serial)
 
-    ### /etc/default/isc-dhcp-server
-    sudo sed -i 's/INTERFACES=.*/INTERFACES="vmbr1"/' $_DHCP_DEFAULT >/dev/null
-    sudo sed -i 's/INTERFACESv4=.*/INTERFACESv4="vmbr1"/' $_DHCP_DEFAULT >/dev/null
-    # sudo sed -i 's/INTERFACESv6=.*/INTERFACESv6="vmbr1"/' $_DHCP_DEFAULT >/dev/null
+        ### /etc/default/isc-dhcp-server
+        sudo sed -i 's/INTERFACES=.*/INTERFACES="vmbr1"/' $_DHCP_DEFAULT >/dev/null
+        sudo sed -i 's/INTERFACESv4=.*/INTERFACESv4="vmbr1"/' $_DHCP_DEFAULT >/dev/null
+        # sudo sed -i 's/INTERFACESv6=.*/INTERFACESv6="vmbr1"/' $_DHCP_DEFAULT >/dev/null
 
-    ### /etc/dhcp/dhcpd.conf
-    [ ! -f /etc/dhcp/dhcpd.conf.org ] && sudo cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.org
+        ### /etc/dhcp/dhcpd.conf
+        [ ! -f /etc/dhcp/dhcpd.conf.org ] && sudo cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.org
 
-    dhcpd_config=${_DHCPD_CONF//'.pve.'/".$serial."}
+        dhcpd_config=${_DHCPD_CONF//'.pve.'/".$serial."}
 
-    for vm_name in $(--sys:env:dhcp); do
-        vm_mac=$(--sys:env:dhcp $vm_name mac)
-        vm_address=$(--sys:env:dhcp $vm_name address)
+        for vm_name in $(--sys:env:dhcp); do
+            vm_mac=$(--sys:env:dhcp $vm_name mac)
+            vm_address=$(--sys:env:dhcp $vm_name address)
 
-        dhcpd_config+="
+            dhcpd_config+="
 host $vm_name {
     hardware ethernet $vm_mac;
     fixed-address $vm_address;
@@ -36,16 +37,17 @@ host $vm_name {
 }
 
 "
-        unset vm_mac vm_address
-    done
+            unset vm_mac vm_address
+        done
 
-    echo -e "$dhcpd_config" | sudo tee /etc/dhcp/dhcpd.conf >/dev/null
+        echo -e "$dhcpd_config" | sudo tee /etc/dhcp/dhcpd.conf >/dev/null
 
-    sudo killall dhcpd
-    sudo rm -rf /var/run/dhcpd.pid
-    --sys:service:restart isc-dhcp-server
+        sudo killall dhcpd
+        sudo rm -rf /var/run/dhcpd.pid
+        --sys:service:restart isc-dhcp-server
 
-    unset _DHCP_DEFAULT serial dhcpd_config
+        unset _DHCP_DEFAULT serial dhcpd_config
+    fi
 }
 _DHCPD_CONF="option domain-name \"diepxuan.com\";
 option domain-search \"diepxuan.com\";
