@@ -61,6 +61,7 @@ _csf_rules() {
     SRV_NUM=$(--host:name)
     SRV_NUM=${SRV_NUM:3}
 
+    # vpn2.diepxuan.com
     if [[ $(--host:is_vpn_server) == 1 ]]; then
         echo "iptables -t raw -I PREROUTING -i fwbr+ -j CT --zone 1"
         echo "iptables -t nat -A POSTROUTING -o $INET_IFACE -j MASQUERADE"
@@ -78,11 +79,12 @@ _csf_rules() {
             tcp=$(--sys:env:nat $address tcp)
             udp=$(--sys:env:nat $address udp)
 
-            [[ -n $address ]] && [[ -n $tcp ]] && echo "iptables -t nat -A PREROUTING -p TCP --dport $tcp -j DNAT --to-destination $address"
-            [[ -n $address ]] && [[ -n $udp ]] && echo "iptables -t nat -A PREROUTING -p UDP --dport $udp -j DNAT --to-destination $address"
+            [[ -n $address ]] && [[ -n $tcp ]] && echo "iptables -t nat -A PREROUTING -p TCP --dport $tcp -j DNAT --to-destination $DMZ_IP"
+            [[ -n $address ]] && [[ -n $udp ]] && echo "iptables -t nat -A PREROUTING -p UDP --dport $udp -j DNAT --to-destination $DMZ_IP"
         done
     fi
 
+    # pve2.diepxuan.com
     if [[ $(--host:is_server) == 1 ]]; then
         echo "iptables -t raw -I PREROUTING -i fwbr+ -j CT --zone 1"
 
