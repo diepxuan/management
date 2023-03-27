@@ -1,5 +1,5 @@
-ductn (3.0.6-1) focal; urgency=medium
+ductn (3.0.6-2) focal; urgency=medium
 
-  * FUTURE: fix nat for vpn server
+  * FUTURE: fix nat multiport
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 27 Mar 2023 12:32:17 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 27 Mar 2023 12:54:02 +0700
