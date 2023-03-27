@@ -1,5 +1,5 @@
-ductn (3.0.6-0) focal; urgency=medium
+ductn (3.0.6-1) focal; urgency=medium
 
-  * FUTURE: add tcp, udp port to nat function
+  * FUTURE: fix nat for vpn server
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 27 Mar 2023 11:51:16 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 27 Mar 2023 12:32:17 +0700
