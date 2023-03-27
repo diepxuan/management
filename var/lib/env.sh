@@ -33,11 +33,7 @@
             echo "$address" | xargs
         elif [[ $ip == "$address" ]]; then
             if [[ " ${protocols[*]} " =~ " ${protocol} " ]]; then
-                readarray -d , -t vals <<<${!protocol}
-                for val in ${vals[@]}; do
-                    echo $val
-                done
-                unset vals
+                echo ${!protocol}
             fi
         fi
 
