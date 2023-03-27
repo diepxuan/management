@@ -76,11 +76,13 @@ _csf_rules() {
         echo "iptables -A FORWARD -i $INET_IFACE -o tun+ -m state --state RELATED,ESTABLISHED -j ACCEPT"
 
         for address in $(--sys:env:nat); do
-            tcp=$(--sys:env:nat $address tcp)
-            udp=$(--sys:env:nat $address udp)
+            for tcp in $(--sys:env:nat $address tcp); do
+                [[ -n $address ]] && [[ -n $tcp ]] && echo "iptables -t nat -A PREROUTING -p TCP --dport $tcp -j DNAT --to-destination $DMZ_IP"
+            done
 
-            [[ -n $address ]] && [[ -n $tcp ]] && echo "iptables -t nat -A PREROUTING -p TCP -m multiport --dport $tcp -j DNAT --to-destination $DMZ_IP"
-            [[ -n $address ]] && [[ -n $udp ]] && echo "iptables -t nat -A PREROUTING -p UDP -m multiport --dport $udp -j DNAT --to-destination $DMZ_IP"
+            for udp in $(--sys:env:nat $address udp); do
+                [[ -n $address ]] && [[ -n $udp ]] && echo "iptables -t nat -A PREROUTING -p UDP --dport $udp -j DNAT --to-destination $DMZ_IP"
+            done
         done
     fi
 
@@ -111,11 +113,13 @@ _csf_rules() {
         fi
 
         for address in $(--sys:env:nat); do
-            tcp=$(--sys:env:nat $address tcp)
-            udp=$(--sys:env:nat $address udp)
+            for tcp in $(--sys:env:nat $address tcp); do
+                [[ -n $address ]] && [[ -n $tcp ]] && echo "iptables -t nat -A PREROUTING -p TCP --dport $tcp -j DNAT --to-destination $address"
+            done
 
-            [[ -n $address ]] && [[ -n $tcp ]] && echo "iptables -t nat -A PREROUTING -p TCP -m multiport --dport $tcp -j DNAT --to-destination $address"
-            [[ -n $address ]] && [[ -n $udp ]] && echo "iptables -t nat -A PREROUTING -p UDP -m multiport --dport $udp -j DNAT --to-destination $address"
+            for udp in $(--sys:env:nat $address udp); do
+                [[ -n $address ]] && [[ -n $udp ]] && echo "iptables -t nat -A PREROUTING -p UDP --dport $udp -j DNAT --to-destination $address"
+            done
         done
     fi
 
