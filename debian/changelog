@@ -1,5 +1,5 @@
-ductn (3.0.6-4) focal; urgency=medium
+ductn (3.0.6-5) focal; urgency=medium
 
-  * FIXBUG: fix option -m multiport block internet
+  * FIXBUG: make dhcpd config for pve server only
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 27 Mar 2023 15:49:30 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 27 Mar 2023 16:01:21 +0700
