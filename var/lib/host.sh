@@ -50,6 +50,7 @@ _DUCTN_COMMANDS+=("host:serial")
 host_serial=
 --host:serial() {
     [[ -z $host_serial ]] && host_serial=$(--host:name) && host_serial=${host_serial:3}
+    [[ -z $host_serial ]] && host_serial=1
     echo $host_serial
 }
 
