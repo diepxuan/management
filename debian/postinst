@@ -25,6 +25,7 @@ configure)
 
     # remove oldest version
     sudo rm -rf /usr/local/bin/ductn >/dev/null
+    sudo rm -rf /etc/ductn/nat >/dev/null
     ;;
 
 abort-upgrade | abort-remove | abort-deconfigure) ;;

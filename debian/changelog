@@ -1,7 +1,5 @@
-ductn (3.0.5-10) focal; urgency=medium
+ductn (3.0.6-1) focal; urgency=medium
 
-  * FIXBUG:
-    - fix missing argument
-    - fix missing cloudflare zones
+  * FUTURE: fix nat for vpn server
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Fri, 24 Mar 2023 21:14:10 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 27 Mar 2023 12:32:17 +0700
