@@ -90,14 +90,22 @@
 
             [[ ! $_old == $_new ]] && echo "$_new" | sudo tee $ETC_PATH/$param >/dev/null
 
-            if [[ $param == "csf" ]]; then
-                --csf:regex
+            case $param in
+
+            csf | portforward)
+                [[ $param == "csf" ]] && --csf:regex
                 [[ ! $_old == $_new ]] && --csf:config
-            elif [[ $param == "portforward" ]]; then
-                [[ ! $_old == $_new ]] && --csf:config
-            elif [[ $param == "dhcp" ]]; then
+                ;;
+
+            dhcp)
                 [[ ! $_old == $_new ]] && --sys:dhcp:config
-            fi
+                ;;
+
+            Italy) ;;
+
+            *) ;;
+            esac
+
             unset _new _old
         done
     }
