@@ -74,9 +74,12 @@ _csf_rules() {
         echo "iptables -A FORWARD -i tun+ -o $INET_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
         echo "iptables -A FORWARD -i $INET_IFACE -o tun+ -m state --state RELATED,ESTABLISHED -j ACCEPT"
 
-        for nat in $(--sys:env:nat); do
-            port=${nat%:*}
-            [[ -n $port ]] && echo "iptables -t nat -A PREROUTING -p TCP --dport $port -j DNAT --to-destination $DMZ_IP"
+        for address in $(--sys:env:nat); do
+            tcp=$(--sys:env:nat $address tcp)
+            udp=$(--sys:env:nat $address udp)
+
+            [[ -n $address ]] && [[ -n $tcp ]] && echo "iptables -t nat -A PREROUTING -p TCP --dport $tcp -j DNAT --to-destination $address"
+            [[ -n $address ]] && [[ -n $udp ]] && echo "iptables -t nat -A PREROUTING -p UDP --dport $udp -j DNAT --to-destination $address"
         done
     fi
 
@@ -105,12 +108,12 @@ _csf_rules() {
             echo "iptables -A FORWARD -i $LAN_IFACE -o tun+ -m state --state RELATED,ESTABLISHED -j ACCEPT"
         fi
 
-        for nat in $(--sys:env:nat); do
-            port=${nat%:*}
-            address=${nat#*:}
-            address=${address//'.pve.'/".$SRV_NUM."}
+        for address in $(--sys:env:nat); do
+            tcp=$(--sys:env:nat $address tcp)
+            udp=$(--sys:env:nat $address udp)
 
-            [[ -n $port ]] && [[ -n $address ]] && echo "iptables -t nat -A PREROUTING -p TCP --dport $port -j DNAT --to-destination $address"
+            [[ -n $address ]] && [[ -n $tcp ]] && echo "iptables -t nat -A PREROUTING -p TCP --dport $tcp -j DNAT --to-destination $address"
+            [[ -n $address ]] && [[ -n $udp ]] && echo "iptables -t nat -A PREROUTING -p UDP --dport $udp -j DNAT --to-destination $address"
         done
     fi
 
@@ -120,6 +123,7 @@ _csf_rules() {
 
 --csf:regex() {
     regex=$(curl -o - https://diepxuan.github.io/ppa/usr/regex.custom.pm?$RANDOM 2>/dev/null)
-    _old=$(sudo cat /usr/local/csf/bin/regex.custom.pm)
-    [[ -n $regex ]] && [[ ! $_old == $_new ]] && echo "$regex" | sudo tee /usr/local/csf/bin/regex.custom.pm >/dev/null
+    regex_old=$(sudo cat /usr/local/csf/bin/regex.custom.pm)
+    [[ -n $regex ]] && [[ ! $regex_old == $regex ]] && echo "$regex" | sudo tee /usr/local/csf/bin/regex.custom.pm >/dev/null
+    unset regex regex_old
 }

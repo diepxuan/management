@@ -1,7 +1,5 @@
-ductn (3.0.5-10) focal; urgency=medium
+ductn (3.0.6-0) focal; urgency=medium
 
-  * FIXBUG:
-    - fix missing argument
-    - fix missing cloudflare zones
+  * FUTURE: add tcp, udp port to nat function
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Fri, 24 Mar 2023 21:14:10 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 27 Mar 2023 11:51:16 +0700
