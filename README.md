@@ -33,7 +33,8 @@ ductn -v
 ```
 
 ## Contributing
-
+    v3.0.6 --- Domain controller support
+    |
     v3.0.5 --- sync Clusters config
     |
     v3.0.4 --- use CSF replace UFW and manual iptables

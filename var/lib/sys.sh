@@ -52,6 +52,8 @@ _DUCTN_COMMANDS+=("selfupdate")
     --sys:upgrade
     ductn sys:init
 }
+
+_DUCTN_COMMANDS+=("sys:upgrade")
 --sys:upgrade() {
     sudo apt update
     sudo apt install --only-upgrade ductn -y --purge --auto-remove

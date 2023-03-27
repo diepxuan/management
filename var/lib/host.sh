@@ -7,18 +7,17 @@ _DUCTN_COMMANDS+=("host:name")
 }
 
 _DUCTN_COMMANDS+=("host:domain")
+host_domain=$(hostname -d)
 --host:domain() { # FQDN diepxuan.com
-    domain=$(hostname -d)
-    [[ -z $domain ]] && domain=diepxuan.com
-    echo $domain
+    [[ -z $host_domain ]] && host_domain=diepxuan.com
+    echo $host_domain
 }
 
 _DUCTN_COMMANDS+=("host:fullname")
+host_fullname=
 --host:fullname() { # FQDN dc.diepxuan.com
-    # hostname -f
-    name=$(--host:name)
-    domain=$(--host:domain)
-    echo "$name.$domain"
+    [[ -z $host_fullname ]] && host_fullname="$(--host:name).$(--host:domain)"
+    echo $host_fullname
 }
 
 _DUCTN_COMMANDS+=("host:address")
@@ -45,6 +44,13 @@ _DUCTN_COMMANDS+=("host:address")
 
 --host:is_vpn_server() {
     [[ $(--host:fullname) =~ ^pve[0-9].vpn$ ]] && echo 1 || echo 0
+}
+
+_DUCTN_COMMANDS+=("host:serial")
+host_serial=
+--host:serial() {
+    [[ -z $host_serial ]] && host_serial=$(--host:name) && host_serial=${host_serial:3}
+    echo $host_serial
 }
 
 # copy from https://gist.github.com/irazasyed/a7b0a079e7727a4315b9
