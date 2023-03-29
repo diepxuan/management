@@ -33,6 +33,9 @@ ductn -v
 ```
 
 ## Contributing
+
+    v3.0.7 --- Wireguard Vpn
+    |
     v3.0.6 --- Domain controller support
     |
     v3.0.5 --- sync Clusters config

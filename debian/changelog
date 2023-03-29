@@ -1,5 +1,7 @@
-ductn (3.0.6-8) focal; urgency=medium
+ductn (3.0.7-0) focal; urgency=medium
 
-  * FIXBUG: csf config loop when updating config
+  * FUTURE: dev management building
+  * FUTURE: change openvpn to wireguard
+    prepare to create site to site vpn
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 27 Mar 2023 23:08:15 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 29 Mar 2023 19:51:42 +0700
