@@ -1,7 +1,5 @@
-ductn (3.0.7-0) focal; urgency=medium
+ductn (3.0.7-1) focal; urgency=medium
 
-  * FUTURE: dev management building
-  * FUTURE: change openvpn to wireguard
-    prepare to create site to site vpn
+  * FIXBUG: Wireguard client nat
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 29 Mar 2023 19:51:42 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 29 Mar 2023 20:13:29 +0700

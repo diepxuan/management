@@ -114,27 +114,27 @@ _csf_rules() {
         #     echo "iptables -A FORWARD -i $LAN_IFACE -o tun+ -m state --state RELATED,ESTABLISHED -j ACCEPT"
         # fi
 
-        if [[ "$(ip r | grep $DMZ_IFACE)" != "" ]]; then
-            for address in $(--sys:env:nat); do
-                tcp=$(--sys:env:nat $address tcp)
-                udp=$(--sys:env:nat $address udp)
+        # if [[ "$(ip r | grep $DMZ_IFACE)" != "" ]]; then
+        #     for address in $(--sys:env:nat); do
+        #         tcp=$(--sys:env:nat $address tcp)
+        #         udp=$(--sys:env:nat $address udp)
 
-                [[ -n $address ]] && [[ -n $tcp ]] && echo "iptables -t nat -A PREROUTING -p TCP -i $DMZ_IFACE -m multiport --dport $tcp -j DNAT --to-destination $address"
-                [[ -n $address ]] && [[ -n $udp ]] && echo "iptables -t nat -A PREROUTING -p UDP -i $DMZ_IFACE -m multiport --dport $udp -j DNAT --to-destination $address"
+        #         [[ -n $address ]] && [[ -n $tcp ]] && echo "iptables -t nat -A PREROUTING -p TCP -i $DMZ_IFACE -m multiport --dport $tcp -j DNAT --to-destination $address"
+        #         [[ -n $address ]] && [[ -n $udp ]] && echo "iptables -t nat -A PREROUTING -p UDP -i $DMZ_IFACE -m multiport --dport $udp -j DNAT --to-destination $address"
 
-                unset tcp udp
-            done
-        else
-            for address in $(--sys:env:nat); do
-                tcp=$(--sys:env:nat $address tcp)
-                udp=$(--sys:env:nat $address udp)
+        #         unset tcp udp
+        #     done
+        # else
+        for address in $(--sys:env:nat); do
+            tcp=$(--sys:env:nat $address tcp)
+            udp=$(--sys:env:nat $address udp)
 
-                [[ -n $address ]] && [[ -n $tcp ]] && echo "iptables -t nat -A PREROUTING -i $INET_IFACE -p TCP -m multiport --dport $tcp -j DNAT --to-destination $address"
-                [[ -n $address ]] && [[ -n $udp ]] && echo "iptables -t nat -A PREROUTING -i $INET_IFACE -p UDP -m multiport --dport $udp -j DNAT --to-destination $address"
+            [[ -n $address ]] && [[ -n $tcp ]] && echo "iptables -t nat -A PREROUTING -i $INET_IFACE -p TCP -m multiport --dport $tcp -j DNAT --to-destination $address"
+            [[ -n $address ]] && [[ -n $udp ]] && echo "iptables -t nat -A PREROUTING -i $INET_IFACE -p UDP -m multiport --dport $udp -j DNAT --to-destination $address"
 
-                unset tcp udp
-            done
-        fi
+            unset tcp udp
+        done
+        # fi
     fi
 
     # # Enable simple IP Forwarding and Network Address Translation
