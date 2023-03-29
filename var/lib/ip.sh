@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-_IP_EXTEND=
-
 _DUCTN_COMMANDS+=("ip:wan")
+_IP_EXTEND=
 --ip:wan() {
 
     # IPANY="$(dig @ns1.google.com -t txt o-o.myaddr.l.google.com +short | tr -d \")"
@@ -35,8 +34,10 @@ _DUCTN_COMMANDS+=("ip:wan")
 }
 
 _DUCTN_COMMANDS+=("ip:local")
+ip_local=
 --ip:local() {
-    hostname -I | awk '{print $1}'
+    [[ -z $ip_local ]] && ip_local=$(hostname -I | awk '{print $1}')
+    echo $ip_local
 }
 
 --ip:valid() {

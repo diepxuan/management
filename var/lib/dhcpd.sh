@@ -51,7 +51,7 @@ host $vm_name {
 }
 _DHCPD_CONF="option domain-name \"diepxuan.com\";
 option domain-search \"diepxuan.com\";
-option domain-name-servers 1.1.1.1, 10.0.1.10, 10.0.2.10;
+option domain-name-servers 1.1.1.1, 8.8.8.8;
 
 default-lease-time 600;
 max-lease-time 7200;
