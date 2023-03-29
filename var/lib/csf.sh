@@ -69,12 +69,12 @@ _csf_rules() {
         echo "iptables -t nat -A POSTROUTING -o $INET_IFACE -j MASQUERADE"
 
         # if [[ "$(ip r | grep $DMZ_IFACE)" != "" ]]; then
-        #     echo "iptables -A INPUT -i tun+ -j ACCEPT"
-        #     echo "iptables -A FORWARD -i tun+ -j ACCEPT"
+        #     echo "iptables -A INPUT -i $DMZ_IFACE -j ACCEPT"
+        #     echo "iptables -A FORWARD -i $DMZ_IFACE -j ACCEPT"
         #     echo "iptables -A FORWARD -o $DMZ_IFACE -j ACCEPT"
 
-        #     echo "iptables -A FORWARD -i tun+ -o $INET_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
-        #     echo "iptables -A FORWARD -i $INET_IFACE -o tun+ -m state --state RELATED,ESTABLISHED -j ACCEPT"
+        #     echo "iptables -A FORWARD -i $DMZ_IFACE -o $INET_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
+        #     echo "iptables -A FORWARD -i $INET_IFACE -o $DMZ_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
         # fi
 
         for address in $(--sys:env:nat); do
@@ -104,8 +104,8 @@ _csf_rules() {
         # if [[ "$(ip r | grep $DMZ_IFACE)" != "" ]]; then
         #     # echo "iptables -t nat -A POSTROUTING -s 10.0.$SRV_NUM.0/24 -o tun0 -j MASQUERADE"
         #     echo "iptables -t nat -A POSTROUTING -o $DMZ_IFACE -j MASQUERADE"
-        #     echo "iptables -A INPUT -i tun+ -j ACCEPT"
-        #     echo "iptables -A FORWARD -i tun+ -j ACCEPT"
+        #     echo "iptables -A INPUT -i $DMZ_IFACE -j ACCEPT"
+        #     echo "iptables -A FORWARD -i $DMZ_IFACE -j ACCEPT"
         #     echo "iptables -A FORWARD -o $DMZ_IFACE -j ACCEPT"
 
         #     echo "iptables -A FORWARD -i tun+ -o $INET_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
@@ -114,17 +114,18 @@ _csf_rules() {
         #     echo "iptables -A FORWARD -i $LAN_IFACE -o tun+ -m state --state RELATED,ESTABLISHED -j ACCEPT"
         # fi
 
-        # if [[ "$(ip r | grep $DMZ_IFACE)" != "" ]]; then
-        #     for address in $(--sys:env:nat); do
-        #         tcp=$(--sys:env:nat $address tcp)
-        #         udp=$(--sys:env:nat $address udp)
+        if [[ "$(ip r | grep $DMZ_IFACE)" != "" ]]; then
+            for address in $(--sys:env:nat); do
+                tcp=$(--sys:env:nat $address tcp)
+                udp=$(--sys:env:nat $address udp)
 
-        #         [[ -n $address ]] && [[ -n $tcp ]] && echo "iptables -t nat -A PREROUTING -p TCP -i $DMZ_IFACE -m multiport --dport $tcp -j DNAT --to-destination $address"
-        #         [[ -n $address ]] && [[ -n $udp ]] && echo "iptables -t nat -A PREROUTING -p UDP -i $DMZ_IFACE -m multiport --dport $udp -j DNAT --to-destination $address"
+                [[ -n $address ]] && [[ -n $tcp ]] && echo "iptables -t nat -A PREROUTING -p TCP -i $DMZ_IFACE -m multiport --dport $tcp -j DNAT --to-destination $address"
+                [[ -n $address ]] && [[ -n $udp ]] && echo "iptables -t nat -A PREROUTING -p UDP -i $DMZ_IFACE -m multiport --dport $udp -j DNAT --to-destination $address"
 
-        #         unset tcp udp
-        #     done
-        # else
+                unset tcp udp
+            done
+        fi
+
         for address in $(--sys:env:nat); do
             tcp=$(--sys:env:nat $address tcp)
             udp=$(--sys:env:nat $address udp)
@@ -134,7 +135,6 @@ _csf_rules() {
 
             unset tcp udp
         done
-        # fi
     fi
 
     # # Enable simple IP Forwarding and Network Address Translation
