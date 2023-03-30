@@ -1,5 +1,5 @@
-ductn (3.0.7-4) focal; urgency=medium
+ductn (3.0.7-5) focal; urgency=medium
 
-  * FUTURE: wireguard work with service
+  * FUTURE: add libraries fo dev
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Thu, 30 Mar 2023 10:52:22 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Thu, 30 Mar 2023 13:15:05 +0700
