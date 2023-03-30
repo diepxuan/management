@@ -28,20 +28,10 @@ if [[ ! -d /tmp/ductn ]]; then
     sudo chmod 777 -R /tmp/ductn
 fi
 
-_main() {
-    --echo "Server\t\t$(--host:fullname)($(--host:address))"
-    --echo "IP\t\t$(--ip:wan)"
-
-    # read -t 5 -n 1 -s -r -p "Press any key to continue (5 seconds)"
-    exit 0
-}
-
 [[ ! "$(whoami)" -eq "ductn" ]] && exit 1
 
 if [[ -n $* ]]; then
     "--$@"
-else
-    _main
 fi
 
 exit 0
