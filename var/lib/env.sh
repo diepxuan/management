@@ -84,6 +84,7 @@
 
 --sys:env:sync() {
     _sync() {
+        is_config=0
         for param in $@; do
             _new=$(curl -o - https://diepxuan.github.io/ppa/etc/$param?$RANDOM 2>/dev/null)
             _old=$(cat $ETC_PATH/$param)
@@ -94,7 +95,11 @@
 
             csf | portforward)
                 [[ $param == "csf" ]] && --csf:regex
-                [[ ! $_old == $_new ]] && --csf:config
+                [[ ! $_old == $_new ]] && _csf_config=1
+                ;;
+
+            domains)
+                [[ ! $_old == $_new ]] && _csf_config=1
                 ;;
 
             dhcp)
@@ -108,6 +113,7 @@
 
             unset _new _old
         done
+        [[ $_csf_config == 1 ]] && --csf:config
     }
 
     _sync domains portforward tunel csf dhcp
