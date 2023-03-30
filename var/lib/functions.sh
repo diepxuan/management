@@ -1,29 +1,30 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
----T() { --test; }
---exists() {
-    # nothing to do
-    echo '' 1>&3
+--do_no_thing() {
+    return 0
 }
---do_no_thing() { --exists; }
 
 --logger() {
     logger "$*"
 }
 
 --echo() {
-    echo -e "$@" 2>/dev/null
+    echo -e "\r$@" 2>/dev/null
 }
 
+version=
 --version() {
-    version=$(dpkg -s ductn | grep Version)
-    version=${version//'Version: '/}
+    [[ -z $version ]] && version=$(dpkg -s ductn | grep Version) && version=${version//'Version: '/}
     echo $version
 }
 
 ---v() {
     --version
+}
+
+--ssh() {
+    ssh -T $1 "$2" 2>/dev/null
 }
 
 _DUCTN_COMMANDS+=("hash_MD5")

@@ -5,7 +5,6 @@
     --sys:service:httpd
     --sys:service:mysql
     --sys:service:mssql
-    --sys:service:vpn
 }
 
 --sys:service:httpd() {
@@ -29,24 +28,6 @@
         --swap:install
         --log:cleanup
         --sys:service:restart mssql-server
-    fi
-}
-
---sys:service:vpn() {
-    if [[ "$(--vpn:type)" == "client" ]]; then
-        _SERVICE="openvpn@$(--host:name).service"
-        if [ "$(--sys:service:isactive $_SERVICE)" == "failed" ]; then
-            --vpn:init
-            --sys:service:restart $_SERVICE
-        fi
-    fi
-
-    if [[ "$(--vpn:type)" == "server" ]]; then
-        _SERVICE="openvpn-server@server.service"
-        if [ "$(--sys:service:isactive $_SERVICE)" == "failed" ]; then
-            --vpn:init
-            --sys:service:restart $_SERVICE
-        fi
     fi
 }
 
