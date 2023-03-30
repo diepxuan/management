@@ -34,5 +34,5 @@ _update_time() {
 }
 
 --dev() {
-    _main
+    _main $@
 }
