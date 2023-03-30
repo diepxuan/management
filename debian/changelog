@@ -1,5 +1,5 @@
-ductn (3.0.6-1) focal; urgency=medium
+ductn (3.0.7-4) focal; urgency=medium
 
-  * FUTURE: fix nat for vpn server
+  * FUTURE: wireguard work with service
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 27 Mar 2023 12:32:17 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Thu, 30 Mar 2023 10:52:22 +0700

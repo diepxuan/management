@@ -32,3 +32,7 @@ _update_time() {
     git commit -m update
     # git push
 }
+
+--dev() {
+    _main $@
+}

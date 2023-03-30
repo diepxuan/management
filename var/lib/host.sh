@@ -39,17 +39,22 @@ _DUCTN_COMMANDS+=("host:address")
 }
 
 --host:is_server() {
-    [[ $(--host:fullname) =~ ^pve[0-9].diepxuan.com$ ]] && echo 1 || echo 0
+    [[ -n $* ]] && host_name=$1 || host_name=$(--host:fullname)
+    [[ $host_name =~ ^pve[0-9].diepxuan.com$ ]] && echo 1 || echo 0
+    unset host_name
 }
 
 --host:is_vpn_server() {
-    [[ $(--host:fullname) =~ ^pve[0-9].vpn$ ]] && echo 1 || echo 0
+    [[ -n $* ]] && host_name=$1 || host_name=$(--host:fullname)
+    [[ $host_name =~ ^pve[0-9].vpn$ ]] && echo 1 || echo 0
+    unset host_name
 }
 
 _DUCTN_COMMANDS+=("host:serial")
 host_serial=
 --host:serial() {
     [[ -z $host_serial ]] && host_serial=$(--host:name) && host_serial=${host_serial:3}
+    [[ -z $host_serial ]] && host_serial=1
     echo $host_serial
 }
 

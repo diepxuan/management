@@ -58,4 +58,4 @@ _ductn() {
     fi
 }
 
-complete -o default -F _ductn ductn
+complete -o default -F _ductn ductn ddev
