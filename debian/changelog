@@ -1,7 +1,5 @@
-ductn (3.0.7-2) focal; urgency=medium
+ductn (3.0.7-4) focal; urgency=medium
 
-  * FIXBUG:
-    - Wireguard server nat
-    - Wireguard client internet access
+  * FUTURE: wireguard work with service
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 29 Mar 2023 21:18:13 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Thu, 30 Mar 2023 10:52:22 +0700

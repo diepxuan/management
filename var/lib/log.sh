@@ -2,6 +2,10 @@
 #!/bin/bash
 
 _DUCTN_COMMANDS+=("log:watch")
+--log() {
+    --log:watch
+}
+_DUCTN_COMMANDS+=("log:watch")
 --log:watch() {
     # ssh dx3.diepxuan.com "sudo tail -f /var/log/syslog" &
     # ssh dx1.diepxuan.com "sudo tail -f /var/log/syslog"
