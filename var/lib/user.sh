@@ -30,7 +30,36 @@ _DUCTN_COMMANDS+=("user:config")
 }
 
 --user:config:bash() {
-    sudo sed -i 's/.*force_color_prompt\=.*/force_color_prompt\=yes/' /home/${1}/.bashrc >/dev/null
+    local user=$1
+    sudo sed -i 's/.*force_color_prompt\=.*/force_color_prompt\=yes/' /home/$user/.bashrc >/dev/null
+    sudo sed -i "s|.*/var/www/base/bash/.bash_aliases.*||" /home/$user/.bash_aliases >/dev/null
+
+    local match="########## DUCTN Aliases ##########"
+    local aliases=/home/$user/.bash_aliases
+    local match_index=$(grep "$match" $aliases | wc -l)
+
+    if [[ $match_index == 0 ]]; then
+        echo $match | sudo tee -a $aliases >/dev/null
+        echo $match | sudo tee -a $aliases >/dev/null
+    elif [[ $match_index == 1 ]]; then
+        sudo sed -i "/$match/a\\$match" $aliases
+    fi
+
+    cat <<'EOF' | sudo sed -i -e "/$match/{:a;N;/\n$match$/!ba;r /dev/stdin" -e ";d}" $aliases
+########## DUCTN Aliases ##########
+# composer PATH
+export PATH=$PATH:$HOME/bin:$HOME/.composer/vendor/bin
+[ -d $HOME/.config/composer ] && export PATH=$PATH:$HOME/.config/composer/vendor/bin
+[ -d $HOME/.composer ] && export PATH=$PATH:$HOME/.composer/vendor/bin
+
+# Missing command
+alias ll >/dev/null 2>&1 || alias ll="ls -alF"
+
+# mssql-server PATH
+[ -d /opt/mssql-tools/bin/ ] && PATH="$PATH:/opt/mssql-tools/bin"
+[ -d /opt/mssql/bin/ ] && PATH="$PATH:/opt/mssql/bin"
+########## DUCTN Aliases ##########
+EOF
 }
 
 --user:config:chmod() {
