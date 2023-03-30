@@ -66,6 +66,8 @@ _main() {
         domain=${domains[$i]}
         host=${hosts[$i]}
 
+        [[ $(--host:is_server $host) == 1 ]] || [[ $(--host:is_vpn_server $host) == 1 ]] || continue
+
         --ssh $domain "[[ ! -d $WIREGUARD_KEYDIR ]] && sudo mkdir -p $WIREGUARD_KEYDIR"
         key_exist=$(--ssh $domain "[[ -n \$(sudo cat $WIREGUARD_KEYDIR/server_private.key) ]] && echo 1 || echo 0")
         [[ $key_exist == 1 ]] && --echo "    [$Green✓$NC] $host"
@@ -108,6 +110,7 @@ EOF
             is_exist=$(--ssh $domain "[[ -n \$(sudo cat $WIREGUARD_CONFIG) ]] && echo 1 || echo 0")
             [[ $is_exist == 1 ]] && --echo "      [$Green✓$NC] $host configuration exist ($WIREGUARD_CONFIG)"
             [[ $is_exist == 1 ]] && --ssh $domain "wg-quick down $WIREGUARD_IFACE"
+            [[ $is_exist == 1 ]] && --ssh $domain "sudo systemctl enable wg-quick@$WIREGUARD_IFACE"
             [[ $is_exist == 1 ]] || --echo "      [$Red✗$NC] $host configuration missing"
         fi
 
@@ -117,7 +120,7 @@ EOF
 
         if [[ ! $is_exist > 0 ]]; then
             [[ $is_exist > 0 ]] || --echo "    [i] $host wireguard is starting"
-            [[ $is_exist > 0 ]] || --ssh $domain "wg-quick up $WIREGUARD_IFACE"
+            [[ $is_exist > 0 ]] || --ssh $domain "sudo systemctl restart wg-quick@$WIREGUARD_IFACE"
 
             is_exist=$(--ssh $domain "ip r show 10.8.2.0/24 | wc -l")
 
@@ -154,6 +157,7 @@ EOF
                 is_exist=$(--ssh $client_domain "[[ -n \$(sudo cat $WIREGUARD_CONFIG) ]] && echo 1 || echo 0")
                 [[ $is_exist == 1 ]] && --echo "      [$Green✓$NC] $client_host configuration exist ($WIREGUARD_CONFIG)"
                 [[ $is_exist == 1 ]] && --ssh $client_domain "wg-quick down $WIREGUARD_IFACE"
+                [[ $is_exist == 1 ]] && --ssh $client_domain "sudo systemctl enable wg-quick@$WIREGUARD_IFACE"
                 [[ $is_exist == 1 ]] || --echo "      [$Red✗$NC] $client_host configuration missing"
             fi
 
@@ -163,7 +167,7 @@ EOF
 
             if [[ ! $is_exist > 0 ]]; then
                 [[ $is_exist > 0 ]] || --echo "      [i] $client_host wireguard is starting"
-                [[ $is_exist > 0 ]] || --ssh $client_domain "wg-quick up $WIREGUARD_IFACE"
+                [[ $is_exist > 0 ]] || --ssh $client_domain "sudo systemctl restart wg-quick@$WIREGUARD_IFACE"
 
                 is_exist=$(--ssh $client_domain "ip r show 10.8.2.0/24 | wc -l")
 
@@ -188,5 +192,4 @@ EOF
 
         unset domain host ip is_exist pri_key pub_key serial
     done
-
 }

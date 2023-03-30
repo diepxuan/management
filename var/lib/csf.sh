@@ -34,6 +34,11 @@ _DUCTN_COMMANDS+=("csf:config")
     [[ -f /etc/csf/csfpost.sh ]] || sudo touch /etc/csf/csfpost.sh
     echo "$(_csf_rules)" | sudo tee /etc/csf/csfpost.sh
 
+    while read -r domain; do
+        [[ -z $domain ]] && continue
+        [[ -n $(sudo grep -P $domain /etc/csf/csf.dyndns) ]] || echo -e $domain | sudo tee -a /etc/csf/csf.dyndns >/dev/null
+    done < <(--sys:env:domains)
+
     # Restart firewall rules (csf) and then restart lfd daemon
     sudo csf -ra
 }
