@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-_DUCTN_COMMANDS+=("log:watch")
+_DUCTN_COMMANDS+=("log")
 --log() {
-    --log:watch
+    local service=$*
+    [[ -z $service ]] && --log:watch
+    [[ -n $service ]] && --log:watch:service ${service//.service/}
 }
-_DUCTN_COMMANDS+=("log:watch")
+
 --log:watch() {
     # ssh dx3.diepxuan.com "sudo tail -f /var/log/syslog" &
     # ssh dx1.diepxuan.com "sudo tail -f /var/log/syslog"
@@ -14,7 +16,6 @@ _DUCTN_COMMANDS+=("log:watch")
     sudo tail -f $_log
 }
 
-_DUCTN_COMMANDS+=("log:watch:service")
 --log:watch:service() {
     sudo journalctl -u "$@".service -f
 }
