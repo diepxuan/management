@@ -86,3 +86,9 @@ EOF
 --user:config:admin() {
     echo "ductn ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/90-users >/dev/null
 }
+
+--user:is_sudoer() {
+    local user=$(whoami)
+    [[ -n $1 ]] && user=$1
+    [[ -n $(groups $user | grep -e 'sudo\|root') ]]
+}
