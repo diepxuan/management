@@ -6,8 +6,8 @@ WEBSERVER_GROUP="www-data"
 _DUCTN_M2+=(ch)
 _dev:m2:ch() {
     _ch() {
-        chmod -R g+w \${1}
-        chmod g+ws \${1}
+        chmod g+ws $*
+        chmod -R g+w $*
     }
 
     _ch app/etc
@@ -28,8 +28,6 @@ _dev:m2:ch() {
     _ch var/tmp
 
     _ch wp/wp-content/themes
-
-    unset -f _ch
 
     # find var vendor pub/static pub/media app/etc -type f -print0 -printf '\r\n' -exec chmod g+w {} \;
     # find var vendor pub/static pub/media app/etc -type d -print0 -printf '\r\n' -exec chmod g+ws {} \;
@@ -89,12 +87,12 @@ _dev:m2:grunt() {
 
 _DUCTN_M2+=(up)
 _dev:m2:up() {
-    _dev:m2:perm
-    _dev:m2:rmgen
-    _dev:m2:static
-    _dev:m2:cache
+    # _dev:m2:perm
+    # _dev:m2:rmgen
+    # _dev:m2:static
+    # _dev:m2:cache
     bin/magento setup:upgrade
-    _dev:m2:perm
+    # _dev:m2:perm
 }
 
 _DUCTN_M2+=(config)
@@ -204,8 +202,13 @@ _dev:m2:install() {
     curl -O https://files.magerun.net/n98-magerun2.phar && chmod +x n98-magerun2.phar && sudo mv n98-magerun2.phar /usr/local/bin/magerun2
 }
 
+_dev:m2:completion() {
+    symfony-autocomplete --shell=bash -- magerun2 | sed '1d ; $ s/$/.phar '"n98-magerun2 magerun2"'/' | sudo tee /etc/bash_completion.d/n98-magerun2
+}
+
 --m2() {
-    "_dev:m2:$*"
+    [[ $(type -t _dev:m2:$*) == function ]] && _dev:m2:$*
+    [[ ! $(type -t _dev:m2:$*) == function ]] && [[ -f bin/magento ]] && php bin/magento $*
 }
 
 --m2:completion:commands() {
