@@ -91,8 +91,15 @@ _dev:m2:up() {
     # _dev:m2:rmgen
     # _dev:m2:static
     # _dev:m2:cache
-    bin/magento setup:upgrade
+    bin/magento setup:upgrade $@
     # _dev:m2:perm
+}
+
+_DUCTN_M2+=(elasticsearch)
+_dev:m2:elasticsearch() {
+    [[ --user:is_sudoer ]] || sudo sed -i "s|.*xpack.security.enabled: .*|xpack.security.enabled: false|" /etc/elasticsearch/elasticsearch.yml
+    curl -XGET 'http://localhost:9200'
+    curl -XGET 'localhost:9200/_cluster/health?pretty'
 }
 
 _DUCTN_M2+=(config)
@@ -130,10 +137,10 @@ _dev:m2:setting() {
     magerun2 config:store:set system/smtp/username admin@diepxuan.com
     magerun2 config:store:set system/smtp/password fbJdfF2xsKd5NSrv
 
-    if [ ! -z \$1 ]; then
-        magerun2 config:store:set web/unsecure/base_url http://\$1/
-        magerun2 config:store:set web/secure/base_url https://\$1/
-        magerun2 config:store:set web/cookie/cookie_domain \$1
+    if [ ! -z $1 ]; then
+        magerun2 config:store:set web/unsecure/base_url http://$1/
+        magerun2 config:store:set web/secure/base_url https://$1/
+        magerun2 config:store:set web/cookie/cookie_domain $1
     fi
 
     magerun2 admin:notifications --off
@@ -163,14 +170,14 @@ _dev:m2:developer() {
 
 _DUCTN_M2+=(delsolr)
 _dev:m2:delsolr() {
-    sudo su solr -c \"/opt/solr/bin/solr delete -c \${1}\"
+    sudo su solr -c "/opt/solr/bin/solr delete -c ${1}"
 }
 
 _DUCTN_M2+=(addsolr)
 _dev:m2:addsolr() {
-    sudo su solr -c \"/opt/solr/bin/solr delete -c \${1}\"
-    sudo su solr -c \"/opt/solr/bin/solr create -c \${1}\"
-    cat vendor/partsbx/core/src/module-partsbx-solr/conf/managed-schema | sudo su solr -c \"tee /var/solr/data/\${1}\/conf/managed-schema\"
+    sudo su solr -c "/opt/solr/bin/solr delete -c ${1}"
+    sudo su solr -c "/opt/solr/bin/solr create -c ${1}"
+    cat vendor/partsbx/core/src/module-partsbx-solr/conf/managed-schema | sudo su solr -c "tee /var/solr/data/${1}\/conf/managed-schema"
     sudo service solr restart
     unset -f _m2fixsolr
 }
