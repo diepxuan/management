@@ -14,7 +14,7 @@ _DUCTN_COMMANDS+=("dev:source")
 }
 
 _update_time() {
-    cat debian/changelog | sed -e "s/<ductn@diepxuan.com>  .*/<ductn@diepxuan.com>  $(date -R)/g" >debian/changelog
+    cat debian/changelog | sed -e "0,/<ductn@diepxuan.com>  .*/ s/<ductn@diepxuan.com>  .*/<ductn@diepxuan.com>  $(date -R)/g" >debian/changelog
 }
 
 --dev:ppa() {
