@@ -3,7 +3,7 @@
 
 _DUCTN_COMMANDS+=("user:new")
 --user:new() {
-    user=$1
+    local user=$1
 
     sudo adduser $user --disabled-password --gecos \"\"
     sudo adduser $user www-data
@@ -18,26 +18,28 @@ _DUCTN_COMMANDS+=("user:new")
 
 _DUCTN_COMMANDS+=("user:config")
 --user:config() {
-    if [[ $1 = "ductn" ]]; then
-        --user:config:admin
+    local user=$1
+    if [[ $user = "ductn" ]]; then
+        --user:config:admin $user
 
-        sudo usermod -aG mssql $1 >/dev/null 2>&1
-        sudo usermod -aG www-data $1 >/dev/null 2>&1
+        sudo usermod -aG mssql $user >/dev/null 2>&1
+        sudo usermod -aG www-data $user >/dev/null 2>&1
     fi
 
-    --user:config:bash $1
-    --user:config:chmod $1
+    --user:config:bash $user
+    --user:config:chmod $user
 }
 
 --user:config:bash() {
     local user=$1
     sudo sed -i 's/.*force_color_prompt\=.*/force_color_prompt\=yes/' /home/$user/.bashrc >/dev/null
-    sudo sed -i "s|.*/var/www/base/bash/.bash_aliases.*||" /home/$user/.bash_aliases >/dev/null
+    [[ -f /home/$user/.bash_aliases ]] && sudo sed -i "s|.*/var/www/base/bash/.bash_aliases.*||" /home/$user/.bash_aliases >/dev/null
 
     local match="########## DUCTN Aliases ##########"
     local aliases=/home/$user/.bash_aliases
     local match_index=$(grep "$match" $aliases | wc -l)
 
+    sudo touch $aliases
     if [[ $match_index == 0 ]]; then
         echo $match | sudo tee -a $aliases >/dev/null
         echo $match | sudo tee -a $aliases >/dev/null
@@ -63,24 +65,26 @@ EOF
 }
 
 --user:config:chmod() {
-    sudo chmod 755 /home/${1}
+    local user=$1
 
-    sudo mkdir -p /home/${1}/.ssh
-    sudo chmod 777 /home/${1}/.ssh
+    sudo chmod 755 /home/$user
 
-    sudo chmod -R 600 /home/${1}/.ssh
-    sudo chmod 700 /home/${1}/.ssh
-    sudo chown -R ${1}:${1} /home/${1}/.ssh
+    sudo mkdir -p /home/$user/.ssh
+    sudo chmod 777 /home/$user/.ssh
 
-    sudo chmod 644 /home/${1}/.bash_aliases
-    sudo chown -R ${1}:${1} /home/${1}/.bash_aliases
+    sudo chmod -R 600 /home/$user/.ssh
+    sudo chmod 700 /home/$user/.ssh
+    sudo chown -R $user:$user /home/$user/.ssh
 
-    sudo mkdir -p /home/${1}/public_html
-    sudo chmod 755 /home/${1}/public_html
-    sudo chown -R ${1}:www-data /home/${1}/public_html
+    sudo chmod 644 /home/$user/.bash_aliases
+    sudo chown -R $user:$user /home/$user/.bash_aliases
 
-    sudo mkdir -p /home/${1}/.ssl
-    sudo chown -R ${1}:${1} /home/${1}/.ssl
+    sudo mkdir -p /home/$user/public_html
+    sudo chmod 755 /home/$user/public_html
+    sudo chown -R $user:www-data /home/$user/public_html
+
+    sudo mkdir -p /home/$user/.ssl
+    sudo chown -R $user:$user /home/$user/.ssl
 }
 
 --user:config:admin() {
