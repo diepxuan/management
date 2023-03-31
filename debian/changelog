@@ -3,10 +3,11 @@ ductn (3.0.9) focal; urgency=medium
   * FUTURE:
     - csf allow pve VMs connect to vpn server
     - csf allow traffic over vpn lan
+    - wireguard route all traffic from pve to internet over vpn server
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Fri, 31 Mar 2023 16:17:08 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Fri, 31 Mar 2023 17:23:09 +0700
 
- ductn (3.0.8) focal; urgency=medium
+ductn (3.0.8) focal; urgency=medium
 
   * FUTURE:
     - add CHANGELOG.md

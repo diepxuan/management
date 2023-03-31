@@ -180,9 +180,9 @@ EOF
             --ssh $domain "sudo wg set $WIREGUARD_IFACE peer $client_pub_key allowed-ips 10.8.$serial.$client_serial"
 
             --echo "      [i] $client_host connect to $host"
-            --ssh $client_domain "sudo wg set $WIREGUARD_IFACE peer $pub_key endpoint $ip:$WIREGUARD_PORT persistent-keepalive 15 allowed-ips 10.8.$serial.0/24"
-            # [[ $serial == $client_serial ]] && --ssh $client_domain "sudo wg set $WIREGUARD_IFACE peer $pub_key endpoint $ip:$WIREGUARD_PORT persistent-keepalive 15 allowed-ips 0.0.0.0/0"
-            # [[ $serial == $client_serial ]] || --ssh $client_domain "sudo wg set $WIREGUARD_IFACE peer $pub_key endpoint $ip:$WIREGUARD_PORT persistent-keepalive 15 allowed-ips 10.8.$serial.0/24"
+            # --ssh $client_domain "sudo wg set $WIREGUARD_IFACE peer $pub_key endpoint $ip:$WIREGUARD_PORT persistent-keepalive 15 allowed-ips 10.8.$serial.0/24"
+            [[ $serial == $client_serial ]] && --ssh $client_domain "sudo wg set $WIREGUARD_IFACE peer $pub_key endpoint $ip:$WIREGUARD_PORT persistent-keepalive 15 allowed-ips 10.8.$serial.254/32 0.0.0.0/0"
+            [[ $serial == $client_serial ]] || --ssh $client_domain "sudo wg set $WIREGUARD_IFACE peer $pub_key endpoint $ip:$WIREGUARD_PORT persistent-keepalive 15 allowed-ips 10.8.$serial.0/24"
 
             --ssh $domain "wg-quick save $WIREGUARD_IFACE"
             --ssh $client_domain "wg-quick save $WIREGUARD_IFACE"
