@@ -78,8 +78,8 @@ _csf_rules() {
             echo "iptables -A FORWARD -i $DMZ_IFACE -j ACCEPT"
             echo "iptables -A FORWARD -o $DMZ_IFACE -j ACCEPT"
 
-        #     echo "iptables -A FORWARD -i $DMZ_IFACE -o $INET_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
-        #     echo "iptables -A FORWARD -i $INET_IFACE -o $DMZ_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
+            # echo "iptables -A FORWARD -i $DMZ_IFACE -o $INET_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
+            # echo "iptables -A FORWARD -i $INET_IFACE -o $DMZ_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
         fi
 
         for address in $(--sys:env:nat); do
@@ -113,10 +113,10 @@ _csf_rules() {
             echo "iptables -A FORWARD -i $DMZ_IFACE -j ACCEPT"
             echo "iptables -A FORWARD -o $DMZ_IFACE -j ACCEPT"
 
-        #     echo "iptables -A FORWARD -i tun+ -o $INET_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
-        #     echo "iptables -A FORWARD -i $INET_IFACE -o tun+ -m state --state RELATED,ESTABLISHED -j ACCEPT"
-        #     echo "iptables -A FORWARD -i tun+ -o $LAN_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
-        #     echo "iptables -A FORWARD -i $LAN_IFACE -o tun+ -m state --state RELATED,ESTABLISHED -j ACCEPT"
+            # echo "iptables -A FORWARD -i $DMZ_IFACE -o $INET_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
+            # echo "iptables -A FORWARD -i $INET_IFACE -o $DMZ_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
+            # echo "iptables -A FORWARD -i $DMZ_IFACE -o $LAN_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
+            # echo "iptables -A FORWARD -i $LAN_IFACE -o $DMZ_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
         fi
 
         if [[ "$(ip r | grep $DMZ_IFACE)" != "" ]]; then
