@@ -97,7 +97,6 @@ _dev:m2:up() {
 
 _DUCTN_M2+=(elasticsearch)
 _dev:m2:elasticsearch() {
-    _dev:m2:elasticsearch_install
     curl -XGET 'http://localhost:9200'
     curl -XGET 'localhost:9200/_cluster/health?pretty'
 }
@@ -105,14 +104,16 @@ _dev:m2:elasticsearch() {
 # https://gist.github.com/dominicsayers/8319752
 _dev:m2:elasticsearch_install() {
     [[ --user:is_sudoer ]] || return
-    # sudo apt install elasticsearch
 
     if [[ $(--sys:apt:check elasticsearch) == 0 ]]; then
-        --sys:apt:install elasticsearch openjdk-8-jdk
+        wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+        echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
+        # --sys:apt:install openjdk-8-jdk
+        --sys:apt:install elasticsearch
 
-        systemctl daemon-reload
-        systemctl enable elasticsearch.service
-        systemctl start elasticsearch.service
+        sudo systemctl daemon-reload
+        sudo systemctl enable elasticsearch.service
+        sudo systemctl start elasticsearch.service
     fi
 
     sudo sed -i "s|.*xpack.security.enabled: .*|xpack.security.enabled: false|" /etc/elasticsearch/elasticsearch.yml
