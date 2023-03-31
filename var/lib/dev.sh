@@ -3,21 +3,21 @@
 
 _DUCTN_COMMANDS+=("dev:build")
 --dev:build() {
-    _update_time
+    _build_time
     dpkg-buildpackage
-}
-
-_DUCTN_COMMANDS+=("dev:source")
---dev:source() {
-    _update_time
     dpkg-buildpackage -S
+    local old_pwd=$(pwd)
+    cd /var/www/
+    mv ductn* ppa/ 2>/dev/null
+    cd /var/www/ppa/
+    _build_ppa
 }
 
-_update_time() {
+_build_time() {
     cat debian/changelog | sed -e "0,/<ductn@diepxuan.com>  .*/ s/<ductn@diepxuan.com>  .*/<ductn@diepxuan.com>  $(date -R)/g" >debian/changelog
 }
 
---dev:ppa() {
+_build_ppa() {
     # Packages & Packages.gz
     dpkg-scanpackages --multiversion . >Packages
     gzip -k -f Packages
