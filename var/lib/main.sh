@@ -50,7 +50,7 @@ _main() {
 
     if [[ ${#vpn_installing[@]} > 0 ]]; then
         --echo "  [i] VPN installing"
-        for index in ${!vpn_installing[@]}; do
+        for index in ${vpn_installing[@]}; do
             host=${hosts[$index]}
             domain=${domains[$index]}
             [[ $(--host:is_server $host) == 1 ]] && --vpn:wireguard:install $domain
