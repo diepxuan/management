@@ -1,5 +1,119 @@
-ductn (3.0.7-6.1) focal; urgency=medium
+ductn (3.0.8) focal; urgency=medium
 
-  * FIXBUG: dev libraries
+  * FUTURE:
+    - add CHANGELOG.md
+    - `port:open` get ports are openning
+    - combine `log:watch` and `log:watch:service` into `log`
+    - `_dev:m2:completion` build magerun2 autocomplation
+    - `m2` mapped with `bin/magento` if exist
+    - `m2 up` use only magento basic function
+    - check user is sudoer
+    - add function `elasticsearch_install` for magento 2 developer
+  * ISSUES:
+    - `m2 ch` not working
+    - `${1}` not working
+    - elasticsearch disable `xpack.security.enabled` for magento 2
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Fri, 31 Mar 2023 16:17:08 +0700
+
+ductn (3.0.7-5) focal; urgency=medium
+
+  * FUTURE: add libraries fo dev
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Thu, 30 Mar 2023 13:15:05 +0700
+
+ductn (3.0.7-4) focal; urgency=medium
+
+  * FUTURE: wireguard work with service
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Thu, 30 Mar 2023 10:52:22 +0700
+
+ductn (3.0.7-3) focal; urgency=medium
+
+  * FUTURE: csf whitelist a hostname
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Thu, 30 Mar 2023 10:24:22 +0700
+
+ductn (3.0.7-2) focal; urgency=medium
+
+  * FIXBUG:
+    - Wireguard server nat
+    - Wireguard client internet access
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 29 Mar 2023 21:18:13 +0700
+
+ductn (3.0.7-1) focal; urgency=medium
+
+  * FIXBUG: Wireguard client nat
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 29 Mar 2023 21:18:13 +0700
+
+ductn (3.0.7-0) focal; urgency=medium
+
+  * FUTURE: dev management building
+  * FUTURE: change openvpn to wireguard
+    prepare to create site to site vpn
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 29 Mar 2023 19:51:42 +0700
+
+ductn (3.0.6-6) focal; urgency=medium
+
+  * FIXBUG: add interface to nat iptables
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 29 Mar 2023 19:51:42 +0700
+
+ductn (3.0.6-5) focal; urgency=medium
+
+  * FIXBUG: make dhcpd config for pve server only
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 29 Mar 2023 19:51:42 +0700
+
+ductn (3.0.6-4) focal; urgency=medium
+
+  * FIXBUG: fix option -m multiport block internet
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 29 Mar 2023 19:51:42 +0700
+
+ductn (3.0.6-3) focal; urgency=medium
+
+  * FUTURE: add dhcp to online config
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 27 Mar 2023 14:42:05 +0700
+
+ductn (3.0.6-2) focal; urgency=medium
+
+  * FUTURE: fix nat multiport
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 27 Mar 2023 12:54:02 +0700
+
+ductn (3.0.6-1) focal; urgency=medium
+
+  * FUTURE: fix nat for vpn server
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 27 Mar 2023 12:32:17 +0700
+
+ductn (3.0.6-0) focal; urgency=medium
+
+  * FUTURE: add tcp, udp port to nat function
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 27 Mar 2023 11:51:16 +0700
+
+ductn (3.0.5-10) focal; urgency=medium
+
+  * FIXBUG:
+    - fix missing argument
+    - fix missing cloudflare zones
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 27 Mar 2023 11:51:16 +0700
+
+ductn (3.0.5-9) focal; urgency=medium
+
+  * FIXBUG: fix loop many time in service cron
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Fri, 24 Mar 2023 07:28:07 +0700
+
+ductn (3.0.5-8) focal; urgency=medium
+
+  * FIXBUG: fix package break without error
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 22 Mar 2023 22:28:14 +0700
