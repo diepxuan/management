@@ -2,6 +2,7 @@ ductn (3.0.9) focal; urgency=medium
 
   * FUTURE:
     - csf allow pve VMs connect to vpn server
+    - csf allow traffic over vpn lan
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Fri, 31 Mar 2023 16:17:08 +0700
 
