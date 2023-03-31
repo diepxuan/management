@@ -73,14 +73,14 @@ _csf_rules() {
         echo "iptables -t raw -I PREROUTING -i fwbr+ -j CT --zone 1"
         echo "iptables -t nat -A POSTROUTING -o $INET_IFACE -j MASQUERADE"
 
-        # if [[ "$(ip r | grep $DMZ_IFACE)" != "" ]]; then
-        #     echo "iptables -A INPUT -i $DMZ_IFACE -j ACCEPT"
-        #     echo "iptables -A FORWARD -i $DMZ_IFACE -j ACCEPT"
-        #     echo "iptables -A FORWARD -o $DMZ_IFACE -j ACCEPT"
+        if [[ "$(ip r | grep $DMZ_IFACE)" != "" ]]; then
+            echo "iptables -A INPUT -i $DMZ_IFACE -j ACCEPT"
+            echo "iptables -A FORWARD -i $DMZ_IFACE -j ACCEPT"
+            echo "iptables -A FORWARD -o $DMZ_IFACE -j ACCEPT"
 
         #     echo "iptables -A FORWARD -i $DMZ_IFACE -o $INET_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
         #     echo "iptables -A FORWARD -i $INET_IFACE -o $DMZ_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
-        # fi
+        fi
 
         for address in $(--sys:env:nat); do
             tcp=$(--sys:env:nat $address tcp)
