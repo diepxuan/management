@@ -97,9 +97,52 @@ _dev:m2:up() {
 
 _DUCTN_M2+=(elasticsearch)
 _dev:m2:elasticsearch() {
-    [[ --user:is_sudoer ]] || sudo sed -i "s|.*xpack.security.enabled: .*|xpack.security.enabled: false|" /etc/elasticsearch/elasticsearch.yml
+    _dev:m2:elasticsearch_install
     curl -XGET 'http://localhost:9200'
     curl -XGET 'localhost:9200/_cluster/health?pretty'
+}
+
+# https://gist.github.com/dominicsayers/8319752
+_dev:m2:elasticsearch_install() {
+    [[ --user:is_sudoer ]] || return
+    # sudo apt install elasticsearch
+
+    if [[ $(--sys:apt:check elasticsearch) == 0 ]]; then
+        --sys:apt:install elasticsearch openjdk-8-jdk
+
+        systemctl daemon-reload
+        systemctl enable elasticsearch.service
+        systemctl start elasticsearch.service
+    fi
+
+    sudo sed -i "s|.*xpack.security.enabled: .*|xpack.security.enabled: false|" /etc/elasticsearch/elasticsearch.yml
+
+    # /etc/security/limits.conf
+    # elasticsearch hard memlock 128000
+    local match=elasticsearch
+    local value='elasticsearch hard memlock 128000'
+    local file=/etc/security/limits.conf
+    if [[ -f $file ]]; then
+        [[ -n $(grep "$match" $file) ]] || sudo tee -a $value $file
+        [[ -n $(grep "$match" $file) ]] && sudo sed -i "s|.*$match*|$value|" $file
+    fi
+
+    # /etc/default/elasticsearch
+    # ES_HEAP_SIZE=128m
+    # MAX_LOCKED_MEMORY=128000
+    # ES_JAVA_OPTS=-server
+    local values=('ES_HEAP_SIZE=128m' 'MAX_LOCKED_MEMORY=128000' 'ES_JAVA_OPTS=-server')
+    file=/etc/default/elasticsearch
+
+    if [[ -f $file ]]; then
+        for value in ${values[@]}; do
+            match=${value%=*}
+
+            [[ -n $(grep "$match" $file) ]] || sudo tee -a $value $file
+            [[ -n $(grep "$match" $file) ]] && sudo sed -i "s|.*$match*|$value|" $file
+        done
+    fi
+
 }
 
 _DUCTN_M2+=(config)
