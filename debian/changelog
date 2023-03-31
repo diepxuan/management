@@ -1,3 +1,14 @@
+ductn (3.0.10) focal; urgency=medium
+
+  * FUTURE:
+    - combine `build` and `source` for developer
+    - `_build_ppa` for auto commit to private ppa
+  * ISSUES:
+    - missing var `user`
+    - missing file `~/.bash_aliases`
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Fri, 31 Mar 2023 18:14:04 +0700
+
 ductn (3.0.9) focal; urgency=medium
 
   * FUTURE:
