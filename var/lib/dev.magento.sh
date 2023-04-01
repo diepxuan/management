@@ -64,8 +64,8 @@ _dev:m2:static() {
 
 _DUCTN_M2+=(cache)
 _dev:m2:cache() {
-    rm -rf var/cache/* var/page_cache/* var/tmp/* var/generation/* var/di/*
-    magerun2 cache:clean
+    # rm -rf var/cache/* var/page_cache/* var/tmp/* var/generation/* var/di/*
+    # magerun2 cache:clean
     magerun2 cache:flush
 }
 
