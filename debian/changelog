@@ -9,7 +9,7 @@ ductn (3.1.0-1) focal; urgency=medium
   *ISSUES:
     - missing `data` from PATCH vm request
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Fri, 31 Mar 2023 18:14:04 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 02 Apr 2023 00:57:44 +0700
 
 ductn (3.0.10) focal; urgency=medium
 
