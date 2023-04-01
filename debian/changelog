@@ -4,12 +4,13 @@ ductn (3.0.10) focal; urgency=medium
     - combine `build` and `source` for developer
     - `_build_ppa` for auto commit to private ppa
     - install `agent` for pve VMs
+    - new url to pull
   * ISSUES:
     - missing var `user`
     - missing file `~/.bash_aliases`
     - `elasticsearch` installer
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Fri, 31 Mar 2023 18:14:04 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Sat, 01 Apr 2023 15:57:22 +0700
 
 ductn (3.0.9) focal; urgency=medium
 
