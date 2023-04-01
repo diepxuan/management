@@ -2,17 +2,14 @@
 #!/bin/bash
 
 --sys:service:main() {
-    timer=0
     while true; do
         sleep 1
-        ((timer += 1))
-        timer=$(($timer % 10))
-        second=$(date +%S)
-        minute=$(date +%M)
+        local second=$(date +%S)
+        local minute=$(date +%M)
 
-        # execute every minute at 1 second
-        if [[ $second == 1 ]]; then
-            --cron:cronjob:min
+        # execute every 30mins
+        if [[ $second == 0 ]] && [[ $(($minute % 30)) == 0 ]]; then
+            --cron:cronjob:hour
         fi
 
         # execute every 5mins at 0 second
@@ -20,9 +17,14 @@
             --cron:cronjob:5min
         fi
 
-        # execute every 30mins
-        if [[ $second == 0 ]] && [[ $(($minute % 30)) == 0 ]]; then
-            --cron:cronjob:hour
+        # execute every minute at 1 second
+        if [[ $second == 1 ]]; then
+            --cron:cronjob:min
+        fi
+
+        # execute every 5 seconds
+        if [[ $(expr $(date +%S) % 5) == 0 ]]; then
+            _cron:cronjob:5seconds &
         fi
     done
 }
@@ -32,9 +34,9 @@
     if [ ! "$(--sys:service:isactive $_SERVICE_NAME)" == "active" ]; then
         sudo systemctl stop ${_SERVICE_NAME//'.service'/}
         sudo systemctl start ${_SERVICE_NAME//'.service'/}
-    else
-        --sys:service:main
+        return
     fi
+    --sys:service:main
 }
 
 _DUCTN_COMMANDS+=("sys:service:isactive")
