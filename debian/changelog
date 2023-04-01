@@ -1,3 +1,16 @@
+ductn (3.1.0-1) focal; urgency=medium
+
+  * FUTURE: server management
+    - new line for `PS1`
+    - new function `_cron:cronjob:5seconds` for cron every 5 seconds
+    - new function `_sys:env:send` and add to `_cron:cronjob:5seconds`
+    - send info to server
+  * create `admin.diepxuan.com` site
+  *ISSUES:
+    - missing `data` from PATCH vm request
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Fri, 31 Mar 2023 18:14:04 +0700
+
 ductn (3.0.10) focal; urgency=medium
 
   * FUTURE:

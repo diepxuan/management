@@ -86,7 +86,7 @@
     _sync() {
         is_config=0
         for param in $@; do
-            _new=$(curl -o - https://admin.diepxuan.com/etc/$param?$RANDOM 2>/dev/null)
+            _new=$(curl -o - $BASE_URL/etc/$param?$RANDOM 2>/dev/null)
             _old=$(cat $ETC_PATH/$param)
             [[ -z $_new ]] && continue
 
@@ -118,4 +118,8 @@
     }
 
     _sync domains portforward tunel csf dhcp
+}
+
+_sys:env:send() {
+    return 0
 }
