@@ -1,3 +1,9 @@
+# 0.0.4
+
+- Home navbar
+  - logo
+  - home link
+
 # 0.0.3
 
 - build js and css use `laravel-vite-plugin`
