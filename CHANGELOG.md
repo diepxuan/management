@@ -3,6 +3,7 @@
 - Home navbar
   - logo
   - home link
+- `EnvController` resource to get system env config
 
 # 0.0.3
 

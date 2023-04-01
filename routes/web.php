@@ -24,10 +24,11 @@ Route::domain("admin.diepxuan.com")->group(function () {
         ClearCache::class,
     ])->group(function () {
 
-        Route::get("/etc/{conf?}", [App\Http\Controllers\Sys\EnvController::class, "index"]);
         Route::get('/', [App\Http\Controllers\Admin\HomeController::class, "index"]);
-        // Route::get('/', function () {
-        //     return view('welcome');
-        // });
+
+        Route::resources([
+            'etc' => App\Http\Controllers\Sys\EnvController::class,
+            // 'posts' => PostController::class,
+        ]);
     });
 });

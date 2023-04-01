@@ -7,8 +7,6 @@
 namespace App\Http\Controllers\Sys;
 
 use Illuminate\Support\Facades\Log;
-use Barryvdh\Debugbar\Facades\Debugbar;
-use Illuminate\Support\Facades\Storage;
 
 class EnvController extends Controller
 {
@@ -32,16 +30,73 @@ class EnvController extends Controller
         string $conf = null
     ) {
 
-        // Storage::disk('local')->get("bin/etc/$conf");
         try {
             $data = file_get_contents("https://diepxuan.github.io/ppa/etc/$conf");
         } catch (\Throwable $th) {
             $data = null;
         }
-        Debugbar::info($conf);
+        Log::info($conf);
 
         return view('sys/env', [
             'data' => $data
         ]);
+    }
+
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        try {
+            $data = file_get_contents("https://diepxuan.github.io/ppa/etc/$id");
+        } catch (\Throwable $th) {
+            $data = null;
+        }
+        Log::info($id);
+
+        return view('sys/env', [
+            'data' => $data
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
     }
 }
