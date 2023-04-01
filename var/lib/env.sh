@@ -88,6 +88,7 @@
         for param in $@; do
             _new=$(curl -o - https://admin.diepxuan.com/etc/$param?$RANDOM 2>/dev/null)
             _old=$(cat $ETC_PATH/$param)
+            [[ -z $_new ]] && continue
 
             [[ ! $_old == $_new ]] && echo "$_new" | sudo tee $ETC_PATH/$param >/dev/null
 
