@@ -118,3 +118,7 @@
 
     _sync domains portforward tunel csf dhcp
 }
+
+_sys:env:send() {
+    --logger "_sys:env:send $(date +%S)"
+}
