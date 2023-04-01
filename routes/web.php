@@ -17,12 +17,13 @@ use App\Http\Middleware\ClearCache;
 //     return view('welcome');
 // });
 
-Route::domain("vps.diepxuan.com")->group(function () {
+Route::domain("admin.diepxuan.com")->group(function () {
     Route::middleware([ClearCache::class])->group(function () {
         // Route::get('/', function () {
         //     return view('welcome');
         // });
 
-        Route::get("/{hostname?}/{ip?}", [App\Http\Controllers\Dyndns\HomeController::class, "index"]);
+        // Route::get("/{hostname?}/{ip?}", [App\Http\Controllers\Dyndns\HomeController::class, "index"]);
+        Route::get("/etc/{conf?}", [App\Http\Controllers\Sys\EnvController::class, "index"]);
     });
 });

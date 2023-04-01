@@ -3,6 +3,7 @@
 /public/storage
 /storage/*.key
 /vendor
+/bin
 .env
 .env.backup
 .phpunit.result.cache
@@ -38,6 +39,7 @@ dist/
 # Maven
 target/
 dist/
+bin/
 
 # JetBrains IDE
 .idea/
