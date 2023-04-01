@@ -1,5 +1,9 @@
 # 0.0.4
 
+- Manegement VMs
+  - create `VmController`
+  - New model `Vm`
+  - create table `vms`
 - Home navbar
   - logo
   - home link
