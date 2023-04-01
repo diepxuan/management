@@ -22,8 +22,8 @@ _DUCTN_COMMANDS+=("user:config")
     if [[ $user = "ductn" ]]; then
         --user:config:admin $user
 
-        sudo usermod -aG mssql $user >/dev/null 2>&1
-        sudo usermod -aG www-data $user >/dev/null 2>&1
+        [[ -n $(groups $user | grep -e 'mssql') ]] || sudo usermod -aG mssql $user >/dev/null 2>&1
+        [[ -n $(groups $user | grep -e 'www-data') ]] || sudo usermod -aG www-data $user >/dev/null 2>&1
     fi
 
     --user:config:bash $user
@@ -32,6 +32,7 @@ _DUCTN_COMMANDS+=("user:config")
 
 --user:config:bash() {
     local user=$1
+    [[ -z $user ]] && user=$(whoami)
     sudo sed -i 's/.*force_color_prompt\=.*/force_color_prompt\=yes/' /home/$user/.bashrc >/dev/null
     [[ -f /home/$user/.bash_aliases ]] && sudo sed -i "s|.*/var/www/base/bash/.bash_aliases.*||" /home/$user/.bash_aliases >/dev/null
 
@@ -49,17 +50,17 @@ _DUCTN_COMMANDS+=("user:config")
 
     cat <<'EOF' | sudo sed -i -e "/$match/{:a;N;/\n$match$/!ba;r /dev/stdin" -e ";d}" $aliases
 ########## DUCTN Aliases ##########
-# composer PATH
+PS1="$PS1 \n$ "
+
 export PATH=$PATH:$HOME/bin:$HOME/.composer/vendor/bin
 [ -d $HOME/.config/composer ] && export PATH=$PATH:$HOME/.config/composer/vendor/bin
 [ -d $HOME/.composer ] && export PATH=$PATH:$HOME/.composer/vendor/bin
 
-# Missing command
-alias ll >/dev/null 2>&1 || alias ll="ls -alF"
-
-# mssql-server PATH
 [ -d /opt/mssql-tools/bin/ ] && PATH="$PATH:/opt/mssql-tools/bin"
 [ -d /opt/mssql/bin/ ] && PATH="$PATH:/opt/mssql/bin"
+
+alias ll >/dev/null 2>&1 || alias ll="ls -alF"
+
 ########## DUCTN Aliases ##########
 EOF
 }
@@ -88,6 +89,7 @@ EOF
 }
 
 --user:config:admin() {
+    [[ -f /etc/sudoers.d/90-users ]] && return
     echo "ductn ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/90-users >/dev/null
 }
 
