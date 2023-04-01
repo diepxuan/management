@@ -8,4 +8,8 @@ namespace App\Http\Controllers\Sys;
 
 class Controller extends \App\Http\Controllers\Controller
 {
+    function __construct()
+    {
+        \Barryvdh\Debugbar\Facades\Debugbar::disable();
+    }
 }

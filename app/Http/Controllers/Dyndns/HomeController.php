@@ -18,9 +18,8 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware([
-            'clearcache',
-        ]);
+        $this->middleware([]);
+        parent::__construct();
     }
 
     /**

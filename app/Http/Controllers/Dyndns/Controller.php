@@ -8,4 +8,7 @@ namespace App\Http\Controllers\Dyndns;
 
 class Controller extends \App\Http\Controllers\Controller
 {
+    function __construct()
+    {
+    }
 }

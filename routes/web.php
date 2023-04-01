@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\ClearCache;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,12 +19,21 @@ use App\Http\Middleware\ClearCache;
 // });
 
 Route::domain("admin.diepxuan.com")->group(function () {
-    Route::middleware([ClearCache::class])->group(function () {
+
+    Route::middleware([
+        ClearCache::class,
+    ])->group(function () {
+
+        Route::get("/etc/{conf?}", [App\Http\Controllers\Sys\EnvController::class, "index"]);
+    });
+
+    Route::middleware([
+        ClearCache::class,
+    ])->group(function () {
+        Route::get("/{hostname?}/{ip?}", [App\Http\Controllers\Dyndns\HomeController::class, "index"]);
+
         // Route::get('/', function () {
         //     return view('welcome');
         // });
-
-        // Route::get("/{hostname?}/{ip?}", [App\Http\Controllers\Dyndns\HomeController::class, "index"]);
-        Route::get("/etc/{conf?}", [App\Http\Controllers\Sys\EnvController::class, "index"]);
     });
 });

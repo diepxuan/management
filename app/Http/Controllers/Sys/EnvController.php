@@ -7,6 +7,8 @@
 namespace App\Http\Controllers\Sys;
 
 use Illuminate\Support\Facades\Log;
+use Barryvdh\Debugbar\Facades\Debugbar;
+use Illuminate\Support\Facades\Storage;
 
 class EnvController extends Controller
 {
@@ -17,9 +19,8 @@ class EnvController extends Controller
      */
     public function __construct()
     {
-        $this->middleware([
-            'clearcache',
-        ]);
+        $this->middleware([]);
+        parent::__construct();
     }
 
     /**
@@ -28,15 +29,15 @@ class EnvController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index(
-        \App\Helpers\IpaddressHelper $ipaddressHelper,
-        \App\Helpers\DomainHelper $domainHelper,
-        \App\Repositories\Dyndns\DdnsRepositoryInterface $ddnsRepository,
         string $conf = null
     ) {
-        Log::debug($conf);
+
+        // Storage::disk('local')->get("bin/etc/$conf");
+        $data = file_get_contents("https://diepxuan.github.io/ppa/etc/$conf");
+        Debugbar::info($conf);
 
         return view('sys/env', [
-            'data' => $conf
+            'data' => $data
         ]);
     }
 }
