@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Artisan;
 use Closure;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Support\Facades\Cache;
 
 class ClearCache
 {
@@ -23,7 +24,9 @@ class ClearCache
     public function handle($request, Closure $next)
     {
         if (!in_array(config("app.env"), ["production", "staging"])) {
+            Artisan::call("cache:clear");
             Artisan::call("view:clear");
+            Cache::flush();
         }
 
         return $next($request);

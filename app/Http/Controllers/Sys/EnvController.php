@@ -33,7 +33,11 @@ class EnvController extends Controller
     ) {
 
         // Storage::disk('local')->get("bin/etc/$conf");
-        $data = file_get_contents("https://diepxuan.github.io/ppa/etc/$conf");
+        try {
+            $data = file_get_contents("https://diepxuan.github.io/ppa/etc/$conf");
+        } catch (\Throwable $th) {
+            $data = null;
+        }
         Debugbar::info($conf);
 
         return view('sys/env', [
