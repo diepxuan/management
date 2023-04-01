@@ -1,3 +1,12 @@
+# 0.0.2
+
+- create admin controller
+  - create layouts
+  - create admin layout
+  - create home page
+- add favicon icons
+- clear route cache for dev
+
 # 0.0.1
 
 - FUTURE:

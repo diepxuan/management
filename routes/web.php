@@ -25,13 +25,7 @@ Route::domain("admin.diepxuan.com")->group(function () {
     ])->group(function () {
 
         Route::get("/etc/{conf?}", [App\Http\Controllers\Sys\EnvController::class, "index"]);
-    });
-
-    Route::middleware([
-        ClearCache::class,
-    ])->group(function () {
-        Route::get("/{hostname?}/{ip?}", [App\Http\Controllers\Dyndns\HomeController::class, "index"]);
-
+        Route::get('/', [App\Http\Controllers\Admin\HomeController::class, "index"]);
         // Route::get('/', function () {
         //     return view('welcome');
         // });

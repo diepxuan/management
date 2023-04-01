@@ -26,6 +26,7 @@ class ClearCache
         if (!in_array(config("app.env"), ["production", "staging"])) {
             Artisan::call("cache:clear");
             Artisan::call("view:clear");
+            Artisan::call("route:clear");
             Cache::flush();
         }
 
