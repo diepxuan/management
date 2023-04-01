@@ -1,3 +1,8 @@
+# 0.0.3
+
+- build js and css use `laravel-vite-plugin`
+  - use bootstrap css and js
+
 # 0.0.2
 
 - create admin controller

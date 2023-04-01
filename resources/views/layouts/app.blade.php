@@ -10,20 +10,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'diepxuan.com') }}</title>
-
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') . '?v=' . uniqid() }}" defer></script>
-
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" />
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" />
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}" />
-
-    <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    {{-- <link href="https://fonts.googleapis.com/css?family=Arimo&family=Poppins" rel="stylesheet" type="text/css"> --}}
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') . '?v=' . uniqid() }}" rel="stylesheet">
+    @vite(['resources/scss/app.scss', 'resources/js/app.js'])
 </head>
 
 <body class="d-none">

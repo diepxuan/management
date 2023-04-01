@@ -67,3 +67,4 @@ Thumbs.db
 *.wmv
 
 composer.lock
+package-lock.json
