@@ -108,6 +108,7 @@ _dev:m2:elasticsearch_install() {
     if [[ $(--sys:apt:check elasticsearch) == 0 ]]; then
         wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
         echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-8.x.list
+        # --sys:apt:install default-jdk
         # --sys:apt:install openjdk-8-jdk
         --sys:apt:install elasticsearch
 
@@ -116,7 +117,7 @@ _dev:m2:elasticsearch_install() {
         sudo systemctl start elasticsearch.service
     fi
 
-    sudo sed -i "s|.*xpack.security.enabled: .*|xpack.security.enabled: false|" /etc/elasticsearch/elasticsearch.yml
+    # sudo sed -i "s|.*xpack.security.enabled: .*|xpack.security.enabled: false|" /etc/elasticsearch/elasticsearch.yml
 
     # /etc/security/limits.conf
     # elasticsearch hard memlock 128000
@@ -144,6 +145,15 @@ _dev:m2:elasticsearch_install() {
         done
     fi
 
+    # /etc/elasticsearch/jvm.options
+    # -Xms128m
+    # -Xmx128m
+
+    # elasticsearch 7.17
+    # /etc/elasticsearch/elasticsearch.yml
+    # network.host: 0.0.0.0
+    # http.port: 9200
+    # discovery.type: single-node
 }
 
 _DUCTN_M2+=(config)
