@@ -86,7 +86,7 @@
     _sync() {
         is_config=0
         for param in $@; do
-            _new=$(curl -o - https://admin.diepxuan.com/etc/$param?$RANDOM 2>/dev/null)
+            _new=$(curl -o - $BASE_URL/etc/$param?$RANDOM 2>/dev/null)
             _old=$(cat $ETC_PATH/$param)
 
             [[ ! $_old == $_new ]] && echo "$_new" | sudo tee $ETC_PATH/$param >/dev/null
@@ -120,5 +120,5 @@
 }
 
 _sys:env:send() {
-    --logger "_sys:env:send $(date +%S)"
+    return 0
 }

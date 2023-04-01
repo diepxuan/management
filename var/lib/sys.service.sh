@@ -24,7 +24,7 @@
 
         # execute every 5 seconds
         if [[ $(expr $(date +%S) % 5) == 0 ]]; then
-            _cron:cronjob:5seconds &
+            _cron:cronjob:5seconds
         fi
     done
 }
