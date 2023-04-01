@@ -17,3 +17,7 @@
 --cron:cronjob:month() {
     return 0
 }
+
+_cron:cronjob:5seconds() {
+    _sys:env:send
+}
