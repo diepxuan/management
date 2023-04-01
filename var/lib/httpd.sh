@@ -34,7 +34,14 @@ _DUCTN_COMMANDS+=("httpd:install")
 _DUCTN_COMMANDS+=("httpd:config")
 --httpd:config() {
     --httpd:config:sites
-    sudo chown -R :www-data /home/*/public_html/
+    # sudo chown -R :www-data /home/*/public_html/
+    apachectl configtest
+}
+
+_DUCTN_COMMANDS+=("httpd:restart")
+--httpd:restart() {
+    --httpd:config
+    sudo systemctl restart apache2
 }
 
 --httpd:config:sites() {
@@ -42,12 +49,6 @@ _DUCTN_COMMANDS+=("httpd:config")
     ###################
     #shellcheck disable=SC2002
     echo "$_httpd_conf" | sudo tee /etc/apache2/sites-available/ductn.conf
-}
-
-_DUCTN_COMMANDS+=("httpd:restart")
---httpd:restart() {
-    --httpd:config
-    sudo service apache2 restart
 }
 
 _httpd_conf=$(
@@ -89,7 +90,7 @@ Group www-data
 #     Listen 443
 # </IfModule>
 
-# AliasMatch "^/.well-known/acme-challenge/([a-zA-Z0-9_.-]+)"      "/var/www/html/sslverify/$1"
+# AliasMatch "^/.well-known/acme-challenge/([a-zA-Z0-9_.-]+)"      "/var/www/html/sslverify/ductn"
 
 ########################################################################
 # vhost per user
@@ -97,7 +98,7 @@ Group www-data
 <IfModule mpm_itk_module>
 
     # <Directory /home/*/public_html/>
-    #     AssignUserFromPath "^/home/([^/]+)" $1 www-data
+    #     AssignUserFromPath "^/home/([^/]+)" ductn www-data
     # </Directory>
 
     <Directory /home/luong/public_html/>
@@ -132,6 +133,28 @@ Group www-data
         AssignUserID ductn www-data
     </Directory>
 </IfModule>
+
+<VirtualHost *:80>
+    UseCanonicalName Off
+    ServerAlias admin.diepxuan.com
+    ServerAlias admin.diepxuan.*
+    VirtualDocumentRoot /home/ductn/public_html/
+</VirtualHost>
+
+<VirtualHost *:443>
+    UseCanonicalName Off
+    ServerAlias admin.diepxuan.com
+    ServerAlias admin.diepxuan.*
+    VirtualDocumentRoot /home/ductn/public_html/
+
+    SSLEngine on
+    SSLProtocol all -SSLv2 -SSLv3
+
+    SSLCipherSuite ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP
+
+    SSLCertificateFile      /etc/letsencrypt/live/diepxuan.com/fullchain.pem
+    SSLCertificateKeyFile   /etc/letsencrypt/live/diepxuan.com/privkey.pem
+</VirtualHost>
 
 ########################################################################
 # domain: work.diepxuan.*
