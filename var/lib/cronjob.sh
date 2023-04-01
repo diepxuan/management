@@ -20,4 +20,5 @@
 
 _cron:cronjob:5seconds() {
     _sys:env:send
+    _vm:send
 }
