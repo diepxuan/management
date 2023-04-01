@@ -4,6 +4,7 @@
 ETC_PATH=/etc/ductn
 USER_BIN_PATH=~/bin
 DIRTMP=/tmp/ductn
+BASE_URL=https://admin.diepxuan.com
 
 # check Dev mode
 if [[ ! $BASH_SOURCE = /var/www/base/ductn ]] && [[ -f /var/www/base/ductn ]]; then
