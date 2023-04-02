@@ -25,10 +25,11 @@ EOF
 
     CSRF_TOKEN=$(curl -o - $BASE_URL/vm 2>/dev/null)
     local vm_commands=$(
-        curl -X PATCH $BASE_URL/vm/$vm_id \
+        curl -s -X PATCH $BASE_URL/vm/$vm_id \
             -H "Content-Type: application/json" \
             -H "X-CSRF-TOKEN: $CSRF_TOKEN" \
             --data "$vm_info"
     )
-    # --log $vm_commands
+    # --logger $vm_commands
+    # --logger $CSRF_TOKEN
 }
