@@ -13,9 +13,7 @@ class HomeController extends Controller
     {
 
         return view('admin/home', [
-            'data' => [
-                'name' => "home"
-            ]
+            'vms' => \App\Models\Sys\Vm::all()
         ]);
     }
 
