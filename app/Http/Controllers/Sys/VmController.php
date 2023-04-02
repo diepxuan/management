@@ -19,8 +19,9 @@ class VmController extends Controller
      */
     public function index()
     {
-
-        Log::info('index');
+        return view('sys/vm', [
+            'data' => []
+        ]);
     }
 
     /**

@@ -1,3 +1,8 @@
+# 0.0.5
+
+- Show VMs info into dashboard
+- SECURITY CSRF_TOKEN for Vm clients
+
 # 0.0.4
 
 - Manegement VMs
