@@ -8,6 +8,9 @@ namespace App\Http\Controllers\Sys;
 
 use Illuminate\Support\Facades\Log;
 use App\Models\Sys\Vm;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Http\Requests\UpdateVmRequest;
 
 class VmController extends Controller
 {
@@ -39,7 +42,7 @@ class VmController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Vm $vm)
+    public function show(string $vm)
     {
         //
     }
@@ -47,7 +50,7 @@ class VmController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Vm $vm)
+    public function edit(string $vm)
     {
         //
     }
@@ -55,16 +58,28 @@ class VmController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateVmRequest $request, Vm $vm)
+    public function update(UpdateVmRequest $request, string $vm)
     {
-        // Log::info($vm);
-        Log::info('update');
+        $vm = Vm::updateOrCreate(
+            [
+                "vm_id" => $vm,
+            ],
+            [
+                "name" => $request->input("name"),
+                "pri_host" => $request->input("pri_host"),
+                "pub_host" => $request->input("pub_host"),
+            ]
+        );
+
+        return response()->json([
+            "vm" => $vm,
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Vm $vm)
+    public function destroy(string $vm)
     {
         //
     }

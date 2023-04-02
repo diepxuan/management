@@ -7,6 +7,8 @@
 namespace App\Http\Controllers\Sys;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class EnvController extends Controller
 {

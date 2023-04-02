@@ -4,6 +4,8 @@
   - create `VmController`
   - New model `Vm`
   - create table `vms`
+  - receiver vm info
+  - save info into table `vms`
 - Home navbar
   - logo
   - home link

@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('vms', function (Blueprint $table) {
             $table->id();
             $table->string('vm_id')->unique();
-            $table->string('name');
-            $table->string('pri_host');
-            $table->string('pub_host');
+            $table->string('name')->nullable();;
+            $table->string('pri_host')->nullable();;
+            $table->string('pub_host')->nullable();;
             $table->timestamps();
         });
     }
