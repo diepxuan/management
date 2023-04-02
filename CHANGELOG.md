@@ -1,7 +1,18 @@
+# 0.0.6
+
+- Vm dashboard
+  - new `Admin/Vm` Controller
+  - new `Admin/Vm` Model
+
 # 0.0.5
 
 - Show VMs info into dashboard
+  - list VM name and hosts
 - SECURITY CSRF_TOKEN for Vm clients
+- Frontend
+  - top narbar
+  - left narbar
+  - vm client layout
 
 # 0.0.4
 

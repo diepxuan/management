@@ -30,6 +30,7 @@ class VmController extends Controller
     public function create()
     {
         //
+        Log::info('create');
     }
 
     /**
@@ -38,6 +39,7 @@ class VmController extends Controller
     public function store(StoreVmRequest $request)
     {
         //
+        Log::info('store');
     }
 
     /**
@@ -46,6 +48,7 @@ class VmController extends Controller
     public function show(string $vm)
     {
         //
+        Log::info('show');
     }
 
     /**
@@ -54,6 +57,7 @@ class VmController extends Controller
     public function edit(string $vm)
     {
         //
+        Log::info('edit');
     }
 
     /**
@@ -61,6 +65,9 @@ class VmController extends Controller
      */
     public function update(UpdateVmRequest $request, string $vm)
     {
+        Log::info($vm);
+        Log::info($request);
+
         $vm = Vm::updateOrCreate(
             [
                 "vm_id" => $vm,
@@ -83,5 +90,6 @@ class VmController extends Controller
     public function destroy(string $vm)
     {
         //
+        Log::info('destroy');
     }
 }
