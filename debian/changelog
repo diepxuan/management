@@ -1,3 +1,18 @@
+ductn (3.1.0-2) focal; urgency=medium
+
+  * Sever management
+    - send `version` to server
+    - send `route` to server
+    - send `gateway` to server
+    - clear log for send request
+    - `CSRF-TOKEN` for PUT request
+    - create functions `ip:gateway`
+    - create functions `route:default`
+  * Developer
+    - dput new `version` to ppa
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 03 Apr 2023 12:50:42 +0700
+
 ductn (3.1.0-1) focal; urgency=medium
 
   * FUTURE: server management
