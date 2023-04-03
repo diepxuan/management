@@ -40,6 +40,10 @@ ip_local=
     echo $ip_local
 }
 
+--ip:gateway() {
+    ip r | grep ^default | head -n 1 | grep -oP '(?<=via )[^ ]*'
+}
+
 --ip:valid() {
     _IP=$@
     if expr "$_IP" : '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' >/dev/null; then

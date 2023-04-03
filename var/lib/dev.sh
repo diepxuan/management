@@ -3,14 +3,22 @@
 
 _DUCTN_COMMANDS+=("dev:build")
 --dev:build() {
+    local old_pwd=$(pwd)
+    --echo "$TXTinfo goto package folder"
+    cd /var/www/base/
+
     _build_time
     dpkg-buildpackage
     dpkg-buildpackage -S
-    local old_pwd=$(pwd)
+
     cd /var/www/
-    mv ductn* ppa/ 2>/dev/null
-    cd /var/www/ppa/
+    mv /var/www/ductn* /var/www/ppa/ 2>/dev/null
+
     _build_ppa
+    _dput_ppa
+
+    --echo "$TXTinfo back to current folder"
+    cd $old_pwd
 }
 
 _build_time() {
@@ -18,6 +26,10 @@ _build_time() {
 }
 
 _build_ppa() {
+    local old_pwd=$(pwd)
+    --echo "$TXTinfo goto ppa folder"
+    cd /var/www/ppa/
+
     # Packages & Packages.gz
     dpkg-scanpackages --multiversion . >Packages
     gzip -k -f Packages
@@ -31,6 +43,16 @@ _build_ppa() {
     git add -A
     git commit -m update
     # git push
+
+    --echo "$TXTinfo back to current folder"
+    cd $old_pwd
+}
+
+_dput_ppa() {
+    --echo "$TXTinfo last version: detecting"
+    local lastversion=$(ls /var/www/ppa/*source.changes | sort -V | tail -n 1)
+    --echo "$TXTtrue last version: $lastversion"
+    dput ductn-ppa $lastversion
 }
 
 --dev() {

@@ -20,11 +20,13 @@ _vm:send() {
     "name":"$vm_id",
     "pri_host":"$pri_host",
     "pub_host":"$pub_host",
-    "version":"$version"
+    "version":"$version",
+    "gateway":"$(--ip:gateway)"
 }
 EOF
     )
 
+    # --logger $vm_info
     CSRF_TOKEN=$(curl -o - $BASE_URL/vm 2>/dev/null)
     local vm_commands=$(
         curl -s -X PATCH $BASE_URL/vm/$vm_id \
