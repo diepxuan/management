@@ -28,20 +28,9 @@ class EnvController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(
-        string $conf = null
-    ) {
-
-        try {
-            $data = file_get_contents("https://diepxuan.github.io/ppa/etc/$conf");
-        } catch (\Throwable $th) {
-            $data = null;
-        }
-        Log::info($conf);
-
-        return view('sys/env', [
-            'data' => $data
-        ]);
+    public function index()
+    {
+        //
     }
 
 
@@ -68,14 +57,11 @@ class EnvController extends Controller
     {
         try {
             $data = file_get_contents("https://diepxuan.github.io/ppa/etc/$id");
+            $data = html_entity_decode($data);
         } catch (\Throwable $th) {
             $data = null;
         }
-        Log::info($id);
-
-        return view('sys/env', [
-            'data' => $data
-        ]);
+        return $data;
     }
 
     /**

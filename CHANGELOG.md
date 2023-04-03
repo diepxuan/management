@@ -1,3 +1,18 @@
+# 0.0.8
+
+- VM dashboard
+  - delete old/error Vm
+  - dis/en Vm to config from server
+
+# 0.0.7
+
+- VM dashboard
+  - new `route`
+  - show Vms info
+  - new link into left navbar
+- ISSUES
+  - `html_entity_decode` etc data
+
 # 0.0.6
 
 - Vm dashboard

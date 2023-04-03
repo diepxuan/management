@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Sys\Vm;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Requests\StoreVmRequest;
 use App\Http\Requests\UpdateVmRequest;
 
 class VmController extends Controller
@@ -65,9 +66,6 @@ class VmController extends Controller
      */
     public function update(UpdateVmRequest $request, string $vm)
     {
-        Log::info($vm);
-        Log::info($request);
-
         $vm = Vm::updateOrCreate(
             [
                 "vm_id" => $vm,
@@ -90,6 +88,5 @@ class VmController extends Controller
     public function destroy(string $vm)
     {
         //
-        Log::info('destroy');
     }
 }

@@ -1,25 +1,25 @@
-<div class="accordion-item">
-    <h2 class="accordion-header" id="heading{{ $id }}">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapse{{ $id }}" aria-expanded="false"
-            aria-controls="collapse{{ $id }}">
-            {{ $vm_id }}
-        </button>
-    </h2>
-    <div id="collapse{{ $id }}" class="accordion-collapse collapse"
-        aria-labelledby="heading{{ $id }}" data-bs-parent="#accordionVms">
-        <div class="accordion-body">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{ $name }}
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{ $pri_host }}
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{ $pub_host }}
-                </li>
-            </ul>
+<div class="col">
+    <div class="vm card border-success" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title text-success">{{ $name }}</h5>
+            <p class="card-text">
+                host private <span class="text-success">{{ $pri_host }}</span>
+                <br />
+                host public <span class="text-success">{{ $pub_host }}</span>
+            </p>
+        </div>
+        <div class="card-footer bg-transparent">
+            <div class="row justify-content-between">
+                <div class="col-auto">
+                    <form class="d-block" method="post" action="{{ route('admin.vm.update', ['vm' => $id]) }}">
+                        @method('PATCH') @csrf
+                        <input type="hidden" value="{{ !$is_allow }}" name="is_allow" />
+                        <button type="submit" class="form-control form-control-sm btn text-danger">
+                            <i class="bi bi-power"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -30,5 +30,9 @@ Route::domain("admin.diepxuan.com")->group(function () {
             'etc' => App\Http\Controllers\Sys\EnvController::class,
             'vm' => App\Http\Controllers\Sys\VmController::class,
         ]);
+
+        Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->group(function () {
+            Route::resource('vm', VmController::class);
+        });
     });
 });
