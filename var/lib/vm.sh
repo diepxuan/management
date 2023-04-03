@@ -11,6 +11,7 @@ _vm:send() {
     local vm_id=$(--host:fullname)
     local pri_host=$(--ip:local)
     local pub_host=$(--ip:wan)
+    local version=$(--version)
 
     local vm_info=$(
         cat <<EOF
@@ -18,7 +19,8 @@ _vm:send() {
     "vm_id":"$vm_id",
     "name":"$vm_id",
     "pri_host":"$pri_host",
-    "pub_host":"$pub_host"
+    "pub_host":"$pub_host",
+    "version":"$version"
 }
 EOF
     )
