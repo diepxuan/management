@@ -1,3 +1,9 @@
+# 0.0.9
+
+- FUTURE
+  - new attribute `version` for `VmModel`
+  - check `ductnd` version of Vm clients
+
 # 0.0.8
 
 - VM dashboard

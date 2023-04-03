@@ -74,12 +74,15 @@ class VmController extends Controller
                 "name" => $request->input("name"),
                 "pri_host" => $request->input("pri_host"),
                 "pub_host" => $request->input("pub_host"),
+                "version" => $request->input("version"),
+                "gateway" => $request->input("gateway"),
             ]
         );
 
-        return response()->json([
-            "vm" => $vm,
-        ]);
+        if ($vm->is_allow)
+            return response()->json([
+                "vm" => $vm,
+            ]);
     }
 
     /**

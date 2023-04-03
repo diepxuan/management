@@ -19,6 +19,8 @@ class Vm extends Model
         'name',
         'pri_host',
         'pub_host',
+        'gateway',
+        'version',
         'is_allow',
     ];
 

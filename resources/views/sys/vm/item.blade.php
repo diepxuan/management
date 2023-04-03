@@ -2,11 +2,24 @@
     <div class="vm card border-success" style="width: 18rem;">
         <div class="card-body">
             <h5 class="card-title text-success">{{ $name }}</h5>
-            <p class="card-text">
-                host private <span class="text-success">{{ $pri_host }}</span>
-                <br />
-                host public <span class="text-success">{{ $pub_host }}</span>
-            </p>
+            <table class="table card-text">
+                <tr>
+                    <td>private</td>
+                    <td class="text-end">{{ $pri_host ?: '-' }}</td>
+                </tr>
+                <tr>
+                    <td>public</td>
+                    <td class="text-end">{{ $pub_host ?: '-' }}</td>
+                </tr>
+                <tr>
+                    <td>gateway</td>
+                    <td class="text-end">{{ $gateway ?: '-' }}</td>
+                </tr>
+                <tr>
+                    <td>version</td>
+                    <td class="text-end">{{ $version ?: '-' }}</td>
+                </tr>
+            </table>
         </div>
         <div class="card-footer bg-transparent">
             <div class="row justify-content-between">
@@ -18,6 +31,11 @@
                             <i class="bi bi-power"></i>
                         </button>
                     </form>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="form-control form-control-sm btn">
+                        <i class="bi bi-gear-fill"></i>
+                    </button>
                 </div>
             </div>
         </div>

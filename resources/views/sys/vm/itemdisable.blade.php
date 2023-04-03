@@ -3,9 +3,8 @@
         <div class="card-body">
             <h5 class="card-title">{{ $name }}</h5>
             <p class="card-text">
-                host private <span class="text-disable">{{ $pri_host }}</span>
-                <br />
-                host public <span class="text-disable">{{ $pub_host }}</span>
+                host private <span class="text-disable">{{ $pri_host }}</span><br />
+                host public <span class="text-disable">{{ $pub_host }}</span><br />
             </p>
         </div>
         <div class="card-footer bg-transparent">
