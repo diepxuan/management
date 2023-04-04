@@ -57,17 +57,11 @@ class VmController extends Controller
      */
     public function update(UpdateVmRequest $request, Vm $vm)
     {
-        $vm->is_allow = $request->input("is_allow");
+        $vm->is_allow = $request->exists("is_allow") ? $request->input("is_allow") : $vm->is_allow;
+        $vm->parent_id = $request->exists("parent_id") ? $request->input("parent_id") : $vm->parent_id;
         $vm->save();
 
-        if ($vm->is_allow)
-            $mess = "Đã bật <strong>{$vm->name}</strong>.";
-        else
-            $mess = "Đã tắt <strong>{$vm->name}</strong>.";
-
-        return redirect()
-            ->route("admin.vm.index")
-            ->with("Thành công", $mess);
+        return redirect()->route("admin.vm.index");
     }
 
     /**
@@ -75,14 +69,8 @@ class VmController extends Controller
      */
     public function destroy(Vm $vm)
     {
-        Log::info($vm);
-        if (!$vm->is_allow) {
-            $vm->delete();
-        }
+        $vm->delete();
 
-        return redirect()->route("admin.vm.index")->with(
-            "thành công",
-            "Đã xóa <strong>[$vm->name]</strong>."
-        );
+        return redirect()->route("admin.vm.index");
     }
 }

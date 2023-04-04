@@ -1,3 +1,11 @@
+# 0.0.10
+
+- FUTURE
+  - use bootstrap icon
+  - new `parent` attribute
+  - set `parent` for vm
+  - tree view in VMs index
+
 # 0.0.9
 
 - FUTURE

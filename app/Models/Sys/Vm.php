@@ -2,8 +2,11 @@
 
 namespace App\Models\Sys;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Vm extends Model
 {
@@ -44,4 +47,34 @@ class Vm extends Model
      * @var bool
      */
     public $timestamps = true;
+
+    public function getIsRootAttribute($is_root)
+    {
+        return $this->pri_host = $this->pub_host;
+    }
+
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(
+            Vm::class,
+            'parent_id',
+            'vm_id'
+        )->withDefault([
+            'name' => 'none',
+        ]);
+    }
+
+    public function clients(): HasMany
+    {
+        return $this->hasMany(
+            Vm::class,
+            "parent_id",
+            "vm_id"
+        );
+    }
+
+    public function vms(): HasMany
+    {
+        return $this->hasMany(Vm::class);
+    }
 }

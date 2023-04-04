@@ -11,9 +11,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-
         return view('admin/home', [
-            'vms' => \App\Models\Sys\Vm::all()
+            'vms' => \App\Models\Admin\Vm::all()
         ]);
     }
 

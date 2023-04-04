@@ -2,14 +2,24 @@
 
 namespace App\Models\Admin;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Sys\Vm as Model;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Vm extends Model
 {
     use HasFactory;
+
+    public static function all($columns = ['*'])
+    {
+        $vms = parent::all(
+            is_array($columns) ? $columns : func_get_args()
+        );
+
+        return $vms;
+    }
 
     /**
      * The "booting" method of the model.
@@ -20,9 +30,9 @@ class Vm extends Model
     {
         parent::boot();
 
-        static::addGlobalScope("vm.admin", function (Builder $builder) {
+        static::addGlobalScope("vm.root", function (Builder $builder) {
             // $hostname = trim(shell_exec("ductn host:fullname"));
-            // $builder->where("vm_id", $hostname);
+            // $builder->whereNull("parent_id");
         });
     }
 }
