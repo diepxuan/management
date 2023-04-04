@@ -6,15 +6,9 @@
         <div class="col">
             <h3>VMs</h3>
             <div class="accordion accordion-flush" id="accordionVms">
-
-                <ul class="list-group list-group-flush">
-                    @foreach ($vms as $vm)
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            {{ $vm->name }}
-                        </li>
-                    @endforeach
-                </ul>
-
+                @foreach ($vms as $vm)
+                    @include('sys/vm/item', $vm)
+                @endforeach
             </div>
         </div>
         <div class="col">
