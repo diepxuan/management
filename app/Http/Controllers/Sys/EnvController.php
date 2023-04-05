@@ -53,14 +53,29 @@ class EnvController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $env)
     {
-        try {
-            $data = file_get_contents("https://diepxuan.github.io/ppa/etc/$id");
-            $data = html_entity_decode($data);
-        } catch (\Throwable $th) {
-            $data = null;
+        $data = null;
+        switch ($env) {
+            case 'domains':
+                $domains = \App\Models\Sys\Env\Domain::all();
+                foreach ($domains as $domain) {
+                    $domain = $domain->name;
+                    $data = "$data\n$domain";
+                }
+                $data = trim($data);
+                break;
+
+            default:
+                try {
+                    $data = file_get_contents("https://diepxuan.github.io/ppa/etc/$env");
+                    $data = html_entity_decode($data);
+                } catch (\Throwable $th) {
+                    $data = null;
+                }
+                break;
         }
+
         return $data;
     }
 

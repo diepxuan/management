@@ -1,3 +1,8 @@
+# 0.0.11
+
+- VM management
+  - new model `\App\Models\Sys\Env\Domain`
+
 # 0.0.10
 
 - FUTURE
