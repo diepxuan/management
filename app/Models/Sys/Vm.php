@@ -48,6 +48,20 @@ class Vm extends Model
      */
     public $timestamps = true;
 
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'vm_id';
+
+    /**
+     * The data type of the auto-incrementing ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
+
     public function getIsRootAttribute($is_root)
     {
         return $this->pri_host = $this->pub_host;

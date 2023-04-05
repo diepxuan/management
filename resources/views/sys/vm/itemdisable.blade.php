@@ -11,7 +11,7 @@
             <div class="card-footer bg-transparent">
                 <div class="row justify-content-between">
                     <div class="col-auto">
-                        <form class="d-block" method="post" action="{{ route('admin.vm.update', ['vm' => $id]) }}">
+                        <form class="d-block" method="post" action="{{ route('admin.vm.update', ['vm' => $vm_id]) }}">
                             @method('PATCH') @csrf
                             <input type="hidden" value="{{ $is_allow ? 0 : 1 }}" name="is_allow" />
                             <button type="submit" class="form-control form-control-sm btn text-primary">
@@ -20,9 +20,9 @@
                         </form>
                     </div>
                     <div class="col-auto">
-                        <form class="d-block" method="post" action="{{ route('admin.vm.destroy', ['vm' => $id]) }}">
+                        <form class="d-block" method="post" action="{{ route('admin.vm.destroy', ['vm' => $vm_id]) }}">
                             @method('DELETE') @csrf
-                            <input type="hidden" value="{{ $id }}" name="vm" />
+                            <input type="hidden" value="{{ $vm_id }}" name="vm" />
                             <button type="submit" class="form-control form-control-sm btn text-danger">
                                 <i class="bi bi-trash"></i>
                             </button>

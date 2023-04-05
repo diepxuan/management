@@ -2,6 +2,7 @@
 
 - VM management
   - new model `\App\Models\Sys\Env\Domain`
+  - change primary key to `vm_id`
 
 # 0.0.10
 

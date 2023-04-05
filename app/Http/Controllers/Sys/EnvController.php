@@ -80,6 +80,35 @@ class EnvController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     */
+    public function showByVm(string $env, \App\Models\Admin\Vm $vm)
+    {
+        $data = null;
+        switch ($env) {
+            case 'domains':
+                $domains = \App\Models\Sys\Env\Domain::all();
+                foreach ($domains as $domain) {
+                    $domain = $domain->name;
+                    $data = "$data\n$domain";
+                }
+                $data = trim($data);
+                break;
+
+            default:
+                try {
+                    $data = file_get_contents("https://diepxuan.github.io/ppa/etc/$env");
+                    $data = html_entity_decode($data);
+                } catch (\Throwable $th) {
+                    $data = null;
+                }
+                break;
+        }
+
+        return $data;
+    }
+
+    /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)

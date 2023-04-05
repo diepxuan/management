@@ -26,6 +26,8 @@ Route::domain("admin.diepxuan.com")->group(function () {
 
         Route::get('/', [App\Http\Controllers\Admin\HomeController::class, "index"]);
 
+        Route::get('/etc/{env}/{vm_id}', [App\Http\Controllers\Sys\EnvController::class, "showByVm"]);
+
         Route::resources([
             'etc' => App\Http\Controllers\Sys\EnvController::class,
             'vm' => App\Http\Controllers\Sys\VmController::class,
