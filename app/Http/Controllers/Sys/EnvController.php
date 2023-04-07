@@ -87,21 +87,16 @@ class EnvController extends Controller
         $data = null;
         switch ($env) {
             case 'domains':
-                $domains = \App\Models\Sys\Env\Domain::all();
-                foreach ($domains as $domain) {
-                    $domain = $domain->name;
-                    $data = "$data\n$domain";
-                }
-                $data = trim($data);
+                return $vm->domains;
                 break;
 
             default:
-                try {
-                    $data = file_get_contents("https://diepxuan.github.io/ppa/etc/$env");
-                    $data = html_entity_decode($data);
-                } catch (\Throwable $th) {
-                    $data = null;
-                }
+                // try {
+                //     $data = file_get_contents("https://diepxuan.github.io/ppa/etc/$env");
+                //     $data = html_entity_decode($data);
+                // } catch (\Throwable $th) {
+                //     $data = null;
+                // }
                 break;
         }
 

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Sys\Env\Domain;
 
 class Vm extends Model
 {
@@ -87,8 +88,14 @@ class Vm extends Model
         );
     }
 
-    public function vms(): HasMany
+    public function getDomainsAttribute($domains)
     {
-        return $this->hasMany(Vm::class);
+        $_domains = Domain::all();
+        foreach ($_domains as $domain) {
+            $domain = $domain->name;
+            $domains = "$domains\n$domain";
+        }
+        $domains = trim($domains);
+        return $domains;
     }
 }

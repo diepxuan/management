@@ -30,7 +30,7 @@ class Vm extends Model
     {
         parent::boot();
 
-        static::addGlobalScope("vm.root", function (Builder $builder) {
+        static::addGlobalScope("vm.admin", function (Builder $builder) {
             // $hostname = trim(shell_exec("ductn host:fullname"));
             // $builder->whereNull("parent_id");
         });
