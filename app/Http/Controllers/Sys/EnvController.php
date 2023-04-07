@@ -9,6 +9,7 @@ namespace App\Http\Controllers\Sys;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use League\CommonMark\Node\Inline\Newline;
 
 class EnvController extends Controller
 {
@@ -66,6 +67,20 @@ class EnvController extends Controller
                 $data = trim($data);
                 break;
 
+            case 'sshdconfig':
+                $vms = \App\Models\Sys\Env\Ssh::all();
+                foreach ($vms as $vm) {
+                    // $vm = $vm->host;
+                    $data .= "Host $vm->host\n";
+                    $data .= "  User ductn\n";
+                    $data .= "  HostName $vm->hostName\n";
+                    if ($vm->proxyJump)
+                        $data .= "  ProxyJump $vm->proxyJump\n";
+                    $data .= "\n";
+                }
+                $data = trim($data);
+                break;
+
             default:
                 try {
                     $data = file_get_contents("https://diepxuan.github.io/ppa/etc/$env");
@@ -85,9 +100,24 @@ class EnvController extends Controller
     public function showByVm(string $env, \App\Models\Admin\Vm $vm)
     {
         $data = null;
+        Log::info($vm->domains);
         switch ($env) {
             case 'domains':
                 return $vm->domains;
+                break;
+
+            case 'sshdconfig':
+                $vms = \App\Models\Sys\Env\Ssh::all();
+                foreach ($vms as $vm) {
+                    // $vm = $vm->host;
+                    $data .= "Host $vm->host\n";
+                    $data .= "  User ductn\n";
+                    $data .= "  HostName $vm->hostName\n";
+                    if ($vm->proxyJump)
+                        $data .= "  ProxyJump $vm->proxyJump\n";
+                    $data .= "\n";
+                }
+                $data = trim($data);
                 break;
 
             default:

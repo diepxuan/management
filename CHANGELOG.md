@@ -1,3 +1,9 @@
+# 0.0.12
+
+- download etc `env` by vm
+  - domains
+  - sshdconfig
+
 # 0.0.11
 
 - VM management

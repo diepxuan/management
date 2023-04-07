@@ -20,6 +20,7 @@ class Vm extends Model
      */
     protected $fillable = [
         'vm_id',
+        'parent_id',
         'name',
         'pri_host',
         'pub_host',
@@ -93,9 +94,25 @@ class Vm extends Model
         $_domains = Domain::all();
         foreach ($_domains as $domain) {
             $domain = $domain->name;
-            $domains = "$domains\n$domain";
+            $domains .= "$domain";
+            $domains .= "\n";
         }
         $domains = trim($domains);
         return $domains;
+    }
+
+    public function getSshdConfigAttribute($sshdConfig)
+    {
+        $vms = \App\Models\Sys\Env\Ssh::all();
+        foreach ($vms as $vm) {
+            // $vm = $vm->host;
+            $sshdConfig .= "Host $vm->host\n";
+            $sshdConfig .= "  User ductn\n";
+            $sshdConfig .= "  HostName $vm->hostName\n";
+            if ($vm->proxyJump)
+                $sshdConfig .= "  ProxyJump $vm->proxyJump\n";
+            $sshdConfig .= "\n";
+        }
+        $sshdConfig = trim($sshdConfig);
     }
 }
