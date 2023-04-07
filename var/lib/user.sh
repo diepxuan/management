@@ -19,6 +19,8 @@ _DUCTN_COMMANDS+=("user:new")
 _DUCTN_COMMANDS+=("user:config")
 --user:config() {
     local user=$1
+    [[ -z $user ]] && user=$(whoami)
+
     if [[ $user = "ductn" ]]; then
         --user:config:admin $user
 
@@ -67,6 +69,7 @@ EOF
 
 --user:config:chmod() {
     local user=$1
+    [[ -z $user ]] && user=$(whoami)
 
     sudo chmod 755 /home/$user
 
