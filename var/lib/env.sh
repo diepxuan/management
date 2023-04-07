@@ -84,9 +84,12 @@
 
 --sys:env:sync() {
     _sync() {
-        is_config=0
+        local _csf_config=0
+        local vm_id=$(--host:fullname)
         for param in $@; do
-            _new=$(curl -o - $BASE_URL/etc/$param?$RANDOM 2>/dev/null)
+            sudo touch $ETC_PATH/$param
+
+            _new=$(curl -o - $BASE_URL/etc/$param/$vm_id?$RANDOM 2>/dev/null)
             _old=$(cat $ETC_PATH/$param)
             [[ -z $_new ]] && continue
 
@@ -107,7 +110,9 @@
                 [[ ! $_old == $_new ]] && --sys:dhcp:config
                 ;;
 
-            Italy) ;;
+            sshdconfig)
+                _sys:env:sshdconfig
+                ;;
 
             *) ;;
             esac
@@ -117,9 +122,43 @@
         [[ $_csf_config == 1 ]] && --csf:config
     }
 
-    _sync domains portforward tunel csf dhcp
+    _sync domains portforward tunel csf dhcp sshdconfig
 }
 
 _sys:env:send() {
     return 0
+}
+
+_sys:env:sshdconfig() {
+    local user=$1
+    [[ -z $user ]] && user=$(whoami)
+
+    local match="########## DUCTN ssh config ##########"
+    local file=/home/$user/.ssh/config
+    local match_index=$(grep "$match" $file | wc -l)
+
+    sudo touch $file
+    if [[ $match_index == 0 ]]; then
+        echo $match | sudo tee -a $file >/dev/null
+        echo $match | sudo tee -a $file >/dev/null
+    elif [[ $match_index == 1 ]]; then
+        sudo sed -i "/$match/a\\$match" $file
+    fi
+
+    sshdconfig=$(cat $ETC_PATH/sshdconfig)
+
+    cat <<EOF | sudo sed -i -e "/$match/{:a;N;/\n$match$/!ba;r /dev/stdin" -e ";d}" $file
+$match
+
+$sshdconfig
+
+$match
+EOF
+
+    cat $file
+    # echo $sshdconfig
+}
+
+--sys:env:sshdconfig() {
+    _sys:env:sshdconfig
 }
