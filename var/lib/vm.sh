@@ -19,9 +19,7 @@ _vm:send() {
     "vm_id":"$vm_id",
     "name":"$vm_id",
     "pri_host":"$pri_host",
-    "pub_host":"$pub_host",
-    "version":"$version",
-    "gateway":"$(--ip:gateway)"
+    "pub_host":"$pub_host"
 }
 EOF
     )
