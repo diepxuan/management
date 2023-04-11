@@ -155,7 +155,7 @@ $sshdconfig
 $match
 EOF
 
-    cat $file
+    # cat $file
     # echo $sshdconfig
 }
 
