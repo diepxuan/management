@@ -5,10 +5,9 @@
     --sys:apt:install qemu-guest-agent
 }
 
-CSRF_TOKEN=
+# CSRF_TOKEN=
 
 _vm:send() {
-    local vm_id=$(--host:fullname)
     local pri_host=$(--ip:local)
     local pub_host=$(--ip:wan)
     local version=$(--version)
@@ -16,16 +15,23 @@ _vm:send() {
     local vm_info=$(
         cat <<EOF
 {
-    "vm_id":"$vm_id",
-    "name":"$vm_id",
     "pri_host":"$pri_host",
-    "pub_host":"$pub_host"
+    "pub_host":"$pub_host",
+    "version":"$version"
 }
 EOF
     )
 
-    # --logger $vm_info
-    CSRF_TOKEN=$(curl -o - $BASE_URL/vm 2>/dev/null)
+    _vm:send_ $vm_info
+}
+
+_vm:send_() {
+    local vm_info='{}'
+    [[ -n $1 ]] && vm_info=$1
+    local vm_id=$(--host:fullname)
+
+    local CSRF_TOKEN=$(curl -o - $BASE_URL/vm 2>/dev/null)
+
     local vm_commands=$(
         curl -s -X PATCH $BASE_URL/vm/$vm_id \
             -H "Content-Type: application/json" \
