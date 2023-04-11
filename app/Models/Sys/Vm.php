@@ -69,6 +69,12 @@ class Vm extends Model
         return $this->pri_host = $this->pub_host;
     }
 
+    public function getNameAttribute($name)
+    {
+        $name = $name ?: $this->vm_id;
+        return $name;
+    }
+
     public function parent(): BelongsTo
     {
         return $this->belongsTo(

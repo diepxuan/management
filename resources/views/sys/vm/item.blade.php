@@ -22,7 +22,8 @@
                             <form class="d-block" method="post"
                                 action="{{ route('admin.vm.update', ['vm' => $vm_id]) }}">
                                 @method('PATCH') @csrf
-                                <select name="parent_id" onchange="this.form.submit()">
+                                <select name="parent_id" onchange="this.form.submit()"
+                                    class="form-select form-select-sm" aria-label=".form-select-sm">
                                     <option value="" {{ $parent_id ?: 'selected' }}>none</option>
                                     @foreach ($vms as $_parent)
                                         @if ($_parent->vm_id != $vm_id)

@@ -24,9 +24,9 @@ class ClearCache
     public function handle($request, Closure $next)
     {
         if (!in_array(config("app.env"), ["production", "staging"])) {
-            Artisan::call("cache:clear");
-            Artisan::call("view:clear");
-            Artisan::call("route:clear");
+            // Artisan::call("cache:clear");
+            // Artisan::call("view:clear");
+            // Artisan::call("route:clear");
             Cache::flush();
         }
 

@@ -66,18 +66,13 @@ class VmController extends Controller
      */
     public function update(UpdateVmRequest $request, string $vm)
     {
-        $vm = Vm::updateOrCreate(
-            [
-                "vm_id" => $vm,
-            ],
-            [
-                "name" => $request->input("name"),
-                "pri_host" => $request->input("pri_host"),
-                "pub_host" => $request->input("pub_host"),
-                "version" => $request->input("version"),
-                "gateway" => $request->input("gateway"),
-            ]
-        );
+        $vm = Vm::updateOrCreate(["vm_id" => $vm]);
+        $vm->name = $request->exists("name") ? $request->input("name") : $vm->name;
+        $vm->pri_host = $request->exists("pri_host") ? $request->input("pri_host") : $vm->pri_host;
+        $vm->pub_host = $request->exists("pub_host") ? $request->input("pub_host") : $vm->pub_host;
+        $vm->version = $request->exists("version") ? $request->input("version") : $vm->version;
+        $vm->gateway = $request->exists("gateway") ? $request->input("gateway") : $vm->gateway;
+        $vm->save();
 
         if ($vm->is_allow)
             return response()->json([

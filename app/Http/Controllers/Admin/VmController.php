@@ -15,7 +15,7 @@ class VmController extends Controller
      */
     public function index()
     {
-        return view('admin/vm', [
+        return view('admin/vm/index', [
             'vms' => Vm::all()
         ]);
     }
@@ -49,7 +49,9 @@ class VmController extends Controller
      */
     public function edit(Vm $vm)
     {
-        //
+        return view('admin/vm/index', [
+            'vm' => $vm
+        ]);
     }
 
     /**
