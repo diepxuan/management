@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\ClearCache;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,11 @@ Route::domain("admin.diepxuan.com")->group(function () {
         Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->group(function () {
             Route::resource('vm', VmController::class);
             Route::resource('api', ApiController::class);
+        });
+
+        Route::namespace('App\Http\Controllers\Catalog')->prefix('catalog')->name('catalog.')->group(function () {
+            Route::resource('product', ProductController::class);
+            Route::post('/product/sync', [App\Http\Controllers\Catalog\ProductController::class, "sync"])->name('product.sync');
         });
     });
 });

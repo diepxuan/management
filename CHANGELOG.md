@@ -1,3 +1,10 @@
+# 0.0.14
+
+- `catalog`:
+  - new `product` model
+  - new `products` database
+  - new `product` controller and view
+
 # 0.0.13
 
 - create `api` model, controller
