@@ -97,4 +97,11 @@ class Product extends Model
      * @var string
      */
     protected $keyType = 'string';
+
+    /**
+     * The number of models to return for pagination.
+     *
+     * @var int
+     */
+    protected $perPage = 20;
 }

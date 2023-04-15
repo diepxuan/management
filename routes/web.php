@@ -42,7 +42,6 @@ Route::domain("admin.diepxuan.com")->group(function () {
 
         Route::namespace('App\Http\Controllers\Catalog')->prefix('catalog')->name('catalog.')->group(function () {
             Route::resource('product', ProductController::class);
-            Route::post('/product/sync', [App\Http\Controllers\Catalog\ProductController::class, "sync"])->name('product.sync');
         });
     });
 });

@@ -1,3 +1,8 @@
+# 0.0.15
+
+- `product`
+  - load products from `nhanh` api
+
 # 0.0.14
 
 - `catalog`:

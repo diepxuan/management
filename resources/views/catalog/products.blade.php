@@ -3,37 +3,43 @@
     <h1>Danh sách sản phẩm</h1>
 
     @if (count($apis))
-        @foreach ($apis as $api)
-            <div class="row">
-                <div class="col-auto">
-                    <form class="d-block" method="post" action="{{ route('catalog.product.sync', ['api' => $api]) }}">
-                        @method('POST') @csrf
-                        <input type="hidden" value="{{ $api->id }}" name="api_id" />
-                        <button type="submit" class="form-control form-control-lg btn btn-success">
-                            Đồng bộ từ {{ $api->type }}
-                        </button>
-                    </form>
-                </div>
+        <form class="d-block" method="post" action="{{ route('catalog.product.index') }}">
+            @method('POST') @csrf
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="api_base" name="api[base]" checked disabled>
+                <label class="form-check-label" for="api_base">Dữ liệu gốc</label>
             </div>
-        @endforeach
+
+            @foreach ($apis as $api)
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" name="api[{{ $api->id }}]"
+                        {{ $api->enable ? 'checked' : '' }} id="api_{{ $api->id }}" onchange="this.form.submit()">
+                    <label class="form-check-label" for="api_{{ $api->id }}">Đồng bộ từ {{ $api->type }}</label>
+                </div>
+            @endforeach
+
+        </form>
     @endif
 
-    @if (count($products))
+    @if ($products)
         <table class="table">
             <tr>
-                <th scope="col">mã</th>
+                <th scope="col">code</th>
                 <th scope="col">tên</th>
-                <th scope="col">id kho hang</th>
-                <th scope="col">expired</th>
+                <th scope="col">giá bán</th>
+                <th scope="col">loại sản phẩm</th>
+                <th scope="col">thương hiệu</th>
             </tr>
             @foreach ($products as $product)
                 <tr>
-                    <td scope="col">{{ $product->type }}</td>
-                    <td scope="col">{{ $product->businessId }}</td>
-                    <td scope="col">{{ $product->depotIds ?: 'tat ca' }}</td>
-                    <td scope="col">{{ $product->expiredDateTime }}</td>
+                    <td scope="col">{{ $product->code }}</td>
+                    <td scope="col">{{ $product->name }}</td>
+                    <td scope="col">{{ $product->price }}</td>
+                    <td scope="col">{{ $product->typeName }}</td>
+                    <td scope="col">{{ $product->brandName }}</td>
                 </tr>
             @endforeach
         </table>
+        {{ $products->links() }}
     @endif
 @endsection

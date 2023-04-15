@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Catalog;
 
+use App\Repositories\Catalog\ProductRepositoryInterface;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use App\Models\Catalog\Product;
@@ -13,12 +14,12 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request, ProductRepositoryInterface $productRepository)
     {
-        return view('catalog/products', [
-            'products' => Product::all(),
-            'apis' => Api::all(),
-        ]);
+        $data['products'] = $productRepository->load($request)->getProducts();
+        $data['apis']     = Api::all();
+
+        return view('catalog/products', $data);
     }
 
     /**
@@ -32,9 +33,13 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, ProductRepositoryInterface $productRepository)
     {
-        //
+        Api::enable()->update(['enable' => 0]);
+        Api::whereIn('id', array_keys($request->get('api', array())))->update(['enable' => 1]);
+
+        return redirect()->route("catalog.product.index");
+        // return $this->index($request, $productRepository);
     }
 
     /**
@@ -67,26 +72,5 @@ class ProductController extends Controller
     public function destroy(Api $api)
     {
         //
-    }
-
-    public function sync(Request $request, Api $api)
-    {
-        // $api = Api::get($api);
-        // $apis = Api::all();
-        // Log::info($apis);
-        Log::info($api);
-
-        // echo $api;
-
-        // dd(Api::first());
-        // Log::info(Api::all());
-        // dd($api);
-
-        return view('catalog/products', [
-            'apis' => Api::all(),
-            'products' => Product::all(),
-        ]);
-
-        // return redirect()->route('admin.product.index');
     }
 }

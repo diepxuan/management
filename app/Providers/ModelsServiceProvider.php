@@ -12,5 +12,9 @@ class ModelsServiceProvider extends ServiceProvider
             \App\Repositories\Dyndns\DdnsRepositoryInterface::class,
             \App\Repositories\Dyndns\DdnsRepository::class
         );
+        $this->app->bind(
+            \App\Repositories\Catalog\ProductRepositoryInterface::class,
+            \App\Repositories\Catalog\ProductRepository::class
+        );
     }
 }

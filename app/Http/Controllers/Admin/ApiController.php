@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\Admin\Api;
+use App\Models\Api\Nhanh;
 
 class ApiController extends Controller
 {
@@ -37,11 +38,11 @@ class ApiController extends Controller
         switch ($type) {
             case 'nhanh':
                 $accessCode = $request->input("accessCode");
-                $response = Http::asForm()->post("https://nhanh.vn/oauth/access_token", [
-                    'version' => '2.0',
-                    'appId' => '72370',
+                $response = Http::asForm()->post(Nhanh::access_url, [
+                    'version'    => Nhanh::version,
+                    'appId'      => Nhanh::appId,
                     'accessCode' => $accessCode,
-                    'secretKey' => "MFxQFTrhUFotuZ2l9SxDkn03S2YXPllbWoMT2B5NrHlRDrdStEmAhnwW3CrtdkIz2dyUQxlfVgQvGhmF4WcZJE22CxaC3Fn90QDYSTkYHz3kcLE8HB2AvsllIux7dJNt",
+                    'secretKey'  => Nhanh::secretKey,
                 ]);
                 if ($response['code'])
                     try {

@@ -4,6 +4,7 @@ namespace App\Models\Admin;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,6 +26,7 @@ class Api extends Model
         'businessId',
         'depotIds',
         'permissions',
+        'enable',
     ];
 
     /**
@@ -47,4 +49,9 @@ class Api extends Model
      * @var bool
      */
     public $timestamps = true;
+
+    public static function scopeEnable(Builder $query, $arg = 1)
+    {
+        return $query->where('enable', $arg);
+    }
 }
