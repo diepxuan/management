@@ -8,15 +8,15 @@
                         <td>private</td>
                         <td class="text-end">{{ $pri_host ?: '-' }}</td>
                     </tr>
-                    <tr class="d-none" vmSetting>
+                    <tr class="d-none" vmSetting="{{ $vm_id }}">
                         <td>public</td>
                         <td class="text-end">{{ $pub_host ?: '-' }}</td>
                     </tr>
-                    <tr class="d-none" vmSetting>
+                    <tr class="d-none" vmSetting="{{ $vm_id }}">
                         <td>gateway</td>
                         <td class="text-end">{{ $gateway ?: '-' }}</td>
                     </tr>
-                    <tr class="d-none" vmSetting>
+                    <tr class="d-none" vmSetting="{{ $vm_id }}">
                         <td>parent</td>
                         <td class="text-end">
                             <form class="d-block" method="post"

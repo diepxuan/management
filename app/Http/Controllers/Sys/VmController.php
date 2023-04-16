@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Sys\Vm;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Http\Requests\StoreVmRequest;
-use App\Http\Requests\UpdateVmRequest;
 
 class VmController extends Controller
 {
@@ -74,10 +72,18 @@ class VmController extends Controller
         $vm->gateway = $request->input("gateway", $vm->gateway);
         $vm->save();
 
+        if ($vm->vm_id == 'dev2.diepxuan.com') {
+            // Log::info($request->ip());
+            //     Log::info($request);
+        }
+
         if ($vm->is_allow)
             return response()->json([
                 "vm" => $vm,
             ]);
+
+        return
+            response()->json([]);
     }
 
     /**

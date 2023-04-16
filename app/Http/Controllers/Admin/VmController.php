@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Admin\Vm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\Http\Requests\StoreVmRequest;
-use App\Http\Requests\UpdateVmRequest;
 
 class VmController extends Controller
 {
@@ -31,7 +29,7 @@ class VmController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreVmRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -57,10 +55,10 @@ class VmController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateVmRequest $request, Vm $vm)
+    public function update(Request $request, Vm $vm)
     {
-        $vm->is_allow = $request->exists("is_allow") ? $request->input("is_allow") : $vm->is_allow;
-        $vm->parent_id = $request->exists("parent_id") ? $request->input("parent_id") : $vm->parent_id;
+        $vm->is_allow =  $request->input("is_allow", $vm->is_allow);
+        $vm->parent_id =  $request->input("parent_id", $vm->parent_id);
         $vm->save();
 
         return redirect()->route("admin.vm.index");

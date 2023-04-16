@@ -1,5 +1,10 @@
 # 0.0.15
 
+- VM
+  - fix empty request
+
+# 0.0.15
+
 - `product`
   - load products from `nhanh` api
   - save loaded product to database
