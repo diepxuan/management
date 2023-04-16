@@ -23,11 +23,12 @@ EOF
     )
 
     _vm:send_ $vm_info
+    # --logger $vm_info
 }
 
 _vm:send_() {
     local vm_info='{}'
-    [[ -n $1 ]] && vm_info=$1
+    [[ -n $* ]] && vm_info=$*
     local vm_id=$(--host:fullname)
 
     local CSRF_TOKEN=$(curl -o - $BASE_URL/vm 2>/dev/null)
