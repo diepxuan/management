@@ -4,10 +4,12 @@ namespace App\Models\Catalog;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Sys\Env\Domain;
+use App\Helpers\Str;
 
 class Product extends Model
 {
@@ -19,9 +21,10 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'nhanh_id',
-        'nhanh_categoryId',
-        'nhanh_parentId',
+        // 'nhanh_id',
+        // 'nhanh_categoryId',
+        // 'nhanh_parentId',
+
         'code',             // Mã sản phẩm
         'name',             // Tên sản phẩm
         'otherName',        // Tên khác của sản phẩm
@@ -75,7 +78,18 @@ class Product extends Model
      *
      * @var array
      */
-    protected $attributes = [];
+    protected $attributes = [
+        'unit' => 'cai'
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'images' => 'array'
+    ];
 
     /**
      * Indicates if the model should be timestamped.
@@ -89,14 +103,14 @@ class Product extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'code';
+    // protected $primaryKey = 'code';
 
     /**
      * The data type of the auto-incrementing ID.
      *
      * @var string
      */
-    protected $keyType = 'string';
+    // protected $keyType = 'string';
 
     /**
      * The number of models to return for pagination.
@@ -104,4 +118,23 @@ class Product extends Model
      * @var int
      */
     protected $perPage = 20;
+
+    // public function setCodeAttribute($code)
+    // {
+    //     $this->code = $code ?: $this->name;
+    // }
+
+    /**
+     * Interact with the product's code.
+     */
+    protected function code(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => $value ?: Str::sanitizeString($attributes['name']),
+            // set: fn (string $code) => strtolower($value),
+        );
+
+        // $str = utf8_encode($str);
+        // $str = mb_convert_encoding($str, 'UTF-8', 'ASCII//TRANSLIT');
+    }
 }

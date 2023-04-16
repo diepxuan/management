@@ -2,6 +2,7 @@
 
 - `product`
   - load products from `nhanh` api
+  - save loaded product to database
 
 # 0.0.14
 

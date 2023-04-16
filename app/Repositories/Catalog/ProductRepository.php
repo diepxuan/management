@@ -21,10 +21,10 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function load($args)
     {
-        $this->perPage($args['perPage'] ?: 15);
+        $this->perPage($args['perPage'] ?: 50);
         $this->currentPage($args['page'] ?: 1);
 
-        $products = Product::paginate($this->perPage(), $this->currentPage())->toArray();
+        $products = Product::orderBy('code')->paginate($this->perPage())->toArray();
 
         $this->setProducts(collect($products['data'])->map(function ($product) {
             $product = new Product($product);
@@ -39,13 +39,11 @@ class ProductRepository implements ProductRepositoryInterface
             $className = "\App\Models\Api\\$className";
             $api = $className::find($api->id);
 
-            $products = $this->setProducts(collect($api->getProducts([
+            $products = $this->setProducts($api->getProducts([
                 'icpp' => $this->perPage(),
                 'page' => $this->currentPage(),
-            ]))->map(function ($product) {
-                $product = new Product($product);
-                return $product;
-            }));
+                'sort' => ['code' => 'asc']
+            ]));
 
             $this->total($api->totalPages * $this->perPage());
         }
@@ -75,7 +73,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function setProducts(Collection $products)
     {
-        return $this->products = ($this->products ?: new Collection)->merge($products);
+        return $this->products = ($this->products ?: new Collection)->merge($products)->keyBy('code');
     }
 
     public function getProducts($options = [])

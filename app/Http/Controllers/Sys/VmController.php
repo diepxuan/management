@@ -37,7 +37,7 @@ class VmController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreVmRequest $request)
+    public function store(Request $request)
     {
         //
         Log::info('store');
@@ -64,14 +64,14 @@ class VmController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateVmRequest $request, string $vm)
+    public function update(Request $request, string $vm)
     {
         $vm = Vm::updateOrCreate(["vm_id" => $vm]);
-        $vm->name = $request->exists("name") ? $request->input("name") : $vm->name;
-        $vm->pri_host = $request->exists("pri_host") ? $request->input("pri_host") : $vm->pri_host;
-        $vm->pub_host = $request->exists("pub_host") ? $request->input("pub_host") : $vm->pub_host;
-        $vm->version = $request->exists("version") ? $request->input("version") : $vm->version;
-        $vm->gateway = $request->exists("gateway") ? $request->input("gateway") : $vm->gateway;
+        $vm->name = $request->input("name", $vm->name);
+        $vm->pri_host = $request->input("pri_host", $vm->pri_host);
+        $vm->pub_host = $request->input("pub_host", $vm->pub_host);
+        $vm->version = $request->input("version", $vm->version);
+        $vm->gateway = $request->input("gateway", $vm->gateway);
         $vm->save();
 
         if ($vm->is_allow)

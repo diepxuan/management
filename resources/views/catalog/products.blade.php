@@ -24,6 +24,7 @@
     @if ($products)
         <table class="table">
             <tr>
+                <th scope="col">#</th>
                 <th scope="col">code</th>
                 <th scope="col">tên</th>
                 <th scope="col">giá bán</th>
@@ -32,6 +33,7 @@
             </tr>
             @foreach ($products as $product)
                 <tr>
+                    <td scope="col">{{ $loop->index + 1 }}</td>
                     <td scope="col">{{ $product->code }}</td>
                     <td scope="col">{{ $product->name }}</td>
                     <td scope="col">{{ $product->price }}</td>

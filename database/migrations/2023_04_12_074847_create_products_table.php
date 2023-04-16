@@ -14,44 +14,44 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('code');
-            $table->string('name');
-            $table->string('otherName');
+            $table->string('name')->nullable();
+            $table->string('otherName')->nullable();
 
-            $table->double('importPrice');
-            $table->double('oldPrice');
-            $table->double('price');
-            $table->double('wholesalePrice');
-            $table->double('vat');
+            $table->double('importPrice')->nullable();
+            $table->double('oldPrice')->nullable();
+            $table->double('price')->nullable();
+            $table->double('wholesalePrice')->nullable();
+            $table->double('vat')->nullable();
 
-            $table->string('image');
-            $table->text('images');
-            $table->string('status');
-            $table->string('previewLink');
-            $table->boolean('showHot');
-            $table->boolean('showNew');
-            $table->boolean('showHome');
+            $table->string('image')->nullable();
+            $table->text('images')->nullable();
+            $table->string('status')->nullable();
+            $table->string('previewLink')->nullable();
+            $table->boolean('showHot')->nullable();
+            $table->boolean('showNew')->nullable();
+            $table->boolean('showHome')->nullable();
 
-            $table->integer('unit');
-            $table->integer('width');
-            $table->integer('height');
-            $table->integer('length');
-            $table->integer('shippingWeight');
+            $table->string('unit')->nullable();
+            $table->integer('width')->nullable();
+            $table->integer('height')->nullable();
+            $table->integer('length')->nullable();
+            $table->integer('shippingWeight')->nullable();
 
-            $table->string('warrantyAddress');
-            $table->string('warrantyPhone');
-            $table->string('warranty');
+            $table->string('warrantyAddress')->nullable();
+            $table->string('warrantyPhone')->nullable();
+            $table->string('warranty')->nullable();
 
-            $table->integer('brandId');
-            $table->string('brandName');
-            $table->string('countryName');
+            $table->integer('brandId')->nullable();
+            $table->string('brandName')->nullable();
+            $table->string('countryName')->nullable();
 
-            $table->integer('typeId');
-            $table->string('typeName');
+            $table->integer('typeId')->nullable();
+            $table->string('typeName')->nullable();
 
-            $table->integer('importType');
-            $table->string('importTypeLabel');
+            $table->integer('importType')->nullable();
+            $table->string('importTypeLabel')->nullable();
 
-            $table->double('avgCost');
+            $table->double('avgCost')->nullable();
             $table->timestamps();
         });
     }

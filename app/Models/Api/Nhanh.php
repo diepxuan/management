@@ -2,7 +2,9 @@
 
 namespace App\Models\Api;
 
+use App\Models\Catalog\Product;
 use App\Models\Admin\Api as Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Database\Eloquent\Builder;
@@ -44,7 +46,31 @@ class Nhanh extends Model
 
     public function getProducts(array $Arg = [])
     {
-        return $this->post(self::PRODUCT, $Arg);
+
+        $products = new Collection;
+        try {
+            $products = $this->post(self::PRODUCT, $Arg);
+        } catch (\Throwable $th) {
+        }
+        $products = collect($products)->map(function ($product) {
+            // unset($product['inventory']);
+            // unset($product['attributes']);
+            // unset($product['units']);
+
+            $_product = new Product($product);
+            // $product->save();
+            // return $product;
+
+            try {
+                return Product::updateOrCreate($_product->toArray());
+            } catch (\Throwable $th) {
+                Log::info($product['code']);
+                Log::info($product);
+                throw $th;
+                return $product;
+            }
+        });
+        return $products;
     }
 
     public function post($url, array $data = [])
