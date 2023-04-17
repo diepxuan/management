@@ -105,27 +105,27 @@
         _new=$(--curl:get $BASE_URL/etc/$param/$vm_id?$RANDOM)
         _old=$(cat $ETC_PATH/$param)
         [[ -z $_new ]] && continue
+        [[ $_old == $_new ]] && continue
 
-        [[ ! $_old == $_new ]] && echo "$_new" | sudo tee $ETC_PATH/$param >/dev/null
+        echo "$_new" | sudo tee $ETC_PATH/$param >/dev/null
 
         case $param in
 
         csf)
             --csf:regex
-            [[ ! $_old == $_new ]] && _csf_config=1
+            _csf_config=1
             ;;
 
         portforward)
-            --logger $_new
-            [[ ! $_old == $_new ]] && _csf_config=1
+            _csf_config=1
             ;;
 
         domains)
-            [[ ! $_old == $_new ]] && _csf_config=1
+            _csf_config=1
             ;;
 
         dhcp)
-            [[ ! $_old == $_new ]] && --sys:dhcp:config
+            --sys:dhcp:config
             ;;
 
         sshdconfig)
