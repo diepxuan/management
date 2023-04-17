@@ -75,7 +75,7 @@ class VmController extends Controller
         if ($vm->vm_id == 'dev2.diepxuan.com') {
             //     Log::info($request);
             $vm->commands = [
-                "--sys:env:sync",
+                // "--sys:env:sync",
             ];
             // Log::info($request);
             // Log::info($commands);

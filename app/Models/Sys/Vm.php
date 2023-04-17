@@ -55,6 +55,7 @@ class Vm extends Model
         'port' => \App\Casts\Port::class,
         'portopen' => \App\Casts\Portopen::class,
         'portforward' => \App\Casts\Portforward::class,
+        'csf' => \App\Casts\Vm\Csf::class,
     ];
 
     /**

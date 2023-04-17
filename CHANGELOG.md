@@ -1,3 +1,7 @@
+# 0.0.17
+
+- new `csf` config for vm
+
 # 0.0.16
 
 - create `port` for vm open port

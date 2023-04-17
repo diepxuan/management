@@ -33,6 +33,8 @@ class Port
      */
     public function set(Vm $model, string $key, mixed $value, array $attributes)
     {
+        $value = array_filter($value);
+        $value = array_replace($model->port, $value);
         $value = array_replace(['tcp' => '', 'udp' => ''], $value);
         $value = implode(':', $value);
         return $value;

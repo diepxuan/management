@@ -125,6 +125,10 @@ social  C2:6E:9B:69:DD:C3 10.0.2.13",
                 return $vm->portforward;
                 break;
 
+            case 'csf':
+                return $vm->csf;
+                break;
+
             case 'sshdconfig':
                 $vms = \App\Models\Sys\Env\Ssh::all();
                 foreach ($vms as $vm) {
@@ -140,11 +144,6 @@ social  C2:6E:9B:69:DD:C3 10.0.2.13",
 
             default:
                 return ([
-                    'portforward' => '# <IPADDRESS>:<tcp port>:<udp port>
-10.0.pve.10:88,135,139,389,464,445,636,3268,3269,3389:88,123,135,138,389,445,464
-10.0.pve.11:1433
-10.0.2.12:9200
-10.0.2.13:13389',
                     'tunel' => '',
                     'csf' => 'TESTING = "0"
 TCP_IN = "22,53,80,88,389,443,1433,3268,3389,5173,8006,9200,13389,17691"
