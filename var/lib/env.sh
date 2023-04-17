@@ -82,51 +82,67 @@
     cat $ETC_PATH/csf
 }
 
+--test() {
+    local vm_id=$(--host:fullname)
+    [[ -n $1 ]] && vm_id=$1
+    --curl:get $BASE_URL/etc/portforward/$vm_id?$RANDOM
+}
+
 --sys:env:sync() {
-    _sync() {
-        local _csf_config=0
-        local vm_id=$(--host:fullname)
-        for param in $@; do
-            sudo touch $ETC_PATH/$param
+    # new
+    --sys:env:sync_ domains sshdconfig
 
-            _new=$(curl -o - $BASE_URL/etc/$param/$vm_id?$RANDOM 2>/dev/null)
-            _old=$(cat $ETC_PATH/$param)
-            [[ -z $_new ]] && continue
+    # old
+    --sys:env:sync_ portforward tunel csf dhcp
+}
 
-            [[ ! $_old == $_new ]] && echo "$_new" | sudo tee $ETC_PATH/$param >/dev/null
+--sys:env:sync_() {
+    local _csf_config=0
+    local vm_id=$(--host:fullname)
+    for param in $@; do
+        sudo touch $ETC_PATH/$param
 
-            case $param in
+        _new=$(--curl:get $BASE_URL/etc/$param/$vm_id?$RANDOM)
+        _old=$(cat $ETC_PATH/$param)
+        [[ -z $_new ]] && continue
 
-            csf | portforward)
-                [[ $param == "csf" ]] && --csf:regex
-                [[ ! $_old == $_new ]] && _csf_config=1
-                ;;
+        [[ ! $_old == $_new ]] && echo "$_new" | sudo tee $ETC_PATH/$param >/dev/null
 
-            domains)
-                [[ ! $_old == $_new ]] && _csf_config=1
-                ;;
+        case $param in
 
-            dhcp)
-                [[ ! $_old == $_new ]] && --sys:dhcp:config
-                ;;
+        csf)
+            --csf:regex
+            [[ ! $_old == $_new ]] && _csf_config=1
+            ;;
 
-            sshdconfig)
-                _sys:env:sshdconfig
-                ;;
+        portforward)
+            --logger $_new
+            [[ ! $_old == $_new ]] && _csf_config=1
+            ;;
 
-            *) ;;
-            esac
+        domains)
+            [[ ! $_old == $_new ]] && _csf_config=1
+            ;;
 
-            unset _new _old
-        done
-        [[ $_csf_config == 1 ]] && --csf:config
-    }
+        dhcp)
+            [[ ! $_old == $_new ]] && --sys:dhcp:config
+            ;;
 
-    _sync domains portforward tunel csf dhcp sshdconfig
+        sshdconfig)
+            _sys:env:sshdconfig
+            ;;
+
+        *) ;;
+        esac
+
+        unset _new _old
+    done
+    [[ $_csf_config == 1 ]] && --csf:config
 }
 
 _sys:env:send() {
     return 0
+    # --sys:env:sync
 }
 
 _sys:env:sshdconfig() {
