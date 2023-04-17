@@ -39,6 +39,11 @@ _vm:send_() {
             -H "X-CSRF-TOKEN: $CSRF_TOKEN" \
             --data "$vm_info"
     )
-    # --logger $vm_commands
-    # --logger $CSRF_TOKEN
+    _vm:command "$vm_commands"
+}
+
+_vm:command() {
+    while read -r vm_cmd; do
+        $vm_cmd
+    done < <(echo $@ | jq -r '.vm.commands[]')
 }
