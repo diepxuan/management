@@ -73,16 +73,10 @@ class VmController extends Controller
         $vm->save();
 
         if ($vm->vm_id == 'dev2.diepxuan.com') {
-            //     Log::info($request);
             $vm->commands = [
                 // "--sys:env:sync",
             ];
-            // Log::info($request);
-            // Log::info($commands);
         }
-
-        // if ($vm->vm_id == 'dev2.diepxuan.com')
-        // Log::info($request);
 
         if ($vm->is_allow)
             return response()->json([

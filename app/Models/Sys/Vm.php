@@ -52,10 +52,10 @@ class Vm extends Model
      * @var array
      */
     protected $casts = [
-        'port' => \App\Casts\Port::class,
-        'portopen' => \App\Casts\Portopen::class,
-        'portforward' => \App\Casts\Portforward::class,
-        'csf' => \App\Casts\Vm\Csf::class,
+        'csf'         => \App\Casts\Vm\Csf::class,
+        'port'        => \App\Casts\Vm\Port::class,
+        'portopen'    => \App\Casts\Vm\Portopen::class,
+        'portforward' => \App\Casts\Vm\Portforward::class,
     ];
 
     /**

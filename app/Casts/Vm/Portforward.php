@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Casts;
+namespace App\Casts\Vm;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use App\Models\Sys\Vm;
 
-class Port
+class Portforward
 {
     /**
      * Cast the given value.
@@ -15,15 +16,12 @@ class Port
      */
     public function get(Vm $model, string $key, mixed $value, array $attributes)
     {
-        $value = $value ?: '';
-        $value = explode(':', $value);
-        $value = array_replace(['', ''], $value);
-        $tcp = $value[0];
-        $udp = $value[1];
-        return [
-            'tcp' => $tcp,
-            'udp' => $udp,
-        ];
+        foreach ($model->clients as $vm) {
+            $value .= "\n";
+            $value .= implode(':', [$vm->pri_host, implode(':', $vm->portopen)]);
+        }
+        $value = trim($value);
+        return $value;
     }
 
     /**
@@ -33,10 +31,6 @@ class Port
      */
     public function set(Vm $model, string $key, mixed $value, array $attributes)
     {
-        $value = array_filter($value);
-        $value = array_replace($model->port, $value);
-        $value = array_replace(['tcp' => '', 'udp' => ''], $value);
-        $value = implode(':', $value);
         return $value;
     }
 }
