@@ -6,8 +6,9 @@
             @if ($vm->is_allow)
                 @include('sys/vm/item', $vm)
             @else
-                @include('sys/vm/itemdisable', $vm)
+                @include('sys/vm/disable', $vm)
             @endif
         </div>
     @endforeach
+    @include('sys/vm/new')
 @endsection

@@ -27,7 +27,7 @@ Route::domain("admin.diepxuan.com")->group(function () {
 
         Route::get('/', [App\Http\Controllers\Admin\HomeController::class, "index"]);
 
-        Route::get('/etc/{env}/{vm_id}', [App\Http\Controllers\Sys\EnvController::class, "showByVm"]);
+        Route::get('/etc/{env}/{vm}', [App\Http\Controllers\Sys\EnvController::class, "showByVm"]);
         Route::get('/api/{type}', [App\Http\Controllers\Admin\ApiController::class, "token"]);
 
         Route::resources([

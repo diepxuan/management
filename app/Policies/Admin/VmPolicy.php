@@ -2,7 +2,7 @@
 
 namespace App\Policies\Admin;
 
-use App\Models\Admin\Vm;
+use App\Models\Sys\Vm;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 

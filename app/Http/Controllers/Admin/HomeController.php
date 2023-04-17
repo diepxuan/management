@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use App\Models\Sys\Vm;
 
 class HomeController extends Controller
 {
@@ -12,7 +13,7 @@ class HomeController extends Controller
     public function index()
     {
         return view('admin/home', [
-            'vms' => \App\Models\Admin\Vm::all()
+            'vms' => Vm::all()
         ]);
     }
 

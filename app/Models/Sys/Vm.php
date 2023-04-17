@@ -2,12 +2,14 @@
 
 namespace App\Models\Sys;
 
+use App\Helpers\Str;
+use App\Models\Sys\Env\Domain;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models\Sys\Env\Domain;
 
 class Vm extends Model
 {
@@ -27,6 +29,7 @@ class Vm extends Model
         'gateway',
         'version',
         'is_allow',
+        'port',
     ];
 
     /**
@@ -42,6 +45,17 @@ class Vm extends Model
      * @var array
      */
     protected $attributes = [];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'port' => \App\Casts\Port::class,
+        'portopen' => \App\Casts\Portopen::class,
+        'portforward' => \App\Casts\Portforward::class,
+    ];
 
     /**
      * Indicates if the model should be timestamped.
@@ -111,7 +125,6 @@ class Vm extends Model
     {
         $vms = \App\Models\Sys\Env\Ssh::all();
         foreach ($vms as $vm) {
-            // $vm = $vm->host;
             $sshdConfig .= "Host $vm->host\n";
             $sshdConfig .= "  User ductn\n";
             $sshdConfig .= "  HostName $vm->hostName\n";

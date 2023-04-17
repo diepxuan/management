@@ -6,6 +6,18 @@ use Illuminate\Support\Str as Helper;
 
 class Str extends Helper
 {
+
+    /**
+     * @param $str
+     * @return mixed
+     */
+    public static function stripcomments($str)
+    {
+        $str = preg_replace('/^#.*/', '', $str);
+        $str = trim($str);
+        return $str;
+    }
+
     /**
      * @param $str
      * @return mixed
@@ -17,7 +29,7 @@ class Str extends Helper
         $str = preg_replace('/_+/', '_', $str);
         $str = self::upper($str);
         $str = strtoupper($str);
-        $str = trim($str, '_');
+        $str = self::trim($str, '_');
 
         return $str;
     }

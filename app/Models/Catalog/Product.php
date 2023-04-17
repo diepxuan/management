@@ -133,8 +133,5 @@ class Product extends Model
             get: fn (mixed $value, array $attributes) => $value ?: Str::sanitizeString($attributes['name']),
             // set: fn (string $code) => strtolower($value),
         );
-
-        // $str = utf8_encode($str);
-        // $str = mb_convert_encoding($str, 'UTF-8', 'ASCII//TRANSLIT');
     }
 }

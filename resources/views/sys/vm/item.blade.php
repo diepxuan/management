@@ -37,6 +37,28 @@
                             </form>
                         </td>
                     </tr>
+                    <tr class="d-none" vmSetting="{{ $vm_id }}">
+                        <td>TCP</td>
+                        <td class="text-end">
+                            <form class="d-block" method="post"
+                                action="{{ route('admin.vm.update', ['vm' => $vm_id]) }}">
+                                @method('PATCH') @csrf
+                                <input name="port[tcp]" class="form-control form-control-sm"
+                                    onchange="this.form.submit()" value="{{ $port['tcp'] }}">
+                            </form>
+                        </td>
+                    </tr>
+                    <tr class="d-none" vmSetting="{{ $vm_id }}">
+                        <td>UDP</td>
+                        <td class="text-end">
+                            <form class="d-block" method="post"
+                                action="{{ route('admin.vm.update', ['vm' => $vm_id]) }}">
+                                @method('PATCH') @csrf
+                                <input name="port[udp]" class="form-control form-control-sm"
+                                    onchange="this.form.submit()" value="{{ $port['udp'] }}">
+                            </form>
+                        </td>
+                    </tr>
                     <tr>
                         <td>version</td>
                         <td class="text-end">{{ $version ?: '-' }}</td>
