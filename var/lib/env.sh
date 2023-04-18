@@ -85,6 +85,7 @@
 --test() {
     local vm_id=$(--host:fullname)
     [[ -n $1 ]] && vm_id=$1
+    --curl:get $BASE_URL/etc/csf/$vm_id?$RANDOM
     --curl:get $BASE_URL/etc/portforward/$vm_id?$RANDOM
 }
 
@@ -100,7 +101,7 @@
     local _csf_config=0
     local vm_id=$(--host:fullname)
     for param in $@; do
-        sudo touch $ETC_PATH/$param
+        sudo touch $ETC_PATH/$param && sudo chmod 644 $ETC_PATH/$param
 
         _new=$(--curl:get $BASE_URL/etc/$param/$vm_id?$RANDOM)
         _old=$(cat $ETC_PATH/$param)
