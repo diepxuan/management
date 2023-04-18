@@ -1,4 +1,21 @@
-ductn (3.1.5) focal; urgency=medium
+ductn (3.1.7) focal; urgency=medium
+
+  * FUTURE
+    - `curl:gg` to download larger file from google drive
+  * ISSUES
+    - cat: /etc/ductn/sshdconfig: Permission denied
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Tue, 18 Apr 2023 18:38:39 +0700
+
+ductn (3.1.6) focal; urgency=medium
+
+  * ISSUES
+    - cleanup env sync function
+    - =$*: command not found => `curl` command error
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 17 Apr 2023 21:33:19 +0700
+
+ ductn (3.1.5) focal; urgency=medium
 
   * FUTURE
     - run commands from server
