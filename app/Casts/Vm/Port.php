@@ -8,6 +8,9 @@ use App\Models\Sys\Vm;
 
 class Port
 {
+    const PORTTCP = "tcp";
+    const PORTUDP = "udp";
+
     /**
      * Cast the given value.
      *
@@ -36,6 +39,18 @@ class Port
         $value = array_filter($value);
         $value = array_replace($model->port, $value);
         $value = array_replace(['tcp' => '', 'udp' => ''], $value);
+
+        foreach ([self::PORTTCP, self::PORTUDP] as $type) {
+            $value[$type] = explode(',', $value[$type]);
+            foreach ($value[$type] as $k => $v) {
+                $value[$type][$k] = trim($value[$type][$k]);
+            }
+            $value[$type] = array_unique($value[$type]);
+            $value[$type] = array_filter($value[$type]);
+            sort($value[$type]);
+            $value[$type] = implode(',', $value[$type]);
+        }
+
         $value = implode(':', $value);
         return $value;
     }

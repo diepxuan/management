@@ -10,6 +10,7 @@ class Portopen
 {
     const PORTTCP = "tcp";
     const PORTUDP = "udp";
+
     /**
      * Cast the given value.
      *

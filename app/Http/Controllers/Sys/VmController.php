@@ -78,6 +78,11 @@ class VmController extends Controller
             ];
         }
 
+        $vm->commands = [
+            // "--sys:env:sync",
+            // "--sys:upgrade",
+        ];
+
         if ($vm->is_allow)
             return response()->json([
                 "vm" => $vm,

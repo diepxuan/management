@@ -5,10 +5,14 @@ namespace App\Casts\Vm;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Arr;
 use App\Models\Sys\Vm;
 
 class Portforward
 {
+    const PORTTCP = "tcp";
+    const PORTUDP = "udp";
+
     /**
      * Cast the given value.
      *
@@ -18,9 +22,25 @@ class Portforward
     {
         foreach ($model->clients as $vm) {
             $value .= "\n";
-            $value .= implode(':', [$vm->pri_host, implode(':', $vm->portopen)]);
+
+            $portopen = $vm->portopen;
+            foreach ([self::PORTTCP, self::PORTUDP] as $type) {
+                $ports = $model->port[$type];
+                $ports = explode(',', $ports);
+
+                $portopen[$type] = explode(',', $portopen[$type]);
+
+                $portopen[$type] = Arr::where($portopen[$type], function (string|int $v, int $k) use ($ports) {
+                    return !in_array($v, $ports);
+                });
+
+                $portopen[$type] = implode(',', $portopen[$type]);
+            }
+
+            $value .= implode(':', [$vm->pri_host, implode(':', $portopen)]);
         }
         $value = trim($value);
+
         return $value;
     }
 

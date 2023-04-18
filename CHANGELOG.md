@@ -1,3 +1,7 @@
+# 0.0.18
+
+- do not forward openport to client
+
 # 0.0.17
 
 - new `csf` config for vm
