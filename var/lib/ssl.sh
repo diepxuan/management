@@ -41,13 +41,13 @@ _DUCTN_COMMANDS+=("ssl:configure")
 
 --ssl:certbot() {
 
-    chmod 600 /var/www/base/bash/certbot/cloudflare.ini
+    sudo chmod 600 $CLFR_ACCESS
 
     sudo certbot certonly \
         --expand \
         --keep-until-expiring \
         --dns-cloudflare \
-        --dns-cloudflare-credentials /var/www/base/bash/certbot/cloudflare.ini \
+        --dns-cloudflare-credentials $CLFR_ACCESS \
         --agree-tos \
         --email caothu91@gmail.com \
         --eff-email \
