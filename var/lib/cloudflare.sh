@@ -2,6 +2,7 @@
 #!/bin/bash
 
 CLFR_API="https://api.cloudflare.com/client/v4"
+CLFR_ACCESS=/etc/ductn/cloudflare
 
 _DUCTN_COMMANDS+=("cloudflare:sync")
 --cloudflare:sync() {
@@ -12,11 +13,11 @@ _DUCTN_COMMANDS+=("cloudflare:sync")
 }
 
 --cloudflare:email() {
-    cat /etc/ductn/cloudflare | grep -o 'dns_cloudflare_email[[:space:]]*=[[:space:]]*[^,]*' | grep -o '[^= ]*$'
+    cat $CLFR_ACCESS | grep -o 'dns_cloudflare_email[[:space:]]*=[[:space:]]*[^,]*' | grep -o '[^= ]*$'
 }
 
 --cloudflare:token() {
-    cat /etc/ductn/cloudflare | grep -o 'dns_cloudflare_api_key[[:space:]]*=[[:space:]]*[^,]*' | grep -o '[^= ]*$'
+    cat $CLFR_ACCESS | grep -o 'dns_cloudflare_api_key[[:space:]]*=[[:space:]]*[^,]*' | grep -o '[^= ]*$'
 }
 
 --cloudflare:domain() {
