@@ -18,11 +18,15 @@ class Csf
     public function get(Vm $model, string $key, mixed $value, array $attributes)
     {
         $csf = 'TESTING = "0"
+IGNORE_ALLOW = "1"
+SYNFLOOD = "1"
+SYNFLOOD_RATE = "30/s"
+SYNFLOOD_BURST = "10"
 TCP_IN = "???"
 TCP_OUT = "1:65535"
 UDP_IN = "???"
 UDP_OUT = "1:65535"
-CC_DENY = ""
+CC_DENY = "RU,NL,AU,IN,GB,CN,JP,HK"
 CLUSTER_SENDTO = "10.8.0.1,10.8.0.2,192.168.11.201,192.168.11.202,10.0.2.1,10.0.2.11,10.0.2.150,10.0.1.1,10.0.1.11,171.244.62.193,125.212.237.119"
 CLUSTER_RECVFROM = "10.8.0.1,10.8.0.2,192.168.11.201,192.168.11.202,10.0.2.1,10.0.2.11,10.0.2.150,10.0.1.1,10.0.1.11,171.244.62.193,125.212.237.119"
 CUSTOM1_LOG = "/var/log/syslog"

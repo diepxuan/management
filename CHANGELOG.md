@@ -1,6 +1,8 @@
 # 0.0.18
 
-- do not forward openport to client
+- `csf`
+  - do not forward openport to client
+  - add config to protected vm from ddos
 
 # 0.0.17
 

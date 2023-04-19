@@ -72,8 +72,9 @@ class VmController extends Controller
         $vm->gateway = $request->input("gateway", $vm->gateway);
         $vm->save();
 
-        if ($vm->vm_id == 'dev2.diepxuan.com') {
+        if ($vm->vm_id == 'pve1.diepxuan.com') {
             $vm->commands = [
+                // "sudo csf -x",
                 // "--sys:env:sync",
             ];
         }
