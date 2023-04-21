@@ -27,9 +27,8 @@ class Str extends Helper
         $str = transliterator_transliterate('Any-Latin; Latin-ASCII; [\u0080-\u7fff] remove', $str);
         $str = preg_replace('/[^-\w]+/', '_', $str);
         $str = preg_replace('/_+/', '_', $str);
-        $str = self::upper($str);
-        $str = strtoupper($str);
-        $str = self::trim($str, '_');
+        $str = Str::upper($str);
+        $str = Str::of($str)->trim('_');
 
         return $str;
     }

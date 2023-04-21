@@ -2,12 +2,14 @@
 
 namespace App\Models\Api;
 
+use Illuminate\Http\Request;
 use App\Models\Catalog\Product;
 use App\Models\Admin\Api as Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -30,46 +32,46 @@ class Nhanh extends Model
     const api_url = "https://open.nhanh.vn";
     const PRODUCT = self::api_url . "/api/product/search";
 
-    protected $currentPage;
-    protected $totalPages;
+    // protected $currentPage;
+    // protected $totalPages;
+    // protected $isAll = false;
 
-    /**
-     * Create a new Eloquent model instance.
-     *
-     * @param  array  $attributes
-     * @return void
-     */
-    public function __construct(array $attributes = [])
+    public function getProducts(array $args = [])
     {
-        parent::__construct($attributes = []);
-    }
-
-    public function getProducts(array $Arg = [])
-    {
-
         $products = new Collection;
         try {
-            $products = $this->post(self::PRODUCT, $Arg);
+            $args = array_replace([
+                'icpp' => 50,
+                'page' => 1,
+                'sort' => ['code' => 'asc']
+            ], $args);
+            if ($this->totalPages > 0 && $args['page'] > $this->totalPages) {
+                return $products;
+            }
+            $products = $this->post(self::PRODUCT, $args);
         } catch (\Throwable $th) {
         }
         $products = collect($products)->map(function ($product) {
-            // unset($product['inventory']);
-            // unset($product['attributes']);
-            // unset($product['units']);
-
-            $_product = new Product($product);
-            // $product->save();
-            // return $product;
-
             try {
-                return Product::updateOrCreate($_product->toArray());
+                $p = new Product($product);
+                $p->nhanh_id         = $product['idNhanh'];
+                $p->nhanh_parentId   = $product['parentId'];
+                $p->nhanh_categoryId = $product['categoryId'];
+
+                return Product::updateOrCreate($p->toArray());
             } catch (\Throwable $th) {
-                Log::info($product['code']);
-                Log::info($product);
-                throw $th;
                 return $product;
             }
         });
+
+        if ($this->isAll) {
+            return $products->merge($this->getProducts(
+                array_replace($args, [
+                    'page' => $this->currentPage + 1
+                ])
+            ));
+        }
+
         return $products;
     }
 
@@ -91,24 +93,12 @@ class Nhanh extends Model
         return $data['products'];
     }
 
-    public function getTotalPagesAttribute($totalPages)
+    protected function isAll(): Attribute
     {
-        return $this->totalPages;
-    }
-
-    public function setTotalPagesAttribute($totalPages)
-    {
-        $this->totalPages = $totalPages;
-    }
-
-    public function getCurrentPageAttribute($currentPage)
-    {
-        return $this->currentPage;
-    }
-
-    public function setCurrentPageAttribute($currentPage)
-    {
-        $this->currentPage = $currentPage;
+        return Attribute::make(
+            get: fn (mixed $value) => session('is_all', 0),
+            // set: fn (mixed $value, array $attributes) => $value ?: Str::sanitizeString($attributes['name'])
+        );
     }
 
     /**

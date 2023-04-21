@@ -4,6 +4,7 @@ namespace App\Models\Catalog;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,10 +22,6 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        // 'nhanh_id',
-        // 'nhanh_categoryId',
-        // 'nhanh_parentId',
-
         'code',             // Mã sản phẩm
         'name',             // Tên sản phẩm
         'otherName',        // Tên khác của sản phẩm
@@ -64,6 +61,11 @@ class Product extends Model
         'importTypeLabel',  // Tên kiểu nhập kho
 
         'avgCost',          // Giá vốn sản phẩm
+
+        'nhanh_id',
+        'nhanh_categoryId',
+        'nhanh_parentId',
+
     ];
 
     /**
@@ -131,7 +133,21 @@ class Product extends Model
     {
         return Attribute::make(
             get: fn (mixed $value, array $attributes) => $value ?: Str::sanitizeString($attributes['name']),
-            // set: fn (string $code) => strtolower($value),
+            // set: fn (mixed $value, array $attributes) => $value ?: Str::sanitizeString($attributes['name'])
         );
+    }
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope("api.nhanh", function (Builder $builder) {
+            // $builder->where("type", "nhanh");
+        });
     }
 }

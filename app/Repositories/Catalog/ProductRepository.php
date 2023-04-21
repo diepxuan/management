@@ -8,18 +8,35 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Collection;
 use App\Models\Catalog\Product;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use App\Models\Admin\Api;
 
 class ProductRepository implements ProductRepositoryInterface
 {
+    protected $request;
+
     protected $products;
     protected $currentPage = 1;
     protected $total = 0;
     protected $perPage = 0;
     protected $options = array();
+    protected $isAll = false;
+
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
 
     public function load($args)
+    {
+        $this->isAll = $this->request->session()->get('is_all', $this->isAll);
+        $this->request->session()->put('is_all', $this->isAll);
+        if ($this->isAll) return $this->loadAll($args);
+        else return $this->loadPage($args);
+    }
+
+    public function loadPage($args)
     {
         $this->perPage($args['perPage'] ?: 50);
         $this->currentPage($args['page'] ?: 1);
@@ -51,6 +68,21 @@ class ProductRepository implements ProductRepositoryInterface
         return $this;
     }
 
+    public function loadAll($args)
+    {
+        foreach (Api::enable()->get() as $api) {
+            $className = ucfirst(strtolower($api->type));
+            $className = "\App\Models\Api\\$className";
+            $api = $className::find($api->id);
+
+            $this->setProducts($api->getProducts());
+        }
+
+        $this->setProducts(Product::all());
+
+        return $this;
+    }
+
     public function perPage($perPage = false)
     {
         return $this->perPage = $perPage ?: $this->perPage;
@@ -73,11 +105,15 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function setProducts(Collection $products)
     {
-        return $this->products = ($this->products ?: new Collection)->merge($products)->keyBy('code');
+        // return $this->products = ($this->products ?: new Collection)->merge($products);
+        return $this->products = ($this->products ?: new Collection)->merge($products)->keyBy('code')->sortBy('code');
     }
 
     public function getProducts($options = [])
     {
-        return new LengthAwarePaginator($this->products, $this->total(), $this->perPage(), $this->currentPage(), $this->options($options));
+        if ($this->isAll)
+            return $this->products;
+        else
+            return new LengthAwarePaginator($this->products, $this->total(), $this->perPage(), $this->currentPage(), $this->options($options));
     }
 }

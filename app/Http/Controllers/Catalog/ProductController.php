@@ -37,9 +37,9 @@ class ProductController extends Controller
     {
         Api::enable()->update(['enable' => 0]);
         Api::whereIn('id', array_keys($request->get('api', array())))->update(['enable' => 1]);
+        $request->session()->put('is_all', $request->get('is_all', $request->session()->get('is_all')));
 
         return redirect()->route("catalog.product.index");
-        // return $this->index($request, $productRepository);
     }
 
     /**

@@ -74,7 +74,7 @@ class VmController extends Controller
 
         if ($vm->vm_id == 'pve1.diepxuan.com') {
             $vm->commands = [
-                // "sudo csf -x",
+                // "sudo csf -ra",
                 // "--sys:env:sync",
             ];
         }

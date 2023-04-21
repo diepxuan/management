@@ -1,5 +1,11 @@
 # 0.0.18
 
+- Catalog
+  - `is_all` make load all products
+  - load all products from nhanh api
+
+# 0.0.18
+
 - `csf`
   - do not forward openport to client
   - add config to protected vm from ddos

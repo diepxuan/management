@@ -1,4 +1,4 @@
-@extends('admin.layout')
+@extends('catalog.layout')
 @section('main')
     <h1>Danh sách sản phẩm</h1>
 
@@ -18,13 +18,20 @@
                 </div>
             @endforeach
 
+            <div class="form-check form-switch">
+                <input type="hidden" value="{{ session('is_all') ? 0 : 1 }}" name="is_all" />
+                <input class="form-check-input" type="checkbox" role="switch" id="is_all"
+                    {{ session('is_all') ? 'checked' : null }} onchange="this.form.submit()">
+                <label class="form-check-label" for="is_all">Hiển thị tất cả</label>
+            </div>
+
         </form>
     @endif
 
     @if ($products)
-        <table class="table">
+        <table class="table table-sm">
             <tr>
-                <th scope="col">#</th>
+                <th scope="col">nhanh Id</th>
                 <th scope="col">code</th>
                 <th scope="col">tên</th>
                 <th scope="col">giá bán</th>
@@ -33,7 +40,7 @@
             </tr>
             @foreach ($products as $product)
                 <tr>
-                    <td scope="col">{{ $loop->index + 1 }}</td>
+                    <td scope="col">{{ $product->nhanh_id }}</td>
                     <td scope="col">{{ $product->code }}</td>
                     <td scope="col">{{ $product->name }}</td>
                     <td scope="col">{{ $product->price }}</td>
@@ -42,6 +49,8 @@
                 </tr>
             @endforeach
         </table>
-        {{ $products->links() }}
+        @if (!session('is_all'))
+            {{ $products->links() }}
+        @endif
     @endif
 @endsection
