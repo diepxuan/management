@@ -35,9 +35,8 @@ class ProductController extends Controller
      */
     public function store(Request $request, ProductRepositoryInterface $productRepository)
     {
-        Api::enable()->update(['enable' => 0]);
-        Api::whereIn('id', array_keys($request->get('api', array())))->update(['enable' => 1]);
-        $request->session()->put('is_all', $request->get('is_all', $request->session()->get('is_all')));
+        $request->session()->put('is_all', $request->get('is_all', 0));
+        $productRepository->import();
 
         return redirect()->route("catalog.product.index");
     }

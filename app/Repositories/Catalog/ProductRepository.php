@@ -28,10 +28,10 @@ class ProductRepository implements ProductRepositoryInterface
         $this->request = $request;
     }
 
-    public function load($args)
+    public function load($args = [])
     {
         $this->isAll = $this->request->session()->get('is_all', $this->isAll);
-        $this->request->session()->put('is_all', $this->isAll);
+
         if ($this->isAll) return $this->loadAll($args);
         else return $this->loadPage($args);
     }
@@ -40,47 +40,31 @@ class ProductRepository implements ProductRepositoryInterface
     {
         $this->perPage($args['perPage'] ?: 50);
         $this->currentPage($args['page'] ?: 1);
-
-        $products = Product::orderBy('code')->paginate($this->perPage())->toArray();
-
-        $this->setProducts(collect($products['data'])->map(function ($product) {
-            $product = new Product($product);
-            return $product;
-        }));
-
-        $this->total($products['total']);
-        $this->options(['path' => $products['path']]);
-
-        foreach (Api::enable()->get() as $api) {
-            $className = ucfirst(strtolower($api->type));
-            $className = "\App\Models\Api\\$className";
-            $api = $className::find($api->id);
-
-            $products = $this->setProducts($api->getProducts([
-                'icpp' => $this->perPage(),
-                'page' => $this->currentPage(),
-                'sort' => ['code' => 'asc']
-            ]));
-
-            $this->total($api->totalPages * $this->perPage());
-        }
+        $this->setProducts(Product::orderBy('code')->paginate($this->perPage()));
 
         return $this;
     }
 
     public function loadAll($args)
     {
-        foreach (Api::enable()->get() as $api) {
-            $className = ucfirst(strtolower($api->type));
-            $className = "\App\Models\Api\\$className";
-            $api = $className::find($api->id);
-
-            $this->setProducts($api->getProducts());
-        }
-
         $this->setProducts(Product::all());
 
         return $this;
+    }
+
+    public function import()
+    {
+        foreach ($this->request->input('api', []) as $api) {
+            try {
+                $api = Api::find($api);
+                $className = ucfirst(strtolower($api->type));
+                $className = "\App\Models\Api\\$className";
+                $api = $className::find($api->id);
+                $api->import();
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+        }
     }
 
     public function perPage($perPage = false)
@@ -103,17 +87,13 @@ class ProductRepository implements ProductRepositoryInterface
         return $this->options = array_merge($this->options, $options);
     }
 
-    public function setProducts(Collection $products)
+    public function setProducts(Collection|\Illuminate\Pagination\LengthAwarePaginator $products)
     {
-        // return $this->products = ($this->products ?: new Collection)->merge($products);
-        return $this->products = ($this->products ?: new Collection)->merge($products)->keyBy('code')->sortBy('code');
+        return $this->products = $products;
     }
 
     public function getProducts($options = [])
     {
-        if ($this->isAll)
-            return $this->products;
-        else
-            return new LengthAwarePaginator($this->products, $this->total(), $this->perPage(), $this->currentPage(), $this->options($options));
+        return $this->products;
     }
 }

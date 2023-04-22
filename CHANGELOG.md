@@ -1,5 +1,12 @@
 # 0.0.18
 
+- ISSUES
+  - products load slow
+  - stop load products from api
+  - create import fuction
+
+# 0.0.18
+
 - Catalog
   - `is_all` make load all products
   - load all products from nhanh api

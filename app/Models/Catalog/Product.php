@@ -121,11 +121,6 @@ class Product extends Model
      */
     protected $perPage = 20;
 
-    // public function setCodeAttribute($code)
-    // {
-    //     $this->code = $code ?: $this->name;
-    // }
-
     /**
      * Interact with the product's code.
      */
@@ -147,7 +142,7 @@ class Product extends Model
         parent::boot();
 
         static::addGlobalScope("api.nhanh", function (Builder $builder) {
-            // $builder->where("type", "nhanh");
+            $builder->orderBy('code');
         });
     }
 }

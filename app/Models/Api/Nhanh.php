@@ -32,10 +32,48 @@ class Nhanh extends Model
     const api_url = "https://open.nhanh.vn";
     const PRODUCT = self::api_url . "/api/product/search";
 
-    // protected $currentPage;
-    // protected $totalPages;
-    // protected $isAll = false;
 
+    public function import()
+    {
+        $this->importProducts();
+    }
+
+    protected function importProducts(array $args = [])
+    {
+        $products = new Collection;
+        try {
+            $args = array_replace([
+                'icpp' => 50,
+                'page' => 1,
+            ], $args);
+            if ($this->totalPages > 0 && $args['page'] > $this->totalPages) {
+                return;
+            }
+            $products = $this->post(self::PRODUCT, $args);
+        } catch (\Throwable $th) {
+            return;
+            throw $th;
+        }
+        $products = collect($products)->map(function ($product) {
+            try {
+                $p = new Product($product);
+                $p->nhanh_id         = $product['idNhanh'];
+                $p->nhanh_parentId   = $product['parentId'];
+                $p->nhanh_categoryId = $product['categoryId'];
+
+                return Product::updateOrCreate(['code' => $p->code], $p->toArray());
+            } catch (\Throwable $th) {
+                return $product;
+                throw $th;
+            }
+        });
+
+        $this->importProducts(array_replace($args, [
+            'page' => $this->currentPage + 1
+        ]));
+    }
+
+    /** @deprecated */
     public function getProducts(array $args = [])
     {
         $products = new Collection;
