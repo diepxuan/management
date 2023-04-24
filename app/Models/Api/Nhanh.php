@@ -54,6 +54,7 @@ class Nhanh extends Model
             return;
             throw $th;
         }
+
         $products = collect($products)->map(function ($product) {
             try {
                 $p = new Product($product);
@@ -61,7 +62,8 @@ class Nhanh extends Model
                 $p->nhanh_parentId   = $product['parentId'];
                 $p->nhanh_categoryId = $product['categoryId'];
 
-                return Product::updateOrCreate(['code' => $p->code], $p->toArray());
+                $p = Product::updateOrCreate(['code' => $p->code], $p->toArray());
+                Product::where('code', $p->code)->where('id', '<>', $p->id)->delete();
             } catch (\Throwable $th) {
                 return $product;
                 throw $th;
