@@ -22,19 +22,19 @@ use Illuminate\Http\Request;
 Route::domain("admin.diepxuan.com")->group(function () {
 
     Route::middleware([
+        'guest',
         ClearCache::class,
     ])->group(function () {
-
-        Route::get('/', [App\Http\Controllers\Admin\HomeController::class, "index"]);
-
         Route::get('/etc/{env}/{vm}', [App\Http\Controllers\Sys\EnvController::class, "showByVm"]);
-        Route::get('/api/{type}', [App\Http\Controllers\Admin\ApiController::class, "token"]);
-
         Route::resources([
             'etc' => App\Http\Controllers\Sys\EnvController::class,
             'vm' => App\Http\Controllers\Sys\VmController::class,
         ]);
+        Route::get('/dashboard', [App\Http\Controllers\Admin\HomeController::class, "index"]);
+        Route::get('/api/{type}', [App\Http\Controllers\Admin\ApiController::class, "token"]);
+    });
 
+    Route::middleware('auth')->group(function () {
         Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->group(function () {
             Route::resource('vm', VmController::class);
             Route::resource('api', ApiController::class);
@@ -43,5 +43,16 @@ Route::domain("admin.diepxuan.com")->group(function () {
         Route::namespace('App\Http\Controllers\Catalog')->prefix('catalog')->name('catalog.')->group(function () {
             Route::resource('product', ProductController::class);
         });
+
+        Route::get('/', [App\Http\Controllers\Admin\HomeController::class, "index"]);
     });
 });
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [App\Http\Controllers\ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__ . '/auth.php';

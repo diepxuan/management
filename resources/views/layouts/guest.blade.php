@@ -27,29 +27,11 @@
 <body>
     <div id="app">
 
-        @include('layouts.navigation')
-
-        <!-- Page Heading -->
-        @if (isset($header))
-            <header class="container pt-3 pb-3">
-                {{-- <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8"> --}}
-                {{ $header }}
-                {{-- </div> --}}
-            </header>
-        @endif
-
-        @if (session('status'))
-            <div class="alert alert-success" role="alert">
-                {{ session('status') }}
-            </div>
-        @endif
-
         <!-- Page Content -->
-        <main>
+        <main class="w-full mt-6 px-6 py-4 sm:rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-800">
             @if (isset($slot))
                 {{ $slot }}
             @endif
-            @yield('content')
         </main>
 
     </div>

@@ -1,3 +1,9 @@
+# 0.0.19
+
+- Auth
+  - Login/Logout
+  - Profile edit
+
 # 0.0.18
 
 - ISSUES
