@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\Admin\Api;
 use App\Models\Api\Nhanh;
+use DateTime;
 
 class ApiController extends Controller
 {
@@ -49,7 +50,7 @@ class ApiController extends Controller
                         Api::updateOrCreate([
                             'type' => $type,
                             'accessToken' => $response['accessToken'],
-                            'expiredDateTime' => $response['expiredDateTime'],
+                            'expiredDateTime' => DateTime::createFromFormat('Y-m-d H:i:s', $response['expiredDateTime'])->format(Nhanh::DATETIMEFORMAT),
                             'businessId' => $response['businessId'],
                             'depotIds' => implode(" ", $response['depotIds']),
                             'permissions' => $response['permissions'],
@@ -59,6 +60,30 @@ class ApiController extends Controller
                         return redirect()->route('admin.api.index');
                     }
 
+                break;
+
+            case 'magento2':
+                try {
+                    $url         = $request->input("url", "https://www.diepxuan.com") . "/rest/V1/integration/admin/token";
+                    $username    = $request->input("username", "admin");
+                    $password    = $request->input("password", "Ductn@7691");
+                    $accessToken = Http::asJson()->post($url, [
+                        'username' => $username,
+                        'password' => $password,
+                    ]);
+
+                    if ($accessToken) {
+                        $api = Api::updateOrCreate([
+                            'type'        => $type,
+                            'accessToken' => $accessToken,
+                            'expiredDateTime' => (new DateTime())->modify("+4 hours"),
+                        ]);
+                        Log::info($api);
+                    }
+                } catch (\Throwable $th) {
+                    // throw $th;
+                    return redirect()->route('admin.api.index');
+                }
                 break;
 
             default:

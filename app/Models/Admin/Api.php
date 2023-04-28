@@ -14,6 +14,8 @@ class Api extends Model
 {
     use HasFactory;
 
+    const DATETIMEFORMAT = 'Y-m-d H:i:s';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -49,6 +51,15 @@ class Api extends Model
      * @var bool
      */
     public $timestamps = true;
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'expiredDateTime' => \App\Casts\Api\expiredDateTime::class,
+    ];
 
     public static function scopeEnable(Builder $query, $arg = 1)
     {

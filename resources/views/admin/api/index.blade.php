@@ -24,7 +24,7 @@
                         <td scope="col">{{ $api->type }}</td>
                         <td scope="col">{{ $api->businessId }}</td>
                         <td scope="col">{{ $api->depotIds ?: 'tat ca' }}</td>
-                        <td scope="col">{{ $api->expiredDateTime }}</td>
+                        <td scope="col">{{ $api->expiredDateTime->format('H:i:s m/d/Y') }}</td>
                     </tr>
                 @endforeach
             </table>
