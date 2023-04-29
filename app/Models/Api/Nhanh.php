@@ -141,6 +141,31 @@ class Nhanh extends Model
         );
     }
 
+    public function new(Request $request)
+    {
+        $accessCode = $request->input("accessCode");
+        $response = Http::asForm()->post(Nhanh::access_url, [
+            'version'    => Nhanh::version,
+            'appId'      => Nhanh::appId,
+            'accessCode' => $accessCode,
+            'secretKey'  => Nhanh::secretKey,
+        ]);
+        if ($response['code'])
+            Api::updateOrCreate([
+                'type'            => $this->type,
+                'accessToken'     => $response['accessToken'],
+                'expiredDateTime' => DateTime::createFromFormat('Y-m-d H:i:s', $response['expiredDateTime'])->format(Nhanh::DATETIMEFORMAT),
+                'businessId'      => $response['businessId'],
+                'depotIds'        => implode(" ", $response['depotIds']),
+                'permissions'     => $response['permissions'],
+            ]);
+    }
+
+    public function renew(Request $request)
+    {
+        //
+    }
+
     /**
      * The "booting" method of the model.
      *

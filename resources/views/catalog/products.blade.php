@@ -22,14 +22,16 @@
                     <label class="form-check-label" for="is_all">Hiển thị tất cả</label>
                 </div>
 
-                @foreach ($apis as $api)
-                    <div class="col-auto">
-                        <button type="submit" name="api[]" value="{{ $api->id }}" class="btn btn-primary mb-3">
-                            Đồng bộ từ {{ $api->type }}
-                        </button>
-                    </div>
-                @endforeach
-
+                <x-row class="row-cols-auto">
+                    @foreach ($apis as $api)
+                        <div class="col-auto">
+                            <button type="submit" name="api[]" value="{{ $api->id }}"
+                                class="btn btn-primary mb-3">
+                                Đồng bộ từ {{ $api->type }}
+                            </button>
+                        </div>
+                    @endforeach
+                </x-row>
             </form>
         @endif
 

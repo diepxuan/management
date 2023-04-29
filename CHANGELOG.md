@@ -1,3 +1,9 @@
+# 0.1.0
+
+- api for magento2
+  - new `api`
+  - renew `api`
+
 # 0.0.19
 
 - Auth

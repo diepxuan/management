@@ -28,6 +28,12 @@ class expiredDateTime
      */
     public function set(Api $model, string $key, mixed $value, array $attributes)
     {
+        if (is_string($value)) {
+            $value = new DateTime($value);
+        }
+        if ($value instanceof DateTime) {
+            return $value->format(Api::DATETIMEFORMAT);
+        }
         return $value->format(Api::DATETIMEFORMAT);
     }
 }

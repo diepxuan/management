@@ -36,59 +36,15 @@ class ApiController extends Controller
 
     public function token(Request $request, $type)
     {
-        switch ($type) {
-            case 'nhanh':
-                $accessCode = $request->input("accessCode");
-                $response = Http::asForm()->post(Nhanh::access_url, [
-                    'version'    => Nhanh::version,
-                    'appId'      => Nhanh::appId,
-                    'accessCode' => $accessCode,
-                    'secretKey'  => Nhanh::secretKey,
-                ]);
-                if ($response['code'])
-                    try {
-                        Api::updateOrCreate([
-                            'type' => $type,
-                            'accessToken' => $response['accessToken'],
-                            'expiredDateTime' => DateTime::createFromFormat('Y-m-d H:i:s', $response['expiredDateTime'])->format(Nhanh::DATETIMEFORMAT),
-                            'businessId' => $response['businessId'],
-                            'depotIds' => implode(" ", $response['depotIds']),
-                            'permissions' => $response['permissions'],
-                        ]);
-                    } catch (\Throwable $th) {
-                        // throw $th;
-                        return redirect()->route('admin.api.index');
-                    }
+        $api       = new Api;
+        $api->type = $type;
+        $api       = $api->castAs();
 
-                break;
-
-            case 'magento2':
-                try {
-                    $url         = $request->input("url", "https://www.diepxuan.com") . "/rest/V1/integration/admin/token";
-                    $username    = $request->input("username", "admin");
-                    $password    = $request->input("password", "Ductn@7691");
-                    $accessToken = Http::asJson()->post($url, [
-                        'username' => $username,
-                        'password' => $password,
-                    ]);
-
-                    if ($accessToken) {
-                        $api = Api::updateOrCreate([
-                            'type'        => $type,
-                            'accessToken' => $accessToken,
-                            'expiredDateTime' => (new DateTime())->modify("+4 hours"),
-                        ]);
-                        Log::info($api);
-                    }
-                } catch (\Throwable $th) {
-                    // throw $th;
-                    return redirect()->route('admin.api.index');
-                }
-                break;
-
-            default:
-                return redirect()->route('admin.api.index');
-                break;
+        try {
+            $api->new($request);
+        } catch (\Throwable $th) {
+            // throw $th;
+            return redirect()->route('admin.api.index');
         }
         return redirect()->route('admin.api.index');
     }
@@ -122,7 +78,16 @@ class ApiController extends Controller
      */
     public function update(Request $request, Api $api)
     {
-        //
+        if ($request->input('renew', 0))
+            try {
+                $api = $api->castAs();
+                $api->renew($request);
+            } catch (\Throwable $th) {
+                // throw $th;
+                return redirect()->route('admin.api.index');
+            }
+
+        return redirect()->route("admin.api.index");
     }
 
     /**
@@ -130,6 +95,8 @@ class ApiController extends Controller
      */
     public function destroy(Api $api)
     {
-        //
+        $api->delete();
+
+        return redirect()->route("admin.api.index");
     }
 }
