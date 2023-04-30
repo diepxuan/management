@@ -15,7 +15,7 @@ trait Magento2
     protected function apiUrl(): Attribute
     {
         return Attribute::make(
-            get: fn (mixed $value, array $attributes) => trim($value ?: array_replace([null, null, null], explode('|', $this->permissions))[0], " \\/"),
+            get: fn (mixed $value, array $attributes) => trim($value ?: array_replace([null, null, null], explode('|', $this->permissions))[0], " \\/") . '/',
         );
     }
 

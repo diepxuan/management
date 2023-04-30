@@ -4,6 +4,7 @@
   - new `api`
   - renew `api`
   - oauth to magento 2
+  - load products from magento2
 
 # 0.0.19
 

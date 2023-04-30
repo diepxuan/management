@@ -10,12 +10,11 @@
   "version": "1.0.0",
   "require": {
     "php": "^8",
+    "diepxuan/laravel-magento": "dev-master",
     "guzzlehttp/guzzle": "^7.2",
-    "guzzlehttp/oauth-subscriber": "^0.6.0",
     "laravel/framework": "^10.0",
     "laravel/sanctum": "^3.2",
-    "laravel/tinker": "^2.8",
-    "diepxuan/laravel-magento": "dev-master"
+    "laravel/tinker": "^2.8"
   },
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.7"
@@ -52,23 +51,12 @@
       "dont-discover": []
     }
   },
-  "repositories": [
-    {
-      "type": "package",
-      "package": {
-        "name": "diepxuan/laravel-magento",
-        "version": "master",
-        "source": {
-          "url": "git@github.com:diepxuan/laravel-magento.git",
-          "type": "git",
-          "reference": "master"
-        }
-      }
-    }
-  ],
   "config": {
     "optimize-autoloader": true,
-    "preferred-install": "dist",
+    "preferred-install": {
+      "diepxuan/laravel-magento": "source",
+      "*": "dist"
+    },
     "sort-packages": true,
     "allow-plugins": {
       "pestphp/pest-plugin": true,

@@ -59,7 +59,7 @@ class ProductRepository implements ProductRepositoryInterface
             $api = $api->castAs();
             $api->import();
         } catch (\Throwable $th) {
-            // throw $th;
+            throw $th;
             Log::info($th);
         }
     }

@@ -9,29 +9,19 @@ use App\Models\Admin\Api as Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
-use App\Support\Api\Magento2 as Support;
+use App\Support\Api\Magento2 as Magento2Support;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Subscriber\Oauth\Oauth1;
+use Diepxuan\Magento\Magento2 as Magento2Api;
+
 
 
 class Magento2 extends Model
 {
-    use HasFactory, Support;
-
-    // Consumer Key
-    // b1lb7h7glitzdbiuifuqzp3ag0wxa8us
-    // Consumer Secret
-    // kyi46b4cfilwa2pnsqqjyyx2yuhykqqe
-    // Access Token
-    // hmoknijge5xq7fm0pubuuo9ydsqtbm5f
-    // Access Token Secret
-    // nk02powcydxpbd790ua3pu4gksgesrnk
+    use HasFactory, Magento2Support;
 
     const MODEL_TYPE = "magento2";
 
@@ -55,71 +45,28 @@ class Magento2 extends Model
 
     protected function importProducts(array $args = [])
     {
-        // dd($this);
-        Log::info($this->api_url);
-        $data = $this->client()->get($this->product_url, [
-            'searchCriteria' => [
-                'PageSize' => 20
-            ]
-        ]);
-        Log::info($data);
+        $data = $this->request->products()->get();
+        // dd($data, $this->request->products());
     }
 
-    public function client()
-    {
-        $stack = HandlerStack::create();
-
-        $middleware = new Oauth1([
-            'consumer_key'    => $this->oauth_consumer_key,
-            'consumer_secret' => $this->oauth_consumer_secret,
-            'token'           => $this->oauth_access_token,
-            'token_secret'    => $this->oauth_access_secret,
-            'signature_method' => Oauth1::SIGNATURE_METHOD_HMACSHA256,
-        ]);
-        $stack->push($middleware);
-
-        $client = new Client([
-            'base_uri' => $this->api_url,
-            'handler' => $stack,
-            'auth' => 'oauth'
-        ]);
-
-        return $client;
-
-        // Now you don't need to add the auth parameter
-        $response = $client->get(self::PRODUCT);
-
-        // $response = Http::withBasicAuth($this->oauth_consumer_key, $this->oauth_consumer_secret)
-        //     ->withToken($this->oauth_access_token)
-        //     // ->withHeaders([
-        //     //     'Authorization' => "Bearer " . $this->accessToken,
-        //     //     // 'Bearer'        => $this->accessToken,
-        //     // ])
-        //     ->get($url, $data);
-
-        if ($response->successful())
-            return $response;
-
-        $response->throw(function ($response, $e) {
-            Log::info($response);
-        });
-        return [];
-    }
-
-    protected function productUrl(): Attribute
+    protected function request(): Attribute
     {
         return Attribute::make(
-            get: fn (mixed $value, array $attributes) => implode('/', [$this->api_url, ltrim(self::PRODUCT, " \\/")]),
+            get: fn (mixed $value, array $attributes) => new Magento2Api([
+                // 'oauth_consumer_key' => $this->oauth_consumer_key,
+                // 'oauth_nonce'        => $this->oauth_consumer_secret,
+                // 'oauth_token'        => $this->oauth_access_token,
+                // 'oauth_signature'    => $this->oauth_access_secret,
+                'consumer_key'    => $this->oauth_consumer_key,
+                'consumer_secret' => $this->oauth_consumer_secret,
+                'token'           => $this->oauth_access_token,
+                'token_secret'    => $this->oauth_access_secret,
+            ], [
+                'base_uri' => $this->api_url
+            ]),
         );
     }
 
-    protected function urlTokenRequest(): Attribute
-    {
-        return Attribute::make(
-            get: fn (mixed $value, array $attributes) =>
-            $this->api_url . self::AUTH_TOKEN_REQUEST,
-        );
-    }
 
     /**
      * The "booting" method of the model.
