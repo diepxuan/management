@@ -40,12 +40,7 @@ class ApiController extends Controller
         $api->type = $type;
         $api       = $api->castAs();
 
-        try {
-            $api->new($request);
-        } catch (\Throwable $th) {
-            // throw $th;
-            return redirect()->route('admin.api.index');
-        }
+        return $api->new($request);
         return redirect()->route('admin.api.index');
     }
 
@@ -96,7 +91,6 @@ class ApiController extends Controller
     public function destroy(Api $api)
     {
         $api->delete();
-
         return redirect()->route("admin.api.index");
     }
 }

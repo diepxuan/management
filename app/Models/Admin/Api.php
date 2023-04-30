@@ -70,19 +70,20 @@ class Api extends Model
             $className = "\App\Models\Api\\$className";
         }
 
-        $obj = new $className($this->toArray());
-        // foreach (get_object_vars($this) as $key => $name) {
-        // $obj->$key = $name;
-        // }
-        return $obj;
+        return $className::firstOrNew(['id' => $this->id]);
     }
 
     public function new(Request $request)
     {
-        //
+        return redirect()->route('admin.api.index');
     }
 
     public function renew(Request $request)
+    {
+        return redirect()->route('admin.api.index');
+    }
+
+    public function import()
     {
         //
     }

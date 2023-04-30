@@ -11,6 +11,7 @@
     "require": {
         "php": "^8",
         "guzzlehttp/guzzle": "^7.2",
+        "guzzlehttp/oauth-subscriber": "^0.6.0",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8"
@@ -50,6 +51,12 @@
             "dont-discover": []
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "git@bitbucket.org:diepxuan/laravel-magento.git"
+        }
+    ],
    "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",

@@ -3,6 +3,7 @@
 - api for magento2
   - new `api`
   - renew `api`
+  - oauth to magento 2
 
 # 0.0.19
 

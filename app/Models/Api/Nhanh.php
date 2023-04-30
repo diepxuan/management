@@ -24,6 +24,8 @@ class Nhanh extends Model
      */
     protected $table = "apis";
 
+    const MODEL_TYPE = "nhanh";
+
     const access_url = "https://nhanh.vn/oauth/access_token";
     const secretKey = "MFxQFTrhUFotuZ2l9SxDkn03S2YXPllbWoMT2B5NrHlRDrdStEmAhnwW3CrtdkIz2dyUQxlfVgQvGhmF4WcZJE22CxaC3Fn90QDYSTkYHz3kcLE8HB2AvsllIux7dJNt";
     const version = "2.0";
@@ -31,7 +33,6 @@ class Nhanh extends Model
 
     const api_url = "https://open.nhanh.vn";
     const PRODUCT = self::api_url . "/api/product/search";
-
 
     public function import()
     {
@@ -159,11 +160,8 @@ class Nhanh extends Model
                 'depotIds'        => implode(" ", $response['depotIds']),
                 'permissions'     => $response['permissions'],
             ]);
-    }
 
-    public function renew(Request $request)
-    {
-        //
+        return redirect()->route('admin.api.index');
     }
 
     /**
@@ -175,8 +173,8 @@ class Nhanh extends Model
     {
         parent::boot();
 
-        static::addGlobalScope("api.nhanh", function (Builder $builder) {
-            $builder->where("type", "nhanh");
+        static::addGlobalScope("api." . self::MODEL_TYPE, function (Builder $builder) {
+            $builder->where("type", self::MODEL_TYPE);
         });
     }
 }

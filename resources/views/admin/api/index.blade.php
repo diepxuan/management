@@ -25,7 +25,7 @@
                         <td scope="col">{{ $api->type }}</td>
                         <td scope="col">{{ $api->businessId }}</td>
                         <td scope="col">{{ $api->depotIds ?: 'tat ca' }}</td>
-                        <td scope="col">{{ $api->expiredDateTime->format('H:i:s m/d/Y') }}</td>
+                        <td scope="col">{{ $api->expiredDateTime->format('H:i:s d/m/Y') }}</td>
                         <td scope="col">
                             <x-row>
                                 <form class="col-auto" method="post"

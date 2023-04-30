@@ -54,16 +54,13 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function import()
     {
-        foreach ($this->request->input('api', []) as $api) {
-            try {
-                $api = Api::find($api);
-                $className = ucfirst(strtolower($api->type));
-                $className = "\App\Models\Api\\$className";
-                $api = $className::find($api->id);
-                $api->import();
-            } catch (\Throwable $th) {
-                //throw $th;
-            }
+        try {
+            $api = Api::find($this->request->input('api', null));
+            $api = $api->castAs();
+            $api->import();
+        } catch (\Throwable $th) {
+            // throw $th;
+            Log::info($th);
         }
     }
 

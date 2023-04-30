@@ -18,7 +18,17 @@ class expiredDateTime
      */
     public function get(Api $model, string $key, mixed $value, array $attributes)
     {
-        return DateTime::createFromFormat(Api::DATETIMEFORMAT, $value) ?: $value;
+        if (is_null($value))
+            $value = new DateTime('now +1 day');
+
+        try {
+            // $value = DateTime::createFromFormat(Api::DATETIMEFORMAT, $value)
+            $value = new DateTime($value);
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        // $value= $value?
+        return $value;
     }
 
     /**
