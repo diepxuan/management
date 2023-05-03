@@ -54,14 +54,9 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function import()
     {
-        try {
-            $api = Api::find($this->request->input('api', null));
-            $api = $api->castAs();
-            $api->import();
-        } catch (\Throwable $th) {
-            throw $th;
-            Log::info($th);
-        }
+        $api = Api::findOrNew($this->request->input('api', null));
+        $api = $api->castAs();
+        $api->import();
     }
 
     public function perPage($perPage = false)

@@ -1,3 +1,9 @@
+# 0.1.1
+
+- ISSUES:
+  - Call to a member function castAs() on null
+  - Class "\App\Models\Api\" not found
+
 # 0.1.0
 
 - api for magento2

@@ -70,7 +70,11 @@ class Api extends Model
             $className = "\App\Models\Api\\$className";
         }
 
-        return $className::firstOrNew(['id' => $this->id]);
+        if (class_exists($className))
+            return $className::findOr($this->id, function () {
+                return $this;
+            });
+        return $this;
     }
 
     public function new(Request $request)
