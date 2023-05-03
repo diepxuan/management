@@ -8,7 +8,7 @@
 # CSRF_TOKEN=
 
 _vm:send() {
-    local pri_host=$(--ip:local)
+    local pri_host=$(--ip:localAll)
     local pub_host=$(--ip:wan)
     local version=$(--version)
 

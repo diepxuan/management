@@ -5,10 +5,15 @@ _DUCTN_COMMANDS+=("dev:build")
 --dev:build() {
     local old_pwd=$(pwd)
     --echo "$TXTinfo goto package folder"
+    --echo "$TXTinfo build package"
+    --echo "==============================="
     cd /var/www/base/
 
     _build_time
     dpkg-buildpackage
+
+    --echo "$TXTinfo build source"
+    --echo "==============================="
     dpkg-buildpackage -S
 
     cd /var/www/
@@ -28,6 +33,8 @@ _build_time() {
 _build_ppa() {
     local old_pwd=$(pwd)
     --echo "$TXTinfo goto ppa folder"
+    --echo "$TXTinfo build and push to ppa"
+    --echo "==============================="
     cd /var/www/ppa/
 
     # Packages & Packages.gz
