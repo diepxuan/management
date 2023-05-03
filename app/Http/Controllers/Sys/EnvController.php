@@ -6,6 +6,7 @@
 
 namespace App\Http\Controllers\Sys;
 
+use App\Http\Requests\EnvRequest;
 use App\Helpers\Str;
 use App\Models\Sys\Vm;
 use Illuminate\Http\Request;
@@ -113,7 +114,7 @@ social  C2:6E:9B:69:DD:C3 10.0.2.13",
     /**
      * Display the specified resource.
      */
-    public function showByVm(string $env, Vm $vm)
+    public function showByVm(EnvRequest $request, string $env, Vm $vm)
     {
         $data = null;
         switch ($env) {

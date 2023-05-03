@@ -25,6 +25,9 @@ Route::domain("admin.diepxuan.com")->group(function () {
         'guest',
         ClearCache::class,
     ])->group(function () {
+
+        Route::get('/etc/{env}/{vm}', [App\Http\Controllers\Sys\EnvController::class, "showByVm"]);
+
         Route::resources([
             'etc' => App\Http\Controllers\Sys\EnvController::class,
             'vm' => App\Http\Controllers\Sys\VmController::class,
@@ -38,7 +41,6 @@ Route::domain("admin.diepxuan.com")->group(function () {
 
         Route::get('/', [App\Http\Controllers\Admin\HomeController::class, "index"]);
         Route::get('/dashboard', [App\Http\Controllers\Admin\HomeController::class, "index"]);
-        Route::get('/etc/{env}/{vm}', [App\Http\Controllers\Sys\EnvController::class, "showByVm"]);
         Route::match(array('GET', 'POST'), '/api/{type}', [App\Http\Controllers\Admin\ApiController::class, "token"])->name("api.new");
 
         Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->group(function () {

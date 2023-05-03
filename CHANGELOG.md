@@ -1,3 +1,8 @@
+# 0.1.2
+
+- ISSUES:
+  - Fix VM client allow guest
+
 # 0.1.1
 
 - ISSUES:
