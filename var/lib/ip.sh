@@ -40,6 +40,10 @@ ip_local=
     echo $ip_local
 }
 
+--ip:localAll() {
+    hostname -I
+}
+
 --ip:gateway() {
     ip r | grep ^default | head -n 1 | grep -oP '(?<=via )[^ ]*'
 }
