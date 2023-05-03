@@ -1,3 +1,10 @@
+ductn (3.1.7-2) focal; urgency=medium
+
+  * ISSUES
+    - fix missing local ipaddresses
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 03 May 2023 16:41:42 +0700
+
 ductn (3.1.7-1) focal; urgency=medium
 
   * ISSUES
