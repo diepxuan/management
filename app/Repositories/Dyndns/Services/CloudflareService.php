@@ -6,10 +6,10 @@ use Illuminate\Support\Facades\Log;
 
 class CloudflareService extends \App\Repositories\Dyndns\Services\BaseService
 {
-    /** @var App\Models\Dyndns\Ddns */
+    /** @var App\Models\Admin\Ddns */
     private $ddns;
 
-    public function __construct(\App\Models\Dyndns\Ddns $ddns)
+    public function __construct(\App\Models\Admin\Ddns $ddns)
     {
         $this->ddns = $ddns;
     }

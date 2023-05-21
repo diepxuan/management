@@ -1,3 +1,13 @@
+# 0.1.4
+
+- DDNS
+  - CloudFlare load
+
+# 0.1.3
+
+- VMs
+  - use multi local address
+
 # 0.1.2
 
 - ISSUES:

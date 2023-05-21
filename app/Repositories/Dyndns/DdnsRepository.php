@@ -7,7 +7,7 @@
 namespace App\Repositories\Dyndns;
 
 use Illuminate\Support\Facades\Log;
-use App\Models\Dyndns\Ddns;
+use App\Models\Admin\Ddns;
 
 class DdnsRepository implements DdnsRepositoryInterface
 {

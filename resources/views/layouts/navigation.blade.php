@@ -31,11 +31,11 @@
                         Setting
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
                         <li><a class="dropdown-item" href="{{ url('/admin/api') }}">Api</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
+                        <li><a class="dropdown-item" href="{{ url('/admin/ddns') }}">Ddns</a></li>
                         <li><a class="dropdown-item" href="{{ url('/admin/vm') }}">VMs</a></li>
                     </ul>
                 </li>

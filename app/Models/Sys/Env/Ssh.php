@@ -55,18 +55,14 @@ class Ssh extends Model
         return $host;
     }
 
-
-
     public function getHostNameAttribute($hostName)
     {
         if ($this->parent->name != "none")
-            $hostName = $this->pri_host;
+            $hostName = collect(explode(' ', trim($this->pri_host)))->last();
         else
             $hostName = $this->pub_host;
         return  $hostName;
     }
-
-
 
     public function getProxyJumpAttribute($proxyJump)
     {

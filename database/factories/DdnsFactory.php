@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Dyndns\Ddns;
+use App\Models\Admin\Ddns;
 
 class DdnsFactory extends Factory
 {

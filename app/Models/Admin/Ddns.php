@@ -4,7 +4,7 @@
  * Copyright © DiepXuan, Ltd. All rights reserved.
  */
 
-namespace App\Models\Dyndns;
+namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

@@ -46,6 +46,7 @@ Route::domain("admin.diepxuan.com")->group(function () {
         Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')->group(function () {
             Route::resource('vm', VmController::class);
             Route::resource('api', ApiController::class);
+            Route::resource('ddns', DdnsController::class);
         });
 
         Route::namespace('App\Http\Controllers\Catalog')->prefix('catalog')->name('catalog.')->group(function () {

@@ -37,7 +37,8 @@ class Portforward
                 $portopen[$type] = implode(',', $portopen[$type]);
             }
 
-            $value .= implode(':', [$vm->pri_host, implode(':', $portopen)]);
+            $value .= implode(':', [collect(explode(' ', trim($vm->pri_host)))->last(), implode(':', $portopen)]);
+            $value = trim($value);
         }
         $value = trim($value);
 

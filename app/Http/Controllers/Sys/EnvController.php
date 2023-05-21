@@ -119,7 +119,9 @@ social  C2:6E:9B:69:DD:C3 10.0.2.13",
         $data = null;
         switch ($env) {
             case 'domains':
-                return $vm->domains;
+                return trim($vm->domains)
+                    . "\nsecurity.ubuntu.com"
+                    . "\nppa.launchpad.net";
                 break;
 
             case 'portforward':
