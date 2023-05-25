@@ -51,8 +51,6 @@ _DUCTN_COMMANDS+=("csf:config:set")
 }
 
 _csf_rules() {
-    SERIAL=$(--host:serial)
-
     INET_IP="$(--ip:wan)"
     # INET_IFACE="$(sudo route | grep '^default' | head -1 | grep -o '[^ ]*$')"
     INET_IFACE=$(ip r | grep default | head -n 1 | grep -oP '(?<=dev )[^ ]*')
@@ -60,76 +58,20 @@ _csf_rules() {
     LAN_IP="$(--ip:local)"
     LAN_IFACE="vmbr1"
 
-    DMZ_IP=10.8.$SERIAL.$SERIAL
-    DMZ_IFACE=$WIREGUARD_IFACE
-
     LO_IFACE="lo"
     LO_IP="127.0.0.1"
 
-    SRV_NUM=$SERIAL
+    echo "iptables -t raw -I PREROUTING -i fwbr+ -j CT --zone 1"
+    echo "iptables -t nat -A POSTROUTING -o $INET_IFACE -j MASQUERADE"
 
-    # vpn2.diepxuan.com
-    if [[ $(--host:is_vpn_server) == 1 ]]; then
-        echo "iptables -t raw -I PREROUTING -i fwbr+ -j CT --zone 1"
-        echo "iptables -t nat -A POSTROUTING -o $INET_IFACE -j MASQUERADE"
-
-        if [[ "$(ip r | grep $DMZ_IFACE)" != "" ]]; then
-            echo "iptables -A INPUT -i $DMZ_IFACE -j ACCEPT"
-            echo "iptables -A FORWARD -i $DMZ_IFACE -j ACCEPT"
-            echo "iptables -A FORWARD -o $DMZ_IFACE -j ACCEPT"
-
-            # echo "iptables -A FORWARD -i $DMZ_IFACE -o $INET_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
-            # echo "iptables -A FORWARD -i $INET_IFACE -o $DMZ_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
-        fi
-
-        for address in $(--sys:env:nat); do
-            tcp=$(--sys:env:nat $address tcp)
-            udp=$(--sys:env:nat $address udp)
-
-            [[ -n $address ]] && [[ -n $tcp ]] && echo "iptables -t nat -A PREROUTING -i $INET_IFACE -p TCP -m multiport --dport $tcp -j DNAT --to-destination $DMZ_IP"
-            [[ -n $address ]] && [[ -n $udp ]] && echo "iptables -t nat -A PREROUTING -i $INET_IFACE -p UDP -m multiport --dport $udp -j DNAT --to-destination $DMZ_IP"
-
-            unset tcp udp
-        done
-    fi
-
-    # pve2.diepxuan.com
-    if [[ $(--host:is_server) == 1 ]]; then
-        echo "iptables -t raw -I PREROUTING -i fwbr+ -j CT --zone 1"
-
-        # echo "iptables -t nat -A POSTROUTING -s 10.0.$SRV_NUM.0/24 -o $INET_IFACE -j MASQUERADE"
-        echo "iptables -t nat -A POSTROUTING -o $INET_IFACE -j MASQUERADE"
+    if [[ "$(ip r | grep $LAN_IFACE)" != "" ]]; then
+        echo "iptables -t nat -A POSTROUTING -o $LAN_IFACE -j MASQUERADE"
         echo "iptables -A INPUT -i $LAN_IFACE -j ACCEPT"
         echo "iptables -A FORWARD -i $LAN_IFACE -j ACCEPT"
         echo "iptables -A FORWARD -o $LAN_IFACE -j ACCEPT"
 
         echo "iptables -A FORWARD -i $INET_IFACE -o $LAN_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
         echo "iptables -A FORWARD -i $LAN_IFACE -o $INET_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
-
-        if [[ "$(ip r | grep $DMZ_IFACE)" != "" ]]; then
-            #     # echo "iptables -t nat -A POSTROUTING -s 10.0.$SRV_NUM.0/24 -o tun0 -j MASQUERADE"
-            echo "iptables -t nat -A POSTROUTING -o $DMZ_IFACE -j MASQUERADE"
-            echo "iptables -A INPUT -i $DMZ_IFACE -j ACCEPT"
-            echo "iptables -A FORWARD -i $DMZ_IFACE -j ACCEPT"
-            echo "iptables -A FORWARD -o $DMZ_IFACE -j ACCEPT"
-
-            # echo "iptables -A FORWARD -i $DMZ_IFACE -o $INET_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
-            # echo "iptables -A FORWARD -i $INET_IFACE -o $DMZ_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
-            # echo "iptables -A FORWARD -i $DMZ_IFACE -o $LAN_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
-            # echo "iptables -A FORWARD -i $LAN_IFACE -o $DMZ_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
-        fi
-
-        if [[ "$(ip r | grep $DMZ_IFACE)" != "" ]]; then
-            for address in $(--sys:env:nat); do
-                tcp=$(--sys:env:nat $address tcp)
-                udp=$(--sys:env:nat $address udp)
-
-                [[ -n $address ]] && [[ -n $tcp ]] && echo "iptables -t nat -A PREROUTING -p TCP -i $DMZ_IFACE -m multiport --dport $tcp -j DNAT --to-destination $address"
-                [[ -n $address ]] && [[ -n $udp ]] && echo "iptables -t nat -A PREROUTING -p UDP -i $DMZ_IFACE -m multiport --dport $udp -j DNAT --to-destination $address"
-
-                unset tcp udp
-            done
-        fi
 
         for address in $(--sys:env:nat); do
             tcp=$(--sys:env:nat $address tcp)

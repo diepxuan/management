@@ -6,7 +6,8 @@
 }
 
 --cron:cronjob:5min() {
-    --cloudflare:sync
+    # --cloudflare:sync
+    return 0
 }
 
 --cron:cronjob:hour() {
