@@ -19,7 +19,11 @@ _DUCTN_COMMANDS+=("gpg:export")
 
 _DUCTN_COMMANDS+=("gpg:import")
 --gpg:import() {
-    gpg --import public.gpg
-    gpg --import private.gpg
-    gpg --import-ownertrust trust.gpg
+    user=$(whoami)
+    pwd=$(eval echo "~$user")
+    [[ -n "$*" ]] && pwd=$1
+
+    gpg --import "$pwd/public.gpg"
+    gpg --import "$pwd/private.gpg"
+    gpg --import-ownertrust "$pwd/trust.gpg"
 }
