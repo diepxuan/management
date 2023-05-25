@@ -77,6 +77,10 @@ class VmController extends Controller
                 // "sudo csf -ra",
                 // "--sys:env:sync",
             ];
+
+            // Log::info($vm->vm_id);
+
+            $vm->dnsUpdate();
         }
 
         $vm->commands = [

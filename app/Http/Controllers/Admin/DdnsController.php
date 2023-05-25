@@ -1,7 +1,10 @@
 <?php
 
 /**
- * Copyright © DiepXuan, Ltd. All rights reserved.
+ * @copyright © 2023 DiepXuan. All rights reserved.
+ * @author Tran Ngoc Duc <caothu91@gmail.com>
+ *
+ * Created on Thu May 25 2023 12:30:14
  */
 
 namespace App\Http\Controllers\Admin;
@@ -30,27 +33,11 @@ class DdnsController extends Controller
     public function index(
         \App\Helpers\IpaddressHelper $ipaddressHelper,
         \App\Helpers\DomainHelper $domainHelper,
-        \App\Repositories\Dyndns\DdnsRepositoryInterface $ddnsRepository,
         string $hostname = null,
         string $ip = null
     ) {
-        $ddns = Ddns::get()->first();
-        $ipNew = $ip ?: $ipaddressHelper->client;
-        // $ipCurrent = gethostbyname($hostname);
-        // Log::debug($_SERVER);
-        // Log::debug($hostname);
-        // Log::debug($ipCurrent);
-        // Log::debug($ipNew);
-        // Log::debug($_SERVER['SERVER_ADDR']);
-        Log::debug($ddns);
-        // Log::debug(filter_var($hostname, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME));
-        // Log::debug($domainHelper->fqdnCheck($hostname));
-        // Log::debug(
-        // print_r($ddnsRepository->getService()->getZones(), true)
-        // );
+        $data['ddns']     = Ddns::all();
 
-        return view('admin/ddns/index', [
-            'data' => $ddns
-        ]);
+        return view('admin/ddns/index', $data);
     }
 }

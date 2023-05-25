@@ -6,6 +6,7 @@
 
 namespace App\Models\Admin;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
@@ -15,6 +16,13 @@ class Ddns extends Model
 {
     use HasFactory;
     use HasApiTokens;
+
+    const SERVICE_CF = 'CloudFlare';
+
+    protected $serviceMappings = [
+        // Add your other mappings here
+        self::SERVICE_CF => \App\Models\Admin\Ddns\Cloudflare::class
+    ];
 
     /**
      * The table associated with the model.
@@ -47,9 +55,7 @@ class Ddns extends Model
      *
      * @var array
      */
-    protected $attributes = [
-        'service' => 'CloudFlare'
-    ];
+    protected $attributes = [];
 
     /**
      * Indicates if the model should be timestamped.
@@ -58,92 +64,46 @@ class Ddns extends Model
      */
     public $timestamps = true;
 
-    private $zoneLst = [];
-    private $dnsLst = [];
-
-    public function userDetail($fields = null)
+    public function castAs(mixed $className = null)
     {
-        if (isset($fields) && !empty($fields) && null != $fields) {
-            return $this->curlRequest('/user', $fields, 'PATCH');
+        if ($className == null) {
+            $className = $this->serviceMappings[$this->service];
         }
 
-        return $this->curlRequest('/user');
-    }
+        if (class_exists($className)) {
+            // return new $className($this->toArray());
 
-    public function userBilling()
-    {
-        return $this->curlRequest('/user/billing/profile');
-    }
+            $model = (new $className())
+                ->newInstance([], true)
+                ->setRawAttributes($this->getAttributes());
 
-    public function userBillingHistory()
-    {
-        return $this->curlRequest('/user/billing/history');
-    }
+            // foreach ($this->getRelations() as $relation => $items) {
+            //     foreach ($items as $item) {
+            //         unset($item->id);
+            //         $model->{$relation}()->create($item->toArray());
+            //     }
+            // }
+            return $model;
 
-    public function userBillingApp()
-    {
-        return $this->curlRequest('/user/billing/subscriptions/apps');
-    }
 
-    public function userBillingAppZone()
-    {
-        return $this->curlRequest('/user/billing/subscriptions/zones');
-    }
 
-    public function dns($zone_identifier = '', $identifier = '')
-    {
-        if (isset($zone_identifier) && !empty($zone_identifier) && '' != $zone_identifier) {
-            if (isset($identifier) && !empty($identifier) && '' != $identifier) {
-                $dns_record = $this->curlRequest("/zones/{$zone_identifier}/dns_records/{$identifier}");
-                return [$dns_record->result->id => $dns_record->result];
-            }
-
-            $dns_records = $this->curlRequest("/zones/{$zone_identifier}/dns_records");
-            $dns_records = $dns_records->result;
-            $result = [];
-            foreach ($dns_records as $key => $dns_record) {
-                $identifier = $dns_record->id;
-                $result[$identifier] = $dns_record;
-            }
-
-            return $result;
+            return $className::findOr($this->id, function () {
+                return $this;
+            });
         }
-        $zones = $this->zone();
-        $this->zoneLst = $zones->result;
-        foreach ($this->zoneLst as $key => $zone) {
-            $zone_identifier = $zone->id;
-            $dnsLst = $this->dns($zone_identifier);
-            foreach ($dnsLst as $key => $dns) {
-                $this->dnsLst[$key] = $dns;
-            }
-        }
-
-        return $this->dnsLst;
+        return $this;
     }
 
     public function dnsUpdate($zone_identifier = null, $identifier = null, $content = null)
     {
-        return $this->curlRequest("/zones/{$zone_identifier}/dns_records/{$identifier}", $content, 'PATCH');
+        //
     }
 
-    public function run()
+    /**
+     * The vms that belong to the ddns.
+     */
+    public function vms(): BelongsToMany
     {
-        $this->zoneLst = $this->dns();
-        $results = [];
-        foreach ($this->zoneLst as $zone_identifier => $identifiers) {
-            foreach ($identifiers as $identifier => $fields) {
-                $_content_old = $fields->content;
-                $_content_new = urlencode(trim($this->getCurrentIp(), " \t\n\r\0\x0B"));
-                if ($_content_old != $_content_new) {
-                    $fields->content = $_content_new;
-                    $fields->data = new \stdClass();
-                    unset($fields->meta);
-                    $result = $this->curlRequest(sprintf('/zones/%s/dns_records/%s', $zone_identifier, $identifier), $fields, 'PUT');
-                    $results[$fields->name . '->' . $_content_old] = $result;
-                }
-            }
-        }
-
-        return $results;
+        return $this->belongsToMany(\App\Models\Sys\Vm::class, 'ddns_vm', 'ddns', 'vm');
     }
 }

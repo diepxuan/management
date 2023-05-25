@@ -66,7 +66,7 @@ class Api extends Model
     {
         if ($className == null) {
             $className = $this->type;
-            $className = ucfirst(strtolower($this->type));
+            $className = ucfirst(strtolower($className));
             $className = "\App\Models\Api\\$className";
         }
 
