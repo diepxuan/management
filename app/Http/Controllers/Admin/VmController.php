@@ -14,7 +14,8 @@ class VmController extends Controller
     public function index()
     {
         return view('admin/vm/index', [
-            'vms' => Vm::all()
+            'vms' => Vm::all(),
+            'DdnsLst' => \App\Models\Admin\Ddns::all(),
         ]);
     }
 
@@ -74,6 +75,7 @@ class VmController extends Controller
         $vm->is_allow   = $request->input("is_allow", $vm->is_allow);
         $vm->port       = $request->input("port", $vm->port);
         $vm->save();
+        $vm->ddnses()->sync($request->input("ddnses"));
 
         return redirect()->route("admin.vm.index");
     }

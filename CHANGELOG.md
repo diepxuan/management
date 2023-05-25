@@ -2,6 +2,7 @@
 
 - DDNS
   - CloudFlare load
+  - CloudFlare update `A record`
 
 # 0.1.3
 
