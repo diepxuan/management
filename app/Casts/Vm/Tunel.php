@@ -47,9 +47,12 @@ EOL;
 
         $allowIp = $vms->reject(function (Vm $vm) {
             return $vm->parent->name !== "none";
+        })->reject(function (Vm $vm) use ($model) {
+            return $vm->vm_id == $model->vm_id;
         })->map(function (Vm $vm, int $key) {
             return $vm->gw_subnet;
         })->merge($allowIp)->filter()->unique()->implode(",");
+
         $wg0 = $vms->reject(function (Vm $vm) {
             return $vm->parent->name !== "none";
         })->reject(function (Vm $vm) use ($model) {
