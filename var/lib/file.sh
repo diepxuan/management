@@ -3,5 +3,13 @@
 
 _DUCTN_COMMANDS+=("file:chmod")
 --file:chmod() {
-    stat -c "%a" $1
+    sudo stat -c "%a" $1
+}
+
+--file:chmod:files() {
+    sudo find $2 -type f -exec sudo chmod $1 {} \;
+}
+
+--file:chmod:dirs() {
+    sudo find $2 -type d -exec sudo chmod $1 {} \;
 }
