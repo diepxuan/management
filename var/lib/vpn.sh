@@ -41,7 +41,8 @@ WIREGUARD_KEYDIR=/etc/wireguard/keys
         fi
     fi
 
-    sudo chmod 644 $WIREGUARD_KEYDIR/*
+    --file:chmod:dirs 755 $WIREGUARD_KEYDIR
+    --file:chmod:files 644 $WIREGUARD_KEYDIR
 
     sudo cat $WIREGUARD_KEYDIR/server_private.key
     sudo cat $WIREGUARD_KEYDIR/server_public.key
