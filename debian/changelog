@@ -1,3 +1,10 @@
+ductn (3.1.11) focal; urgency=medium
+
+  * VM
+    - send wg_key to server
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Fri, 02 Jun 2023 11:17:03 +0700
+
 ductn (3.1.10) focal; urgency=medium
 
   * GPG
