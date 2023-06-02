@@ -41,11 +41,13 @@ class Port
         $value = array_replace(['tcp' => '', 'udp' => ''], $value);
 
         foreach ([self::PORTTCP, self::PORTUDP] as $type) {
-            $value[$type] = explode(',', $value[$type]);
+            $value[$type] = str_replace(" ", ",", $value[$type]);
+            $value[$type] = explode(",", $value[$type]);
             foreach ($value[$type] as $k => $v) {
                 $value[$type][$k] = trim($value[$type][$k]);
             }
             $value[$type] = array_unique($value[$type]);
+            $value[$type] = array_filter($value[$type]);
             $value[$type] = array_filter($value[$type]);
             sort($value[$type]);
             $value[$type] = implode(',', $value[$type]);

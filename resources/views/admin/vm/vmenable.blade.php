@@ -32,6 +32,9 @@
                 <td class="text-start">{{ $pri_host ?: '-' }}</td>
                 <td class="text-start">{{ $gateway ?: '-' }}</td>
                 <td class="text-end">{{ $version ?: '-' }}</td>
+                <td class="text-end">
+                    {{ $updated_at ? (new \Carbon\Carbon($updated_at))->format('Y-m-d H:i') : '-' }}
+                </td>
             </tr>
             <tr class="d-none" vmSetting="{{ $vm_id }}">
                 <td>{{ _('ddns') }}</td>

@@ -22,7 +22,7 @@ use Illuminate\Http\Request;
 Route::domain("admin.diepxuan.com")->group(function () {
 
     Route::middleware([
-        'guest',
+        // 'guest',
         ClearCache::class,
     ])->group(function () {
 

@@ -62,6 +62,7 @@ class Vm extends Model
      */
     protected $casts = [
         'csf'         => \App\Casts\Vm\Csf::class,
+        'csf_cluster' => \App\Casts\Vm\CsfCluster::class,
         'port'        => \App\Casts\Vm\Port::class,
         'portopen'    => \App\Casts\Vm\Portopen::class,
         'portforward' => \App\Casts\Vm\Portforward::class,
