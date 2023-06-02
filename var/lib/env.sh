@@ -91,17 +91,18 @@
 
 --sys:env:sync() {
     # new
-    --sys:env:sync_ domains sshdconfig
+    --sys:env:sync_ domains sshdconfig csf portforward
 
     # old
-    --sys:env:sync_ portforward tunel csf dhcp
+    --sys:env:sync_ tunel dhcp
 }
 
 --sys:env:sync_() {
     local _csf_config=0
     local vm_id=$(--host:fullname)
     for param in $@; do
-        sudo touch $ETC_PATH/$param && sudo chmod 644 $ETC_PATH/$param
+        sudo touch $ETC_PATH/$param
+        sudo chmod 644 $ETC_PATH/$param
 
         _new=$(--curl:get $BASE_URL/etc/$param/$vm_id?$RANDOM)
         _old=$(cat $ETC_PATH/$param)
