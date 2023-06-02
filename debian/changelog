@@ -1,3 +1,11 @@
+ductn (3.1.15) focal; urgency=medium
+
+  * ISSUES wg load conf
+    - stat: cannot stat '/etc/wireguard/keys': Permission denied
+    - chmod: cannot access '/etc/wireguard/keys/*': No such file or directory
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Fri, 02 Jun 2023 18:37:25 +0700
+
 ductn (3.1.14) focal; urgency=medium
 
   * ISSUES
