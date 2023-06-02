@@ -26,6 +26,9 @@ WIREGUARD_KEYDIR=/etc/wireguard/keys
 
 --vpn:wireguard:keygen() {
     [ ! -d $WIREGUARD_KEYDIR ] && sudo mkdir -p $WIREGUARD_KEYDIR
+    [[ $(--file:chmod $WIREGUARD_KEYDIR) == 755 ]] || sudo chmod 755 $WIREGUARD_KEYDIR
+
+    [[ $(--vpn:wireguard:is_exist) ]] || return
 
     if [ ! -f "$WIREGUARD_KEYDIR/server_private.key" ]; then
         wg genkey | sudo tee $WIREGUARD_KEYDIR/server_private.key | wg pubkey | sudo tee $WIREGUARD_KEYDIR/server_public.key >/dev/null
