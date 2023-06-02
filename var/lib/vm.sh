@@ -12,12 +12,14 @@ _vm:send() {
     local pub_host=$(--ip:wan)
     local version=$(--version)
     local wgkey=$(--vpn:wireguard:keygen)
+    local gateway=$(--ip:gateway && --ip:subnet)
 
     local vm_info=$(
         cat <<EOF
 {
     "pri_host":"$pri_host",
     "pub_host":"$pub_host",
+    "gateway":"$gateway",
     "version":"$version",
     "wg_key":"$wgkey"
 }
