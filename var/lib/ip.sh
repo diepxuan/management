@@ -57,6 +57,19 @@ ip_local=
     fi
 }
 
+--ip:subnet() {
+    # ip -4 a show $(--route:default) | awk '/inet/ {print $2}'
+    ip r | grep vmbr1 | awk '{print $1}'
+}
+
+--ip:netmask_old() {
+    c=0 x=0$(printf '%o' ${1//./ })
+    while [ $x -gt 0 ]; do
+        let c+=$((x % 2)) 'x>>=1'
+    done
+    echo /$c
+}
+
 # _DUCTN_COMMANDS+=("ip:check")
 --ip:check() {
     # Specify DNS server

@@ -75,7 +75,7 @@
 }
 
 --sys:env:vpn() {
-    cat $ETC_PATH/tunel
+    _sys:env:etc tunel
 }
 
 --sys:env:csf() {
@@ -91,10 +91,10 @@
 
 --sys:env:sync() {
     # new
-    --sys:env:sync_ domains sshdconfig csf portforward
+    --sys:env:sync_ domains sshdconfig csf portforward tunel
 
     # old
-    --sys:env:sync_ tunel dhcp
+    --sys:env:sync_ dhcp
 }
 
 --sys:env:sync_() {
@@ -105,11 +105,11 @@
         sudo chmod 644 $ETC_PATH/$param
 
         _new=$(--curl:get $BASE_URL/etc/$param/$vm_id?$RANDOM)
-        _old=$(cat $ETC_PATH/$param)
+        _old=$(_sys:env:etc $param)
         [[ -z $_new ]] && continue
         [[ $_old == $_new ]] && continue
 
-        echo "$_new" | sudo tee $ETC_PATH/$param >/dev/null
+        _sys:env:save $param "$_new"
 
         case $param in
 
@@ -134,6 +134,10 @@
             _sys:env:sshdconfig
             ;;
 
+        tunel)
+            --vpn:wireguard:reload
+            ;;
+
         *) ;;
         esac
 
@@ -145,6 +149,19 @@
 _sys:env:send() {
     return 0
     # --sys:env:sync
+}
+
+_sys:env:save() {
+    param=$1
+    value=$2
+
+    echo "$value" | sudo tee $ETC_PATH/$param >/dev/null
+}
+
+_sys:env:etc() {
+    param=$1
+
+    cat $ETC_PATH/$param >/dev/null
 }
 
 _sys:env:sshdconfig() {

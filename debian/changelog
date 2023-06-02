@@ -1,3 +1,12 @@
+ductn (3.1.13) focal; urgency=medium
+
+  * WireGuard
+    - send gateway to server
+    - get conf from server
+    - apply config and reload
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Fri, 02 Jun 2023 17:02:07 +0700
+
 ductn (3.1.12) focal; urgency=medium
 
   * ISSUES `wg:keygen` empty
