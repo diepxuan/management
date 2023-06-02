@@ -1,3 +1,10 @@
+# 0.1.5
+
+- VPN
+  - build wireguard config
+- CSF
+  - build list cluster ip to sync block/allow ips from vms
+
 # 0.1.4
 
 - DDNS

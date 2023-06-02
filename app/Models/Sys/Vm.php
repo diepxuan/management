@@ -39,6 +39,7 @@ class Vm extends Model
         'version',
         'is_allow',
         'port',
+        'wgkey',
     ];
 
     /**
@@ -66,6 +67,9 @@ class Vm extends Model
         'port'        => \App\Casts\Vm\Port::class,
         'portopen'    => \App\Casts\Vm\Portopen::class,
         'portforward' => \App\Casts\Vm\Portforward::class,
+        'tunel'       => \App\Casts\Vm\Tunel::class,
+        'wgkey'       => 'array',
+        'gateway'     => 'array',
     ];
 
     /**
@@ -144,6 +148,38 @@ class Vm extends Model
             $sshdConfig .= "\n";
         }
         $sshdConfig = trim($sshdConfig);
+    }
+
+    public function wgPri(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => array_replace(['', ''], $this->wgkey ?: [])[0],
+            // set: fn (mixed $value, array $attributes) => $value ?: Str::sanitizeString($attributes['name'])
+        );
+    }
+
+    public function wgPub(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => array_replace(['', ''], $this->wgkey ?: [])[1],
+            // set: fn (mixed $value, array $attributes) => $value ?: Str::sanitizeString($attributes['name'])
+        );
+    }
+
+    public function gwIp(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => array_replace(['', ''], $this->gateway ?: [])[0],
+            // set: fn (mixed $value, array $attributes) => $value ?: Str::sanitizeString($attributes['name'])
+        );
+    }
+
+    public function gwSubnet(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => array_replace(['', ''], $this->gateway ?: [])[1],
+            // set: fn (mixed $value, array $attributes) => $value ?: Str::sanitizeString($attributes['name'])
+        );
     }
 
     /**
