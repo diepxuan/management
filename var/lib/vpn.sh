@@ -47,6 +47,26 @@ WIREGUARD_KEYDIR=/etc/wireguard/keys
     sudo cat $WIREGUARD_KEYDIR/server_public.key
 }
 
+--vpn:wireguard:reload() {
+    wg-quick down $WIREGUARD_IFACE
+    sudo systemctl stop wg-quick@$WIREGUARD_IFACE
+
+    wg0=$(--sys:env:vpn)
+
+    if [[ -z "$wg0" ]]; then
+        sudo systemctl disable wg-quick@$WIREGUARD_IFACE
+        return
+    fi
+
+    echo "$wg0" | sudo tee $WIREGUARD_CONFIG >/dev/null
+
+    sudo systemctl enable wg-quick@$WIREGUARD_IFACE
+    sudo systemctl restart wg-quick@$WIREGUARD_IFACE
+    wg-quick up $WIREGUARD_IFACE
+
+    return
+}
+
 --vpn:openvpn:uninstall() {
     --sys:apt:remove openvpn
 }
