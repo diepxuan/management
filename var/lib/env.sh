@@ -161,7 +161,7 @@ _sys:env:save() {
 _sys:env:etc() {
     param=$1
 
-    cat $ETC_PATH/$param >/dev/null
+    cat $ETC_PATH/$param
 }
 
 _sys:env:sshdconfig() {
