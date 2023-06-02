@@ -1,3 +1,10 @@
+ductn (3.1.14) focal; urgency=medium
+
+  * ISSUES
+    - wg conf empty
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Fri, 02 Jun 2023 17:39:13 +0700
+
 ductn (3.1.13) focal; urgency=medium
 
   * WireGuard
