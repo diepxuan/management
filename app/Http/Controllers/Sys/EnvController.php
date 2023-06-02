@@ -132,6 +132,10 @@ social  C2:6E:9B:69:DD:C3 10.0.2.13",
                 return $vm->csf;
                 break;
 
+            case 'test':
+                return $vm->csf_cluster;
+                break;
+
             case 'sshdconfig':
                 $vms = \App\Models\Sys\Env\Ssh::all();
                 foreach ($vms as $vm) {

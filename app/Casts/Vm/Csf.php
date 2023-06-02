@@ -27,13 +27,15 @@ TCP_OUT = "1:65535"
 UDP_IN = "???"
 UDP_OUT = "1:65535"
 CC_DENY = "RU,NL,AU,IN,GB,CN,JP,HK"
-CLUSTER_SENDTO = "10.8.0.1,10.8.0.2,192.168.11.201,192.168.11.202,10.0.2.1,10.0.2.11,10.0.2.150,10.0.1.1,10.0.1.11,171.244.62.193,125.212.237.119"
-CLUSTER_RECVFROM = "10.8.0.1,10.8.0.2,192.168.11.201,192.168.11.202,10.0.2.1,10.0.2.11,10.0.2.150,10.0.1.1,10.0.1.11,171.244.62.193,125.212.237.119"
+CLUSTER_SENDTO = "???"
+CLUSTER_RECVFROM = "???"
 CUSTOM1_LOG = "/var/log/syslog"
 DYNDNS = "300"';
         $csf = Str::replaceArray('???', [
             $model->portopen['tcp'],
             $model->portopen['udp'],
+            $model->csf_cluster,
+            $model->csf_cluster,
         ], $csf);
         return $csf;
     }
