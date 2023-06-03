@@ -141,16 +141,7 @@ social  C2:6E:9B:69:DD:C3 10.0.2.13",
                 break;
 
             case 'sshdconfig':
-                $vms = \App\Models\Sys\Env\Ssh::all();
-                foreach ($vms as $vm) {
-                    $data .= "Host $vm->host\n";
-                    $data .= "  User ductn\n";
-                    $data .= "  HostName $vm->hostName\n";
-                    if ($vm->proxyJump)
-                        $data .= "  ProxyJump $vm->proxyJump\n";
-                    $data .= "\n";
-                }
-                $data = trim($data);
+                return $vm->sshd_config;
                 break;
 
             default:
