@@ -1,5 +1,10 @@
 # 0.1.6
 
+- ISSUES
+  - vpn client break sshdconfig
+
+# 0.1.6
+
 - VPN
   - build wireguard config for client
 

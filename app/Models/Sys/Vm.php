@@ -70,6 +70,7 @@ class Vm extends Model
         'tunel'       => \App\Casts\Vm\Tunel::class,
         'wgkey'       => 'array',
         'gateway'     => 'array',
+        'sshd_config' => \App\Casts\Vm\SshdConfig::class,
     ];
 
     /**
@@ -93,10 +94,10 @@ class Vm extends Model
      */
     protected $keyType = 'string';
 
-    public function getIsRootAttribute($is_root)
-    {
-        return $this->pri_host = $this->pub_host;
-    }
+    // public function getIsRootAttribute($is_root)
+    // {
+    //     return $this->pri_host = $this->pub_host;
+    // }
 
     public function getNameAttribute($name)
     {
@@ -134,20 +135,6 @@ class Vm extends Model
         }
         $domains = trim($domains);
         return $domains;
-    }
-
-    public function getSshdConfigAttribute($sshdConfig)
-    {
-        $vms = \App\Models\Sys\Env\Ssh::all();
-        foreach ($vms as $vm) {
-            $sshdConfig .= "Host $vm->host\n";
-            $sshdConfig .= "  User ductn\n";
-            $sshdConfig .= "  HostName $vm->hostName\n";
-            if ($vm->proxyJump)
-                $sshdConfig .= "  ProxyJump $vm->proxyJump\n";
-            $sshdConfig .= "\n";
-        }
-        $sshdConfig = trim($sshdConfig);
     }
 
     public function wgPri(): Attribute
@@ -215,5 +202,29 @@ class Vm extends Model
 
             $item->dnsUpdate(null, $identifier, $content);
         });
+    }
+
+    public function sshdHost(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => $this->name,
+            // set: fn (mixed $value, array $attributes) => $value ?: Str::sanitizeString($attributes['name'])
+        );
+    }
+
+    public function sshdHostName(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => $this->is_root ? $this->pub_host : collect(explode(' ', trim($this->pri_host)))->last(),
+            // set: fn (mixed $value, array $attributes) => $value ?: Str::sanitizeString($attributes['name'])
+        );
+    }
+
+    public function sshdProxyJump(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => $this->is_root ? "" : $this->parent->name,
+            // set: fn (mixed $value, array $attributes) => $value ?: Str::sanitizeString($attributes['name'])
+        );
     }
 }
