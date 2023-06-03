@@ -1,3 +1,9 @@
+ductn (3.1.16) focal; urgency=medium
+
+  * DHCP add pihole dns
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Sat, 03 Jun 2023 13:41:42 +0700
+
 ductn (3.1.15) focal; urgency=medium
 
   * ISSUES wg load conf
