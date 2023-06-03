@@ -36,28 +36,34 @@ Address = 10.10.$addr1.$addr2/31
 ListenPort = $listenPort
 EOL;
 
-        $vms = Vm::all();
+        $vms = Vm::all()->sortBy('id');
 
-        $allowIp = collect([
-            "10.10.0.0/30",
-            "10.10.0.0/31",
-            "10.10.$addr1.0/24",
-            "10.10.$addr1.0/31",
-        ]);
+        // $allowIp = collect([
+            // "10.10.0.0/30",
+            // "10.10.0.0/31",
+            // "10.10.$addr1.0/24",
+            // "10.10.$addr1.0/31",
+        // ]);
 
-        $allowIp = $vms->reject(function (Vm $vm) {
-            return $vm->parent->name !== "none";
-        })->reject(function (Vm $vm) use ($model) {
-            return $vm->vm_id == $model->vm_id;
-        })->map(function (Vm $vm, int $key) {
-            return $vm->gw_subnet;
-        })->merge($allowIp)->filter()->unique()->implode(",");
+        // $allowIp = $vms->reject(function (Vm $vm) {
+        //     return $vm->parent->name !== "none";
+        // })->reject(function (Vm $vm) use ($model) {
+        //     return $vm->vm_id == $model->vm_id;
+        // })->map(function (Vm $vm, int $key) {
+        //     return $vm->gw_subnet;
+        // })->merge($allowIp)->filter()->unique()->implode(",");
 
         $wg0 = $vms->reject(function (Vm $vm) {
             return $vm->parent->name !== "none";
         })->reject(function (Vm $vm) use ($model) {
             return $vm->vm_id == $model->vm_id;
-        })->map(function (Vm $vm, int $key) use ($allowIp, $listenPort) {
+        })->map(function (Vm $vm, int $key) use ($listenPort) {
+            $addr1 = floor($vm->id / 255);
+            $addr2 = $vm->id % 255;
+
+            $allowIp = collect(["10.10.$addr1.$addr2/31"])
+                ->push($vm->gw_subnet)
+                ->filter()->unique()->implode(",");
             return <<<EOL
 [Peer]
 # [$vm->id] $vm->vm_id
