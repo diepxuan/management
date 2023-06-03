@@ -51,7 +51,7 @@ host $vm_name {
 }
 _DHCPD_CONF="option domain-name \"diepxuan.com\";
 option domain-search \"diepxuan.com\";
-option domain-name-servers 1.1.1.1, 8.8.8.8;
+option domain-name-servers 171.244.62.193,1.1.1.1, 8.8.8.8;
 
 default-lease-time 600;
 max-lease-time 7200;
@@ -65,11 +65,11 @@ update-conflict-detection false;
 
 subnet 10.0.pve.0 netmask 255.255.255.0 {
     pool {
-        option domain-name-servers 1.1.1.1,10.0.1.10,10.0.2.10;
+        option domain-name-servers 171.244.62.193,1.1.1.1,10.0.1.10,10.0.2.10;
         range 10.0.pve.150 10.0.pve.199;
     }
 
-    option domain-name-servers 1.1.1.1,10.0.1.10,10.0.2.10;
+    option domain-name-servers 171.244.62.193,1.1.1.1,10.0.1.10,10.0.2.10;
 
     option routers 10.0.pve.1;
     option subnet-mask 255.255.255.0;
