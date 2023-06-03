@@ -74,6 +74,9 @@ class VmController extends Controller
         $vm->parent_id  = $request->input("parent_id", $vm->parent_id);
         $vm->is_allow   = $request->input("is_allow", $vm->is_allow);
         $vm->port       = $request->input("port", $vm->port);
+
+        $vm->wgkey      = $request->input("wg_key", $vm->wgkey);
+
         $vm->save();
         $vm->ddnses()->sync($request->input("ddnses"));
 

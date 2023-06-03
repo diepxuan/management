@@ -182,6 +182,22 @@ class Vm extends Model
         );
     }
 
+    public function isRoot(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => $this->parent->name == "none",
+            // set: fn (mixed $value, array $attributes) => $value ?: Str::sanitizeString($attributes['name'])
+        );
+    }
+
+    public function isWgActive(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => $this->wgkey != null && count($this->wgkey) >= 2 && !empty($this->wg_pri) && !empty($this->wg_pub),
+            // set: fn (mixed $value, array $attributes) => $value ?: Str::sanitizeString($attributes['name'])
+        );
+    }
+
     /**
      * The roles that belong to the ddns.
      */

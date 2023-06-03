@@ -93,6 +93,18 @@
                     </form>
                 </td>
             </tr>
+            <tr class="d-none" vmSetting="{{ $vm_id }}">
+                <td>{{ _('VPN key') }}</td>
+                <td class="text-end">
+                    <form class="d-block" method="post" action="{{ route('admin.vm.update', ['vm' => $vm_id]) }}">
+                        @method('PATCH') @csrf
+                        <input name="wg_key[]" class="form-control form-control-sm" onchange="this.form.submit()"
+                            value="{{ $vm->wg_pri }}" placeholder="pri key">
+                        <input name="wg_key[]" class="form-control form-control-sm" onchange="this.form.submit()"
+                            value="{{ $vm->wg_pub }}" placeholder="pub key">
+                    </form>
+                </td>
+            </tr>
         </table>
 
         <div vmClients="{{ $vm_id }}" class="d-block ps-5 pe-1 pb-1">

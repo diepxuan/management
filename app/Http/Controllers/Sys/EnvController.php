@@ -120,6 +120,10 @@ social  C2:6E:9B:69:DD:C3 10.0.2.13",
         switch ($env) {
             case 'domains':
                 return trim($vm->domains)
+                    . "\nwindows.net"
+                    . "\ndigicert.com"
+                    . "\nservicebus.windows.net"
+                    . "\nmsappproxy.net"
                     . "\nsecurity.ubuntu.com"
                     . "\nppa.launchpad.net";
                 break;

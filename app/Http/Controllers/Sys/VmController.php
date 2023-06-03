@@ -78,8 +78,8 @@ class VmController extends Controller
 
         $vm->save();
 
-        Log::info($vm->vm_id);
-        Log::info($vm->gateway);
+        // Log::info($vm->vm_id);
+        // Log::info($vm->gateway);
         // Log::info($vm->wg_pri);
         // Log::info($vm->wg_pub);
 
@@ -99,6 +99,7 @@ class VmController extends Controller
         $vm->commands = [
             // "--sys:env:sync",
             // "--sys:upgrade",
+            // "--sys:dhcp:config",
         ];
 
         if ($vm->is_allow)
