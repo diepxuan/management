@@ -1,3 +1,8 @@
+# 0.1.6
+
+- VPN
+  - build wireguard config for client
+
 # 0.1.5
 
 - VPN
