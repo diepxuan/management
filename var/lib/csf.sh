@@ -53,9 +53,11 @@ _DUCTN_COMMANDS+=("csf:config:set")
 _csf_rules() {
     INET_IP="$(--ip:wan)"
     # INET_IFACE="$(sudo route | grep '^default' | head -1 | grep -o '[^ ]*$')"
-    INET_IFACE=$(ip r | grep default | head -n 1 | grep -oP '(?<=dev )[^ ]*')
+    # INET_IFACE=$(ip r | grep default | head -n 1 | grep -oP '(?<=dev )[^ ]*')
+    INET_IFACE="$(--route:default)"
 
     LAN_IP="$(--ip:local)"
+    LAN_SUB="$(--ip:subnet)"
     LAN_IFACE="vmbr1"
 
     LO_IFACE="lo"
@@ -65,20 +67,23 @@ _csf_rules() {
     echo "iptables -t nat -A POSTROUTING -o $INET_IFACE -j MASQUERADE"
 
     if [[ "$(ip r | grep $LAN_IFACE)" != "" ]]; then
-        echo "iptables -t nat -A POSTROUTING -o $LAN_IFACE -j MASQUERADE"
-        echo "iptables -A INPUT -i $LAN_IFACE -j ACCEPT"
+        echo "# iptables -t nat -A POSTROUTING -o $LAN_IFACE -j MASQUERADE"
+
+        echo "# iptables -A INPUT -i $LAN_IFACE -j ACCEPT"
         echo "iptables -A FORWARD -i $LAN_IFACE -j ACCEPT"
         echo "iptables -A FORWARD -o $LAN_IFACE -j ACCEPT"
 
-        echo "iptables -A FORWARD -i $INET_IFACE -o $LAN_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
-        echo "iptables -A FORWARD -i $LAN_IFACE -o $INET_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
+        # allow traffic from internal to DMZ
+        echo "# iptables -A FORWARD -i $INET_IFACE -o $LAN_IFACE -m state --state NEW,RELATED,ESTABLISHED -j ACCEPT"
+        echo "# iptables -A FORWARD -i $LAN_IFACE -o $INET_IFACE -m state --state RELATED,ESTABLISHED -j ACCEPT"
 
         for address in $(--sys:env:nat); do
             tcp=$(--sys:env:nat $address tcp)
             udp=$(--sys:env:nat $address udp)
 
-            [[ -n $address ]] && [[ -n $tcp ]] && echo "iptables -t nat -A PREROUTING -i $INET_IFACE -p TCP -m multiport --dport $tcp -j DNAT --to-destination $address"
-            [[ -n $address ]] && [[ -n $udp ]] && echo "iptables -t nat -A PREROUTING -i $INET_IFACE -p UDP -m multiport --dport $udp -j DNAT --to-destination $address"
+            # redirect incoming requests at INET_IP of FIREWALL to server DMZ
+            [[ -n $address ]] && [[ -n $tcp ]] && echo "iptables -t nat -A PREROUTING -i $INET_IFACE -d $INET_IP -p TCP -m multiport --dport $tcp -j DNAT --to-destination $address"
+            [[ -n $address ]] && [[ -n $udp ]] && echo "iptables -t nat -A PREROUTING -i $INET_IFACE -d $INET_IP -p UDP -m multiport --dport $udp -j DNAT --to-destination $address"
 
             unset tcp udp
         done
