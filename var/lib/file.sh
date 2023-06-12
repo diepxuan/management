@@ -3,7 +3,8 @@
 
 _DUCTN_COMMANDS+=("file:chmod")
 --file:chmod() {
-    sudo stat -c "%a" $1
+    # sudo stat -c "%a" $1 2>/dev/null
+    stat -c "%a" $1 2>/dev/null
 }
 
 --file:chmod:files() {
