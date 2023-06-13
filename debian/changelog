@@ -1,3 +1,9 @@
+ductn (3.1.19) focal; urgency=medium
+
+  * Cloudflare remove DDNS local function, do DDNS by server
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 12 Jun 2023 12:10:52 +0700
+
 ductn (3.1.18) focal; urgency=medium
 
   * DMZ
