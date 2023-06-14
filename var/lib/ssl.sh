@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
+# dns_cloudflare_email   = email@example.com
+# dns_cloudflare_api_key = cloud_api
+CLFR_ACCESS=/etc/ductn/cloudflare
+
 _DUCTN_COMMANDS+=("ssl:install")
 --ssl:install() {
     sudo apt install software-properties-common -y --purge --auto-remove
@@ -13,10 +17,12 @@ _DUCTN_COMMANDS+=("ssl:install")
 }
 
 _DUCTN_COMMANDS+=("ssl:configure")
---ssl:configure() { --ssl:setup; }
+--ssl:configure() {
+    [[ -f $CLFR_ACCESS ]] || return
+    --ssl:setup
+}
 
 --ssl:setup() {
-
     #sudo certbot certonly --apache \
     #  --expand \
     #  --no-redirect \
@@ -40,6 +46,8 @@ _DUCTN_COMMANDS+=("ssl:configure")
 }
 
 --ssl:certbot() {
+
+    [[ -f $CLFR_ACCESS ]] || return
 
     sudo chmod 600 $CLFR_ACCESS
 

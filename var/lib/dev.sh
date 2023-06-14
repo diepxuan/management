@@ -17,7 +17,7 @@ _DUCTN_COMMANDS+=("dev:build")
     dpkg-buildpackage -S
 
     cd /var/www/
-    mv /var/www/ductn* /var/www/ppa/ 2>/dev/null
+    mv /var/www/ductn* /var/www/ppa/ductn/ 2>/dev/null
 
     _build_ppa
     _dput_ppa
@@ -38,7 +38,7 @@ _build_ppa() {
     cd /var/www/ppa/
 
     # Packages & Packages.gz
-    dpkg-scanpackages --multiversion . >Packages
+    dpkg-scanpackages --multiversion ./ductn >Packages
     gzip -k -f Packages
 
     # Release, Release.gpg & InRelease
@@ -57,7 +57,7 @@ _build_ppa() {
 
 _dput_ppa() {
     --echo "$TXTinfo last version: detecting"
-    local lastversion=$(ls /var/www/ppa/*source.changes | sort -V | tail -n 1)
+    local lastversion=$(ls /var/www/ppa/*/*source.changes | sort -V | tail -n 1)
     --echo "$TXTtrue last version: $lastversion"
     dput ductn-ppa $lastversion
 }
