@@ -1,0 +1,25 @@
+#!/usr/bin/env php
+<?php
+
+passthru('
+rm -rf build
+mkdir build
+cp -r bin/ src/ composer.json build/
+rm build/bin/build
+rm build/bin/phar-composer
+composer config -d build/ platform.php 7.4.3
+composer install -d build/ --no-dev
+
+cd build/vendor
+rm -rf */*/tests/ */*/src/tests/ */*/docs/ */*/*.md */*/composer.* */*/phpunit.* */*/.gitignore */*/.*.yml */*/*.xml
+cd - >/dev/null
+
+cd build/vendor/symfony/
+rm -rf */Symfony/Component/*/Tests/ */Symfony/Component/*/*.md */Symfony/Component/*/composer.* */Symfony/Component/*/phpunit.* */Symfony/Component/*/.gitignore
+cd - >/dev/null
+
+chmod +x bin/phar-composer
+bin/phar-composer build build/ ductn-cli
+chmod +x ductn-cli
+rm -rf build');
+exit;
