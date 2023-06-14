@@ -1,0 +1,48 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+// use Adamgoose\ForgeCli\Console\CakeCommand;
+// use Adamgoose\ForgeCli\Console\DaemonsCommand;
+// use Adamgoose\ForgeCli\Console\EnvCommand;
+// use Adamgoose\ForgeCli\Console\FirewallCommand;
+// use Adamgoose\ForgeCli\Console\GitCommand;
+// use Adamgoose\ForgeCli\Console\IpCommand;
+// use Adamgoose\ForgeCli\Console\JobsCommand;
+// use Adamgoose\ForgeCli\Console\KeysCommand;
+// use Adamgoose\ForgeCli\Console\MonitoringCommand;
+// use Adamgoose\ForgeCli\Console\SelfUpdateCommand;
+// use Adamgoose\ForgeCli\Console\SitesCommand;
+// use Adamgoose\ForgeCli\Console\Daemon\RestartCommand;
+// use Adamgoose\ForgeCli\Console\Daemon\StatusCommand;
+// use Adamgoose\ForgeCli\Console\Log\DaemonCommand;
+// use Adamgoose\ForgeCli\Console\Log\DeployCommand;
+// use Adamgoose\ForgeCli\Console\Log\JobCommand;
+use Symfony\Component\Console\Application;
+
+$application = new Application();
+
+$application->add(new DiepXuan\Console\ConfigCommand);
+$application->add(new DiepXuan\Console\CsfCommand);
+// $application->add(new DaemonsCommand);
+// $application->add(new EnvCommand);
+// $application->add(new FirewallCommand);
+// $application->add(new GitCommand);
+// $application->add(new IpCommand);
+// $application->add(new JobsCommand);
+// $application->add(new KeysCommand);
+// $application->add(new MonitoringCommand);
+// $application->add(new SelfUpdateCommand);
+// $application->add(new SitesCommand);
+
+// // Namespace: Daemon
+// $application->add(new RestartCommand);
+// $application->add(new StatusCommand);
+
+// // Namespace: Log
+// $application->add(new DaemonCommand);
+// $application->add(new DeployCommand);
+// $application->add(new JobCommand);
+
+$application->run();

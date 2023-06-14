@@ -1,0 +1,31 @@
+{
+  "name": "diepxuan/ductn-cli",
+  "description": "A CLI for Diepxyan Servers",
+  "require": {
+    "symfony/finder": "^5.4",
+    "symfony/console": "^5.4",
+    "symfony/filesystem": "^5.4",
+    "vlucas/phpdotenv": "^5.5"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Tran Ngoc Duc",
+      "email": "ductn@diepxuan.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "DiepXuan\\": "src/DiepXuan"
+    }
+  },
+  "bin": [
+    "bin/ductn-cli"
+  ],
+  "require-dev": {
+    "clue/phar-composer": "^1.4"
+  },
+  "scripts": {
+    "build": "@php bin/build"
+  }
+}
