@@ -1,0 +1,20 @@
+{
+  "resources/js/app.js": {
+    "file": "assets/app-3006a3d5.js",
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  },
+  "resources/scss/app.scss": {
+    "file": "assets/app-e5595bfd.css",
+    "isEntry": true,
+    "src": "resources/scss/app.scss"
+  },
+  "resources/scss/fonts/bootstrap-icons.woff": {
+    "file": "assets/bootstrap-icons-c6569d46.woff",
+    "src": "resources/scss/fonts/bootstrap-icons.woff"
+  },
+  "resources/scss/fonts/bootstrap-icons.woff2": {
+    "file": "assets/bootstrap-icons-966620f9.woff2",
+    "src": "resources/scss/fonts/bootstrap-icons.woff2"
+  }
+}
