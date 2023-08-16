@@ -29,8 +29,12 @@
     "clue/phar-composer": "^1.4"
   },
   "autoload": {
+    "exclude-from-classmap": [
+      "vendor\\symfony\\finder\\SplFileInfo.php"
+    ],
     "psr-4": {
       "App\\": "app/",
+      "Symfony\\Component\\Finder\\": "app/Overrides/Symfony/Component/Finder/",
       "Database\\Factories\\": "database/factories/",
       "Database\\Seeders\\": "database/seeders/"
     }
@@ -55,7 +59,9 @@
       "@php artisan key:generate --ansi"
     ],
     "build": [
-      "@php bin/build"
+      "chmod +x bin/build",
+      "bin/build",
+      "@php ductn-cli"
     ]
   },
   "extra": {
@@ -77,7 +83,7 @@
     }
   },
   "bin": [
-    "bin/ductn-cli"
+    "artisan"
   ],
   "prefer-stable": true
 }

@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/helper.php';
+
 /*
 |--------------------------------------------------------------------------
 | Create The Application

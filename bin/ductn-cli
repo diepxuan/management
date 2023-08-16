@@ -1,48 +1,59 @@
 #!/usr/bin/env php
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
+define('LARAVEL_START', microtime(true));
+define('DUCTN_CLI', true);
 
-// use Adamgoose\ForgeCli\Console\CakeCommand;
-// use Adamgoose\ForgeCli\Console\DaemonsCommand;
-// use Adamgoose\ForgeCli\Console\EnvCommand;
-// use Adamgoose\ForgeCli\Console\FirewallCommand;
-// use Adamgoose\ForgeCli\Console\GitCommand;
-// use Adamgoose\ForgeCli\Console\IpCommand;
-// use Adamgoose\ForgeCli\Console\JobsCommand;
-// use Adamgoose\ForgeCli\Console\KeysCommand;
-// use Adamgoose\ForgeCli\Console\MonitoringCommand;
-// use Adamgoose\ForgeCli\Console\SelfUpdateCommand;
-// use Adamgoose\ForgeCli\Console\SitesCommand;
-// use Adamgoose\ForgeCli\Console\Daemon\RestartCommand;
-// use Adamgoose\ForgeCli\Console\Daemon\StatusCommand;
-// use Adamgoose\ForgeCli\Console\Log\DaemonCommand;
-// use Adamgoose\ForgeCli\Console\Log\DeployCommand;
-// use Adamgoose\ForgeCli\Console\Log\JobCommand;
-use Symfony\Component\Console\Application;
+/*
+|--------------------------------------------------------------------------
+| Register The Auto Loader
+|--------------------------------------------------------------------------
+|
+| Composer provides a convenient, automatically generated class loader
+| for our application. We just need to utilize it! We'll require it
+| into the script here so that we do not have to worry about the
+| loading of any of our classes manually. It's great to relax.
+|
+*/
 
-$application = new Application();
+require __DIR__ . '/vendor/autoload.php';
 
-$application->add(new DiepXuan\Console\ConfigCommand);
-$application->add(new DiepXuan\Console\CsfCommand);
-// $application->add(new DaemonsCommand);
-// $application->add(new EnvCommand);
-// $application->add(new FirewallCommand);
-// $application->add(new GitCommand);
-// $application->add(new IpCommand);
-// $application->add(new JobsCommand);
-// $application->add(new KeysCommand);
-// $application->add(new MonitoringCommand);
-// $application->add(new SelfUpdateCommand);
-// $application->add(new SitesCommand);
+$app = require_once __DIR__ . '/bootstrap/app.php';
 
-// // Namespace: Daemon
-// $application->add(new RestartCommand);
-// $application->add(new StatusCommand);
+if (defined("DUCTN_CLI") && DUCTN_CLI) {
+    $app->loadEnvironmentFrom('ductn.conf');
+    $app->useEnvironmentPath('/etc/ductn');
+}
 
-// // Namespace: Log
-// $application->add(new DaemonCommand);
-// $application->add(new DeployCommand);
-// $application->add(new JobCommand);
+/*
+|--------------------------------------------------------------------------
+| Run The Artisan Application
+|--------------------------------------------------------------------------
+|
+| When we run the console application, the current CLI command will be
+| executed in this console and the response sent back to a terminal
+| or another output device for the developers. Here goes nothing!
+|
+*/
 
-$application->run();
+$kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+
+$status = $kernel->handle(
+    $input = new Symfony\Component\Console\Input\ArgvInput,
+    new Symfony\Component\Console\Output\ConsoleOutput
+);
+
+/*
+|--------------------------------------------------------------------------
+| Shutdown The Application
+|--------------------------------------------------------------------------
+|
+| Once Artisan has finished running, we will fire off the shutdown events
+| so that any final work may be done by the application before we shut
+| down the process. This is the last thing to happen to the request.
+|
+*/
+
+$kernel->terminate($input, $status);
+
+exit($status);
