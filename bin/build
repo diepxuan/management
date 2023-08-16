@@ -1,13 +1,11 @@
-#!/usr/bin/env php
-<?php
+#!/usr/bin/env bash
+#!/bin/bash
 
-passthru('
 rm -rf build
 mkdir build
-cp -r bin/ src/ composer.json build/
-rm build/bin/build
-rm build/bin/phar-composer
-composer config -d build/ platform.php 7.4.3
+cp -r app/ bootstrap/ config/ routes/ storage/ composer.json build/
+cp bin/ductn-cli build/artisan
+composer config -d build/ platform.php 8.1
 composer install -d build/ --no-dev
 
 cd build/vendor
@@ -18,8 +16,8 @@ cd build/vendor/symfony/
 rm -rf */Symfony/Component/*/Tests/ */Symfony/Component/*/*.md */Symfony/Component/*/composer.* */Symfony/Component/*/phpunit.* */Symfony/Component/*/.gitignore
 cd - >/dev/null
 
-chmod +x bin/phar-composer
-bin/phar-composer build build/ ductn-cli
-chmod +x ductn-cli
-rm -rf build');
-exit;
+# chmod +x bin/phar-composer
+# bin/phar-composer build build/ ductn-cli
+php -d phar.readonly=off bin/phar-composer build build/ ductn-cli
+# chmod +x ductn-cli
+rm -rf build

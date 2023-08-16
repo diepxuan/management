@@ -6,6 +6,7 @@ ductn_completion etc/bash_completion.d
 ductnd.service usr/lib/systemd/system
 
 etc/* etc/ductn
+.env.example etc/ductn/ductn.conf
 var/lib/*.sh var/lib/ductn
 
 var/lib/mysql/ssl/*.pem /etc/mysql/certs
