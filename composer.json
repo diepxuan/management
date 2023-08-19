@@ -1,13 +1,19 @@
 {
-  "name": "laravel/laravel",
+  "name": "diepxuan/ductn",
   "type": "project",
-  "description": "The Laravel Framework.",
+  "description": "Package for Diepxuan Servers",
+  "authors": [
+    {
+      "name": "Tran Ngoc Duc",
+      "email": "ductn@diepxuan.com"
+    }
+  ],
   "keywords": [
     "framework",
     "laravel"
   ],
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "0.1.8",
   "require": {
     "php": "^8",
     "diepxuan/laravel-cloudflare": "dev-main",
@@ -19,11 +25,16 @@
     "symfony/process": "^6.3"
   },
   "require-dev": {
-    "barryvdh/laravel-debugbar": "^3.7"
+    "barryvdh/laravel-debugbar": "^3.7",
+    "clue/phar-composer": "^1.4"
   },
   "autoload": {
+    "exclude-from-classmap": [
+      "vendor\\symfony\\finder\\SplFileInfo.php"
+    ],
     "psr-4": {
       "App\\": "app/",
+      "Symfony\\Component\\Finder\\": "app/Overrides/Symfony/Component/Finder/",
       "Database\\Factories\\": "database/factories/",
       "Database\\Seeders\\": "database/seeders/"
     }
@@ -46,6 +57,11 @@
     ],
     "post-create-project-cmd": [
       "@php artisan key:generate --ansi"
+    ],
+    "build": [
+      "chmod +x bin/build",
+      "bin/build",
+      "@php ductn"
     ]
   },
   "extra": {
@@ -66,6 +82,8 @@
       "php-http/discovery": true
     }
   },
-  "minimum-stability": "stable",
+  "bin": [
+    "artisan"
+  ],
   "prefer-stable": true
 }
