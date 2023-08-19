@@ -119,13 +119,7 @@ social  C2:6E:9B:69:DD:C3 10.0.2.13",
         $data = null;
         switch ($env) {
             case 'domains':
-                return trim($vm->domains)
-                    . "\nwindows.net"
-                    . "\ndigicert.com"
-                    . "\nservicebus.windows.net"
-                    . "\nmsappproxy.net"
-                    . "\nsecurity.ubuntu.com"
-                    . "\nppa.launchpad.net";
+                return trim($vm->domains);
                 break;
 
             case 'portforward':
@@ -164,7 +158,8 @@ drive   C6:F1:E9:AF:58:1C 10.0.1.12
 dc2     62:F0:9D:12:02:61 10.0.2.10
 sql2    16:13:D5:80:B3:58 10.0.2.11
 elastic	B6:56:68:1F:28:C4 10.0.2.12
-social  C2:6E:9B:69:DD:C3 10.0.2.13",
+social  C2:6E:9B:69:DD:C3 10.0.2.13
+surf    E6:AE:D7:B1:89:D4 10.0.2.14",
                 ])[$env];
                 break;
         }
