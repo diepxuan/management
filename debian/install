@@ -1,0 +1,13 @@
+ductn usr/bin
+ddev usr/bin
+m2 usr/bin
+
+ductn_completion etc/bash_completion.d
+ductnd.service usr/lib/systemd/system
+
+etc/* etc/ductn
+.env.example etc/ductn/ductn.conf
+var/lib/*.sh var/lib/ductn
+
+var/lib/mysql/ssl/*.pem /etc/mysql/certs
+var/lib/mysql/ssl/10-ssl.cnf /etc/mysql/conf.d
