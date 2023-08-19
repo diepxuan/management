@@ -1,9 +1,25 @@
+.idea
+.env
+
+**/debian/ductn.substvars
+**/debian/debhelper-build-stamp
+**/debian/files
+**/debian/patches
+**/debian/ductn
+**/debian/.debhelper
+**/.pc
+
+# **/*_amd64.build
+# **/*_amd64.buildinfo
+
+composer.lock
+
 /node_modules
 /public/hot
 /public/storage
 /storage/*.key
 /vendor
-/bin
+# /bin
 .env
 .env.backup
 .phpunit.result.cache
@@ -40,7 +56,7 @@ dist/
 # Maven
 target/
 dist/
-bin/
+# bin/
 
 # JetBrains IDE
 .idea/

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#!/bin/bash
+
+[[ -f /usr/bin/ductn ]] && ductn dev $@
+exit 0

@@ -8,9 +8,6 @@ indent_style = space
 indent_size = 4
 trim_trailing_whitespace = true
 
-[*.md]
-trim_trailing_whitespace = false
-
 [docker-compose.yml]
 indent_size = 4
 
@@ -20,6 +17,8 @@ indent_size = 2
 [CHANGELOG.md]
 indent_size = 2
 
+[*.md]
+trim_trailing_whitespace = false
 
 [*.{yml,yaml,json}]
 indent_size = 2
