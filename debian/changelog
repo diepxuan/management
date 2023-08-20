@@ -1,3 +1,16 @@
+ductn (3.2.1) focal; urgency=medium
+
+  * use require 8.1
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Sat, 19 Aug 2023 19:01:36 +0700
+
+ductn (3.2.0) focal; urgency=medium
+
+  * Rebuild app use PHP Laravel Framework
+  * use same source with Management Solution
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Sat, 19 Aug 2023 17:35:06 +0700
+
 ductn (3.1.19) focal; urgency=medium
 
   * Cloudflare remove DDNS local function, do DDNS by server

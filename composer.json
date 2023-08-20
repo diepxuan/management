@@ -60,8 +60,7 @@
     ],
     "build": [
       "chmod +x bin/build",
-      "bin/build",
-      "@php ductn"
+      "bin/build"
     ]
   },
   "extra": {
