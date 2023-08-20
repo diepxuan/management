@@ -19,5 +19,5 @@ cd - >/dev/null
 # chmod +x bin/phar-composer
 # bin/phar-composer build build/ ductn-cli
 php -d phar.readonly=off bin/phar-composer build build/ ductn
-chmod +x ductn
+# chmod +x ductn
 # rm -rf build
