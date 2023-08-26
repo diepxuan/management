@@ -30,11 +30,15 @@
   },
   "autoload": {
     "exclude-from-classmap": [
-      "vendor\\symfony\\finder\\SplFileInfo.php"
+      "vendor\\symfony\\finder\\SplFileInfo.php",
+      "vendor\\laravel\\framework\\src\\Illuminate\\Log\\LogManager.php",
+      "vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php",
+      "vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\LoadConfiguration.php"
     ],
     "psr-4": {
       "App\\": "app/",
-      "Symfony\\Component\\Finder\\": "app/Overrides/Symfony/Component/Finder/",
+      "Symfony\\": "app/Overrides/Symfony/",
+      "Illuminate\\": "app/Overrides/Illuminate/",
       "Database\\Factories\\": "database/factories/",
       "Database\\Seeders\\": "database/seeders/"
     }
