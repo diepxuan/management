@@ -1,3 +1,7 @@
+# 0.2.0
+
+- Build a single file executable
+
 # 0.1.7
 
 - ISSUES
