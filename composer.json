@@ -23,9 +23,6 @@
     "symfony/process": "^6.3",
     "diepxuan/system": "dev-main"
   },
-  "replace": {
-    "diepxuan/system": "self.version"
-  },
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.7",
     "clue/phar-composer": "^1.4"
@@ -38,7 +35,6 @@
       "App\\": "app/",
       "Symfony\\": "app/Overrides/Symfony/",
       "Illuminate\\": "app/Overrides/Illuminate/",
-      "Diepxuan\\": "src/Diepxuan/",
       "Database\\Factories\\": "database/factories/",
       "Database\\Seeders\\": "database/seeders/"
     }
@@ -81,6 +77,7 @@
       "diepxuan/laravel-framework": "source",
       "diepxuan/laravel-magento": "source",
       "diepxuan/laravel-cloudflare": "source",
+      "diepxuan/laravel-system": "source",
       "*": "dist"
     },
     "sort-packages": true,
