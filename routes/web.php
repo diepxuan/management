@@ -30,7 +30,6 @@ Route::domain("admin.diepxuan.com")->group(function () {
 
         Route::resources([
             'etc' => App\Http\Controllers\Sys\EnvController::class,
-            'vm' => App\Http\Controllers\Sys\VmController::class,
         ]);
     });
 
