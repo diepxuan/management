@@ -60,5 +60,13 @@ class CsfInstallCommand extends Command
             },
             false
         );
+
+        $this->task(
+            sprintf("  [i] Fix missing iptables for CSF command.", $csf->version),
+            function () use ($csf) {
+                return $csf->iptables();
+            },
+            false
+        );
     }
 }
