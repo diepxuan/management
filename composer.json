@@ -35,6 +35,7 @@
       "App\\": "app/",
       "Symfony\\": "app/Overrides/Symfony/",
       "Illuminate\\": "app/Overrides/Illuminate/",
+      "Diepxuan\\": "src/Diepxuan/",
       "Database\\Factories\\": "database/factories/",
       "Database\\Seeders\\": "database/seeders/"
     }
