@@ -39,13 +39,26 @@ class CsfInstallCommand extends Command
 
         if ($csf->isInstall) {
             $this->output->writeln(sprintf("  [i] CSF version <fg=green>%s</> installed.", $csf->version));
+            return 0;
         }
 
-        // Process::run(
-        //     'sudo csf -v',
-        //     function (string $type, string $output) {
-        //         $this->output->writeln(trim($output));
-        //     }
-        // );
+        $this->output->writeln("  [i] CSF not <fg=red>installed</>.");
+
+        $this->task(
+            sprintf("  [i] CSF version <fg=green>%s</> installed.", $csf->version),
+            function () {
+                return Process::pipe(
+                    function (Pipe $pipe) {
+                        $pipe->command('curl http://download.configserver.com/csf.tgz -o /tmp/ductn/csf.tgz');
+                        $pipe->command('tar -xzf /tmp/ductn/csf.tgz -C /tmp/ductn');
+                        $pipe->path('/tmp/ductn/csf')->command('sudo sh install.sh');
+                    },
+                    function (string $type, string $output) {
+                        $this->output->writeln(trim($output));
+                    }
+                );
+            },
+            false
+        );
     }
 }
