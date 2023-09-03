@@ -2,15 +2,10 @@
 
 namespace App\Console\Commands\Fw;
 
-use Symfony\Component\Console\Output\OutputInterface;
 use Diepxuan\System\ConfigServerSecurityFirewall as CSF;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Process;
-use Illuminate\Support\Facades\File;
-use Clue\PharComposer\Phar\Packager;
 use App\Console\Commands\Command;
 use Illuminate\Process\Pipe;
-use Illuminate\Support\Str;
 
 class CsfInstallCommand extends Command
 {
