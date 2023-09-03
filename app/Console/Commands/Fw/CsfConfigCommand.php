@@ -38,8 +38,14 @@ class CsfConfigCommand extends Command
             $this->call('app:csf:install');
         }
 
-        CSF::getConfigLst()->map(function ($config, $key) {
-            $this->output->writeln("$key $config");
+        $orgConfig = CSF::localConfig();
+        CSF::getConfigLst()->map(function ($val, $key) {
+            CSF::localConfig($key, $val);
         });
+        $newConfig = CSF::localConfig();
+
+        $configChanged = ($orgConfig !== $newConfig);
+        CSF::apply($configChanged);
+        // $this->output->writeln($newConfig);
     }
 }
