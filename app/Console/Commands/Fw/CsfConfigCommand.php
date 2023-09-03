@@ -45,6 +45,7 @@ class CsfConfigCommand extends Command
         $newConfig = CSF::localConfig();
 
         $configChanged = ($orgConfig !== $newConfig);
+        CSF::apply($configChanged);
         // $this->output->writeln($newConfig);
     }
 }
