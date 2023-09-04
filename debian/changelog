@@ -1,3 +1,13 @@
+ductn (3.2.4) focal; urgency=medium
+
+  * Command
+    - build
+    - package
+    - csf config sync
+    - csf rebuild iptables rules
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 04 Sep 2023 13:51:04 +0700
+
 ductn (3.2.3) focal; urgency=medium
 
   * BUILDER
