@@ -44,9 +44,7 @@
     "psr-4": {
       "Tests\\": "tests/"
     },
-    "files": [
-      "./bootstrap/helpers.php"
-    ]
+    "files": []
   },
   "scripts": {
     "post-autoload-dump": [
@@ -75,10 +73,9 @@
   "config": {
     "optimize-autoloader": true,
     "preferred-install": {
-      "diepxuan/laravel-framework": "source",
       "diepxuan/laravel-magento": "source",
       "diepxuan/laravel-cloudflare": "source",
-      "diepxuan/laravel-system": "source",
+      "diepxuan/system": "source",
       "*": "dist"
     },
     "sort-packages": true,
