@@ -44,9 +44,7 @@
     "psr-4": {
       "Tests\\": "tests/"
     },
-    "files": [
-      "./bootstrap/helpers.php"
-    ]
+    "files": []
   },
   "scripts": {
     "post-autoload-dump": [

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\File;
 use Clue\PharComposer\Phar\Packager;
 use App\Console\Commands\Command;
 use Illuminate\Process\Pipe;
+use Illuminate\Support\Str;
 
 class BuildCommand extends Command
 {
@@ -29,6 +30,7 @@ class BuildCommand extends Command
      * The binary file path.
      */
     private const BINARY_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'artisan';
+    private const HELPER_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'helpers.php';
 
     /**
      * The builder phar package.
@@ -66,7 +68,7 @@ class BuildCommand extends Command
         );
 
         $this->task(
-            '  Create <fg=green>build</> folder.',
+            'Create <fg=green>build</> folder.',
             function () use ($buildPath) {
                 File::makeDirectory($buildPath, 0755, true, true);
                 File::cleanDirectory($buildPath);
@@ -75,7 +77,7 @@ class BuildCommand extends Command
 
         foreach ($lstSrcPath as $s) {
             $this->task(
-                "  Copy source from <fg=green>$s</> to build folder.",
+                "Copy source from <fg=green>$s</> to build folder.",
                 function () use ($s) {
                     $source = base_path($s);
                     $target = $this->build_path($s);
@@ -88,14 +90,14 @@ class BuildCommand extends Command
         }
 
         $this->task(
-            "  Remove <fg=green>app:</> commands from build.",
+            "Remove <fg=green>app:build</> and <fg=green>app:package</> commands from build.",
             function () use ($s) {
                 File::deleteDirectory($this->build_path("app/Console/Commands/App/"));
             }
         );
 
         $this->task(
-            "  Copy <fg=green>artisan custom</> to build folder.",
+            "Copy <fg=green>artisan custom</> to build folder.",
             function () {
                 return File::copy(
                     static::BINARY_FILE,
@@ -105,19 +107,29 @@ class BuildCommand extends Command
         );
 
         $this->task(
-            "  Success process <fg=green>Composer install</> in build folder.",
+            "Copy <fg=green>helpers</> support phar.",
+            function () {
+                return File::copy(
+                    static::HELPER_FILE,
+                    $this->build_path('bootstrap/helpers.php')
+                );
+            }
+        );
+
+        $this->task(
+            "Success process <fg=green>Composer install</> in build folder.",
             function () use ($buildPath) {
                 return Process::path($buildPath)->run('composer install --no-dev', function (string $type, string $output) {
-                    $this->output->write($output);
+                    // $this->output->write($output);
                 });
             },
             false
         );
 
         $this->task(
-            "    Success build <fg=green>phar</> executable.",
+            "Success build <fg=green>phar</>.",
             function () {
-                $this->packager->setOutput($this->output);
+                $this->packager->setOutput($this->output->getOutput());
                 $this->packager->coerceWritable();
 
                 $pharer = $this->packager->getPharer($this->build_path());
@@ -126,8 +138,19 @@ class BuildCommand extends Command
             }
         );
 
+
         $this->task(
-            "  Cleanup build folder.",
+            "Make phar <fg=green>executable</>.",
+            function () {
+                return Process::run('chmod +x ductn', function (string $type, string $output) {
+                    $this->output->write($output);
+                });
+            },
+            false
+        );
+
+        $this->task(
+            "Cleanup build folder.",
             function () {
                 File::deleteDirectory($this->build_path());
             }
