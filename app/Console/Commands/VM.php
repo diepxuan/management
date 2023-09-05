@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\OperatingSystem as OS;
+use Diepxuan\System\OperatingSystem as OS;
 use Illuminate\Support\Facades\Log;
 use App\Models\Sys\Vm as Model;
 use Illuminate\Console\Command;
