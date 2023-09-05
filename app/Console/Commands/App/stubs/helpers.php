@@ -1,14 +1,25 @@
 <?php
 
+// rename_function('realpath', 'org_realpath');
+// override_function('realpath', '$path', 'return phar_realpath($path);');
+
+// uopz_function(DateTime::class, "aMethod", function ($arg) {
+//     return $arg;
+// });
+
+// uopz_function(DateTime::class, "aStaticMethod", function ($arg) {
+//     return $arg;
+// }, ZEND_ACC_STATIC);
+
 if (function_exists("runkit7_function_rename"))
     runkit7_function_rename('realpath', 'org_realpath');
 
 if (function_exists("runkit7_function_add"))
-    runkit7_function_add('realpath', '$path', 'return override_realpath($path);');
+    runkit7_function_add('realpath', '$path', 'return phar_realpath($path);');
 
-function override_realpath($path)
+
+function phar_realpath($path)
 {
-    // dd($path);
     $realpath = org_realpath($path);
     if ($realpath == false && file_exists($path)) {
         if (str_starts_with($path, 'phar://'))
@@ -35,14 +46,31 @@ if (function_exists("runkit7_method_redefine"))
             if (str_starts_with($logPath, 'phar://') || strpos($logPath, 'phar://') === 0)
                 $logPath = '/var/log/ductn.log';
 
-            $handler = new StreamHandler(
+            $handler = new \Monolog\Handler\StreamHandler(
                 $logPath,
                 $this->level(['level' => 'debug'])
             );
 
-            return new Logger(
-                new Monolog('laravel', $this->prepareHandlers([$handler])),
+            return new \Illuminate\Log\Logger(
+                new \Monolog\Logger('laravel', $this->prepareHandlers([$handler])),
                 $this->app['events']
             );
+        }
+    );
+
+if (function_exists("runkit7_method_add"))
+    runkit7_method_add(
+        $class_name = \Symfony\Component\Finder\SplFileInfo::class,
+        $method_name = 'getRealPath',
+        function () {
+            $realPath = parent::getRealPath();
+            $path = $this->getPathname();
+            if ($realPath == false && file_exists($path)) {
+                if (str_starts_with($path, 'phar://'))
+                    $realPath = $path;
+                if (strpos($path, 'phar://') === 0)
+                    $realPath = $path;
+            }
+            return $realPath;
         }
     );
