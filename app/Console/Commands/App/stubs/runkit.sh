@@ -2,6 +2,8 @@
 #!/bin/bash
 
 php_runkit() {
+    sudo pecl install runkit7-alpha
+
     EXTENSION="runkit7"
     MODS=$(find /etc/php/ -name "mods-available" -type d 2>/dev/null || echo '')
     for DIR in $MODS; do
@@ -14,6 +16,8 @@ runkit.internal_override=On
 EOF
         fi
     done
+
+    sudo phpenmod runkit7
 }
 
 php_runkit
