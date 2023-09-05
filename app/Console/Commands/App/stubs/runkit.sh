@@ -2,7 +2,7 @@
 #!/bin/bash
 
 php_runkit() {
-    sudo pecl install runkit7-alpha
+    pecl shell-test runkit7 || sudo pecl install runkit7-alpha
 
     EXTENSION="runkit7"
     MODS=$(find /etc/php/ -name "mods-available" -type d 2>/dev/null || echo '')
