@@ -17,8 +17,25 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
+php_runkit() {
+    EXTENSION="runkit7"
+    MODS=$(find /etc/php/ -name "mods-available" -type d 2>/dev/null || echo '')
+    for DIR in $MODS; do
+        if [ ! -f "${DIR}/${EXTENSION}.ini" ]; then
+            cat <<EOF | sudo tee "${DIR}/${EXTENSION}.ini" >/dev/null
+; configuration for pecl runkit7 module
+; priority=20
+extension=runkit7.so
+runkit.internal_override=On
+EOF
+        fi
+    done
+}
+
 case "$1" in
 configure)
+    php_runkit
+
     sudo systemctl daemon-reload
     sudo systemctl enable ductnd
     sudo systemctl start ductnd

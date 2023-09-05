@@ -28,14 +28,9 @@
     "clue/phar-composer": "^1.4"
   },
   "autoload": {
-    "exclude-from-classmap": [
-      "vendor\\symfony\\finder\\SplFileInfo.php"
-    ],
+    "exclude-from-classmap": [],
     "psr-4": {
       "App\\": "app/",
-      "Symfony\\": "app/Overrides/Symfony/",
-      "Illuminate\\": "app/Overrides/Illuminate/",
-      "Diepxuan\\": "src/Diepxuan/",
       "Database\\Factories\\": "database/factories/",
       "Database\\Seeders\\": "database/seeders/"
     }
@@ -73,9 +68,7 @@
   "config": {
     "optimize-autoloader": true,
     "preferred-install": {
-      "diepxuan/laravel-magento": "source",
-      "diepxuan/laravel-cloudflare": "source",
-      "diepxuan/system": "source",
+      "diepxuan/*": "source",
       "*": "dist"
     },
     "sort-packages": true,
