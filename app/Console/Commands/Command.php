@@ -40,15 +40,6 @@ abstract class Command extends BaseCommand
     public function title(string $title): Command
     {
         $this->output->title($title);
-        // $size = strlen($title);
-        // $spaces = str_repeat(' ', $size);
-
-        // $this->output->newLine();
-        // $this->output->writeln("<bg=blue;fg=white>$spaces$spaces$spaces</>");
-        // $this->output->writeln("<bg=blue;fg=white>$spaces$title$spaces</>");
-        // $this->output->writeln("<bg=blue;fg=white>$spaces$spaces$spaces</>");
-        // $this->output->newLine();
-
         return $this;
     }
 
