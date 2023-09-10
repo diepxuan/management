@@ -1,4 +1,11 @@
-=======
+ductn (3.2.7) focal; urgency=medium
+
+  * Depends missing
+    - enable swap
+    - restart service faild
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 10 Sep 2023 08:53:24 +0700
+
 ductn (3.2.6) focal; urgency=medium
 
   * Depends missing
