@@ -53,6 +53,7 @@ class run_as_service extends Command
         // $this->info(__METHOD__ . $this->timer[__FUNCTION__][1]);
         $exitCode = $this->call('vm:update');
         $exitCode = $this->call('app:csf:config');
+        $exitCode = $this->call('sys:service:valid');
     }
     protected function do_every_second()
     {
