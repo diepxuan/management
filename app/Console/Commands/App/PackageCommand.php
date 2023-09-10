@@ -111,7 +111,7 @@ class PackageCommand extends Command
                 );
                 $packagePath = Str::of($packagePath)->replace('_amd64.deb', '_source.changes');
                 // $this->output->writeln($packagePath);
-                return Process::path($ppaPath)->run(
+                return Process::path($ppaPath)->timeout(0)->run(
                     "dput ductn-ppa $packagePath",
                     function (string $type, string $output) {
                         $this->output->writeln(trim($output));
