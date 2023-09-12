@@ -9,7 +9,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Admin\Ddns;
+use Diepxuan\System\Service\Ddns;
 use Illuminate\Support\Facades\Log;
 
 class DdnsController extends Controller
