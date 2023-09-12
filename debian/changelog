@@ -1,3 +1,9 @@
+ductn (3.2.7.1) focal; urgency=medium
+
+  * auto-detect and restart service
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Tue, 12 Sep 2023 07:35:54 +0700
+
 ductn (3.2.7) focal; urgency=medium
 
   * Depends missing
