@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Sys\Vm;
+use Diepxuan\System\OperatingSystem\Vm;
+use Diepxuan\System\Service\Ddns;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -15,7 +16,7 @@ class VmController extends Controller
     {
         return view('admin/vm/index', [
             'vms' => Vm::all(),
-            'DdnsLst' => \App\Models\Admin\Ddns::all(),
+            'DdnsLst' => Ddns::all(),
         ]);
     }
 
