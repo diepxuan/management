@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Dyndns\Ddns;
+use Diepxuan\System\Service\Ddns;
 
 class DdnsSeeder extends Seeder
 {

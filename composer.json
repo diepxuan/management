@@ -16,12 +16,13 @@
   "require": {
     "diepxuan/laravel-cloudflare": "dev-main",
     "diepxuan/laravel-magento": "dev-master",
+    "diepxuan/laravel-command": "dev-main",
+    "diepxuan/system": "dev-main",
     "guzzlehttp/guzzle": "^7.2",
     "laravel/framework": "^10.0",
     "laravel/sanctum": "^3.2",
     "laravel/tinker": "^2.8",
-    "symfony/process": "^6.3",
-    "diepxuan/system": "dev-main"
+    "symfony/process": "^6.3"
   },
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.7",
@@ -54,10 +55,6 @@
     ],
     "post-create-project-cmd": [
       "@php artisan key:generate --ansi"
-    ],
-    "build": [
-      "chmod +x bin/build",
-      "bin/build"
     ]
   },
   "extra": {
