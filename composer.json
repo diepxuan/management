@@ -15,8 +15,9 @@
   "license": "MIT",
   "require": {
     "diepxuan/laravel-cloudflare": "dev-main",
+    "diepxuan/laravel-command": "dev-main",
     "diepxuan/laravel-magento": "dev-master",
-    "diepxuan/system": "dev-website",
+    "diepxuan/system": "dev-main",
     "guzzlehttp/guzzle": "^7.2",
     "laravel/framework": "^10.0",
     "laravel/sanctum": "^3.2",
