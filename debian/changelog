@@ -1,3 +1,9 @@
+ductn (3.2.7.2) focal; urgency=medium
+
+  * fix VM command
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 13 Sep 2023 16:49:01 +0700
+
 ductn (3.2.7.1) focal; urgency=medium
 
   * auto-detect and restart service

@@ -51,13 +51,14 @@ class run_as_service extends Command
     protected function do_every_minute()
     {
         // $this->info(__METHOD__ . $this->timer[__FUNCTION__][1]);
-        $exitCode = $this->call('vm:update');
-        $exitCode = $this->call('app:csf:config');
-        $exitCode = $this->call('sys:service:valid');
+
+        $this->call('vm:update');
+        $this->call('app:csf:config');
+        $this->call('sys:service:valid');
     }
     protected function do_every_second()
     {
         // $this->info(__METHOD__ . $this->timer[__FUNCTION__][1]);
-        // $exitCode = Artisan::call('vm:update');
+        // Artisan::call('vm:update');
     }
 }
