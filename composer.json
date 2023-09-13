@@ -14,9 +14,11 @@
   ],
   "license": "MIT",
   "require": {
+    "ext-runkit7": "*",
+    "ext-xml": "*",
     "diepxuan/laravel-cloudflare": "dev-main",
-    "diepxuan/laravel-magento": "dev-master",
     "diepxuan/laravel-command": "dev-main",
+    "diepxuan/laravel-magento": "dev-master",
     "diepxuan/system": "dev-main",
     "guzzlehttp/guzzle": "^7.2",
     "laravel/framework": "^10.0",
