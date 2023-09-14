@@ -16,6 +16,7 @@
   "require": {
     "ext-runkit7": "*",
     "ext-xml": "*",
+    "ext-mysqli": "*",
     "diepxuan/laravel-cloudflare": "dev-main",
     "diepxuan/laravel-command": "dev-main",
     "diepxuan/laravel-magento": "dev-master",
