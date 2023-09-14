@@ -1,3 +1,10 @@
+ductn (3.2.7.4) focal; urgency=medium
+
+  * fix security for connect to mysql database
+  * fix package multi-depends
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Thu, 14 Sep 2023 14:50:40 +0700
+
 ductn (3.2.7.3) focal; urgency=medium
 
   * fix realpath function in phar
