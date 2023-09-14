@@ -1,3 +1,9 @@
+ductn (3.2.7.3) focal; urgency=medium
+
+  * fix realpath function in phar
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 13 Sep 2023 23:18:13 +0700
+
 ductn (3.2.7.2) focal; urgency=medium
 
   * fix VM command
