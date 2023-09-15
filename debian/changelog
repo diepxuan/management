@@ -1,3 +1,9 @@
+ductn (3.2.7.5) focal; urgency=medium
+
+  * Service schedule timming and call command timer
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Fri, 15 Sep 2023 11:17:50 +0700
+
 ductn (3.2.7.4) focal; urgency=medium
 
   * fix security for connect to mysql database
