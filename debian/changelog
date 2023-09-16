@@ -1,3 +1,10 @@
+ductn (3.2.7.6) focal; urgency=medium
+
+  * CSF
+    - allow all ips from vms
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Sat, 16 Sep 2023 09:25:27 +0700
+
 ductn (3.2.7.5) focal; urgency=medium
 
   * Service schedule timming and call command timer
