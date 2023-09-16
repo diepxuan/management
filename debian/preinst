@@ -13,8 +13,24 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
+apt_repository_valid() {
+    sudo add-apt-repository ppa:ondrej/php -y >/dev/null
+
+    isExists=$(grep -r "deb http://ppa.launchpad.net/ondrej/php/ubuntu" /etc/apt/sources.list /etc/apt/sources.list.d/)
+    [[ ! -z isExists ]] && sudo apt update && return
+
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys CF8545DBEDD9351A
+    cat <<EOF | sudo tee /etc/apt/sources.list.d/ondrej-ubuntu-php-focal.list >/dev/null
+deb http://ppa.launchpad.net/ondrej/php/ubuntu focal main
+# deb-src http://ppa.launchpad.net/ondrej/php/ubuntu focal main
+EOF
+    sudo apt update
+}
+
 case "$1" in
 install | upgrade)
+    apt_repository_valid
+
     [ -f /usr/lib/systemd/system/ductnd.service ] && sudo systemctl stop ductnd
     [ -f /usr/lib/systemd/system/ductn-iptables.service ] && sudo systemctl stop ductn-iptables
     ;;
