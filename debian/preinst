@@ -14,7 +14,7 @@ set -e
 # the debian-policy package
 
 apt_repository_valid() {
-    sudo add-apt-repository ppa:ondrej/php -y >/dev/null
+    [[ ! -z $(command -v csf add-apt-repository) ]] && sudo add-apt-repository ppa:ondrej/php -y >/dev/null
 
     isExists=$(grep -r "deb http://ppa.launchpad.net/ondrej/php/ubuntu" /etc/apt/sources.list /etc/apt/sources.list.d/)
     [[ ! -z isExists ]] && sudo apt update && return
