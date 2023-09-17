@@ -6,11 +6,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\File;
 use Clue\PharComposer\Phar\Packager;
-use App\Console\Commands\Command;
+use Diepxuan\Command\Commands\Command as CommandsCommand;
 use Illuminate\Process\Pipe;
 use Illuminate\Support\Str;
 
-class BuildCommand extends Command
+class BuildCommand extends CommandsCommand
 {
     /**
      * The name and signature of the console command.
@@ -62,10 +62,6 @@ class BuildCommand extends Command
             'routes',
             'composer.json',
         ];
-
-        $this->title(
-            sprintf('Building %s Application', config('app.name'))
-        );
 
         $this->task(
             'Create <fg=green>build</> folder.',
@@ -137,7 +133,6 @@ class BuildCommand extends Command
                 $pharer->build();
             }
         );
-
 
         $this->task(
             "Make phar <fg=green>executable</>.",
