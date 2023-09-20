@@ -1,8 +1,9 @@
-ductn (3.2.8) focal; urgency=medium
+ductn (3.2.8.1) focal; urgency=medium
 
-  * fix package install in pve
+  * DDNS
+    - sync ddns when vm saving
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 17 Sep 2023 16:57:25 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 20 Sep 2023 13:51:12 +0700
 
 ductn (3.2.7.9) focal; urgency=medium
 

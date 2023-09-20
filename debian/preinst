@@ -13,26 +13,8 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
-apt_repository_valid() {
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C || wget https://diepxuan.github.io/ppa/key.pgp /usr/share/keyrings/ductn-keyring.gpg
-
-    isExists=$(command -v add-apt-repository)
-    [ ! -z $isExists ] && add-apt-repository ppa:ondrej/php -y >/dev/null
-
-    isExists=$(grep -r "deb http://ppa.launchpad.net/ondrej/php/ubuntu" /etc/apt/sources.list /etc/apt/sources.list.d/)
-    [ ! -z $isExists ] && apt update && return 0
-
-    cat <<EOF | tee /etc/apt/sources.list.d/ondrej-ubuntu-php-focal.list >/dev/null
-deb [signed-by=/usr/share/keyrings/ductn-keyring.gpg] http://ppa.launchpad.net/ondrej/php/ubuntu focal main
-# deb-src [signed-by=/usr/share/keyrings/ductn-keyring.gpg] http://ppa.launchpad.net/ondrej/php/ubuntu focal main
-EOF
-    apt update
-}
-
 case "$1" in
 install | upgrade)
-    # apt_repository_valid
-
     [ -f /usr/lib/systemd/system/ductnd.service ] && sudo systemctl stop ductnd
     [ -f /usr/lib/systemd/system/ductn-iptables.service ] && sudo systemctl stop ductn-iptables
     ;;
