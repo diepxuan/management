@@ -27,12 +27,6 @@ class BuildCommand extends CommandsCommand
     protected $description = 'Build a single app executable';
 
     /**
-     * The binary file path.
-     */
-    private const BINARY_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'artisan';
-    private const HELPER_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'helpers.php';
-
-    /**
      * The builder phar package.
      *
      * @var Packager
@@ -60,6 +54,7 @@ class BuildCommand extends CommandsCommand
             'bootstrap',
             'config',
             'routes',
+            'artisan',
             'composer.json',
         ];
 
@@ -89,26 +84,6 @@ class BuildCommand extends CommandsCommand
             "Remove <fg=green>app:build</> and <fg=green>app:package</> commands from build.",
             function () use ($s) {
                 File::deleteDirectory($this->build_path("app/Console/Commands/App/"));
-            }
-        );
-
-        $this->task(
-            "Copy <fg=green>artisan custom</> to build folder.",
-            function () {
-                return File::copy(
-                    static::BINARY_FILE,
-                    $this->build_path('artisan')
-                );
-            }
-        );
-
-        $this->task(
-            "Copy <fg=green>helpers</> support phar.",
-            function () {
-                return File::copy(
-                    static::HELPER_FILE,
-                    $this->build_path('bootstrap/helpers.php')
-                );
             }
         );
 

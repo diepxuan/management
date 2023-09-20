@@ -17,14 +17,37 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
+apt_repository_valid() {
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
+
+    isExists=$(command -v add-apt-repository)
+    [ ! -z $isExists ] && add-apt-repository ppa:ondrej/php -y >/dev/null
+
+    isExists=$(grep -r "deb http://ppa.launchpad.net/ondrej/php/ubuntu" /etc/apt/sources.list /etc/apt/sources.list.d/)
+    [ ! -z $isExists ] && apt update && return 0
+
+    cat <<EOF | tee /etc/apt/sources.list.d/ondrej-ubuntu-php-focal.list >/dev/null
+deb [signed-by=/usr/share/keyrings/ductn-keyring.gpg] http://ppa.launchpad.net/ondrej/php/ubuntu focal main
+# deb-src [signed-by=/usr/share/keyrings/ductn-keyring.gpg] http://ppa.launchpad.net/ondrej/php/ubuntu focal main
+EOF
+    apt update
+}
+
+php_81() {
+    isExists=$(grep -r "deb http://ppa.launchpad.net/ondrej/php/ubuntu" /etc/apt/sources.list /etc/apt/sources.list.d/)
+    [ ! -z $isExists ] && add-apt-repository ppa:ondrej/php -y
+    # apt update
+    apt install php8.1-cli php8.1-xml php8.1-dev -y
+}
+
 php_runkit() {
-    pecl shell-test runkit7 || sudo pecl install runkit7-alpha
+    pecl shell-test runkit7 || pecl install runkit7-alpha
 
     EXTENSION="runkit7"
     MODS=$(find /etc/php/ -name "mods-available" -type d 2>/dev/null || echo '')
     for DIR in $MODS; do
         if [ ! -f "${DIR}/${EXTENSION}.ini" ]; then
-            cat <<EOF | sudo tee "${DIR}/${EXTENSION}.ini" >/dev/null
+            cat <<EOF | tee "${DIR}/${EXTENSION}.ini" >/dev/null
 ; configuration for pecl runkit7 module
 ; priority=20
 extension=runkit7.so
@@ -33,12 +56,13 @@ EOF
         fi
     done
 
-    sudo phpenmod runkit7
+    phpenmod runkit7
 }
 
 case "$1" in
 configure)
-    php_runkit
+    # php_81
+    # php_runkit
 
     sudo systemctl daemon-reload
     sudo systemctl enable ductnd

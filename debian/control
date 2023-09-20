@@ -12,7 +12,7 @@ Package: ductn
 Architecture: any
 Depends: ${misc:Depends},
     net-tools, jq, curl, bash-completion, openssl, unzip,
-    apt-transport-https,
+    apt-transport-https, software-properties-common,
     mariadb-client | mysql-client,
     libwww-perl, perl,
     php-pear,
