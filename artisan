@@ -2,6 +2,7 @@
 <?php
 
 define('LARAVEL_START', microtime(true));
+define('DUCTNCLI', \Phar::running() != "");
 
 /*
 |--------------------------------------------------------------------------
@@ -15,9 +16,14 @@ define('LARAVEL_START', microtime(true));
 |
 */
 
-require __DIR__.'/vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/bootstrap/helpers.php';
 
-$app = require_once __DIR__.'/bootstrap/app.php';
+$app = require_once __DIR__ . '/bootstrap/app.php';
+if (\Phar::running() != "") {
+    $app->loadEnvironmentFrom('ductn.conf');
+    $app->useEnvironmentPath('/etc/ductn');
+}
 
 /*
 |--------------------------------------------------------------------------
