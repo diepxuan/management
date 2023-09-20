@@ -105,7 +105,7 @@ class PackageCommand extends Command
             );
         });
 
-        $this->ask('Do you want to push package to packagist (y/N)', 'y', function ($answer) use ($ppaPath) {
+        $this->ask('Do you want to push package to packagist (y/N)', 'n', function ($answer) use ($ppaPath) {
             if (!Str::of($answer)->isMatch('/[yY]/'))
                 return;
 

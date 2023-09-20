@@ -11,6 +11,8 @@
 //     return $arg;
 // }, ZEND_ACC_STATIC);
 
+if (\Phar::running() == "") return;
+
 if (!function_exists('absolutepath')) {
     function phar_absolutepath($path)
     {
