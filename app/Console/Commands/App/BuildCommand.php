@@ -27,12 +27,6 @@ class BuildCommand extends CommandsCommand
     protected $description = 'Build a single app executable';
 
     /**
-     * The binary file path.
-     */
-    private const BINARY_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'artisan';
-    private const HELPER_FILE = __DIR__ . DIRECTORY_SEPARATOR . 'stubs' . DIRECTORY_SEPARATOR . 'helpers.php';
-
-    /**
      * The builder phar package.
      *
      * @var Packager
@@ -60,6 +54,7 @@ class BuildCommand extends CommandsCommand
             'bootstrap',
             'config',
             'routes',
+            'artisan',
             'composer.json',
         ];
 
@@ -93,26 +88,6 @@ class BuildCommand extends CommandsCommand
         );
 
         $this->task(
-            "Copy <fg=green>artisan custom</> to build folder.",
-            function () {
-                return File::copy(
-                    static::BINARY_FILE,
-                    $this->build_path('artisan')
-                );
-            }
-        );
-
-        $this->task(
-            "Copy <fg=green>helpers</> support phar.",
-            function () {
-                return File::copy(
-                    static::HELPER_FILE,
-                    $this->build_path('bootstrap/helpers.php')
-                );
-            }
-        );
-
-        $this->task(
             "Success process <fg=green>Composer install</> in build folder.",
             function () use ($buildPath) {
                 return Process::path($buildPath)->run('composer install --no-dev', function (string $type, string $output) {
@@ -129,7 +104,7 @@ class BuildCommand extends CommandsCommand
                 $this->packager->coerceWritable();
 
                 $pharer = $this->packager->getPharer($this->build_path());
-                $pharer->setTarget('ductn');
+                $pharer->setTarget('ductn.phar');
                 $pharer->build();
             }
         );
@@ -137,7 +112,7 @@ class BuildCommand extends CommandsCommand
         $this->task(
             "Make phar <fg=green>executable</>.",
             function () {
-                return Process::run('chmod +x ductn', function (string $type, string $output) {
+                return Process::run('chmod +x ductn.phar', function (string $type, string $output) {
                     $this->output->write($output);
                 });
             },
