@@ -3,8 +3,10 @@ ductn (3.2.8.1) focal; urgency=medium
   * DDNS
     - sync ddns when vm saving
     - install package missing from application
+    - add missing php apt repository when pre-install package
+    - add missing php-extension runkit7 when post-install package
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Thu, 21 Sep 2023 06:28:33 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 24 Sep 2023 00:51:15 +0700
 
 ductn (3.2.7.9) focal; urgency=medium
 
