@@ -1,4 +1,5 @@
 /ductn
+/ductn.phar
 
 .idea
 .env
@@ -21,7 +22,7 @@ composer.lock
 /public/storage
 /storage/*.key
 /vendor
-# /bin
+/bin
 .env
 .env.backup
 .phpunit.result.cache
