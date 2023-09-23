@@ -18,7 +18,11 @@ Depends: ${misc:Depends},
     libwww-perl, perl,
     composer,
     php-pear,
-    (php8.1-cli and php8.1-xml and php8.1-dev and php8.1-curl and php8.1-mysql) | (php8.2-cli and php8.2-xml and php8.2-dev and php8.2-curl and php8.2-mysql)
+    php8.1-cli | php8.2-cli,
+    php8.1-xml | php8.2-xml,
+    php8.1-dev | php8.2-dev,
+    php8.1-curl | php8.2-curl,
+    php8.1-mysql | php8.2-mysql,
 Description: DiepXuan super package
     Private package for DiepXuan Co.,Ltd
     Building by Tran Ngoc Duc
