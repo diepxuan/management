@@ -6,25 +6,6 @@ BIN=ductn.phar
 
 [[ ! $(whoami) -eq 'ductn' ]] && exit 1
 
-__php_ppa() {
-    # Kiem tra repository da ton tai chua
-    sudo grep -r "ondrej/php/ubuntu" /etc/apt/sources.list /etc/apt/sources.list.d/*.list >/dev/null 2>&1 && return
-
-    command -v add-apt-repository >/dev/null 2>&1 && (
-        # Neu command add-apt-repository ton tai thi su dung
-        sudo add-apt-repository ppa:ondrej/php -y
-    ) || (
-        # Neu khong co, tao repository thu cong
-        cat <<EOF | sudo tee /etc/apt/sources.list.d/ondrej-ubuntu-php-focal.list >/dev/null &&
-deb http://ppa.launchpad.net/ondrej/php/ubuntu focal main
-# deb-src http://ppa.launchpad.net/ondrej/php/ubuntu focal main
-EOF
-            sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
-    )
-
-    sudo apt update
-}
-
 __pecl() {
     sudo pecl $*
     return
@@ -64,16 +45,19 @@ __php_alternatives() {
     selected=$(sudo update-alternatives --get-selections | grep /usr/bin/php | awk '{print $3}' | head -n 1 | sed 's|/usr/bin/php||g')
     mod=$(sudo update-alternatives --get-selections | grep /usr/bin/php | awk '{print $2}' | head -n 1 | sed 's|/usr/bin/php||g')
 
-    [[ "$mode" == "auto" ]] &&
-        sudo update-alternatives --auto phpize >/dev/null 2>&1 ||
-        sudo update-alternatives --set phpize /usr/bin/phpize$selected >/dev/null 2>&1
+    sudo update-alternatives --set phpize /usr/bin/phpize$selected >/dev/null 2>&1
+    [[ "$mode" == "auto" ]] && sudo update-alternatives --auto phpize >/dev/null 2>&1
 
-    [[ "$mode" == "auto" ]] &&
-        sudo update-alternatives --auto php-config >/dev/null 2>&1 ||
-        sudo update-alternatives --set php-config /usr/bin/php-config$selected >/dev/null 2>&1
+    sudo update-alternatives --set php-config /usr/bin/php-config$selected >/dev/null 2>&1
+    [[ "$mode" == "auto" ]] && sudo update-alternatives --auto php-config >/dev/null 2>&1
+
+    sudo update-alternatives --set phar /usr/bin/phar$selected >/dev/null 2>&1
+    [[ "$mode" == "auto" ]] && sudo update-alternatives --auto phar >/dev/null 2>&1
+
+    sudo update-alternatives --set phar.phar /usr/bin/phar.phar$selected >/dev/null 2>&1
+    [[ "$mode" == "auto" ]] && sudo update-alternatives --auto phar.phar >/dev/null 2>&1
 }
 
-__php_ppa
 __php_alternatives
 __php_ext_runkit7
 
