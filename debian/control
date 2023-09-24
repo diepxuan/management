@@ -16,13 +16,8 @@ Depends: ${misc:Depends},
     apt-transport-https,
     mariadb-client | mysql-client,
     libwww-perl, perl,
-    composer,
     php-pear,
-    php8.1-cli | php8.2-cli,
-    php8.1-xml | php8.2-xml,
-    php8.1-dev | php8.2-dev,
-    php8.1-curl | php8.2-curl,
-    php8.1-mysql | php8.2-mysql,
+    php-cli (>= 8.1), php-xml (>= 8.1), php-dev (>= 8.1), php-curl (>= 8.1), php-mysql (>= 8.1)
 Description: DiepXuan super package
     Private package for DiepXuan Co.,Ltd
     Building by Tran Ngoc Duc
