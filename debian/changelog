@@ -2,8 +2,10 @@ ductn (3.2.8.2) focal; urgency=medium
 
   * Database
     - catch error
+    - runkit7 fix pecl ext installed but php mod was not enable
+  * fix missing phar path.
 
- -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 24 Sep 2023 12:41:03 +0700
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 24 Sep 2023 14:23:09 +0700
 
 ductn (3.2.8.1) focal; urgency=medium
 
