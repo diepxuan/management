@@ -69,5 +69,17 @@ __php_alternatives() {
 __php_alternatives
 __php_ext_runkit7
 
-which $BIN >/dev/null && php $(which $BIN) $* || php $BIN $*
+if [[ ! "$*" == "run_as_service" ]]; then
+    which $BIN >/dev/null && php $(which $BIN) $*
+else
+    while true; do
+        # echo "run_as_service"
+        which $BIN >/dev/null && php $(which $BIN) $*
+        sleep 1
+    done
+fi
+
+# Use exec to replace the current script process with a new one
+# exec "$0"
+
 exit 0
