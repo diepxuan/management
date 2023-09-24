@@ -34,15 +34,19 @@ __pecl() {
     done
 }
 
-__php_ext_runkit7() {
+__php_pecl_runkit7() {
     [[ -z $(pecl shell-test runkit7 2>&1) ]] && return
+
+    __pecl uninstall runkit7-alpha
+    __pecl install runkit7-alpha
+}
+
+__php_ext_runkit7() {
+    __php_pecl_runkit7
     php -m | grep runkit7 >/dev/null 2>&1 && return
 
     EXTENSION="runkit7"
     MODS=$(find /etc/php/ -name "mods-available" -type d 2>/dev/null || echo '')
-
-    __pecl uninstall runkit7-alpha
-    __pecl install runkit7-alpha
     for DIR in $MODS; do
         if [ ! -f "${DIR}/${EXTENSION}.ini" ]; then
             cat <<EOF | sudo tee "${DIR}/${EXTENSION}.ini" >/dev/null
@@ -78,15 +82,12 @@ __SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 [[ -f $__SCRIPT_DIR/$BIN ]] && BIN=$__SCRIPT_DIR/$BIN
 [[ -f $__SCRIPT_DIR/artisan ]] && BIN=$__SCRIPT_DIR/artisan
 
-if [[ ! "$*" == "run_as_service" ]]; then
+while true; do
+    # echo "run_as_service"
     php $BIN $*
-else
-    while true; do
-        # echo "run_as_service"
-        php $BIN $*
-        sleep 1
-    done
-fi
+    [[ ! "$*" =~ "run_as_service" ]] && exit 0
+    sleep 1
+done
 
 # Use exec to replace the current script process with a new one
 # exec "$0"
