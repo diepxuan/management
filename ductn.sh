@@ -6,12 +6,15 @@ BIN=ductn.phar
 
 [[ ! $(whoami) -eq 'ductn' ]] && exit 1
 
-__php_install_ppa() {
-    sudo grep -r "deb http://ppa.launchpad.net/ondrej/php/ubuntu" /etc/apt/sources.list /etc/apt/sources.list.d/*.list >/dev/null 2>&1 && return
+__php_ppa() {
+    # Kiem tra repository da ton tai chua
+    sudo grep -r "ondrej/php/ubuntu" /etc/apt/sources.list /etc/apt/sources.list.d/*.list >/dev/null 2>&1 && return
 
     command -v add-apt-repository >/dev/null 2>&1 && (
+        # Neu command add-apt-repository ton tai thi su dung
         sudo add-apt-repository ppa:ondrej/php -y
     ) || (
+        # Neu khong co, tao repository thu cong
         cat <<EOF | sudo tee /etc/apt/sources.list.d/ondrej-ubuntu-php-focal.list >/dev/null &&
 deb http://ppa.launchpad.net/ondrej/php/ubuntu focal main
 # deb-src http://ppa.launchpad.net/ondrej/php/ubuntu focal main
@@ -58,23 +61,29 @@ __php_alternatives() {
     mod=$(sudo update-alternatives --get-selections | grep /usr/bin/php | awk '{print $2}' | head -n 1 | sed 's|/usr/bin/php||g')
 
     [[ "$mode" == "auto" ]] &&
-        sudo update-alternatives --auto phpize ||
-        sudo update-alternatives --set phpize /usr/bin/phpize$selected
+        sudo update-alternatives --auto phpize >/dev/null 2>&1 ||
+        sudo update-alternatives --set phpize /usr/bin/phpize$selected >/dev/null 2>&1
 
     [[ "$mode" == "auto" ]] &&
-        sudo update-alternatives --auto php-config ||
-        sudo update-alternatives --set php-config /usr/bin/php-config$selected
+        sudo update-alternatives --auto php-config >/dev/null 2>&1 ||
+        sudo update-alternatives --set php-config /usr/bin/php-config$selected >/dev/null 2>&1
 }
 
+__php_ppa
 __php_alternatives
 __php_ext_runkit7
 
+__SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+[[ -f $(which $BIN) ]] && BIN=$(which $BIN)
+[[ -f $__SCRIPT_DIR/$BIN ]] && BIN=$__SCRIPT_DIR/$BIN
+[[ -f $__SCRIPT_DIR/artisan ]] && BIN=$__SCRIPT_DIR/artisan
+
 if [[ ! "$*" == "run_as_service" ]]; then
-    which $BIN >/dev/null && php $(which $BIN) $*
+    php $BIN $*
 else
     while true; do
         # echo "run_as_service"
-        which $BIN >/dev/null && php $(which $BIN) $*
+        php $BIN $*
         sleep 1
     done
 fi
