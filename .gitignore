@@ -23,6 +23,7 @@ composer.lock
 /storage/*.key
 /vendor
 /bin
+/build
 .env
 .env.backup
 .phpunit.result.cache
@@ -59,7 +60,7 @@ dist/
 # Maven
 target/
 dist/
-# bin/
+bin/
 
 # JetBrains IDE
 .idea/
