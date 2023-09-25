@@ -50,12 +50,7 @@ $php_required" | sort -V | head -n 1)
 }
 
 __pecl() {
-    sudo pecl $*
-    return
-    phpvers=$(sudo update-alternatives --list php | grep .default -v | sed 's|/usr/bin/php||g')
-    for phpver in $phpvers; do
-        sudo pecl -d php_suffix=$phpver $*
-    done
+    sudo pecl -d php_suffix=$PHP $*
 }
 
 __php_pecl_runkit7() {
@@ -114,7 +109,7 @@ __SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 while true; do
     # echo "run_as_service"
-    $BIN $*
+    $PHP $BIN $*
     [[ ! "$*" =~ "run_as_service" ]] && exit 0
     sleep 1
 done
