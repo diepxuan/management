@@ -1,3 +1,11 @@
+ductn (3.2.8.6) focal; urgency=medium
+
+  * ISSUES
+    - xml module was not enabled
+    - selected php version failed
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 25 Sep 2023 18:30:59 +0700
+
 ductn (3.2.8.5) focal; urgency=medium
 
   * ISSUES
