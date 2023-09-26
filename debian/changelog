@@ -1,3 +1,56 @@
+ductn (3.2.8.6) focal; urgency=medium
+
+  * ISSUES
+    - xml module was not enabled
+    - selected php version failed
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 25 Sep 2023 18:30:59 +0700
+
+ductn (3.2.8.5) focal; urgency=medium
+
+  * ISSUES
+    - fix apt depends loading
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 25 Sep 2023 13:40:51 +0700
+
+ductn (3.2.8.4) focal; urgency=medium
+
+  * ISSUES
+    - fix apt depends loading
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 25 Sep 2023 13:30:24 +0700
+
+ductn (3.2.8.3) focal; urgency=medium
+
+  * PHP update depends (>= 8.1)
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 24 Sep 2023 15:58:57 +0700
+
+ductn (3.2.8.2) focal; urgency=medium
+
+  * Database
+    - catch error
+    - runkit7 fix pecl ext installed but php mod was not enable
+  * fix missing phar path.
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 24 Sep 2023 14:23:09 +0700
+
+ductn (3.2.8.1) focal; urgency=medium
+
+  * DDNS
+    - sync ddns when vm saving
+    - install package missing from application
+    - add missing php apt repository when pre-install package
+    - add missing php-extension runkit7 when post-install package
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 24 Sep 2023 00:51:15 +0700
+
+ductn (3.2.7.9) focal; urgency=medium
+
+  * fix add-apt-repository: command not found
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 17 Sep 2023 16:52:55 +0700
+
 ductn (3.2.7.8) focal; urgency=medium
 
   * fix Depend

@@ -1,4 +1,5 @@
 /ductn
+/ductn.phar
 
 .idea
 .env
@@ -21,7 +22,8 @@ composer.lock
 /public/storage
 /storage/*.key
 /vendor
-# /bin
+/bin
+/build
 .env
 .env.backup
 .phpunit.result.cache
@@ -58,7 +60,7 @@ dist/
 # Maven
 target/
 dist/
-# bin/
+bin/
 
 # JetBrains IDE
 .idea/
