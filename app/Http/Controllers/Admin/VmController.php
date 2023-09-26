@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use Diepxuan\System\OperatingSystem\Vm;
 use Diepxuan\System\Service\Ddns;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 
 class VmController extends Controller
@@ -79,7 +81,7 @@ class VmController extends Controller
         $vm->wgkey      = $request->input("wg_key", $vm->wgkey);
 
         $vm->save();
-        $vm->ddnses()->sync($request->input("ddnses"));
+        $vm->ddnses()->sync(Arr::where($request->input("ddnses", []), fn ($value) => !Str::of($value)->is('none')));
 
         return redirect()->route("admin.vm.index");
     }
