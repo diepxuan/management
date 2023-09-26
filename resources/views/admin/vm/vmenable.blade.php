@@ -43,6 +43,7 @@
                         @method('PATCH') @csrf
                         <select name="ddnses[]" onchange="this.form.submit()" multiple
                             class="form-select form-select-sm" aria-label=".form-select-sm">
+                            <option selected value="none">none</option>
                             @foreach ($DdnsLst as $_ddns)
                                 <option value="{{ $_ddns->id }}"
                                     {{ !in_array($_ddns->id, $vm->ddnses->pluck('id')->all()) ?: 'selected' }}>
