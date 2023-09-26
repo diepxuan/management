@@ -1,4 +1,5 @@
 ductn usr/bin
+ductn.phar usr/bin
 
 # ductn_completion etc/bash_completion.d
 ductnd.service usr/lib/systemd/system
