@@ -11,6 +11,9 @@
 //     return $arg;
 // }, ZEND_ACC_STATIC);
 
+if (\Phar::running() == "") return;
+if (!extension_loaded('runkit7')) return;
+
 if (!function_exists('absolutepath')) {
     function phar_absolutepath($path)
     {

@@ -33,7 +33,7 @@ class PackageCommand extends Command
      */
     public function handle()
     {
-        $this->ask('Do you want to build app executable before create package (y/N)', 'y', function ($answer) {
+        $this->ask('Do you want to build app libraries before create package (y/N)', 'y', function ($answer) {
             if (Str::of($answer)->isMatch('/[yY]/')) {
                 $this->call('app:build');
             }
@@ -46,6 +46,19 @@ class PackageCommand extends Command
                 $log = File::get(base_path('debian/changelog'));
                 $log = preg_replace('/<ductn@diepxuan.com>  .*/', "<ductn@diepxuan.com>  $date", $log, 1);
                 File::put(base_path('debian/changelog'), $log);
+            }
+        );
+
+        $this->task(
+            '  [i] Build <fg=green>app executable</>',
+            function () {
+                Process::run(
+                    // 'shc -o ductn -f ductn.sh',
+                    'cp ductn.sh ductn',
+                    function (string $type, string $output) {
+                        $this->output->writeln(trim($output));
+                    }
+                );
             }
         );
 
