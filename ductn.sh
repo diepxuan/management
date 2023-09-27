@@ -30,7 +30,7 @@ __php_path_get() {
 
 __php_path_install() {
     __php_path_ppa >/dev/null
-    sudo apt install -y php$php_required-cli php$php_required-xml php$php_required-dev php$php_required-curl php$php_required-mysql >/dev/null
+    sudo apt install -y php$php_required-cli php$php_required-xml php$php_required-dev php$php_required-curl php$php_required-mysql php$php_required-mbstring >/dev/null
     echo $(__php_path_get)
 }
 
