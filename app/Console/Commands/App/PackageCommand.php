@@ -11,6 +11,7 @@ use Symfony\Component\Finder\Finder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Process\Pipe;
+use Illuminate\Process\Pool;
 
 class PackageCommand extends Command
 {
@@ -52,9 +53,17 @@ class PackageCommand extends Command
         $this->task(
             '  [i] Build <fg=green>app executable</>',
             function () {
-                Process::run(
-                    // 'shc -o ductn -f ductn.sh',
-                    'cp ductn.sh ductn',
+                $source = base_path('ductn.sh');
+                $target = base_path('ductn');
+                File::copy($source, $target);
+            }
+        );
+
+        $this->task(
+            '  [i] Build <fg=green>package</> success',
+            function () {
+                Process::timeout(0)->run(
+                    'dpkg-buildpackage',
                     function (string $type, string $output) {
                         $this->output->writeln(trim($output));
                     }
@@ -63,13 +72,10 @@ class PackageCommand extends Command
         );
 
         $this->task(
-            '  [i] Build package and source <fg=green>success</>',
+            '  [i] Build <fg=green>source</> success',
             function () {
-                Process::pipe(
-                    function (Pipe $pipe) {
-                        $pipe->command('dpkg-buildpackage');
-                        $pipe->command('dpkg-buildpackage -S');
-                    },
+                Process::timeout(0)->run(
+                    'dpkg-buildpackage -S',
                     function (string $type, string $output) {
                         $this->output->writeln(trim($output));
                     }
@@ -99,15 +105,15 @@ class PackageCommand extends Command
             $this->task(
                 "  [i] Create <fg=green>Packages</>, <fg=green>Release</> file in ppa folder.",
                 function () use ($ppaPath) {
-                    return Process::pipe(
-                        function (Pipe $pipe) use ($ppaPath) {
-                            $pipe->path($ppaPath)->command('dpkg-scanpackages --multiversion ./ductn >Packages');
-                            $pipe->path($ppaPath)->command('gzip -k -f Packages');
-                            $pipe->path($ppaPath)->command('apt-ftparchive release . >Release');
-                            $pipe->path($ppaPath)->command('gpg --default-key "ductn@diepxuan.com" -abs -o - Release >Release.gpg');
-                            $pipe->path($ppaPath)->command('gpg --default-key "ductn@diepxuan.com" --clearsign -o - Release >InRelease');
-                            $pipe->path($ppaPath)->command('git add -A');
-                            $pipe->path($ppaPath)->command('git commit -m update');
+                    return Process::pool(
+                        function (Pool $pool) use ($ppaPath) {
+                            $pool->timeout(0)->path($ppaPath)->command('dpkg-scanpackages --multiversion ./ductn >Packages');
+                            $pool->timeout(0)->path($ppaPath)->command('gzip -k -f Packages');
+                            $pool->timeout(0)->path($ppaPath)->command('apt-ftparchive release . >Release');
+                            $pool->timeout(0)->path($ppaPath)->command('gpg --default-key "ductn@diepxuan.com" -abs -o - Release >Release.gpg');
+                            $pool->timeout(0)->path($ppaPath)->command('gpg --default-key "ductn@diepxuan.com" --clearsign -o - Release >InRelease');
+                            $pool->timeout(0)->path($ppaPath)->command('git add -A');
+                            $pool->timeout(0)->path($ppaPath)->command('git commit -m update');
                         },
                         function (string $type, string $output) {
                             $this->output->writeln(trim($output));
@@ -125,21 +131,19 @@ class PackageCommand extends Command
             $this->task(
                 "  [i] Put <fg=green>Packages</> to ppa success.",
                 function () use ($ppaPath) {
-                    $packagePath = null;
-                    Process::path($ppaPath)->run(
-                        'dpkg-scanpackages ductn/ 2>/dev/null | grep "Filename:"',
-                        function (string $type, string $output) use (&$packagePath) {
-                            $packagePath = trim(str_replace('Filename: ', '', trim($output)));
-                        }
-                    );
-                    $packagePath = Str::of($packagePath)->replace('_amd64.deb', '_source.changes');
-                    // $this->output->writeln($packagePath);
-                    return Process::path($ppaPath)->timeout(0)->run(
-                        "dput ductn-ppa $packagePath",
-                        function (string $type, string $output) {
-                            $this->output->writeln(trim($output));
-                        }
-                    );
+                    $packagePath = Process::path($ppaPath)
+                        ->run(
+                            'dpkg-scanpackages ductn/ 2>/dev/null | grep "Filename:" | sed "s|Filename: ||g"'
+                        )->output();
+                    $packagePath = Str::of($packagePath)->trim()
+                        ->replace('_amd64.deb', '_source.changes')
+                        ->explode("\n")
+                        ->map(fn ($package) => Process::path($ppaPath)->timeout(0)->run(
+                            "dput ductn-ppa $package",
+                            function (string $type, string $output) {
+                                $this->output->writeln(trim($output));
+                            }
+                        ));
                 },
                 false
             );

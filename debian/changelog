@@ -1,3 +1,11 @@
+ductn (3.2.8.7+ubuntu20.04.5-1) focal; urgency=medium
+
+  * ISSUES
+    - fix check csf installed
+    - check dev-resource and load
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Sat, 30 Sep 2023 23:35:43 +0700
+
 ductn (3.2.8.6) focal; urgency=medium
 
   * ISSUES
