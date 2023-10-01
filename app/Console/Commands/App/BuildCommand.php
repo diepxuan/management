@@ -90,9 +90,12 @@ class BuildCommand extends CommandsCommand
         $this->task(
             "Success process <fg=green>Composer install</> in build folder.",
             function () use ($buildPath) {
-                return Process::path($buildPath)->run('composer install --no-dev', function (string $type, string $output) {
-                    // $this->output->write($output);
-                });
+                return Process::path($buildPath)->timeout(0)->run(
+                    'composer install --no-dev',
+                    function (string $type, string $output) {
+                        $this->output->write($output);
+                    }
+                );
             },
             false
         );
@@ -103,9 +106,9 @@ class BuildCommand extends CommandsCommand
                 $this->packager->setOutput($this->output->getOutput());
                 $this->packager->coerceWritable();
 
-                $pharer = $this->packager->getPharer($this->build_path());
-                $pharer->setTarget('ductn.phar');
-                $pharer->build();
+                $this->packager->getPharer($this->build_path())
+                    ->setTarget('ductn.phar')
+                    ->build();
             }
         );
 

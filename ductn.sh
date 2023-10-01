@@ -8,6 +8,11 @@ php_required=8.1
 
 [[ ! $(whoami) -eq 'ductn' ]] && exit 1
 
+if [[ ! $(realpath $0) == '/var/www/base/ductn.sh' && -f /var/www/base/ductn.sh ]]; then
+    bash /var/www/base/ductn.sh $*
+    exit
+fi
+
 __php_path_ppa() {
     sudo grep -r "deb http://ppa.launchpad.net/ondrej/php/ubuntu" /etc/apt/sources.list /etc/apt/sources.list.d/*.list >/dev/null 2>&1 && return
 
@@ -56,7 +61,7 @@ __pecl() {
 __php_pecl_runkit7() {
     [[ -z $(pecl shell-test runkit7 2>&1) ]] && return
 
-    __pecl uninstall runkit7-alpha
+    __pecl uninstall runkit7
     __pecl install runkit7-alpha
 }
 
@@ -99,17 +104,18 @@ __php_alternatives() {
 }
 
 PHP=$(__php_path)
-__php_alternatives
-__php_ext_runkit7
+# __php_alternatives
+# __php_ext_runkit7
 
 __SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-[[ -f $(which $BIN) ]] && BIN=$(which $BIN)
-[[ -f $__SCRIPT_DIR/$BIN ]] && BIN=$__SCRIPT_DIR/$BIN
-[[ -f $__SCRIPT_DIR/artisan ]] && BIN=$__SCRIPT_DIR/artisan
+[[ -f $(which $BIN) ]] && __BIN=$(which $BIN)
+[[ -f $__SCRIPT_DIR/$BIN ]] && __BIN=$__SCRIPT_DIR/$BIN
+[[ -f $__SCRIPT_DIR/artisan ]] && __BIN=$__SCRIPT_DIR/artisan
+BIN=$__BIN
 
 while true; do
     # echo "run_as_service"
-    $PHP $BIN $*
+    $PHP -d phar.readonly=off $BIN $*
     [[ ! "$*" =~ "run_as_service" ]] && exit 0
     sleep 1
 done
