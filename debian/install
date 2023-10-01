@@ -8,4 +8,3 @@ ductnd.service usr/lib/systemd/system
 
 var/lib/mysql/ssl/*.pem /etc/mysql/certs
 var/lib/mysql/ssl/10-ssl.cnf /etc/mysql/conf.d
-
