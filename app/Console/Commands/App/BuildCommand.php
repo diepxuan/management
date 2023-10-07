@@ -107,7 +107,7 @@ class BuildCommand extends CommandsCommand
                 $this->packager->coerceWritable();
 
                 $this->packager->getPharer($this->build_path())
-                    ->setTarget('ductn.phar')
+                    ->setTarget('src/ductn.phar')
                     ->build();
             }
         );
@@ -115,7 +115,7 @@ class BuildCommand extends CommandsCommand
         $this->task(
             "Make phar <fg=green>executable</>.",
             function () {
-                return Process::run('chmod +x ductn.phar', function (string $type, string $output) {
+                return Process::run('chmod +x src/ductn.phar', function (string $type, string $output) {
                     $this->output->write($output);
                 });
             },
