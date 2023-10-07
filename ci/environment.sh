@@ -34,10 +34,6 @@ env pwd_dir ${GITHUB_WORKSPACE:-$(pwd || dirname $(realpath "$0") || realpath .)
 env email ductn@diepxuan.com
 env changelog $INPUT_SOURCE_DIR/debian/changelog
 
-# plugin
-env owner runkit7
-env project runkit7
-
 [[ -f /etc/os-release ]] && . /etc/os-release
 [[ -f /etc/lsb-release ]] && . /etc/lsb-release
 # os evironment
