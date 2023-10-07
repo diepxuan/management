@@ -1,3 +1,10 @@
+ductn (3.2.9+debian~rc1) mantic; urgency=medium
+
+  * No-change, move to github
+  * Create actions and Ci
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 01 Oct 2023 10:59:38 +0700
+
 ductn (3.2.8.7+ubuntu23.10.1-1) mantic; urgency=medium
 
   * No-change backport to Mantic
