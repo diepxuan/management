@@ -39,12 +39,19 @@
     "barryvdh/laravel-debugbar": "^3.7",
     "clue/phar-composer": "^1.4"
   },
+  "replace": {
+    "diepxuan/laravel-command": "self.version"
+  },
   "autoload": {
     "exclude-from-classmap": [],
+    "files": [
+      "src/Diepxuan/Command/helpers.php"
+    ],
     "psr-4": {
       "App\\": "app/",
       "Database\\Factories\\": "database/factories/",
-      "Database\\Seeders\\": "database/seeders/"
+      "Database\\Seeders\\": "database/seeders/",
+      "Diepxuan\\": "src/Diepxuan/"
     }
   },
   "autoload-dev": {
@@ -70,7 +77,10 @@
   },
   "extra": {
     "laravel": {
-      "dont-discover": []
+      "dont-discover": [],
+      "providers": [
+        "Diepxuan\\Command\\Providers\\CommandServiceProvider"
+      ]
     }
   },
   "config": {
