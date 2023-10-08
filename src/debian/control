@@ -2,7 +2,7 @@ Source: ductn
 Priority: optional
 Maintainer: Tran Ngoc Duc <ductn@diepxuan.com>
 Build-Depends: debhelper-compat (= 12),
-               php-all-dev
+               php-all-dev,
                php-runkit7
 Section: devel
 Standards-Version: 3.0.1ppa1-1
