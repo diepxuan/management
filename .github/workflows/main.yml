@@ -86,7 +86,7 @@ jobs:
       - name: Installing libraries
         run: |
           ls -la src
-          tree src/Diepxuan/Command
+          ls -la src/Diepxuan/Command
           composer update
 
       - name: Build a single app executable
