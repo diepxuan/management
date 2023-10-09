@@ -85,6 +85,7 @@ jobs:
 
       - name: Installing libraries
         run: |
+          ll src
           tree src/Diepxuan/Command
           composer update
 
