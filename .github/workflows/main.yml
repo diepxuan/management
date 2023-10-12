@@ -90,7 +90,7 @@ jobs:
           composer update
 
       - name: Build a single app executable
-        run: bash ./ductn.sh app:build
+        run: php -d phar.readonly=off artisan app:build
 
       - name: Building package binary
         run: bash ci/build_packages.sh

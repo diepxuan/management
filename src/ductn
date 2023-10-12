@@ -43,7 +43,6 @@ PHP=$(__php_path)
 __SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 [[ -f $(which $BIN) ]] && __BIN=$(which $BIN)
 [[ -f $__SCRIPT_DIR/$BIN ]] && __BIN=$__SCRIPT_DIR/$BIN
-[[ -f $__SCRIPT_DIR/artisan ]] && __BIN=$__SCRIPT_DIR/artisan
 BIN=$__BIN
 
 while true; do
