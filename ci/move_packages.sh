@@ -15,5 +15,3 @@ done < <(ls $source_dir/ | grep -E $regex)
 while read -r file; do
     mv -vf "$pwd_dir/$file" "$dists_dir/" || true
 done < <(ls $pwd_dir/ | grep -E $regex)
-
-cp ductn.sh $source_dir/ductn
