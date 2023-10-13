@@ -41,7 +41,8 @@
     "clue/phar-composer": "^1.4"
   },
   "replace": {
-    "diepxuan/laravel-command": "self.version"
+    "diepxuan/laravel-command": "self.version",
+    "diepxuan/system": "self.version"
   },
   "autoload": {
     "exclude-from-classmap": [],
