@@ -4,7 +4,7 @@
 set -e
 # set -u
 . $(dirname $(realpath "$BASH_SOURCE"))/head.sh
-regex='^php.*(.deb|.ddeb|.buildinfo|.changes|.dsc|.tar.xz|.tar.gz|.tar.[[:alpha:]]+)$'
+regex='.*(.deb|.ddeb|.buildinfo|.changes|.dsc|.tar.xz|.tar.gz|.tar.[[:alpha:]]+)$'
 
 mkdir -p $dists_dir
 
