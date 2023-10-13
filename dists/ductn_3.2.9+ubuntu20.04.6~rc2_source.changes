@@ -1,0 +1,44 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Format: 1.8
+Date: Fri, 13 Oct 2023 18:33:51 +0700
+Source: ductn
+Architecture: source
+Version: 3.2.9+ubuntu20.04.6~rc2
+Distribution: focal
+Urgency: medium
+Maintainer: Tran Ngoc Duc <ductn@diepxuan.com>
+Changed-By: Tran Ngoc Duc <ductn@diepxuan.com>
+Changes:
+ ductn (3.2.9+ubuntu20.04.6~rc2) focal; urgency=medium
+ .
+   * No-change, move to github
+   * Create actions and Ci
+Checksums-Sha1:
+ dc92f97a5a21a05d15eccb828b09e4e320819b84 1361 ductn_3.2.9+ubuntu20.04.6~rc2.dsc
+ b6534beb194458751fc2d12f0472d1d590157260 3666991 ductn_3.2.9+ubuntu20.04.6~rc2.tar.gz
+ 6f84d673715d705e9cd29c858fb166c32b52a291 9629 ductn_3.2.9+ubuntu20.04.6~rc2_source.buildinfo
+Checksums-Sha256:
+ e21a023e47decea41f69d482bced2f449436477bd2d8cf4a4da1c12613fb2ce4 1361 ductn_3.2.9+ubuntu20.04.6~rc2.dsc
+ 11ec752974a8a32a8656480bdae4387fecb5ef96ceedbe07c1b66aedf79f5b18 3666991 ductn_3.2.9+ubuntu20.04.6~rc2.tar.gz
+ 7013078e6133ed61fafb6d2540307c8fdec2ed03574c70d98d97a077eb0a5c75 9629 ductn_3.2.9+ubuntu20.04.6~rc2_source.buildinfo
+Files:
+ 4814dc0cc0638ed5bcec993b40cbcebf 1361 devel optional ductn_3.2.9+ubuntu20.04.6~rc2.dsc
+ 637bae93f56204b19007a644d074fa2a 3666991 devel optional ductn_3.2.9+ubuntu20.04.6~rc2.tar.gz
+ 2b4df82f8161327cea1516da728caec9 9629 devel optional ductn_3.2.9+ubuntu20.04.6~rc2_source.buildinfo
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUpK5wACgkQfg7JF6UH
+S9PnMgwArHla9+ndQMosWTCm70RTGcFyAcmWNGaA2EYo3R0XwGIhuGpIBPuSHiAL
+pRAVvAtKvjXEvIyhENQW9UIdes31LSyPHxMjGU11+E9x9qWFZE5a5B2ui1e7f0fS
+O+NUNNncxF47MwM0rRDzLQwm3nUKXn1SZ3kJVW2hTgSWBJrLlkSCDx4lzNv6lTRk
+qDEt0ao9q85pw3fqLzUuaihlgo/OI+KjMvlCojmuryaGGoxlfoBLzmXOcGmuh0NN
+BHVe3o5kpYR0arNism3gWXWNaOd5lQ8HQVt5lkmcOEv4DTId0Cvi5y9kwXAZ04yz
+W9e5w/jXfQ9dDY4G6XHAK5fxzZfNP65pJs9ziifdh/AoeFf7JcShQ3VszR1UUpdL
+usXKMEF4iQVZli8VNege2GnHyl6Nt2ghDUxNVdiJcLgXI7YDTJM4fNZt7TjrvJCb
+oKBqBd4569Rivqw+vsckz39HFthZLvgeU0z9eqWBDs1WbVQrAsvHw0EJT74jgGNW
+oX6UHSGl
+=1SHx
+-----END PGP SIGNATURE-----
