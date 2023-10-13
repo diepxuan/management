@@ -1,0 +1,45 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Format: 1.8
+Date: Fri, 13 Oct 2023 18:33:51 +0700
+Source: ductn
+Built-For-Profiles: noudeb
+Architecture: source
+Version: 3.2.9+ubuntu22.04.3~rc2
+Distribution: jammy
+Urgency: medium
+Maintainer: Tran Ngoc Duc <ductn@diepxuan.com>
+Changed-By: Tran Ngoc Duc <ductn@diepxuan.com>
+Changes:
+ ductn (3.2.9+ubuntu22.04.3~rc2) jammy; urgency=medium
+ .
+   * No-change, move to github
+   * Create actions and Ci
+Checksums-Sha1:
+ 3bbc307bfdd21b4aba68076eea8a8f010d0ebb6a 1361 ductn_3.2.9+ubuntu22.04.3~rc2.dsc
+ d0a730109bc2b6694723f895d4110a776c5199db 3761306 ductn_3.2.9+ubuntu22.04.3~rc2.tar.gz
+ 508cef157b0e29e4f8927d4c935b0131675ea4be 10063 ductn_3.2.9+ubuntu22.04.3~rc2_source.buildinfo
+Checksums-Sha256:
+ aa974ff1d834c0611ac2ac9b7bf5db49d0458f7c7abb84eeee358de7c55e1e90 1361 ductn_3.2.9+ubuntu22.04.3~rc2.dsc
+ 51f4bdb4138f265e7b154195311fb6774eae3274e06ea719cbf715893fd8a4a1 3761306 ductn_3.2.9+ubuntu22.04.3~rc2.tar.gz
+ 8784e610b2ad52e899fe2eb9f851a26fd4e119f0fc26835460351590bf6e4663 10063 ductn_3.2.9+ubuntu22.04.3~rc2_source.buildinfo
+Files:
+ 17739f02f901cfc660db60daf3a7db4b 1361 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.dsc
+ 1deb6c2d6ea7187299e16804961212e1 3761306 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.tar.gz
+ 047e245a72e2ccfee7474c12e8f1ebfb 10063 devel optional ductn_3.2.9+ubuntu22.04.3~rc2_source.buildinfo
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUpK4gACgkQfg7JF6UH
+S9NxGgv/TLbJYj35Xlrcg4apVNsY8tAFdZJOoxvux3TV0ihK8GsR7uphk6ZQ2sEn
+YQlVoJqtm01fyV1Bu82bKG4cXG6mI8OXPs6PBuFIfV4d1XlU1f1GcNGyTEJD8cAM
+mTnC5QorJp3etcZNtszmun43Y9jtRMeLIEydBmjlJkfSDMMDsaUQCo/1iITEMoIe
+1bMSxSTMviaxajC86jiqamelf8r3ObU/oTdHbL2nz2otYBTCrtajn5/hBFPUO0gz
+36q5nwoGJ1s9FTmcmzmGpbekqgS9w+1c3XbS2JxbECwlywVSSCb4nE0LL6RGU6MP
+y+reTJiXRYnciGGi59XQhsm9pq5VwSJ4OPL8IvneS7COVeMbsnkrjTZtwHwR2UQB
+XPybXhpEMO6Inbw/HVrqHeQT05WydryY+4sJejU/c1xAq+PaOJqyLvGas/ZP2re/
+qSnVFVyXm5+ETvk1alItJqdrWeERbUaN2RvE4Dg++9r1e/hH5Dh+yKxjVLsdYR+w
+3d7gTxVi
+=7nDV
+-----END PGP SIGNATURE-----
