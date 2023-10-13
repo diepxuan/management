@@ -2,7 +2,7 @@
 Hash: SHA512
 
 Format: 1.8
-Date: Fri, 13 Oct 2023 18:33:51 +0700
+Date: Fri, 13 Oct 2023 21:10:57 +0700
 Source: ductn
 Binary: ductn
 Built-For-Profiles: noudeb
@@ -20,32 +20,32 @@ Changes:
    * No-change, move to github
    * Create actions and Ci
 Checksums-Sha1:
- 2a5e811583cbc45576a1553dabcb3340209b5a48 1361 ductn_3.2.9+ubuntu22.04.3~rc2.dsc
- d0a730109bc2b6694723f895d4110a776c5199db 3761306 ductn_3.2.9+ubuntu22.04.3~rc2.tar.gz
- bc9609a17c5f73ca13b40eb2232259a6c8033c77 10369 ductn_3.2.9+ubuntu22.04.3~rc2_amd64.buildinfo
- a7ba44c6b6aa9736319914f31473d7dff6a1dc9c 2555676 ductn_3.2.9+ubuntu22.04.3~rc2_amd64.deb
+ 2489878af907864ec56938f673a93e1c878150ff 1361 ductn_3.2.9+ubuntu22.04.3~rc2.dsc
+ 8251c379f6310370f80ef00c7f537bcac390f2fe 3760509 ductn_3.2.9+ubuntu22.04.3~rc2.tar.gz
+ 869670c43fca24612148473c089fd227213164c4 10369 ductn_3.2.9+ubuntu22.04.3~rc2_amd64.buildinfo
+ 957060e8372811eb0a8ac70be2f8ceb8ef0beaff 2549828 ductn_3.2.9+ubuntu22.04.3~rc2_amd64.deb
 Checksums-Sha256:
- 7eda2669106394691b8c3e6841034ae3c720fe1ebf02b21bfe71670c7d4a2773 1361 ductn_3.2.9+ubuntu22.04.3~rc2.dsc
- 51f4bdb4138f265e7b154195311fb6774eae3274e06ea719cbf715893fd8a4a1 3761306 ductn_3.2.9+ubuntu22.04.3~rc2.tar.gz
- 661c5950979208cc7c58d5b82cef083370d219f74a226ed82bc8e93dab31655b 10369 ductn_3.2.9+ubuntu22.04.3~rc2_amd64.buildinfo
- 0e8dee0e1045883b1dc470560b8750db3cb352d2630403e61bda1818e6352466 2555676 ductn_3.2.9+ubuntu22.04.3~rc2_amd64.deb
+ 360b6cd4eeb07508bf6abbe27ac8d4bfc933f3eaaa14c17c78c2c017cf3899d0 1361 ductn_3.2.9+ubuntu22.04.3~rc2.dsc
+ 8ebd40fd2102cf252af525b1a51e26f48da5f05025db7beafe744aab2fb901a3 3760509 ductn_3.2.9+ubuntu22.04.3~rc2.tar.gz
+ 4814c39e691d349b10398b26651fe84bd93de862a464ed98cbb03267e3440b5a 10369 ductn_3.2.9+ubuntu22.04.3~rc2_amd64.buildinfo
+ 429affb28aa7324fc682a42b04141b50dd778e936852c97e89dabb439c922041 2549828 ductn_3.2.9+ubuntu22.04.3~rc2_amd64.deb
 Files:
- d1419c771a3cdc34aedf5d0ec889fbf6 1361 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.dsc
- 1deb6c2d6ea7187299e16804961212e1 3761306 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.tar.gz
- 302d643a49d00100897d526c53e39d1c 10369 devel optional ductn_3.2.9+ubuntu22.04.3~rc2_amd64.buildinfo
- 5fcc4044a2b21cb8ff30118f80bce9f6 2555676 devel optional ductn_3.2.9+ubuntu22.04.3~rc2_amd64.deb
+ de20079bb9f050a1c38f71e8d6ca940c 1361 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.dsc
+ c38abe0071488f3c9fd61b57e5f9cd06 3760509 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.tar.gz
+ 622300d30a288958abbdbc898c35327b 10369 devel optional ductn_3.2.9+ubuntu22.04.3~rc2_amd64.buildinfo
+ 12331a9b5cb9897f06cc5e8bb6497d6d 2549828 devel optional ductn_3.2.9+ubuntu22.04.3~rc2_amd64.deb
 
 -----BEGIN PGP SIGNATURE-----
 
-iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUpK4IACgkQfg7JF6UH
-S9OImwv/TtfLvPVU+H8GjP7mhZgWRogzapfkE9OyK1HjlMVMd494NSHuKZ+xaiQi
-zC3dOxLMv7PdNUjiU27h6kamPZLoQYmRLfDB0gdJA9hnl1C2ignWGokEQuSW7vC3
-bU5k3PIPxO9M28CJ3RPZJ6Ms74qEPn/TmJ5SegiQv8cSc1xr9k4mWGDPhlSWelGx
-xX7A7K4zyutIpDGr8bE+W1yYEdYMocPBDnFdcAVCRJ462Bmt+AuJWD/nSDy/aXYb
-OFh1qEdNy4XsoWDU61NwFUxwet+/naTsZDjeod63chBf/PKQb7ns0PXF2QynASRd
-RvsO2P1dwqB7pQ9J1bR+y6B9dLWIZYhQMc2+3NKGRnq+JbuvkR/CnwmB8/DeMuuC
-LRpvoYrLElcf3UVwBy8se2ru36rircYTBrZ55NOFDe5pfKwTdRcng8DEijm6bXDI
-fwFyYsdy9lMTfuXyHpsLr3BzHKQZkJ7z8vPEccs7/twE2gpRNS+ER27Z5VaxXb3l
-3Nq14/j6
-=HvVn
+iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUpUOYACgkQfg7JF6UH
+S9MFVAv+NSAzBdqBIrWBq6QpOUdWi/uBOoznTPqSdQuvlwX6Lq4JCPVfPMsP9m9l
+INdZX+8yrHnm2ikIbg/3Mnv4B472HeV3CSdwTMCQXPoikoOlT6dmVEhSJDBQqnxW
+w0oYDRGGiOgwnJsm6Fs8pIEDjLa+QhbFEmnPhR4DUhyYHOwiwRs0GoOxtIHGNlJu
+xqjkLGZ8goj/7QGuGAjyTVG2GJpEnrORqrs9diRr7NhZHXtFx1SbYV14dcfFYor/
+pxToPEo7GEW37s3Q7JMIKU0GWvn0fvGMEtajCR6/PMGZ5DvSx1cYxPj/NJAoEHWl
+YYSFoq2CmZwconyX//xhIioUs5NAl/fZQlMX/cHh/lLSTgsUgNwAFqhOeIIQB+xZ
+6VXgWv84I4jjVktCZ0BltTKqsUWaoVod+4XNygCgE8nIv1CnefmQ/LDUMjVyBeba
+ipGbpb/jkucG7eMGcif2DT4s/POXJmnF1VtFPARVnip75cclTfDhanbKs4KEEiVI
+IDrxIuRn
+=LXg8
 -----END PGP SIGNATURE-----
