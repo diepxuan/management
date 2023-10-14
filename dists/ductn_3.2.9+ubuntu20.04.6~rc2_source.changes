@@ -2,7 +2,7 @@
 Hash: SHA512
 
 Format: 1.8
-Date: Fri, 13 Oct 2023 21:10:57 +0700
+Date: Sat, 14 Oct 2023 15:51:30 +0700
 Source: ductn
 Architecture: source
 Version: 3.2.9+ubuntu20.04.6~rc2
@@ -16,29 +16,29 @@ Changes:
    * No-change, move to github
    * Create actions and Ci
 Checksums-Sha1:
- a4e8f225b913e31f2d8f5686b32d607d960b2543 1361 ductn_3.2.9+ubuntu20.04.6~rc2.dsc
- 72ce2f0be6fe2263d7cf778553b1e06325440067 3667116 ductn_3.2.9+ubuntu20.04.6~rc2.tar.gz
- fa3bca483bd0306cd4fbd1ed8f1c8763e9a6a798 9629 ductn_3.2.9+ubuntu20.04.6~rc2_source.buildinfo
+ cf56101bba1ee22690be8b5acc377a4b0a7d4c7b 1361 ductn_3.2.9+ubuntu20.04.6~rc2.dsc
+ 1880df45a5e4a44b1ab801198136a18db03fcf7d 3673950 ductn_3.2.9+ubuntu20.04.6~rc2.tar.gz
+ 7ea4b1e48a610b7535930030b0e443ae19ea47dc 9629 ductn_3.2.9+ubuntu20.04.6~rc2_source.buildinfo
 Checksums-Sha256:
- 2f64cda938aada0cc7c31d4249fae915d93f1889df112fc53c368f6bb2d4ea14 1361 ductn_3.2.9+ubuntu20.04.6~rc2.dsc
- 8a35eff9f936b0b2f325b1ac3152638437dd5b5d7d850506f80becae8f947a38 3667116 ductn_3.2.9+ubuntu20.04.6~rc2.tar.gz
- 4ddaa8057b1bf0212d797b0302d0a80beb84d56c8c1d44f4b2189f288e8be82a 9629 ductn_3.2.9+ubuntu20.04.6~rc2_source.buildinfo
+ f59926b45e47d908655f1e53317b0e124b30fc81678d9fb6b874562351551056 1361 ductn_3.2.9+ubuntu20.04.6~rc2.dsc
+ 51df4aa186daf13cebcc8e4b02bf15f6956fb2a3f93172607dbd23abb992beeb 3673950 ductn_3.2.9+ubuntu20.04.6~rc2.tar.gz
+ aa8b50fabb080ac7009654c715c7534a73b0f76aecf4a22f71258a83cd4861a0 9629 ductn_3.2.9+ubuntu20.04.6~rc2_source.buildinfo
 Files:
- b2a4939bbecf30b3791211726021d766 1361 devel optional ductn_3.2.9+ubuntu20.04.6~rc2.dsc
- 5e0b1412aed03e46e71af95576c66dac 3667116 devel optional ductn_3.2.9+ubuntu20.04.6~rc2.tar.gz
- 0163753e755aa4a97e88c2450b52c04a 9629 devel optional ductn_3.2.9+ubuntu20.04.6~rc2_source.buildinfo
+ bba945ea1b798966bb9bb76431dd41d1 1361 devel optional ductn_3.2.9+ubuntu20.04.6~rc2.dsc
+ 6bc0d6e73e8e51aa2d244052c2fe82e4 3673950 devel optional ductn_3.2.9+ubuntu20.04.6~rc2.tar.gz
+ 9ed10bfc5cf3f89fb67d686908595c23 9629 devel optional ductn_3.2.9+ubuntu20.04.6~rc2_source.buildinfo
 
 -----BEGIN PGP SIGNATURE-----
 
-iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUpUGYACgkQfg7JF6UH
-S9N7cQv/QO+1zL6MWI26iGyxeCsgQ/DJQtdsGFez/Wd/n+hRAeqMMckROb0FN1j4
-hAOXwCn62yxL++FgLM7Jd+IUfiz58HYmix5xLhQi9ZG743woQUwlwgBCHdBmJkR8
-JGhmRQGEUrHv1lsTgEfPBfHMyi1zbj6V+5s9kf19uIacdWUfcGpXT/j0MWGEKy8T
-k3ZnyJz+YsaRmEsvi/pmvMIlVAjD2IlXPKLzCUgXdpykWfyZ9TMUvbwAo+7TR9sJ
-qIf2MvesMYCpiR8Mh8R4VIiUfx/Qp6k6lXFppSahc97KuKtDF6qB3rCN8U1tATbZ
-D5rToEiGTVu7BrouxRYAYJ8NlBNOQkDqa6ymMVog5K+lI793Crd8Q+bIJlg7apCu
-kRTs8MhMY8jc7x3OwzKQGYgs1Ks6rUy7CQcJGJtxqAYsZUxGoMOzhBvvnl53NzMC
-tIBhUu4DM6TsE1q13OlJd0hahm66ixyVdM2qtyO2QIPqMCoeMTVLbneaaG4RC6Fn
-uvSjqi/U
-=nqzk
+iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUqVxAACgkQfg7JF6UH
+S9NM8QwAnxxByKhGxvIsCSLalz9VmVS/LkEKMhROab8Y6BVMjHGkuJBPXCWFHYUT
+rSSc/Hb4mJHdw9TWSdBiA9w5B9XXD1EWARYQNHlSt4YGzYTuIBLwj+B+f3FW4rpN
+FEWQrHyH0VpLsdlHYgn+bTz2RZd02QqIbt0xwlAPQJFiqb/ndqh7Qs6NEmm5OPwb
+lD+XI4mNVXZx5LphIaPRCH+OQS3ueXwyZrmpjktFP5vyYtSaTojuaB1WNBA5R3mf
+RN/JrsyIz1JsUN+TxwFPElnbDQhO4baOJLH7QWmmIAehXSioalMd+u96y4OVjbv4
+1hn1klSmmGetzfmcPlX73T8VGc6UDUs4/n5HGUPEvNnz/XKGgK0mXnDtA3Yzc1VE
+upi7yCtGLiQVbmmIPnqlNmgn35eTANZdGarhvrSDyga0fMyUxfc/h3e3UABfbaYJ
+2TJtwXui8gRgWRGLAIa/fyhhHMukRwNwcgBPO17RVv+ePw4SX5XkWGHJeq3BBmXU
+2o0ffShb
+=Ea0W
 -----END PGP SIGNATURE-----

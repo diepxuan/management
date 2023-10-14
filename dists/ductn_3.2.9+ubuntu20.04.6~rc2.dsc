@@ -13,23 +13,23 @@ Build-Depends: debhelper-compat (= 12), php-all-dev, php-runkit7
 Package-List:
  ductn deb devel optional arch=any
 Checksums-Sha1:
- 72ce2f0be6fe2263d7cf778553b1e06325440067 3667116 ductn_3.2.9+ubuntu20.04.6~rc2.tar.gz
+ 1880df45a5e4a44b1ab801198136a18db03fcf7d 3673950 ductn_3.2.9+ubuntu20.04.6~rc2.tar.gz
 Checksums-Sha256:
- 8a35eff9f936b0b2f325b1ac3152638437dd5b5d7d850506f80becae8f947a38 3667116 ductn_3.2.9+ubuntu20.04.6~rc2.tar.gz
+ 51df4aa186daf13cebcc8e4b02bf15f6956fb2a3f93172607dbd23abb992beeb 3673950 ductn_3.2.9+ubuntu20.04.6~rc2.tar.gz
 Files:
- 5e0b1412aed03e46e71af95576c66dac 3667116 ductn_3.2.9+ubuntu20.04.6~rc2.tar.gz
+ 6bc0d6e73e8e51aa2d244052c2fe82e4 3673950 ductn_3.2.9+ubuntu20.04.6~rc2.tar.gz
 
 -----BEGIN PGP SIGNATURE-----
 
-iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUpUGYACgkQfg7JF6UH
-S9O+cQv8CdLDtgi24fqs09iATCJo7JMITizFNFuYrvX2ihiO7FUr9czVNb4LPDRP
-8Cs25WO/wWieS7stINBDLsGn0DX740/IT10Rzt9QG+iHNzkj8cKWFEvz9G7jYpN4
-BpPkORZ2kcgQGYg2LBcFOgbKdxN1cLeoiGsKoata5E8afoSeSIn8MvotLgwACAOW
-r3ad+OwcX/JPs+Ql67J7ULoyuGflTsDv31w6/RJdEhJLaaor/e40Urgx+7cefNw/
-xw7B0Up5bC/VZ0jd2u+q2fmF8FOqmsk4U3e+7rkKh6VYCI/xv6Ta9eVqidzKVmo7
-xVUaG9JRUw4+CY9g9p5/l3Stgg80Ae9sctGHuV/OFDAuL6756GpENm7pif/fhGV7
-ycZQWpn5pDUN0E4SCxLu/Fpu0jWtn5SMaMluemlElOjAEkbHjCU3VIxMOH8QL/Xh
-KlQfCquLykRvkrnJperDOLXfEREuvR6StNmwRG86lqWwKS/If9vqe+6Zsyk0ifq9
-whQo4Qyl
-=a+pm
+iQGyBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUqVxAACgkQfg7JF6UH
+S9NQ2Av1FTcpChIONwYrjovanyXCK6quSdmS6rD4v8OyQO889D9inv4Zj7C5XEnB
+yzqrVhvXEUsksH7cP9sYLVH6seKQgbf4LL3uVcu4zu8057KALCfP3/cNOTBt1SIU
++ii9TiFmUNaMgJsZDzl91MetAh8I1hnuBYizWvLHQs7V/L0fb6PNMiIRR+vdBl70
+37nQhgYQngTeDgca4+f+F8zyvFdAJtPlcres7NOvuDKUR7K/sclhj0i7PhOm/cmd
+WPq+5/TD3LKug515Tu8YZXPH/cI7eFmsaFn0ZjmDCDI6wh+9X5q88BeW3S88DWfo
+40DnOs654aqIqGRX1mXv35PUo7sgQmm43o3Jw9tG94Oymh/CETWhC6FBpipvHPsS
+vVfQ5MSD3SFiCRgkJWv54q1y9i/I5+NtRtMQAHTXgaGJy5G7RUkBaAgEVd9AfDRr
+YWunEFkZVclLew84i1faSD2lqsW8FelvFnBQemKvTp7aEZb3VznQcg5lIqAD2IAC
+jxbVQQ8=
+=QE8k
 -----END PGP SIGNATURE-----
