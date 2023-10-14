@@ -41,6 +41,7 @@
     "clue/phar-composer": "^1.4"
   },
   "replace": {
+    "diepxuan/laravel-cloudflare": "self.version",
     "diepxuan/laravel-command": "self.version",
     "diepxuan/system": "self.version"
   },
@@ -53,7 +54,9 @@
       "App\\": "app/",
       "Database\\Factories\\": "database/factories/",
       "Database\\Seeders\\": "database/seeders/",
-      "Diepxuan\\": "src/Diepxuan/"
+      "Diepxuan\\": "src/Diepxuan/",
+      "Diepxuan\\Magento\\": "src/Diepxuan/Magento/src/",
+      "Cloudflare\\API\\": "src/Cloudflare/API/src/"
     }
   },
   "autoload-dev": {
