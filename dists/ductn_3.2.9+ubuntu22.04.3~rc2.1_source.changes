@@ -1,0 +1,45 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Format: 1.8
+Date: Sun, 15 Oct 2023 11:07:13 +0700
+Source: ductn
+Built-For-Profiles: noudeb
+Architecture: source
+Version: 3.2.9+ubuntu22.04.3~rc2.1
+Distribution: jammy
+Urgency: medium
+Maintainer: Tran Ngoc Duc <ductn@diepxuan.com>
+Changed-By: Tran Ngoc Duc <ductn@diepxuan.com>
+Changes:
+ ductn (3.2.9+ubuntu22.04.3~rc2.1) jammy; urgency=medium
+ .
+   * No-change, move to github
+   * Rebuild package after update composer source
+Checksums-Sha1:
+ e110138ec4747cd063593f8062e8f8c6c1c2290c 1369 ductn_3.2.9+ubuntu22.04.3~rc2.1.dsc
+ e541d0144256690d62f9e9c0e9895df86875a677 3762924 ductn_3.2.9+ubuntu22.04.3~rc2.1.tar.gz
+ 4d90cd76127249adb39db5d23a31b2508283512e 10071 ductn_3.2.9+ubuntu22.04.3~rc2.1_source.buildinfo
+Checksums-Sha256:
+ 5e3de71717c3757bd76dde389d1a4a14a5b2c0b253ceefad597910a387941481 1369 ductn_3.2.9+ubuntu22.04.3~rc2.1.dsc
+ 4fd13a5a55e73117ec348dfc92a9a1e439f80750fa8272cb62cccc3b58027367 3762924 ductn_3.2.9+ubuntu22.04.3~rc2.1.tar.gz
+ 0fad047cc6352e11e30fb09e315dd3dec73bb37b0c14335950c74400f3ca1bb0 10071 ductn_3.2.9+ubuntu22.04.3~rc2.1_source.buildinfo
+Files:
+ dba542b75d29e695dbba0c0099deec95 1369 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.1.dsc
+ 8d8db6f7da857abdf37c43a42e4607d9 3762924 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.1.tar.gz
+ f07cca935076192684d17517b371e872 10071 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.1_source.buildinfo
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUrZkgACgkQfg7JF6UH
+S9NL1wv+ODu7L9BiEOvqTnZnwzFZTpvIz4jfTGwTt9fsm/hJOu0PODpqSiqPuf8w
+wFAQ2IZh6fqWdnQkfiX9yFf5whB8cvn45byQGkWFq/LAM07mffhIk8djpykRIBxl
+bG9JK7okBk+I6H9HKtK2HMDbXFIBJTI2rHigvZM0x+hSGqKdkyQgWBZsE9nQdVY8
+0AUmvkSOPdpxqNFgvia3zNRJSrGFbCMcTezBMkyABNnulaVS/S8JqTLyIEj7nWgy
+AYFP/MCzG58DoaW3AhzZeBa+CCWV1iGmG9wZ0EpZgjRoEoAbTRFEipVT6mr+ev6m
+gcmBuLTquVff6q4WKMpZaMc2U/XA+zfhqgviXzhPmFvFqSWYToMY/4+KchBryoiJ
+IQGocrh2gnKMHsLua3BaoctrHTUB7c0jSeT0hSoCADR3bD7wfhh6/uiOnk7xutv7
+616OJANq+49ekv2zRIvK4lw65X2bsMa/lkmctezjoF9OV49Yy3KsTPOU1CeVPjRS
+0isqmVyW
+=pKV0
+-----END PGP SIGNATURE-----
