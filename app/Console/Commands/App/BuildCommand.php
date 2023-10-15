@@ -54,6 +54,8 @@ class BuildCommand extends CommandsCommand
             'bootstrap',
             'config',
             'routes',
+            'src/Cloudflare',
+            'src/Diepxuan',
             'artisan',
             'composer.json',
         ];
