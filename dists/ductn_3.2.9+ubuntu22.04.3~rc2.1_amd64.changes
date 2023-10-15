@@ -2,7 +2,7 @@
 Hash: SHA512
 
 Format: 1.8
-Date: Sun, 15 Oct 2023 11:20:04 +0700
+Date: Sun, 15 Oct 2023 14:40:41 +0700
 Source: ductn
 Binary: ductn
 Built-For-Profiles: noudeb
@@ -17,35 +17,35 @@ Description:
 Changes:
  ductn (3.2.9+ubuntu22.04.3~rc2.1) jammy; urgency=medium
  .
-   * No-change, move to github
-   * Rebuild package after update composer source
+   * ISSUES:
+     - src/Diepxuan/Command/helpers.php: Failed to open stream: No such file or directory
 Checksums-Sha1:
- 7b1b06726638365cc77ca7a17906647891ba0fc8 1369 ductn_3.2.9+ubuntu22.04.3~rc2.1.dsc
- 1d8dadb8f52868412856641c2d25b9ac4047964e 3763235 ductn_3.2.9+ubuntu22.04.3~rc2.1.tar.gz
- 9d50a1ffdb597a11fe0cded83d0252e4e40c6e23 10383 ductn_3.2.9+ubuntu22.04.3~rc2.1_amd64.buildinfo
- ef8454111cefabd512377d033cd0ee1eb89a0d5e 2507468 ductn_3.2.9+ubuntu22.04.3~rc2.1_amd64.deb
+ 6ed1200e15d2ef4f5d053c6aaf18f967c74b2481 1369 ductn_3.2.9+ubuntu22.04.3~rc2.1.dsc
+ a901e3c71a431d46d592af5ef991b842f443740c 3843841 ductn_3.2.9+ubuntu22.04.3~rc2.1.tar.gz
+ 5589aa08e8ffaee8dd785beea3cf5a5d18bf89ee 10383 ductn_3.2.9+ubuntu22.04.3~rc2.1_amd64.buildinfo
+ 69c58df3ec0826da4c1e9c33d1c4756754467d44 2567322 ductn_3.2.9+ubuntu22.04.3~rc2.1_amd64.deb
 Checksums-Sha256:
- ce074143fffb67218474b441159494c564493a664262454c6d64ca96c0688dc6 1369 ductn_3.2.9+ubuntu22.04.3~rc2.1.dsc
- e5c8775fcc4d465a3c402d2f770ff0457d51f3e74230f42c438916a882d96dc0 3763235 ductn_3.2.9+ubuntu22.04.3~rc2.1.tar.gz
- 305690d9058dda38ebbfcb4eff6500f37352bd61bcca311d7e84f78b3d743c98 10383 ductn_3.2.9+ubuntu22.04.3~rc2.1_amd64.buildinfo
- 8f173a6fd6521aebf54d64b23b0b1195c64f9d54d2005597b8059fb442a21565 2507468 ductn_3.2.9+ubuntu22.04.3~rc2.1_amd64.deb
+ a7b0216334ba926fe93fa7c1111438124b189db602d3b3f82129decc78a7b639 1369 ductn_3.2.9+ubuntu22.04.3~rc2.1.dsc
+ c587d3f6f5d624b5106352df1146903ea7a7057172b3679335223d7c147aa77a 3843841 ductn_3.2.9+ubuntu22.04.3~rc2.1.tar.gz
+ f17c953c021c4ce509526c12bd471600dd6912946c1e1f51397ada97b8f5d8ac 10383 ductn_3.2.9+ubuntu22.04.3~rc2.1_amd64.buildinfo
+ 5db5ed33171c30a46c85c406103f7f69461a18e1405a6f15172816a8b83839a9 2567322 ductn_3.2.9+ubuntu22.04.3~rc2.1_amd64.deb
 Files:
- bc1104fab4e03732917effe26b565281 1369 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.1.dsc
- 893ab73048cc1b664472438e2bd3273e 3763235 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.1.tar.gz
- 86dcd89921f03563b3154d1fe41a8e11 10383 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.1_amd64.buildinfo
- afa4c8ccb8c1c17d5e3b767a292db3b4 2507468 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.1_amd64.deb
+ aba3b96ab89c6158858818d3c0640b73 1369 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.1.dsc
+ 691ef4cc3e80787032e1caf4923404b8 3843841 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.1.tar.gz
+ 7bf99b254f74495b5d2c0e01164de1c1 10383 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.1_amd64.buildinfo
+ fc728286ee6aa6edcecdebb7ab794d53 2567322 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.1_amd64.deb
 
 -----BEGIN PGP SIGNATURE-----
 
-iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUraLsACgkQfg7JF6UH
-S9M+Xgv/S54zUjZ/ISWnMqGGj+CWmbTHyMg27PGtM/d9fwtmS4b87bHz96ZSadmP
-aHM2XcrHOYl/x+ocYcE97qVjPv4VcdrZ6hqN77ZSFN8jNqqUxooiytVWwp0vEdwP
-JimustVvNU1qo9OyIXh7rsIM21ySF/DjhRvNFneogH/CdGTlz2CH4hzeRuZrC0NG
-mX1NsCKUBGlQ1cLbJGqFXkpn/+8ynGeByeEdx0iv2D0pEvFadj194NOPNfYRVtxe
-f23078a+AD12W+2RNc/urBUpr/pOIlfzVtn+TIeBMqwox0awcSGNBV/NNZ/sM3vE
-y5EZB0YL1fKla99x562TLcPX0G+1Ael5tNQuPK2/aLm/iG5DQdMDBkbAb8fYDpFt
-hKDKyDtqURPA8Z05muHjiP2x4DZRe5aJxDnSeh0MW7FRU4GM+4+AtdVgo45q7K8y
-esglBGC5bfqDG/VGRCgqdmChFz3wcZZG+Gop2JQkEZxUG59k6wuhNNK9AN3emyId
-t+0DXgS5
-=l8Pe
+iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUrmDYACgkQfg7JF6UH
+S9MdKQv/a0HlU8shVCPwiD6kEUKK4+XJnmvl0udqXEgv2UBF1Zw8pLgPVPU9nSa0
+YNKZ6f85ppbc2SgU09WNi7BkSqVzeCi2THWp9v23sLd2OSnJ4TCEJWmGXuRJvqHS
+Nt9XtLLeOkctQza3Hm+oehLFhz9AEu0gtYXdrZduQFpRccfCco5Ui0OW7+bbWFyI
+VjHlO75Ba8N9xAPi3rugKmWAl0rA6824jtlfp6olOKNkU/njpGbtKx/vwCd4HVYx
+q0U1MLzGwupeeydrSUKtnj12BT29IZ3PrleTMmC9vEmf3e+cYmN7lLZKx51yRzzM
+p7DOdBw4rvZQFvOg+XFJPjMqmihmReSGWzLsUABUzKdC+oSAWWx6aYAzm9sNailP
+pTMRIfcpZ0q3LdbE5EModvhZRVQJx2ceU4l+cVGHIHDi+MVj57mWuI/VA6xUnx9j
+VjMS2LEXfTVKXDmlzG/Nc/6wSvpyrCqTj6h4EpPHSQi3ZbMP5hH9O4kwkwd7OTAc
+q41+zCiu
+=ACug
 -----END PGP SIGNATURE-----
