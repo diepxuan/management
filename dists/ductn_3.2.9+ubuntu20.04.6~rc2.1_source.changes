@@ -1,0 +1,44 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Format: 1.8
+Date: Sun, 15 Oct 2023 11:20:08 +0700
+Source: ductn
+Architecture: source
+Version: 3.2.9+ubuntu20.04.6~rc2.1
+Distribution: focal
+Urgency: medium
+Maintainer: Tran Ngoc Duc <ductn@diepxuan.com>
+Changed-By: Tran Ngoc Duc <ductn@diepxuan.com>
+Changes:
+ ductn (3.2.9+ubuntu20.04.6~rc2.1) focal; urgency=medium
+ .
+   * No-change, move to github
+   * Rebuild package after update composer source
+Checksums-Sha1:
+ 757a0cbf1ab7a9b6df62093d125abe7582a47def 1369 ductn_3.2.9+ubuntu20.04.6~rc2.1.dsc
+ c8a0928e93737ebc0a5f687b04dddbc931432482 3668989 ductn_3.2.9+ubuntu20.04.6~rc2.1.tar.gz
+ 8ef914f54dbdc79d7066705388691caceff718cc 9637 ductn_3.2.9+ubuntu20.04.6~rc2.1_source.buildinfo
+Checksums-Sha256:
+ a9c0bb5c7d3dfb5e19e85bd4f478f58f7983a03ed38c6db9e3dee99c2850ee37 1369 ductn_3.2.9+ubuntu20.04.6~rc2.1.dsc
+ 0994825138e66705a992c66c24406de849f8f334296e605cc5bb227a4e8f62a9 3668989 ductn_3.2.9+ubuntu20.04.6~rc2.1.tar.gz
+ c25e77c5adb7e36d4cb53e82a0adb3864a47bf25a99e974c5fb6a12a97da897f 9637 ductn_3.2.9+ubuntu20.04.6~rc2.1_source.buildinfo
+Files:
+ 7378a9701e6998a3d30c8c1ff4b5c18d 1369 devel optional ductn_3.2.9+ubuntu20.04.6~rc2.1.dsc
+ 2e77489d76a9708732b2839d3af3694e 3668989 devel optional ductn_3.2.9+ubuntu20.04.6~rc2.1.tar.gz
+ 83df3eec33133c6344a2b07e7b25e73b 9637 devel optional ductn_3.2.9+ubuntu20.04.6~rc2.1_source.buildinfo
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUraWEACgkQfg7JF6UH
+S9PQpAwAjv+bhthP2ITLqvMFex5ZZz54IaeqJb1YM/2rFJy0r75/hr79AWu5a7tN
+KoJ9MvCz1jxg3PLyLR/+uUbJREbA8DMPCOhxziDkOfkm5nbhTf4p+94wP3Fr5pgz
+CXOC0AaURr5pV0KL8am1kN6AOK6ODwcCQA7TcqCXnBQstQU1YWTLCJIXEQHvDKKE
+P2q3ckzub9i2LGyP3RTJ+42N0+pntRmDg/w9ek3xgR1m1ji9piFIDoKRUgRX5C4r
+fNsdk/uaOjtWlfK707dvtdkDphryP2vLQRQIChHlx6gfHrYyhTlcb1uMUO2DNz7Z
+lIyyv3H1egiKI6xsTCN7lrgvV62U+3RJqqJPYrqwiTCxV2zXUUkwUmYdhcG6uPg9
+Xl87a8zH0msZzWp2wajrFlqO/gbEean++WwxE7wJT4u9tgNxCotrhHhizCyFSjds
+gdCX66JCsx4etvwFn/0Al/1TOab1QwlJ0vojwWKIUFHC5qZ27M6Q3Fd0hAKe8IbV
+dkwT7gaw
+=vvHe
+-----END PGP SIGNATURE-----
