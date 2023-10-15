@@ -1,0 +1,50 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Format: 1.8
+Date: Sun, 15 Oct 2023 11:20:08 +0700
+Source: ductn
+Binary: ductn
+Architecture: source amd64
+Version: 3.2.9+ubuntu20.04.6~rc2.1
+Distribution: focal
+Urgency: medium
+Maintainer: Tran Ngoc Duc <ductn@diepxuan.com>
+Changed-By: Tran Ngoc Duc <ductn@diepxuan.com>
+Description:
+ ductn      - DiepXuan super package
+Changes:
+ ductn (3.2.9+ubuntu20.04.6~rc2.1) focal; urgency=medium
+ .
+   * No-change, move to github
+   * Rebuild package after update composer source
+Checksums-Sha1:
+ f4f24e00cff3465bcdd49117d8002c0ac87fd5ed 1369 ductn_3.2.9+ubuntu20.04.6~rc2.1.dsc
+ c8a0928e93737ebc0a5f687b04dddbc931432482 3668989 ductn_3.2.9+ubuntu20.04.6~rc2.1.tar.gz
+ 28d63cbe378c13c027b4a10ad3de8addc5861ed7 9935 ductn_3.2.9+ubuntu20.04.6~rc2.1_amd64.buildinfo
+ 60af239b2d09f2833b27b472c7dbc6797ba234db 2425408 ductn_3.2.9+ubuntu20.04.6~rc2.1_amd64.deb
+Checksums-Sha256:
+ fa2fbb60b0e61756d142dc8925c97530996034ede2e8d5c921cebafd2d3ed378 1369 ductn_3.2.9+ubuntu20.04.6~rc2.1.dsc
+ 0994825138e66705a992c66c24406de849f8f334296e605cc5bb227a4e8f62a9 3668989 ductn_3.2.9+ubuntu20.04.6~rc2.1.tar.gz
+ bd975c28d6039c624b4c9bc86f13a12a7dc11e943c454bc7dabd484ea3533568 9935 ductn_3.2.9+ubuntu20.04.6~rc2.1_amd64.buildinfo
+ 6ff149018ed6ffdc4bfe2a1ae3a6ded33e2dc0332c23303b53dc96c69edf2fd0 2425408 ductn_3.2.9+ubuntu20.04.6~rc2.1_amd64.deb
+Files:
+ 8386b1f6a4e776debf23767deceb8601 1369 devel optional ductn_3.2.9+ubuntu20.04.6~rc2.1.dsc
+ 2e77489d76a9708732b2839d3af3694e 3668989 devel optional ductn_3.2.9+ubuntu20.04.6~rc2.1.tar.gz
+ e994c9c564873927eac24c74b2eedd41 9935 devel optional ductn_3.2.9+ubuntu20.04.6~rc2.1_amd64.buildinfo
+ 5761efd01ef3a88044c08bd62130ecdf 2425408 devel optional ductn_3.2.9+ubuntu20.04.6~rc2.1_amd64.deb
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGyBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUraVsACgkQfg7JF6UH
+S9Ps8gv3S2gzWVt3geka6XfYv6nYKf+sCOCrgSmYHlJiIwMSHVUaazvE9eiKDvKW
+GfedQUq2i3HXj9OCytZILlDdgfYiERVDxMRJzTv0Yz6rDVDcOqRUrWeKJEaM0OrE
+aTGOaVY1UDClCfpLEP4k4lPjA2cPxPrT2c534210HLot8i6XgBUimC/lXuLFzUZa
+o4b9sNQ7fu9X2hITGg5PZKmAfmxN98WioqHAwmkJSd0U2+vHDWbaTGWEvaMO8U5+
+RhG6Y6Lbm1HI09K6Ave7f/uryi4Cd4g/YtO1uwRS1SmWePWnk2sBTUgSl7Uj1YTQ
+TwGwkWMI4wlJs7HTK5ZZz4ZKpjI5u0eHn5XiihTfxDGDVo2Kszs9KBmsoDRlmaNV
+cVVWLg77q3PozcQRTkeSuhmxVlEZ6uxoGiTvEyvh281l1li+nU7ialqh2R8FqPB+
+o/oPMPeOErKZAak+hMv7rPzczXM2OvueeJnjezKIHt+KAczx8rb7QmL9LqAIe3qa
+fe0bpK4=
+=Xcoa
+-----END PGP SIGNATURE-----
