@@ -7,14 +7,14 @@ Binary: ductn
 Architecture: source
 Version: 3.2.9+ubuntu20.04.6~rc2.1
 Checksums-Md5:
- 7378a9701e6998a3d30c8c1ff4b5c18d 1369 ductn_3.2.9+ubuntu20.04.6~rc2.1.dsc
+ 8d2884d57b2c21b3601a326d50790c57 1369 ductn_3.2.9+ubuntu20.04.6~rc2.1.dsc
 Checksums-Sha1:
- 757a0cbf1ab7a9b6df62093d125abe7582a47def 1369 ductn_3.2.9+ubuntu20.04.6~rc2.1.dsc
+ 37c20e914231beef515fee727a77b7dd1d0b097b 1369 ductn_3.2.9+ubuntu20.04.6~rc2.1.dsc
 Checksums-Sha256:
- a9c0bb5c7d3dfb5e19e85bd4f478f58f7983a03ed38c6db9e3dee99c2850ee37 1369 ductn_3.2.9+ubuntu20.04.6~rc2.1.dsc
+ 421b99b443152fc7204f8ba3ddd4cb4b82defb4b8f2609ee62dcaa6a23314470 1369 ductn_3.2.9+ubuntu20.04.6~rc2.1.dsc
 Build-Origin: Ubuntu
 Build-Architecture: amd64
-Build-Date: Sun, 15 Oct 2023 11:23:58 +0700
+Build-Date: Sun, 15 Oct 2023 14:44:37 +0700
 Build-Tainted-By:
  merged-usr-via-symlinks
  usr-local-has-includes
@@ -256,19 +256,19 @@ Installed-Build-Depends:
 Environment:
  DEB_BUILD_OPTIONS="parallel=2"
  LANG="C.UTF-8"
- SOURCE_DATE_EPOCH="1697343608"
+ SOURCE_DATE_EPOCH="1697355644"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUraWEACgkQfg7JF6UH
-S9MyTwwApqk2XNbh0sHNMMqWPzoEDGUewfnN9YMYstkxUzN9oGG5Iasqhrs6lqe+
-F0XrDkqksQyZBi2O1kB0woPALQOuEqLc/RtmcckVx1WPYWkiiWf8FxZTGIgtdl5y
-WworFloowOUaOCP1LEZDR8H+x2qwQUhvkibp8OSmEqAAMVNUazcD0K1tap4xbzHZ
-Cg7gr9itcbov1UPbHMRfisQU2RpWvxdVhFn2Jz4J5FmmA1ioVntZEs7U/XoJCyGm
-wA+DmKMZ0PDE0oCvKp8fUARDssgq1SBqCc9YKohmdGTQdyzmpbFq/coxriYCtYsM
-C8wgkjtrtp/74ToMT1Q4vxp+eV3ovZu6Vi/o5mWWOK+3YvoCVTGZHJkCRhOp8T6g
-M8TuMmDn3vsjhkQAYfjmsSDzngs73CyFxv5ofIr3dHUCJPcl27z10VtgtJvm6l8V
-PBcZJ4eJ7D9J+EM7P/VpGQxj/wWiFHA2CNlwzLmP2Lp2Octo8JSIcqJOYzF1JcpM
-qnd2BxRd
-=u+DU
+iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUrmGgACgkQfg7JF6UH
+S9MBFAv9EAOBUBEKzFkPPo5K4nimfF/SRYkxteyhl019DhMZDrZzeK9qY2w0+Yyf
+DQB/RwGd9uCAVP1QT7VlLOCy/Ez94yhew5qmxhQjJDGnJSY7CiTaSy5Bp+S1VHu2
+SX4oaFf25MCdZRYvg5WTYGd2AMgYv6YoImDMCVSkcmcDFluHWjoMcsj4Uup9T9wW
+kEDqXGNvwjekvMhn7WclLms39hZz8XKclrZ1ddkQzstlw9n8+zR0wpsz3SYLODNo
+Y1LSQtyjlvhwKkEQluYtyEJhJ/1ySKhdW4fkCH5xHIkTJw4HPZuS6WjZPwbl28G5
+GfGIBv3hwIkLDUXJ45DrBBZxPCGjMngo/7czBEZImV+7C3odsiTWPjREplJYLNUZ
+BSeIO7YPtGuEKFeXv6BHSn6SAm7OSDNaUaRE/NRVN8nXIQrO0nP+oxrTCPoaFjUq
+E5nnJsaMfFtX0/NPlBtf10B6+iMgUAMS50qw4nnHrKqdh5EyENNpf4Pc745ViVyt
+Kgu4kBpl
+=HavZ
 -----END PGP SIGNATURE-----
