@@ -1,0 +1,45 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Format: 1.8
+Date: Sun, 15 Oct 2023 16:45:55 +0700
+Source: ductn
+Built-For-Profiles: noudeb
+Architecture: source
+Version: 3.2.9+ubuntu22.04.3~rc2.2
+Distribution: jammy
+Urgency: medium
+Maintainer: Tran Ngoc Duc <ductn@diepxuan.com>
+Changed-By: Tran Ngoc Duc <ductn@diepxuan.com>
+Changes:
+ ductn (3.2.9+ubuntu22.04.3~rc2.2) jammy; urgency=medium
+ .
+   * ISSUES:
+     - src/Diepxuan/Command/helpers.php: Failed to open stream: No such file or directory
+Checksums-Sha1:
+ 673c097b1088210aefef8c85c7020a1f845ebcf9 1369 ductn_3.2.9+ubuntu22.04.3~rc2.2.dsc
+ bfd449d197a390ba7f0131667b714c647b6585e9 3844507 ductn_3.2.9+ubuntu22.04.3~rc2.2.tar.gz
+ 52491190391f14763499aed7a88eef8c7d1ccbd3 10071 ductn_3.2.9+ubuntu22.04.3~rc2.2_source.buildinfo
+Checksums-Sha256:
+ 0a4352f94f146a214bde54acaed600e0c19fd0a13fc2615e76c899ed570aa80e 1369 ductn_3.2.9+ubuntu22.04.3~rc2.2.dsc
+ 36a19ca938ae21089f627c4041b01125cdbefd6c8f21584e0d52d1b7d74fdadf 3844507 ductn_3.2.9+ubuntu22.04.3~rc2.2.tar.gz
+ bdf26d02a84d369f58699d97b0020e422e7d33831969b352b44a7523678110b3 10071 ductn_3.2.9+ubuntu22.04.3~rc2.2_source.buildinfo
+Files:
+ b290c3666de14d6158ee8390e0fa3fb8 1369 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.2.dsc
+ a4d3fa740a4c7d3302cdc9c5bcf56b88 3844507 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.2.tar.gz
+ 606ad430884c17878892b1ea340e9e6b 10071 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.2_source.buildinfo
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUrtbMACgkQfg7JF6UH
+S9N4egv/XYazjODSpQ0ALWP2nHndL/VVnyYIl68W0g5MqKqLXvGQ3Jp1GSihQ8vY
+G6N4sTrXFlVJ9zUAAWyHQAEukAXBx0VysRvEMaTZctqtKA6FMNR6oo4EwMxJs7Py
+WOzfl+prFGU0u/YRwvOd9tInSheHOSH4+AbCnjCdYGHvXsU5cUkRsI44lO3t0HJ+
+Ul2cFyuU3L4s3clpdRqxRZ/ImSTATjX+kJMJBJVmWK3eFrgx7RqsBDiT7tDmrFX1
+ftApUuHE+W1zsCLEMIFm5R18fbbWEHeyCzmEsd28Z3fzo/QaIhVN36zq3HtFna+b
+WTr3hkLb08eBm50qsmqWdvhn9WNqJqEMC/g18AqrYnfxk+HxTAUnx2/aaUFg9d0U
+IY+F/mVd1nGNMgKS/eE+sZ0pytuPdyu0K3M29IlGqQa3t5Aa6CyqGzY1FjE+ofQl
+wEv86NArd1yH8CNkHb/vjmeG+vsRQWqKab4wuWIu/WRD0co6T/bojPUbUhxoRgrn
+dDtKWFLn
+=MUzT
+-----END PGP SIGNATURE-----
