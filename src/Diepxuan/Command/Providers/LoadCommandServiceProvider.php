@@ -48,6 +48,7 @@ class LoadCommandServiceProvider extends ServiceProvider
     {
         $paths       = is_array($paths) ? $paths : func_get_args();
         $packagePath = new SplFileInfo(ComposerPackage::getInstallPath('diepxuan/laravel-command'));
+        $packagePath = $packagePath->isDir() ? $packagePath : new SplFileInfo(__DIR__ . '/../');
 
         return collect($paths)
             ->unique()
