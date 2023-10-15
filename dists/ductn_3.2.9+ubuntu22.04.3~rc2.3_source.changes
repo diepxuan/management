@@ -1,0 +1,45 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Format: 1.8
+Date: Sun, 15 Oct 2023 23:56:56 +0700
+Source: ductn
+Built-For-Profiles: noudeb
+Architecture: source
+Version: 3.2.9+ubuntu22.04.3~rc2.3
+Distribution: jammy
+Urgency: medium
+Maintainer: Tran Ngoc Duc <ductn@diepxuan.com>
+Changed-By: Tran Ngoc Duc <ductn@diepxuan.com>
+Changes:
+ ductn (3.2.9+ubuntu22.04.3~rc2.3) jammy; urgency=medium
+ .
+   * ISSUES:
+     - There are no commands defined in the "vm" namespace.
+Checksums-Sha1:
+ 5b8b1433c378833767ee0d76a735bf19b411c39e 1369 ductn_3.2.9+ubuntu22.04.3~rc2.3.dsc
+ 85b6e58cca545d68b99987eeee089c13996e4037 3844273 ductn_3.2.9+ubuntu22.04.3~rc2.3.tar.gz
+ 5420ec3e9b9f3cdde3bdc7bcf92738757449610b 10071 ductn_3.2.9+ubuntu22.04.3~rc2.3_source.buildinfo
+Checksums-Sha256:
+ 0457fdf3106c0c2d2760af6a2c387d22c26ec9cfaa24de7e37db97e9b26d37b6 1369 ductn_3.2.9+ubuntu22.04.3~rc2.3.dsc
+ fad83bb1ba9c535f4106431291434154f5734b72d3c4cbe53aac904b2a059a72 3844273 ductn_3.2.9+ubuntu22.04.3~rc2.3.tar.gz
+ 50ac3c1bbf963737cd5cfffa3c1727d41f636af8091f9354d45e581a2def4df0 10071 ductn_3.2.9+ubuntu22.04.3~rc2.3_source.buildinfo
+Files:
+ c2e13c1f32c9380afda87fdafa563059 1369 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.3.dsc
+ 4f7ab4872c1a884992df9568f28d8d51 3844273 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.3.tar.gz
+ 2a9f7828dc7c7e8db9bfca981959d67e 10071 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.3_source.buildinfo
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUsGkIACgkQfg7JF6UH
+S9OYWQwAiOGPAvzEb7eHSQQZtB2uNiN1y5LYFZ9QZ2t3w9PjzP6+N20GnJvNFlLh
+rUrRmg0YydyAxUGnjUYzZsA5olIPgU0zRV4Y2ydIz9Ile33DquBz+CoaWpcuuHFI
+aFO1VhrTsN3jvdQuSrlDZRwQDAyhLDySpgiLUQoHYILfmi0tWMNFtV2CwZdtZrAd
+Fwh0I76aDsadCqijwgHmRtPEKNVtWVXSPqSFHSAjW1Ysz8moEZS+lSUKzucr0+lw
+pXSwAWI2ZwkbHScLtR0G2pAaOMAx8GLzZ1MX7ANHn8pM8YirJMMfBHQGwtIlHaOg
+l26vCjXoGGqKEcz8F4RyHm4UMPtxQ45NWjsdhcwUpViyIInx5tBc/hC0e5w8q10i
+f/DW0XeGlH9Sca8TWZLUrplpfzGOhZ28wiGXTB2KNHRLGYEur4coubYf3GAydAmR
+QkmJFB4c1iOJHZi/KNHo8DNZVCa52x+cP3vP3IpS5rkbl7JPmxLKCSzzXqyn7BwJ
+XxjQ+ouw
+=j4WQ
+-----END PGP SIGNATURE-----
