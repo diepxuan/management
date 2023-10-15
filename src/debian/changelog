@@ -1,4 +1,4 @@
-ductn (3.2.9+debian~rc2.1) mantic; urgency=medium
+ductn (3.2.9+debian~rc2.2) mantic; urgency=medium
 
   * ISSUES:
     - src/Diepxuan/Command/helpers.php: Failed to open stream: No such file or directory
