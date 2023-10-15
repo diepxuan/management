@@ -7,17 +7,17 @@ Binary: ductn
 Architecture: amd64 source
 Version: 3.2.9+ubuntu22.04.3~rc2.1
 Checksums-Md5:
- f27a788af8913aa4af430c0e7645fa28 1369 ductn_3.2.9+ubuntu22.04.3~rc2.1.dsc
- 3a41832e5516cfc2cfc23d88c3329b78 2507668 ductn_3.2.9+ubuntu22.04.3~rc2.1_amd64.deb
+ bc1104fab4e03732917effe26b565281 1369 ductn_3.2.9+ubuntu22.04.3~rc2.1.dsc
+ afa4c8ccb8c1c17d5e3b767a292db3b4 2507468 ductn_3.2.9+ubuntu22.04.3~rc2.1_amd64.deb
 Checksums-Sha1:
- 06c81b09263faefc21868dff4a27c0f69170c0f4 1369 ductn_3.2.9+ubuntu22.04.3~rc2.1.dsc
- 5aac4223ee513966b260e16c48240dc74856d355 2507668 ductn_3.2.9+ubuntu22.04.3~rc2.1_amd64.deb
+ 7b1b06726638365cc77ca7a17906647891ba0fc8 1369 ductn_3.2.9+ubuntu22.04.3~rc2.1.dsc
+ ef8454111cefabd512377d033cd0ee1eb89a0d5e 2507468 ductn_3.2.9+ubuntu22.04.3~rc2.1_amd64.deb
 Checksums-Sha256:
- 76f5731085b7b7255c1ddd17b13b94a82fc55b620edbe5c7366f805157bbea5f 1369 ductn_3.2.9+ubuntu22.04.3~rc2.1.dsc
- 10aed9f9a7f77f98c2b1d0d0f73297dbe3b9898185ac91de0296521e2c356936 2507668 ductn_3.2.9+ubuntu22.04.3~rc2.1_amd64.deb
+ ce074143fffb67218474b441159494c564493a664262454c6d64ca96c0688dc6 1369 ductn_3.2.9+ubuntu22.04.3~rc2.1.dsc
+ 8f173a6fd6521aebf54d64b23b0b1195c64f9d54d2005597b8059fb442a21565 2507468 ductn_3.2.9+ubuntu22.04.3~rc2.1_amd64.deb
 Build-Origin: Ubuntu
 Build-Architecture: amd64
-Build-Date: Sun, 15 Oct 2023 11:08:34 +0700
+Build-Date: Sun, 15 Oct 2023 11:21:04 +0700
 Build-Tainted-By:
  merged-usr-via-aliased-dirs
  usr-local-has-includes
@@ -282,19 +282,19 @@ Environment:
  DEB_BUILD_OPTIONS="parallel=2"
  DEB_BUILD_PROFILES="noudeb"
  LANG="C.UTF-8"
- SOURCE_DATE_EPOCH="1697342833"
+ SOURCE_DATE_EPOCH="1697343604"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUrZkIACgkQfg7JF6UH
-S9MiKQv/QjrZ+X0u+gTYLs/cg+tH4ix9j2CBrmtfOnhgv99KiU93mKPIPCLb8FZk
-95SiyMJILxK8JF4L+fs7s6ymHDA9NqowbdQsyDCIFwwuqUdLoW+YcSTfyvmjXIxQ
-IBdCkr6Y/50ee87Zt+9+xUbiIDHQx/nJy5+lDyp33Yq178/OY0RTi1pOztJmSjwF
-2QxeRQmxqHqaJoFT8iGoDvBhuVL4VkqxKOwJYpl8ygMF2oOPBMk263hUizF+TJS4
-xYpGd6ow4J2PS0WpODQo01TOEq730TrQ0sPQQJtjyzMYf5iK8IzwrQwfkHVCC7lw
-DxUG9GviE3eJAa2DUGvMfYT6m6aejxaCAmiQCJdwevLPAZ6f9MjAgYavPFchfh7C
-7EG5RKtsDDEulyW7pQX3MhYVy/iv9XnTvL9IPD1JvtURB9WJ5VRxNwQllqMzm161
-Hq1T4MPsGoPiA/aN0T0bTBw8WwsD3Sb0wCvmSAwVhdwFHtcewhUZUWRigpDnc1PX
-iJylDE4F
-=IBBV
+iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUraLsACgkQfg7JF6UH
+S9NlhQv9Fh3ZHmO/aOhLfi//5doNy/Iq858a97WoWHcos4RnWQ04nKyTpp3jLC1F
+lE8/EQ8xkTPwbwgCYTT4rCchoun7yQH4TY/O5lDi9MAYDw8Fbd4VKwLrltlIg+cn
+3+h9GHWuoxBphGFtru1DZwfzHRqoGoAXts2Yy86dwylhjFfKjXgH9q5kXU4in2pK
+UGngA9bvOpHLmVQNa2kEHhQKKwqOd/FPLcNJOBABJBCBUjU08Q/gD11M2FnqMaj8
+43C5dvp32NXIGwEcqeWrXXBuxuAucYxz+gpzTI8K2pmt7s7ZdoxbPEnG0LpHprpm
+sEP+VHotdYsUugpL/xIzx3Q5z2kHisumGh9rn+5Uzss7tjUC7ajCmW9LMxjNfLDk
+N1NQYlMuhVkypdxivuzE80I9rD+sLd2bviIvwFInajGlgbpsf8dieFUBME1W5OYK
+Ai+TOH+HsvhaYdHkOE/tU+bOw5592P65cnv9+38/yBqKxqxS7QAngEt5dUga0Nqo
+VxlOcOwG
+=E9aN
 -----END PGP SIGNATURE-----
