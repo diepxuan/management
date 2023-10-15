@@ -6,14 +6,14 @@ Source: ductn
 Architecture: source
 Version: 3.2.9+ubuntu22.04.3~rc2.2
 Checksums-Md5:
- b290c3666de14d6158ee8390e0fa3fb8 1369 ductn_3.2.9+ubuntu22.04.3~rc2.2.dsc
+ f2181088ffe86049c8566fb7ac7b71c8 1369 ductn_3.2.9+ubuntu22.04.3~rc2.2.dsc
 Checksums-Sha1:
- 673c097b1088210aefef8c85c7020a1f845ebcf9 1369 ductn_3.2.9+ubuntu22.04.3~rc2.2.dsc
+ 53739ccbfdab54efc64392bc4c1c7d1bf77f9f4f 1369 ductn_3.2.9+ubuntu22.04.3~rc2.2.dsc
 Checksums-Sha256:
- 0a4352f94f146a214bde54acaed600e0c19fd0a13fc2615e76c899ed570aa80e 1369 ductn_3.2.9+ubuntu22.04.3~rc2.2.dsc
+ 64e124dae6b24c1eeee28635d700e00aa4d9b0900a7b7b9074b0f35d06bfdb67 1369 ductn_3.2.9+ubuntu22.04.3~rc2.2.dsc
 Build-Origin: Ubuntu
 Build-Architecture: amd64
-Build-Date: Sun, 15 Oct 2023 16:49:36 +0700
+Build-Date: Sun, 15 Oct 2023 23:54:08 +0700
 Build-Tainted-By:
  merged-usr-via-aliased-dirs
  usr-local-has-includes
@@ -278,19 +278,19 @@ Environment:
  DEB_BUILD_OPTIONS="parallel=2"
  DEB_BUILD_PROFILES="noudeb"
  LANG="C.UTF-8"
- SOURCE_DATE_EPOCH="1697363155"
+ SOURCE_DATE_EPOCH="1697388740"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUrtbMACgkQfg7JF6UH
-S9PD4AwAqFqzG0yYfx0D6gSbnwNzh/WPDWyBaUbV2p2j219WfydAFyK3IgUsLbWk
-x8X8fKpOQUdz6UOQTikTfSiF+iesf9lObumEdts+0a/7KW7QbPtpV3NGqjpBUsvr
-sxdbeg+7lg74W0IDZRV2x09V9d6IAu6dLSM0dQ79tijR6srxgwTd07YoO554DJWg
-IH2RBxblFvBurb6RVs2y4rauT8a3lakxnBpIpkyLrNkIGcgJsfh26hMQ5xGO+th7
-KC7UoawRTk71FURcI89fzJeNdhqLeKpNk20IeEuuiIp1RS3I2OUCDokrbErvDjnZ
-FQZ0+By+B4BkFUlNeJDbt4dm5caR/HRQowuN1lf2j8j9mUuVHcXjyBMT/OU3OqiW
-eQp0z4soZk9CGPRw7YSD3Nt1Q9GQAwGJUACn/leTNW8CoxzLOFCYZ/Hn4fF7ddBQ
-1aPhUKS4bOS7WSEvzcPnNQos5DNb3ZKfoGKzhGJUifOcQ9xvbb6ala6V/x13Gmp4
-/ePNNpcj
-=aVLA
+iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUsGTMACgkQfg7JF6UH
+S9OWGQv+NOyOSLvUXcQUEtwyT2Q0pr7npEDUYgByRhelDlkUHmkgrtCg3CkTh7tb
+ZRDfARxGoZkGeqjB25p/qVDDSfeBGommOgCpZSCSHInDMNLec8z0QPexexQkZJur
+xQ6lAizEelS00o9Du7d12krCUPA1D8J/+3A3k4TiTgXBX8DXX2y2/vKze4oOkfKt
+PrLRpoI5llXTs8gopQCVBZX6kyJm8XyGu2A6VeiDJzlMprTMBVT1SePKoWF2hCSH
+mfZkQl9J5tXJhiw52YHvxxEUpdFW3RBdwLACs1bQRU1l+7pbyih/lOI87PqwXlQ+
+ilSbXWPf8GH9yDZ+CSFexJeglSkQ+iO30Ejp08wtP+SJ8VCt80mnkDJCxqCxf3Du
+7AZVrb+nNR7T7SGFzVAJEIbkR9ADt7U2/qxfkDm8Goo6+WKC26G+dSK0cnbbujLl
+Ifwk7p+4bH80GNNyk0i/td1J4D/jDcfBxkKprHbZVvjil6NnFtLpj+QWFE+OvTNk
+2AEu5Nm2
+=rtus
 -----END PGP SIGNATURE-----
