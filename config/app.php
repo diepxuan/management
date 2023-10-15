@@ -180,6 +180,7 @@ return [
          */
         App\Providers\ModelsServiceProvider::class,
 
+        is_file('src/Diepxuan/Command/Providers/CommandServiceProvider.php') ? Diepxuan\Command\Providers\CommandServiceProvider::class : '',
     ],
 
     /*
