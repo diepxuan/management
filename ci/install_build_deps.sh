@@ -24,7 +24,8 @@ printf "man-db man-db/auto-update boolean false\n" | sudo debconf-set-selections
 # grep -r "/ondrej/php" /etc/apt/sources.list /etc/apt/sources.list.d/*.list >/dev/null 2>&1 ||
 #     sudo add-apt-repository ppa:ondrej/php -y
 grep -r "/caothu91/ppa" /etc/apt/sources.list /etc/apt/sources.list.d/*.list >/dev/null 2>&1 ||
-    sudo add-apt-repository ppa:caothu91/ppa -y
+    sudo add-apt-repository ppa:caothu91/ppa -y ||
+    sudo -E add-apt-repository ppa:caothu91/ppa
 
 sudo apt-get update
 
