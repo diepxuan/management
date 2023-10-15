@@ -1,6 +1,6 @@
-ductn (3.2.9+debian~rc2) mantic; urgency=medium
+ductn (3.2.9+debian~rc2.1) mantic; urgency=medium
 
   * No-change, move to github
-  * Create actions and Ci
+  * Rebuild package after update composer source
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 01 Oct 2023 10:59:38 +0700
