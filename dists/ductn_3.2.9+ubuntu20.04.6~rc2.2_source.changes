@@ -1,0 +1,44 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Format: 1.8
+Date: Sun, 15 Oct 2023 16:45:53 +0700
+Source: ductn
+Architecture: source
+Version: 3.2.9+ubuntu20.04.6~rc2.2
+Distribution: focal
+Urgency: medium
+Maintainer: Tran Ngoc Duc <ductn@diepxuan.com>
+Changed-By: Tran Ngoc Duc <ductn@diepxuan.com>
+Changes:
+ ductn (3.2.9+ubuntu20.04.6~rc2.2) focal; urgency=medium
+ .
+   * ISSUES:
+     - src/Diepxuan/Command/helpers.php: Failed to open stream: No such file or directory
+Checksums-Sha1:
+ d7424e5fce0538068730122efcc3c3d0e8c34ae4 1369 ductn_3.2.9+ubuntu20.04.6~rc2.2.dsc
+ 695286d01504e8dd1aac86ee43b5540ecaa4f561 3745031 ductn_3.2.9+ubuntu20.04.6~rc2.2.tar.gz
+ 671279306e3b5cbef964bfa1c317dcdc0c64842f 9637 ductn_3.2.9+ubuntu20.04.6~rc2.2_source.buildinfo
+Checksums-Sha256:
+ 15fbe515be17d62f736c66f15b4c7cae277f20b9d25827aa60975a8470dcedc9 1369 ductn_3.2.9+ubuntu20.04.6~rc2.2.dsc
+ d76694532a1172329d5d1a34a12cf1343a1a4bf33b53f8bc4eb8acd1ec26ff43 3745031 ductn_3.2.9+ubuntu20.04.6~rc2.2.tar.gz
+ cc12d5d927777e3667976b7e3977530a3816a54a3beb502907f0fa10b336e8e8 9637 ductn_3.2.9+ubuntu20.04.6~rc2.2_source.buildinfo
+Files:
+ 9b4e156320c37a7da3eb4e30a314c39a 1369 devel optional ductn_3.2.9+ubuntu20.04.6~rc2.2.dsc
+ d38364169d7750b5ee1826502b1464bf 3745031 devel optional ductn_3.2.9+ubuntu20.04.6~rc2.2.tar.gz
+ 34099de94216c08dd9a9e7d8cc7315e0 9637 devel optional ductn_3.2.9+ubuntu20.04.6~rc2.2_source.buildinfo
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUrtVcACgkQfg7JF6UH
+S9NuXAv/Tjro8wRqA0NlT1ixSC3CMVNHmSmpF8lSEf7Sddrg8FtFJ8ok830Zx29d
+XQJ9vXAIjdo3LyEUNGJ38jUC4K8k7I+j7QEA4O/WmOBnQ75D4eOV4GlXaS7DpXN6
+G64deAi8kXPm367XEcuDMWwMiOqznwxr3NE3tpaaIFV9/nxNx5bgADcTAdBNE/72
+XV29mtnYfPcTUYf2RExlsPCdA9zIsVcrVMOZ/HWWVXyvA3EdJWqa6u71xEYQjACE
+yp/VHIVI0Wz5Jwg/zZeuPeoY7Z9vQeiMIeyccGeYgSD87w6lxp5DfHwygY2qqg+g
+3nsUbuJ6ymdCqcDntTL4ZKEQJC00DdcdaejgtJji3+7GudgP3jqG5CR9QXKbzuGD
+ZNBe2NiULZX56ct0Ou3YL4hsSBxH7gLrzA4ot8CC7bqY349y+x29yfaCzzqAp54i
+rNfsYLUqzN084SSOVJ4IWTakkkuMktl9jV0jUNpwFalvR3lAp0W2mRWk5mO5wDvF
+1yLSR5/U
+=rYJu
+-----END PGP SIGNATURE-----
