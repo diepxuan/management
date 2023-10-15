@@ -2,7 +2,7 @@
 Hash: SHA512
 
 Format: 1.8
-Date: Sun, 15 Oct 2023 11:07:13 +0700
+Date: Sun, 15 Oct 2023 11:20:04 +0700
 Source: ductn
 Built-For-Profiles: noudeb
 Architecture: source
@@ -17,29 +17,29 @@ Changes:
    * No-change, move to github
    * Rebuild package after update composer source
 Checksums-Sha1:
- e110138ec4747cd063593f8062e8f8c6c1c2290c 1369 ductn_3.2.9+ubuntu22.04.3~rc2.1.dsc
- e541d0144256690d62f9e9c0e9895df86875a677 3762924 ductn_3.2.9+ubuntu22.04.3~rc2.1.tar.gz
- 4d90cd76127249adb39db5d23a31b2508283512e 10071 ductn_3.2.9+ubuntu22.04.3~rc2.1_source.buildinfo
+ 4f35a35fd7a65b71024bde78020be4c5707d29ed 1369 ductn_3.2.9+ubuntu22.04.3~rc2.1.dsc
+ 1d8dadb8f52868412856641c2d25b9ac4047964e 3763235 ductn_3.2.9+ubuntu22.04.3~rc2.1.tar.gz
+ b8206c03f8766958d814c8fe9179c5714e9b6c77 10071 ductn_3.2.9+ubuntu22.04.3~rc2.1_source.buildinfo
 Checksums-Sha256:
- 5e3de71717c3757bd76dde389d1a4a14a5b2c0b253ceefad597910a387941481 1369 ductn_3.2.9+ubuntu22.04.3~rc2.1.dsc
- 4fd13a5a55e73117ec348dfc92a9a1e439f80750fa8272cb62cccc3b58027367 3762924 ductn_3.2.9+ubuntu22.04.3~rc2.1.tar.gz
- 0fad047cc6352e11e30fb09e315dd3dec73bb37b0c14335950c74400f3ca1bb0 10071 ductn_3.2.9+ubuntu22.04.3~rc2.1_source.buildinfo
+ 395b3a2d31cee2ee641dd259ca36fa69f1e3410b54d7afd7762c3f6cb0d14ae8 1369 ductn_3.2.9+ubuntu22.04.3~rc2.1.dsc
+ e5c8775fcc4d465a3c402d2f770ff0457d51f3e74230f42c438916a882d96dc0 3763235 ductn_3.2.9+ubuntu22.04.3~rc2.1.tar.gz
+ dbcd4ea53974f22720915cddc6f0869de8410af1a7bd82177b6f0883aebc856f 10071 ductn_3.2.9+ubuntu22.04.3~rc2.1_source.buildinfo
 Files:
- dba542b75d29e695dbba0c0099deec95 1369 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.1.dsc
- 8d8db6f7da857abdf37c43a42e4607d9 3762924 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.1.tar.gz
- f07cca935076192684d17517b371e872 10071 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.1_source.buildinfo
+ 117279766f693c75b36e7e9f9004e32c 1369 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.1.dsc
+ 893ab73048cc1b664472438e2bd3273e 3763235 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.1.tar.gz
+ 320d87411a6055f53fa1905463bb18c5 10071 devel optional ductn_3.2.9+ubuntu22.04.3~rc2.1_source.buildinfo
 
 -----BEGIN PGP SIGNATURE-----
 
-iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUrZkgACgkQfg7JF6UH
-S9NL1wv+ODu7L9BiEOvqTnZnwzFZTpvIz4jfTGwTt9fsm/hJOu0PODpqSiqPuf8w
-wFAQ2IZh6fqWdnQkfiX9yFf5whB8cvn45byQGkWFq/LAM07mffhIk8djpykRIBxl
-bG9JK7okBk+I6H9HKtK2HMDbXFIBJTI2rHigvZM0x+hSGqKdkyQgWBZsE9nQdVY8
-0AUmvkSOPdpxqNFgvia3zNRJSrGFbCMcTezBMkyABNnulaVS/S8JqTLyIEj7nWgy
-AYFP/MCzG58DoaW3AhzZeBa+CCWV1iGmG9wZ0EpZgjRoEoAbTRFEipVT6mr+ev6m
-gcmBuLTquVff6q4WKMpZaMc2U/XA+zfhqgviXzhPmFvFqSWYToMY/4+KchBryoiJ
-IQGocrh2gnKMHsLua3BaoctrHTUB7c0jSeT0hSoCADR3bD7wfhh6/uiOnk7xutv7
-616OJANq+49ekv2zRIvK4lw65X2bsMa/lkmctezjoF9OV49Yy3KsTPOU1CeVPjRS
-0isqmVyW
-=pKV0
+iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUraMEACgkQfg7JF6UH
+S9PDMAv/fhAB0/82yGqFnEhJBWh1OAiBWDNK+67HCDVwGiJrMCuAGy7CcOfuAeFn
+RGcaVM/3NVbeco9tG7snhZyxHktKcT8W2ide1VVJr8wQdgbof+gQJZa35jJZtpnK
+u3mR4QNGeMaPpUuEEAPGpyqOOAaUYGfNf2jA73dIGkMWYzPYGwaFneW4ndsJsSkk
+E1fjCblf4SFtiAItJeoPD6/LFAJmYf/WiRfsENvB6RB0yDxBuj4JmPYprUZ1kbK2
+8qZNTq1s+s8NBTS+Ax3LuTgNpRZGFNVzbCds8+k2BxLuXiT6au7SG7da6BAnIWuk
+1FkdaP6LJWR+KmKsrPBziqRYAQ+lrU7BG2WwHMOaGfVMNWYklkaAOgdlyLwa+YcJ
+i0pe0/eci477dO4ciMsKDzjXu3abBjazCdQbAfwsE7WFl5o3AKuZbWohVIMSOH64
+gPMH7aehFvXIC0zWvezvCns6ATSZDfPVOarIHKkiV5HD3BNTBpVSd+hfRZk+t7zN
+p5Q/lF6x
+=tVr0
 -----END PGP SIGNATURE-----
