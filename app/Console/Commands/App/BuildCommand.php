@@ -48,6 +48,7 @@ class BuildCommand extends CommandsCommand
      */
     public function handle()
     {
+        $this->packager->coerceWritable();
         $buildPath = $this->build_path();
         $lstSrcPath = [
             'app',
@@ -106,7 +107,6 @@ class BuildCommand extends CommandsCommand
             "Success build <fg=green>phar</>.",
             function () {
                 $this->packager->setOutput($this->output->getOutput());
-                $this->packager->coerceWritable();
 
                 $this->packager->getPharer($this->build_path())
                     ->setTarget('src/ductn.phar')
