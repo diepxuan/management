@@ -7,14 +7,14 @@ Binary: ductn
 Architecture: source
 Version: 3.2.9+ubuntu20.04.6~rc2.3
 Checksums-Md5:
- e16e2bba646c4b0ab30a826b54e000a4 1369 ductn_3.2.9+ubuntu20.04.6~rc2.3.dsc
+ 883a8f0bc6db14186269edfacb2db647 1369 ductn_3.2.9+ubuntu20.04.6~rc2.3.dsc
 Checksums-Sha1:
- d4a71f4496f5b3f1180ef35aca13d67fb3ef2884 1369 ductn_3.2.9+ubuntu20.04.6~rc2.3.dsc
+ f1901eb600ee38f44e93a91837633fa3de933b83 1369 ductn_3.2.9+ubuntu20.04.6~rc2.3.dsc
 Checksums-Sha256:
- 47b35649354f1d1394c46e831aca1c8d78856a9b847c347d2d78b8131a406813 1369 ductn_3.2.9+ubuntu20.04.6~rc2.3.dsc
+ 4832ed8534569b51d7f847c6d3d60aab092a3e4b26d766a3df8e477b232d4313 1369 ductn_3.2.9+ubuntu20.04.6~rc2.3.dsc
 Build-Origin: Ubuntu
 Build-Architecture: amd64
-Build-Date: Sun, 15 Oct 2023 23:58:45 +0700
+Build-Date: Mon, 16 Oct 2023 18:22:16 +0700
 Build-Tainted-By:
  merged-usr-via-symlinks
  usr-local-has-includes
@@ -222,7 +222,7 @@ Installed-Build-Depends:
  perl-modules-5.30 (= 5.30.0-9ubuntu0.4),
  php-all-dev (= 2:75),
  php-common (= 2:93+ubuntu20.04.1+deb.sury.org+2),
- php-runkit7 (= 4.0.0a6+ubuntu20.04.6~rc3.3),
+ php-runkit7 (= 4.0.0a6+ubuntu20.04.6~rc3.4),
  php7.4-cli (= 1:7.4.33-8+ubuntu20.04.1+deb.sury.org+1),
  php7.4-common (= 1:7.4.33-8+ubuntu20.04.1+deb.sury.org+1),
  php7.4-dev (= 1:7.4.33-8+ubuntu20.04.1+deb.sury.org+1),
@@ -236,7 +236,7 @@ Installed-Build-Depends:
  php8.2-opcache (= 8.2.10-1+ubuntu20.04.1+deb.sury.org+2),
  php8.2-phpdbg (= 8.2.10-1+ubuntu20.04.1+deb.sury.org+2),
  php8.2-readline (= 8.2.10-1+ubuntu20.04.1+deb.sury.org+2),
- php8.2-runkit7 (= 4.0.0a6+ubuntu20.04.6~rc3.3),
+ php8.2-runkit7 (= 4.0.0a6+ubuntu20.04.6~rc3.4),
  pkg-config (= 0.29.1-0ubuntu4),
  po-debconf (= 1.0.21),
  procps (= 2:3.3.16-1ubuntu2.3),
@@ -256,19 +256,19 @@ Installed-Build-Depends:
 Environment:
  DEB_BUILD_OPTIONS="parallel=2"
  LANG="C.UTF-8"
- SOURCE_DATE_EPOCH="1697389015"
+ SOURCE_DATE_EPOCH="1697455018"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUsGkcACgkQfg7JF6UH
-S9P3wgwAk+g91uIOCP/enciDvTMnfxHScw570CdZ4RW+YeK8EjsHnFif4q4gIEf6
-CiZj4miYFjvgVmf5agCa+rOsko26aptiUJwdw9NJ4h1kqvU0ePWfmPH7n8cRCu3y
-PIsGMwyGSyWH2c6aYDoM+k5XiNEh+Yy2gl8urW7bC/Ob0qJSZUURoFL+086VsFW1
-zjlv0dvoxy1SN3XUSmEx6sf9vboFuKf7Qi6koMZNA8N07mxpZTOCTFVKUW76B+O2
-fJA+hyVxIctKS33Vay5KcmAZlUEOGqbh0K/LdqE7Xs0jn5Jp2JVF1NWOxdWPpxTt
-LJzQ2IMzOjtsV0+Pxa+LnMuER1mlCr3I5SrGFkSTUsDKxCQL9K2oI94Lfp+LvFu3
-y0eMhUBirH0RBZfO642ERyGcS5z7QCLWEWFM29+Z0wwcOaXQHyxVqsjnM38vbEPx
-GgHTvfjnpfeO2/zcxpU/1HLZ9q0e1fVAQ8Njsj0K+EvBEaFcLJNBpM8a2P1ZrwEQ
-elmG1hGc
-=3P0W
+iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUtHOoACgkQfg7JF6UH
+S9P1vwwAhkLoEvSZ1sjk0d57MJGR7WHhzOPyEMT09WIp5PdP65I4une/ydGWz5x7
+/0Qvf6YpVVjSWORnV1TUxhXQ5bhjC9upiTxIQtl9/qXREZcsHE2sKd6sSMmZ9UH0
+h5CFjMtaRKtO4onxVHnpemKncmRG36BgqtAWnTXCKnQGjtU7ZfVEouDR8WDiGo6+
+t+neGtET2PsslaK7xZdwWP1XwUwgQmxFpj/v/FDK0Ja0sZgSdZ2xrkAa+RlN31t5
+ibuIW5sFxrRUz+OEkRP3m/ug/mDo859fqn17ohwcrDuMdJiknpMMTcgYdOjQKTZm
+PLHYY+w9dC33FWbOvDDnNOQZXlHtDH5G4aCQa/ScUCLVYi2eFTTjtVgoZlcLk5at
+KdiQjRgYZj/Gw1V+7zwdeRBZyn9r/ao9kFIspr7RWRVwkknhAXM01o8SQHL9jiUt
+159gZqrLa4K3juzU2OcjRG1+NE5z3K0LcoTA2ygGWzTl2hZnp220dIS+ZF8CuCUl
+yjeyqD2N
+=oPjo
 -----END PGP SIGNATURE-----
