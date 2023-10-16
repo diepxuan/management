@@ -1,0 +1,50 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Format: 1.8
+Date: Mon, 16 Oct 2023 20:12:31 +0700
+Source: ductn
+Binary: ductn
+Architecture: source amd64
+Version: 3.2.9+ubuntu20.04.6~rc2.4
+Distribution: focal
+Urgency: medium
+Maintainer: Tran Ngoc Duc <ductn@diepxuan.com>
+Changed-By: Tran Ngoc Duc <ductn@diepxuan.com>
+Description:
+ ductn      - DiepXuan super package
+Changes:
+ ductn (3.2.9+ubuntu20.04.6~rc2.4) focal; urgency=medium
+ .
+   * ISSUES:
+     - There are no commands defined in the "vm" namespace.
+Checksums-Sha1:
+ 76325fc63acf179873b158fe418ee96fb146dfa0 1369 ductn_3.2.9+ubuntu20.04.6~rc2.4.dsc
+ 9cb61a2c5e6eb14e816ff9e50bf7f47f95df62f6 3745362 ductn_3.2.9+ubuntu20.04.6~rc2.4.tar.gz
+ 0618c6f64a444f2509a6ad8eb1a73e1734aa8078 9935 ductn_3.2.9+ubuntu20.04.6~rc2.4_amd64.buildinfo
+ bfef168c0983d261c2633d97388eafaddc83d9a5 2483088 ductn_3.2.9+ubuntu20.04.6~rc2.4_amd64.deb
+Checksums-Sha256:
+ 1301fae50aadf48a7d854a2d84c7181814363cee7f4c6c1af155545dd32fe6ae 1369 ductn_3.2.9+ubuntu20.04.6~rc2.4.dsc
+ 3313d292fd266304247940489ec7d691ef7f0862170750188f782fc2a685183c 3745362 ductn_3.2.9+ubuntu20.04.6~rc2.4.tar.gz
+ b8918207818f542ba0eefaffaf2a138bd333b6821b61a59eb0ea38825c4083e0 9935 ductn_3.2.9+ubuntu20.04.6~rc2.4_amd64.buildinfo
+ 2a4f8f940efba058ad4a5e3e89ea68f75862a56a0085996cc0c5a48969e8c102 2483088 ductn_3.2.9+ubuntu20.04.6~rc2.4_amd64.deb
+Files:
+ b87627b550e7ebadcb90a8d43aa896e4 1369 devel optional ductn_3.2.9+ubuntu20.04.6~rc2.4.dsc
+ 2ae556a9375ee13b4500a1f54b4f35ec 3745362 devel optional ductn_3.2.9+ubuntu20.04.6~rc2.4.tar.gz
+ c0201d87606115f410373456f0b6470c 9935 devel optional ductn_3.2.9+ubuntu20.04.6~rc2.4_amd64.buildinfo
+ 101b955709c881730ad8ae0e23da9c53 2483088 devel optional ductn_3.2.9+ubuntu20.04.6~rc2.4_amd64.deb
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUtNxUACgkQfg7JF6UH
+S9NePgwAlwSGQMN2bZz9hcuhNzyaFvGvrIch71y43vpX8NSc+Un33BxUIHpcPDkn
+uNbKWFrFT8o8KBV+VeWubRyD4s6uihmk+cdZNBBMa0/CF9ZgRl4eeeFlKN/i1n7r
+jnt35P+LIPlRw2M+JdPxnlOUQnXoLy3VnQJN+xjsYWNTuMg4AobW0/+h/ueDJ46P
+bBJ110r1ZJ2mv8Dp82xZlkP+2Yt0zXMKOAINGH+IWoB/N1VfcJelsuHlgH0YDi0H
++zfss0+APm2QB7q7SRLOAFRVIDPh2/MlGkmA4xTHLT077a4OB8N9oEjGycsNw6Zm
+egLm08z/QReAMhUb9pKLWhxM9Q1n/oybKNuhpcsKHUzkouut75fQEXicWwMywR2E
+c7GU+rXXwQugxxdAEovzooIO+EIJ7STfKC+kbcu0CGMRrXnjXNXgcpOZfgdfZKfW
+LCM9IDkNqkLIU3qmIStQxNQq5mcA2Nhg5bQLdQ7aTPUcVaat7sc+Uf89zdXTkzA1
+GT9ErC4h
+=9IYX
+-----END PGP SIGNATURE-----

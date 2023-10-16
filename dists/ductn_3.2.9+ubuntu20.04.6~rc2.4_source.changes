@@ -1,0 +1,44 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Format: 1.8
+Date: Mon, 16 Oct 2023 20:12:31 +0700
+Source: ductn
+Architecture: source
+Version: 3.2.9+ubuntu20.04.6~rc2.4
+Distribution: focal
+Urgency: medium
+Maintainer: Tran Ngoc Duc <ductn@diepxuan.com>
+Changed-By: Tran Ngoc Duc <ductn@diepxuan.com>
+Changes:
+ ductn (3.2.9+ubuntu20.04.6~rc2.4) focal; urgency=medium
+ .
+   * ISSUES:
+     - There are no commands defined in the "vm" namespace.
+Checksums-Sha1:
+ c66770bf9b7624d5ce3e2d5ea19c0cb9bfbc3b69 1369 ductn_3.2.9+ubuntu20.04.6~rc2.4.dsc
+ 9cb61a2c5e6eb14e816ff9e50bf7f47f95df62f6 3745362 ductn_3.2.9+ubuntu20.04.6~rc2.4.tar.gz
+ b079f685a627f55cee86c5f13407dbb1cb1649ba 9637 ductn_3.2.9+ubuntu20.04.6~rc2.4_source.buildinfo
+Checksums-Sha256:
+ a4843dc72fb6a71e6984d238f5ca9b142a3f0852165e814859bb9ddf8c072d30 1369 ductn_3.2.9+ubuntu20.04.6~rc2.4.dsc
+ 3313d292fd266304247940489ec7d691ef7f0862170750188f782fc2a685183c 3745362 ductn_3.2.9+ubuntu20.04.6~rc2.4.tar.gz
+ 63382b00d94937477fe66a8bc4d90e3daf2f74c0a947389c39ea13bd891bb454 9637 ductn_3.2.9+ubuntu20.04.6~rc2.4_source.buildinfo
+Files:
+ ec25cc4a621a0199c8b3fd297e97db6c 1369 devel optional ductn_3.2.9+ubuntu20.04.6~rc2.4.dsc
+ 2ae556a9375ee13b4500a1f54b4f35ec 3745362 devel optional ductn_3.2.9+ubuntu20.04.6~rc2.4.tar.gz
+ feb23c1ee9c34ebdb9f1f06e7de6df8b 9637 devel optional ductn_3.2.9+ubuntu20.04.6~rc2.4_source.buildinfo
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCgAdFiEEyL1dbGOOihGTiSkmfg7JF6UHS9MFAmUtNxoACgkQfg7JF6UH
+S9O4vQv/VXo5IvXhjnbjBWlnWMyTDIRoK6VNDswp8uMvFzMnGikoEUZwF704yMvq
+mZ5kMiKYX3xqlFaa+98xS1BBEGmWWFOw4fdOnXmXirmx4piZ0sKFhq0vIPwLe8hD
+tARGWpi0gmFeO2DCNGQD4Gr0UW6n4cSeaWG/Np2jTlC44eK+dRAThsp25jaWWNJ9
+7aKS5QflKqn0MmU+4djiML+194v5c+Znr+2jODpo1BMcnSZvWoFIn71t9PgmVsH6
+mNwj19EycPnpV6W0ael0jzKawMuVIoY1rfmZQsWv8Y4z3tfvXpHh8ctTCLDimt7D
+VxDeg8iv2z1VTePWqYY1CAkNM4luxq0QIbywoc+QjnIc6KFRnXjILUQ/DYTkT7GJ
+5lbwO4Pcx8/FpnqRLbx+yS9EdQrrqgznYXW5zHVUySp7DGK64qEXGEKcmElnhoWK
+T1sQzsyWjl4jwAUkvdfnMQ0cbnntXo2P22W4sAOM3tayDWJPM/Ua+/PiBDeQlIq7
+PkY4bdqh
+=q6sk
+-----END PGP SIGNATURE-----
