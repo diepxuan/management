@@ -113,6 +113,7 @@ jobs:
       - name: Put package to Personal Package archives
         run: bash ci/put_ppa_packages.sh
       - name: Push repository
+        if: false
         run: |
           if [ "$(git status --porcelain=v1 2>/dev/null | wc -l)" != "0" ]; then
             git add dists/
