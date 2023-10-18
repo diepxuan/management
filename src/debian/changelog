@@ -1,4 +1,4 @@
-ductn (3.2.9+debian~rc2.5) mantic; urgency=medium
+ductn (3.2.9+debian~rc2.6) mantic; urgency=medium
 
   * ISSUES:
     - There are no commands defined in the "vm" namespace.
