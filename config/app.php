@@ -134,7 +134,7 @@ return [
     |
     */
 
-    'providers' => [
+    'providers' => array_filter([
 
         /*
          * Laravel Framework Service Providers...
@@ -181,7 +181,7 @@ return [
         App\Providers\ModelsServiceProvider::class,
 
         is_file(base_path('src/Diepxuan/Command/Providers/CommandServiceProvider.php')) ? Diepxuan\Command\Providers\CommandServiceProvider::class : '',
-    ],
+    ]),
 
     /*
     |--------------------------------------------------------------------------
