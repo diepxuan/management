@@ -6,14 +6,26 @@ on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
     branches: [main]
-    paths-ignore:
-      - "**.md"
-      - "dists/**"
+    paths:
+      - "app"
+      - "bootstrap"
+      - "config"
+      - "routes"
+      - "src/Cloudflare"
+      - "src/Diepxuan"
+      - "artisan"
+      - "composer.json"
   pull_request:
     branches: [main]
-    paths-ignore:
-      - "**.md"
-      - "dists/**"
+    paths:
+      - "app"
+      - "bootstrap"
+      - "config"
+      - "routes"
+      - "src/Cloudflare"
+      - "src/Diepxuan"
+      - "artisan"
+      - "composer.json"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
