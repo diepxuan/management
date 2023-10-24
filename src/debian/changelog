@@ -1,6 +1,6 @@
-ductn (3.2.9+debian~rc2.6) mantic; urgency=medium
+ductn (3.2.9+debian~rc2.7) mantic; urgency=medium
 
   * ISSUES:
-    - There are no commands defined in the "vm" namespace.
+    - Class name must be a valid object or a string.
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 01 Oct 2023 10:59:38 +0700
