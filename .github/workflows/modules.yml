@@ -77,53 +77,58 @@ jobs:
           GIT_COMMITTER_NAME: ${{ github.repository_owner }}
           GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
 
-      - name: Installing build dependencies
-        run: bash ci/install_build_deps.sh
-
-      - name: Updating build information
-        run: bash ci/update_packages.sh
-
-      - name: Installing libraries
+      - name: Detect Directory Changes
+        working-directory: ./src/
         run: |
-          ls -la src
-          ls -la src/Diepxuan/Command
-          composer update
+          case "${{ github.event_name }}" in
 
-      - name: Build a single app executable
-        run: php -d phar.readonly=off artisan app:build
+            "pull_request")
+              base_ref="${GITHUB_BASE_REF}"
 
-      - name: Building package binary
-        run: bash ci/build_packages.sh
-        env:
-          BUILDPACKAGE_OPTS: --force-sign
-          BUILDPACKAGE_EPOCH: ${{ env.BUILDPACKAGE_EPOCH }}
-          DEB_SIGN_KEYID: ${{ secrets.GPG_KEY_ID }}
-          GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
-      - name: Building package source
-        run: bash ci/build_packages.sh
-        env:
-          BUILDPACKAGE_OPTS: --force-sign -S
-          BUILDPACKAGE_EPOCH: ${{ env.BUILDPACKAGE_EPOCH }}
-          DEB_SIGN_KEYID: ${{ secrets.GPG_KEY_ID }}
-          GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+              git fetch origin "${base_ref}"
+              changed_files=( $(git --no-pager diff --name-only HEAD "origin/${base_ref}" | awk '{print "./"$1}') )
+              ;;
 
-      - name: Move packages to dists
-        run: bash ci/move_packages.sh
+            "push")
+              git fetch origin "${{ github.event.before }}"
+              changed_files=( $(git --no-pager diff-tree --name-only -r ${{ github.event.before }}..${{ github.event.after }} | awk '{print "./"$1}') )
+              ;;
 
-      - name: Put package to Personal Package archives
-        run: bash ci/put_ppa_packages.sh
-      - name: Push repository
-        if: false
-        run: |
-          if [ "$(git status --porcelain=v1 2>/dev/null | wc -l)" != "0" ]; then
-            git add dists/
-            # git add src/debian/changelog
-            git commit -m "Update packages on dists from ${{ matrix.operating-system }} at $(date +'%d-%m-%y')" &&
-              # git push https://${{ github.repository_owner }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git main ||
-              git push ||
-              git stash &&
-              git pull --rebase &&
-              git stash apply &&
-              # git push https://${{ github.repository_owner }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git main || true
-              git push || true
+            *)
+              changed_files=( $(find . -type f) )
+              ;;
+          esac
+
+          IFS=',' read -r -a included_extensions <<< "${{ inputs.included-extensions }}"
+
+          if [ ${#included_extensions[@]} -ne 0 ]; then
+            changed_directories=( )
+
+            for changed_file in "${changed_files[@]}"; do
+              dirname=$(dirname -- "$changed_file")
+              filename=$(basename -- "$changed_file")
+              extension="${filename##*.}"
+
+              if [[ "${changed_file}" =~ ^.git/ ]]; then
+                continue
+              fi
+
+              # included_extensions contains the changed file's extension
+              if [[ " ${included_extensions[*]} " =~ " ${extension} " ]]; then
+                changed_directories+=( "$dirname" )
+              fi
+            done
+
+            changed_directories=( $(echo "${changed_directories[@]}") )
+          else
+            changed_directories=( $(echo "${changed_files}" | xargs -I {} dirname {}) )
           fi
+          changed_directories=( $(printf "%s\n" "${changed_directories[@]}" | sort -u) )
+
+          echo "changed_directories: ${changed_directories[@]}"
+
+          all_directories=( $(git ls-files | xargs dirname | sort -u) )
+          echo "all_directories: ${all_directories[@]}"
+
+          echo "changed_directories=${changed_directories[@]}" >> $GITHUB_OUTPUT
+          echo "all_directories=${all_directories[@]}" >> $GITHUB_OUTPUT
