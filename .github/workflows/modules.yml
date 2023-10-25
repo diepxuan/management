@@ -63,15 +63,15 @@ jobs:
           echo '#!/bin/bash' >> /tmp/gpg.sh
           echo 'gpg --batch --pinentry-mode=loopback --passphrase $GPG_KEY_PASSPHRASE $@' >> /tmp/gpg.sh
           chmod +x /tmp/gpg.sh
-          git config gpg.program /tmp/gpg.sh
+          git config --global gpg.program /tmp/gpg.sh
 
       - name: Configure Git gpg
         if: true
         run: |
-          git config user.email "$GIT_COMMITTER_EMAIL"
-          git config user.name "$GIT_COMMITTER_NAME"
-          git config commit.gpgsign true
-          git config user.signingkey $GPG_KEY_ID
+          git config --global user.email "$GIT_COMMITTER_EMAIL"
+          git config --global user.name "$GIT_COMMITTER_NAME"
+          git config --global commit.gpgsign true
+          git config --global user.signingkey $GPG_KEY_ID
         env:
           GIT_COMMITTER_EMAIL: ${{ secrets.GIT_COMMITTER_EMAIL }}
           GIT_COMMITTER_NAME: ${{ github.repository_owner }}
