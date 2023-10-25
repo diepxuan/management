@@ -7,23 +7,23 @@ on:
   push:
     branches: [main]
     paths:
-      - "app"
-      - "bootstrap"
-      - "config"
-      - "routes"
-      - "src/Cloudflare"
-      - "src/Diepxuan"
+      - "app/**"
+      - "bootstrap/**"
+      - "config/**"
+      - "routes/**"
+      - "src/Cloudflare/**"
+      - "src/Diepxuan/**"
       - "artisan"
       - "composer.json"
   pull_request:
     branches: [main]
     paths:
-      - "app"
-      - "bootstrap"
-      - "config"
-      - "routes"
-      - "src/Cloudflare"
-      - "src/Diepxuan"
+      - "app/**"
+      - "bootstrap/**"
+      - "config/**"
+      - "routes/**"
+      - "src/Cloudflare/**"
+      - "src/Diepxuan/**"
       - "artisan"
       - "composer.json"
 
