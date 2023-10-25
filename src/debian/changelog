@@ -2,5 +2,6 @@ ductn (3.2.9+debian~rc2.7) mantic; urgency=medium
 
   * ISSUES:
     - Class name must be a valid object or a string.
+  * Update time zone
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 01 Oct 2023 10:59:38 +0700

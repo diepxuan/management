@@ -2,6 +2,9 @@
 #!/bin/bash
 #!/bin/sh
 
+export TZ=Asia/Ho_Chi_Minh
+# sudo timedatectl set-timezone Asia/Ho_Chi_Minh
+
 BIN=ductn.phar
 PHP=$(which php)
 php_required=8.1
