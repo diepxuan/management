@@ -78,36 +78,5 @@ jobs:
           GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
 
       - name: Detect Directory Changes
-        working-directory: ./src/
-        run: |
-          case "${{ github.event_name }}" in
-
-            "pull_request")
-              base_ref="${GITHUB_BASE_REF}"
-
-              git fetch origin "${base_ref}"
-              changed_files=( $(git --no-pager diff --name-only HEAD "origin/${base_ref}" | awk '{print "./"$1}') )
-              ;;
-
-            "push")
-              git fetch origin "${{ github.event.before }}"
-              changed_files=( $(git --no-pager diff-tree --name-only -r ${{ github.event.before }}..${{ github.event.after }} | awk '{print "./"$1}') )
-              ;;
-
-            *)
-              changed_files=( $(find . -type f) )
-              ;;
-          esac
-
-          changed_directories=( $(echo "${changed_files}" | xargs -I {} dirname {}) )
-          changed_directories=( $(printf "%s\n" "${changed_directories[@]}" | sort -u) )
-
-          echo "changed_directories: ${changed_directories[@]}"
-
-          all_directories=( $(git ls-files | xargs dirname | sort -u) )
-          echo "all_directories: ${all_directories[@]}"
-
-          echo "changed_directories=${changed_directories[@]}" >> $GITHUB_OUTPUT
-          echo "all_directories=${all_directories[@]}" >> $GITHUB_OUTPUT
-
-          echo "commit message: ${{ github.event.head_commit.message }}"
+        working-directory: ./
+        run: bash ci/put_modules.sh
