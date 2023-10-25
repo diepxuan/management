@@ -7,7 +7,7 @@
 
     <div class="container">
         @foreach ($vms as $vm)
-            @if ($vm->is_allow)
+            @if ($vm->is_enable)
                 @include('admin.vm.vmenable', $vm)
             @else
                 @include('admin.vm.vmdisable', $vm)
