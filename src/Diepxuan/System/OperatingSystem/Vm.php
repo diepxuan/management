@@ -206,6 +206,13 @@ class Vm extends Model
         );
     }
 
+    public function isEnable(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => $this->is_allow ? (strtotime("-10 minutes") <= (new \Carbon\Carbon($this->updated_at))->timestamp) : false, // set: fn (mixed $value, array $attributes) => $value ?: Str::sanitizeString($attributes['name'])
+        );
+    }
+
     public static function getCurrent($vmId = null): Vm
     {
         return Vm::updateOrCreate(["vm_id" => $vmId ?: OS::getHostFullName()]);
