@@ -35,13 +35,13 @@ _IP_EXTEND=
 
 _DUCTN_COMMANDS+=("ip:local")
 ip_local=
---ip:local() {
-    [[ -z $ip_local ]] && ip_local=$(hostname -I | awk '{print $1}')
-    echo $ip_local
+--local() {
+    ips=$(--localAll)
+    echo ${ips[0]}
 }
 
---ip:localAll() {
-    hostname -I
+--localAll() {
+    ip a | grep 'state UP' -A2 | grep inet | awk '{print $2}' | cut -f1 -d'/'
 }
 
 --ip:gateway() {
@@ -112,3 +112,5 @@ ip_local=
         fi
     done
 }
+
+"--$@"

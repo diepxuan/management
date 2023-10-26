@@ -17,6 +17,7 @@ trait Storage
             sprintf("swapon -s | grep %s | awk '{print $1}'", self::$swapPath),
         ])->output())->trim()->is(self::$swapPath);
     }
+
     public static function sysSwapOff(): string
     {
         return Str::of(Process::pipe([

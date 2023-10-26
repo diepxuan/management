@@ -36,7 +36,7 @@ class Update extends Command
         $os = new OS();
         $vm = Model::updateOrCreate(["vm_id" => $os->hostFullName]);
         $vm->name     = $os->hostName;
-        $vm->pri_host = $os->ipLocal;
+        $vm->pri_host = $os->ipLocalAll;
         $vm->pub_host = $os->ipWan;
         $vm->version  = $os->appVersion;
         $vm->wg_pub   = Wg::keyPublic();
