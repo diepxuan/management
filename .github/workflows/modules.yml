@@ -80,3 +80,6 @@ jobs:
       - name: Detect Directory Changes
         working-directory: ./
         run: bash ci/put_modules.sh
+        env:
+          GIT_OWNER: ${{ github.repository_owner }}
+          GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}

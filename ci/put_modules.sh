@@ -17,7 +17,7 @@ __composer() {
     local package_name=$(cat $folder/composer.json | jq '.name')
     local package_url=$(composer show -a ${package_name//'"'/} | grep source | grep "\[git\] " | awk '{print $4}')
     package_url=${package_url//'https://github.com/'/'git@github.com:'}
-    # package_url=${package_url//.git/}
+    [[ (-z $GIT_OWNER) && (-z $GIT_TOKEN) ]] && package_url=${package_url//'git@github.com:'/"https://$GIT_OWNER:$GIT_TOKEN@github.com/"}
     __git_init $folder $package_url
     __git_deinit $folder
 }
