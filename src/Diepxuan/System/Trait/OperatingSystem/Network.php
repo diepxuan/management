@@ -24,7 +24,12 @@ trait Network
 
     public static function getIpLocal(): string
     {
-        return Str::of(Process::run("hostname -I | awk '{print $1}'")->output())->trim();
+        return shell('ip local')->trim();
+    }
+
+    public static function getIpLocalAll(): string
+    {
+        return shell('ip localAll')->trim();
     }
 
     public static function getSubnet($route = 'vmbr1'): string

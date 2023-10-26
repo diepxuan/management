@@ -16,7 +16,10 @@
   "autoload": {
     "psr-4": {
       "Diepxuan\\System\\": ""
-    }
+    },
+    "files": [
+      "helpers.php"
+    ]
   },
   "config": {
     "sort-packages": true
