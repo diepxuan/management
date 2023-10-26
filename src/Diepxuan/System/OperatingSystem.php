@@ -40,7 +40,15 @@ class OperatingSystem extends Model
     public function ipLocal(): Attribute
     {
         return Attribute::make(
-            get: fn (mixed $value, array $attributes) => trim(shell_exec("hostname -I")),
+            get: fn (mixed $value, array $attributes) => self::getIpLocal(),
+            // set: fn (mixed $value, array $attributes) => $value ?: Str::sanitizeString($attributes['name'])
+        );
+    }
+
+    public function ipLocalAll(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => self::getIpLocalAll(),
             // set: fn (mixed $value, array $attributes) => $value ?: Str::sanitizeString($attributes['name'])
         );
     }
