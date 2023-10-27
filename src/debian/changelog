@@ -1,5 +1,6 @@
-ductn (3.3.0+debian~rc1) mantic; urgency=medium
+ductn (3.3.0+debian~rc1.1) mantic; urgency=medium
 
-  * private ip up only
+  * Log
+    - watch service
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 01 Oct 2023 10:59:38 +0700
