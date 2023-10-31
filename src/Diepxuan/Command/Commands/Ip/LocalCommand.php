@@ -5,7 +5,7 @@ namespace Diepxuan\Command\Commands\Ip;
 use Diepxuan\System\OperatingSystem as OS;
 use Diepxuan\Command\Commands\Command;
 
-class WanCommand extends Command
+class LocalCommand extends Command
 {
     /**
      * The name and signature of the console command.
