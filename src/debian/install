@@ -1,10 +1,3 @@
 ductn usr/bin
-ductn.phar usr/bin
-
-etc/ductn.conf etc/ductn
 
 # ductn_completion etc/bash_completion.d
-ductnd.service usr/lib/systemd/system
-
-var/lib/mysql/ssl/*.pem /etc/mysql/certs
-var/lib/mysql/ssl/10-ssl.cnf /etc/mysql/conf.d
