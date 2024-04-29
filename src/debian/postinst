@@ -21,13 +21,13 @@ set -e
 
 case "$1" in
 configure)
-    sudo systemctl daemon-reload
-    sudo systemctl enable ductnd
-    sudo systemctl start ductnd
+    # sudo systemctl daemon-reload
+    # sudo systemctl enable ductnd
+    # sudo systemctl start ductnd
 
     # remove oldest version
-    sudo rm -rf /usr/local/bin/ductn >/dev/null
-    sudo rm -rf /etc/ductn/nat >/dev/null
+    # sudo rm -rf /usr/local/bin/ductn >/dev/null
+    # sudo rm -rf /etc/ductn/nat >/dev/null
     ;;
 
 abort-upgrade | abort-remove | abort-deconfigure) ;;
