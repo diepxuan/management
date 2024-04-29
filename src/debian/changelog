@@ -1,5 +1,7 @@
-ductn (4.0.0+debian~rc2.2) mantic; urgency=medium
+ductn (4.0.0+debian~rc2.3) mantic; urgency=medium
 
-  * ISSUES: missing ductn package
+  * ISSUES:
+    - missing arguments
+    - m2:completion:commands: command not found
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 01 Oct 2023 10:59:38 +0700
