@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
+[[ $# -eq 0 ]] &&
+    echo "No arguments supplied" &&
+    exit 1
+
 "--$*"
