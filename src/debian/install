@@ -1,4 +1,4 @@
-# ductn usr/bin
+ductn usr/bin
 m2 usr/bin
 
 ductn_completion etc/bash_completion.d

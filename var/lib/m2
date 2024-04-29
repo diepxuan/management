@@ -215,6 +215,3 @@ _magerun2() {
     [[ $(type -t _dev:m2:$*) == function ]] && _dev:m2:$*
     [[ ! $(type -t _dev:m2:$*) == function ]] && php bin/magento $*
 }
-
---m2 $*
-exit 0
