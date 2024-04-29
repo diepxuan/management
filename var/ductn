@@ -5,4 +5,4 @@
     echo "No arguments supplied" &&
     exit 1
 
-"--$*"
+"--$@"
