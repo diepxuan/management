@@ -40,7 +40,7 @@ _ductn_m2() {
 
     if [[ $cur == $com ]]; then
 
-        readarray -d ' ' -t coms <<<$(m2:completion:commands)
+        readarray -d ' ' -t coms <<<$(m2 completion:commands)
 
         separator=" "
         coms="$(printf "${separator}%s" "${coms[@]}")"
