@@ -26,6 +26,8 @@ env INPUT_HOST_ARCH ${INPUT_HOST_ARCH:-""}
 # pwd_dir=$(pwd || dirname $(realpath "$0") || realpath .)
 
 env source_dir $(realpath ./$INPUT_SOURCE_DIR)
+env source_var $(realpath ./var)
+env source_lib $(realpath ./var/lib)
 env dists_dir $(realpath ./dists)
 env ci_dir $(dirname $(realpath "$BASH_SOURCE"))
 env pwd_dir ${GITHUB_WORKSPACE:-$(pwd || dirname $(realpath "$0") || realpath .)}

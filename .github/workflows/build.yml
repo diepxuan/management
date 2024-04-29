@@ -81,6 +81,9 @@ jobs:
       - name: Updating build information
         run: bash ci/update_packages.sh
 
+      - name: Pre-build package binary
+        run: bash ci/pre_build_packages.sh
+
       - name: Building package binary
         run: bash ci/build_packages.sh
         env:
