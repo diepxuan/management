@@ -1,6 +1,5 @@
-ductn (3.3.0+debian~rc1.3) mantic; urgency=medium
+ductn (4.0.0+debian~rc1.3) mantic; urgency=medium
 
-  * Ip
-    - fix vm private ips
+  * Rebuild without main binary, only support package
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 01 Oct 2023 10:59:38 +0700
