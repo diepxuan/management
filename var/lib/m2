@@ -38,6 +38,7 @@ _dev:m2:group() {
 
 _dev:m2:urn() {
     bin/magento dev:urn-catalog:generate .idea/misc.xml
+    _dev:m2:perm
 }
 
 _dev:m2:perm() {
@@ -59,11 +60,11 @@ _dev:m2:static() {
 _dev:m2:cache() {
     # rm -rf var/cache/* var/page_cache/* var/tmp/* var/generation/* var/di/*
     # _magerun2 cache:clean
-    _magerun2 cache:flush
+    bin/magento cache:flush
 }
 
 _dev:m2:index() {
-    _magerun2 indexer:reindex
+    bin/magento indexer:reindex
 }
 
 _dev:m2:grunt() {
@@ -86,10 +87,9 @@ _dev:m2:up() {
 }
 
 _dev:m2:config() {
-    _dev:m2:perm
     _magerun2 module:enable --all
     _magerun2 setup:di:compile
-    _dev:m2:ch
+    _dev:m2:perm
 }
 
 _dev:m2:setting() {
@@ -181,11 +181,11 @@ _dev:m2:tempdebugdisable() {
 }
 
 # _dev:m2:install() {
-#     curl -O https://files.magerun.net/n98-magerun2.phar && chmod +x n98-magerun2.phar && sudo mv n98-magerun2.phar /usr/local/bin/magerun2
+#     curl -O https://files.magerun.net/n98-magerun2.phar && chmod +x n98-magerun2.phar && mv n98-magerun2.phar /usr/local/bin/magerun2
 # }
 
 _dev:m2:completion() {
-    symfony-autocomplete --shell=bash -- magerun2 | sed '1d ; $ s/$/.phar '"n98-magerun2 magerun2"'/' | sudo tee /etc/bash_completion.d/n98-magerun2
+    symfony-autocomplete --shell=bash -- magerun2 | sed '1d ; $ s/$/.phar '"n98-magerun2 magerun2"'/' | tee /etc/bash_completion.d/n98-magerun2
 }
 
 _dev:m2:completion:commands() {
