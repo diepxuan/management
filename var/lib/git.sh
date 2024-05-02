@@ -2,55 +2,53 @@
 #!/bin/bash
 
 --git:configure() {
-    if [[ "$USERNAME" == "ductn" ]]; then
-        # global gitignore
-        git config --global core.excludesfile ~/.gitignore
+    # global gitignore
+    git config --global core.excludesfile ~/.gitignore
 
-        # setting
-        git config --global user.name "Tran Ngoc Duc"
-        git config --global user.email "caothu91@gmail.com"
+    # setting
+    git config --global user.name "Tran Ngoc Duc"
+    git config --global user.email "caothu91@gmail.com"
 
-        # alias
-        # git config --global alias.plog "log --graph --pretty=format:'%h -%d %s %n' --abbrev-commit --date=relative --branches"
+    # alias
+    # git config --global alias.plog "log --graph --pretty=format:'%h -%d %s %n' --abbrev-commit --date=relative --branches"
 
-        # push
-        git config --global push.default simple
+    # push
+    git config --global push.default simple
 
-        # file mode
-        git config --global core.fileMode false
+    # file mode
+    git config --global core.fileMode false
 
-        # line endings
-        git config --global core.autocrlf false
-        git config --global core.eol lf
+    # line endings
+    git config --global core.autocrlf false
+    git config --global core.eol lf
 
-        # Cleanup
-        git config --global gc.auto 0
+    # Cleanup
+    git config --global gc.auto 0
 
-        # remote server
-        git config --global receive.denyCurrentBranch updateInstead
+    # remote server
+    git config --global receive.denyCurrentBranch updateInstead
 
-        echo "$_gitignore" >~/.gitignore
-        chmod 644 ~/.gitignore
+    echo "$_gitignore" >~/.gitignore
+    chmod 644 ~/.gitignore
 
-        # if [[ -d ./.git ]]; then
-        #     # remote repository
+    # if [[ -d ./.git ]]; then
+    #     # remote repository
 
-        #     #             cat <<EOF >.git/hooks/push-to-checkout
-        #     # #!/bin/sh
-        #     # set -ex
-        #     # git read-tree --reset -u HEAD "$1"
-        #     # EOF
+    #     #             cat <<EOF >.git/hooks/push-to-checkout
+    #     # #!/bin/sh
+    #     # set -ex
+    #     # git read-tree --reset -u HEAD "$1"
+    #     # EOF
 
-        #     #             cat <<EOF >.git/hooks/pre-commit
-        #     # #!/bin/sh
-        #     # echo $(tail -1 version | xargs) | awk -F. -v OFS=. '{$NF += 1 ; print}' >>version
-        #     # echo $(tail -1 version | xargs) >version
-        #     # git add version
-        #     # exit 0
-        #     # EOF
-        #     chmod +x ./.git/hooks/*
-        # fi
-    fi
+    #     #             cat <<EOF >.git/hooks/pre-commit
+    #     # #!/bin/sh
+    #     # echo $(tail -1 version | xargs) | awk -F. -v OFS=. '{$NF += 1 ; print}' >>version
+    #     # echo $(tail -1 version | xargs) >version
+    #     # git add version
+    #     # exit 0
+    #     # EOF
+    #     chmod +x ./.git/hooks/*
+    # fi
 }
 
 _gitignore=$(
