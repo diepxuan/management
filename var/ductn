@@ -13,4 +13,6 @@
     declare -F | awk '{print $3}' | grep -e "^--" | sed 's/--//g' | grep -v "commands"
 }
 
+[ ! -x "--$@" ] && echo "ductn: '$1' is not a ductn command." && exit 1
+
 "--$@"
