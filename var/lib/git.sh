@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-_DUCTN_COMMANDS+=("git:configure")
 --git:configure() {
     if [[ "$USERNAME" == "ductn" ]]; then
         # global gitignore
@@ -12,7 +11,7 @@ _DUCTN_COMMANDS+=("git:configure")
         git config --global user.email "caothu91@gmail.com"
 
         # alias
-        git config --global alias.plog "log --graph --pretty=format:'%h -%d %s %n' --abbrev-commit --date=relative --branches"
+        # git config --global alias.plog "log --graph --pretty=format:'%h -%d %s %n' --abbrev-commit --date=relative --branches"
 
         # push
         git config --global push.default simple
@@ -33,24 +32,24 @@ _DUCTN_COMMANDS+=("git:configure")
         echo "$_gitignore" >~/.gitignore
         chmod 644 ~/.gitignore
 
-        if [[ -d ./.git ]]; then
-            # remote repository
+        # if [[ -d ./.git ]]; then
+        #     # remote repository
 
-            #             cat <<EOF >.git/hooks/push-to-checkout
-            # #!/bin/sh
-            # set -ex
-            # git read-tree --reset -u HEAD "$1"
-            # EOF
+        #     #             cat <<EOF >.git/hooks/push-to-checkout
+        #     # #!/bin/sh
+        #     # set -ex
+        #     # git read-tree --reset -u HEAD "$1"
+        #     # EOF
 
-            #             cat <<EOF >.git/hooks/pre-commit
-            # #!/bin/sh
-            # echo $(tail -1 version | xargs) | awk -F. -v OFS=. '{$NF += 1 ; print}' >>version
-            # echo $(tail -1 version | xargs) >version
-            # git add version
-            # exit 0
-            # EOF
-            chmod +x ./.git/hooks/*
-        fi
+        #     #             cat <<EOF >.git/hooks/pre-commit
+        #     # #!/bin/sh
+        #     # echo $(tail -1 version | xargs) | awk -F. -v OFS=. '{$NF += 1 ; print}' >>version
+        #     # echo $(tail -1 version | xargs) >version
+        #     # git add version
+        #     # exit 0
+        #     # EOF
+        #     chmod +x ./.git/hooks/*
+        # fi
     fi
 }
 
@@ -164,16 +163,16 @@ _book
 EOF
 )
 
-_DUCTN_COMMANDS+=("git:configure:server")
---git:configure:server() {
-    if [[ -d .git ]]; then
+# _DUCTN_COMMANDS+=("git:configure:server")
+# --git:configure:server() {
+#     if [[ -d .git ]]; then
 
-        #         cat <<EOF >.git/hooks/post-receive
-        # #!/bin/sh
-        # set -ex
-        # git push dx3 -f
-        # EOF
+#         #         cat <<EOF >.git/hooks/post-receive
+#         # #!/bin/sh
+#         # set -ex
+#         # git push dx3 -f
+#         # EOF
 
-        chmod +x .git/hooks/*
-    fi
-}
+#         chmod +x .git/hooks/*
+#     fi
+# }
