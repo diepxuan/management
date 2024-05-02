@@ -5,4 +5,8 @@
     echo "No arguments supplied" &&
     exit 1
 
+--commands() {
+    declare -F | grep -- | awk '{print $3}' | cut -f3 -d':' | grep -v -e "^$" | awk '{print " - " $1}'
+}
+
 "--$@"
