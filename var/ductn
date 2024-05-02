@@ -6,7 +6,11 @@
     exit 1
 
 --commands() {
-    declare -F | grep -- | awk '{print $3}' | cut -f3 -d':' | grep -v -e "^$" | awk '{print " - " $1}'
+    # echo "--commands"
+    # declare -F | awk '{print $3}' | cut -f3 -d':' | grep -v -e "^$" | awk '{print " - " $1}'
+    # declare -F | awk '{print $3}' | grep -e "^--"
+    # declare -F | awk '{print $3}' | grep -e "^--" | awk '{print substr($1, 3, length($1))}'
+    declare -F | awk '{print $3}' | grep -e "^--" | sed 's/--//g' | grep -v "commands"
 }
 
 "--$@"

@@ -1,5 +1,6 @@
-ductn (4.0.1+debian~rc1.8) mantic; urgency=medium
+ductn (4.0.2+debian~rc1.1) mantic; urgency=medium
 
-  * support Git
+  * support mssql
+  * ISSUES fix
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 01 Oct 2023 10:59:38 +0700
