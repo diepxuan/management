@@ -1,7 +1,5 @@
-ductn (4.0.0+debian~rc2.3) mantic; urgency=medium
+ductn (4.0.1+debian~rc1.8) mantic; urgency=medium
 
-  * ISSUES:
-    - missing arguments
-    - m2:completion:commands: command not found
+  * support Git
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 01 Oct 2023 10:59:38 +0700
