@@ -15,7 +15,7 @@ _ductn() {
 
     if [[ $cur == $com ]]; then
 
-        readarray -d ' ' -t coms <<<$(ductn sys:completion:commands)
+        readarray -d ' ' -t coms <<<$(ductn commands)
 
         separator=" "
         coms="$(printf "${separator}%s" "${coms[@]}")"
@@ -54,4 +54,4 @@ _ductn_m2() {
 }
 
 complete -o default -F _ductn_m2 m2
-# complete -o default -F _ductn ductn
+complete -o default -F _ductn ductn
