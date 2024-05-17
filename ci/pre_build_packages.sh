@@ -5,7 +5,7 @@ set -e
 # set -u
 . $(dirname $(realpath "$BASH_SOURCE"))/head.sh
 
-cat $source_lib/m2 >>$source_dir/ductn
+cat $source_lib/m2.sh >>$source_dir/ductn
 cat $source_lib/git.sh >>$source_dir/ductn
 
 cat $source_var/ductn >>$source_dir/ductn
