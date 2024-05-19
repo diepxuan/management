@@ -72,7 +72,7 @@ jobs:
           GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
 
       - name: Installing build dependencies
-        run: bash ci/install_build_deps.sh
+        run: bash ci/depends.sh
 
       - name: Updating build information
         run: bash ci/update_packages.sh
