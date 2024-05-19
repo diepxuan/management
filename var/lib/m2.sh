@@ -61,10 +61,12 @@ _dev:m2:cache() {
     # rm -rf var/cache/* var/page_cache/* var/tmp/* var/generation/* var/di/*
     # _magerun2 cache:clean
     bin/magento cache:flush
+    _dev:m2:perm
 }
 
 _dev:m2:index() {
     bin/magento indexer:reindex
+    _dev:m2:perm
 }
 
 _dev:m2:grunt() {
