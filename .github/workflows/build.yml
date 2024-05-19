@@ -6,12 +6,16 @@ on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
     branches: [main]
-    paths:
-      - "src/debian/changelog"
+    # paths:
+    # - "src/debian/changelog"
+    paths-ignore:
+      - "**.md"
   pull_request:
     branches: [main]
-    paths:
-      - "src/debian/changelog"
+    # paths:
+    # - "src/debian/changelog"
+    paths-ignore:
+      - "**.md"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -20,6 +24,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
+    # if: ${{ false }}
     runs-on: ${{matrix.operating-system}}
     strategy:
       fail-fast: false
@@ -37,14 +42,13 @@ jobs:
       #     Example: rsa3072/7E0EC917A5074BD3 2023-03-13 [SC] [expires: 2025-03-12]
       # Generate key as base64
       #     gpg --export-secret-keys 3AA5C34371567BD2 | base64
-      - name: Dynamically set BUILDPACKAGE_EPOCH environment variable
+      - name: Dynamically set environment variable
         run: |
           sudo timedatectl set-timezone Asia/Ho_Chi_Minh
-          echo "BUILDPACKAGE_EPOCH=$(date -R)" >> $GITHUB_ENV
-
-      - name: Generate environment
-        working-directory: ./
-        run: bash ci/environment.sh
+          bash ci/environment.sh
+        env:
+          repository: ${{ github.repository }}
+          branch: ${{ github.ref_name }}
 
       - name: Retrieve the secret, decode and import GPG key
         run: |
@@ -54,20 +58,12 @@ jobs:
           GPG_KEY: ${{ secrets.GPG_KEY }}
           GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
 
-      - name: Add the custom gpg siging program that passes the passphrase to the gpg CLI
-        if: false
-        run: |
-          rm -rf /tmp/gpg.sh
-          echo '#!/bin/bash' >> /tmp/gpg.sh
-          echo 'gpg --batch --pinentry-mode=loopback --passphrase $GPG_KEY_PASSPHRASE $@' >> /tmp/gpg.sh
-          chmod +x /tmp/gpg.sh
-          git config gpg.program /tmp/gpg.sh
-
       - name: Configure Git gpg
         if: true
         run: |
-          git config user.email "$GIT_COMMITTER_EMAIL"
-          git config user.name "$GIT_COMMITTER_NAME"
+          git config --local user.email "$GIT_COMMITTER_EMAIL"
+          git config --local user.name "$GIT_COMMITTER_NAME"
+          git config --local pull.rebase true
           git config commit.gpgsign true
           git config user.signingkey $GPG_KEY_ID
         env:
@@ -80,27 +76,29 @@ jobs:
 
       - name: Updating build information
         run: bash ci/update_packages.sh
+        env:
+          DEBEMAIL: ductn@diepxuan.com
+          EMAIL: ductn@diepxuan.com
+          DEBFULLNAME: Tran Ngoc Duc
+          NAME: Tran Ngoc Duc
 
       - name: Pre-build package binary
-        run: bash ci/pre_build_packages.sh
+        run: bash ci/pre_build.sh
 
       - name: Building package binary
-        run: bash ci/build_packages.sh
+        run: bash ci/build.sh
         env:
           BUILDPACKAGE_OPTS: --force-sign
           BUILDPACKAGE_EPOCH: ${{ env.BUILDPACKAGE_EPOCH }}
           DEB_SIGN_KEYID: ${{ secrets.GPG_KEY_ID }}
           GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
       - name: Building package source
-        run: bash ci/build_packages.sh
+        run: bash ci/build.sh
         env:
           BUILDPACKAGE_OPTS: --force-sign -S
           BUILDPACKAGE_EPOCH: ${{ env.BUILDPACKAGE_EPOCH }}
           DEB_SIGN_KEYID: ${{ secrets.GPG_KEY_ID }}
           GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
-
-      - name: Move packages to dists
-        run: bash ci/move_packages.sh
 
       - name: Put package to Personal Package archives
         run: bash ci/put_ppa_packages.sh
