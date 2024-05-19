@@ -29,7 +29,7 @@ end_group
 start_group "install source depends"
 sudo apt-get update
 # shellcheck disable=SC2086
-sudo apt-get build-dep $INPUT_APT_OPTS -- "./$INPUT_SOURCE_DIR"
+sudo apt-get build-dep $INPUT_APT_OPTS -- "$source_dir"
 
 # In theory, explicitly installing dpkg-dev would not be necessary. `apt-get
 # build-dep` will *always* install build-essential which depends on dpkg-dev.
