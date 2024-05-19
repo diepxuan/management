@@ -35,5 +35,5 @@ sudo apt-get build-dep $INPUT_APT_OPTS -- "$source_dir"
 # build-dep` will *always* install build-essential which depends on dpkg-dev.
 # But let’s be explicit here.
 # shellcheck disable=SC2086
-sudo apt-get install $INPUT_APT_OPTS -- dpkg-dev libdpkg-perl dput tree $INPUT_EXTRA_BUILD_DEPS
+sudo apt-get install $INPUT_APT_OPTS -- dpkg-dev libdpkg-perl dput tree devscripts $INPUT_EXTRA_BUILD_DEPS
 end_group
