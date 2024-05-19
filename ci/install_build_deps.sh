@@ -16,19 +16,18 @@ Acquire::Languages "none";
 quiet "yes";
 EOF
 
+start_group "add apt source"
 # debconf has priority “required” and is indirectly depended on by some
 # essential packages. It is reasonably safe to blindly assume it is installed.
 printf "man-db man-db/auto-update boolean false\n" | sudo debconf-set-selections
 
 # add repository for install missing depends
-# grep -r "/ondrej/php" /etc/apt/sources.list /etc/apt/sources.list.d/*.list >/dev/null 2>&1 ||
-#     sudo add-apt-repository ppa:ondrej/php -y
-grep -r "/caothu91/ppa" /etc/apt/sources.list /etc/apt/sources.list.d/*.list >/dev/null 2>&1 ||
-    sudo add-apt-repository ppa:caothu91/ppa -y ||
-    sudo -E add-apt-repository ppa:caothu91/ppa
+sudo apt install software-properties-common
+sudo add-apt-repository ppa:caothu91/ppa -y
+end_group
 
+start_group "install source depends"
 sudo apt-get update
-
 # shellcheck disable=SC2086
 sudo apt-get build-dep $INPUT_APT_OPTS -- "./$INPUT_SOURCE_DIR"
 
@@ -37,3 +36,4 @@ sudo apt-get build-dep $INPUT_APT_OPTS -- "./$INPUT_SOURCE_DIR"
 # But let’s be explicit here.
 # shellcheck disable=SC2086
 sudo apt-get install $INPUT_APT_OPTS -- dpkg-dev libdpkg-perl dput tree $INPUT_EXTRA_BUILD_DEPS
+end_group
