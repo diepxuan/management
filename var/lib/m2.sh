@@ -191,7 +191,7 @@ _dev:m2:completion() {
 }
 
 _dev:m2:completion:commands() {
-    declare -F | grep _dev:m2: | awk '{print $3}' | cut -f3 -d':' | grep -v -e "^$" | awk '{print " - " $1}'
+    declare -F | grep _dev:m2: | awk '{print $3}' | cut -f3 -d':' | grep -v -e "^$" | awk '{print $1}'
 }
 
 _magerun2() {
