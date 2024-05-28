@@ -63,6 +63,12 @@ d_git:viewuntrack() {
     git ls-files -v | grep "^[[:lower:]]"
 }
 
+d_git:tag:cleanup() {
+    number=${1:-'5'}
+    git tag | xargs -L 1 | awk "NR > $number" | xargs git push --delete origin
+    git fetch --prune origin +refs/tags/*:refs/tags/*
+}
+
 _gitignore=$(
     cat <<EOF
 .idea/*
