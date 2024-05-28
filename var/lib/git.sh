@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
---git:configure() {
+d_git:configure() {
     # global gitignore
     git config --global core.excludesfile ~/.gitignore
 

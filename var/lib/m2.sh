@@ -212,7 +212,7 @@ _magerun2() {
     [[ -f bin/magerun2 ]] && bin/magerun2 $*
 }
 
---m2() {
+d_m2() {
     [[ ! -f bin/magento ]] && exit 0
     [[ $(type -t _dev:m2:$1) == function ]] && "_dev:m2:$@" && exit 0
     [[ ! $(type -t _dev:m2:$1) == function ]] && php bin/magento $@ && exit 0
