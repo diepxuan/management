@@ -51,6 +51,18 @@ d_git:configure() {
     # fi
 }
 
+d_git:detrack() {
+    git update-index --no-assume-unchanged $1
+}
+
+d_git:untrack() {
+    git update-index --assume-unchanged $1
+}
+
+d_git:viewuntrack() {
+    git ls-files -v | grep "^[[:lower:]]"
+}
+
 _gitignore=$(
     cat <<EOF
 .idea/*
