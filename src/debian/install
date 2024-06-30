@@ -1,4 +1,6 @@
 ductn usr/bin
 m2 usr/bin
+phpactor usr/bin
+lib var/lib/ductn
 
 ductn_completion etc/bash_completion.d
