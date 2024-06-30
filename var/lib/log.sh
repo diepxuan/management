@@ -1,16 +1,13 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-_DUCTN_COMMANDS+=("log")
---log() {
+d_log() {
     local service=$*
     [[ -z $service ]] && --log:watch
     [[ -n $service ]] && --log:watch:service ${service//.service/}
 }
 
 --log:watch() {
-    # ssh dx3.diepxuan.com "sudo tail -f /var/log/syslog" &
-    # ssh dx1.diepxuan.com "sudo tail -f /var/log/syslog"
     _log=/var/log/*log
     [[ -f /var/opt/mssql/log/errorlog ]] && _log="$_log /var/opt/mssql/log/errorlog"
     sudo tail -f $_log
@@ -20,7 +17,6 @@ _DUCTN_COMMANDS+=("log")
     sudo journalctl -u "$@".service -f
 }
 
-_DUCTN_COMMANDS+=("log:cleanup")
 --log:cleanup() {
 
     # #!/bin/sh
@@ -80,7 +76,6 @@ _DUCTN_COMMANDS+=("log:cleanup")
     # apt-get install linux-headers-`uname -r|cut -d'-' -f3`-`uname -r|cut -d'-' -f4`
 }
 
-_DUCTN_COMMANDS+=("log:config")
 --log:config() {
     sudo truncate -s 0 /etc/logrotate.d/ductn
     --log:config:store
