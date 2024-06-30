@@ -8,9 +8,11 @@ set -e
 cat $source_lib/php.phpactor.sh >>$source_dir/ductn
 cat $source_lib/php.m2.sh >>$source_dir/ductn
 cat $source_lib/git.sh >>$source_dir/ductn
+cat $source_lib/log.sh >>$source_dir/ductn
 
 cat $source_var/ductn >>$source_dir/ductn
 cat $source_var/m2 >$source_dir/m2
+cat $source_var/phpactor >$source_dir/phpactor
 
 mkdir -p $source_dir/lib/
 curl -Lo $source_dir/lib/phpactor.phar https://github.com/phpactor/phpactor/releases/latest/download/phpactor.phar
