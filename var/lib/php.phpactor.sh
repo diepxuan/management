@@ -10,7 +10,7 @@ _phpactor_install() {
 
 _phpactor() {
     [[ ! -f /var/lib/ductn/phpactor.phar ]] && _phpactor_install
-    /var/lib/ductn/phpactor.phar $@
+    php /var/lib/ductn/phpactor.phar $@
 }
 
 d_phpactor() {
