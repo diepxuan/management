@@ -1,6 +1,5 @@
 ductn usr/bin
 m2 usr/bin
-phpactor usr/bin
 
 lib/* var/lib/ductn
 
