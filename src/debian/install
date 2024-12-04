@@ -1,7 +1,7 @@
 ductn usr/bin
 m2 usr/bin
 
-lib/* var/lib/ductn
+# lib/* var/lib/ductn
 
 etc/sysctl.d/99-ductn.conf etc/sysctl.d/99-ductn.conf
 
