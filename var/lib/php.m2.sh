@@ -5,8 +5,10 @@ WEBSERVER_GROUP="www-data"
 
 _dev:m2:ch() {
     _ch() {
-        chmod g+ws $*
-        chmod -R g+w $*
+        for arg in "$@"; do
+            [[ -e "$arg" ]] && chmod g+ws $*
+            [[ -d "$arg" ]] && chmod -R g+w $*
+        done
     }
 
     _ch app/etc
