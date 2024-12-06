@@ -76,9 +76,9 @@ _dev:m2:grunt() {
     _dev:m2:static
     _dev:m2:cache
     # _magento setup:upgrade
-    grunt exec:all
+    _grunt exec:all
     _dev:m2:perm
-    grunt watch
+    _grunt watch
 }
 
 _dev:m2:up() {
@@ -208,6 +208,11 @@ _magerun2() {
 
 _magento() {
     [[ -f bin/magento ]] && php -d memory_limit=756M -d max_execution_time=18000 bin/magento $*
+}
+
+_grunt() {
+    npx grunt --version >/dev/null 2>&1 || npm install
+    npx grunt --version >/dev/null 2>&1 && npx grunt $*
 }
 
 d_m2() {
