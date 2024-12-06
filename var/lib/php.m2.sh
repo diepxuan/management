@@ -6,8 +6,8 @@ WEBSERVER_GROUP="www-data"
 _dev:m2:ch() {
     _ch() {
         for arg in "$@"; do
-            [[ -e "$arg" ]] && chmod g+ws $*
-            [[ -d "$arg" ]] && chmod -R g+w $*
+            [[ -e "$arg" ]] && chmod g+ws $arg
+            [[ -d "$arg" ]] && chmod -R g+w $arg
         done
     }
 
