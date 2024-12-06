@@ -37,7 +37,7 @@ _dev:m2:group() {
 }
 
 _dev:m2:urn() {
-    bin/magento dev:urn-catalog:generate .idea/misc.xml
+    _magento dev:urn-catalog:generate .idea/misc.xml
     _dev:m2:perm
 }
 
@@ -60,12 +60,12 @@ _dev:m2:static() {
 _dev:m2:cache() {
     # rm -rf var/cache/* var/page_cache/* var/tmp/* var/generation/* var/di/*
     # _magerun2 cache:clean
-    bin/magento cache:flush
+    _magento cache:flush
     _dev:m2:perm
 }
 
 _dev:m2:index() {
-    bin/magento indexer:reindex
+    _magento indexer:reindex
     _dev:m2:perm
 }
 
@@ -73,7 +73,7 @@ _dev:m2:grunt() {
     _dev:m2:rmgen
     _dev:m2:static
     _dev:m2:cache
-    # bin/magento setup:upgrade
+    # _magento setup:upgrade
     grunt exec:all
     _dev:m2:perm
     grunt watch
@@ -84,7 +84,7 @@ _dev:m2:up() {
     # _dev:m2:rmgen
     # _dev:m2:static
     # _dev:m2:cache
-    bin/magento setup:upgrade $@
+    _magento setup:upgrade $@
     _dev:m2:perm
 }
 
@@ -142,7 +142,7 @@ _dev:m2:developer() {
     _magerun2 maintenance:enable
     _magerun2 deploy:mode:set developer
     _magerun2 module:enable --all
-    bin/magento setup:upgrade
+    _magento setup:upgrade
     _magerun2 setup:di:compile
     _magerun2 maintenance:disable
 
@@ -165,11 +165,11 @@ _dev:m2:developer() {
 # }
 
 _dev:m2:logenable() {
-    bin/magento dev:query-log:enable
+    _magento dev:query-log:enable
 }
 
 _dev:m2:logdisable() {
-    bin/magento dev:query-log:disable
+    _magento dev:query-log:disable
 }
 
 _dev:m2:tempdebugenable() {
@@ -195,16 +195,8 @@ _dev:m2:completion:commands() {
 }
 
 _magerun2() {
-    if ! type "magerun2" >/dev/null; then
-        curl -O https://files.magerun.net/n98-magerun2.phar && chmod +x n98-magerun2.phar && mv n98-magerun2.phar bin/magerun2
-    fi
-
-    if ! magerun2_loc="$(type -p "magerun2")" || [[ -z $magerun2_loc ]]; then
-        curl -O https://files.magerun.net/n98-magerun2.phar && chmod +x n98-magerun2.phar && mv n98-magerun2.phar bin/magerun2
-    fi
-
-    [[ -f bin/magento ]] &&
-        [[ ! -f bin/magerun2 ]] &&
+    [[ ! -f bin/magento ]] && exit 0
+    [[ ! -f bin/magerun2 ]] &&
         curl -O https://files.magerun.net/n98-magerun2.phar &&
         chmod +x n98-magerun2.phar &&
         mv n98-magerun2.phar bin/magerun2
@@ -212,8 +204,12 @@ _magerun2() {
     [[ -f bin/magerun2 ]] && php -d memory_limit=756M -d max_execution_time=18000 bin/magerun2 $*
 }
 
+_magento() {
+    [[ -f bin/magento ]] && php -d memory_limit=756M -d max_execution_time=18000 bin/magento $*
+}
+
 d_m2() {
     [[ ! -f bin/magento ]] && exit 0
     [[ $(type -t _dev:m2:$1) == function ]] && "_dev:m2:$@" && exit 0
-    [[ ! $(type -t _dev:m2:$1) == function ]] && php -d memory_limit=756M -d max_execution_time=18000 bin/magento $@ && exit 0
+    [[ ! $(type -t _dev:m2:$1) == function ]] && php -d memory_limit=756M -d max_execution_time=18000 bin/magento $@
 }
