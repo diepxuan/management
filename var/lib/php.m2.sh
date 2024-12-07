@@ -72,12 +72,12 @@ _dev:m2:index() {
 }
 
 _dev:m2:grunt() {
-    _dev:m2:rmgen
-    _dev:m2:static
-    _dev:m2:cache
+    #_dev:m2:rmgen
+    #_dev:m2:static
+    #_dev:m2:cache
     # _magento setup:upgrade
     _grunt exec:all
-    _dev:m2:perm
+    #_dev:m2:perm
     _grunt watch
 }
 
