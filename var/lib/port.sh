@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-_DUCTN_COMMANDS+=("port:open")
---port:open() {
+d_port:open() {
     sudo lsof -nP | grep LISTEN
 }
