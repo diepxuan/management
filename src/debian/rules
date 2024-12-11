@@ -17,6 +17,15 @@
 %:
 	dh $@
 
+# Hợp nhất các file vào một file duy nhất trước khi cài đặt
+override_dh_install:
+	# Tạo thư mục đích nếu chưa tồn tại
+	# mkdir -p debian/tmp/usr/share/package/
+	# Hợp nhất nội dung các file
+	# cat src/file1 src/file2 > debian/tmp/usr/share/package/merged_file
+	# Tiếp tục quy trình cài đặt
+	dh_install
+
 
 # dh_make generated override targets
 # This is example for Cmake (See https://bugs.debian.org/641051 )
