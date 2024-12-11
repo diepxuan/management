@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
+SUDO="sudo"
+if [ "$(id -u)" -eq 0 ]; then
+    SUDO=""
+fi
+
 _DUCTN_COMMANDS+=("sys:init")
 --sys:init() {
     sudo timedatectl set-timezone Asia/Ho_Chi_Minh
