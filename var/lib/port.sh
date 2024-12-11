@@ -2,5 +2,5 @@
 #!/bin/bash
 
 d_port:open() {
-    sudo lsof -nP | grep LISTEN
+    $SUDO lsof -nP | grep LISTEN
 }

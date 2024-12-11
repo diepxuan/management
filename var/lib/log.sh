@@ -10,11 +10,11 @@ d_log() {
 --log:watch() {
     _log=/var/log/*log
     [[ -f /var/opt/mssql/log/errorlog ]] && _log="$_log /var/opt/mssql/log/errorlog"
-    sudo tail -f $_log
+    $SUDO tail -f $_log
 }
 
 --log:watch:service() {
-    sudo journalctl -u "$@".service -f
+    $SUDO journalctl -u "$@".service -f
 }
 
 --log:cleanup() {
@@ -37,9 +37,9 @@ d_log() {
     # Clean all the log file
     # for logs in `find /var/log -type f`;  do > $logs; done
 
-    logs=$(sudo find /var/log -type f)
+    logs=$($SUDO find /var/log -type f)
     for i in $logs; do
-        sudo truncate -s 0 $i
+        $SUDO truncate -s 0 $i
     done
 
     #Getting rid of partial packages
@@ -56,18 +56,18 @@ d_log() {
     # apt-get clean
 
     # Remove the Trash
-    sudo rm -rf /home/*/.local/share/Trash/*/**
-    sudo rm -rf /root/.local/share/Trash/*/**
+    $SUDO rm -rf /home/*/.local/share/Trash/*/**
+    $SUDO rm -rf /root/.local/share/Trash/*/**
 
     # Remove Man
-    sudo rm -rf /usr/share/man/??
-    sudo rm -rf /usr/share/man/??_*
+    $SUDO rm -rf /usr/share/man/??
+    $SUDO rm -rf /usr/share/man/??_*
 
     #Delete all .gz and rotated file
-    # sudo find /var/log -type f -regex ".*\.gz$" | xargs sudo rm -Rf
-    # sudo find /var/log -type f -regex ".*\.[0-9]$" | xargs sudo rm -Rf
-    sudo find /var/log /var/opt/mssql/log -type f -regex ".*\.gz$" -delete
-    sudo find /var/log /var/opt/mssql/log -type f -regex ".*\.[0-9]*$" -delete
+    # $SUDO find /var/log -type f -regex ".*\.gz$" | xargs $SUDO rm -Rf
+    # $SUDO find /var/log -type f -regex ".*\.[0-9]$" | xargs $SUDO rm -Rf
+    $SUDO find /var/log /var/opt/mssql/log -type f -regex ".*\.gz$" -delete
+    $SUDO find /var/log /var/opt/mssql/log -type f -regex ".*\.[0-9]*$" -delete
 
     #Cleaning the old kernels
     # dpkg-query -l|grep linux-im*
@@ -77,11 +77,11 @@ d_log() {
 }
 
 --log:config() {
-    sudo truncate -s 0 /etc/logrotate.d/ductn
+    $SUDO truncate -s 0 /etc/logrotate.d/ductn
     --log:config:store
     --log:config:mssql
 
-    sudo logrotate -f /etc/logrotate.d/ductn
+    $SUDO logrotate -f /etc/logrotate.d/ductn
 }
 
 --log:config:store() {
@@ -92,7 +92,7 @@ d_log() {
     copytruncate
     rotate 1
 }
-" | sudo tee --append /etc/logrotate.d/ductn >/dev/null
+" | $SUDO tee --append /etc/logrotate.d/ductn >/dev/null
     fi
 }
 
@@ -105,7 +105,7 @@ d_log() {
     missingok
     rotate 1
 }
-" | sudo tee --append /etc/logrotate.d/ductn >/dev/null
+" | $SUDO tee --append /etc/logrotate.d/ductn >/dev/null
     fi
 
 }
