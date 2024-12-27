@@ -1,7 +1,4 @@
 usr/local/bin/* usr/local/bin
-
-# lib/* var/lib/ductn
-
+var/lib/* var/lib/ductn
 etc/sysctl.d/99-ductn.conf etc/sysctl.d/99-ductn.conf
-
 ductn_completion etc/bash_completion.d
