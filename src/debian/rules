@@ -19,19 +19,17 @@
 
 # Hợp nhất các file vào một file duy nhất trước khi cài đặt
 override_dh_install:
-    echo "\#!/usr/bin/env bash" > usr/local/bin/ductn
-    echo "\#!/bin/bash" >> usr/local/bin/ductn
+	echo "\#!/usr/bin/env bash" > usr/local/bin/ductn
+	echo "\#!/bin/bash" >> usr/local/bin/ductn
 
-    cat var/lib/sys.sh >> usr/local/bin/ductn
-    cat var/lib/php.m2.sh >> usr/local/bin/ductn
-    cat var/lib/php.lar.sh >> usr/local/bin/ductn
-    cat var/lib/git.sh >> usr/local/bin/ductn
-    cat var/lib/log.sh >> usr/local/bin/ductn
-    cat ductn >> usr/local/bin/ductn
-
+	cat var/lib/sys.sh >> usr/local/bin/ductn
+	cat var/lib/php.m2.sh >> usr/local/bin/ductn
+	cat var/lib/php.lar.sh >> usr/local/bin/ductn
+	cat var/lib/git.sh >> usr/local/bin/ductn
+	cat var/lib/log.sh >> usr/local/bin/ductn
+	cat ductn >> usr/local/bin/ductn
 
 	dh_install
-
 
 # dh_make generated override targets
 # This is example for Cmake (See https://bugs.debian.org/641051 )
