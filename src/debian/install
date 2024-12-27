@@ -1,6 +1,4 @@
-ductn usr/bin
-m2 usr/bin
-lar usr/bin
+usr/local/bin/* usr/local/bin
 
 # lib/* var/lib/ductn
 
