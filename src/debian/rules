@@ -19,11 +19,17 @@
 
 # Hợp nhất các file vào một file duy nhất trước khi cài đặt
 override_dh_install:
-	# Tạo thư mục đích nếu chưa tồn tại
-	# mkdir -p debian/tmp/usr/share/package/
-	# Hợp nhất nội dung các file
-	# cat src/file1 src/file2 > debian/tmp/usr/share/package/merged_file
-	# Tiếp tục quy trình cài đặt
+    echo "\#!/usr/bin/env bash" > usr/local/bin/ductn
+    echo "\#!/bin/bash" >> usr/local/bin/ductn
+
+    cat var/lib/sys.sh >> usr/local/bin/ductn
+    cat var/lib/php.m2.sh >> usr/local/bin/ductn
+    cat var/lib/php.lar.sh >> usr/local/bin/ductn
+    cat var/lib/git.sh >> usr/local/bin/ductn
+    cat var/lib/log.sh >> usr/local/bin/ductn
+    cat ductn >> usr/local/bin/ductn
+
+
 	dh_install
 
 
