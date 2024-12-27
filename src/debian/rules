@@ -19,6 +19,9 @@
 
 # Hợp nhất các file vào một file duy nhất trước khi cài đặt
 override_dh_install:
+	# Tạo cấu trúc thư mục
+	install -d usr/local/bin
+
 	echo "\#!/usr/bin/env bash" > usr/local/bin/ductn
 	echo "\#!/bin/bash" >> usr/local/bin/ductn
 
