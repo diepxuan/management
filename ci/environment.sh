@@ -71,13 +71,15 @@ mkdir -p ~/.config/osc
 cat | tee ~/.config/osc/oscrc <<-EOF
 [general]
 apiurl = https://api.opensuse.org
-plaintext_passwd = 0
+# plaintext_passwd = 0
 
 [https://api.opensuse.org]
-user = $OBS_USERNAME
-username = $OBS_USERNAME
-pass = $OBS_OPPW
-password = $OBS_OPPW
-credentials_mgr_class = osc.credentials.PlaintextConfigFileCredentialsManager
-# credentials_mgr_class = osc.credentials.ObfuscatedConfigFileCredentialsManager
+user=$OBS_USERNAME
+pass=$OBS_OPPW
+credentials_mgr_class=osc.credentials.ObfuscatedConfigFileCredentialsManager
+# user=$OBS_USERNAME
+# pass=$OBS_PW
+# credentials_mgr_class=osc.credentials.PlaintextConfigFileCredentialsManager
+# username = $OBS_USERNAME
+# password = $OBS_OPPW
 EOF
