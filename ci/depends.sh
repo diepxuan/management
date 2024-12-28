@@ -25,8 +25,8 @@ printf "man-db man-db/auto-update boolean false\n" | sudo debconf-set-selections
 sudo apt install software-properties-common
 sudo add-apt-repository ppa:caothu91/ppa -y
 
-curl -fsSL https://download.opensuse.org/repositories/openSUSE:/Tools/Debian_$CODENAME/Release.key | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/opensuse_$CODENAME.gpg
-echo "deb [signed-by=/etc/apt/trusted.gpg.d/opensuse_$CODENAME.gpg] http://download.opensuse.org/repositories/openSUSE:/Tools/Debian_$CODENAME/ ./" | sudo tee /etc/apt/sources.list.d/obs_Debian_$CODENAME.list
+echo "deb http://download.opensuse.org/repositories/openSUSE:/Tools/xUbuntu_$RELEASE/ /" | sudo tee /etc/apt/sources.list.d/openSUSE:Tools.list
+curl -fsSL https://download.opensuse.org/repositories/openSUSE:Tools/xUbuntu_$RELEASE/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/openSUSE_Tools.gpg >/dev/null
 end_group
 
 start_group "install source depends"
