@@ -52,6 +52,7 @@ RELEASE=${RELEASE:-$(echo $VERSION | awk '{print $1}')}
 RELEASE=${RELEASE:-$(echo $PRETTY_NAME | awk '{print $2}')}
 RELEASE=${RELEASE:-${DISTRIB_RELEASE}}
 RELEASE=${RELEASE:-${VERSION_ID}}
+RELEASE=$(echo "$RELEASE" | awk -F. '{print $1"."$2}')
 
 DISTRIB=${DISTRIB:-$DISTRIB_ID}
 DISTRIB=${DISTRIB:-$ID}
@@ -60,3 +61,25 @@ DISTRIB=$(echo "$DISTRIB" | awk '{print tolower($0)}')
 env CODENAME $CODENAME
 env RELEASE $RELEASE
 env DISTRIB $DISTRIB
+
+env OBS_USERNAME $OBS_USERNAME
+env OBS_TOKEN $OBS_TOKEN
+env OBS_PW $OBS_PW
+env OBS_OPPW $OBS_OPPW
+
+mkdir -p ~/.config/osc
+cat | tee ~/.config/osc/oscrc <<-EOF
+[general]
+apiurl = https://api.opensuse.org
+# plaintext_passwd = 0
+
+[https://api.opensuse.org]
+user=$OBS_USERNAME
+pass=$OBS_OPPW
+credentials_mgr_class=osc.credentials.ObfuscatedConfigFileCredentialsManager
+# user=$OBS_USERNAME
+# pass=$OBS_PW
+# credentials_mgr_class=osc.credentials.PlaintextConfigFileCredentialsManager
+# username = $OBS_USERNAME
+# password = $OBS_OPPW
+EOF
