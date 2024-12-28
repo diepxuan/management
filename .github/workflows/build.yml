@@ -147,6 +147,7 @@ jobs:
           OBS_USERNAME: ${{ secrets.OBS_USERNAME }}
           OBS_TOKEN: ${{ secrets.OBS_TOKEN }}
           OSC_PASSWORD: ${{ secrets.OSC_PASSWORD }}
+          OSC_PWOP: ${{ secrets.OSC_PWOP }}
 
       - name: Checkout OBS package
         run: |
