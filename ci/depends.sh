@@ -24,6 +24,9 @@ printf "man-db man-db/auto-update boolean false\n" | sudo debconf-set-selections
 # add repository for install missing depends
 sudo apt install software-properties-common
 sudo add-apt-repository ppa:caothu91/ppa -y
+
+wget -qO - https://download.opensuse.org/repositories/openSUSE:/Tools/Debian_$CODENAME/Release.key | sudo apt-key add -
+echo "deb http://download.opensuse.org/repositories/openSUSE:/Tools/Debian_$CODENAME/ ./" | sudo tee /etc/apt/sources.list.d/obs.list
 end_group
 
 start_group "install source depends"
