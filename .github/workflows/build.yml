@@ -72,9 +72,9 @@ jobs:
       - name: Configure Git gpg
         if: true
         run: |
-          git config --local user.email "$GIT_COMMITTER_EMAIL"
-          git config --local user.name "$GIT_COMMITTER_NAME"
-          git config --local pull.rebase true
+          git config --global user.email "$GIT_COMMITTER_EMAIL"
+          git config --global user.name "$GIT_COMMITTER_NAME"
+          git config --global pull.rebase true
           git config commit.gpgsign true
           git config user.signingkey $GPG_KEY_ID
         env:
@@ -124,3 +124,7 @@ jobs:
       - name: Put package to BuildKite Package archives
         # if: ${{ false }}
         run: bash ci/put_kite_packages.sh
+
+      - name: Put package to DiepXuan Package archives
+        # if: ${{ false }}
+        run: bash ci/put_packages.sh

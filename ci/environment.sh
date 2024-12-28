@@ -19,6 +19,7 @@ env source_dir $(realpath ./src)
 env source_var $(realpath ./var)
 env source_lib $(realpath ./var/lib)
 env dists_dir $(realpath ./dists)
+env ppa_dir $(realpath ./ppa)
 env ci_dir $(dirname $(realpath "$BASH_SOURCE"))
 env pwd_dir ${GITHUB_WORKSPACE:-$(pwd || dirname $(realpath "$0") || realpath .)}
 
