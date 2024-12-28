@@ -124,9 +124,20 @@ jobs:
           echo "apiurl = https://api.opensuse.org" >> ~/.config/osc/oscrc
           echo "username = $OBS_USERNAME" >> ~/.config/osc/oscrc
           echo "password = $OBS_TOKEN" >> ~/.config/osc/oscrc
+          echo "[https://api.opensuse.org]" >> ~/.config/osc/oscrc
+          echo "user = $OBS_USERNAME" >> ~/.config/osc/oscrc
+          echo "pass = $OBS_TOKEN" >> ~/.config/osc/oscrc
         env:
           OBS_USERNAME: ${{ secrets.OBS_USERNAME }}
           OBS_TOKEN: ${{ secrets.OBS_TOKEN }}
+                - name: create a oscrc
+        run: |
+          mkdir -p ~/.config/osc/
+          echo "[general]" > ~/.config/osc/oscrc
+          echo "apiurl = https://api.opensuse.org" >> ~/.config/osc/oscrc
+          echo "[https://api.opensuse.org]" >> ~/.config/osc/oscrc
+          echo "user = MY_USERNAME" >> ~/.config/osc/oscrc
+          echo "pass = ${{ secrets.OSC_PASSWORD }}" >> ~/.config/osc/oscrc
 
       - name: Checkout OBS package
         run: |
