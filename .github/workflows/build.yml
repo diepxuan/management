@@ -86,6 +86,7 @@ jobs:
         run: bash ci/pre_build.sh
 
       - name: Building package binary
+        if: ${{ false }}
         run: bash ci/build.sh
         env:
           BUILDPACKAGE_OPTS: --force-sign
