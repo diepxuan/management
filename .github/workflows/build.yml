@@ -161,11 +161,10 @@ jobs:
 
       - name: Copy source code to OBS package directory
         run: |
-          # Sao chép mã nguồn từ GitHub vào thư mục OBS package
-          cp -r src/* ductn/  # Đảm bảo rằng bạn đã clone package từ OBS
+          cp -r src/* home\:diepxuan/ductn/
 
       - name: Commit and push changes to OBS
         run: |
-          cd ductn/
+          cd home\:diepxuan/ductn/
           osc addremove  # Thêm các file mới
-          osc ci -m "Update from GitHub"  # Commit và push lên OBS
+          osc ci -m "Update from GitHub"
