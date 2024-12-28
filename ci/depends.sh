@@ -40,7 +40,7 @@ pip3 install --upgrade osc
 end_group
 
 start_group "install source depends"
-sudo apt-get update
+sudo apt update
 # shellcheck disable=SC2086
 sudo apt-get build-dep $INPUT_APT_OPTS -- "$source_dir"
 
@@ -48,5 +48,6 @@ sudo apt-get build-dep $INPUT_APT_OPTS -- "$source_dir"
 # build-dep` will *always* install build-essential which depends on dpkg-dev.
 # But let’s be explicit here.
 # shellcheck disable=SC2086
-sudo apt-get install $INPUT_APT_OPTS -- dpkg-dev libdpkg-perl dput tree devscripts $INPUT_EXTRA_BUILD_DEPS
+sudo apt install $INPUT_APT_OPTS -- dpkg-dev libdpkg-perl dput tree devscripts $INPUT_EXTRA_BUILD_DEPS
+sudo apt install $INPUT_APT_OPTS -- libdistro-info-perl $INPUT_EXTRA_BUILD_DEPS
 end_group

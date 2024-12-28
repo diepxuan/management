@@ -61,25 +61,18 @@ jobs:
           OBS_OPPW: ${{ secrets.OBS_OPPW }}
           KITE_TOKEN: ${{ secrets.KITE_TOKEN }}
 
-      - name: Retrieve the secret, decode and import GPG key
+      - name: Git configuration
         run: |
           echo "$GPG_KEY====" | tr -d '\n' | fold -w 4 | sed '$ d' | tr -d '\n' | fold -w 76 | base64 -di | gpg --batch --import || true
           gpg --list-secret-keys --keyid-format=long
-        env:
-          GPG_KEY: ${{ secrets.GPG_KEY }}
-          GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
-
-      - name: Configure Git gpg
-        if: true
-        run: |
           git config --global user.email "$GIT_COMMITTER_EMAIL"
           git config --global user.name "$GIT_COMMITTER_NAME"
-          git config --global pull.rebase true
-          git config commit.gpgsign true
-          git config user.signingkey $GPG_KEY_ID
+          git config --global commit.gpgsign true
+          git config --global user.signingkey $GPG_KEY_ID
         env:
           GIT_COMMITTER_EMAIL: ${{ secrets.GIT_COMMITTER_EMAIL }}
           GIT_COMMITTER_NAME: ${{ github.repository_owner }}
+          GPG_KEY: ${{ secrets.GPG_KEY }}
           GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
 
       - name: Installing build dependencies
@@ -128,3 +121,5 @@ jobs:
       - name: Put package to DiepXuan Package archives
         # if: ${{ false }}
         run: bash ci/put_packages.sh
+        env:
+          SSH_ID_RSA: ${{ secrets.SSH_ID_RSA }}
