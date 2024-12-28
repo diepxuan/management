@@ -104,6 +104,7 @@ jobs:
           DEB_SIGN_KEYID: ${{ secrets.GPG_KEY_ID }}
           GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
       - name: Building package source
+        # if: ${{ false }}
         run: bash ci/build.sh
         env:
           BUILDPACKAGE_OPTS: --force-sign -S
@@ -112,6 +113,7 @@ jobs:
           GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
 
       - name: Put package to Personal Package archives
+        # if: ${{ false }}
         run: bash ci/put_ppa_packages.sh
 
       - name: Install osc tool
@@ -162,6 +164,7 @@ jobs:
       - name: Copy source code to OBS package directory
         run: |
           cp -r src/* home\:diepxuan/ductn/
+          ls -la home\:diepxuan/ductn/
 
       - name: Commit and push changes to OBS
         run: |
