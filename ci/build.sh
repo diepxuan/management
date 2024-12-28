@@ -8,5 +8,5 @@ set -e
 cd $source_dir
 # shellcheck disable=SC2086
 dpkg-buildpackage $BUILDPACKAGE_OPTS
+ls -la $source_dir
 cd -
-ls -la

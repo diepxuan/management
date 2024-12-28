@@ -10,11 +10,11 @@ regex='.*(.deb|.ddeb|.buildinfo|.changes|.dsc|.tar.xz|.tar.gz|.tar.[[:alpha:]]+)
 mkdir -p $dists_dir
 
 while read -r file; do
-    mv -vf "$source_dir/$file" "$dists_dir/" || true
+    cp -vf "$source_dir/$file" "$dists_dir/" || true
 done < <(ls $source_dir/ | grep -E $regex)
 
 while read -r file; do
-    mv -vf "$pwd_dir/$file" "$dists_dir/" || true
+    cp -vf "$pwd_dir/$file" "$dists_dir/" || true
 done < <(ls $pwd_dir/ | grep -E $regex)
 end_group
 
@@ -36,4 +36,6 @@ package=$(ls -a $dists_dir | grep ${release_package}_${release_version} | grep _
     package=$dists_dir/$package &&
     [[ -f $package ]] &&
     dput caothu91ppa $package || true
+
+ls -la $dists_dir
 end_group

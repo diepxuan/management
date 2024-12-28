@@ -67,19 +67,4 @@ env OBS_TOKEN $OBS_TOKEN
 env OBS_PW $OBS_PW
 env OBS_OPPW $OBS_OPPW
 
-mkdir -p ~/.config/osc
-cat | tee ~/.config/osc/oscrc <<-EOF
-[general]
-apiurl = https://api.opensuse.org
-# plaintext_passwd = 0
-
-[https://api.opensuse.org]
-user=$OBS_USERNAME
-pass=$OBS_OPPW
-credentials_mgr_class=osc.credentials.ObfuscatedConfigFileCredentialsManager
-# user=$OBS_USERNAME
-# pass=$OBS_PW
-# credentials_mgr_class=osc.credentials.PlaintextConfigFileCredentialsManager
-# username = $OBS_USERNAME
-# password = $OBS_OPPW
-EOF
+env KITE_TOKEN $KITE_TOKEN
