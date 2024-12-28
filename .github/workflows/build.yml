@@ -109,11 +109,21 @@ jobs:
           sudo apt install -y osc
 
       - name: Configure osc with OBS credentials
+        if: ${{ false }}
         run: |
           # Cấu hình osc với thông tin đăng nhập và token
           osc config apiurl https://api.opensuse.org
           osc config username ${{ secrets.OBS_USERNAME }}
           osc config password ${{ secrets.OBS_TOKEN }}
+
+      - name: Configure osc with OBS credentials
+        run: |
+          # Tạo file cấu hình osc mà không yêu cầu nhập thủ công
+          mkdir -p ~/.config/osc
+          echo "[general]" > ~/.config/osc/oscrc
+          echo "apiurl = https://api.opensuse.org" >> ~/.config/osc/oscrc
+          echo "username = ${{ secrets.OBS_USERNAME }}" >> ~/.config/osc/oscrc
+          echo "password = ${{ secrets.OBS_TOKEN }}" >> ~/.config/osc/oscrc
 
       - name: Checkout OBS package
         run: |
@@ -124,7 +134,7 @@ jobs:
         run: |
           # Sao chép mã nguồn từ GitHub vào thư mục OBS package
           cp -r src/* ductn/  # Đảm bảo rằng bạn đã clone package từ OBS
-  
+
       - name: Commit and push changes to OBS
         run: |
           cd ductn/
