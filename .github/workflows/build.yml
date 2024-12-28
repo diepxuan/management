@@ -106,7 +106,7 @@ jobs:
       - name: Install osc tool
         run: |
           sudo apt update
-          # sudo apt install -y osc
+          sudo apt install -y osc
           sudo apt install -y build-essential python3-dev libssl-dev libffi-dev
           pip3 install M2Crypto
           pip3 install --upgrade osc
