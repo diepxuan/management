@@ -122,8 +122,11 @@ jobs:
           mkdir -p ~/.config/osc
           echo "[general]" > ~/.config/osc/oscrc
           echo "apiurl = https://api.opensuse.org" >> ~/.config/osc/oscrc
-          echo "username = ${{ secrets.OBS_USERNAME }}" >> ~/.config/osc/oscrc
-          echo "password = ${{ secrets.OBS_TOKEN }}" >> ~/.config/osc/oscrc
+          echo "username = $OBS_USERNAME" >> ~/.config/osc/oscrc
+          echo "password = $OBS_TOKEN" >> ~/.config/osc/oscrc
+        env:
+          OBS_USERNAME: ${{ secrets.OBS_USERNAME }}
+          OBS_TOKEN: ${{ secrets.OBS_TOKEN }}
 
       - name: Checkout OBS package
         run: |
