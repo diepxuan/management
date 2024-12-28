@@ -115,10 +115,10 @@ jobs:
           # wget -qO - https://download.opensuse.org/repositories/openSUSE:/Tools/Debian_$(lsb_release -sc)/Release.key | sudo apt-key add -
           # echo "deb http://download.opensuse.org/repositories/openSUSE:/Tools/Debian_$(lsb_release -sc)/ ./" | sudo tee /etc/apt/sources.list.d/obs.list
           sudo apt update
-          sudo apt install -y osc
+          # sudo apt install -y osc
           sudo apt install -y build-essential python3-dev libssl-dev libffi-dev
           # pip3 install M2Crypto
-          # pip3 install --upgrade osc
+          pip3 install --upgrade osc
 
       - name: Configure osc with OBS credentials
         if: ${{ false }}
