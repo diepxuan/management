@@ -52,7 +52,7 @@ RELEASE=${RELEASE:-$(echo $VERSION | awk '{print $1}')}
 RELEASE=${RELEASE:-$(echo $PRETTY_NAME | awk '{print $2}')}
 RELEASE=${RELEASE:-${DISTRIB_RELEASE}}
 RELEASE=${RELEASE:-${VERSION_ID}}
-RELEASE=${RELEASE%%.*.*}
+RELEASE=$(echo "$RELEASE" | awk -F. '{print $1"."$2}')
 
 DISTRIB=${DISTRIB:-$DISTRIB_ID}
 DISTRIB=${DISTRIB:-$ID}
