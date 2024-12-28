@@ -36,11 +36,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.9
+      - name: Set up Python 3
         uses: actions/setup-python@v2
-        if: ${{ false }}
+        # if: ${{ false }}
         with:
-          python-version: "3.9"
+          python-version: "3.11"
       # Create GPG key if not exists
       #     gpg --full-generate-key
       # List to select GPG key
