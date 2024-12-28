@@ -108,6 +108,7 @@ jobs:
           sudo apt update
           sudo apt install -y osc build-essential python3-dev libssl-dev libffi-dev
           pip3 install M2Crypto
+          pip3 install --upgrade osc
 
       - name: Configure osc with OBS credentials
         if: ${{ false }}
