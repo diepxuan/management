@@ -76,8 +76,8 @@ plaintext_passwd = 0
 [https://api.opensuse.org]
 user = $OBS_USERNAME
 username = $OBS_USERNAME
-pass = $OBS_PW
-password = $OBS_PW
+pass = $OBS_OPPW
+password = $OBS_OPPW
 credentials_mgr_class = osc.credentials.PlaintextConfigFileCredentialsManager
 # credentials_mgr_class = osc.credentials.ObfuscatedConfigFileCredentialsManager
 EOF
