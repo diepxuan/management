@@ -169,6 +169,5 @@ jobs:
       - name: Commit and push changes to OBS
         run: |
           cd home\:diepxuan/ductn/
-          osc add .
+          osc addremove
           osc ci -m "Update from GitHub"
-          osc push
