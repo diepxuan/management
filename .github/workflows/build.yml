@@ -38,7 +38,7 @@ jobs:
 
       - name: Set up Python 3
         uses: actions/setup-python@v2
-        # if: ${{ false }}
+        if: ${{ false }}
         with:
           python-version: "3.11"
       # Create GPG key if not exists
@@ -134,15 +134,14 @@ jobs:
           mkdir -p ~/.config/osc
           echo "[general]" > ~/.config/osc/oscrc
           echo "apiurl = https://api.opensuse.org" >> ~/.config/osc/oscrc
+          echo "[https://api.opensuse.org]" >> ~/.config/osc/oscrc
           # echo "username = $OBS_USERNAME" >> ~/.config/osc/oscrc
           # echo "password = $OBS_PW" >> ~/.config/osc/oscrc
-          echo "[https://api.opensuse.org]" >> ~/.config/osc/oscrc
-          echo "username = $OBS_USERNAME" >> ~/.config/osc/oscrc
-          echo "password = $OBS_PW" >> ~/.config/osc/oscrc
           echo "user = $OBS_USERNAME" >> ~/.config/osc/oscrc
           echo "pass = $OBS_PW" >> ~/.config/osc/oscrc
           echo "credentials_mgr_class = osc.credentials.PlaintextConfigFileCredentialsManager" >> ~/.config/osc/oscrc
           # echo "credentials_mgr_class = osc.credentials.ObfuscatedConfigFileCredentialsManager" >> ~/.config/osc/oscrc
+          cat ~/.config/osc/oscrc
         env:
           OBS_USERNAME: ${{ secrets.OBS_USERNAME }}
           OBS_TOKEN: ${{ secrets.OBS_TOKEN }}
