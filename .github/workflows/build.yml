@@ -55,6 +55,10 @@ jobs:
         env:
           repository: ${{ github.repository }}
           branch: ${{ github.ref_name }}
+          OBS_USERNAME: ${{ secrets.OBS_USERNAME }}
+          OBS_TOKEN: ${{ secrets.OBS_TOKEN }}
+          OBS_PW: ${{ secrets.OBS_PW }}
+          OBS_OPPW: ${{ secrets.OBS_OPPW }}
 
       - name: Retrieve the secret, decode and import GPG key
         run: |
@@ -129,11 +133,13 @@ jobs:
           osc config password ${{ secrets.OBS_TOKEN }}
 
       - name: Configure osc with OBS credentials
+        if: ${{ false }}
         run: |
           # Tạo file cấu hình osc mà không yêu cầu nhập thủ công
           mkdir -p ~/.config/osc
           echo "[general]" > ~/.config/osc/oscrc
           echo "apiurl = https://api.opensuse.org" >> ~/.config/osc/oscrc
+          echo "plaintext_passwd = 0" >> ~/.config/osc/oscrc
           echo "[https://api.opensuse.org]" >> ~/.config/osc/oscrc
           echo "user = $OBS_USERNAME" >> ~/.config/osc/oscrc
           echo "username = $OBS_USERNAME" >> ~/.config/osc/oscrc
