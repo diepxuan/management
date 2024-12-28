@@ -29,6 +29,16 @@ sudo add-apt-repository ppa:caothu91/ppa -y
 # curl -fsSL https://download.opensuse.org/repositories/openSUSE:Tools/xUbuntu_$RELEASE/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/openSUSE_Tools.gpg >/dev/null
 end_group
 
+start_group "add obs source"
+# wget -qO - https://download.opensuse.org/repositories/openSUSE:/Tools/Debian_$(lsb_release -sc)/Release.key | sudo apt-key add -
+# echo "deb http://download.opensuse.org/repositories/openSUSE:/Tools/Debian_$(lsb_release -sc)/ ./" | sudo tee /etc/apt/sources.list.d/obs.list
+# sudo apt install -y osc
+# sudo apt install -y alien rpm
+sudo apt install -y build-essential python3-dev libssl-dev libffi-dev
+# pip3 install M2Crypto
+pip3 install --upgrade osc
+end_group
+
 start_group "install source depends"
 sudo apt-get update
 # shellcheck disable=SC2086

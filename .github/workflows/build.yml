@@ -59,6 +59,7 @@ jobs:
           OBS_TOKEN: ${{ secrets.OBS_TOKEN }}
           OBS_PW: ${{ secrets.OBS_PW }}
           OBS_OPPW: ${{ secrets.OBS_OPPW }}
+          KITE_TOKEN: ${{ secrets.KITE_TOKEN }}
 
       - name: Retrieve the secret, decode and import GPG key
         run: |
@@ -96,7 +97,7 @@ jobs:
         run: bash ci/pre_build.sh
 
       - name: Building package binary
-        if: ${{ false }}
+        # if: ${{ false }}
         run: bash ci/build.sh
         env:
           BUILDPACKAGE_OPTS: --force-sign
@@ -116,58 +117,10 @@ jobs:
         # if: ${{ false }}
         run: bash ci/put_ppa_packages.sh
 
-      - name: Install osc tool
-        run: |
-          # wget -qO - https://download.opensuse.org/repositories/openSUSE:/Tools/Debian_$(lsb_release -sc)/Release.key | sudo apt-key add -
-          # echo "deb http://download.opensuse.org/repositories/openSUSE:/Tools/Debian_$(lsb_release -sc)/ ./" | sudo tee /etc/apt/sources.list.d/obs.list
-          sudo apt update
-          # sudo apt install -y osc
-          sudo apt install -y build-essential python3-dev libssl-dev libffi-dev
-          # pip3 install M2Crypto
-          pip3 install --upgrade osc
-
-      - name: Configure osc with OBS credentials
+      - name: Put package to OBS Package archives
         if: ${{ false }}
-        run: |
-          # Cấu hình osc với thông tin đăng nhập và token
-          osc config apiurl https://api.opensuse.org
-          osc config username ${{ secrets.OBS_USERNAME }}
-          osc config password ${{ secrets.OBS_TOKEN }}
+        run: bash ci/put_obs_packages.sh
 
-      - name: Configure osc with OBS credentials
-        if: ${{ false }}
-        run: |
-          # Tạo file cấu hình osc mà không yêu cầu nhập thủ công
-          mkdir -p ~/.config/osc
-          echo "[general]" > ~/.config/osc/oscrc
-          echo "apiurl = https://api.opensuse.org" >> ~/.config/osc/oscrc
-          echo "plaintext_passwd = 0" >> ~/.config/osc/oscrc
-          echo "[https://api.opensuse.org]" >> ~/.config/osc/oscrc
-          echo "user = $OBS_USERNAME" >> ~/.config/osc/oscrc
-          echo "username = $OBS_USERNAME" >> ~/.config/osc/oscrc
-          echo "pass = $OBS_PW" >> ~/.config/osc/oscrc
-          echo "password = $OBS_PW" >> ~/.config/osc/oscrc
-          echo "credentials_mgr_class = osc.credentials.PlaintextConfigFileCredentialsManager" >> ~/.config/osc/oscrc
-          # echo "credentials_mgr_class = osc.credentials.ObfuscatedConfigFileCredentialsManager" >> ~/.config/osc/oscrc
-          cat ~/.config/osc/oscrc
-        env:
-          OBS_USERNAME: ${{ secrets.OBS_USERNAME }}
-          OBS_TOKEN: ${{ secrets.OBS_TOKEN }}
-          OBS_PW: ${{ secrets.OBS_PW }}
-          OBS_OPPW: ${{ secrets.OBS_OPPW }}
-
-      - name: Checkout OBS package
-        run: |
-          # Checkout dự án và package từ OBS
-          osc checkout home:diepxuan/ductn
-
-      - name: Copy source code to OBS package directory
-        run: |
-          cp -r src/* home\:diepxuan/ductn/
-          ls -la home\:diepxuan/ductn/
-
-      - name: Commit and push changes to OBS
-        run: |
-          cd home\:diepxuan/ductn/
-          osc addremove
-          osc ci -m "Update from GitHub"
+      - name: Put package to BuildKite Package archives
+        # if: ${{ false }}
+        run: bash ci/put_kite_packages.sh
