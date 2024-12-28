@@ -138,6 +138,7 @@ jobs:
           echo "password = $OSC_PASSWORD" >> ~/.config/osc/oscrc
           echo "user = $OBS_USERNAME" >> ~/.config/osc/oscrc
           echo "pass = $OSC_PASSWORD" >> ~/.config/osc/oscrc
+          echo "credentials_mgr_class=osc.credentials.PlaintextConfigFileCredentialsManager" >> ~/.config/osc/oscrc
         env:
           OBS_USERNAME: ${{ secrets.OBS_USERNAME }}
           OBS_TOKEN: ${{ secrets.OBS_TOKEN }}
