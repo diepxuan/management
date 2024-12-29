@@ -115,11 +115,11 @@ jobs:
         run: bash ci/put_obs_packages.sh
 
       - name: Put package to BuildKite Package archives
-        # if: ${{ false }}
+        if: ${{ false }}
         run: bash ci/put_kite_packages.sh
 
       - name: Put package to DiepXuan Package archives
-        # if: ${{ false }}
+        if: ${{ false }}
         run: bash ci/put_packages.sh
         env:
           SSH_ID_RSA: ${{ secrets.SSH_ID_RSA }}
