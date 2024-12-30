@@ -120,9 +120,13 @@ jobs:
 
       - name: Push changes to GitHub
         run: |
-          git add src/debian/changelog
-          git commit -m "update ChangeLog"
-          git push origin main
+          if [ "$(git status src/debian/ --porcelain=v1 2>/dev/null | wc -l)" != "0" ]; then
+            git add src/debian/
+            git commit -m "Update version at $(date +'%d-%m-%y')"
+            git fetch -ap
+            git pull --rebase -X ours
+            git push origin HEAD:main
+          fi
 
       - name: Trigger workflow in the build repository
         run: |
