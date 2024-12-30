@@ -2,6 +2,12 @@ ductn (4.1.9) focal; urgency=medium
 
   * Update package
 
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 30 Dec 2024 15:08:33 +0700
+
+ductn (4.1.9) focal; urgency=medium
+
+  * Update package
+
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 30 Dec 2024 14:57:57 +0700
 
 ductn (4.0.2+debian~rc1.2) mantic; urgency=medium
