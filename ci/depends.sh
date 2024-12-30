@@ -34,9 +34,9 @@ start_group "add obs source"
 # echo "deb http://download.opensuse.org/repositories/openSUSE:/Tools/Debian_$(lsb_release -sc)/ ./" | sudo tee /etc/apt/sources.list.d/obs.list
 # sudo apt install -y osc
 # sudo apt install -y alien rpm
-sudo apt install -y build-essential python3-dev libssl-dev libffi-dev
+# sudo apt install -y build-essential python3-dev libssl-dev libffi-dev
 # pip3 install M2Crypto
-pip3 install --upgrade osc
+# pip3 install --upgrade osc
 end_group
 
 start_group "install source depends"
