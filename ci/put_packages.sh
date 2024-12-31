@@ -15,14 +15,10 @@ cd $ppa_dir
 
 if [ "$(git status src/ --porcelain=v1 2>/dev/null | wc -l)" != "0" ]; then
     git add src/
-    git commit -m "Update version at $(date +'%d-%m-%y')"
+    git commit -m "Update at $(date +'%d-%m-%y')" -m "$package_clog"
     git fetch -ap
     git pull --rebase -X ours
     git push origin HEAD:main
 fi
-
-git add dists/
-git commit -m "Add .deb package"
-git push origin main
 
 end_group
