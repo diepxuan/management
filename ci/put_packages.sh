@@ -8,6 +8,9 @@ set -e
 start_group "put package to DiepXuan PPA"
 git clone --depth 1 --branch main git@github.com:diepxuan/ppa.git
 
+package_clog=$(git log -1 --pretty=format:"%h %s" -- src/)
+package_clog=${package_clog:-"Update package"}
+
 rm -rf $ppa_dir/src/$repository
 mkdir -p $ppa_dir/src/$repository/
 cp -r $source_dir/. $ppa_dir/src/$repository/
