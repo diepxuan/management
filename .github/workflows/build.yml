@@ -77,6 +77,15 @@ jobs:
           GIT_COMMITTER_NAME: ${{ github.repository_owner }}
           GPG_KEY: ${{ secrets.GPG_KEY }}
           GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+      - name: SSH configuration
+        shell: bash
+        run: |
+          mkdir -p ~/.ssh
+          [[ ! -f "~/.ssh/id_rsa" ]] && echo "$SSH_ID_RSA" > ~/.ssh/id_rsa || (echo "$SSH_ID_RSA" > ~/.ssh/id_rsa_work && ssh-add ~/.ssh/id_rsa_work)
+          chmod 700 ~/.ssh
+          chmod 600 ~/.ssh/*
+        env:
+          SSH_ID_RSA: ${{ secrets.SSH_ID_RSA }}
 
       - name: Installing build dependencies
         run: bash ci/depends.sh
@@ -117,6 +126,7 @@ jobs:
         if: ${{ false }}
         run: bash ci/put_packages.sh
         env:
+          repository: ${{ github.repository }}
           SSH_ID_RSA: ${{ secrets.SSH_ID_RSA }}
 
       - name: Push changes to GitHub
@@ -130,14 +140,17 @@ jobs:
           fi
 
       - uses: actions/checkout@v4
+        # if: false
         with:
           repository: diepxuan/ppa
           path: ppa
 
       - name: Copy source to ppa
+        # if: false
         run: |
           rm -rf ppa/src/$repository
-          mkdir -p ppa/src/$repository
+          mkdir -p ppa/src/$repository/
+          cp -r src/. ppa/src/$repository/
           cd ppa/
           git add .
         env:
