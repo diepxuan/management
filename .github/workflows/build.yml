@@ -123,7 +123,7 @@ jobs:
         run: bash ci/put_kite_packages.sh
 
       - name: Put package to DiepXuan Package archives
-        if: ${{ false }}
+        # if: ${{ false }}
         run: bash ci/put_packages.sh
         env:
           repository: ${{ github.repository }}
@@ -131,8 +131,8 @@ jobs:
 
       - name: Push changes to GitHub
         run: |
-          if [ "$(git status src/debian/ --porcelain=v1 2>/dev/null | wc -l)" != "0" ]; then
-            git add src/debian/
+          if [ "$(git status src/ --porcelain=v1 2>/dev/null | wc -l)" != "0" ]; then
+            git add src/
             git commit -m "Update version at $(date +'%d-%m-%y')"
             git fetch -ap
             git pull --rebase -X ours
@@ -140,13 +140,13 @@ jobs:
           fi
 
       - uses: actions/checkout@v4
-        # if: false
+        # if: ${{ false }}
         with:
           repository: diepxuan/ppa
           path: ppa
 
       - name: Copy source to ppa
-        # if: false
+        # if: ${{ false }}
         run: |
           rm -rf ppa/src/$repository
           mkdir -p ppa/src/$repository/
@@ -157,7 +157,7 @@ jobs:
           repository: ${{ github.repository }}
 
       - name: Push source to ppa
-        # if: false
+        # if: ${{ false }}
         working-directory: ppa
         run: |
           if [ "$(git status --porcelain=v1 2>/dev/null | wc -l)" != "0" ]; then
