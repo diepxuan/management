@@ -2,6 +2,12 @@ ductn (4.3.1) jammy; urgency=medium
 
   * Update package
 
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Tue, 31 Dec 2024 09:27:34 +0700
+
+ductn (4.3.1) jammy; urgency=medium
+
+  * Update package
+
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Tue, 31 Dec 2024 08:18:34 +0700
 
 ductn (4.3.0) jammy; urgency=medium
