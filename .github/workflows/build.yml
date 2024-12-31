@@ -129,15 +129,29 @@ jobs:
             git push origin HEAD:main
           fi
 
-      - name: Trigger workflow in the build repository
+      - uses: actions/checkout@v4
+        with:
+          repository: diepxuan/ppa
+          path: ppa
+
+      - name: Copy source to ppa
         run: |
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github.everest-preview+json" \
-            https://api.github.com/repos/diepxuan/ppa/dispatches \
-            -d '{
-              "event_type": "build_trigger",
-              "client_payload": {
-                "repository": "${{ github.repository }}",
-              }
-            }'
+          rm -rf ppa/src/$repository
+          mkdir -p ppa/src/$repository
+          cd ppa/
+          git add .
+        env:
+          repository: ${{ github.repository }}
+
+      - name: Push source to ppa
+        # if: false
+        working-directory: ppa
+        run: |
+          if [ "$(git status --porcelain=v1 2>/dev/null | wc -l)" != "0" ]; then
+            git commit -m "Update packages from ${{ matrix.operating-system }} at $(date +'%d-%m-%y')" &&
+              git push ||
+              git stash &&
+              git pull --rebase &&
+              git stash apply &&
+              git push || true
+          fi
