@@ -140,13 +140,13 @@ jobs:
           fi
 
       - uses: actions/checkout@v4
-        # if: ${{ false }}
+        if: ${{ false }}
         with:
           repository: diepxuan/ppa
           path: ppa
 
       - name: Copy source to ppa
-        # if: ${{ false }}
+        if: ${{ false }}
         run: |
           rm -rf ppa/src/$repository
           mkdir -p ppa/src/$repository/
@@ -157,7 +157,7 @@ jobs:
           repository: ${{ github.repository }}
 
       - name: Push source to ppa
-        # if: ${{ false }}
+        if: ${{ false }}
         working-directory: ppa
         run: |
           if [ "$(git status --porcelain=v1 2>/dev/null | wc -l)" != "0" ]; then
