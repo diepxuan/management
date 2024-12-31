@@ -31,7 +31,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ubuntu-22.04, ubuntu-20.04]
+        # operating-system: [ubuntu-22.04, ubuntu-20.04]
+        operating-system: [ubuntu-latest]
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -135,7 +136,7 @@ jobs:
             -H "Accept: application/vnd.github.everest-preview+json" \
             https://api.github.com/repos/diepxuan/ppa/dispatches \
             -d '{
-              "event_type": "trigger_build",
+              "event_type": "build_trigger",
               "client_payload": {
                 "repository": "${{ github.repository }}",
               }
