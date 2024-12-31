@@ -29,7 +29,6 @@ release_tag=$(apt show ductn 2>/dev/null | grep Version | awk '{print $2}' | cut
 # old_codename_os=$(cat $changelog | head -n 1 | awk '{print $3}' | sed 's|;||g')
 package_clog=$(git log -1 --pretty=format:"%h %s" -- src/)
 package_clog=${package_clog:-"Update package"}
-env package_clog $package_clog
 
 # sed -i -e "s|$old_project|$_project|g" $changelog
 
