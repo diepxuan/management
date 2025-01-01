@@ -1,9 +1,6 @@
-# Runs tests and verifies that the package can be built.
 name: Build
 
-# Controls when the action will run.
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
   push:
     branches: [main]
     # paths:
@@ -18,32 +15,18 @@ on:
     paths-ignore:
       - "**/changelog"
       - "**.md"
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # if: ${{ false }}
+  package-build:
     runs-on: ${{matrix.operating-system}}
     strategy:
       fail-fast: false
       matrix:
         # operating-system: [ubuntu-22.04, ubuntu-20.04]
         operating-system: [ubuntu-latest]
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Set up Python 3
-        uses: actions/setup-python@v2
-        if: ${{ false }}
-        with:
-          python-version: "3.11"
       # Create GPG key if not exists
       #     gpg --full-generate-key
       # List to select GPG key
@@ -63,7 +46,6 @@ jobs:
           OBS_PW: ${{ secrets.OBS_PW }}
           OBS_OPPW: ${{ secrets.OBS_OPPW }}
           KITE_TOKEN: ${{ secrets.KITE_TOKEN }}
-
       - name: Git configuration
         run: |
           echo "$GPG_KEY====" | tr -d '\n' | fold -w 4 | sed '$ d' | tr -d '\n' | fold -w 76 | base64 -di | gpg --batch --import || true
@@ -86,85 +68,38 @@ jobs:
           chmod 600 ~/.ssh/*
         env:
           SSH_ID_RSA: ${{ secrets.SSH_ID_RSA }}
-
       - name: Installing build dependencies
         run: bash ci/depends.sh
-
       - name: Updating build information
-        run: bash ci/update_packages.sh
         env:
           DEBEMAIL: ductn@diepxuan.com
           EMAIL: ductn@diepxuan.com
           DEBFULLNAME: Tran Ngoc Duc
           NAME: Tran Ngoc Duc
-
+        run: bash ci/update_packages.sh
       - name: Pre-build package binary
         run: bash ci/pre_build.sh
       - name: Building package binary
-        # if: ${{ false }}
-        run: bash ci/build.sh
         env:
           BUILDPACKAGE_OPTS: --force-sign
-      - name: Building package source
-        # if: ${{ false }}
         run: bash ci/build.sh
+      - name: Building package source
         env:
           BUILDPACKAGE_OPTS: --force-sign -S
+        run: bash ci/build.sh
       - name: Put package to Personal Package archives
-        # if: ${{ false }}
-        run: bash ci/put_ppa_packages.sh
-
-      - name: Put package to OBS Package archives
-        if: ${{ false }}
-        run: bash ci/put_obs_packages.sh
-
-      - name: Put package to BuildKite Package archives
-        if: ${{ false }}
-        run: bash ci/put_kite_packages.sh
-
-      - name: Put package to DiepXuan Package archives
-        # if: ${{ false }}
-        run: bash ci/put_packages.sh
         env:
           repository: ${{ github.repository }}
           SSH_ID_RSA: ${{ secrets.SSH_ID_RSA }}
+        run: bash ci/put_ppa_packages.sh
 
-      - name: Push changes to GitHub
-        run: |
-          if [ "$(git status src/ --porcelain=v1 2>/dev/null | wc -l)" != "0" ]; then
-            git add src/
-            git commit -m "Update version at $(date +'%d-%m-%y')"
-            git fetch -ap
-            git pull --rebase -X ours
-            git push origin HEAD:main
-          fi
-
-      - uses: actions/checkout@v4
-        if: ${{ false }}
-        with:
-          repository: diepxuan/ppa
-          path: ppa
-
-      - name: Copy source to ppa
-        if: ${{ false }}
-        run: |
-          rm -rf ppa/src/$repository
-          mkdir -p ppa/src/$repository/
-          cp -r src/. ppa/src/$repository/
-          cd ppa/
-          git add .
-        env:
-          repository: ${{ github.repository }}
-
-      - name: Push source to ppa
-        if: ${{ false }}
-        working-directory: ppa
-        run: |
-          if [ "$(git status --porcelain=v1 2>/dev/null | wc -l)" != "0" ]; then
-            git commit -m "Update packages from ${{ matrix.operating-system }} at $(date +'%d-%m-%y')" &&
-              git push ||
-              git stash &&
-              git pull --rebase &&
-              git stash apply &&
-              git push || true
-          fi
+  package-publish:
+    needs: package-build
+    permissions:
+      contents: write
+    uses: diepxuan/.github/.github/workflows/debian-package-publish.yml@main
+    secrets:
+      GPG_KEY: ${{ secrets.GPG_KEY }}
+      GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+      GIT_COMMITTER_EMAIL: ${{ secrets.GIT_COMMITTER_EMAIL }}
+      SSH_ID_RSA: ${{ secrets.SSH_ID_RSA }}
