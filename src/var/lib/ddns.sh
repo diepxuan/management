@@ -7,6 +7,10 @@ d_ddns:enable() {
     sudo systemctl start bind9.service
 }
 
+d_ddns:install:Technitium() {
+    sudo bash <(curl -fsSL https://download.technitium.com/dns/install.sh)
+}
+
 --dns:disable() {
     sudo systemctl stop systemd-resolved.service
     sudo systemctl disable systemd-resolved.service
