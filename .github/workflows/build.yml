@@ -77,8 +77,6 @@ jobs:
           DEBFULLNAME: Tran Ngoc Duc
           NAME: Tran Ngoc Duc
         run: bash ci/update_packages.sh
-      - name: Pre-build package binary
-        run: bash ci/pre_build.sh
       - name: Building package binary
         env:
           BUILDPACKAGE_OPTS: --force-sign

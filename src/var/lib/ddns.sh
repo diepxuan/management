@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-d_ddns:enable() {
+d_ddns:bind9:install() {
     sudo apt-get install -y bind9
     sudo systemctl enable bind9.service
     sudo systemctl start bind9.service
 }
 
-d_ddns:install:Technitium() {
+d_ddns:technitium:install() {
     sudo bash <(curl -fsSL https://download.technitium.com/dns/install.sh)
 }
 
@@ -34,9 +34,17 @@ search diepxuan.com
 EOF
 }
 
---dns:resolved() {
+d_ddns:resolved() {
     sudo rm -rf /etc/resolv.conf
     sudo ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
     sudo systemctl enable systemd-resolved.service
     sudo systemctl restart systemd-resolved.service
 }
+
+--isenabled() {
+    echo '1'
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    "$@"
+fi
