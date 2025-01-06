@@ -8,7 +8,7 @@ fi
 
 _DUCTN_COMMANDS+=("sys:init")
 --sys:init() {
-    sudo timedatectl set-timezone Asia/Ho_Chi_Minh
+    $SUDO timedatectl set-timezone Asia/Ho_Chi_Minh
 
     --user:config $USERNAME
     --git:configure
@@ -26,8 +26,7 @@ _DUCTN_COMMANDS+=("sys:init")
     fi
 }
 
-_DUCTN_COMMANDS+=("sys:sysctl")
---sys:sysctl() {
+d_sys:sysctl() {
     _sysctl="fs.inotify.max_user_watches=524288
 net.ipv4.ip_forward=1"
 
@@ -66,3 +65,11 @@ _DUCTN_COMMANDS+=("sys:upgrade")
     # ductn sys:clean
     # ductn sys:service:re-install
 }
+
+--isenabled() {
+    echo '1'
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    "$@"
+fi
