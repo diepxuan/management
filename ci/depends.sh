@@ -23,7 +23,7 @@ printf "man-db man-db/auto-update boolean false\n" | sudo debconf-set-selections
 
 # add repository for install missing depends
 sudo apt install software-properties-common
-sudo add-apt-repository ppa:caothu91/ppa -y
+# sudo add-apt-repository ppa:caothu91/ppa -y
 
 # echo "deb http://download.opensuse.org/repositories/openSUSE:/Tools/xUbuntu_$RELEASE/ /" | sudo tee /etc/apt/sources.list.d/openSUSE:Tools.list
 # curl -fsSL https://download.opensuse.org/repositories/openSUSE:Tools/xUbuntu_$RELEASE/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/openSUSE_Tools.gpg >/dev/null

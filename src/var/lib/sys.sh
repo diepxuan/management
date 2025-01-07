@@ -6,7 +6,6 @@ if [ "$(id -u)" -eq 0 ]; then
     SUDO=""
 fi
 
-_DUCTN_COMMANDS+=("sys:init")
 --sys:init() {
     $SUDO timedatectl set-timezone Asia/Ho_Chi_Minh
 
@@ -51,19 +50,33 @@ net.ipv4.ip_forward=1"
     sed -i "/bash\/.bash_aliases/d" ~/.bash_aliases
 }
 
-_DUCTN_COMMANDS+=("selfupdate")
 --selfupdate() {
     --sys:upgrade
     ductn sys:init
 }
 
-_DUCTN_COMMANDS+=("sys:upgrade")
 --sys:upgrade() {
     sudo apt update
     sudo apt install --only-upgrade ductn -y --purge --auto-remove
     # ductn sys:init
     # ductn sys:clean
     # ductn sys:service:re-install
+}
+
+d_-v() {
+    d_version
+}
+
+d_version() {
+    version=$(apt show ductn 2>/dev/null | grep Version | awk '{print $2}')
+    version=${version:-"$(dpkg-parsechangelog -S Version -l $_SRC_DIR/debian/changelog 2>/dev/null)"}
+    version=${version:-"$(head -n 1 $_SRC_DIR/debian/changelog | awk -F '[()]' '{print $2}')"}
+    version=${version:-"0.0.0"}
+    echo $version
+}
+
+d_version:newrelease() {
+    echo $(($(d_version | tr -d '.') + 1)) | sed "s/\(.\)\(.\)\(.\)/\1.\2.\3/"
 }
 
 --isenabled() {
