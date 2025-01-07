@@ -20,9 +20,7 @@ set -e
 start_group "update package config"
 cd $source_dir
 
-# release_tag=$(apt show ductn 2>/dev/null | grep Version | awk '{print $2}' | cut -d '+' -f1 | awk -F. -v OFS=. 'NF==1{print ++$NF}; NF>1{if(length($NF+1)>length($NF))$(NF-1)++; $NF=sprintf("%0*d", length($NF), ($NF+1)%(10^length($NF))); print}')
-# release_tag="$release_tag+$DISTRIB~$RELEASE"
-release_tag=$(apt show ductn 2>/dev/null | grep Version | awk '{print $2}' | cut -d '+' -f1 | cut -d '~' -f1 | awk -F. -v OFS=. 'NF==1{print ++$NF}; NF>1{if(length($NF+1)>length($NF))$(NF-1)++; $NF=sprintf("%0*d", length($NF), ($NF+1)%(10^length($NF))); print}')
+release_tag=$($source_dir/ductn version:newrelease)
 
 # old_project=$(cat $changelog | head -n 1 | awk '{print $1}' | sed 's|[()]||g')
 # old_release_tag=$(cat $changelog | head -n 1 | awk '{print $2}' | sed 's|[()]||g')
