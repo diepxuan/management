@@ -35,8 +35,7 @@ d_ip:wan() {
     dig @resolver1.ipv6-sandbox.opendns.com AAAA myip.opendns.com +short -6
 }
 
-ip_local=
---local() {
+d_ip:local() {
     ips=$(--localAll)
     echo ${ips[0]}
 }

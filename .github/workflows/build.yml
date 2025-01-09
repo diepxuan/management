@@ -47,28 +47,17 @@ jobs:
           OBS_PW: ${{ secrets.OBS_PW }}
           OBS_OPPW: ${{ secrets.OBS_OPPW }}
           KITE_TOKEN: ${{ secrets.KITE_TOKEN }}
-      - name: Git configuration
-        run: |
-          echo "$GPG_KEY====" | tr -d '\n' | fold -w 4 | sed '$ d' | tr -d '\n' | fold -w 76 | base64 -di | gpg --batch --import || true
-          gpg --list-secret-keys --keyid-format=long
-          git config --global user.email "$GIT_COMMITTER_EMAIL"
-          git config --global user.name "$GIT_COMMITTER_NAME"
-          git config --global commit.gpgsign true
-          git config --global user.signingkey $GPG_KEY_ID
-        env:
-          GIT_COMMITTER_EMAIL: ${{ secrets.GIT_COMMITTER_EMAIL }}
-          GIT_COMMITTER_NAME: ${{ github.repository_owner }}
-          GPG_KEY: ${{ secrets.GPG_KEY }}
-          GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+      - name: Setup GPG
+        uses: diepxuan/.github/.github/actions/gpg-setup@main
+        with:
+          gpg_key: ${{ secrets.GPG_KEY }}
+          gpg_key_id: ${{ secrets.GPG_KEY_ID }}
+          committer_email: ${{ secrets.GIT_COMMITTER_EMAIL }}
+          committer_name: ${{ github.repository_owner }}
       - name: SSH configuration
-        shell: bash
-        run: |
-          mkdir -p ~/.ssh
-          [[ ! -f "~/.ssh/id_rsa" ]] && echo "$SSH_ID_RSA" > ~/.ssh/id_rsa || (echo "$SSH_ID_RSA" > ~/.ssh/id_rsa_work && ssh-add ~/.ssh/id_rsa_work)
-          chmod 700 ~/.ssh
-          chmod 600 ~/.ssh/*
-        env:
-          SSH_ID_RSA: ${{ secrets.SSH_ID_RSA }}
+        uses: diepxuan/.github/.github/actions/ssh-setup@main
+        with:
+          ssh_key_id: ${{ secrets.SSH_ID_RSA }}
       - name: Installing build dependencies
         run: bash ci/depends.sh
       - name: Updating build information
@@ -86,6 +75,18 @@ jobs:
         env:
           BUILDPACKAGE_OPTS: --force-sign -S
         run: bash ci/build.sh
+      - name: Push changes to GitHub
+        run: |
+          if [ -n "$(git status src/debian/ --porcelain=v1 2>/dev/null)" ]; then
+            git add src/debian/
+            git commit -m "Update version at $(date +'%d-%m-%y')"
+            if ! git push; then
+              git stash
+              git pull --rebase
+              git stash pop
+              git push || true
+            fi
+          fi
       - name: Put package to Personal Package archives
         env:
           repository: ${{ github.repository }}
