@@ -42,6 +42,7 @@ jobs:
         env:
           repository: ${{ github.repository }}
           branch: ${{ github.ref_name }}
+          GIT_COMMITTER_MESSAGE: ${{ github.event.head_commit.message }}
           OBS_USERNAME: ${{ secrets.OBS_USERNAME }}
           OBS_TOKEN: ${{ secrets.OBS_TOKEN }}
           OBS_PW: ${{ secrets.OBS_PW }}
@@ -66,6 +67,7 @@ jobs:
           EMAIL: ductn@diepxuan.com
           DEBFULLNAME: Tran Ngoc Duc
           NAME: Tran Ngoc Duc
+          GIT_COMMITTER_MESSAGE: ${{ github.event.head_commit.message }}
         run: bash ci/update_packages.sh
       - name: Building package binary
         env:
