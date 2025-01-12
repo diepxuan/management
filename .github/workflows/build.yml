@@ -35,19 +35,6 @@ jobs:
       #     Example: rsa3072/7E0EC917A5074BD3 2023-03-13 [SC] [expires: 2025-03-12]
       # Generate key as base64
       #     gpg --export-secret-keys 3AA5C34371567BD2 | base64
-      - name: Dynamically set environment variable
-        run: |
-          sudo timedatectl set-timezone Asia/Ho_Chi_Minh
-          bash ci/environment.sh
-        env:
-          repository: ${{ github.repository }}
-          branch: ${{ github.ref_name }}
-          GIT_COMMITTER_MESSAGE: ${{ github.event.head_commit.message }}
-          OBS_USERNAME: ${{ secrets.OBS_USERNAME }}
-          OBS_TOKEN: ${{ secrets.OBS_TOKEN }}
-          OBS_PW: ${{ secrets.OBS_PW }}
-          OBS_OPPW: ${{ secrets.OBS_OPPW }}
-          KITE_TOKEN: ${{ secrets.KITE_TOKEN }}
       - name: Setup GPG
         uses: diepxuan/.github/.github/actions/gpg-setup@main
         with:
@@ -59,41 +46,26 @@ jobs:
         uses: diepxuan/.github/.github/actions/ssh-setup@main
         with:
           ssh_key_id: ${{ secrets.SSH_ID_RSA }}
-      - name: Installing build dependencies
-        run: bash ci/depends.sh
-      - name: Updating build information
+      - name: Package build
+        working-directory: src
+        shell: bash
+        run: |
+          sudo timedatectl set-timezone Asia/Ho_Chi_Minh
+          chmod +x build.sh
+          bash build.sh
         env:
+          INPUT_APT_OPTS:
+          INPUT_EXTRA_BUILD_DEPS:
+          repository: ${{ github.repository }}
+          branch: ${{ github.ref_name }}
+          GIT_COMMITTER_MESSAGE: ${{ github.event.head_commit.message }}
           DEBEMAIL: ductn@diepxuan.com
           EMAIL: ductn@diepxuan.com
           DEBFULLNAME: Tran Ngoc Duc
           NAME: Tran Ngoc Duc
-          GIT_COMMITTER_MESSAGE: ${{ github.event.head_commit.message }}
-        run: bash ci/update_packages.sh
-      - name: Building package binary
-        env:
-          BUILDPACKAGE_OPTS: --force-sign
-        run: bash ci/build.sh
-      - name: Building package source
-        env:
-          BUILDPACKAGE_OPTS: --force-sign -S
-        run: bash ci/build.sh
-      - name: Push changes to GitHub
-        run: |
-          if [ -n "$(git status src/debian/ --porcelain=v1 2>/dev/null)" ]; then
-            git add src/debian/
-            git commit -m "Update version at $(date +'%d-%m-%y')"
-            if ! git push; then
-              git stash
-              git pull --rebase
-              git stash pop
-              git push || true
-            fi
-          fi
-      - name: Put package to Personal Package archives
-        env:
-          repository: ${{ github.repository }}
-          SSH_ID_RSA: ${{ secrets.SSH_ID_RSA }}
-        run: bash ci/put_ppa_packages.sh
+          DEBIAN_FRONTEND: noninteractive
+          DEB_SIGN_KEYID: ${{ secrets.GPG_KEY_ID }}
+          GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
 
   package-publish:
     needs: package-build
