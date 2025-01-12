@@ -72,6 +72,8 @@ jobs:
     permissions:
       contents: write
     uses: diepxuan/.github/.github/workflows/debian-package-publish.yml@main
+    with:
+      message: ${{ github.event.head_commit.message }}
     secrets:
       GPG_KEY: ${{ secrets.GPG_KEY }}
       GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
