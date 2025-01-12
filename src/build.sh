@@ -26,39 +26,48 @@ start_group() {
 
 env() {
     param=$1
-    value=$2
-    if [ "$(cat $GITHUB_ENV | grep $param= 2>/dev/null | wc -l)" != "0" ]; then
-        sed -i "s|$param=.*|$param=$value|" $GITHUB_ENV
-    else
+    value="${@:2}"
+    grep -q "^$param=" $GITHUB_ENV &&
+        sed -i "s|^$param=.*|$param=$value|" $GITHUB_ENV ||
         echo "$param=$value" >>$GITHUB_ENV
-    fi
+    export $param="$value"
+    echo $param: $value
 }
 
-env source_dir $(realpath ./src)
-env source_var $(realpath ./var)
-env source_lib $(realpath ./var/lib)
-env dists_dir $(realpath ./dists)
-env ppa_dir $(realpath ./ppa)
-env ci_dir $(dirname $(realpath "$BASH_SOURCE"))
-env pwd_dir ${GITHUB_WORKSPACE:-$(pwd || dirname $(realpath "$0") || realpath .)}
+start_group Dynamically set environment variable
+# directory
+env source_dir $(dirname $(realpath "$BASH_SOURCE"))
+env source_var $(realpath $source_dir/var)
+env source_lib $(realpath $source_dir/var/lib)
+env debian_dir $(realpath $source_dir/debian)
+env pwd_dir $(realpath $(dirname $source_dir))
+env dists_dir $(realpath $pwd_dir/dists)
+env ppa_dir $(realpath $pwd_dir/ppa)
 
 # user evironment
 env email ductn@diepxuan.com
-env changelog $(realpath ./src/debian/changelog)
-env control $(realpath ./src/debian/control)
-env controlin $(realpath ./src/debian/control.in)
-env rules $(realpath ./src/debian/rules)
+env DEBEMAIL ductn@diepxuan.com
+env EMAIL ductn@diepxuan.com
+env DEBFULLNAME Tran Ngoc Duc
+env NAME Tran Ngoc Duc
+
+# gpg key
+env GPG_KEY_ID $GPG_KEY_ID
+env DEB_SIGN_KEYID $(gpg --list-keys --with-colons --fingerprint | awk -F: '/fpr:/ {print $10; exit}')
+# env DEB_SIGN_KEYID $DEB_SIGN_KEYID
+
+# debian
+env changelog $(realpath $debian_dir/changelog)
+env control $(realpath $debian_dir/control)
+env controlin $(realpath $debian_dir/control.in)
+env rules $(realpath $debian_dir/rules)
 env timelog "$(Lang=C date -R)"
 
 # plugin
-echo "repository: $repository"
-owner=$(echo $repository | cut -d '/' -f1)
-project=$(echo $repository | cut -d '/' -f2)
-module=$(echo $project | sed 's/^php-//g')
-echo "$owner - $project - $module"
-env owner $owner
-env project $project
-env module $module
+env repository $repository
+env owner $(echo $repository | cut -d '/' -f1)
+env project $(echo $repository | cut -d '/' -f2)
+env module $(echo $project | sed 's/^php-//g')
 
 # os evironment
 [[ -f /etc/os-release ]] && . /etc/os-release
@@ -80,18 +89,12 @@ RELEASE=${RELEASE%.}
 
 DISTRIB=${DISTRIB:-$DISTRIB_ID}
 DISTRIB=${DISTRIB:-$ID}
-DISTRIB=$(echo "$DISTRIB" | awk '{print tolower($0)}')
+DISTRIB=$(echo "$DISTRIB" | tr '[:upper:]' '[:lower:]')
 
 env CODENAME $CODENAME
 env RELEASE $RELEASE
 env DISTRIB $DISTRIB
-
-env OBS_USERNAME $OBS_USERNAME
-env OBS_TOKEN $OBS_TOKEN
-env OBS_PW $OBS_PW
-env OBS_OPPW $OBS_OPPW
-
-env KITE_TOKEN $KITE_TOKEN
+end_group
 
 APT_CONF_FILE=/etc/apt/apt.conf.d/50build-deb-action
 
