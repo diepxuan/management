@@ -50,6 +50,10 @@ d_os:DISTRIB() {
     echo "$DISTRIB"
 }
 
+d_os:TYPE() {
+    uname -s
+}
+
 d_os:list() {
     [[ "$1" == "--help" ]] &&
         echo "List linux releases" &&
