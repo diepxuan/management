@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-import var.lib.os as d_os
-import var.lib.ip as d_ip
-import var.lib.host as d_host
-from var.lib.registry import register_command
+from . import dOs
+from . import dIp
+from . import dHost
+from .registry import register_command
 from rich.console import Console
 from rich.table import Table
 
@@ -25,12 +25,12 @@ def d_vm_info():
             0,
         ),  # <-- (top, right, bottom, left) - Chỉ thêm padding bên phải cột lệnh
     )
-    table.add_row("Hostname", d_host.host_fullname())
-    table.add_row("IP Address", d_ip._ip_local())
-    table.add_row("DISTRIB", d_os._os_distro())
-    table.add_row("OS", d_os._os_codename())
-    table.add_row("RELEASE", d_os._os_release())
-    table.add_row("ARCHITECTURE", d_os._os_architecture())
+    table.add_row("Hostname", dHost._host_fullname())
+    table.add_row("IP Address", dIp._ip_local())
+    table.add_row("DISTRIB", dOs._os_distro())
+    table.add_row("OS", dOs._os_codename())
+    table.add_row("RELEASE", dOs._os_release())
+    table.add_row("ARCHITECTURE", dOs._os_architecture())
 
     # In bảng ra console
     console.print(table)
