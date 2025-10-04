@@ -1,10 +1,7 @@
-import os
-import socket
 import platform
-import re
 import distro
 
-from var.lib.registry import register_command
+from .registry import register_command
 
 
 def _os_codename():
