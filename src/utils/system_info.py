@@ -1,7 +1,7 @@
 import platform
-import distro
 
 from .registry import register_command
+from . import distro
 
 
 def _os_codename():

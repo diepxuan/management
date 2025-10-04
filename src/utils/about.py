@@ -5,8 +5,8 @@ import ductn
 from ductn import SRC_DIR
 from .registry import COMMANDS, register_command
 
-from rich.console import Console
-from rich.table import Table
+from . import Console
+from . import Table
 
 
 @register_command
