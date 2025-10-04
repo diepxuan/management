@@ -3,9 +3,9 @@
 from . import dOs
 from . import dIp
 from . import dHost
+from . import Console
+from . import Table
 from .registry import register_command
-from rich.console import Console
-from rich.table import Table
 
 
 @register_command
