@@ -1,3 +1,4 @@
+distro==1.9.0
 markdown-it-py==4.0.0
 mdurl==0.1.2
 Pygments==2.19.2
