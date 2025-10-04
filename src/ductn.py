@@ -7,8 +7,9 @@ import subprocess
 import importlib.util
 
 import var.lib.about
-from var.lib.registry import COMMANDS
-from var.lib.registry import register_command
+import var.lib.os
+import var.lib.vm
+from var.lib.registry import COMMANDS, register_command, load_plugins
 
 # 1. Biến toàn cục và xác định đường dẫn
 GLOBAL_EXEC_PREFIX = "d_"
@@ -16,6 +17,9 @@ SRC_DIR = os.path.dirname(os.path.realpath(__file__))
 LIB_DIR = "/var/lib/ductn"
 if os.path.isdir(os.path.join(SRC_DIR, "var", "lib")):
     LIB_DIR = os.path.join(SRC_DIR, "var", "lib")
+
+
+load_plugins(LIB_DIR)
 
 
 def main():
