@@ -3,7 +3,7 @@
 import requests
 import socket
 from urllib import request
-from var.lib.registry import register_command
+from .registry import register_command
 
 
 def _ip_local():
