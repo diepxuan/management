@@ -2,7 +2,7 @@
 # shellcheck disable=SC2034,SC2154,SC1090,SC1091
 
 import socket
-from var.lib.registry import register_command
+from .registry import register_command
 
 
 def host_name():
@@ -51,7 +51,7 @@ def d_host_domain():
     print(host_domain())
 
 
-def host_fullname():
+def _host_fullname():
     """Trả về tên hostname đầy đủ (FQDN) của máy."""
     try:
         # getfqdn() sẽ cố gắng phân giải để có tên đầy đủ nhất
@@ -64,4 +64,4 @@ def host_fullname():
 @register_command
 def d_host_fullname():
     """In tên hostname đầy đủ (FQDN) của máy."""
-    print(host_fullname())
+    print(_host_fullname())
