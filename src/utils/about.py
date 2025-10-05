@@ -13,7 +13,7 @@ from . import Table
 def d_help():
     """Show help information"""
     console = Console()
-    console.print("[bold cyan]Cách sử dụng:[/bold cyan] ductn <lệnh> \[tham số]")
+    console.print("\n[bold cyan]Cách sử dụng:[/bold cyan] ductn <lệnh> \[tham số]\n")
     table = Table(
         # title="\n[bold yellow]Các lệnh có sẵn[/bold yellow]",
         show_header=False,  # <-- TẮT tiêu đề cột
@@ -32,7 +32,7 @@ def d_help():
         # description = doc.strip().split("\n")[0] if doc else "Không có mô tả."
         description = doc.strip().split("\n")[0] if doc else ""
 
-        table.add_row(command_name, description)
+        table.add_row(f"[green]{command_name}[/green]", description)
 
     # In bảng ra console
     console.print(table)
