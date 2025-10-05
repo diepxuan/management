@@ -8,7 +8,7 @@
 **/debian/debhelper-build-stamp
 **/debian/files
 **/debian/patches
-**/debian/ductn
+# **/debian/ductn
 **/debian/.debhelper
 **/.pc
 
