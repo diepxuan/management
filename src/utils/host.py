@@ -5,7 +5,7 @@ import socket
 from .registry import register_command
 
 
-def host_name():
+def _host_name():
     """Trả về tên hostname ngắn của máy."""
     try:
         return socket.gethostname()
@@ -17,10 +17,10 @@ def host_name():
 @register_command
 def d_host_name():
     """In tên hostname ngắn của máy."""
-    print(host_name())
+    print(_host_name())
 
 
-def host_domain():
+def _host_domain():
     """
     Trả về tên domain của máy.
     Trả về chuỗi rỗng nếu không thể xác định (ví dụ: máy không thuộc domain nào).
@@ -48,7 +48,7 @@ def host_domain():
 @register_command
 def d_host_domain():
     """In tên domain của máy."""
-    print(host_domain())
+    print(_host_domain())
 
 
 def _host_fullname():
@@ -58,7 +58,7 @@ def _host_fullname():
         return socket.getfqdn()
     except Exception as e:
         # print(f"Không thể lấy FQDN: {e}")
-        return host_name() + "." + host_domain()  # Trả về hostname ngắn nếu thất bại
+        return _host_name() + "." + _host_domain()  # Trả về hostname ngắn nếu thất bại
 
 
 @register_command
