@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import logging
+import subprocess
 import requests
 import socket
 from urllib import request
@@ -33,29 +35,41 @@ def _ip_locals():
     return ips if ips else []
 
 
-def _ip_local():
+def _ip_local(interface: str = None) -> str | None:
     """
-    Lấy địa chỉ IP nội bộ của máy.
+    Lấy địa chỉ IP của một interface cụ thể, hoặc IP chính của máy.
     """
-    s = None
-    try:
-        # Tạo một socket UDP. AF_INET là cho IPv4, SOCK_DGRAM là cho UDP.
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    if not interface:
+        s = None
+        try:
+            # Tạo một socket UDP. AF_INET là cho IPv4, SOCK_DGRAM là cho UDP.
+            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-        # Không cần gửi dữ liệu, chỉ cần "kết nối" để hệ điều hành chọn interface.
-        # Địa chỉ IP không cần phải tồn tại hoặc đến được.
-        s.connect(("8.8.8.8", 80))
+            # Không cần gửi dữ liệu, chỉ cần "kết nối" để hệ điều hành chọn interface.
+            # Địa chỉ IP không cần phải tồn tại hoặc đến được.
+            s.connect(("8.8.8.8", 80))
 
-        # getsockname() trả về một tuple (ip, port)
-        ip_address = s.getsockname()[0]
-        return ip_address
-    except Exception:
-        # Nếu có lỗi (ví dụ: không có kết nối mạng), trả về IP loopback
-        return "127.0.0.1"
-    finally:
-        # Luôn luôn đóng socket sau khi dùng xong
-        if s:
-            s.close()
+            # getsockname() trả về một tuple (ip, port)
+            ip_address = s.getsockname()[0]
+            return ip_address
+        except Exception:
+            # Nếu có lỗi (ví dụ: không có kết nối mạng), trả về IP loopback
+            return "127.0.0.1"
+        finally:
+            # Luôn luôn đóng socket sau khi dùng xong
+            if s:
+                s.close()
+    else:
+        try:
+            # Lệnh `ip addr show <interface>` và lọc bằng awk
+            command = f"ip addr show {interface} | grep 'inet ' | awk '{{print $2}}' | cut -d/ -f1"
+            result = subprocess.run(
+                command, shell=True, capture_output=True, text=True, check=True
+            )
+            return result.stdout.strip()
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            # logging.warning(f"Không thể lấy IP cho interface '{interface}'.")
+            return None
 
 
 @register_command
