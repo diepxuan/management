@@ -4,6 +4,33 @@ import requests
 import socket
 from urllib import request
 from .registry import register_command
+from . import host
+
+
+def _ip_locals():
+    """Lấy danh sách tất cả các địa chỉ IP non-loopback của máy."""
+    ips = []
+    try:
+        # Lấy tất cả các địa chỉ liên kết với hostname
+        # getaddrinfo trả về các tuple phức tạp, ta chỉ cần IP
+        addr_info = socket.getaddrinfo(host._host_name(), None)
+        for item in addr_info:
+            ip = item[4][0]
+            if ip not in ips and not ip.startswith("127."):
+                ips.append(ip)
+    except socket.gaierror:
+        # Nếu không phân giải được hostname, thử cách khác
+        pass
+    # Dự phòng nếu cách trên thất bại (ví dụ hostname không đúng)
+    if not ips:
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+                s.connect(("8.8.8.8", 80))
+                ips.append(s.getsockname()[0])
+        except Exception:
+            pass  # Bỏ qua nếu không có mạng
+
+    return ips if ips else []
 
 
 def _ip_local():
