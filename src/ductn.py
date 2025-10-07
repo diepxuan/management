@@ -19,9 +19,7 @@ SRC_DIR = os.path.dirname(os.path.realpath(__file__))
 
 def main():
     if os.geteuid() != 0:
-        logging.error(
-            "Lỗi: Chức năng này yêu cầu quyền root (sudo) để chạy.", file=sys.stderr
-        )
+        logging.error("Lỗi: Chức năng này yêu cầu quyền root (sudo) để chạy.")
         return
 
     args = sys.argv[1:]

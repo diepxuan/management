@@ -28,13 +28,12 @@ def _sys_update():
     try:
         subprocess.run(["apt", "update"], check=True, capture_output=True, text=True)
     except subprocess.CalledProcessError as e:
-        logging.error("Lỗi: Không thể chạy 'apt update'.", file=sys.stderr)
-        logging.error(f"Stderr: {e.stderr}", file=sys.stderr)
+        logging.error("Lỗi: Không thể chạy 'apt update'.")
+        logging.error(f"Stderr: {e.stderr}")
         return
     except FileNotFoundError:
         logging.error(
-            "Lỗi: Không tìm thấy lệnh 'apt'. Script này chỉ dành cho hệ thống Debian/Ubuntu.",
-            file=sys.stderr,
+            "Lỗi: Không tìm thấy lệnh 'apt'. Script này chỉ dành cho hệ thống Debian/Ubuntu."
         )
         return
 
@@ -59,8 +58,7 @@ def _sys_update():
 
     except subprocess.CalledProcessError:
         logging.error(
-            f"Lỗi: Không tìm thấy package '{PACKAGE_NAME}' trong kho lưu trữ.",
-            file=sys.stderr,
+            f"Lỗi: Không tìm thấy package '{PACKAGE_NAME}' trong kho lưu trữ."
         )
         return
 
@@ -70,8 +68,7 @@ def _sys_update():
         return
     if not candidate_version:
         logging.error(
-            f"Lỗi: Không thể xác định phiên bản mới nhất cho '{PACKAGE_NAME}'.",
-            file=sys.stderr,
+            f"Lỗi: Không thể xác định phiên bản mới nhất cho '{PACKAGE_NAME}'."
         )
         return
 
