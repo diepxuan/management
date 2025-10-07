@@ -38,8 +38,7 @@ def d_vm_info():
     console.print(table)
 
 
-@register_command
-def d_vm_sync():
+def _vm_sync():
     """
     Đồng bộ các bản ghi DNS type 'A' cho hostname với các IP cục bộ hiện tại.
     """
@@ -126,3 +125,11 @@ def d_vm_sync():
             except requests.exceptions.RequestException as e:
                 # print(f"  - Lỗi khi thêm IP {ip}: {e}", file=sys.stderr)
                 pass
+
+
+@register_command
+def d_vm_sync():
+    """
+    Đồng bộ các bản ghi DNS type 'A' cho hostname với các IP cục bộ hiện tại.
+    """
+    _vm_sync()
