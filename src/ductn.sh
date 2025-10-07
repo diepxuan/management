@@ -1,41 +1,12 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-_GLOBAL_EXEC=d_
-_SRC_DIR=$(dirname $(realpath $0))
+SCRIPT_DIR=$(dirname "$(realpath "$0")")
+VENV_ACTIVATE="$SCRIPT_DIR/venv/bin/activate"
 
-type=linux
-[[ "$OSTYPE" == "darwin"* ]] &&
-    type=macos
-[[ "$OSTYPE" == "freebsd"* ]] &&
-    type=freebsd
-[[ "$OSTYPE" == "linux-gnu"* ]] &&
-    type=linux
+cd "$SCRIPT_DIR"
+[[ ! -f "$VENV_ACTIVATE" ]] && python3 -m venv venv && pip install -r "$SCRIPT_DIR/requirements.txt"
+source "$VENV_ACTIVATE"
 
-_LIB_DIR=/var/lib/ductn
-[[ -d "$_SRC_DIR/var/lib" ]] && _LIB_DIR="$_SRC_DIR/var/lib"
-
-for file in $_LIB_DIR/*.sh; do
-    [[ -f "$file" ]] &&
-        [[ $(bash $file --isenabled) == '1' ]] &&
-        source $file
-done
-
-for file in $_LIB_DIR/$type/*.sh; do
-    [[ -f "$file" ]] &&
-        [[ $(bash $file --isenabled) == '1' ]] &&
-        source $file
-done
-
-[[ $# -eq 0 ]] &&
-    "$_GLOBAL_EXEC-v" &&
-    exit 0
-
-d_commands() {
-    declare -F | awk '{print $3}' | grep -e "^$_GLOBAL_EXEC" | sed "s/$_GLOBAL_EXEC//g" | grep -v "commands"
-}
-
-[[ (! -x "$_GLOBAL_EXEC$1") && (! $(type -t "$_GLOBAL_EXEC$1") == function) ]] && echo "'$1' is not a ductn command." && exit 1
-
-"$_GLOBAL_EXEC$@"
-exit 0
+[ -f "$SCRIPT_DIR/ductn.py" ] && python3 "$SCRIPT_DIR/ductn.py" "$@"
+deactivate
