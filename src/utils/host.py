@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 # shellcheck disable=SC2034,SC2154,SC1090,SC1091
 
+import logging
 import socket
+import sys
 from .registry import register_command
 
 
@@ -10,7 +12,7 @@ def _host_name():
     try:
         return socket.gethostname()
     except Exception as e:
-        print(f"Không thể lấy hostname: {e}")
+        logging.error(f"Không thể lấy hostname: {e}", file=sys.stderr)
         return "unknown-host"
 
 
