@@ -12,6 +12,8 @@ from utils import *
 
 # 1. Biến toàn cục và xác định đường dẫn
 GLOBAL_EXEC_PREFIX = "d_"
+PACKAGE_NAME = "ductn"
+SERVICE_NAME = "ductnd"
 SRC_DIR = os.path.dirname(os.path.realpath(__file__))
 
 

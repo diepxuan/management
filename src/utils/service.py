@@ -8,14 +8,6 @@ import time
 from .vm import d_vm_sync
 from . import register_command
 
-# --- Thiết lập Logging ---
-# Ghi log ra stdout/stderr, systemd sẽ tự động bắt và chuyển vào journald
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s ductn ductnd: %(message)s",
-    stream=sys.stdout,
-)
-
 # --- Biến toàn cục để xử lý tín hiệu ---
 shutdown_flag = False
 
