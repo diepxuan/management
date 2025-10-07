@@ -13,7 +13,7 @@ from . import Table
 def d_help():
     """Show help information"""
     console = Console()
-    console.print("\n[bold cyan]Cách sử dụng:[/bold cyan] ductn <lệnh> \[tham số]\n")
+    console.print(f"\n[bold cyan]Cách sử dụng:[/bold cyan] ductn <lệnh> [tham số]\n")
     table = Table(
         # title="\n[bold yellow]Các lệnh có sẵn[/bold yellow]",
         show_header=False,  # <-- TẮT tiêu đề cột
