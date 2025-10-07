@@ -1,4 +1,17 @@
+import sys
 import distro
+import logging
+
+# --- Thiết lập Logging ---
+from ductn import PACKAGE_NAME, SERVICE_NAME
+
+# Ghi log ra stdout/stderr, systemd sẽ tự động bắt và chuyển vào journald
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s {PACKAGE_NAME} {SERVICE_NAME}: %(message)s",
+    stream=sys.stdout,
+)
+
 from . import registry
 from .registry import COMMANDS
 from .registry import register_command
@@ -8,7 +21,8 @@ from rich.table import Table
 
 from . import host
 from . import addr
-from . import system_info
 from . import vm
 from . import about
 from . import service
+from . import system
+from . import system_info
