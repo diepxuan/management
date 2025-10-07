@@ -241,6 +241,8 @@ end_group
 # sed -i -e "0,/<$email>  .*/ s/<$email>  .*/<$email>  $BUILDPACKAGE_EPOCH/g" $changelog
 
 start_group Update Package Configuration in Changelog
+python3 -m venv venv
+pip install -r requirements.txt
 release_tag=$($source_dir/ductn.sh version:newrelease)
 
 # old_project=$(cat $changelog | head -n 1 | awk '{print $1}' | sed 's|[()]||g')
