@@ -12,7 +12,7 @@ def _host_name():
     try:
         return socket.gethostname()
     except Exception as e:
-        logging.error(f"Không thể lấy hostname: {e}", file=sys.stderr)
+        logging.error(f"Không thể lấy hostname: {e}")
         return "unknown-host"
 
 

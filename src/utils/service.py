@@ -84,7 +84,7 @@ def d_service():
     except KeyboardInterrupt:
         logging.info("Nhận được tín hiệu thoát. Đang thoát dịch vụ...")
     except Exception as e:
-        logging.error(f"Dịch vụ gặp lỗi không mong muốn: {e}", file=sys.stderr)
+        logging.error(f"Dịch vụ gặp lỗi không mong muốn: {e}")
     finally:
         logging.info("Đã tắt dịch vụ.")
 
