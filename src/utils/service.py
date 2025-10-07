@@ -7,6 +7,7 @@ import time
 
 from . import register_command
 from .vm import _vm_sync
+from .route import _route_monitor
 from .system import _sys_update
 
 # --- Biến toàn cục để xử lý tín hiệu ---
@@ -57,10 +58,15 @@ def d_service():
                 thread.start()
                 processes["sys_update_thread"] = thread
 
-            # if (( counter % 5 == 0 )) && ! ( [[ $route_check_pid -ne 0 ]] && kill -0 "$route_check_pid" 2>/dev/null ); then
-            #     d_route:checkAndUp &
-            #     route_check_pid=$!
-            # fi
+            if (
+                counter % 5 == 0 and "sys_route_monitor" not in processes
+            ):  # 5 giây chạy một lần
+                thread = threading.Thread(
+                    target=_route_monitor, name="sys_route_monitor"
+                )
+                thread.daemon = True
+                thread.start()
+                processes["sys_route_monitor"] = thread
 
             # if counter % 5 == 0 and "route_check" not in processes:
             #     logging.info("Kích hoạt tác vụ 'route_check'.")
@@ -74,7 +80,7 @@ def d_service():
 
             # Ngủ 1 giây (hoặc có thể ngủ lâu hơn nếu không có gì làm)
             time.sleep(1)
-            counter = (counter + 1) % 60  # Reset mỗi phút
+            counter = (counter + 1) % (1 * 24 * 60 * 60)  # Reset mỗi ngày
     except KeyboardInterrupt:
         logging.info("Nhận được tín hiệu thoát. Đang thoát dịch vụ...")
     except Exception as e:
