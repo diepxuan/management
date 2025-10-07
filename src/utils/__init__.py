@@ -8,7 +8,8 @@ from ductn import PACKAGE_NAME, SERVICE_NAME
 # Ghi log ra stdout/stderr, systemd sẽ tự động bắt và chuyển vào journald
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s {PACKAGE_NAME} {SERVICE_NAME}: %(message)s",
+    format=f"%(asctime)s {PACKAGE_NAME} {SERVICE_NAME}: %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
     stream=sys.stdout,
 )
 
@@ -23,6 +24,7 @@ from . import host
 from . import addr
 from . import vm
 from . import about
+from . import route
 from . import service
 from . import system
 from . import system_info
