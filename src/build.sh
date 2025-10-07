@@ -241,7 +241,7 @@ end_group
 # sed -i -e "0,/<$email>  .*/ s/<$email>  .*/<$email>  $BUILDPACKAGE_EPOCH/g" $changelog
 
 start_group Update Package Configuration in Changelog
-release_tag=$($source_dir/ductn version:newrelease)
+release_tag=$($source_dir/ductn.sh version:newrelease)
 
 # old_project=$(cat $changelog | head -n 1 | awk '{print $1}' | sed 's|[()]||g')
 # old_release_tag=$(cat $changelog | head -n 1 | awk '{print $2}' | sed 's|[()]||g')

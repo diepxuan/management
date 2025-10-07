@@ -1,13 +1,4 @@
 #!/usr/bin/env bash
 #!/bin/bash
 
-SCRIPT_DIR=$(dirname "$(realpath "$0")")
-VENV_ACTIVATE="$SCRIPT_DIR/venv/bin/activate"
-
-[[ ! -f "$VENV_ACTIVATE" ]] && python3 -m venv venv
-source "$VENV_ACTIVATE"
-
-[ -f "$SCRIPT_DIR/src/ductn.py" ] && python3 "$SCRIPT_DIR/src/ductn.py" "$@"
-# [ -f "$SCRIPT_DIR/src/ductn" ] && exec "$SCRIPT_DIR/src/ductn" "$@"
-deactivate
-# $SCRIPT_DIR/src/ductn "$@" && exit 0
+$(dirname $(realpath $0))/src/ductn.sh "$@"
