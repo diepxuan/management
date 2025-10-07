@@ -242,6 +242,7 @@ end_group
 
 start_group Update Package Configuration in Changelog
 # python3 -m venv venv
+pip install --upgrade pip
 pip install -r requirements.txt
 release_tag=$(python3 $source_dir/ductn.py version:newrelease)
 
