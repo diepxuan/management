@@ -75,7 +75,7 @@ jobs:
           GIT_COMMITTER_MESSAGE: ${{ github.event.head_commit.message }}
         run: |
           if [ -n "$(git status $debian_dir --porcelain=v1 2>/dev/null)" ]; then
-              git add $debian_dir
+              git add $debian_dir/changelog
               git commit -m "Package Release $project-$release_tag in $DISTRIB~$RELEASE ($CODENAME)"
               if ! git push; then
                   git stash
