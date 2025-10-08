@@ -243,7 +243,7 @@ end_group
 
 start_group Update Package Configuration in Changelog
 $SUDO python3 -m venv venv
-$SUDO pip install --upgrade pip
+$SUDO pip install --upgrade pip || true
 source venv/bin/activate
 pip install -r requirements.txt
 release_tag=$(python3 $source_dir/ductn.py version:newrelease)
