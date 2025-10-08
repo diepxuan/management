@@ -60,7 +60,7 @@ dist/
 # Maven
 target/
 dist/
-bin/
+# bin/
 
 # JetBrains IDE
 .idea/
