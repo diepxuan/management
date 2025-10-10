@@ -4,15 +4,13 @@ import logging
 import os
 import sys
 
-from ductn import EXEC_PREFIX
-
 
 COMMANDS = {}
 
 
 def register_command(func):
     """Decorator để tự động đăng ký một hàm lệnh."""
-    if callable(func) and func.__name__.startswith(EXEC_PREFIX):
+    if callable(func) and func.__name__.startswith("d_"):
         # 1. Lấy tên hàm gốc (ví dụ: "d_vm_list")
         original_name = func.__name__
 
