@@ -26,6 +26,11 @@ _ductn_completions() {
 
         return 0
     fi
+
+    # Nếu không phải command đầu tiên -> gợi ý file/folder
+    if [[ ${#COMPREPLY[@]} -eq 0 ]]; then
+        COMPREPLY=( $(compgen -f -- "$cur") )
+    fi
 }
 
 complete -F _ductn_completions ductn
