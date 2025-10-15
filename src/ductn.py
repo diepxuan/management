@@ -66,7 +66,7 @@ def main():
 
     # Nếu không có subcommand → hiển thị help
     args = parser.parse_args()
-    print(args)
+    # print(args)
     if not args.command:
         parser.print_help()
         return
