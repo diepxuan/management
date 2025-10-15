@@ -29,7 +29,10 @@ _ductn_completions() {
 
     # Nếu không phải command đầu tiên -> gợi ý file/folder
     if [[ ${#COMPREPLY[@]} -eq 0 ]]; then
-        COMPREPLY=( $(compgen -f -- "$cur") )
+        # COMPREPLY=( $(compgen -f -- "$cur") )
+        # Dùng mapfile để tránh lỗi khoảng trắng
+        mapfile -t COMPREPLY < <(compgen -f -- "$cur")
+        compopt -o filenames
     fi
 }
 
