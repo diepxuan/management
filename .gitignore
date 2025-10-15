@@ -91,3 +91,4 @@ composer.lock
 package-lock.json
 dists
 venv
+test.*
