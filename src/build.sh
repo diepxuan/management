@@ -208,6 +208,7 @@ $SUDO apt install -y libdistro-info-perl
 $SUDO apt install $INPUT_APT_OPTS -- $INPUT_EXTRA_BUILD_DEPS
 
 # shellcheck disable=SC2086
+$SUDO apt install -y python3-venv
 $SUDO apt build-dep $INPUT_APT_OPTS -- "$source_dir" || true
 $SUDO apt-get build-dep -y -- "$source_dir" || true
 end_group
