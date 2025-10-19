@@ -168,6 +168,7 @@ $SUDO apt update || true
 $SUDO apt-get install -y build-essential debhelper fakeroot gnupg reprepro wget curl git sudo vim locales lsb-release
 $SUDO apt-get -y install lsb-release ca-certificates curl
 $SUDO apt-get install -y python3 python3-pip python3-venv
+$SUDO apt-get install -y debhelper dh-python python3-all python3-setuptools python3-distutils
 
 # [[ ! -f /usr/share/keyrings/microsoft-prod.gpg ]] && {
 #     [[ ! -f /etc/apt/trusted.gpg.d/microsoft.asc ]] && {
