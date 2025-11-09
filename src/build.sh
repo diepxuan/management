@@ -376,7 +376,8 @@ if [ "$PYTHON_MAJOR" -eq 3 ] && [ "$PYTHON_MINOR" -ge 7 ] && [ "$PYTHON_MINOR" -
 elif [ "$PYTHON_MAJOR" -eq 3 ] && [ "$PYTHON_MINOR" -le 6 ]; then
     echo "⚠️ Python <= 3.6, cần sửa type hints và không dùng | trong type hint"
     find "$source_dir" -type f -name "*.py" | while read f; do
-        text=$(cat "$f")
+        # text=$(cat "$f")
+        text=$(<"$f")
         orig_text="$text"
         # a | b -> Union[a, b]
         text=$(echo "$text" | sed -E 's/([a-zA-Z0-9_]+)\s*\|\s*([a-zA-Z0-9_]+)/Union[\1, \2]/g')
@@ -384,11 +385,17 @@ elif [ "$PYTHON_MAJOR" -eq 3 ] && [ "$PYTHON_MINOR" -le 6 ]; then
         text=$(echo "$text" | sed -E 's/list\[(.*)\]/List[\1]/g')
         # dict[...] -> Dict[...]
         text=$(echo "$text" | sed -E 's/dict\[(.*),(.*)\]/Dict[\1, \2]/g')
+        # collections.abc.Iterator -> typing.Iterator
+        text=$(echo "$text" | sed -E 's|from collections.abc import Iterator|from typing import Iterator|g')
 
+        # 5. Nếu file thay đổi, thêm import typing nếu cần
         if [ "$text" != "$orig_text" ]; then
             # Thêm import nếu file changed
             if ! grep -q "from typing import" <<< "$text"; then
-                text="from typing import List, Dict, Union"$'\n'"$text"
+                text="from typing import List, Dict, Union, Iterator"$'\n'"$text"
+            else
+                # Thêm thiếu List, Dict, Union, Iterator vào dòng import hiện tại
+                text=$(echo "$text" | sed -E 's/from typing import (.*)/from typing import \1, List, Dict, Union/')
             fi
             echo "$text" > "$f"
         fi
