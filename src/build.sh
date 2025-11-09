@@ -167,8 +167,8 @@ elif command -v wget >/dev/null 2>&1; then
     FETCH="wget --spider --server-response --quiet --output-document=-"
 else
     echo "⚙️ Installing curl..."
-    apt-get update -qq >/dev/null 2>&1
-    apt-get install -y curl >/dev/null 2>&1
+    apt update || true
+    apt install -y curl || true
     FETCH="curl -fs -o /dev/null -w %{http_code}"
 fi
 # Check repository availability
