@@ -26,8 +26,8 @@ class ServiceScheduler:
         name,
         interval,
         target,
-        os=["linux", "debian", "ubuntu"],
-        init=["systemd", "launchd"],
+        os=None,
+        init=None,
         next_run=time.time(),
     ):
         self.tasks.append(
