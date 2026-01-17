@@ -18,32 +18,34 @@ if sys.version_info < (3, 10):
 
     builtins.__annotations__ = True
 
-# Ghi log ra stdout/stderr, systemd sẽ tự động bắt và chuyển vào journald
-# logging.basicConfig(
-#     level=logging.INFO,
-#     format=f"%(asctime)s %(levelname)s %(name)s: %(message)s",
-#     datefmt="%Y-%m-%d %H:%M:%S",
-#     stream=sys.stdout,
-# )
+from .system import _is_root
 
-os.makedirs(LOGDIR, exist_ok=True)
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
-    # handlers=[
-    #     logging.FileHandler(f"{LOGDIR}/{SERVICE_NAME}.log"),
-    #     logging.StreamHandler(sys.stdout),
-    # ],
-    handlers=[
-        RotatingFileHandler(
-            f"{LOGDIR}/{SERVICE_NAME}.log",
-            maxBytes=20 * 1024 * 1024,
-            backupCount=5,
-        ),
-        logging.StreamHandler(sys.stdout),
-    ],
-)
+if _is_root():
+    os.makedirs(LOGDIR, exist_ok=True)
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+        # handlers=[
+        #     logging.FileHandler(f"{LOGDIR}/{SERVICE_NAME}.log"),
+        #     logging.StreamHandler(sys.stdout),
+        # ],
+        handlers=[
+            RotatingFileHandler(
+                f"{LOGDIR}/{SERVICE_NAME}.log",
+                maxBytes=20 * 1024 * 1024,
+                backupCount=5,
+            ),
+            logging.StreamHandler(sys.stdout),
+        ],
+    )
+else:
+    # Ghi log ra stdout/stderr, systemd sẽ tự động bắt và chuyển vào journald
+    logging.basicConfig(
+        level=logging.INFO,
+        format=f"%(asctime)s %(levelname)s %(name)s: %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+        stream=sys.stdout,
+    )
 
 from . import registry
 from .registry import COMMANDS
@@ -56,6 +58,7 @@ from rich.table import Table  # pyright: ignore[reportMissingImports]
 from . import command
 from . import alias
 from . import about
+from . import interface
 from . import vm
 from . import addr
 from . import host
