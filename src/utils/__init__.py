@@ -1,6 +1,8 @@
 import sys
 import distro  # pyright: ignore[reportMissingImports]
 import logging
+import os
+from logging.handlers import RotatingFileHandler
 
 # Encoding Windows
 sys.stdout.reconfigure(encoding="utf-8")
@@ -8,6 +10,7 @@ sys.stdout.reconfigure(encoding="utf-8")
 # --- Thiết lập Logging ---
 PACKAGE_NAME = "ductn"
 SERVICE_NAME = "ductnd"
+LOGDIR = "/var/log/ductnd"
 
 # Nếu chạy bằng Python < 3.11, chèn future import vào compile hook
 if sys.version_info < (3, 10):
@@ -16,11 +19,30 @@ if sys.version_info < (3, 10):
     builtins.__annotations__ = True
 
 # Ghi log ra stdout/stderr, systemd sẽ tự động bắt và chuyển vào journald
+# logging.basicConfig(
+#     level=logging.INFO,
+#     format=f"%(asctime)s %(levelname)s %(name)s: %(message)s",
+#     datefmt="%Y-%m-%d %H:%M:%S",
+#     stream=sys.stdout,
+# )
+
+os.makedirs(LOGDIR, exist_ok=True)
+
 logging.basicConfig(
     level=logging.INFO,
-    format=f"%(asctime)s {PACKAGE_NAME} {SERVICE_NAME}: %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-    stream=sys.stdout,
+    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+    # handlers=[
+    #     logging.FileHandler(f"{LOGDIR}/{SERVICE_NAME}.log"),
+    #     logging.StreamHandler(sys.stdout),
+    # ],
+    handlers=[
+        RotatingFileHandler(
+            f"{LOGDIR}/{SERVICE_NAME}.log",
+            maxBytes=20 * 1024 * 1024,
+            backupCount=5,
+        ),
+        logging.StreamHandler(sys.stdout),
+    ],
 )
 
 from . import registry
