@@ -79,16 +79,21 @@ def main():
         parser.print_help()
         sys.exit(1)
 
-    # args = parser.parse_args()
-    # print(args)
-    if not args.command:
-        parser.print_help()
-        return
-
     func = getattr(args, "func", None)
     if not func:
         parser.print_help()
         return
+
+    # args = parser.parse_args()
+    # print(args)
+    # if not args.command:
+    #     parser.print_help()
+    #     return
+
+    # func = getattr(args, "func", None)
+    # if not func:
+    #     parser.print_help()
+    #     return
 
     # # Chuẩn hóa extra_args
     extra_args = getattr(args, "extra_args", [])
