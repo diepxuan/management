@@ -217,7 +217,9 @@ def d_service_restart():
 
 @register_command
 def d_service_status():
-    init = _get_init_system()
+    if not _is_root():
+        logging.error("Cần quyền root")
+        return
 
     try:
         _call_init_action("status")
