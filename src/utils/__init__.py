@@ -42,5 +42,6 @@ from . import service
 from . import system
 from . import system_os
 from . import system_info
+from . import system_service
 from . import file
 from . import env_detect
