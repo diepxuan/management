@@ -48,6 +48,15 @@ def d_service():
         init="systemd",
     )
 
+    from .dns import macos_dns_watch
+
+    scheduler.register(
+        name="macos_dns_watch",
+        interval=10,  # 10s là hợp lý
+        target=macos_dns_watch,
+        init="launchd",
+    )
+
     # ---- Chạy scheduler ----
     try:
         scheduler.run()
