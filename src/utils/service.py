@@ -59,9 +59,8 @@ def d_service():
 
     scheduler.register(
         name="d_vm_info",
-        interval=1,  # 10s là hợp lý
+        interval=5,
         target=_vm_info,
-        init="launchd",
     )
 
     # ---- Chạy scheduler ----
