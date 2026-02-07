@@ -7,7 +7,7 @@ import threading
 import time
 
 from . import register_command
-from .vm import _vm_sync
+from .vm import _vm_sync, _vm_info
 from .route import _route_monitor
 from .system import _is_root, _sys_update
 from .serviceContext import ServiceContext
@@ -54,6 +54,13 @@ def d_service():
         name="macos_dns_watch",
         interval=10,  # 10s là hợp lý
         target=macos_dns_watch,
+        init="launchd",
+    )
+
+    scheduler.register(
+        name="d_vm_info",
+        interval=1,  # 10s là hợp lý
+        target=_vm_info,
         init="launchd",
     )
 
