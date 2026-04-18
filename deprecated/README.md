@@ -22,8 +22,11 @@ This folder contains bash scripts that have been migrated to Python modules.
 | Original Path | Deprecated Path | Python Module | Migrated Date | PR |
 |---------------|-----------------|---------------|---------------|-----|
 | `src/var/lib/apt.sh` | `deprecated/src/var/lib/apt.sh` | `src/utils/apt.py` | 2026-04-18 | #7 |
+| `src/var/lib/dns.sh` | `deprecated/src/var/lib/dns.sh` | `src/utils/dns.py` | 2026-04-18 | #9, #10 |
 
-## Commands
+---
+
+## Deprecated Scripts Details
 
 ### src/var/lib/apt.sh → apt.py
 
@@ -44,6 +47,32 @@ ductn apt:install <pkg>    # Install package if not installed
 ductn apt:remove <pkg>     # Remove package with purge
 ductn apt:uninstall <pkg>  # Alias for apt:remove
 ```
+
+---
+
+### src/var/lib/dns.sh → dns.py
+
+**Deprecated path:** `src/var/lib/deprecated/src/var/lib/dns.sh`
+
+**Original bash functions:**
+- `--dns:disable()` → `d_dns_disable()`
+- `--dns:resolved()` → `d_dns_resolved()`
+
+**Python commands:**
+```bash
+ductn dns:clean            # Clear DNS cache
+ductn dns:reset            # Reset DNS to default (DHCP/network config)
+ductn dns:disable          # Disable DNS service (Linux: static DNS, macOS: clean+reset)
+ductn dns:resolved         # Re-enable DNS service (Linux: restore systemd, macOS: clean+reset)
+ductn dns:watch            # Auto-watch DNS (macOS only)
+```
+
+**Key improvements in Python version:**
+- Cross-platform support (macOS + Linux)
+- Safety checks before modifying /etc/resolv.conf
+- Search domain: diepxuan.corp
+- Type hints and docstrings
+- Better error handling
 
 ---
 

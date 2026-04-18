@@ -13,7 +13,7 @@
 | ✅ Completed | 2 | Already migrated to Python |
 | 🔄 In Progress | 0 | Currently being migrated |
 | ⏳ Pending | 47 | Waiting to be migrated |
-| 🚫 Deprecated | 1 | Bash scripts moved to deprecated/ |
+| 🚫 Deprecated | 2 | Bash scripts moved to deprecated/ |
 
 ---
 
@@ -33,7 +33,8 @@
 ### ✅ Task 1.2: DNS Management
 
 - **Status:** ✅ COMPLETED
-- **PR:** #9 (pending review)
+- **PRs:** #9 (merged), #10 (merged)
+- **Deprecated:** `src/var/lib/dns.sh` → `deprecated/src/var/lib/dns.sh`
 - **Bash:** `src/var/lib/dns.sh` (1159 bytes)
 - **Python:** `src/utils/dns.py` (109 lines, existing)
 - **Target Commands:**
