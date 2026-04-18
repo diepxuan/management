@@ -5,6 +5,7 @@ DNS management utilities.
 Cross-platform support for macOS and Linux.
 """
 
+import os
 import platform
 import subprocess
 import logging
@@ -122,6 +123,16 @@ def _macos_dns_is_already_set(service: str, dns_ip: str = DNS_SERVER) -> bool:
 
 def _linux_flush_caches() -> None:
     """Flush DNS caches on Linux."""
+    # Check if systemd-resolved is running first
+    result = subprocess.run(
+        ["systemctl", "is-active", "systemd-resolved.service"],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0 or result.stdout.strip() != "active":
+        logging.debug("systemd-resolved not running, skip DNS cache flush")
+        return
+
     # Try resolvectl first (systemd 239+)
     if _run_cmd(["resolvectl", "flush"]) == 0:
         logging.debug("Flushed DNS cache via resolvectl")
@@ -132,24 +143,46 @@ def _linux_flush_caches() -> None:
         logging.debug("Flushed DNS cache via systemd-resolve")
         return
 
-    logging.warning("Could not flush DNS cache (systemd-resolved may not be running)")
+    logging.debug("Could not flush DNS cache")
 
 
 def _linux_dns_disable() -> None:
-    """Disable systemd-resolved and set static DNS."""
+    """
+    Disable systemd-resolved and set static DNS.
+    
+    Safety:
+    - Only modifies DNS if systemd-resolved is running
+    - Falls back to static DNS if systemd-resolved not available
+    """
     if not _is_root():
         logging.error("dns:disable requires root privileges on Linux")
         return
 
-    # Stop systemd-resolved
-    _run_cmd(["systemctl", "stop", "systemd-resolved.service"])
-    _run_cmd(["systemctl", "disable", "systemd-resolved.service"])
+    # Check if systemd-resolved is running
+    result = subprocess.run(
+        ["systemctl", "is-active", "systemd-resolved.service"],
+        capture_output=True,
+        text=True,
+    )
+    
+    if result.returncode == 0 and result.stdout.strip() == "active":
+        # systemd-resolved is running, stop it
+        _run_cmd(["systemctl", "stop", "systemd-resolved.service"])
+        _run_cmd(["systemctl", "disable", "systemd-resolved.service"])
+        logging.debug("Stopped systemd-resolved service")
+    else:
+        logging.debug("systemd-resolved not running, skipping service stop")
 
-    # Remove old resolv.conf
-    _run_cmd(["rm", "-f", "/etc/resolv.conf"])
+    # Backup existing resolv.conf if it's not already a backup
+    if os.path.exists("/etc/resolv.conf") and not os.path.islink("/etc/resolv.conf"):
+        # It's a regular file, might already be custom
+        pass
+    elif os.path.islink("/etc/resolv.conf"):
+        # It's a symlink, remove it
+        _run_cmd(["rm", "-f", "/etc/resolv.conf"])
 
     # Write new resolv.conf with static DNS
-    resolv_content = f"""# Managed by ductn
+    resolv_content = f"""# Managed by ductn (dns:disable)
 nameserver {STATIC_DNS_SERVERS[0]}
 nameserver {STATIC_DNS_SERVERS[1]}
 search diepxuan.com
@@ -157,30 +190,52 @@ search diepxuan.com
     try:
         with open("/etc/resolv.conf", "w") as f:
             f.write(resolv_content)
-        logging.info("Created static resolv.conf with DNS: %s", STATIC_DNS_SERVERS)
+        logging.info("DNS disabled (Linux): static DNS set to %s", STATIC_DNS_SERVERS)
     except Exception as e:
         logging.error(f"Failed to write resolv.conf: {e}")
 
 
 def _linux_dns_resolved() -> None:
-    """Re-enable systemd-resolved."""
+    """
+    Re-enable systemd-resolved.
+    
+    Safety checks:
+    1. Verify systemd-resolved is installed and running
+    2. Verify symlink target exists before modifying /etc/resolv.conf
+    """
     if not _is_root():
         logging.error("dns:resolved requires root privileges on Linux")
         return
 
-    # Remove static resolv.conf
-    _run_cmd(["rm", "-f", "/etc/resolv.conf"])
+    # CHECK 1: Verify systemd-resolved is running
+    result = subprocess.run(
+        ["systemctl", "is-active", "systemd-resolved.service"],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0 or result.stdout.strip() != "active":
+        logging.error(
+            "systemd-resolved is not running. "
+            "Cannot reset DNS to systemd-resolved. "
+            "Install with: apt install systemd-resolved"
+        )
+        return
 
-    # Restore symlink
+    # CHECK 2: Verify symlink target exists
+    if not os.path.exists("/run/systemd/resolve/resolv.conf"):
+        logging.error(
+            "systemd-resolved resolv.conf not found at /run/systemd/resolve/resolv.conf. "
+            "Cannot reset DNS."
+        )
+        return
+
+    # Safe to proceed: remove old and create symlink
+    _run_cmd(["rm", "-f", "/etc/resolv.conf"])
     _run_cmd([
         "ln", "-sf", "/run/systemd/resolve/resolv.conf", "/etc/resolv.conf"
     ])
 
-    # Enable and restart service
-    _run_cmd(["systemctl", "enable", "systemd-resolved.service"])
-    _run_cmd(["systemctl", "restart", "systemd-resolved.service"])
-
-    logging.info("systemd-resolved re-enabled")
+    logging.info("DNS reset to systemd-resolved (Linux)")
 
 
 # =============================================================================
