@@ -10,10 +10,10 @@
 
 | Status | Count | Description |
 |--------|-------|-------------|
-| ✅ Completed | 1 | Already migrated to Python |
+| ✅ Completed | 2 | Already migrated to Python |
 | 🔄 In Progress | 0 | Currently being migrated |
-| ⏳ Pending | 48 | Waiting to be migrated |
-| 🚫 Deprecated | 0 | Bash scripts moved to deprecated/ |
+| ⏳ Pending | 47 | Waiting to be migrated |
+| 🚫 Deprecated | 1 | Bash scripts moved to deprecated/ |
 
 ---
 
@@ -30,16 +30,120 @@
 
 ---
 
-### ⏳ Task 1.2: DNS Management
+### ✅ Task 1.2: DNS Management
 
-- **Status:** ⏳ PENDING
+- **Status:** ✅ COMPLETED
+- **PR:** #9 (pending review)
 - **Bash:** `src/var/lib/dns.sh` (1159 bytes)
 - **Python:** `src/utils/dns.py` (109 lines, existing)
-- **Commands to migrate:**
-  - `d_dns:reset` → Already in Python
-  - `d_dns:clean` → Already in Python
-  - Check bash for additional functions
-- **Action:** Review bash file, enhance Python if needed, then deprecate bash
+- **Target Commands:**
+
+| Command | Description | Platform |
+|---------|-------------|----------|
+| `dns:clean` | Clear DNS cache | macOS + Linux |
+| `dns:reset` | Reset DNS to default | macOS + Linux |
+| `dns:watch` | Auto-watch DNS and fix if needed | macOS + Linux |
+| `dns:disable` | Disable systemd-resolved, set static DNS (Linux) OR clean+reset (macOS) | macOS + Linux |
+| `dns:resolved` | Re-enable systemd-resolved (Linux) OR clean+reset (macOS) | macOS + Linux |
+
+- **Platform Behavior:**
+
+| Command | Linux | macOS |
+|---------|-------|-------|
+| `dns:clean` | `resolvectl flush` or `systemd-resolve --flush-caches` | `dscacheutil -flushcache` + `killall -HUP mDNSResponder` |
+| `dns:reset` | Restore systemd-resolved symlink | `networksetup -setdnsservers <service> empty` |
+| `dns:disable` | Stop systemd-resolved, set static DNS (1.1.1.1, 8.8.8.8) | **Alias:** `dns:clean` + `dns:reset` |
+| `dns:resolved` | Restore systemd-resolved | **Alias:** `dns:clean` + `dns:reset` |
+| `dns:watch` | Auto-watch and fix DNS | Auto-watch and fix DNS |
+
+- **Requirements:**
+
+1. **`dns:clean`** - Clear DNS cache
+   - **macOS:** `dscacheutil -flushcache` + `killall -HUP mDNSResponder`
+   - **Linux:** `systemd-resolve --flush-caches` or `resolvectl flush`
+
+2. **`dns:reset`** - Reset DNS to default
+   - **macOS:** `networksetup -setdnsservers <service> empty`
+   - **Linux:** Restore systemd-resolved symlink, restart service
+
+3. **`dns:watch`** - Auto-watch DNS (refactor from `macos_dns_watch`)
+   - Check connectivity (ping DNS server)
+   - Check DNS resolution (dig query)
+   - Auto-fix if DNS fails
+   - **Platform:** Support both macOS and Linux
+   - **Implementation:** Detect platform, use appropriate commands
+
+4. **`dns:disable`** - Disable DNS services
+   - **Linux:** 
+     - Stop systemd-resolved service
+     - Set static DNS (1.1.1.1, 8.8.8.8)
+   - **macOS:** 
+     - **Alias:** `dns:clean` + `dns:reset` (combined operation)
+     - Flush DNS cache + reset to default DNS
+
+5. **`dns:resolved`** - Re-enable DNS services
+   - **Linux:** 
+     - Restore symlink
+     - Enable and restart service
+   - **macOS:** 
+     - **Alias:** `dns:clean` + `dns:reset` (combined operation)
+     - Flush DNS cache + reset to default DNS
+
+- **Implementation Plan:**
+
+| Step | Task | Estimated Time |
+|------|------|----------------|
+| 1 | Refactor `macos_dns_watch()` → `d_dns_watch()` with cross-platform support | 30 min |
+| 2 | Enhance `d_dns_clean()` with Linux support | 15 min |
+| 3 | Enhance `d_dns_reset()` with Linux support | 15 min |
+| 4 | Add `d_dns_disable()` for Linux | 20 min |
+| 5 | Add `d_dns_resolved()` for Linux | 20 min |
+| 6 | Add docstrings + type hints | 15 min |
+| 7 | Add error handling (try/except) | 15 min |
+| 8 | Test on Linux + macOS | 30 min |
+| 9 | Add unit tests | 30 min |
+| 10 | Update `src/utils/service.py` (service:watch integration) | 20 min |
+| 11 | Move `dns.sh` to deprecated/ | 5 min |
+
+**Total:** ~3.5 hours
+
+- **Action:** 
+  1. Enhance `src/utils/dns.py` with cross-platform support
+  2. Update `src/utils/service.py` to integrate dns:watch
+  3. Test both platforms
+  4. Deprecate bash script
+
+- **service.py Updates Required:**
+
+After completing dns.py enhancement, update `src/utils/service.py`:
+
+```python
+# Current code (macOS only):
+from .dns import macos_dns_watch
+scheduler.register(
+    name="macos_dns_watch",
+    interval=10,
+    target=macos_dns_watch,
+    init="launchd",
+)
+
+# New code (macOS only - Linux doesn't need dns:watch):
+from .dns import d_dns_watch
+scheduler.register(
+    name="dns_watch",
+    interval=10,
+    target=d_dns_watch,
+    init="launchd",  # macOS only
+)
+# Note: Linux does NOT register dns:watch (systemd-resolved handles DNS automatically)
+```
+
+**Changes:**
+- Rename `macos_dns_watch` → `d_dns_watch`
+- Make it cross-platform (detect Linux vs macOS)
+- Register for `launchd` only (macOS)
+- **Linux:** No scheduler registration needed (systemd-resolved handles DNS automatically)
+- Update import statement
 
 ---
 
