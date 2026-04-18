@@ -2,11 +2,14 @@
 
 This folder contains bash scripts that have been migrated to Python modules.
 
+**Structure:** Preserves original path hierarchy (`deprecated/src/var/lib/...`)
+
 ## Purpose
 
 - **Backup:** Keep original bash scripts for reference during transition
 - **Rollback:** Enable quick rollback if Python migration has issues
 - **Documentation:** Show original implementation for understanding
+- **Path Preservation:** Maintain original directory structure for easy reference
 
 ## Migration Policy
 
@@ -16,13 +19,15 @@ This folder contains bash scripts that have been migrated to Python modules.
 
 ## Migrated Scripts
 
-| Script | Python Module | Migrated Date | PR |
-|--------|---------------|---------------|-----|
-| `apt.sh` | `src/utils/apt.py` | 2026-04-18 | #7 |
+| Original Path | Deprecated Path | Python Module | Migrated Date | PR |
+|---------------|-----------------|---------------|---------------|-----|
+| `src/var/lib/apt.sh` | `deprecated/src/var/lib/apt.sh` | `src/utils/apt.py` | 2026-04-18 | #7 |
 
 ## Commands
 
-### apt.sh → apt.py
+### src/var/lib/apt.sh → apt.py
+
+**Deprecated path:** `src/var/lib/deprecated/src/var/lib/apt.sh`
 
 **Original bash functions:**
 - `d_sys:apt:fix()` → `d_apt_fix()`
