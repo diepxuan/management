@@ -15,6 +15,8 @@ on:
     paths-ignore:
       - "**/changelog"
       - "**.md"
+  release:
+    types: [published]
   workflow_dispatch:
 jobs:
   package-build:
@@ -68,22 +70,6 @@ jobs:
           GPG_KEY: ${{ secrets.GPG_KEY }}
           DEB_SIGN_KEYID: ${{ secrets.GPG_KEY_ID }}
           GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
-
-      - name: Push Changes to Github
-        shell: bash
-        env:
-          GIT_COMMITTER_MESSAGE: ${{ github.event.head_commit.message }}
-        run: |
-          if [ -n "$(git status $debian_dir --porcelain=v1 2>/dev/null)" ]; then
-              git add $debian_dir/changelog
-              git commit -m "Package Release $project-$release_tag in $DISTRIB~$RELEASE ($CODENAME)"
-              if ! git push; then
-                  git stash
-                  git pull --rebase
-                  git stash pop
-                  git push || true
-              fi
-          fi
 
   package-publish:
     needs: package-build
