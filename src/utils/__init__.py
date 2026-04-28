@@ -5,7 +5,8 @@ import os
 from logging.handlers import RotatingFileHandler
 
 # Encoding Windows
-sys.stdout.reconfigure(encoding="utf-8")
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding="utf-8")
 
 # --- Thiết lập Logging ---
 PACKAGE_NAME = "ductn"
