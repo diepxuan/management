@@ -36,7 +36,7 @@ def d_ufw_geoip_uninstall():
         logging.warning("Không có GeoIP rules để gỡ")
 
 
-@register_command
+@register_command("ufw:geoip:allowCloudflare")
 def d_ufw_geoip_allow_cloudflare():
     """Cho phép Cloudflare IPs qua UFW."""
     if not _is_root():

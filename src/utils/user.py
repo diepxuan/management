@@ -101,7 +101,7 @@ def d_user_config_admin(username):
         logging.error(f"Lỗi thêm {username} vào sudo: {e}")
 
 
-@register_command
+@register_command("user:is_sudoer")
 def d_user_is_sudoer(args=None):
     """Kiểm tra user có quyền sudo không."""
     if not args:
@@ -120,3 +120,12 @@ def d_user_is_sudoer(args=None):
             print(f"{username} không phải sudoer")
     except KeyError:
         print(f"User {username} không tồn tại")
+
+
+@register_command("user:config:admin", "user:config:bash", "user:config:chmod")
+def d_user_config_sub(args=None):
+    """Alias cho user:config với sub-action (admin/bash/chmod)."""
+    if args:
+        action = args[0] if isinstance(args, list) else args
+        if action in ("admin", "bash", "chmod"):
+            d_user_config([args[1] if len(args) > 1 else "", action] if len(args) > 1 else [action])

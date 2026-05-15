@@ -41,7 +41,7 @@ def d_dns_technitium_install():
         logging.error(f"Lỗi cài Technitium DNS: {e}")
 
 
-@register_command
+@register_command("dns:technitium:recordList")
 def d_dns_technitium_record_list():
     """Liệt kê DNS records từ Technitium."""
     token = _get_technitium_token()

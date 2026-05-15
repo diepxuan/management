@@ -40,7 +40,7 @@ def d_gpg_export(key_id, output_file):
         logging.error(f"Lỗi export GPG key: {e}")
 
 
-@register_command
+@register_command("gpg:export")
 def d_gpg_export_cmd(args=None):
     """Export GPG public key."""
     if not args:
@@ -62,7 +62,7 @@ def d_gpg_import(key_file):
         logging.error(f"Lỗi import GPG key: {e}")
 
 
-@register_command
+@register_command("gpg:import")
 def d_gpg_import_cmd(args=None):
     """Import GPG key."""
     if not args:

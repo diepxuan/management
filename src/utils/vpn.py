@@ -36,7 +36,7 @@ def _apt_install(package: str):
         logging.error(f"Lỗi cài {package}: {e}")
 
 
-@register_command
+@register_command("vpn:wireguard:is_exist")
 def d_vpn_wireguard_is_exist():
     """Kiểm tra WireGuard đã được cài đặt chưa."""
     if _wg_installed():
