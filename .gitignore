@@ -92,3 +92,6 @@ package-lock.json
 dists
 venv
 test.*
+
+# Local agent memory
+memory/

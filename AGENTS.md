@@ -252,3 +252,91 @@ Closes #123
 ---
 
 **AGENTS.md là quy trình vận hành. Cập nhật khi học được workflow mới.**
+
+---
+
+## 11. Project Context & Tech Stack
+
+### 11.1. Trạng thái dự án
+
+Dự án đang trong giai đoạn **migrate từ Bash sang Python CLI**.
+
+| Thành phần | Trạng thái | Ghi chú |
+|-----------|------------|---------|
+| Python CLI (`src/ductn.py`, `src/utils/`) | Đang dùng | Command registry qua `@register_command` |
+| Bash scripts (`src/var/lib/`) | Legacy, chưa migrate hết | Không xóa khi chưa có bản Python tương đương |
+| Debian packaging (`src/debian/`) | Ổn định | Không tự ý sửa nếu không được yêu cầu |
+| `lar`, `m2`, `ductn-ll` | Package phụ | Wrapper cho Laravel/Magento/ll command |
+
+### 11.2. Command Registry Pattern
+
+- Mọi Python command function phải dùng decorator `@register_command`.
+- Function đặt tên `d_<module>_<action>` → expose thành `<module>:<action>` trong CLI.
+- Module Python mới đặt trong `src/utils/`, import tại `src/utils/__init__.py`.
+- Liệt kê command hiện có: `d_commands` hoặc grep `def d_` trong `src/utils/`.
+
+### 11.3. Kiến trúc source
+
+```
+src/
+├── ductn.py              # CLI entrypoint (argparse + auto subcommand)
+├── ductn.sh              # Shell wrapper (venv/uv)
+├── requirements.txt      # Python dependencies
+├── utils/                # Python command modules (mới)
+│   ├── __init__.py       # Import tất cả module + setup logging
+│   ├── registry.py       # COMMANDS dict + @register_command
+│   ├── dns.py            # Cross-platform DNS management
+│   ├── apt.py            # APT package management
+│   ├── route.py          # Route monitoring
+│   ├── host.py           # Hostname/domain management
+│   └── ...               # Các module khác
+├── var/lib/              # Legacy Bash scripts (chưa migrate)
+│   ├── *.sh              # Các script Bash cũ
+│   └── macos/            # macOS-specific Bash scripts
+└── debian/               # Debian packaging
+    ├── control           # Package metadata + dependencies
+    ├── changelog         # Version history
+    ├── rules             # Build rules
+    └── *.install         # File mapping per package
+```
+
+### 11.4. Lưu ý kỹ thuật quan trọng
+
+- **Logging:** `src/utils/__init__.py` ghi log vào `/var/log/ductnd/ductnd.log`. Trong môi trường sandbox read-only, import module sẽ lỗi `Read-only file system`. Không phải bug logic, chỉ là config log path.
+- **Import missing:** `src/utils/__init__.py` có import `system_metrics`, file này có thể chưa tồn tại. Kiểm tra trước khi test CLI đầy đủ.
+- **Build script:** `src/build.sh` — không tự ý sửa khi không hiểu workflow.
+- **Production config:** `src/etc/` đã chuyển sang `deprecated/src/etc/` (PR #11 merged).
+
+### 11.5. Migration Workflow
+
+Khi nhận task migrate Bash → Python:
+
+1. **Đọc Bash script** trong `src/var/lib/<name>.sh`.
+2. **Liệt kê public functions** cần giữ (các function trong `_DUCTN_COMMANDS`).
+3. **Kiểm tra `TASKS.md`** xem đã có task tương ứng chưa.
+4. **Tạo/cập nhật `src/utils/<name>.py`** với các function `d_<action>()`.
+5. **Đăng ký command** bằng `@register_command`.
+6. **Import module** tại `src/utils/__init__.py`.
+7. **Test** command trên môi trường phù hợp (Linux/macOS).
+8. **Cập nhật `TASKS.md`** — đánh dấu task completed.
+9. **Chuyển Bash script** sang `deprecated/` khi Python đã ổn.
+10. **Cập nhật tài liệu** nếu command mới quan trọng hoặc thay đổi behavior.
+
+**Rule quan trọng:** Không xóa Bash script khi chưa test bản Python tương đương đầy đủ.
+
+### 11.6. Quick Reference
+
+| Việc cần làm | File liên quan |
+|-------------|---------------|
+| Thêm command Python mới | `src/utils/<name>.py`, `src/utils/__init__.py` |
+| Xem danh sách command | `src/utils/command.py` hoặc chạy `d_commands` |
+| Xem migration backlog | `TASKS.md` |
+| Xem version history | `src/debian/changelog` |
+| Xem package dependencies | `src/debian/control` |
+| Xem Python dependencies | `src/requirements.txt` |
+| Build package | `src/build.sh` |
+| CI workflow | `.github/workflows/build.yml` |
+
+---
+
+**AGENTS.md là quy trình vận hành. Cập nhật khi học được workflow mới.**
