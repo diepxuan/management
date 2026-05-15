@@ -2,7 +2,8 @@
 
 **Project:** ductn (DiepXuan Personal Package)  
 **Created:** 2026-04-18  
-**Goal:** Migrate bash scripts from `src/var/lib/` to Python modules in `src/utils/`
+**Updated:** 2026-05-16  
+**Goal:** Migrate all bash scripts from `src/var/lib/` to Python modules in `src/utils/`
 
 ---
 
@@ -10,9 +11,10 @@
 
 | Status | Count | Description |
 |--------|-------|-------------|
-| ✅ Completed | 2 | Already migrated to Python |
-| 🔄 In Progress | 0 | Currently being migrated |
-| ⏳ Pending | 47 | Waiting to be migrated |
+| ✅ Completed | 16 | Migrated to Python + deprecated bash |
+| 🔄 In Progress | 1 | Currently being migrated |
+| ⏳ Pending | 31 | Waiting to be migrated |
+| 🔀 Partial | 8 | Partially migrated (some commands done, some pending) |
 | 🚫 Deprecated | 2 | Bash scripts moved to deprecated/ |
 
 ---
@@ -20,615 +22,518 @@
 ## Phase 1: Core Infrastructure (HIGH PRIORITY)
 
 ### ✅ Task 1.1: APT Package Management
-
 - **Status:** ✅ COMPLETED
-- **Bash:** `src/var/lib/apt.sh` (1402 bytes)
-- **Python:** `src/utils/apt.py` (5271 bytes, 184 lines)
+- **Bash:** `src/var/lib/apt.sh` → deprecated
+- **Python:** `src/utils/apt.py`
 - **Commands:** `apt:fix`, `apt:check`, `apt:install`, `apt:remove`, `apt:uninstall`
 - **PR:** #7 (merged)
-- **Action:** Move `src/var/lib/apt.sh` → `src/var/lib/deprecated/apt.sh`
-
----
 
 ### ✅ Task 1.2: DNS Management
-
 - **Status:** ✅ COMPLETED
-- **PRs:** #9 (merged), #10 (merged)
-- **Deprecated:** `src/var/lib/dns.sh` → `deprecated/src/var/lib/dns.sh`
-- **Bash:** `src/var/lib/dns.sh` (1159 bytes)
-- **Python:** `src/utils/dns.py` (109 lines, existing)
+- **Bash:** `src/var/lib/dns.sh` → deprecated
+- **Python:** `src/utils/dns.py`
+- **Commands:** `dns:clean`, `dns:reset`, `dns:disable`, `dns:resolved`, `dns:watch`
+- **PR:** #9, #10 (merged)
+
+### 🔄 Task 1.3: SSL Management
+- **Status:** 🔄 IN PROGRESS
+- **Bash:** `src/var/lib/ssl.sh` (82 lines)
+- **Python:** `src/utils/ssl.py` (TODO)
 - **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `ssl:install` | Install SSL certificates |
+  | `ssl:configure` | Configure SSL for vhost |
+  | `ssl:setup` | Full SSL setup wizard |
+  | `ssl:certbot` | Certbot integration |
+  | `ssl:pull` | Pull SSL certs from remote |
+  | `ssl:push` | Push SSL certs to remote |
+  | `ssl:upload` | Upload SSL certs |
+- **Action:** Create `src/utils/ssl.py`
 
-| Command | Description | Platform |
-|---------|-------------|----------|
-| `dns:clean` | Clear DNS cache | macOS + Linux |
-| `dns:reset` | Reset DNS to default | macOS + Linux |
-| `dns:watch` | Auto-watch DNS and fix if needed | macOS + Linux |
-| `dns:disable` | Disable systemd-resolved, set static DNS (Linux) OR clean+reset (macOS) | macOS + Linux |
-| `dns:resolved` | Re-enable systemd-resolved (Linux) OR clean+reset (macOS) | macOS + Linux |
-
-- **Platform Behavior:**
-
-| Command | Linux | macOS |
-|---------|-------|-------|
-| `dns:clean` | `resolvectl flush` or `systemd-resolve --flush-caches` | `dscacheutil -flushcache` + `killall -HUP mDNSResponder` |
-| `dns:reset` | Restore systemd-resolved symlink | `networksetup -setdnsservers <service> empty` |
-| `dns:disable` | Stop systemd-resolved, set static DNS (1.1.1.1, 8.8.8.8) | **Alias:** `dns:clean` + `dns:reset` |
-| `dns:resolved` | Restore systemd-resolved | **Alias:** `dns:clean` + `dns:reset` |
-| `dns:watch` | Auto-watch and fix DNS | Auto-watch and fix DNS |
-
-- **Requirements:**
-
-1. **`dns:clean`** - Clear DNS cache
-   - **macOS:** `dscacheutil -flushcache` + `killall -HUP mDNSResponder`
-   - **Linux:** `systemd-resolve --flush-caches` or `resolvectl flush`
-
-2. **`dns:reset`** - Reset DNS to default
-   - **macOS:** `networksetup -setdnsservers <service> empty`
-   - **Linux:** Restore systemd-resolved symlink, restart service
-
-3. **`dns:watch`** - Auto-watch DNS (refactor from `macos_dns_watch`)
-   - Check connectivity (ping DNS server)
-   - Check DNS resolution (dig query)
-   - Auto-fix if DNS fails
-   - **Platform:** Support both macOS and Linux
-   - **Implementation:** Detect platform, use appropriate commands
-
-4. **`dns:disable`** - Disable DNS services
-   - **Linux:** 
-     - Stop systemd-resolved service
-     - Set static DNS (1.1.1.1, 8.8.8.8)
-   - **macOS:** 
-     - **Alias:** `dns:clean` + `dns:reset` (combined operation)
-     - Flush DNS cache + reset to default DNS
-
-5. **`dns:resolved`** - Re-enable DNS services
-   - **Linux:** 
-     - Restore symlink
-     - Enable and restart service
-   - **macOS:** 
-     - **Alias:** `dns:clean` + `dns:reset` (combined operation)
-     - Flush DNS cache + reset to default DNS
-
-- **Implementation Plan:**
-
-| Step | Task | Estimated Time |
-|------|------|----------------|
-| 1 | Refactor `macos_dns_watch()` → `d_dns_watch()` with cross-platform support | 30 min |
-| 2 | Enhance `d_dns_clean()` with Linux support | 15 min |
-| 3 | Enhance `d_dns_reset()` with Linux support | 15 min |
-| 4 | Add `d_dns_disable()` for Linux | 20 min |
-| 5 | Add `d_dns_resolved()` for Linux | 20 min |
-| 6 | Add docstrings + type hints | 15 min |
-| 7 | Add error handling (try/except) | 15 min |
-| 8 | Test on Linux + macOS | 30 min |
-| 9 | Add unit tests | 30 min |
-| 10 | Update `src/utils/service.py` (service:watch integration) | 20 min |
-| 11 | Move `dns.sh` to deprecated/ | 5 min |
-
-**Total:** ~3.5 hours
-
-- **Action:** 
-  1. Enhance `src/utils/dns.py` with cross-platform support
-  2. Update `src/utils/service.py` to integrate dns:watch
-  3. Test both platforms
-  4. Deprecate bash script
-
-- **service.py Updates Required:**
-
-After completing dns.py enhancement, update `src/utils/service.py`:
-
-```python
-# Current code (macOS only):
-from .dns import macos_dns_watch
-scheduler.register(
-    name="macos_dns_watch",
-    interval=10,
-    target=macos_dns_watch,
-    init="launchd",
-)
-
-# New code (macOS only - Linux doesn't need dns:watch):
-from .dns import d_dns_watch
-scheduler.register(
-    name="dns_watch",
-    interval=10,
-    target=d_dns_watch,
-    init="launchd",  # macOS only
-)
-# Note: Linux does NOT register dns:watch (systemd-resolved handles DNS automatically)
-```
-
-**Changes:**
-- Rename `macos_dns_watch` → `d_dns_watch`
-- Make it cross-platform (detect Linux vs macOS)
-- Register for `launchd` only (macOS)
-- **Linux:** No scheduler registration needed (systemd-resolved handles DNS automatically)
-- Update import statement
-
----
-
-### ⏳ Task 1.3: VM Detection & Sync
-
+### ⏳ Task 1.4: VPN/WireGuard Management
 - **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/vm.sh` (size TBD)
-- **Python:** `src/utils/vm.py` (139 lines, existing)
-- **Commands to migrate:**
-  - `d_vm:info` → Already in Python
-  - `d_vm:sync` → Already in Python
-  - Check bash for additional functions
-- **Action:** Review bash file, enhance Python if needed, then deprecate bash
+- **Bash:** `src/var/lib/vpn.sh` (231 lines)
+- **Python:** `src/utils/vpn.py` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `vpn:wireguard:is_exist` | Check if WG config exists |
+  | `vpn:wireguard:install` | Install WireGuard |
+  | `vpn:wireguard:keygen` | Generate WG keys |
+  | `vpn:wireguard:reload` | Reload WG config |
+  | `vpn:wireguard:example` | Generate example config |
+  | `vpn:openvpn:uninstall` | Remove OpenVPN |
+  | `vpn:type` | Detect VPN type |
+- **Note:** `d_wg_stop` already exists in `src/utils/wg.py`
+- **Action:** Create `src/utils/vpn.py`, merge with `wg.py` if appropriate
 
----
-
-### ⏳ Task 1.4: Service Management
-
+### ⏳ Task 1.5: SSH Management
 - **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/service.sh` (size TBD)
-- **Python:** `src/utils/service.py` (171 lines, existing)
-- **Commands to migrate:**
-  - `d_service:*` → Partially in Python
-  - Check bash for additional functions
-- **Action:** Review bash file, enhance Python if needed, then deprecate bash
+- **Bash:** `src/var/lib/ssh.sh` (88 lines)
+- **Python:** `src/utils/ssh.py` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `ssh:cleanup` | Clean SSH known_hosts |
+  | `ssh:install` | Install/configure SSH server |
+  | `ssh:permision` | Fix SSH permissions |
+  | `ssh:copy` | Copy SSH keys |
+- **Action:** Create `src/utils/ssh.py`
 
----
-
-### ⏳ Task 1.5: System Information
-
+### ⏳ Task 1.6: Log Management
 - **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/os.sh` (2249 bytes), `src/var/lib/host.sh` (2413 bytes)
-- **Python:** `src/utils/system_os.py`, `src/utils/host.py`, `src/utils/system_info.py`
-- **Commands to migrate:**
-  - `d_os:*` functions
-  - `d_host:*` functions
-- **Action:** Review bash files, ensure Python has all functions, then deprecate bash
+- **Bash:** `src/var/lib/log.sh` (129 lines)
+- **Python:** `src/utils/log.py` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `log` | Show ductn log |
+  | `log:watch` | Watch log in realtime |
+  | `log:cleanup` | Cleanup old logs |
+  | `log:config` | Configure log rotation |
+  | `log:config:store` | Store log config |
+  | `log:config:mssql` | MSSQL log config |
+- **Action:** Create `src/utils/log.py`
 
----
-
-## Phase 2: Network & Connectivity (MEDIUM PRIORITY)
-
-### ⏳ Task 2.1: IP Address Management
-
+### ⏳ Task 1.7: Cronjob Management
 - **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/ip.sh` (4470 bytes)
-- **Python:** `src/utils/addr.py` (254 lines, existing)
-- **Commands to migrate:**
-  - `d_ip:local`, `d_ip:locals`, `d_ip:wan` → Already in Python
-  - Check bash for additional functions
-- **Action:** Review bash file, enhance Python if needed, then deprecate bash
+- **Bash:** `src/var/lib/cronjob.sh` (25 lines)
+- **Python:** `src/utils/cronjob.py` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `cron:min` | Add minute cron job |
+  | `cron:5min` | Add 5-minute cron job |
+  | `cron:hour` | Add hourly cron job |
+  | `cron:month` | Add monthly cron job |
+- **Action:** Create `src/utils/cronjob.py`
 
 ---
 
-### ⏳ Task 2.2: Network Routing
+## Phase 2: System Administration (MEDIUM PRIORITY)
 
+### 🔀 Task 2.1: System Management (partial)
+- **Status:** 🔀 PARTIAL
+- **Bash:** `src/var/lib/sys.sh` (99 lines)
+- **Python:** `src/utils/system.py` (partially done: `d_sys_update`, `d_update`)
+- **Remaining:**
+  | Command | Description |
+  |---------|-------------|
+  | `sys:init` | System initialization |
+  | `sys:sysctl` | Apply sysctl config |
+  | `sys:clean` | Clean system temp files |
+  | `sys:upgrade` | System upgrade |
+  | `sys:selfupdate` | Self-update ductn package |
+
+### 🔀 Task 2.2: Host Management (partial)
+- **Status:** 🔀 PARTIAL
+- **Bash:** `src/var/lib/host.sh` (117 lines)
+- **Python:** `src/utils/host.py` (done: `d_host_name`, `d_host_domain`, `d_host_fullname`)
+- **Remaining:**
+  | Command | Description |
+  |---------|-------------|
+  | `host:address` | Get host address |
+  | `host:address:valid` | Validate host address |
+  | `host:ip` | Get host IP |
+  | `host:is_server` | Check if server |
+  | `host:is_vpn_server` | Check if VPN server |
+  | `host:serial` | Get hardware serial |
+  | `hosts:add` | Add entry to /etc/hosts |
+  | `hosts:remove` | Remove entry from /etc/hosts |
+  | `hosts` | Show all hosts |
+  | `sys:hosts:add/remove/domain/update` | System hosts management |
+
+### 🔀 Task 2.3: IP Management (partial)
+- **Status:** 🔀 PARTIAL
+- **Bash:** `src/var/lib/ip.sh` (148 lines)
+- **Python:** `src/utils/addr.py` (done: `d_ip_local`, `d_ip_locals`, `d_ip_wan`)
+- **Remaining:**
+  | Command | Description |
+  |---------|-------------|
+  | `ip:wanv4` | Get WAN IPv4 |
+  | `ip:wanv6` | Get WAN IPv6 |
+  | `ip:valid` | Validate IP |
+  | `ipAll` | Show all IPs |
+  | `ip:gateway` | Get gateway IP |
+  | `ip:subnet` | Get subnet mask |
+  | `ip:check` | Check IP connectivity |
+
+### 🔀 Task 2.4: Route Management (partial)
+- **Status:** 🔀 PARTIAL
+- **Bash:** `src/var/lib/route.sh` (118 lines)
+- **Python:** `src/utils/route.py` (done: `d_route_default`, `d_route_monitor`)
+- **Remaining:**
+  | Command | Description |
+  |---------|-------------|
+  | `route:checkAndUp` | Check and bring up route |
+  | `route:reload` | Reload route config |
+
+### 🔀 Task 2.5: Service Management (partial)
+- **Status:** 🔀 PARTIAL
+- **Bash:** `src/var/lib/service.sh` (211 lines)
+- **Python:** `src/utils/system_service.py` + `src/utils/service.py` (done: install/start/stop/restart/status/watch)
+- **Remaining:**
+  | Command | Description |
+  |---------|-------------|
+  | `sys:service:main` | Main service handler |
+  | `sys:service:isactive` | Check if service active |
+  | `sys:service:re-install` | Re-install service |
+  | `d_run_as_service` | Run command as service |
+
+### 🔀 Task 2.6: OS Management (partial)
+- **Status:** 🔀 PARTIAL
+- **Bash:** `src/var/lib/os.sh` (80 lines)
+- **Python:** `src/utils/system_os.py` (done: codename, release, distro, architecture, type)
+- **Remaining:**
+  | Command | Description |
+  |---------|-------------|
+  | `os:list` | List OS information |
+
+### 🔀 Task 2.7: VM Management (partial)
+- **Status:** 🔀 PARTIAL
+- **Bash:** `src/var/lib/vm.sh` (108 lines)
+- **Python:** `src/utils/vm.py` (done: `d_vm_info`, `d_vm_sync`)
+- **Remaining:**
+  | Command | Description |
+  |---------|-------------|
+  | `pve:vm` | Proxmox VM management |
+  | `vm:command` | Run VM command |
+
+### ⏳ Task 2.8: User Management
 - **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/route.sh` (size TBD)
-- **Python:** `src/utils/route.py` (235 lines, existing)
-- **Commands to migrate:**
-  - `d_route:default`, `d_route:monitor` → Already in Python
-  - Check bash for additional functions
-- **Action:** Review bash file, enhance Python if needed, then deprecate bash
+- **Bash:** `src/var/lib/user.sh` (111 lines)
+- **Python:** `src/utils/user.py` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `user:new` | Create new user |
+  | `user:config` | Configure user |
+  | `user:config:bash` | Setup user bash |
+  | `user:config:chmod` | Fix user permissions |
+  | `user:config:admin` | Make user admin |
+  | `user:is_sudoer` | Check if user is sudoer |
+- **Action:** Create `src/utils/user.py`
 
----
-
-### ⏳ Task 2.3: WireGuard VPN
-
+### ⏳ Task 2.9: Disk/ZFS Management
 - **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/wg.sh` (size TBD)
-- **Python:** `src/utils/wg.py` (143 lines, existing)
-- **Commands to migrate:**
-  - Check bash for functions not in Python
-- **Action:** Review bash file, enhance Python if needed, then deprecate bash
+- **Bash:** `src/var/lib/disk.sh` (60 lines)
+- **Python:** `src/utils/disk.py` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `disk:check` | Check disk health |
+  | `disk:check8k` | Check 8K sector disks |
+  | `disk:check512k` | Check 512K sector disks |
+  | `zfs:disk:list` | List ZFS disks |
+  | `zfs:disk:offline` | Take ZFS disk offline |
+  | `zfs:disk:replace` | Replace ZFS disk |
+  | `zfs:disk:replace_disk` | Replace disk helper |
+  | `zfs:disk:replace_boot_disk` | Replace boot disk |
+  | `zfs:disk:format_boot_disk` | Format boot disk |
+- **Action:** Create `src/utils/disk.py`
 
----
-
-### ⏳ Task 2.4: Interface Management
-
+### ⏳ Task 2.10: UFW/Firewall Management
 - **Status:** ⏳ PENDING
-- **Bash:** (check in env.sh or dedicated file)
-- **Python:** `src/utils/interface.py` (65 lines, existing)
-- **Commands:** `d_interface:default`, `d_interface:service`
-- **Action:** Review and ensure parity
+- **Bash:** `src/var/lib/ufw.sh` (54 lines)
+- **Python:** `src/utils/ufw.py` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `ufw:disable` | Disable UFW |
+  | `ufw:geoip:uninstall` | Remove GeoIP rules |
+  | `ufw:geoip:allowCloudflare` | Allow Cloudflare IPs |
+  | `ufw:fail2ban:uninstall` | Remove fail2ban |
+  | `ufw:iptables:uninstall` | Remove iptables rules |
+- **Action:** Create `src/utils/ufw.py`
 
----
-
-## Phase 3: System Utilities (MEDIUM PRIORITY)
-
-### ⏳ Task 3.1: File Operations
-
+### ⏳ Task 2.11: MySQL Management
 - **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/file.sh` (308 bytes)
-- **Python:** `src/utils/file.py` (62 lines, existing)
-- **Commands:** `d_file:cleanpath`
-- **Action:** Review bash file, ensure Python has all functions, then deprecate bash
+- **Bash:** `src/var/lib/mysql.sh` (34 lines)
+- **Python:** `src/utils/mysql.py` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `mysql:setup` | Setup MySQL |
+  | `mysql:ssl:enable` | Enable MySQL SSL |
+- **Action:** Create `src/utils/mysql.py`
 
----
-
-### ⏳ Task 3.2: Environment Detection
-
+### ⏳ Task 2.12: Swap Management
 - **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/env.sh` (3991 bytes)
-- **Python:** `src/utils/env_detect.py` (96 lines, existing)
-- **Commands:** `d_env:detect`
-- **Action:** Review bash file, ensure Python has all functions, then deprecate bash
+- **Bash:** `src/var/lib/swap.sh` (21 lines)
+- **Python:** `src/utils/swap.py` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `swap:remove` | Remove swap |
+  | `swap:install` | Create swap |
+- **Action:** Create `src/utils/swap.py`
 
----
-
-### ⏳ Task 3.3: System Commands
-
+### ⏳ Task 2.13: Port Management
 - **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/sys.sh` (check if exists)
-- **Python:** `src/utils/system.py` (136 lines, existing)
-- **Commands:** `d_sys:*`
-- **Action:** Review and ensure parity
+- **Bash:** `src/var/lib/port.sh` (17 lines)
+- **Python:** `src/utils/port.py` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `port:open` | Check if port is open |
+- **Action:** Create `src/utils/port.py`
 
 ---
 
-### ⏳ Task 3.4: Logging System
+## Phase 3: Development Tools (MEDIUM PRIORITY)
 
+### ⏳ Task 3.1: Git Management
 - **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/log.sh` (3356 bytes)
-- **Python:** (new module needed)
-- **Functions to migrate:**
-  - Log rotation
-  - Log levels
-  - Syslog integration
-- **Action:** Create `src/utils/logger.py`, migrate functions, deprecate bash
+- **Bash:** `src/var/lib/git.sh` (218 lines)
+- **Python:** `src/utils/git.py` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `git:configure` | Configure git for project |
+  | `git:detrack` | Remove file from tracking |
+  | `git:untrack` | Untrack file |
+  | `git:viewuntrack` | View untracked files |
+  | `git:tag:cleanup` | Cleanup old git tags |
+- **Action:** Create `src/utils/git.py`
 
----
+### 🔀 Task 3.2: PHP/Laravel (partial)
+- **Status:** 🔀 PARTIAL
+- **Bash:** `src/var/lib/php.lar.sh` (22 lines)
+- **Python:** `src/utils/` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `php:lar` | Laravel helper |
+- **Action:** Create `src/utils/laravel.py`
 
-## Phase 4: Application Support (LOW PRIORITY)
-
-### ⏳ Task 4.1: PHP/Laravel Support
-
+### ⏳ Task 3.3: PHP/Magento2
 - **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/php.sh`, `src/var/lib/php.lar.sh`, `src/var/lib/php.m2.sh`
-- **Python:** (new module needed)
-- **Functions to migrate:**
-  - Laravel commands
-  - Magento 2 commands
-  - PHP-FPM management
-- **Action:** Create `src/utils/php.py`, migrate functions, deprecate bash
+- **Bash:** `src/var/lib/php.m2.sh` (233 lines)
+- **Python:** `src/utils/magento2.py` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `m2:ch` | Change permissions |
+  | `m2:group` | Fix group permissions |
+  | `m2:urn` | Generate URN |
+  | `m2:perm` | Fix permissions |
+  | `m2:rmgen` | Remove generated files |
+  | `m2:static` | Deploy static content |
+  | `m2:cache` | Manage cache |
+  | `m2:index` | Reindex |
+  | `m2:grunt` | Run grunt |
+  | `m2:up` | Run upgrade |
+  | `m2:config` | Show config |
+  | `m2:setting` | Change settings |
+  | `m2:developer` | Developer mode |
+  | `m2:logenable/logdisable` | Toggle logging |
+  | `m2:tempdebugenable/disable` | Toggle debug |
+  | `m2:completion` | Bash completion |
+- **Note:** `d_php:m2` exists but needs full migration
+- **Action:** Create `src/utils/magento2.py`
 
----
-
-### ⏳ Task 4.2: MySQL/MariaDB Support
-
+### ⏳ Task 3.4: PHP General
 - **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/mysql.sh` (1489 bytes)
-- **Python:** (new module needed)
-- **Functions to migrate:**
-  - MySQL service management
-  - Database operations
-- **Action:** Create `src/utils/mysql.py`, migrate functions, deprecate bash
+- **Bash:** `src/var/lib/php.sh` (60 lines)
+- **Python:** `src/utils/php.py` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `php:composer:install` | Install composer |
+  | `php:apt:install` | Install PHP via APT |
+  | `php:install` | Install PHP |
+  | `php:phpcsfixer:install` | Install PHP CS Fixer |
+- **Action:** Create `src/utils/php_utils.py`
 
----
-
-### ⏳ Task 4.3: MSSQL Support
-
+### ⏳ Task 3.5: HTTPD/Web Server
 - **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/mssql.sh` (10118 bytes)
-- **Python:** (new module needed)
-- **Functions to migrate:**
-  - MSSQL service management
-  - Database operations
-- **Action:** Create `src/utils/mssql.py`, migrate functions, deprecate bash
+- **Bash:** `src/var/lib/httpd.sh` (237 lines)
+- **Python:** `src/utils/httpd.py` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `httpd:install` | Install web server |
+  | `httpd:config` | Configure vhost |
+  | `httpd:restart` | Restart web server |
+  | `httpd:config:sites` | List configured sites |
+- **Action:** Create `src/utils/httpd.py`
 
 ---
 
-### ⏳ Task 4.4: HTTPD/Web Server
+## Phase 4: Network & Security (LOWER PRIORITY)
 
+### ⏳ Task 4.1: CSF Firewall
 - **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/httpd.sh` (6446 bytes)
-- **Python:** (new module needed)
-- **Functions to migrate:**
-  - Apache/Nginx management
-  - Virtual host management
-- **Action:** Create `src/utils/httpd.py`, migrate functions, deprecate bash
+- **Bash:** `src/var/lib/csf.sh` (101 lines)
+- **Python:** `src/utils/csf.py` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `csf` | CSF main command |
+  | `csf:install` | Install CSF |
+  | `csf:config` | Configure CSF |
+  | `csf:config:set` | Set CSF config |
+  | `csf:regex` | Update regex rules |
+- **Action:** Create `src/utils/csf.py`
 
----
-
-## Phase 5: Security & Maintenance (LOW PRIORITY)
-
-### ⏳ Task 5.1: CSF Firewall
-
+### ⏳ Task 4.2: Environment/Network Config
 - **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/csf.sh` (3893 bytes)
-- **Python:** (new module needed)
-- **Functions to migrate:**
-  - CSF configuration
-  - Firewall rules
-- **Action:** Create `src/utils/csf.py`, migrate functions, deprecate bash
+- **Bash:** `src/var/lib/env.sh` (199 lines)
+- **Python:** `src/utils/env_config.py` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `env` | Show env config |
+  | `env:domains` | Show domains |
+  | `env:nat` | Show NAT config |
+  | `env:dhcp` | Show DHCP config |
+  | `env:vpn` | Show VPN config |
+  | `env:csf` | Show CSF config |
+  | `env:sync` | Sync env config |
+- **Action:** Create `src/utils/env_config.py`
 
----
-
-### ⏳ Task 5.2: SSH Management
-
+### ⏳ Task 4.3: DDNS Management
 - **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/ssh.sh` (check if exists)
-- **Python:** (new module needed)
-- **Functions to migrate:**
-  - SSH config
-  - Key management
-- **Action:** Create `src/utils/ssh.py`, migrate functions, deprecate bash
+- **Bash:** `src/var/lib/ddns.sh` (52 lines)
+- **Python:** `src/utils/ddns.py` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `ddns:bind9:install` | Install Bind9 DDNS |
+  | `dns:disable` | Disable DNS (legacy) |
+  | `ddns:resolved` | Enable resolved (legacy) |
+- **Note:** Some functions overlap with DNS module
+- **Action:** Create `src/utils/ddns.py` or merge into `dns.py`
 
----
-
-### ⏳ Task 5.3: SSL/TLS Management
-
+### ⏳ Task 4.4: DNS Technitium
 - **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/ssl.sh` (check if exists)
-- **Python:** (new module needed)
-- **Functions to migrate:**
-  - Certificate management
-  - Let's Encrypt integration
-- **Action:** Create `src/utils/ssl.py`, migrate functions, deprecate bash
+- **Bash:** `src/var/lib/dns.technitium.sh` (32 lines)
+- **Python:** `src/utils/dns_technitium.py` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `dns:technitium:install` | Install Technitium DNS |
+  | `dns:technitium:recordList` | List DNS records |
+  | `dns:technitium:get` | Get DNS record |
+- **Action:** Create `src/utils/dns_technitium.py`
 
----
-
-### ⏳ Task 5.4: Git Operations
-
+### ⏳ Task 4.5: DHCP Server
 - **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/git.sh` (4189 bytes)
-- **Python:** (new module needed)
-- **Functions to migrate:**
-  - Git config
-  - Repository operations
-- **Action:** Create `src/utils/git_ops.py`, migrate functions, deprecate bash
+- **Bash:** `src/var/lib/dhcpd.sh` (80 lines)
+- **Python:** `src/utils/dhcpd.py` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `dhcp:setup` | Setup DHCP server |
+  | `dhcp:config` | Configure DHCP |
+- **Action:** Create `src/utils/dhcpd.py`
 
 ---
 
-### ⏳ Task 5.5: GPG Operations
+## Phase 5: Utilities & Helpers (LOWEST PRIORITY)
 
+### ⏳ Task 5.1: GPG Management
 - **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/gpg.sh` (688 bytes)
-- **Python:** (new module needed)
-- **Functions to migrate:**
-  - GPG key management
-  - Sign/verify operations
-- **Action:** Create `src/utils/gpg.py`, migrate functions, deprecate bash
+- **Bash:** `src/var/lib/gpg.sh` (29 lines)
+- **Python:** `src/utils/gpg.py` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `gpg` | GPG main command |
+  | `gpg:export` | Export GPG key |
+  | `gpg:import` | Import GPG key |
+- **Action:** Create `src/utils/gpg.py`
 
----
+### ⏳ Task 5.2: CURL/HTTP Utilities
+- **Status:** ⏳ PENDING
+- **Bash:** `src/var/lib/curl.sh` (32 lines)
+- **Python:** `src/utils/curl.py` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `curl:get` | HTTP GET request |
+  | `curl:gg` | Google search via curl |
+- **Action:** Create `src/utils/curl_utils.py`
 
-## Phase 6: User Experience (LOW PRIORITY)
+### ⏳ Task 5.3: File Utilities
+- **Status:** ⏳ PENDING (partially done)
+- **Bash:** `src/var/lib/file.sh` (16 lines)
+- **Python:** `src/utils/file.py` (done: `d_file_cleanpath`)
+- **Remaining:**
+  | Command | Description |
+  |---------|-------------|
+  | `file:chmod` | Get file permissions |
+  | `file:chmod:files` | chmod all files |
+  | `file:chmod:dirs` | chmod all dirs |
 
-### ⏳ Task 6.1: Environment/Output Formatting
+### ⏳ Task 5.4: Bash Completion
+- **Status:** ⏳ PENDING
+- **Bash:** `src/var/lib/completion.sh` (78 lines)
+- **Python:** N/A (likely keep as bash)
+- **Target:** Migrate to argcomplete if possible
+- **Action:** Review if Python argcomplete can replace
 
+### ⏳ Task 5.5: MSSQL Support
+- **Status:** ⏳ PENDING
+- **Bash:** `src/var/lib/mssql.sh` (230 lines)
+- **Python:** `src/utils/mssql.py` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `mssql:install` | Install MSSQL |
+  | `mssql:php:install/enable/disable` | PHP SQLSRV driver |
+  | `sqlsrv:apt` | APT setup for SQLSRV |
+- **Action:** Create `src/utils/mssql.py`
+
+### ⏳ Task 5.6: Sys Service Validation
+- **Status:** ⏳ PENDING
+- **Bash:** `src/var/lib/sys.service.valid.sh` (40 lines)
+- **Python:** Merge into `src/utils/system_service.py`
+- **Target:** Service validation helpers for httpd, mysql, mssql, dhcp
+- **Action:** Add to existing `system_service.py`
+
+### ⏳ Task 5.7: Server Install
+- **Status:** ⏳ PENDING
+- **Bash:** `src/var/lib/server.sh` (6 lines)
+- **Python:** `src/utils/server.py` (TODO)
+- **Target Commands:**
+  | Command | Description |
+  |---------|-------------|
+  | `server:install` | Full server setup |
+- **Action:** Create `src/utils/server.py`
+
+### ⏳ Task 5.8: Environment Detection (color/text)
 - **Status:** ⏳ PENDING
 - **Bash:** `src/var/lib/environment.sh`, `environment.color.sh`, `environment.text.sh`
-- **Python:** (enhance existing or new module)
-- **Functions to migrate:**
-  - Color output
-  - Text formatting
-  - Environment detection
-- **Action:** Enhance `src/utils/env_detect.py` or create `src/utils/output.py`
+- **Python:** Already partially in `src/utils/env_detect.py`
+- **Remaining:** Color and text environment detection
+- **Action:** Merge into `env_detect.py`
 
----
-
-### ⏳ Task 6.2: Help System
-
+### ⏳ Task 5.9: Helper Functions
 - **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/help.sh` (1832 bytes)
-- **Python:** (enhance existing)
-- **Functions to migrate:**
-  - Help text generation
-  - Command descriptions
-- **Action:** Enhance `src/utils/command.py` or `src/utils/about.py`
+- **Bash:** `src/var/lib/functions.sh` (33 lines)
+- **Python:** Internal utilities (not CLI commands)
+- **Target:** `--logger`, `--echo`, `--hash_MD5`
+- **Action:** Move to `src/utils/helpers.py` if needed
 
----
-
-### ⏳ Task 6.3: Alias Management
-
+### ⏳ Task 5.10: Main Entry Point
 - **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/alias.sh` (560 bytes)
-- **Python:** `src/utils/alias.py` (27 lines, existing)
-- **Commands:** `d_alias:ll`
-- **Action:** Review bash file, ensure Python has all functions, then deprecate bash
+- **Bash:** `src/var/lib/main.sh` (195 lines)
+- **Python:** `src/ductn.py` (already replaced)
+- **Action:** Confirm no remaining dependencies, deprecate bash file
 
 ---
 
-## Phase 7: Infrastructure (LOW PRIORITY)
+## Migration Rules
 
-### ⏳ Task 7.1: Cron Job Management
-
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/cronjob.sh` (318 bytes)
-- **Python:** (new module needed)
-- **Functions to migrate:**
-  - Cron job creation
-  - Schedule management
-- **Action:** Create `src/utils/cron.py`, migrate functions, deprecate bash
+1. Each module must have docstrings for all public functions.
+2. Register commands with `@register_command` decorator.
+3. Support both Linux and macOS where applicable.
+4. Do NOT delete bash script until Python equivalent is tested and working.
+5. Move deprecated bash scripts to `deprecated/src/var/lib/`.
+6. Update this file after each migration.
 
 ---
 
-### ⏳ Task 7.2: DDNS (Dynamic DNS)
-
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/ddns.sh` (1498 bytes)
-- **Python:** (new module needed)
-- **Functions to migrate:**
-  - DDNS updates
-  - DNS provider integration
-- **Action:** Create `src/utils/ddns.py`, migrate functions, deprecate bash
-
----
-
-### ⏳ Task 7.3: DHCP Server
-
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/dhcpd.sh` (2117 bytes)
-- **Python:** (new module needed)
-- **Functions to migrate:**
-  - DHCP config
-  - Lease management
-- **Action:** Create `src/utils/dhcp.py`, migrate functions, deprecate bash
-
----
-
-### ⏳ Task 7.4: Disk Management
-
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/disk.sh` (1871 bytes)
-- **Python:** `src/utils/libsysinfo/disk.py` (existing)
-- **Functions to migrate:**
-  - Disk info
-  - Partition management
-- **Action:** Review bash file, ensure Python has all functions, then deprecate bash
-
----
-
-### ⏳ Task 7.5: User Management
-
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/user.sh` (check if exists)
-- **Python:** (new module needed)
-- **Functions to migrate:**
-  - User creation/deletion
-  - Permission management
-- **Action:** Create `src/utils/user.py`, migrate functions, deprecate bash
-
----
-
-### ⏳ Task 7.6: SWAP Management
-
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/swap.sh` (check if exists)
-- **Python:** (new module needed)
-- **Functions to migrate:**
-  - SWAP creation/management
-- **Action:** Create `src/utils/swap.py`, migrate functions, deprecate bash
-
----
-
-### ⏳ Task 7.7: UFW Firewall
-
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/ufw.sh` (check if exists)
-- **Python:** (new module needed)
-- **Functions to migrate:**
-  - UFW configuration
-  - Rule management
-- **Action:** Create `src/utils/ufw.py`, migrate functions, deprecate bash
-
----
-
-### ⏳ Task 7.8: Server Management
-
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/server.sh` (check if exists)
-- **Python:** (new module needed)
-- **Functions to migrate:**
-  - Server info
-  - Server management
-- **Action:** Create `src/utils/server.py`, migrate functions, deprecate bash
-
----
-
-### ⏳ Task 7.9: Port Management
-
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/port.sh` (check if exists)
-- **Python:** (new module needed)
-- **Functions to migrate:**
-  - Port forwarding
-  - Port checking
-- **Action:** Create `src/utils/port.py`, migrate functions, deprecate bash
-
----
-
-### ⏳ Task 7.10: Main Entry Point
-
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/main.sh` (9340 bytes)
-- **Python:** `src/ductn.py` (existing)
-- **Functions to migrate:**
-  - Main CLI logic (already in Python)
-  - Check for any remaining bash functions
-- **Action:** Review bash file, ensure all logic is in Python, then deprecate bash
-
----
-
-### ⏳ Task 7.11: DNS Technitium
-
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/dns.technitium.sh` (697 bytes)
-- **Python:** (enhance dns.py or new module)
-- **Functions to migrate:**
-  - Technitium DNS integration
-- **Action:** Enhance `src/utils/dns.py` with Technitium support
-
----
-
-### ⏳ Task 7.12: cURL Utilities
-
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/curl.sh` (901 bytes)
-- **Python:** (use requests library, enhance utils)
-- **Functions to migrate:**
-  - cURL wrapper functions
-- **Action:** Use Python `requests` library, no new module needed
-
----
-
-### ⏳ Task 7.13: Completion Script
-
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/completion.sh` (2867 bytes)
-- **Python:** (argcomplete already in use)
-- **Functions to migrate:**
-  - Bash completion (already handled by argcomplete)
-- **Action:** Keep bash completion script or migrate to Python argcomplete
-
----
-
-## Deprecated Scripts
-
-Scripts that have been successfully migrated to Python:
-
-| Bash Script | Python Module | Migrated Date | PR |
-|-------------|---------------|---------------|-----|
-| `src/var/lib/apt.sh` | `src/utils/apt.py` | 2026-04-18 | #7 |
-
----
-
-## Migration Checklist
-
-For each bash script:
-
-- [ ] Review bash functions and document them
-- [ ] Check if Python module already exists
-- [ ] Create/enhance Python module with all functions
-- [ ] Add docstrings for all functions
-- [ ] Add type hints
-- [ ] Register commands in registry.py
-- [ ] Test all commands manually
-- [ ] Add unit tests (pytest)
-- [ ] Update TOOLS.md with new commands
-- [ ] Update changelog
-- [ ] Move bash script to `src/var/lib/deprecated/`
-- [ ] Create PR for review
-
----
-
-## Notes
-
-- **Priority levels:**
-  - HIGH: Core infrastructure, frequently used commands
-  - MEDIUM: Network, system utilities
-  - LOW: Application support, optional features
-
-- **Migration principles:**
-  - Maintain backward compatibility during migration
-  - Keep bash scripts until Python version is tested and merged
-  - Add comprehensive tests for Python modules
-  - Document all commands with docstrings
-
-- **Testing requirements:**
-  - Unit tests for each function (pytest)
-  - Integration tests for commands
-  - Coverage target: >80%
-
----
-
-**Last updated:** 2026-04-18  
-**Next review:** After each migration task completion
+**Total: ~47 remaining bash scripts → ~31 migration tasks**
