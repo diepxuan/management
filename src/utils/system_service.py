@@ -181,6 +181,7 @@ def _launchd_status():
 
 @register_command
 def d_service_start():
+    """Khởi động ductnd service (systemd trên Linux, launchd trên macOS)."""
     if not _is_root():
         logging.error("Cần quyền root")
         return
@@ -193,6 +194,7 @@ def d_service_start():
 
 @register_command
 def d_service_stop():
+    """Dừng ductnd service."""
     if not _is_root():
         logging.error("Cần quyền root")
         return
@@ -205,6 +207,7 @@ def d_service_stop():
 
 @register_command
 def d_service_restart():
+    """Khởi động lại ductnd service."""
     if not _is_root():
         logging.error("Cần quyền root")
         return
@@ -217,6 +220,7 @@ def d_service_restart():
 
 @register_command
 def d_service_status():
+    """Kiểm tra trạng thái ductnd service (active/inactive)."""
     if not _is_root():
         logging.error("Cần quyền root")
         return
@@ -229,6 +233,7 @@ def d_service_status():
 
 @register_command
 def d_service_watch():
+    """Theo dõi log của ductnd service theo thời gian thực (tail -f)."""
     log_file = _ductnd_log_file()
 
     if not os.path.exists(log_file):

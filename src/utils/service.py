@@ -16,6 +16,7 @@ from .serviceScheduler import ServiceScheduler
 
 @register_command
 def d_service():
+    """Chạy ductnd daemon với các task nền (vm_sync, sys_update, route_monitor, dns_watch)."""
     if not _is_root():
         return
 
