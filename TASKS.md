@@ -363,21 +363,7 @@
 
 ## Phase 4: Network & Security (LOWER PRIORITY)
 
-### ⏳ Task 4.1: CSF Firewall
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/csf.sh` (101 lines)
-- **Python:** `src/utils/csf.py` (TODO)
-- **Target Commands:**
-  | Command | Description |
-  |---------|-------------|
-  | `csf` | CSF main command |
-  | `csf:install` | Install CSF |
-  | `csf:config` | Configure CSF |
-  | `csf:config:set` | Set CSF config |
-  | `csf:regex` | Update regex rules |
-- **Action:** Create `src/utils/csf.py`
-
-### ⏳ Task 4.2: Environment/Network Config
+### ⏳ Task 4.1: Environment/Network Config
 - **Status:** ⏳ PENDING
 - **Bash:** `src/var/lib/env.sh` (199 lines)
 - **Python:** `src/utils/env_config.py` (TODO)
@@ -389,11 +375,10 @@
   | `env:nat` | Show NAT config |
   | `env:dhcp` | Show DHCP config |
   | `env:vpn` | Show VPN config |
-  | `env:csf` | Show CSF config |
   | `env:sync` | Sync env config |
 - **Action:** Create `src/utils/env_config.py`
 
-### ⏳ Task 4.3: DDNS Management
+### ⏳ Task 4.2: DDNS Management
 - **Status:** ⏳ PENDING
 - **Bash:** `src/var/lib/ddns.sh` (52 lines)
 - **Python:** `src/utils/ddns.py` (TODO)
@@ -406,7 +391,7 @@
 - **Note:** Some functions overlap with DNS module
 - **Action:** Create `src/utils/ddns.py` or merge into `dns.py`
 
-### ⏳ Task 4.4: DNS Technitium
+### ⏳ Task 4.3: DNS Technitium
 - **Status:** ⏳ PENDING
 - **Bash:** `src/var/lib/dns.technitium.sh` (32 lines)
 - **Python:** `src/utils/dns_technitium.py` (TODO)
@@ -418,7 +403,7 @@
   | `dns:technitium:get` | Get DNS record |
 - **Action:** Create `src/utils/dns_technitium.py`
 
-### ⏳ Task 4.5: DHCP Server
+### ⏳ Task 4.4: DHCP Server
 - **Status:** ⏳ PENDING
 - **Bash:** `src/var/lib/dhcpd.sh` (80 lines)
 - **Python:** `src/utils/dhcpd.py` (TODO)

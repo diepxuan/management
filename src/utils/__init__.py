@@ -21,32 +21,38 @@ if sys.version_info < (3, 10):
 
 from .system import _is_root
 
-if _is_root():
-    os.makedirs(LOGDIR, exist_ok=True)
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
-        # handlers=[
-        #     logging.FileHandler(f"{LOGDIR}/{SERVICE_NAME}.log"),
-        #     logging.StreamHandler(sys.stdout),
-        # ],
-        handlers=[
-            RotatingFileHandler(
-                f"{LOGDIR}/{SERVICE_NAME}.log",
-                maxBytes=20 * 1024 * 1024,
-                backupCount=5,
-            ),
-            logging.StreamHandler(sys.stdout),
-        ],
-    )
-else:
-    # Ghi log ra stdout/stderr, systemd sẽ tự động bắt và chuyển vào journald
-    logging.basicConfig(
-        level=logging.INFO,
-        format=f"%(asctime)s %(levelname)s %(name)s: %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",
-        stream=sys.stdout,
-    )
+def _setup_logging():
+    """Thiết lập logging, fallback stdout nếu không ghi được /var/log/ductnd."""
+    if _is_root():
+        try:
+            os.makedirs(LOGDIR, exist_ok=True)
+            handlers = [
+                RotatingFileHandler(
+                    f"{LOGDIR}/{SERVICE_NAME}.log",
+                    maxBytes=20 * 1024 * 1024,
+                    backupCount=5,
+                ),
+                logging.StreamHandler(sys.stdout),
+            ]
+        except OSError:
+            handlers = [logging.StreamHandler(sys.stdout)]
+
+        logging.basicConfig(
+            level=logging.INFO,
+            format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+            handlers=handlers,
+        )
+    else:
+        # Ghi log ra stdout/stderr, systemd sẽ tự động bắt và chuyển vào journald
+        logging.basicConfig(
+            level=logging.INFO,
+            format=f"%(asctime)s %(levelname)s %(name)s: %(message)s",
+            datefmt="%Y-%m-%d %H:%M:%S",
+            stream=sys.stdout,
+        )
+
+
+_setup_logging()
 
 from . import registry
 from .registry import COMMANDS

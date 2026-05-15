@@ -75,15 +75,6 @@ def d_env_vpn():
         print(vpn)
 
 
-@register_command
-def d_env_csf():
-    """Hiển thị CSF configuration."""
-    config = _load_env_config()
-    csf = config.get("csf", {})
-    if csf:
-        print(json.dumps(csf, indent=2))
-
-
 def _sys_env_sync():
     """Đồng bộ environment configuration."""
     logging.info("Environment sync running...")
