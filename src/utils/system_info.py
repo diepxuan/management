@@ -66,6 +66,7 @@ def get_time_date() -> str:
 
 @register_command
 def d_sys_info():
+    """Hiển thị thông tin tổng quan hệ thống (load, memory, disk, network, OS)."""
     system_load = f"System load:  {get_loadavg():.2f}"
 
     processes = f"Processes:    {len(get_pids())}"
