@@ -64,6 +64,19 @@ class TestRegistry(unittest.TestCase):
         del COMMANDS["custom:command:name"]
         del COMMANDS["test:custom"]
 
+    def test_command_run_expands_multiple_args(self):
+        """command_run phải truyền từng arg cho command có nhiều tham số."""
+        from utils.command import command_run
+
+        captured = []
+
+        def d_test_multi(first, second):
+            """Temporary multi-arg command."""
+            captured.extend([first, second])
+
+        command_run(d_test_multi, ["one", "two"])
+        self.assertEqual(["one", "two"], captured)
+
 
 class TestCommandNaming(unittest.TestCase):
     """Tests cho quy ước đặt tên command."""
