@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
-import os
-import sys
-from . import register_command
 from . import COMMANDS
-from . import PACKAGE_NAME
-from . import registry
+from . import register_command
 
 
 def _commands():
@@ -26,7 +22,11 @@ def command_run(func, args=None):
     import inspect
 
     sig = inspect.signature(func)
-    if len(sig.parameters) == 0:
+    parameters = list(sig.parameters.values())
+
+    if not parameters:
         func()
-    else:
+    elif len(parameters) == 1:
         func(args)
+    else:
+        func(*(args or []))

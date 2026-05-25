@@ -1,8 +1,3 @@
-# Đây là nơi tập trung, được import bởi tất cả các module khác
-import importlib
-import logging
-import os
-import sys
 from .init_action import _get_init_system
 
 COMMANDS = {}
@@ -52,13 +47,13 @@ def register_init_action(*actions):
     Tên action được suy ra từ tên hàm: _{init}_{action}
     """
 
-    # Nếu dùng trực tiếp @register_command
+    # Nếu dùng trực tiếp @register_init_action
     if len(actions) == 1 and callable(actions[0]):
         func = actions[0]
         actions = []
         return _register_init_action(func, actions)
 
-    # Nếu dùng @register_command("alias1", "alias2")
+    # Nếu dùng @register_init_action("action1", "action2")
     def wrapper(func):
         return _register_init_action(func, actions)
 
@@ -69,10 +64,6 @@ def _register_init_action(func, actions):
     """Decorator hàm nội bộ tự động đăng ký action theo init."""
     fname = func.__name__
     if callable(func) and fname.startswith("_"):
-        # Chỉ xử lý các hàm dạng _init_action
-        if not fname.startswith("_"):
-            return func
-
         # _launchd_host_name → ['launchd', 'host_name']
         parts = fname[1:].split("_", 1)
         if len(parts) != 2:
@@ -89,7 +80,6 @@ def _register_init_action(func, actions):
         INIT_ACTIONS[key] = func
 
         return func
-
     return func
 
 
@@ -100,13 +90,12 @@ def call_init_action(action, init=None):
     """
     if init is None:
         init = _get_init_system()
-    fn_name = f"_{init}_{action}"
-    fn = globals().get(fn_name)
 
     key = f"{init}_{action}"
     fn = INIT_ACTIONS.get(key)
 
     if not fn:
+        fn_name = f"_{init}_{action}"
         raise RuntimeError(f"Unsupported init/action: {fn_name}")
 
     return fn()
