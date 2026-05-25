@@ -93,7 +93,6 @@ from . import laravel
 from . import magento2
 from . import httpd
 from . import dns_technitium
-from . import dhcpd
 from . import gpg
 from . import curl_utils
 from . import server

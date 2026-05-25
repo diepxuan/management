@@ -15,7 +15,6 @@ EXPECTED_MODULES = [
     "command",
     "cronjob",
     "curl_utils",
-    "dhcpd",
     "disk",
     "dns",
     "dns_technitium",
@@ -69,7 +68,7 @@ class TestModuleImports(unittest.TestCase):
 
     def test_no_removed_modules(self):
         """Các module đã xóa không được import nữa."""
-        removed_modules = ["alias", "env_config", "wg", "vpn", "mysql_utils", "ddns", "helpers"]  # helpers kept but reduced
+        removed_modules = ["alias", "env_config", "wg", "vpn", "mysql_utils", "ddns", "dhcpd", "helpers"]  # helpers kept but reduced
         for mod_name in removed_modules:
             if mod_name == "helpers":
                 continue  # still exists, just reduced

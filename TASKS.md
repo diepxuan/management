@@ -397,16 +397,17 @@
   | `dns:technitium:get` | Get DNS record |
 - **Action:** Create `src/utils/dns_technitium.py`
 
-### ⏳ Task 4.4: DHCP Server
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/dhcpd.sh` (80 lines)
-- **Python:** `src/utils/dhcpd.py` (TODO)
-- **Target Commands:**
-  | Command | Description |
-  |---------|-------------|
-  | `dhcp:setup` | Setup DHCP server |
-  | `dhcp:config` | Configure DHCP |
-- **Action:** Create `src/utils/dhcpd.py`
+### 🚫 Task 4.4: DHCP Server
+- **Status:** 🚫 DEPRECATED
+- **Bash:** `src/var/lib/dhcpd.sh` → `deprecated/src/var/lib/dhcpd.sh`
+- **Python:** `src/utils/dhcpd.py` → `deprecated/src/utils/dhcpd.py`
+- **Commands removed:**
+  - `dhcp:setup`
+  - `dhcp:config`
+  - `sys:dhcp:setup`
+  - `sys:dhcp:config`
+- **Related service cleanup:** `sys:service:dhcp` removed from active `src/var/lib/sys.service.valid.sh`.
+- **Reason:** DHCPD command group and related service validation removed from active Bash and Python CLI surface.
 
 ---
 
@@ -465,11 +466,12 @@
   | `sqlsrv:apt` | APT setup for SQLSRV |
 - **Action:** Create `src/utils/mssql.py`
 
-### ⏳ Task 5.6: Sys Service Validation
-- **Status:** ⏳ PENDING
+### 🔀 Task 5.6: Sys Service Validation
+- **Status:** 🔀 PARTIAL
 - **Bash:** `src/var/lib/sys.service.valid.sh` (40 lines)
 - **Python:** Merge into `src/utils/system_service.py`
-- **Target:** Service validation helpers for httpd, mysql, mssql, dhcp
+- **Target:** Service validation helpers for httpd, mysql, mssql
+- **Removed:** DHCP validation helper `sys:service:dhcp` deprecated with DHCPD command group.
 - **Action:** Add to existing `system_service.py`
 
 ### ⏳ Task 5.7: Server Install

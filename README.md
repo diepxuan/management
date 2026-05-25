@@ -116,7 +116,7 @@ Một số nhóm Bash legacy còn tồn tại:
 - `alias.sh`, `completion.sh`, `functions.sh`, `main.sh`
 - `apt.sh` đã migrate và đưa vào deprecated theo `TASKS.md`
 - `dns.sh` đã migrate và đưa vào deprecated theo `TASKS.md`
-- `cronjob.sh`, `curl.sh`, `dhcpd.sh`
+- `cronjob.sh`, `curl.sh`
 - `disk.sh`, `env.sh`, `environment*.sh`, `file.sh`, `git.sh`, `gpg.sh`
 - `host.sh`, `httpd.sh`, `ip.sh`, `log.sh`, `os.sh`, `port.sh`, `route.sh`
 - `server.sh`, `service.sh`, `ssh.sh`, `ssl.sh`, `swap.sh`, `sys.sh`
