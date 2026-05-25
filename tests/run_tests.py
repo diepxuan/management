@@ -134,38 +134,6 @@ class TestSshHelpers(unittest.TestCase):
             self.assertIn(cmd, COMMANDS, f"Command '{cmd}' không có trong COMMANDS")
 
 
-# ============================================================
-# Test: VPN module
-# ============================================================
-class TestVpnHelpers(unittest.TestCase):
-    def test_vpn_constants(self):
-        from utils.vpn import WIREGUARD_IFACE, WIREGUARD_PORT, WIREGUARD_CONFIG
-        self.assertEqual(WIREGUARD_IFACE, "wg0")
-        self.assertEqual(WIREGUARD_PORT, 17691)
-        self.assertEqual(WIREGUARD_CONFIG, "/etc/wireguard/wg0.conf")
-
-    @patch("utils.vpn.shutil.which")
-    def test_wg_installed_true(self, mock_which):
-        from utils.vpn import _wg_installed
-        mock_which.return_value = "/usr/bin/wg"
-        self.assertTrue(_wg_installed())
-
-    @patch("utils.vpn.shutil.which")
-    def test_wg_installed_false(self, mock_which):
-        from utils.vpn import _wg_installed
-        mock_which.return_value = None
-        self.assertFalse(_wg_installed())
-
-    def test_vpn_commands_registered(self):
-        vpn_cmds = [
-            "vpn:wireguard:is:exist", "vpn:wireguard:install",
-            "vpn:wireguard:keygen", "vpn:wireguard:reload",
-            "vpn:openvpn:uninstall", "vpn:type",
-            "vpn:wireguard:example"
-        ]
-        for cmd in vpn_cmds:
-            self.assertIn(cmd, COMMANDS, f"Command '{cmd}' không có trong COMMANDS")
-
 
 # ============================================================
 # Test: Log module
@@ -235,7 +203,7 @@ class TestModuleImports(unittest.TestCase):
             "command", "alias", "about", "interface", "vm", "addr",
             "host", "dns", "route", "service", "system", "system_os",
             "system_info", "system_service", "file", "env_detect",
-            "system_metrics", "apt", "ssl", "ssh", "vpn", "log",
+            "system_metrics", "apt", "ssl", "ssh", "log",
             "cronjob", "swap", "port",
         ]
         import importlib

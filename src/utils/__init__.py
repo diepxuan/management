@@ -63,7 +63,6 @@ from rich.console import Console  # pyright: ignore[reportMissingImports]
 from rich.table import Table  # pyright: ignore[reportMissingImports]
 
 from . import command
-from . import alias
 from . import about
 from . import interface
 from . import vm
@@ -77,12 +76,10 @@ from . import system_os
 from . import system_info
 from . import system_service
 from . import file
-from . import env_detect
 from . import system_metrics
 from . import apt
 from . import ssl
 from . import ssh
-from . import vpn
 from . import log
 from . import cronjob
 from . import swap
@@ -90,13 +87,11 @@ from . import port
 from . import user
 from . import disk
 from . import ufw
-from . import mysql_utils
 from . import git_utils
 from . import php_utils
 from . import laravel
 from . import magento2
 from . import httpd
-from . import env_config
 from . import ddns
 from . import dns_technitium
 from . import dhcpd

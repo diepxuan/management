@@ -25,21 +25,29 @@ def _check_disk_health(sectorsize="4k"):
 
 
 @register_command
-def d_disk_check():
-    """Kiểm tra disk health (4K sectors)."""
-    _check_disk_health("4k")
+def d_disk_check(args=None):
+    """
+    Kiểm tra disk health.
+    Usage: ductn disk:check [--sector-size 4k|8k|512]
+    Nếu không truyền --sector-size, chạy cả 3 mode (4k, 8k, 512).
+    """
+    sector_size = None
+    if args:
+        arg_list = args if isinstance(args, list) else args.split()
+        i = 0
+        while i < len(arg_list):
+            if arg_list[i] == "--sector-size" and i + 1 < len(arg_list):
+                sector_size = arg_list[i + 1]
+                i += 2
+            else:
+                i += 1
 
-
-@register_command
-def d_disk_check_8k():
-    """Kiểm tra disk health (8K sectors)."""
-    _check_disk_health("8k")
-
-
-@register_command
-def d_disk_check_512k():
-    """Kiểm tra disk health (512 byte sectors)."""
-    _check_disk_health("512")
+    if sector_size:
+        _check_disk_health(sector_size)
+    else:
+        for size in ("4k", "8k", "512"):
+            logging.info(f"Checking disk health with sector size: {size}")
+            _check_disk_health(size)
 
 
 def _zfs_disk_list():

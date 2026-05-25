@@ -26,16 +26,10 @@ def d_cron_5min():
 
 @register_command
 def d_cron_hour():
-    """Thêm cron job chạy mỗi giờ (service validation + env sync)."""
+    """Thêm cron job chạy mỗi giờ (service validation)."""
     try:
         from . import system_service
         system_service._call_init_action("status")
-    except Exception:
-        pass
-
-    try:
-        from . import env_config
-        env_config._sys_env_sync()
     except Exception:
         pass
 

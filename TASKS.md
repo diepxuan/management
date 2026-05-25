@@ -2,7 +2,7 @@
 
 **Project:** ductn (DiepXuan Personal Package)  
 **Created:** 2026-04-18  
-**Updated:** 2026-05-16  
+**Updated:** 2026-05-26  
 **Goal:** Migrate all bash scripts from `src/var/lib/` to Python modules in `src/utils/`
 
 ---
@@ -15,7 +15,7 @@
 | 🔄 In Progress | 1 | Currently being migrated |
 | ⏳ Pending | 31 | Waiting to be migrated |
 | 🔀 Partial | 8 | Partially migrated (some commands done, some pending) |
-| 🚫 Deprecated | 2 | Bash scripts moved to deprecated/ |
+| 🚫 Deprecated | 3 | Bash scripts moved to deprecated/ |
 
 ---
 
@@ -51,22 +51,21 @@
   | `ssl:upload` | Upload SSL certs |
 - **Action:** Create `src/utils/ssl.py`
 
-### ⏳ Task 1.4: VPN/WireGuard Management
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/vpn.sh` (231 lines)
-- **Python:** `src/utils/vpn.py` (TODO)
-- **Target Commands:**
-  | Command | Description |
-  |---------|-------------|
-  | `vpn:wireguard:is_exist` | Check if WG config exists |
-  | `vpn:wireguard:install` | Install WireGuard |
-  | `vpn:wireguard:keygen` | Generate WG keys |
-  | `vpn:wireguard:reload` | Reload WG config |
-  | `vpn:wireguard:example` | Generate example config |
-  | `vpn:openvpn:uninstall` | Remove OpenVPN |
-  | `vpn:type` | Detect VPN type |
-- **Note:** `d_wg_stop` already exists in `src/utils/wg.py`
-- **Action:** Create `src/utils/vpn.py`, merge with `wg.py` if appropriate
+### 🚫 Task 1.4: VPN/WireGuard Management
+- **Status:** 🚫 DEPRECATED
+- **Bash:** `src/var/lib/vpn.sh` → `deprecated/src/var/lib/vpn.sh`
+- **Python:** `src/utils/vpn.py` → `deprecated/src/utils/vpn.py`
+- **Commands removed:**
+  - `vpn:wireguard:is_exist`
+  - `vpn:wireguard:is:exist`
+  - `vpn:wireguard:install`
+  - `vpn:wireguard:keygen`
+  - `vpn:wireguard:reload`
+  - `vpn:wireguard:stop`
+  - `vpn:wireguard:example`
+  - `vpn:openvpn:uninstall`
+  - `vpn:type`
+- **Reason:** VPN command group removed from active Bash and Python CLI surface.
 
 ### ⏳ Task 1.5: SSH Management
 - **Status:** ⏳ PENDING
@@ -247,16 +246,15 @@
   | `ufw:iptables:uninstall` | Remove iptables rules |
 - **Action:** Create `src/utils/ufw.py`
 
-### ⏳ Task 2.11: MySQL Management
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/mysql.sh` (34 lines)
-- **Python:** `src/utils/mysql.py` (TODO)
-- **Target Commands:**
-  | Command | Description |
-  |---------|-------------|
-  | `mysql:setup` | Setup MySQL |
-  | `mysql:ssl:enable` | Enable MySQL SSL |
-- **Action:** Create `src/utils/mysql.py`
+### 🚫 Task 2.11: MySQL Management
+- **Status:** 🚫 DEPRECATED
+- **Bash:** `src/var/lib/mysql.sh` → `deprecated/src/var/lib/mysql.sh`
+- **Python:** `src/utils/mysql_utils.py` → `deprecated/src/utils/mysql_utils.py`
+- **Data/config:** `src/var/lib/mysql/` → `deprecated/src/var/lib/mysql/`
+- **Commands removed:**
+  - `mysql:setup`
+  - `mysql:ssl:enable`
+- **Reason:** MySQL command group removed from active Bash and Python CLI surface.
 
 ### ⏳ Task 2.12: Swap Management
 - **Status:** ⏳ PENDING
