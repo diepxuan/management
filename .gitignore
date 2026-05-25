@@ -99,3 +99,4 @@ memory/
 # Local runtime artifacts
 output.txt
 .openclaw/workspace-state.json
+.stignore

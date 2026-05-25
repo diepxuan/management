@@ -1,20 +1,17 @@
-import threading
 import logging
-import weakref
+import threading
 
 
 class ServiceContext:
     def __init__(self):
         self.shutdown_event = threading.Event()
-        # self.threads = []
-        self.threads = weakref.WeakSet()
+        self.threads = set()
 
     def stop(self):
         logging.info("ServiceContext: shutdown requested")
         self.shutdown_event.set()
 
     def register_thread(self, t: threading.Thread):
-        # self.threads.append(t)
         self.threads.add(t)
 
     def join_all(self, timeout=10):
@@ -24,4 +21,4 @@ class ServiceContext:
                 t.join(timeout=timeout)
                 if t.is_alive():
                     alive.append(t)
-        self.threads = alive
+        self.threads = set(alive)
