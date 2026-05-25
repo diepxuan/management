@@ -116,11 +116,11 @@ Một số nhóm Bash legacy còn tồn tại:
 - `alias.sh`, `completion.sh`, `functions.sh`, `main.sh`
 - `apt.sh` đã migrate và đưa vào deprecated theo `TASKS.md`
 - `dns.sh` đã migrate và đưa vào deprecated theo `TASKS.md`
-- `cronjob.sh`, `curl.sh`
+- `cronjob.sh`, `csf.sh`, `curl.sh`
 - `disk.sh`, `env.sh`, `environment*.sh`, `file.sh`, `git.sh`, `gpg.sh`
 - `host.sh`, `httpd.sh`, `ip.sh`, `log.sh`, `os.sh`, `port.sh`, `route.sh`
 - `server.sh`, `service.sh`, `ssh.sh`, `ssl.sh`, `swap.sh`, `sys.sh`
-- `ufw.sh`, `user.sh`, `vm.sh`, `wg.sh`
+- `ufw.sh`, `user.sh`, `vm.sh`
 - macOS-specific scripts trong `src/var/lib/macos/`
 
 Khi migrate, không xóa Bash cũ ngay nếu chưa chắc command Python tương đương đã đủ hành vi. Nên chuyển sang `deprecated/` sau khi đã test và cập nhật `TASKS.md`.
