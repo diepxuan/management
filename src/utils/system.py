@@ -113,19 +113,11 @@ def _sys_update():
 
 
 @register_command
-def d_sys_update():
+def d_update():
     """
     Kiểm tra phiên bản mới.
     """
     _sys_update()
-
-
-@register_command
-def d_update():
-    """
-    Kiểm tra phiên bản mới (sys:update alias).
-    """
-    d_sys_update()
 
 
 def _is_root() -> bool:

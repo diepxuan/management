@@ -78,27 +78,21 @@
     _sys:env:etc tunel
 }
 
---sys:env:csf() {
-    cat $ETC_PATH/csf
-}
-
 --test() {
     local vm_id=$(--host:fullname)
     [[ -n $1 ]] && vm_id=$1
-    --curl:get $BASE_URL/etc/csf/$vm_id?$RANDOM
     --curl:get $BASE_URL/etc/portforward/$vm_id?$RANDOM
 }
 
 --sys:env:sync() {
     # new
-    --sys:env:sync_ domains sshdconfig csf portforward tunel
+    --sys:env:sync_ domains sshdconfig portforward tunel
 
     # old
     --sys:env:sync_ dhcp
 }
 
 --sys:env:sync_() {
-    local _csf_config=0
     local vm_id=$(--host:fullname)
     for param in $@; do
         sudo touch $ETC_PATH/$param
@@ -113,17 +107,11 @@
 
         case $param in
 
-        csf)
-            --csf:regex
-            _csf_config=1
-            ;;
 
         portforward)
-            _csf_config=1
             ;;
 
         domains)
-            _csf_config=1
             ;;
 
         dhcp)
@@ -143,7 +131,6 @@
 
         unset _new _old
     done
-    [[ $_csf_config == 1 ]] && --csf:config
 }
 
 _sys:env:send() {
