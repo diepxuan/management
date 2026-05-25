@@ -1,7 +1,6 @@
 import os
 import shutil
 import subprocess
-from . import register_command
 
 
 class DetectVirtError(Exception):
@@ -88,9 +87,3 @@ def detect_environment():
     return env
 
 
-@register_command
-def d_env_detect():
-    """
-    Kiểm tra biết máy hiện tại là VM (ảo hóa)/LXC container (Proxmox LXC)/Máy vật lý (bare metal)
-    """
-    print(detect_environment())
