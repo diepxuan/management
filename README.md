@@ -104,7 +104,6 @@ Quy ước hiện tại:
 | Service | `d_service`, `d_service_install`, `d_service_start`, `d_service_stop`, `d_service_restart`, `d_service_status`, `d_service_watch` | Service daemon |
 | File | `d_file_cleanpath` | Chuẩn hóa tên/path file |
 | VM | `d_vm_info`, `d_vm_sync` | Thông tin/sync VM |
-| WireGuard | `d_wg_stop` | Dừng WireGuard |
 | Environment | `d_env_detect` | Detect VM/container/environment |
 | Alias | `d_alias_ll` | Alias `ll` |
 
@@ -117,11 +116,11 @@ Một số nhóm Bash legacy còn tồn tại:
 - `alias.sh`, `completion.sh`, `functions.sh`, `main.sh`
 - `apt.sh` đã migrate và đưa vào deprecated theo `TASKS.md`
 - `dns.sh` đã migrate và đưa vào deprecated theo `TASKS.md`
-- `cronjob.sh`, `csf.sh`, `curl.sh`, `ddns.sh`, `dhcpd.sh`
+- `cronjob.sh`, `csf.sh`, `curl.sh`
 - `disk.sh`, `env.sh`, `environment*.sh`, `file.sh`, `git.sh`, `gpg.sh`
 - `host.sh`, `httpd.sh`, `ip.sh`, `log.sh`, `os.sh`, `port.sh`, `route.sh`
 - `server.sh`, `service.sh`, `ssh.sh`, `ssl.sh`, `swap.sh`, `sys.sh`
-- `ufw.sh`, `user.sh`, `vm.sh`, `vpn.sh`, `wg.sh`
+- `ufw.sh`, `user.sh`, `vm.sh`
 - macOS-specific scripts trong `src/var/lib/macos/`
 
 Khi migrate, không xóa Bash cũ ngay nếu chưa chắc command Python tương đương đã đủ hành vi. Nên chuyển sang `deprecated/` sau khi đã test và cập nhật `TASKS.md`.
