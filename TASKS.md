@@ -376,18 +376,14 @@
   | `env:sync` | Sync env config |
 - **Action:** Create `src/utils/env_config.py`
 
-### ⏳ Task 4.2: DDNS Management
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/ddns.sh` (52 lines)
-- **Python:** `src/utils/ddns.py` (TODO)
-- **Target Commands:**
-  | Command | Description |
-  |---------|-------------|
-  | `ddns:bind9:install` | Install Bind9 DDNS |
-  | `dns:disable` | Disable DNS (legacy) |
-  | `ddns:resolved` | Enable resolved (legacy) |
-- **Note:** Some functions overlap with DNS module
-- **Action:** Create `src/utils/ddns.py` or merge into `dns.py`
+### 🚫 Task 4.2: DDNS Management
+- **Status:** 🚫 DEPRECATED
+- **Bash:** `src/var/lib/ddns.sh` → `deprecated/src/var/lib/ddns.sh`
+- **Python:** `src/utils/ddns.py` → `deprecated/src/utils/ddns.py`
+- **Commands removed:**
+  - `ddns:bind9:install`
+  - `ddns:resolved`
+- **Reason:** DDNS command group removed from active Bash and Python CLI surface.
 
 ### ⏳ Task 4.3: DNS Technitium
 - **Status:** ⏳ PENDING
