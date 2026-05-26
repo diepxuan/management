@@ -9,6 +9,8 @@ from . import Table
 from . import system_metrics
 from .registry import register_command
 import logging
+from typing import List, Optional
+
 import requests
 import psutil
 import urllib3
@@ -73,7 +75,7 @@ def _response_json(response):
     return response.json()
 
 
-def _vm_sync(args: list[str] | None = None):
+def _vm_sync(args: Optional[List[str]] = None):
     """
     Đồng bộ các bản ghi DNS type 'A' cho hostname với các IP cục bộ hiện tại.
     """
@@ -158,7 +160,7 @@ def _vm_sync(args: list[str] | None = None):
 
 
 @register_command
-def d_vm_sync(args: list[str] | None = None):
+def d_vm_sync(args: Optional[List[str]] = None):
     """
     Đồng bộ các bản ghi DNS type 'A' cho hostname với các IP cục bộ hiện tại.
     """
