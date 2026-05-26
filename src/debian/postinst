@@ -49,6 +49,23 @@ configure)
         chmod +x "$MOTD_FILE"
         echo "[ductn] ✔ MOTD script permissions set."
     fi
+
+    DUCTNCLI_FILE="/usr/bin/ductncli"
+    if [[ -f "$DUCTNCLI_FILE" ]]; then
+        chmod +x "$DUCTNCLI_FILE"
+        echo "[ductn] ✔ ductncli permissions set."
+    fi
+
+    TMUX_SOURCE="/etc/ductn/tmux.conf"
+    TMUX_TARGET="/root/.tmux.conf"
+    if [[ -f "$TMUX_SOURCE" ]]; then
+        if [[ -f "$TMUX_TARGET" ]] && ! cmp -s "$TMUX_SOURCE" "$TMUX_TARGET"; then
+            cp "$TMUX_TARGET" "$TMUX_TARGET.ductn.bak"
+            echo "[ductn] ✔ Existing tmux config backed up to $TMUX_TARGET.ductn.bak"
+        fi
+        cp "$TMUX_SOURCE" "$TMUX_TARGET"
+        echo "[ductn] ✔ tmux config installed to $TMUX_TARGET"
+    fi
     ;;
 
 abort-upgrade | abort-remove | abort-deconfigure) ;;
