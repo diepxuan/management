@@ -66,6 +66,7 @@ Lưu ý: khi chạy bằng quyền root, module Python cấu hình log tại `/v
 ├── bash/                     # Bash aliases dùng cho shell
 ├── ci/                       # Script publish/build package
 ├── deprecated/               # Mã/config cũ đã tách khỏi path chính
+├── docs/                     # Ghi chú cập nhật cấu trúc/config/behavior
 ├── src/
 │   ├── ductn.py              # Python CLI entrypoint
 │   ├── ductn.sh              # Wrapper shell cho CLI
