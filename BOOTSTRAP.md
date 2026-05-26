@@ -22,7 +22,7 @@
 ## 3. Tech stack
 
 - Python 3.x (`src/ductn.py`, `src/utils/`)
-- Bash (`src/var/lib/`, `src/ductn.sh`, `bash/`)
+- Bash (`src/var/lib/`, `src/ductn.sh`)
 - Debian packaging (`src/debian/`)
 - PowerShell (`task/`) cho Windows task
 - Laravel/Magento wrapper binaries (`lar/`, `m2/`); Laravel App build commands cũ trong `app/Console/Commands/App/` đã được xóa khỏi source chính.
@@ -38,7 +38,6 @@
 │   ├── utils/                # Python command modules (Python mới)
 │   ├── var/lib/              # Legacy Bash command library
 │   └── debian/               # Debian packaging metadata
-├── bash/                     # Bash aliases
 ├── ci/                       # Build/publish scripts
 ├── deprecated/               # Mã/config cũ đã tách
 ├── task/                     # PowerShell scripts cho Windows
