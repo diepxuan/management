@@ -1,3 +1,16 @@
+diepxuan (5.6.0+ppa~1) noble; urgency=medium
+
+  * feat: migrate CLI, time, and SSL workflows to Python commands
+  * feat: add tmux-backed agent launcher commands
+  * refactor: clean CLI dispatch and remove stale legacy commands
+  * fix: use internal DNS API for vm:sync
+  * docs: update migration and command documentation
+  * fix: read development version from changelog before installed package
+  * fix: keep CI build changelog version sourced from release branch
+  * feat: hide tmux status bar and overwrite root tmux config without backup
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Tue, 26 May 2026 23:08:06 +0700
+
 diepxuan (5.5.2+ubuntu~24.04) noble; urgency=medium
 
   * fix: add Python 3.6 compatibility for sys.stdout.reconfigure
