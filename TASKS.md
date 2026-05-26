@@ -37,7 +37,7 @@
 
 ### ✅ Task 1.3: SSL Management
 - **Status:** ✅ COMPLETED
-- **Bash:** `src/var/lib/ssl.sh` (82 lines, legacy retained until production verification)
+- **Bash:** `src/var/lib/ssl.sh` → `deprecated/src/var/lib/ssl.sh`
 - **Python:** `src/utils/ssl.py`
 - **Commands:**
   | Command | Description |

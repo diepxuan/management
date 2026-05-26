@@ -121,5 +121,5 @@ Kiểm tra remote host, SSH key, sudo quyền đọc/ghi `/etc/letsencrypt/live/
 
 ## Ghi chú thiết kế
 
-- Không xóa Bash legacy `src/var/lib/ssl.sh` trong PR này để tuân thủ rule: chỉ deprecate/remove sau khi Python equivalent đã được test đủ trên môi trường phù hợp.
+- Bash legacy đã được chuyển từ `src/var/lib/ssl.sh` sang `deprecated/src/var/lib/ssl.sh` sau khi Python equivalent có unit test và command registration pass.
 - `ssl:pull`/`ssl:push` giữ default domain `diepxuan.com` để tương thích Bash cũ, đồng thời hỗ trợ thêm optional domain ở arg thứ 2.
