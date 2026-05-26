@@ -11,8 +11,8 @@
 
 | Status | Count | Description |
 |--------|-------|-------------|
-| ✅ Completed | 16 | Migrated to Python + deprecated bash |
-| 🔄 In Progress | 1 | Currently being migrated |
+| ✅ Completed | 17 | Migrated to Python + deprecated bash |
+| 🔄 In Progress | 0 | Currently being migrated |
 | ⏳ Pending | 31 | Waiting to be migrated |
 | 🔀 Partial | 8 | Partially migrated (some commands done, some pending) |
 | 🚫 Deprecated | 3 | Bash scripts moved to deprecated/ |
@@ -35,21 +35,21 @@
 - **Commands:** `dns:clean`, `dns:reset`, `dns:disable`, `dns:resolved`, `dns:watch`
 - **PR:** #9, #10 (merged)
 
-### 🔄 Task 1.3: SSL Management
-- **Status:** 🔄 IN PROGRESS
-- **Bash:** `src/var/lib/ssl.sh` (82 lines)
-- **Python:** `src/utils/ssl.py` (TODO)
-- **Target Commands:**
+### ✅ Task 1.3: SSL Management
+- **Status:** ✅ COMPLETED
+- **Bash:** `src/var/lib/ssl.sh` (82 lines, legacy retained until production verification)
+- **Python:** `src/utils/ssl.py`
+- **Commands:**
   | Command | Description |
   |---------|-------------|
-  | `ssl:install` | Install SSL certificates |
-  | `ssl:configure` | Configure SSL for vhost |
-  | `ssl:setup` | Full SSL setup wizard |
-  | `ssl:certbot` | Certbot integration |
+  | `ssl:install` | Install certbot and Cloudflare DNS plugin |
+  | `ssl:configure` | Configure default SSL certificates when Cloudflare credentials exist |
+  | `ssl:setup` | Issue default or custom SSL certificates and restart apache2 |
+  | `ssl:certbot` | Run certbot with Cloudflare DNS challenge |
   | `ssl:pull` | Pull SSL certs from remote |
   | `ssl:push` | Push SSL certs to remote |
-  | `ssl:upload` | Upload SSL certs |
-- **Action:** Create `src/utils/ssl.py`
+  | `ssl:upload` | Alias for `ssl:push` |
+- **Tests:** `python3 -m unittest tests.unit.test_ssl -v`
 
 ### 🚫 Task 1.4: VPN/WireGuard Management
 - **Status:** 🚫 DEPRECATED
