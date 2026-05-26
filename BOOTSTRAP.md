@@ -24,7 +24,7 @@
 - Python 3.x (`src/ductn.py`, `src/utils/`)
 - Bash (`src/var/lib/`, `src/ductn.sh`)
 - Debian packaging (`src/debian/`)
-- PowerShell (`task/`) cho Windows task
+- PowerShell Windows task đã deprecated tại `deprecated/task/`
 - Laravel/Magento wrapper binaries (`lar/`, `m2/`); Laravel App build commands cũ trong `app/Console/Commands/App/` đã được xóa khỏi source chính.
 
 ## 4. Cấu trúc thư mục chính
@@ -40,7 +40,7 @@
 │   └── debian/               # Debian packaging metadata
 ├── ci/                       # Build/publish scripts
 ├── deprecated/               # Mã/config cũ đã tách
-├── task/                     # PowerShell scripts cho Windows
+│   └── task/                 # PowerShell scripts Windows đã deprecated
 ├── .github/workflows/        # CI build workflow
 ├── README.md                 # Tài liệu tổng quan
 ├── TASKS.md                  # Backlog migration Bash → Python

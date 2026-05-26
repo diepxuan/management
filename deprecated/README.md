@@ -1,8 +1,8 @@
-# Deprecated Bash Scripts
+# Deprecated Scripts
 
-This folder contains bash scripts that have been migrated to Python modules.
+This folder contains scripts and legacy assets that have been migrated, removed from the active runtime path, or kept only for historical reference.
 
-**Structure:** Preserves original path hierarchy (`deprecated/src/var/lib/...`)
+**Structure:** Preserves original path hierarchy where possible (`deprecated/src/var/lib/...`, `deprecated/task/...`).
 
 ## Purpose
 
@@ -23,6 +23,16 @@ This folder contains bash scripts that have been migrated to Python modules.
 |---------------|-----------------|---------------|---------------|-----|
 | `src/var/lib/apt.sh` | `deprecated/src/var/lib/apt.sh` | `src/utils/apt.py` | 2026-04-18 | #7 |
 | `src/var/lib/dns.sh` | `deprecated/src/var/lib/dns.sh` | `src/utils/dns.py` | 2026-04-18 | #9, #10 |
+
+## Deprecated Windows PowerShell Scripts
+
+The active top-level `task/` directory has been retired. Windows PowerShell helpers are retained under `deprecated/task/` only for reference.
+
+| Original Path | Deprecated Path | Reason |
+|---------------|-----------------|--------|
+| `task/windows.smss.ps1` | `deprecated/task/windows.smss.ps1` | Removed from active project structure |
+| `task/windows.ssh.ps1` | `deprecated/task/windows.ssh.ps1` | Removed from active project structure |
+| `task/windows.time.ps1` | `deprecated/task/windows.time.ps1` | Removed from active project structure |
 
 ---
 
