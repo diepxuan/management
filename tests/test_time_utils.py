@@ -54,6 +54,39 @@ class TimeUtilsTest(unittest.TestCase):
         with patch("utils.time.socket.socket", return_value=FakeSocket()):
             self.assertEqual(time_utils.get_ntp_time("example.test"), expected)
 
+    def test_set_time_linux_restores_ntp_when_previously_enabled(self):
+        calls = []
+        target_time = dt.datetime(2026, 5, 26, 1, 0, tzinfo=dt.timezone.utc)
+
+        def fake_run(command):
+            calls.append(command)
+            return type("Completed", (), {"returncode": 0})()
+
+        with patch("utils.time.shutil.which", return_value="/usr/bin/timedatectl"), \
+             patch("utils.time._linux_ntp_enabled", return_value=True), \
+             patch("utils.time._run", side_effect=fake_run):
+            self.assertEqual(time_utils._set_time_linux(target_time), 0)
+
+        self.assertEqual(calls[0], ["timedatectl", "set-ntp", "false"])
+        self.assertEqual(calls[1][:2], ["timedatectl", "set-time"])
+        self.assertEqual(calls[2], ["timedatectl", "set-ntp", "true"])
+
+    def test_set_time_linux_does_not_enable_ntp_when_previously_disabled(self):
+        calls = []
+        target_time = dt.datetime(2026, 5, 26, 1, 0, tzinfo=dt.timezone.utc)
+
+        def fake_run(command):
+            calls.append(command)
+            return type("Completed", (), {"returncode": 0})()
+
+        with patch("utils.time.shutil.which", return_value="/usr/bin/timedatectl"), \
+             patch("utils.time._linux_ntp_enabled", return_value=False), \
+             patch("utils.time._run", side_effect=fake_run):
+            self.assertEqual(time_utils._set_time_linux(target_time), 0)
+
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(calls[0][:2], ["timedatectl", "set-time"])
+
 
 if __name__ == "__main__":
     unittest.main()

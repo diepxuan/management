@@ -176,12 +176,41 @@ def get_ntp_time(server: str = DEFAULT_NTP_SERVER, timeout: float = 2.0) -> _dt.
     return _dt.datetime.fromtimestamp(seconds, tz=_dt.timezone.utc)
 
 
+def _linux_ntp_enabled() -> bool | None:
+    """Return Linux systemd NTP state when timedatectl can report it."""
+    if not shutil.which("timedatectl"):
+        return None
+    result = subprocess.run(
+        ["timedatectl", "show", "-p", "NTP", "--value"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        return None
+    value = result.stdout.strip().lower()
+    if value in {"yes", "true", "1"}:
+        return True
+    if value in {"no", "false", "0"}:
+        return False
+    return None
+
+
 def _set_time_linux(dt: _dt.datetime) -> int:
     local = dt.astimezone().strftime("%Y-%m-%d %H:%M:%S")
     if shutil.which("timedatectl"):
-        # Disable NTP first because systemd refuses manual set while NTP sync is active.
-        _run([*_sudo_prefix(), "timedatectl", "set-ntp", "false"])
-        return _run([*_sudo_prefix(), "timedatectl", "set-time", local]).returncode
+        # systemd refuses manual set while NTP sync is active. Preserve and restore
+        # the previous NTP state so a one-time sync does not disable continuous sync.
+        ntp_was_enabled = _linux_ntp_enabled()
+        if ntp_was_enabled:
+            disable_result = _run([*_sudo_prefix(), "timedatectl", "set-ntp", "false"])
+            if disable_result.returncode != 0:
+                return disable_result.returncode
+        try:
+            return _run([*_sudo_prefix(), "timedatectl", "set-time", local]).returncode
+        finally:
+            if ntp_was_enabled:
+                _run([*_sudo_prefix(), "timedatectl", "set-ntp", "true"])
     return _run([*_sudo_prefix(), "date", "-s", local]).returncode
 
 
