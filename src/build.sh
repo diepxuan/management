@@ -416,50 +416,61 @@ is_empty_or_whitespace() {
     return 1
 }
 
-# Check if triggered by GitHub release event
-if [[ -n "$GITHUB_EVENT_NAME" ]]; then
-    if [[ "$GITHUB_EVENT_NAME" == "release" ]] || [[ "$GITHUB_EVENT_NAME" == "push" ]] || [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
-        # Try to get release info from GitHub API
-        REPO_OWNER=$(echo $repository | cut -d '/' -f1)
-        REPO_NAME=$(echo $repository | cut -d '/' -f2)
+CHANGELOG_VERSION=$(head -n 1 "$changelog" | awk '{print $2}' | sed 's|[()]||g')
+CHANGELOG_BASE_VERSION=${CHANGELOG_VERSION%%+*}
 
-        # Get latest release or specific release
-        if [[ -n "$GITHUB_REF" && "$GITHUB_REF" == refs/tags/* ]]; then
-            TAG_NAME=${GITHUB_REF#refs/tags/}
-            RELEASE_INFO=$(curl -s "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/tags/${TAG_NAME}")
-        else
-            RELEASE_INFO=$(curl -s "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest")
+# Default to the source changelog version. CI for branch/PR builds must not
+# downgrade a release branch by reusing the previous GitHub release tag.
+release_tag="$CHANGELOG_BASE_VERSION"
+
+# Get changelog notes (line 3 to before the -- line)
+CHANGELOG_NOTES=$(sed -n '3,/^ -- /p' "$changelog" | sed '$d' | sed 's/^[ \t]*//;s/[ \t]*$//')
+
+# Only release/tag builds are allowed to override changelog values from GitHub
+# release metadata. Push and pull_request builds should validate the branch as-is.
+if [[ "$GITHUB_EVENT_NAME" == "release" ]] || [[ -n "$GITHUB_REF" && "$GITHUB_REF" == refs/tags/* ]]; then
+    REPO_OWNER=$(echo $repository | cut -d '/' -f1)
+    REPO_NAME=$(echo $repository | cut -d '/' -f2)
+
+    if [[ -n "$GITHUB_REF" && "$GITHUB_REF" == refs/tags/* ]]; then
+        TAG_NAME=${GITHUB_REF#refs/tags/}
+        RELEASE_INFO=$(curl -s "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/tags/${TAG_NAME}")
+    else
+        RELEASE_INFO=$(curl -s "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest")
+    fi
+
+    if [[ -n "$RELEASE_INFO" ]]; then
+        RELEASE_TAG=$(echo "$RELEASE_INFO" | grep -o '"tag_name": "[^"]*"' | cut -d'"' -f4 | sed 's/^v//')
+        RELEASE_BODY=$(echo "$RELEASE_INFO" | grep -o '"body": "[^"]*"' | cut -d'"' -f4 | sed 's/\\n/\n/g; s/\\r//g')
+
+        if ! is_empty_or_whitespace "$RELEASE_TAG"; then
+            release_tag="$RELEASE_TAG"
+            echo "release_tag from GitHub release: $release_tag"
         fi
 
-        # Extract release_tag (version) from release
-        if [[ -n "$RELEASE_INFO" ]]; then
-            RELEASE_TAG=$(echo "$RELEASE_INFO" | grep -o '"tag_name": "[^"]*"' | cut -d'"' -f4 | sed 's/^v//')
-            RELEASE_BODY=$(echo "$RELEASE_INFO" | grep -o '"body": "[^"]*"' | cut -d'"' -f4 | sed 's/\\n/\n/g; s/\\r//g')
-
-            if ! is_empty_or_whitespace "$RELEASE_TAG"; then
-                release_tag="$RELEASE_TAG"
-                echo "release_tag from GitHub: $release_tag"
-            fi
-
-            if ! is_empty_or_whitespace "$RELEASE_BODY"; then
-                package_clog="$RELEASE_BODY"
-                echo "package_clog from GitHub release: $package_clog"
-            fi
+        if ! is_empty_or_whitespace "$RELEASE_BODY"; then
+            package_clog="$RELEASE_BODY"
+            echo "package_clog from GitHub release: $package_clog"
         fi
     fi
 fi
 
-# Fallback to changelog if not set
-is_empty_or_whitespace "$release_tag" && release_tag=$(cat $changelog | head -n 1 | awk '{print $2}' | sed 's|[()]||g')
-
-# Get changelog notes (line 3 to before the -- line)
-CHANGELOG_NOTES=$(cat $changelog | head -n 1 | sed -n '3,/-- /p' | sed '3,$d' | sed 's/^[ \t]*//;s/[ \t]*$//')
-is_empty_or_whitespace "$package_clog" && package_clog=$CHANGELOG_NOTES
+is_empty_or_whitespace "$release_tag" && release_tag="$CHANGELOG_BASE_VERSION"
+is_empty_or_whitespace "$package_clog" && package_clog="$CHANGELOG_NOTES"
 is_empty_or_whitespace "$package_clog" && package_clog='Update package'
 
-echo "release_tag: $release_tag+$DISTRIB~$RELEASE"
-echo "package_clog: $package_clog"
-dch --package $owner --newversion $release_tag+$DISTRIB~$RELEASE --distribution $CODENAME -- "$package_clog"
+package_version="$release_tag+$DISTRIB~$RELEASE"
+current_version=$(dpkg-parsechangelog -l "$changelog" -S Version 2>/dev/null || echo "$CHANGELOG_VERSION")
+
+if dpkg --compare-versions "$package_version" eq "$current_version"; then
+    echo "release_tag: $package_version"
+    echo "package_clog: $package_clog"
+    echo "Changelog already has target package version; skipping dch update."
+else
+    echo "release_tag: $package_version"
+    echo "package_clog: $package_clog"
+    dch --package $owner --newversion "$package_version" --distribution $CODENAME -- "$package_clog"
+fi
 end_group
 
 start_group Show log
