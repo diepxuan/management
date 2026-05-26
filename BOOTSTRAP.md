@@ -25,7 +25,7 @@
 - Bash (`src/var/lib/`, `src/ductn.sh`, `bash/`)
 - Debian packaging (`src/debian/`)
 - PowerShell (`task/`) cho Windows task
-- Laravel/Magento wrapper binaries (`app/`, `lar/`, `m2/`)
+- Laravel/Magento wrapper binaries (`lar/`, `m2/`); Laravel App build commands cũ trong `app/Console/Commands/App/` đã được xóa khỏi source chính.
 
 ## 4. Cấu trúc thư mục chính
 
@@ -38,7 +38,6 @@
 │   ├── utils/                # Python command modules (Python mới)
 │   ├── var/lib/              # Legacy Bash command library
 │   └── debian/               # Debian packaging metadata
-├── app/                      # Laravel commands, stubs
 ├── bash/                     # Bash aliases
 ├── ci/                       # Build/publish scripts
 ├── deprecated/               # Mã/config cũ đã tách

@@ -16,7 +16,7 @@
 | `src/debian/` | Debian package metadata |
 | `src/debian/control` | Package definitions |
 | `src/debian/changelog` | Version history |
-| `app/Console/Commands/` | Laravel commands |
+| `docs/UPDATE-YYYY-MM-DD.md` | Ghi chú thay đổi cấu trúc/config/behavior |
 | `.github/workflows/build.yml` | CI/CD pipeline |
 
 ---
