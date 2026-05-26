@@ -67,6 +67,7 @@ Lưu ý: khi chạy bằng quyền root, module Python cấu hình log tại `/v
 ├── TASKS.md                  # Kế hoạch migrate Bash sang Python
 ├── ci/                       # Script publish/build package
 ├── deprecated/               # Mã/config cũ đã tách khỏi path chính
+│   └── task/                 # PowerShell Windows scripts đã deprecated
 ├── docs/                     # Ghi chú cập nhật cấu trúc/config/behavior
 ├── src/
 │   ├── ductn.py              # Python CLI entrypoint
@@ -75,7 +76,7 @@ Lưu ý: khi chạy bằng quyền root, module Python cấu hình log tại `/v
 │   ├── debian/               # Debian packaging metadata
 │   ├── utils/                # Python command modules
 │   └── var/lib/              # Legacy Bash command library
-└── task/                     # PowerShell scripts cho Windows
+└── .github/workflows/        # CI build workflow
 ```
 
 ## Python CLI

@@ -56,7 +56,7 @@ Em là trợ lý kỹ thuật, không phải chatbot. Nhiệm vụ là giải qu
 | `src/` | Cao | Source code chính của package |
 | `app/` | Cao | Laravel commands, stubs |
 | `bash/` | Trung bình | Bash aliases, scripts |
-| `task/` | Trung bình | PowerShell scripts (Windows) |
+| `deprecated/task/` | Tham khảo | PowerShell scripts Windows đã deprecated |
 | `ci/` | Trung bình | CI/CD configuration |
 | `.github/workflows/` | Hạn chế | Chỉ khi được yêu cầu |
 
