@@ -42,13 +42,11 @@
 - **Commands:**
   | Command | Description |
   |---------|-------------|
-  | `ssl:install` | Install certbot and Cloudflare DNS plugin |
-  | `ssl:configure` | Configure default SSL certificates when Cloudflare credentials exist |
-  | `ssl:setup` | Issue default or custom SSL certificates and restart apache2 |
-  | `ssl:certbot` | Run certbot with Cloudflare DNS challenge |
-  | `ssl:pull` | Pull SSL certs from remote |
-  | `ssl:push` | Push SSL certs to remote |
-  | `ssl:upload` | Alias for `ssl:push` |
+  | `ssl:install` | Install certbot plus Cloudflare/Apache/Nginx plugins |
+  | `ssl:configure` | Configure default SSL certificates with auto Apache/Nginx integration or DNS fallback |
+  | `ssl:setup` | Issue default or custom SSL certificates |
+  | `ssl:certbot` | Run certbot with auto Apache/Nginx integration or Cloudflare DNS fallback |
+- **Commands removed:** `ssl:pull`, `ssl:push`, `ssl:upload`
 - **Tests:** `python3 -m unittest tests.unit.test_ssl -v`
 
 ### 🚫 Task 1.4: VPN/WireGuard Management

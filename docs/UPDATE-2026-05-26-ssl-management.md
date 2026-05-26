@@ -22,62 +22,54 @@ Backlog cập nhật:
 
 | Command | Mục đích |
 |---------|----------|
-| `ssl:install` | Cài `certbot` và `python3-certbot-dns-cloudflare` qua APT |
-| `ssl:configure` | Kiểm tra Cloudflare credentials rồi chạy setup mặc định |
-| `ssl:setup` | Cấp cert cho domain mặc định hoặc domain truyền vào, sau đó restart apache2 |
-| `ssl:certbot` | Chạy certbot DNS challenge trực tiếp cho domain truyền vào |
-| `ssl:pull` | Pull cert từ remote host về local `/etc/letsencrypt/live/<domain>/` |
-| `ssl:push` | Push cert local sang remote host |
-| `ssl:upload` | Alias của `ssl:push` |
+| `ssl:install` | Cài `certbot`, Cloudflare DNS plugin, Apache plugin và Nginx plugin qua APT |
+| `ssl:configure` | Chạy setup mặc định bằng certbot auto-integrate hoặc Cloudflare DNS fallback |
+| `ssl:setup` | Cấp cert cho domain mặc định hoặc domain truyền vào |
+| `ssl:certbot` | Chạy certbot cho domain truyền vào, tự chọn Apache/Nginx/DNS mode |
 
-## Hành vi giữ từ Bash legacy
+Các command `ssl:pull`, `ssl:push`, `ssl:upload` đã bị xóa khỏi command surface theo yêu cầu vì không còn dùng flow copy cert qua SSH.
 
-- Cloudflare credentials mặc định: `/etc/ductn/cloudflare`
+## Hành vi hiện tại
+
 - Email certbot mặc định: `caothu91@gmail.com`
 - Domain setup mặc định:
   - `diepxuan.com`, `*.diepxuan.com`
   - `vps.diepxuan.com`, `*.vps.diepxuan.com`
-- File cert đồng bộ:
-  - `cert.pem`
-  - `chain.pem`
-  - `fullchain.pem`
-  - `privkey.pem`
-- `ssl:setup` restart Apache bằng `service apache2 restart` sau khi chạy certbot.
+- Certbot mode được chọn tự động:
+  1. Nếu domain có wildcard (`*.example.com`) → dùng Cloudflare DNS challenge.
+  2. Nếu máy có `apache2` và vhost Apache khai báo đúng domain bằng `ServerName`/`ServerAlias` → dùng `certbot --apache`.
+  3. Nếu máy có `nginx` và vhost Nginx khai báo đúng domain bằng `server_name` → dùng `certbot --nginx`.
+  4. Nếu không match vhost → fallback Cloudflare DNS challenge.
+- Cloudflare credentials mặc định khi dùng DNS fallback: `/etc/ductn/cloudflare`.
+- Không restart Apache thủ công sau setup; plugin `certbot --apache`/`--nginx` tự xử lý reload/integration khi được chọn.
 
 ## Cách dùng
 
 ```bash
-# Cài certbot + Cloudflare plugin
+# Cài certbot + Cloudflare/Apache/Nginx plugins
 sudo ductn ssl:install
 
 # Setup cert mặc định
 sudo ductn ssl:setup
 
 # Setup cert custom, hỗ trợ comma-separated domains
+sudo ductn ssl:certbot example.com,www.example.com
+
+# Wildcard sẽ dùng DNS challenge
 sudo ductn ssl:certbot example.com,*.example.com
-
-# Pull cert mặc định diepxuan.com từ remote
-sudo ductn ssl:pull server.example.com
-
-# Pull cert custom domain từ remote
-sudo ductn ssl:pull server.example.com example.com
-
-# Push cert mặc định diepxuan.com tới remote
-sudo ductn ssl:push server.example.com
-
-# Upload là alias của push
-sudo ductn ssl:upload server.example.com
 ```
 
 ## Dependencies
 
-- Python stdlib: `os`, `shutil`, `subprocess`, `logging`
+- Python stdlib: `os`, `pathlib`, `shutil`, `subprocess`, `logging`
 - System packages:
   - `certbot`
   - `python3-certbot-dns-cloudflare`
-  - `openssh-client`
-  - `apache2` nếu dùng restart mặc định
-- Credentials file:
+  - `python3-certbot-apache`
+  - `python3-certbot-nginx`
+  - `apache2` nếu muốn auto-integrate Apache
+  - `nginx` nếu muốn auto-integrate Nginx
+- Credentials file khi dùng DNS fallback:
   - `/etc/ductn/cloudflare`
 
 ## Testing
@@ -85,13 +77,14 @@ sudo ductn ssl:upload server.example.com
 Đã thêm/cập nhật unit tests cho:
 
 - Constants và domain defaults
-- Command registration
+- Command registration và xác nhận đã xóa `ssl:pull`/`ssl:push`/`ssl:upload`
 - Cloudflare credentials check
 - Domain normalization
-- Certbot command builder
+- Certbot command builder cho DNS/Apache/Nginx
+- Apache/Nginx vhost detection
+- Certbot mode selection
 - `ssl:install` APT sequence
 - `ssl:certbot`, `ssl:setup`, `ssl:configure`
-- `ssl:pull`, `ssl:push`, `ssl:upload`
 
 Lệnh test:
 
@@ -104,7 +97,7 @@ python3 -m compileall -q src tests
 
 ### Không tìm thấy Cloudflare credentials
 
-Kiểm tra file:
+Xảy ra khi fallback sang DNS challenge. Kiểm tra file:
 
 ```bash
 sudo test -f /etc/ductn/cloudflare
@@ -113,13 +106,19 @@ sudo chmod 600 /etc/ductn/cloudflare
 
 ### Certbot fail do quyền
 
-Các command SSL cần quyền root vì thao tác với `/etc/letsencrypt` và `/etc/ductn`.
+Các command SSL cần quyền root vì thao tác với `/etc/letsencrypt`, webserver config và `/etc/ductn`.
 
-### SSH pull/push fail
+### Apache/Nginx không được auto-integrate
 
-Kiểm tra remote host, SSH key, sudo quyền đọc/ghi `/etc/letsencrypt/live/<domain>/` trên remote.
+Kiểm tra:
+
+- Binary `apache2` hoặc `nginx` tồn tại trong `PATH`.
+- Apache vhost có `ServerName`/`ServerAlias` đúng domain.
+- Nginx vhost có `server_name` đúng domain.
+- Wildcard domain luôn dùng DNS challenge, không dùng Apache/Nginx plugin.
 
 ## Ghi chú thiết kế
 
 - Bash legacy đã được chuyển từ `src/var/lib/ssl.sh` sang `deprecated/src/var/lib/ssl.sh` sau khi Python equivalent có unit test và command registration pass.
-- `ssl:pull`/`ssl:push` giữ default domain `diepxuan.com` để tương thích Bash cũ, đồng thời hỗ trợ thêm optional domain ở arg thứ 2.
+- Auto-integrate chỉ bật khi vhost local match đúng domain để tránh certbot sửa nhầm webserver config.
+- DNS fallback giữ Cloudflare plugin để hỗ trợ wildcard và môi trường không có vhost local tương ứng.
