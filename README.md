@@ -110,7 +110,7 @@ Quy ước hiện tại:
 | Time | `time:timezone`, `timezone:vietnam`, `time:vietnam`, `time:sync`, `time:init` | Timezone Việt Nam và đồng bộ giờ NTP |
 | CLI | `cli`, `cli:tmux:install`, `cli:tmux:reload` | Mở Hermes/Codex trong tmux và quản lý tmux config |
 | File | `d_file_cleanpath` | Chuẩn hóa tên/path file |
-| VM | `d_vm_info`, `d_vm_sync` | Thông tin/sync VM |
+| VM | `d_vm_info`, `d_vm_sync` | Thông tin VM và sync DNS A record qua DNS API nội bộ |
 | Environment | `d_env_detect` | Detect VM/container/environment |
 | Alias | `d_alias_ll` | Alias `ll` |
 
