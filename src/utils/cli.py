@@ -42,12 +42,7 @@ def d_cli_tmux_install(args=None):
         return 1
 
     target.parent.mkdir(parents=True, exist_ok=True)
-    if target.exists():
-        backup = target.with_suffix(target.suffix + ".ductn.bak") if target.suffix else Path(str(target) + ".ductn.bak")
-        shutil.copy2(target, backup)
-        print(f"Backed up existing tmux config: {backup}")
-
-    shutil.copy2(source, target)
+    target.write_bytes(source.read_bytes())
     print(f"Installed tmux config: {target}")
     return 0
 

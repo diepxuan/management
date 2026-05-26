@@ -139,7 +139,8 @@ ductn cli:tmux:reload
 Ghi chú vận hành:
 
 - Package cài script `/usr/bin/ductncli`; command `ductn cli` exec sang script này để giữ tương thích.
-- Package cài tmux config mẫu tại `/etc/ductn/tmux.conf` và `postinst` copy sang `/root/.tmux.conf`, backup file cũ thành `/root/.tmux.conf.ductn.bak` nếu nội dung khác.
+- Package cài tmux config mẫu tại `/etc/ductn/tmux.conf` và `postinst` ghi đè trực tiếp `/root/.tmux.conf`.
+- Tmux config mặc định ẩn status bar (`set -g status off`) để tối đa không gian terminal cho agent session.
 - `ductncli` tự attach tmux session cũ nếu đã tồn tại, tránh split pane trùng.
 - Dependencies runtime: `tmux`, `realpath`, và agent CLI tương ứng (`hermes` hoặc `codex`).
 
