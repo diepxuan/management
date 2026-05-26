@@ -45,9 +45,11 @@ ductn -v
 Chạy trực tiếp từ source:
 
 ```bash
-PYTHONPATH=src python3 src/ductn.py --help
-PYTHONPATH=src python3 src/ductn.py d_commands
+./ductn --help
+./ductn commands
 ```
+
+`./ductn` là wrapper dev ở root repo, gọi `src/ductn.sh` và tự xử lý `src/venv`/`uv` nếu có. Ưu tiên dùng wrapper này khi dev test để giống đường chạy package hơn so với gọi trực tiếp `src/ductn.py`.
 
 Cài dependencies Python nếu môi trường chưa có:
 
@@ -102,10 +104,39 @@ Quy ước hiện tại:
 | OS | `d_os_codename`, `d_os_release`, `d_os_distro`, `d_os_architecture`, `d_os_type` | Thông tin OS |
 | System | `d_sys_update`, `d_update`, `d_sys_info` | Update và system info |
 | Service | `d_service`, `d_service_install`, `d_service_start`, `d_service_stop`, `d_service_restart`, `d_service_status`, `d_service_watch` | Service daemon |
+| Time | `time:timezone`, `timezone:vietnam`, `time:vietnam`, `time:sync`, `time:init` | Timezone Việt Nam và đồng bộ giờ NTP |
 | File | `d_file_cleanpath` | Chuẩn hóa tên/path file |
 | VM | `d_vm_info`, `d_vm_sync` | Thông tin/sync VM |
 | Environment | `d_env_detect` | Detect VM/container/environment |
 | Alias | `d_alias_ll` | Alias `ll` |
+
+### Time commands
+
+Nhóm command `time:*` dùng để chuẩn hóa timezone và đồng bộ đồng hồ hệ thống:
+
+```bash
+# In timezone hiện tại nếu detect được
+./ductn time:timezone current
+
+# Set timezone về Việt Nam nếu chưa đúng
+./ductn time:timezone
+./ductn timezone:vietnam
+
+# Đồng bộ giờ từ NTP server mặc định vn.pool.ntp.org
+./ductn time:sync
+
+# Set timezone Việt Nam rồi đồng bộ giờ
+./ductn time:init
+```
+
+Ghi chú vận hành:
+
+- Linux ưu tiên `timedatectl`; nếu không có sẽ fallback sang cập nhật `/etc/localtime`.
+- macOS dùng `systemsetup` cho timezone và `date` cho giờ hệ thống.
+- Windows map timezone Việt Nam sang `SE Asia Standard Time` qua `tzutil` và dùng PowerShell `Set-Date` khi sync giờ.
+- Các command set timezone/giờ thường cần quyền root/admin hoặc `sudo`.
+- NTP sync dùng UDP port 123; môi trường bị chặn network/firewall có thể timeout.
+- `src/debian/postinst` cố gọi `ductn time:timezone` trong bước `configure` để chuẩn hóa timezone sau khi cài package; lỗi ở bước này không làm fail install.
 
 ## Legacy Bash
 
