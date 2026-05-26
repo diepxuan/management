@@ -63,7 +63,6 @@ Lưu ý: khi chạy bằng quyền root, module Python cấu hình log tại `/v
 .
 ├── README.md                 # Tài liệu tổng quan dự án
 ├── TASKS.md                  # Kế hoạch migrate Bash sang Python
-├── bash/                     # Bash aliases dùng cho shell
 ├── ci/                       # Script publish/build package
 ├── deprecated/               # Mã/config cũ đã tách khỏi path chính
 ├── docs/                     # Ghi chú cập nhật cấu trúc/config/behavior
