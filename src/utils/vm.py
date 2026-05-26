@@ -11,10 +11,13 @@ from .registry import register_command
 import logging
 import requests
 import psutil
+import urllib3
+from urllib3.exceptions import InsecureRequestWarning
 
 TOKEN = "3ccbb8eb47507c42a3dfd2a70fe8e617509f8a9e4af713164e0088c715d24c83"
-API_BASE = "https://dns.diepxuan.corp:53443/api"
-API_BASE = "https://dns.diepxuan.io.vn/api"
+API_BASES = [
+    "https://dns.diepxuan.corp:53443/api",
+]
 
 
 def _vm_info():
@@ -54,51 +57,74 @@ def d_vm_info():
     _vm_info()
 
 
-def _vm_sync():
+def _request_verify(api_base: str) -> bool:
+    """Use system CA for public API, skip verification for legacy internal DNS API."""
+    verify = "diepxuan.corp" not in api_base
+    if not verify:
+        urllib3.disable_warnings(category=InsecureRequestWarning)
+    return verify
+
+
+def _response_json(response):
+    """Parse response JSON and reject captive/Cloudflare Access HTML pages."""
+    content_type = response.headers.get("content-type", "")
+    if "json" not in content_type.lower() and response.text.lstrip().startswith("<"):
+        raise ValueError("DNS API returned non-JSON response")
+    return response.json()
+
+
+def _vm_sync(args: list[str] | None = None):
     """
     Đồng bộ các bản ghi DNS type 'A' cho hostname với các IP cục bộ hiện tại.
     """
-    # 1. Thiết lập các biến
     headers = {
         "Cache-Control": "no-cache, no-store, must-revalidate",
         "Pragma": "no-cache",
         "Expires": "0",
     }
-
+    values = list(args or [])
+    record_name = values[0] if values else host._host_fullname()
     params = {
         "token": TOKEN,
-        "domain": host._host_fullname(),
+        "domain": record_name,
         "zone": host._host_domain(),
     }
-    url_get = f"{API_BASE}/zones/records/get"
-    url_add = f"{API_BASE}/zones/records/add"
-    url_del = f"{API_BASE}/zones/records/delete"
+
+    new_ips = set(addr._ip_locals())
+    if not new_ips:
+        logging.warning("VM sync skipped: no local IPs found")
+        return
 
     with requests.Session() as requestsSession:
         requestsSession.headers.update(headers)
 
-        try:
-            res = requestsSession.get(
-                url_get,
-                params={**params, "listZone": "true"},
-                timeout=10,
-                verify=True,  # verify=False nếu dùng cert tự ký
-            )
-            res.raise_for_status()
-            data = res.json()
-        except Exception as e:
-            logging.warning(f"DNS fetch failed: {e}")
+        data = None
+        api_base_used = None
+        for api_base in API_BASES:
+            try:
+                res = requestsSession.get(
+                    f"{api_base}/zones/records/get",
+                    params={**params, "listZone": "true"},
+                    timeout=10,
+                    verify=_request_verify(api_base),
+                )
+                res.raise_for_status()
+                data = _response_json(res)
+                api_base_used = api_base
+                break
+            except Exception as e:
+                logging.warning("DNS fetch failed via %s: %s", api_base, e)
+
+        if data is None or api_base_used is None:
             return
 
+        url_add = f"{api_base_used}/zones/records/add"
+        url_del = f"{api_base_used}/zones/records/delete"
         old_ips = {
             rec["rData"]["ipAddress"]
             for rec in data.get("response", {}).get("records", [])
-            if rec.get("type") == "A" and rec.get("name") == host._host_fullname()
+            if rec.get("type") == "A" and rec.get("name") == record_name
         }
-
-        new_ips = set(addr._ip_locals())
-        if not new_ips:
-            return
 
         for ip in old_ips - new_ips:
             try:
@@ -107,10 +133,10 @@ def _vm_sync():
                     params={**params, "type": "A", "ipAddress": ip},
                     headers=headers,
                     timeout=5,
-                    verify=True,
+                    verify=_request_verify(api_base_used),
                 )
-            except Exception:
-                pass
+            except Exception as e:
+                logging.warning("DNS delete failed for %s: %s", ip, e)
 
         for ip in new_ips - old_ips:
             try:
@@ -125,15 +151,15 @@ def _vm_sync():
                     },
                     headers=headers,
                     timeout=5,
-                    verify=True,
+                    verify=_request_verify(api_base_used),
                 )
-            except Exception:
-                pass
+            except Exception as e:
+                logging.warning("DNS add failed for %s: %s", ip, e)
 
 
 @register_command
-def d_vm_sync():
+def d_vm_sync(args: list[str] | None = None):
     """
     Đồng bộ các bản ghi DNS type 'A' cho hostname với các IP cục bộ hiện tại.
     """
-    _vm_sync()
+    _vm_sync(args)
