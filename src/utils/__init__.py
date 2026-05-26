@@ -77,6 +77,7 @@ from . import system_info
 from . import system_service
 from . import file
 from . import system_metrics
+from . import time
 from . import apt
 from . import ssl
 from . import ssh

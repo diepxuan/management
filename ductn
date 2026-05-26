@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
-#!/bin/bash
+set -euo pipefail
 
-$(dirname $(realpath $0))/src/ductn.sh "$@"
+SCRIPT_DIR=$(dirname "$(realpath "$0")")
+exec "$SCRIPT_DIR/src/ductn.sh" "$@"
