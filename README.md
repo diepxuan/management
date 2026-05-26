@@ -22,6 +22,7 @@ Package này gom các công cụ vận hành hệ thống nội bộ DiepXuan:
 - Hỗ trợ thao tác APT và sửa lỗi repository phổ biến.
 - Hỗ trợ môi trường Laravel/Magento thông qua package `lar` và `m2`.
 - Cài đặt service, cron, MOTD, bash completion và tiện ích CLI dùng hằng ngày.
+- Mở Hermes/Codex trong tmux qua `ductn cli`/`ductncli`.
 - Chuẩn hóa một số workflow vận hành trên Linux/macOS.
 
 ## Cài đặt
@@ -74,6 +75,7 @@ Lưu ý: khi chạy bằng quyền root, module Python cấu hình log tại `/v
 │   ├── ductn.sh              # Wrapper shell cho CLI
 │   ├── requirements.txt      # Python dependencies
 │   ├── debian/               # Debian packaging metadata
+│   ├── ductn/                # Files installed by ductn package
 │   ├── utils/                # Python command modules
 │   └── var/lib/              # Legacy Bash command library
 └── .github/workflows/        # CI build workflow
@@ -106,10 +108,40 @@ Quy ước hiện tại:
 | System | `d_sys_update`, `d_update`, `d_sys_info` | Update và system info |
 | Service | `d_service`, `d_service_install`, `d_service_start`, `d_service_stop`, `d_service_restart`, `d_service_status`, `d_service_watch` | Service daemon |
 | Time | `time:timezone`, `timezone:vietnam`, `time:vietnam`, `time:sync`, `time:init` | Timezone Việt Nam và đồng bộ giờ NTP |
+| CLI | `cli`, `cli:tmux:install`, `cli:tmux:reload` | Mở Hermes/Codex trong tmux và quản lý tmux config |
 | File | `d_file_cleanpath` | Chuẩn hóa tên/path file |
 | VM | `d_vm_info`, `d_vm_sync` | Thông tin/sync VM |
 | Environment | `d_env_detect` | Detect VM/container/environment |
 | Alias | `d_alias_ll` | Alias `ll` |
+
+### CLI/tmux commands
+
+`ductn cli` là wrapper public để mở Hermes hoặc Codex trong tmux theo workspace:
+
+```bash
+# Chọn agent, workspace mặc định là ~/
+ductn cli
+
+# Mở Hermes trong project shortcut ~/.openclaw/workspace/projects/ductnd
+# hoặc ~/.hermes/workspace/projects/ductnd
+ductn cli ductnd
+
+# Mở Codex bằng profile mặc định của wrapper
+ductn cli codex ductnd
+
+# Cài lại tmux config mặc định của ductn vào ~/.tmux.conf
+ductn cli:tmux:install
+
+# Reload tmux config trong tmux server hiện tại
+ductn cli:tmux:reload
+```
+
+Ghi chú vận hành:
+
+- Package cài script `/usr/bin/ductncli`; command `ductn cli` exec sang script này để giữ tương thích.
+- Package cài tmux config mẫu tại `/etc/ductn/tmux.conf` và `postinst` copy sang `/root/.tmux.conf`, backup file cũ thành `/root/.tmux.conf.ductn.bak` nếu nội dung khác.
+- `ductncli` tự attach tmux session cũ nếu đã tồn tại, tránh split pane trùng.
+- Dependencies runtime: `tmux`, `realpath`, và agent CLI tương ứng (`hermes` hoặc `codex`).
 
 ### Time commands
 
@@ -213,7 +245,7 @@ Python dependencies nằm trong `src/requirements.txt`:
 - `ipaddress`
 - Pin riêng cho macOS cũ: `urllib3<2`, `requests<2.28`
 
-System dependencies chính được khai báo trong `src/debian/control`, gồm `net-tools`, `jq`, `curl`, `bash-completion`, `openssl`, `unzip`, `apt-transport-https`, `sudo`, `dnsutils`, `lsof` và Python build dependencies.
+System dependencies chính được khai báo trong `src/debian/control`, gồm `net-tools`, `jq`, `curl`, `bash-completion`, `openssl`, `unzip`, `apt-transport-https`, `sudo`, `dnsutils`, `lsof`, `tmux` và Python build dependencies.
 
 ## Development rules
 
