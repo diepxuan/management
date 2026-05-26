@@ -18,7 +18,7 @@ ductn cli
 - Cập nhật `src/debian/postinst` để:
   - set executable bit cho `/usr/bin/ductncli`;
   - copy `/etc/ductn/tmux.conf` sang `/root/.tmux.conf`;
-  - backup config cũ sang `/root/.tmux.conf.ductn.bak` nếu nội dung khác.
+  - ghi đè trực tiếp config cũ, không tạo backup.
 
 ## Commands
 
@@ -72,4 +72,4 @@ Cài `tmux` trên máy đích.
 
 ### Không muốn ghi đè `/root/.tmux.conf`
 
-Trước khi cài package, backup file thủ công. `postinst` cũng tự backup sang `/root/.tmux.conf.ductn.bak` khi nội dung khác.
+Trước khi cài package, backup file thủ công. `postinst` luôn ghi đè trực tiếp `/root/.tmux.conf` bằng config mặc định từ `/etc/ductn/tmux.conf`.
