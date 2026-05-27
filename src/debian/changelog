@@ -8,6 +8,7 @@ diepxuan (5.6.0+ppa~1) noble; urgency=medium
   * fix: read development version from changelog before installed package
   * fix: keep CI build changelog version sourced from release branch
   * feat: hide tmux status bar and overwrite root tmux config without backup
+  * fix: allow build script to create distro-specific lower-version changelog entries
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Tue, 26 May 2026 23:08:06 +0700
 
