@@ -1,8 +1,8 @@
 # TASKS.md - Bash to Python Migration
 
-**Project:** ductn (DiepXuan Personal Package)  
-**Created:** 2026-04-18  
-**Updated:** 2026-05-26  
+**Project:** ductn (DiepXuan Personal Package)
+**Created:** 2026-04-18
+**Updated:** 2026-05-27
 **Goal:** Migrate all bash scripts from `src/var/lib/` to Python modules in `src/utils/`
 
 ---
@@ -16,6 +16,112 @@
 | ⏳ Pending | 31 | Waiting to be migrated |
 | 🔀 Partial | 8 | Partially migrated (some commands done, some pending) |
 | 🚫 Deprecated | 3 | Bash scripts moved to deprecated/ |
+
+---
+
+
+## Version 5.6.1 Working Baseline
+
+**Version:** `5.6.1+ppa~1`
+**Branch rule:** mỗi task = một branch riêng từ `main`
+**Workflow reference:** `docs/VERSION-WORKFLOW.md`
+**Changelog rule:** mọi task thuộc version này cập nhật chung entry `5.6.1+ppa~1` trong `src/debian/changelog`; không tự tạo version mới.
+
+### Version 5.6.1 Scope
+
+- Tiếp tục migrate Bash scripts từ `src/var/lib/` sang Python modules trong `src/utils/`.
+- Hoàn thiện Python CLI command registry qua `@register_command`.
+- Giữ Debian packaging ổn định, chỉ sửa khi task thật sự cần.
+- Bổ sung documentation đầy đủ để agent khác đọc là làm tiếp được.
+- Không xóa legacy Bash script nếu Python chưa có parity và validation đủ.
+
+### Version 5.6.1 Task Workflow
+
+Mỗi task trong version 5.6.1 phải đi theo flow:
+
+```text
+Chọn task trong TASKS.md
+  ↓
+Tạo branch riêng: feat/5.6.1-<task> hoặc fix/5.6.1-<task>
+  ↓
+Đọc source hiện tại và Bash legacy nếu có
+  ↓
+Implement Python/code/docs
+  ↓
+Cập nhật README.md, TASKS.md, src/debian/changelog
+  ↓
+Tạo docs/UPDATE-YYYY-MM-DD-<topic>.md nếu behavior/package thay đổi
+  ↓
+Chạy validation phù hợp
+  ↓
+Commit local
+  ↓
+Báo cáo Sếp, không push/PR/merge khi chưa được phép
+```
+
+### Version 5.6.1 Documentation Checklist
+
+| File | Required | Purpose |
+|------|----------|---------|
+| `docs/VERSION-WORKFLOW.md` | Always read | Quy trình version/task/branch/changelog/validation |
+| `README.md` | Khi command/usage thay đổi | Tài liệu user-facing |
+| `TASKS.md` | Mọi task | Tracking scope, status, checklist |
+| `src/debian/changelog` | Mọi task thuộc package | Release notes cho `5.6.1+ppa~1` |
+| `docs/UPDATE-YYYY-MM-DD-<topic>.md` | Khi behavior/config/package thay đổi | Change note chi tiết |
+| Module README nếu có | Khi module có docs riêng | Tài liệu module-specific |
+
+### Version 5.6.1 Task Template
+
+Dùng mẫu này khi thêm hoặc cập nhật task:
+
+```md
+### ⏳ Task <id>: <Task Name>
+- **Version:** `5.6.1+ppa~1`
+- **Status:** ⏳ PENDING
+- **Branch:** `feat/5.6.1-<task-name>`
+- **Workflow:** `docs/VERSION-WORKFLOW.md`
+- **Scope:** <mô tả ngắn task>
+- **Source:** `<file gốc nếu có>`
+- **Target:** `<file đích nếu có>`
+- **Commands:**
+  | Command | Description | Status |
+  |---------|-------------|--------|
+  | `<command>` | <mô tả> | Pending |
+- **Documentation:**
+  - [ ] `README.md`
+  - [ ] `TASKS.md`
+  - [ ] `src/debian/changelog` entry `5.6.1+ppa~1`
+  - [ ] `docs/UPDATE-YYYY-MM-DD-<topic>.md` nếu cần
+- **Validation:**
+  - [ ] `python3 -m py_compile <file>` nếu có Python change
+  - [ ] `python3 -m compileall src` nếu có Python CLI change
+  - [ ] `bash -n <script>` nếu có shell/Debian script change
+  - [ ] `cd src && ./ductn commands` nếu command registry đổi
+  - [ ] `git diff --check`
+- **Definition of Done:**
+  - [ ] Code/config/docs hoàn thành
+  - [ ] Changelog cập nhật đúng version
+  - [ ] Validation OK
+  - [ ] Commit local
+  - [ ] Báo cáo Sếp
+  - [ ] Chưa push/PR/merge khi chưa được phép
+```
+
+### Version 5.6.1 Definition of Done
+
+Một task 5.6.1 chỉ được coi là xong local khi đủ:
+
+- [ ] Có branch riêng, không làm trên `main`.
+- [ ] Scope đúng một task.
+- [ ] Code/config/docs hoàn thành.
+- [ ] `README.md` cập nhật nếu command/usage đổi.
+- [ ] `TASKS.md` cập nhật trạng thái/checklist.
+- [ ] `src/debian/changelog` có bullet trong entry `5.6.1+ppa~1`.
+- [ ] Có `docs/UPDATE-*` nếu behavior/config/package thay đổi.
+- [ ] Validation chạy OK và ghi lại trong báo cáo.
+- [ ] Không secrets/.env/debug/temp files.
+- [ ] Commit local theo chuẩn `type(scope): description`.
+- [ ] Báo cáo Sếp, không tự push/PR/merge.
 
 ---
 
