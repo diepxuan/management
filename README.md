@@ -12,7 +12,7 @@
 - **Legacy CLI:** Bash scripts trong `src/var/lib/`
 - **Migration tracking:** `TASKS.md`
 
-Dự án chưa migrate xong. Một số chức năng Python đã dùng được, nhiều chức năng Bash cũ vẫn còn nằm trong `src/var/lib/` và chưa có bản Python tương đương.
+Dự án chưa migrate xong. Một số chức năng Python đã dùng được, nhiều chức năng Bash cũ vẫn còn nằm trong `src/var/lib/` và chưa có bản Python tương đương. Các command đã loại khỏi package được chuyển sang `deprecated/` để tham khảo lịch sử, ví dụ nhóm `swap:*` đã bị gỡ khỏi command surface active.
 
 ## Mục đích
 

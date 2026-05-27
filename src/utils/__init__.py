@@ -84,7 +84,6 @@ from . import ssh
 from . import cli
 from . import log
 from . import cronjob
-from . import swap
 from . import port
 from . import user
 from . import disk
