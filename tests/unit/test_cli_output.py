@@ -31,8 +31,12 @@ class TestCliOutput(unittest.TestCase):
         self.assertIn("ductn", output)
         self.assertIn("Usage:", output)
         self.assertIn("Common commands:", output)
-        self.assertIn("Command groups:", output)
+        self.assertIn("Commands:", output)
+        self.assertIn("├── apt", output)
+        self.assertIn("│   ├── apt:check", output)
+        self.assertIn("└──", output)
         self.assertIn("Run `ductn help`", output)
+        self.assertNotIn("command(s)", output)
         self.assertNotIn("{update,commands,help,version", output)
 
     def test_unknown_command_prints_clean_error(self):
@@ -51,10 +55,9 @@ class TestCliOutput(unittest.TestCase):
             about.d_help()
         output = stdout.getvalue()
 
-        self.assertIn("Command groups", output)
-        self.assertIn("apt", output)
-        self.assertIn("apt:check", output)
-        self.assertIn("ssh", output)
+        self.assertIn("Commands:", output)
+        self.assertIn("├── apt", output)
+        self.assertIn("│   ├── apt:check", output)
         self.assertIn("ssh:cleanup", output)
         self.assertNotIn("zfs:disk:format👢disk", output)
 

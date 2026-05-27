@@ -4,10 +4,10 @@
 
 Refactor output của `./ductn` để gọn, rõ và chuyên nghiệp hơn. Trước đây `argparse` in toàn bộ command choice trong usage, làm màn hình rất rối và khó đọc. Sau thay đổi, CLI dùng custom parser flow:
 
-- `ductn` không args hiển thị overview ngắn.
-- `ductn help` hiển thị command list theo group.
+- `ductn` không args hiển thị overview ngắn + full command tree.
+- `ductn help` hiển thị command tree kèm mô tả.
 - `ductn commands` giữ output machine-readable một dòng.
-- `ductn commands --grouped` hiển thị command theo group.
+- `ductn commands --grouped` hiển thị command tree.
 - Unknown command báo lỗi ngắn, không dump toàn bộ choices.
 
 ## Behavior
@@ -19,7 +19,7 @@ Hiển thị:
 - Version.
 - Usage ngắn.
 - Common commands.
-- Command groups + số lượng command.
+- Full command tree theo group.
 - Gợi ý `ductn help` và `ductn <command> --help`.
 
 ### `ductn help`
@@ -27,12 +27,11 @@ Hiển thị:
 Hiển thị full command list theo group:
 
 ```text
-apt:
-  apt:check                      ...
-  apt:fix                        ...
-
-ssh:
-  ssh:cleanup                    ...
+├── apt
+│   ├── apt:check                ...
+│   └── apt:fix                  ...
+├── ssh
+│   └── ssh:cleanup              ...
 ```
 
 Không còn tình trạng command dài bị render lỗi/ký tự lạ do table wrapping.

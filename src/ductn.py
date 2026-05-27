@@ -43,7 +43,6 @@ def _load_argcomplete():
 
 def _print_main_help():
     version = utils.about._version()
-    grouped = utils.command._commands_by_group()
 
     print(f"ductn {version}")
     print("DiepXuan system utility CLI")
@@ -60,11 +59,10 @@ def _print_main_help():
         description = utils.command._command_description(command_name)
         print(f"  {command_name:<22} {description}")
     print("")
-    print("Command groups:")
-    for group, commands in grouped.items():
-        print(f"  {group:<12} {len(commands):>2} command(s)")
+    print("Commands:")
+    print(utils.command.render_command_tree())
     print("")
-    print("Run `ductn help` for full command list.")
+    print("Run `ductn help` for commands with descriptions.")
     print("Run `ductn <command> --help` for command-specific help.")
 
 
