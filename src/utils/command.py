@@ -55,12 +55,6 @@ def render_command_list(include_descriptions=False):
     return "\n".join(lines)
 
 
-# Backward-compatible helper name for callers/tests from earlier refactor.
-def render_command_tree(include_descriptions=False):
-    """Render commands grouped by namespace using plain indented text."""
-    return render_command_list(include_descriptions=include_descriptions)
-
-
 def print_command_list(grouped=False):
     """Print commands, optionally grouped by namespace."""
     if not grouped:

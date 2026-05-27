@@ -5,8 +5,6 @@ import subprocess
 from .registry import COMMANDS, register_command
 
 from . import PACKAGE_NAME
-from . import Console
-from . import Table
 from .command import render_command_list
 
 
