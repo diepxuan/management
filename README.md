@@ -12,7 +12,7 @@
 - **Legacy CLI:** Bash scripts trong `src/var/lib/`
 - **Migration tracking:** `TASKS.md`
 
-Dự án chưa migrate xong. Một số chức năng Python đã dùng được, nhiều chức năng Bash cũ vẫn còn nằm trong `src/var/lib/` và chưa có bản Python tương đương.
+Dự án chưa migrate xong. Một số chức năng Python đã dùng được, nhiều chức năng Bash cũ vẫn còn nằm trong `src/var/lib/` và chưa có bản Python tương đương. Các command đã loại khỏi package được chuyển sang `deprecated/` để tham khảo lịch sử, ví dụ nhóm `swap:*` và `ssh:*` đã bị gỡ khỏi command surface active.
 
 ## Mục đích
 
@@ -40,6 +40,13 @@ Kiểm tra version:
 ```bash
 ductn -v
 ```
+
+Ghi chú locale khi cài đặt:
+
+- `postinst` tự cấu hình locale UTF-8 để tránh lỗi/warning khi package gọi CLI hoặc service trong môi trường thiếu locale.
+- Ưu tiên `C.UTF-8`.
+- Nếu `C.UTF-8` không dùng được, fallback sang `en_US.UTF-8` và tự chạy `locale-gen en_US.UTF-8` khi có thể.
+- Package phụ thuộc `locales` để có `locale-gen`/`update-locale` trên Debian/Ubuntu.
 
 ## Cách chạy khi phát triển
 
