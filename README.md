@@ -187,7 +187,7 @@ Một số nhóm Bash legacy còn tồn tại trong `src/var/lib/` vì chưa có
 
 - `completion.sh`, `functions.sh`, `main.sh`, `help.sh`
 - `curl.sh`, `git.sh`, `ip.sh`, `os.sh`, `sys.sh`, `sys.service.valid.sh`, `wg.sh`
-- `dns.technitium.sh`, `mssql.sh`
+- `mssql.sh`
 - `environment.sh`, `environment.color.sh`, `environment.text.sh`
 - `php.sh`, `php.lar.sh`, `php.m2.sh`
 

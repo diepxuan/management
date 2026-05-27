@@ -29,7 +29,6 @@ Các file này vẫn còn trong `src/var/lib/` vì chưa có Python module tươ
 
 - `completion.sh`
 - `curl.sh`
-- `dns.technitium.sh`
 - `environment.color.sh`
 - `environment.sh`
 - `environment.text.sh`

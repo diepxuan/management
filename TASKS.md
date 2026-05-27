@@ -589,17 +589,16 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   - `ddns:resolved`
 - **Reason:** DDNS command group removed from active Bash and Python CLI surface.
 
-### ⏳ Task 4.3: DNS Technitium
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/dns.technitium.sh` (32 lines)
-- **Python:** `src/utils/dns_technitium.py` (TODO)
-- **Target Commands:**
-  | Command | Description |
-  |---------|-------------|
-  | `dns:technitium:install` | Install Technitium DNS |
-  | `dns:technitium:recordList` | List DNS records |
-  | `dns:technitium:get` | Get DNS record |
-- **Action:** Create `src/utils/dns_technitium.py`
+### 🚫 Task 4.3: DNS Technitium
+- **Status:** 🚫 DEPRECATED
+- **Bash:** `src/var/lib/dns.technitium.sh` → `deprecated/src/var/lib/dns.technitium.sh`
+- **Python:** `src/utils/dns_technitium.py` → `deprecated/src/utils/dns_technitium.py`
+- **Commands removed:**
+  - `dns:technitium:install`
+  - `dns:technitium:record:list`
+  - `dns:technitium:recordList`
+  - `dns:technitium:get` (legacy target, not active)
+- **Reason:** Technitium-specific command group removed from active package surface.
 
 ### 🚫 Task 4.4: DHCP Server
 - **Status:** 🚫 DEPRECATED
