@@ -109,7 +109,7 @@ Quy ước hiện tại:
 | Interface | `d_interface_default`, `d_interface_service` | Interface/service active |
 | Route | `d_route_default`, `d_route_monitor` | Route mặc định, monitor route |
 | DNS | `d_dns_clean`, `d_dns_reset`, `d_dns_disable`, `d_dns_resolved`, `d_dns_watch` | Quản lý DNS Linux/macOS |
-| APT | `d_apt_fix`, `d_apt_check`, `d_apt_install`, `d_apt_remove`, `d_apt_uninstall` | Quản lý package APT |
+| APT | `d_apt_fix`, `d_apt_check` | Kiểm tra package và sửa lock/state APT an toàn |
 | Host | `d_host_name`, `d_host_domain`, `d_host_fullname` | Hostname/domain/FQDN |
 | OS | `d_os_codename`, `d_os_release`, `d_os_distro`, `d_os_architecture`, `d_os_type` | Thông tin OS |
 | System | `d_sys_update`, `d_update`, `d_sys_info` | Update và system info |
@@ -183,17 +183,17 @@ Ghi chú vận hành:
 
 Các Bash script cũ nằm ở `src/var/lib/`. Đây là nguồn chức năng ban đầu của dự án và vẫn còn nhiều phần chưa migrate.
 
-Một số nhóm Bash legacy còn tồn tại:
+Một số nhóm Bash legacy còn tồn tại trong `src/var/lib/` vì chưa có Python module tương ứng hoặc vẫn là bootstrap/helper shell:
 
-- `alias.sh`, `completion.sh`, `functions.sh`, `main.sh`
-- `apt.sh` đã migrate và đưa vào deprecated theo `TASKS.md`
-- `dns.sh` đã migrate và đưa vào deprecated theo `TASKS.md`
-- `cronjob.sh`, `csf.sh`, `curl.sh`
-- `disk.sh`, `env.sh`, `environment*.sh`, `file.sh`, `git.sh`, `gpg.sh`
-- `host.sh`, `httpd.sh`, `ip.sh`, `log.sh`, `os.sh`, `port.sh`, `route.sh`
-- `server.sh`, `service.sh`, `ssh.sh`, `ssl.sh`, `swap.sh`, `sys.sh`
-- `ufw.sh`, `user.sh`, `vm.sh`
-- macOS-specific scripts trong `src/var/lib/macos/`
+- `completion.sh`, `functions.sh`, `main.sh`, `help.sh`
+- `curl.sh`, `git.sh`, `ip.sh`, `os.sh`, `sys.sh`, `sys.service.valid.sh`, `wg.sh`
+- `mssql.sh`
+- `environment.sh`, `environment.color.sh`, `environment.text.sh`
+- `php.sh`, `php.lar.sh`, `php.m2.sh`
+
+Các Bash đã có Python module tương ứng được chuyển sang `deprecated/src/var/lib/`, gồm `apt.sh`, `dns.sh`, `swap.sh`, `ssh.sh`, `cronjob.sh`, `disk.sh`, `file.sh`, `gpg.sh`, `host.sh`, `httpd.sh`, `log.sh`, `port.sh`, `route.sh`, `server.sh`, `service.sh`, `ufw.sh`, `user.sh`, `vm.sh`. Các nhóm `httpd:*`, `dns:technitium:*`, `ufw:*` đã bị gỡ khỏi command surface active; Bash/Python implementation tương ứng nằm trong `deprecated/`.
+
+macOS-specific scripts vẫn nằm trong `src/var/lib/macos/` cho tới khi có migration riêng.
 
 Khi migrate, không xóa Bash cũ ngay nếu chưa chắc command Python tương đương đã đủ hành vi. Nên chuyển sang `deprecated/` sau khi đã test và cập nhật `TASKS.md`.
 
