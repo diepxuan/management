@@ -1,17 +1,56 @@
 #!/usr/bin/env python3
-from . import COMMANDS
-from . import register_command
+from .registry import COMMANDS, register_command
 
 
 def _commands():
-    """Hiển thị danh sách commands"""
-    return sorted(list(COMMANDS.keys()))
+    """Return sorted command names."""
+    return sorted(COMMANDS.keys())
+
+
+def _command_group(command_name):
+    """Return display group for a command name."""
+    if command_name.startswith("zfs:disk:"):
+        return "zfs"
+    if ":" in command_name:
+        return command_name.split(":", 1)[0]
+    return "core"
+
+
+def _commands_by_group():
+    """Return commands grouped by first namespace."""
+    grouped = {}
+    for command_name in _commands():
+        grouped.setdefault(_command_group(command_name), []).append(command_name)
+    return dict(sorted(grouped.items()))
+
+
+def _command_description(command_name):
+    """Return first-line docstring for a command."""
+    func = COMMANDS.get(command_name)
+    if not func or not func.__doc__:
+        return ""
+    return func.__doc__.strip().split("\n", 1)[0]
+
+
+def print_command_list(grouped=False):
+    """Print commands, optionally grouped by namespace."""
+    if not grouped:
+        print(" ".join(_commands()))
+        return
+
+    for group, commands in _commands_by_group().items():
+        print(f"{group}:")
+        for command_name in commands:
+            print(f"  {command_name}")
 
 
 @register_command
-def d_commands():
-    """Hiển thị danh sách commands"""
-    print(" ".join(_commands()))
+def d_commands(args=None):
+    """List available commands."""
+    args = args or []
+    if isinstance(args, str):
+        args = args.split()
+    print_command_list(grouped="--grouped" in args or "-g" in args)
 
 
 # -------------------------------
