@@ -1,184 +1,162 @@
 #!/usr/bin/env python3
-"""
-APT package management utilities.
+"""APT package management utilities."""
 
-Chuyển đổi từ src/var/lib/apt.sh sang Python module.
-"""
-
+import re
 import subprocess
 import sys
-from . import register_command
+
+from .registry import register_command
 from .system import _is_root
 
+_PACKAGE_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9+._:-]*$")
 
-def _run_cmd(cmd, check=False):
-    """Run shell command với sudo nếu cần."""
+
+def _run_argv(argv):
+    """Run command without shell expansion."""
     try:
         result = subprocess.run(
-            cmd,
-            shell=True,
-            check=check,
+            argv,
+            check=False,
             capture_output=True,
             text=True,
         )
         return result.returncode, result.stdout.strip(), result.stderr.strip()
-    except subprocess.CalledProcessError as e:
-        return e.returncode, "", str(e)
     except Exception as e:
         return 1, "", str(e)
 
 
-def _sudo_prefix(cmd):
-    """Thêm sudo prefix nếu không phải root."""
+def _with_sudo(argv):
+    """Prefix sudo when current process is not root."""
     if _is_root():
-        return cmd
-    return f"sudo {cmd}"
+        return argv
+    return ["sudo"] + argv
+
+
+def _normalize_args(args):
+    if args is None:
+        return []
+    if isinstance(args, str):
+        return args.split()
+    return list(args)
+
+
+def _validate_package_name(package):
+    if not package or not _PACKAGE_RE.match(package):
+        print(f"Invalid package name: {package}", file=sys.stderr)
+        sys.exit(2)
+
+
+def _validate_packages(packages):
+    if not packages:
+        print("Error: package name required", file=sys.stderr)
+        sys.exit(1)
+    for package in packages:
+        _validate_package_name(package)
+
+
+def _is_installed(package):
+    code, stdout, _stderr = _run_argv([
+        "dpkg-query",
+        "-W",
+        "-f=${Status}",
+        package,
+    ])
+    return code == 0 and "install ok installed" in stdout
 
 
 @register_command
 def d_apt_fix(args=None):
+    """Repair interrupted APT/dpkg state. Usage: ductn apt:fix [--force]
+
+    Non-force recommendation:
+      - Do not kill apt/dpkg processes.
+      - Do not delete lock files manually.
+      - Run dpkg --configure -a and apt-get -f install -y.
+
+    Proposed --force behavior (not implemented yet):
+      - Detect lock holders first.
+      - Only after explicit --force, stop stale apt/dpkg processes and remove stale locks.
     """
-    Apt fix lock files.
-    
-    Usage: ductn apt-fix
-    """
-    if args and "--help" in args:
-        print("Apt fix lock files - Xóa lock files và fix dpkg")
+    args = _normalize_args(args)
+    if "--help" in args:
+        print("Usage: ductn apt:fix [--force]")
+        print("Without --force: safe repair only, no kill, no lock deletion.")
+        print("With --force: proposed future mode for stale lock/process cleanup.")
         return
-    
-    print("Fixing APT lock files...")
-    
-    # Kill processes
-    _run_cmd(_sudo_prefix("killall apt-get"))
-    _run_cmd(_sudo_prefix("killall apt"))
-    
-    # Remove lock files
-    lock_files = [
-        "/var/lib/apt/lists/lock",
-        "/var/cache/apt/archives/lock",
-        "/var/lib/dpkg/lock",
-        "/var/lib/dpkg/lock-frontend",
-    ]
-    
-    for lock_file in lock_files:
-        _run_cmd(_sudo_prefix(f"rm -f {lock_file}"))
-    
-    # Configure dpkg
-    print("Configuring dpkg...")
-    returncode, stdout, stderr = _run_cmd(_sudo_prefix("dpkg --configure -a"))
-    
-    if returncode == 0:
-        print("APT lock files fixed successfully.")
-    else:
-        print(f"Error fixing APT: {stderr}", file=sys.stderr)
-        sys.exit(1)
+
+    if "--force" in args:
+        print(
+            "apt:fix --force is not implemented yet. "
+            "Review lock holder detection before enabling destructive cleanup.",
+            file=sys.stderr,
+        )
+        sys.exit(2)
+
+    print("Repairing APT/dpkg state safely...")
+    for cmd in (["dpkg", "--configure", "-a"], ["apt-get", "-f", "install", "-y"]):
+        code, _stdout, stderr = _run_argv(_with_sudo(cmd))
+        if code != 0:
+            print(f"Error running {' '.join(cmd)}: {stderr}", file=sys.stderr)
+            sys.exit(1)
+    print("APT/dpkg repair completed.")
 
 
 @register_command
 def d_apt_check(args=None):
-    """
-    Apt check if package is installed.
-    
-    Usage: ductn apt-check <package-name>
-    Returns: 1 if installed, 0 if not installed
-    """
-    if args and "--help" in args:
-        print("Apt check if package is installed")
-        print("Usage: ductn apt-check <package-name>")
+    """Check if package is installed. Usage: ductn apt:check <package>"""
+    args = _normalize_args(args)
+    if "--help" in args:
+        print("Usage: ductn apt:check <package>")
         return
-    
-    if not args or len(args) == 0:
-        print("Error: Package name required", file=sys.stderr)
-        print("Usage: ductn apt-check <package-name>")
-        sys.exit(1)
-    
-    package_name = args[0]
-    
-    # Check using dpkg -s
-    returncode, stdout, stderr = _run_cmd(f"dpkg -s {package_name} 2>/dev/null | grep 'install ok installed'")
-    
-    if returncode != 0:
-        print("0")  # Not installed
-    else:
-        print("1")  # Installed
+    _validate_packages(args[:1])
+    print("1" if _is_installed(args[0]) else "0")
 
 
 @register_command
 def d_apt_install(args=None):
-    """
-    Apt install package(s) if not already installed.
-    
-    Usage: ductn apt-install <package1> [package2 ...]
-    """
-    if args and "--help" in args:
-        print("Apt install package(s) if not already installed")
-        print("Usage: ductn apt-install <package1> [package2 ...]")
+    """Install package(s). Usage: ductn apt:install <package1> [package2 ...]"""
+    args = _normalize_args(args)
+    if "--help" in args:
+        print("Usage: ductn apt:install <package1> [package2 ...]")
         return
-    
-    if not args or len(args) == 0:
-        print("Error: Package name(s) required", file=sys.stderr)
-        print("Usage: ductn apt-install <package1> [package2 ...]")
+    _validate_packages(args)
+
+    missing = [package for package in args if not _is_installed(package)]
+    if not missing:
+        print("All packages are already installed.")
+        return
+
+    print(f"Installing: {' '.join(missing)}")
+    code, _stdout, stderr = _run_argv(_with_sudo(["apt-get", "install", "-y"] + missing))
+    if code != 0:
+        print(f"Error installing packages: {stderr}", file=sys.stderr)
         sys.exit(1)
-    
-    for package in args:
-        # Check if already installed
-        returncode, stdout, stderr = _run_cmd(f"dpkg -s {package} 2>/dev/null | grep 'install ok installed'")
-        
-        if returncode != 0:
-            # Not installed, install it
-            print(f"Installing {package}...")
-            cmd = _sudo_prefix(f"apt install {package} -y --purge --auto-remove")
-            returncode, stdout, stderr = _run_cmd(cmd, check=False)
-            
-            if returncode == 0:
-                print(f"Installed {package} successfully.")
-            else:
-                print(f"Error installing {package}: {stderr}", file=sys.stderr)
-        else:
-            print(f"Package {package} is already installed.")
+    print(f"Installed: {' '.join(missing)}")
 
 
 @register_command
 def d_apt_remove(args=None):
-    """
-    Apt remove package(s) with purge and auto-remove.
-    
-    Usage: ductn apt-remove <package1> [package2 ...]
-    """
-    if args and "--help" in args:
-        print("Apt remove package(s) with purge and auto-remove")
-        print("Usage: ductn apt-remove <package1> [package2 ...]")
+    """Purge package(s) and autoremove dependencies. Usage: ductn apt:remove <package1> [package2 ...]"""
+    args = _normalize_args(args)
+    if "--help" in args:
+        print("Usage: ductn apt:remove <package1> [package2 ...]")
         return
-    
-    if not args or len(args) == 0:
-        print("Error: Package name(s) required", file=sys.stderr)
-        print("Usage: ductn apt-remove <package1> [package2 ...]")
+    _validate_packages(args)
+
+    print(f"Purging: {' '.join(args)}")
+    code, _stdout, stderr = _run_argv(_with_sudo(["apt-get", "purge", "-y"] + args))
+    if code != 0:
+        print(f"Error purging packages: {stderr}", file=sys.stderr)
         sys.exit(1)
-    
-    packages = " ".join(args)
-    print(f"Removing {packages}...")
-    
-    cmd = _sudo_prefix(f"apt remove {packages} -y --purge --auto-remove")
-    returncode, stdout, stderr = _run_cmd(cmd, check=False)
-    
-    if returncode == 0:
-        print(f"Removed {packages} successfully.")
-    else:
-        print(f"Error removing {packages}: {stderr}", file=sys.stderr)
+
+    code, _stdout, stderr = _run_argv(_with_sudo(["apt-get", "autoremove", "-y", "--purge"]))
+    if code != 0:
+        print(f"Error running autoremove: {stderr}", file=sys.stderr)
         sys.exit(1)
+    print(f"Removed: {' '.join(args)}")
 
 
 @register_command
 def d_apt_uninstall(args=None):
-    """
-    Apt uninstall package(s) (alias for apt-remove).
-    
-    Usage: ductn apt-uninstall <package1> [package2 ...]
-    """
-    if args and "--help" in args:
-        print("Apt uninstall package(s) (alias for apt-remove)")
-        print("Usage: ductn apt-uninstall <package1> [package2 ...]")
-        return
-    
-    # Gọi lại d_apt_remove
+    """Alias for apt:remove. Usage: ductn apt:uninstall <package1> [package2 ...]"""
     d_apt_remove(args)
