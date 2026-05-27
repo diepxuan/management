@@ -17,14 +17,12 @@ EXPECTED_MODULES = [
     "curl_utils",
     "disk",
     "dns",
-    "dns_technitium",
     "env_detect",
     "file",
     "git_utils",
     "gpg",
     "helpers",
     "host",
-    "httpd",
     "init_action",
     "interface",
     "laravel",
@@ -40,12 +38,10 @@ EXPECTED_MODULES = [
     "serviceScheduler",
     "ssh",
     "ssl",
-    "swap",
     "system",
     "system_info",
     "system_os",
     "system_service",
-    "ufw",
     "user",
     "vm",
 ]
@@ -68,7 +64,7 @@ class TestModuleImports(unittest.TestCase):
 
     def test_no_removed_modules(self):
         """Các module đã xóa không được import nữa."""
-        removed_modules = ["alias", "env_config", "wg", "vpn", "mysql_utils", "ddns", "dhcpd", "helpers"]  # helpers kept but reduced
+        removed_modules = ["alias", "env_config", "wg", "vpn", "mysql_utils", "ddns", "dhcpd", "dns_technitium", "httpd", "swap", "ufw", "helpers"]  # helpers kept but reduced
         for mod_name in removed_modules:
             if mod_name == "helpers":
                 continue  # still exists, just reduced

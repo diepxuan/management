@@ -236,8 +236,10 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
 - **Status:** ✅ COMPLETED
 - **Bash:** `src/var/lib/apt.sh` → deprecated
 - **Python:** `src/utils/apt.py`
-- **Commands:** `apt:fix`, `apt:check`, `apt:install`, `apt:remove`, `apt:uninstall`
-- **PR:** #7 (merged)
+- **Active Commands:** `apt:fix`, `apt:check`
+- **Removed Commands:** `apt:install`, `apt:remove`, `apt:uninstall`
+- **Notes:** `apt:fix` tự tìm process giữ lock; không dùng `killall`. Không `--force` thì báo PID/process nếu đang giữ lock. Có `--force`/`-f` thì kill đúng PID đang giữ lock, remove stale locks, rồi repair dpkg/apt.
+- **PR:** #7 (merged), updated in 5.6.1 PR #26
 
 ### ✅ Task 1.2: DNS Management
 - **Status:** ✅ COMPLETED
@@ -438,19 +440,18 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   | `zfs:disk:format_boot_disk` | Format boot disk |
 - **Action:** Create `src/utils/disk.py`
 
-### ⏳ Task 2.10: UFW/Firewall Management
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/ufw.sh` (54 lines)
-- **Python:** `src/utils/ufw.py` (TODO)
-- **Target Commands:**
-  | Command | Description |
-  |---------|-------------|
-  | `ufw:disable` | Disable UFW |
-  | `ufw:geoip:uninstall` | Remove GeoIP rules |
-  | `ufw:geoip:allowCloudflare` | Allow Cloudflare IPs |
-  | `ufw:fail2ban:uninstall` | Remove fail2ban |
-  | `ufw:iptables:uninstall` | Remove iptables rules |
-- **Action:** Create `src/utils/ufw.py`
+### 🚫 Task 2.10: UFW/Firewall Management
+- **Status:** 🚫 DEPRECATED
+- **Bash:** `src/var/lib/ufw.sh` → `deprecated/src/var/lib/ufw.sh`
+- **Python:** `src/utils/ufw.py` → `deprecated/src/utils/ufw.py`
+- **Commands removed:**
+  - `ufw:disable`
+  - `ufw:geoip:uninstall`
+  - `ufw:geoip:allow:cloudflare`
+  - `ufw:geoip:allowCloudflare`
+  - `ufw:fail2ban:uninstall`
+  - `ufw:iptables:uninstall`
+- **Reason:** UFW/firewall command group removed from active package surface.
 
 ### 🚫 Task 2.11: MySQL Management
 - **Status:** 🚫 DEPRECATED
@@ -548,18 +549,16 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   | `php:phpcsfixer:install` | Install PHP CS Fixer |
 - **Action:** Create `src/utils/php_utils.py`
 
-### ⏳ Task 3.5: HTTPD/Web Server
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/httpd.sh` (237 lines)
-- **Python:** `src/utils/httpd.py` (TODO)
-- **Target Commands:**
-  | Command | Description |
-  |---------|-------------|
-  | `httpd:install` | Install web server |
-  | `httpd:config` | Configure vhost |
-  | `httpd:restart` | Restart web server |
-  | `httpd:config:sites` | List configured sites |
-- **Action:** Create `src/utils/httpd.py`
+### 🚫 Task 3.5: HTTPD/Web Server
+- **Status:** 🚫 DEPRECATED
+- **Bash:** `src/var/lib/httpd.sh` → `deprecated/src/var/lib/httpd.sh`
+- **Python:** `src/utils/httpd.py` → `deprecated/src/utils/httpd.py`
+- **Commands removed:**
+  - `httpd:install`
+  - `httpd:config`
+  - `httpd:restart`
+  - `httpd:config:sites`
+- **Reason:** HTTPD command group removed from active `ductn` package command surface. Apache/web-server provisioning should use a dedicated, reviewed workflow before returning to active package commands.
 
 ---
 
@@ -589,17 +588,16 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   - `ddns:resolved`
 - **Reason:** DDNS command group removed from active Bash and Python CLI surface.
 
-### ⏳ Task 4.3: DNS Technitium
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/dns.technitium.sh` (32 lines)
-- **Python:** `src/utils/dns_technitium.py` (TODO)
-- **Target Commands:**
-  | Command | Description |
-  |---------|-------------|
-  | `dns:technitium:install` | Install Technitium DNS |
-  | `dns:technitium:recordList` | List DNS records |
-  | `dns:technitium:get` | Get DNS record |
-- **Action:** Create `src/utils/dns_technitium.py`
+### 🚫 Task 4.3: DNS Technitium
+- **Status:** 🚫 DEPRECATED
+- **Bash:** `src/var/lib/dns.technitium.sh` → `deprecated/src/var/lib/dns.technitium.sh`
+- **Python:** `src/utils/dns_technitium.py` → `deprecated/src/utils/dns_technitium.py`
+- **Commands removed:**
+  - `dns:technitium:install`
+  - `dns:technitium:record:list`
+  - `dns:technitium:recordList`
+  - `dns:technitium:get` (legacy target, not active)
+- **Reason:** Technitium-specific command group removed from active package surface.
 
 ### 🚫 Task 4.4: DHCP Server
 - **Status:** 🚫 DEPRECATED

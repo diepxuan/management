@@ -1,47 +1,32 @@
 import os
 import re
 import subprocess
-import ductn
 
 from .registry import COMMANDS, register_command
 
-from . import PACKAGE_NAME, SERVICE_NAME
-from . import Console
-from . import Table
+from . import PACKAGE_NAME
+from .command import render_command_list
+
+
+def _print_grouped_help_plain():
+    print("ductn - DiepXuan system utility CLI")
+    print("")
+    print("Usage:")
+    print("  ductn <command> [args]")
+    print("  ductn commands [--grouped]")
+    print("")
+    print("Commands:")
+    print(render_command_list(include_descriptions=True))
+    print("")
+    print("Options:")
+    print("  -h, --help                  Show help and exit")
+    print("  -v, --version               Show version and exit")
 
 
 @register_command
 def d_help():
-    """Show help information"""
-    console = Console()
-    console.print(f"\n[bold cyan]Cách sử dụng:[/bold cyan] ductn <lệnh> [tham số]")
-    table = Table(
-        # title="\n[bold yellow]Các lệnh có sẵn[/bold yellow]",
-        show_header=False,  # <-- TẮT tiêu đề cột
-        box=None,  # <-- TẮT tất cả các đường viền
-        padding=(
-            0,
-            2,
-            0,
-            0,
-        ),  # <-- (top, right, bottom, left) - Chỉ thêm padding bên phải cột lệnh
-    )
-    for command_name in sorted(COMMANDS.keys()):
-        command_func = COMMANDS[command_name]
-
-        doc = command_func.__doc__
-        # description = doc.strip().split("\n")[0] if doc else "Không có mô tả."
-        description = doc.strip().split("\n")[0] if doc else ""
-
-        table.add_row(f"[green]{command_name}[/green]", description)
-
-    table.add_row()
-    table.add_row(f"\n[bold cyan]Optional arguments")
-    table.add_row(f"[green]-h, --help[/green]", "Show this help message and exit")
-    table.add_row(f"[green]-v, --version[/green]", "Show version and exit")
-
-    # In bảng ra console
-    console.print(table)
+    """Show grouped help information."""
+    _print_grouped_help_plain()
 
 
 def _version():

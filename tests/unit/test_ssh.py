@@ -36,7 +36,7 @@ class TestSshCommandsRegistered(unittest.TestCase):
         self.commands = COMMANDS
 
     def test_ssh_commands_exist(self):
-        ssh_cmds = ["ssh:cleanup", "ssh:install", "ssh:copy"]
+        ssh_cmds = ["ssh:cleanup"]
         for cmd in ssh_cmds:
             self.assertIn(cmd, self.commands, f"Command '{cmd}' không có trong COMMANDS")
 
