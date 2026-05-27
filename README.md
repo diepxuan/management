@@ -41,6 +41,13 @@ Kiểm tra version:
 ductn -v
 ```
 
+Ghi chú locale khi cài đặt:
+
+- `postinst` tự cấu hình locale UTF-8 để tránh lỗi/warning khi package gọi CLI hoặc service trong môi trường thiếu locale.
+- Ưu tiên `C.UTF-8`.
+- Nếu `C.UTF-8` không dùng được, fallback sang `en_US.UTF-8` và tự chạy `locale-gen en_US.UTF-8` khi có thể.
+- Package phụ thuộc `locales` để có `locale-gen`/`update-locale` trên Debian/Ubuntu.
+
 ## Cách chạy khi phát triển
 
 Chạy trực tiếp từ source:

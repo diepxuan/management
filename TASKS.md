@@ -123,6 +123,53 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
 - [ ] Commit local theo chuẩn `type(scope): description`.
 - [ ] Báo cáo Sếp, không tự push/PR/merge.
 
+### ✅ Task 5.6.1-001: Version workflow documentation
+- **Version:** `5.6.1+ppa~1`
+- **Status:** ✅ COMPLETED
+- **Branch:** `docs/5.6.1-version-workflow`
+- **Workflow:** `docs/VERSION-WORKFLOW.md`
+- **Scope:** Tạo quy trình chính thức cho version/task/branch/changelog/validation.
+- **Target:** `docs/VERSION-WORKFLOW.md`, `TASKS.md`, `AGENTS.md`, `src/debian/changelog`
+- **Documentation:**
+  - [x] `docs/VERSION-WORKFLOW.md`
+  - [x] `TASKS.md`
+  - [x] `src/debian/changelog` entry `5.6.1+ppa~1`
+- **Validation:**
+  - [x] `git diff --check`
+  - [x] `dpkg-parsechangelog -l src/debian/changelog -S Version`
+- **Definition of Done:**
+  - [x] Docs hoàn thành
+  - [x] Changelog cập nhật đúng version
+  - [x] Validation OK
+  - [x] Commit local
+  - [x] PR mở để Sếp review
+
+### ✅ Task 5.6.1-002: Package install locale auto-fix
+- **Version:** `5.6.1+ppa~1`
+- **Status:** ✅ COMPLETED
+- **Branch:** `docs/5.6.1-version-workflow`
+- **Workflow:** `docs/VERSION-WORKFLOW.md`
+- **Scope:** Tự động cấu hình locale UTF-8 khi cài package `ductn`, ưu tiên `C.UTF-8`, fallback `en_US.UTF-8`.
+- **Source:** `src/debian/postinst`, `src/debian/control`
+- **Target:** `src/debian/postinst`, `src/debian/control`, `README.md`, `docs/UPDATE-2026-05-27-locale-install.md`, `src/debian/changelog`
+- **Documentation:**
+  - [x] `README.md`
+  - [x] `TASKS.md`
+  - [x] `src/debian/changelog` entry `5.6.1+ppa~1`
+  - [x] `docs/UPDATE-2026-05-27-locale-install.md`
+- **Validation:**
+  - [x] `bash -n src/debian/postinst`
+  - [x] `bash -n src/build.sh`
+  - [x] `dpkg-parsechangelog -l src/debian/changelog -S Version`
+  - [x] `git diff --check`
+- **Definition of Done:**
+  - [x] Locale setup hoàn thành
+  - [x] Docs hoàn thành
+  - [x] Changelog cập nhật đúng version
+  - [x] Validation OK
+  - [x] Commit local
+  - [x] Update PR để Sếp review
+
 ---
 
 ## Phase 1: Core Infrastructure (HIGH PRIORITY)
