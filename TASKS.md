@@ -199,6 +199,36 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   - [x] Validation OK
   - [x] Update PR để Sếp review
 
+### ✅ Task 5.6.1-004: Deprecate ssh commands
+- **Version:** `5.6.1+ppa~1`
+- **Status:** ✅ COMPLETED
+- **Branch:** `docs/5.6.1-version-workflow`
+- **Workflow:** `docs/VERSION-WORKFLOW.md`
+- **Scope:** Review `src/var/lib/ssh.sh`, move legacy ssh implementation to `deprecated/`, and remove active `ssh:*` commands from the `ductn` package.
+- **Source:** `src/var/lib/ssh.sh`, `src/utils/ssh.py`, `src/utils/__init__.py`
+- **Target:** `deprecated/src/var/lib/ssh.sh`, `deprecated/src/utils/ssh.py`, `TASKS.md`, `README.md`, `docs/UPDATE-2026-05-27-ssh-deprecated.md`, `src/debian/changelog`
+- **Commands removed:**
+  - `ssh:cleanup`
+  - `ssh:install`
+  - `ssh:copy`
+- **Documentation:**
+  - [x] `README.md`
+  - [x] `TASKS.md`
+  - [x] `src/debian/changelog` entry `5.6.1+ppa~1`
+  - [x] `docs/UPDATE-2026-05-27-ssh-deprecated.md`
+- **Validation:**
+  - [x] `python3 -m compileall src/utils`
+  - [x] `bash -n deprecated/src/var/lib/ssh.sh`
+  - [x] `! ./ductn commands | tr ' ' '\n' | grep '^ssh:'`
+  - [x] `git diff --check`
+- **Definition of Done:**
+  - [x] Active ssh commands removed
+  - [x] Legacy files moved to `deprecated/`
+  - [x] Docs hoàn thành
+  - [x] Changelog cập nhật đúng version
+  - [x] Validation OK
+  - [x] Update PR để Sếp review
+
 ---
 
 ## Phase 1: Core Infrastructure (HIGH PRIORITY)
@@ -247,18 +277,15 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   - `vpn:type`
 - **Reason:** VPN command group removed from active Bash and Python CLI surface.
 
-### ⏳ Task 1.5: SSH Management
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/ssh.sh` (88 lines)
-- **Python:** `src/utils/ssh.py` (TODO)
-- **Target Commands:**
-  | Command | Description |
-  |---------|-------------|
-  | `ssh:cleanup` | Clean SSH known_hosts |
-  | `ssh:install` | Install/configure SSH server |
-  | `ssh:permision` | Fix SSH permissions |
-  | `ssh:copy` | Copy SSH keys |
-- **Action:** Create `src/utils/ssh.py`
+### 🚫 Task 1.5: SSH Management
+- **Status:** 🚫 DEPRECATED
+- **Bash:** `src/var/lib/ssh.sh` → `deprecated/src/var/lib/ssh.sh`
+- **Python:** `src/utils/ssh.py` → `deprecated/src/utils/ssh.py`
+- **Commands removed:**
+  - `ssh:cleanup`
+  - `ssh:install`
+  - `ssh:copy`
+- **Reason:** SSH command group removed from active Bash and Python CLI surface. Commands manipulate private keys, authorized_keys, and remote access directly; should not be shipped as default package commands without a dedicated, reviewed workflow.
 
 ### ⏳ Task 1.6: Log Management
 - **Status:** ⏳ PENDING
