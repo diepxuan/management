@@ -7,6 +7,53 @@
 
 set -e
 
+ductn_locale_works() {
+    local candidate="$1"
+    LC_ALL="$candidate" locale charmap >/dev/null 2>&1
+}
+
+setup_ductn_locale() {
+    # Prefer C.UTF-8 because it is available by default on modern Debian/Ubuntu
+    # systems and does not require locale generation. Fall back to en_US.UTF-8
+    # when C.UTF-8 is not usable.
+    local preferred_locale="C.UTF-8"
+    local fallback_locale="en_US.UTF-8"
+    local selected_locale=""
+
+    if ductn_locale_works "$preferred_locale"; then
+        selected_locale="$preferred_locale"
+    elif ductn_locale_works "$fallback_locale"; then
+        selected_locale="$fallback_locale"
+    else
+        if command -v locale-gen >/dev/null 2>&1; then
+            if [[ -f /etc/locale.gen ]] && ! grep -Eq '^[[:space:]]*en_US.UTF-8[[:space:]]+UTF-8' /etc/locale.gen; then
+                if grep -Eq '^[[:space:]]*#[[:space:]]*en_US.UTF-8[[:space:]]+UTF-8' /etc/locale.gen; then
+                    sed -i 's/^[[:space:]]*#[[:space:]]*\(en_US.UTF-8[[:space:]]\+UTF-8\)/\1/' /etc/locale.gen || true
+                else
+                    printf '%s\n' 'en_US.UTF-8 UTF-8' >>/etc/locale.gen || true
+                fi
+            fi
+            locale-gen en_US.UTF-8 >/dev/null 2>&1 || true
+        fi
+
+        if ductn_locale_works "$fallback_locale"; then
+            selected_locale="$fallback_locale"
+        else
+            selected_locale="$preferred_locale"
+        fi
+    fi
+
+    export LANG="$selected_locale"
+    export LC_ALL="$selected_locale"
+    export LANGUAGE="en_US:en"
+
+    if command -v update-locale >/dev/null 2>&1; then
+        update-locale LANG="$selected_locale" LC_ALL="$selected_locale" LANGUAGE="en_US:en" >/dev/null 2>&1 || true
+    fi
+
+    echo "[ductn] ✔ Locale configured: $selected_locale"
+}
+
 # summary of how this script can be called:
 #        * <postinst> `configure' <most-recently-configured-version>
 #        * <old-postinst> `abort-upgrade' <new version>
@@ -21,6 +68,8 @@ set -e
 
 case "$1" in
 configure)
+    setup_ductn_locale
+
     if command -v ductn >/dev/null 2>&1; then
         ductn time:timezone >/dev/null 2>&1 || true
     fi

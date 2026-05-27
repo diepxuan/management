@@ -1,97 +1,145 @@
 #!/usr/bin/env python3
 
+"""SSH cleanup: deduplicate authorized_keys, fix permissions, xóa host key cũ.
+
+Usage:
+    ductn ssh:cleanup
+        Deduplicate authorized_keys + fix permissions.
+    ductn ssh:cleanup <ip_or_hostname>
+        Xóa host key cũ khỏi known_hosts (LXC/VM thay đổi, cùng IP).
+"""
+
 import os
-import subprocess
+import stat
 import logging
 
 from .registry import register_command
-from .system import _is_root
-
-
-@register_command
-def d_ssh_cleanup():
-    """Dọn dẹp và sắp xếp lại SSH authorized_keys, loại bỏ dòng trùng."""
-    auth_keys = os.path.expanduser("~/.ssh/authorized_keys")
-    if not os.path.exists(auth_keys):
-        logging.info("Không tìm thấy ~/.ssh/authorized_keys")
-        return
-
-    try:
-        with open(auth_keys, "r") as f:
-            lines = f.readlines()
-        unique = sorted(set(lines))
-        with open(auth_keys, "w") as f:
-            f.writelines(unique)
-        logging.info(f"Đã dọn dẹp SSH keys: {len(lines)} -> {len(unique)} keys")
-    except Exception as e:
-        logging.error(f"Lỗi khi dọn dẹp SSH keys: {e}")
 
 
 def _fix_ssh_permissions():
-    ssh_dir = os.path.expanduser("~/.ssh")
-    os.makedirs(ssh_dir, exist_ok=True)
-    os.chmod(ssh_dir, 0o700)
+    """Đặt permission chuẩn cho ~/.ssh và các file bên trong.
 
+    ~/.ssh        → 0o700 (rwx------)
+    ~/.ssh/*      → 0o600 (rw-------)
+    """
+    ssh_dir = os.path.expanduser("~/.ssh")
+    if not os.path.isdir(ssh_dir):
+        logging.info("~/.ssh không tồn tại, tạo mới với permission 0o700")
+        os.makedirs(ssh_dir, mode=0o700, exist_ok=True)
+        return
+
+    os.chmod(ssh_dir, 0o700)
     for filename in os.listdir(ssh_dir):
         filepath = os.path.join(ssh_dir, filename)
         if os.path.isfile(filepath):
             os.chmod(filepath, 0o600)
 
 
-@register_command
-def d_ssh_install():
-    """Cài đặt SSH: tạo public key từ private key, sửa permissions."""
-    ssh_dir = os.path.expanduser("~/.ssh")
-    id_rsa = os.path.join(ssh_dir, "id_rsa")
+def _remove_known_hosts_entry(target):
+    """Xóa tất cả dòng matching target khỏi ~/.ssh/known_hosts.
 
-    if os.path.exists(id_rsa):
-        try:
-            result = subprocess.run(
-                ["ssh-keygen", "-y", "-f", id_rsa],
-                capture_output=True,
-                text=True,
-                check=True,
-            )
-            pub_path = os.path.join(ssh_dir, "id_rsa.pub")
-            with open(pub_path, "w") as f:
-                f.write(result.stdout)
-            logging.info("Đã tạo public key từ private key")
-        except subprocess.CalledProcessError as e:
-            logging.error(f"Lỗi tạo public key: {e.stderr}")
-    else:
-        logging.warning("Không tìm thấy ~/.ssh/id_rsa, bỏ qua tạo public key")
-
-    _fix_ssh_permissions()
-
-
-@register_command
-def d_ssh_copy(args=None):
+    Tương đương `ssh-keygen -R <target>` nhưng không cần gọi subprocess.
+    Giữ nguyên các host key khác, xóa cả hashed và unhashed entries.
     """
-    Copy SSH key tới remote server.
-    Usage: ductn ssh:copy user@host
-    """
-    if not args:
-        logging.error("Usage: ductn ssh:copy <user@host>")
-        return
-
-    remote = args[0] if isinstance(args, list) else args
-    local_key = os.path.expanduser("~/.ssh/id_rsa")
-
-    if not os.path.exists(local_key):
-        logging.error(f"Không tìm thấy {local_key}")
+    known_hosts = os.path.expanduser("~/.ssh/known_hosts")
+    if not os.path.isfile(known_hosts):
+        logging.info(f"~/.ssh/known_hosts không tồn tại, bỏ qua xóa key cho {target}")
         return
 
     try:
-        with open(local_key, "r") as f:
-            key_content = f.read()
+        with open(known_hosts, "r") as f:
+            lines = f.readlines()
+    except OSError as e:
+        logging.error(f"Không thể đọc {known_hosts}: {e}")
+        return
 
-        # Copy key file tới remote
-        cmd = (
-            f'echo \'{key_content.strip()}\' | ssh {remote} '
-            '"cat > ~/.ssh/id_rsa && chmod 600 ~/.ssh/* && '
-            'ssh-keygen -y -f ~/.ssh/id_rsa > ~/.ssh/id_rsa.pub"'
+    unique_lines = []
+    removed = 0
+    for line in lines:
+        stripped = line.strip()
+        # known_hosts format: host1,host2,... key_type key_data [comment]
+        # Hoặc hashed: |1|base64... key_type key_data
+        host_part = stripped.split(" ")[0] if stripped else ""
+
+        # Check nếu target xuất hiện trong host list (unhashed)
+        if target in host_part:
+            removed += 1
+            continue
+
+        unique_lines.append(line)
+
+    if removed > 0:
+        try:
+            with open(known_hosts, "w") as f:
+                f.writelines(unique_lines)
+            logging.info(
+                f"SSH cleanup: đã xóa {removed} host key cũ cho '{target}' "
+                f"từ known_hosts"
+            )
+        except OSError as e:
+            logging.error(f"Không thể ghi {known_hosts}: {e}")
+    else:
+        logging.info(
+            f"SSH cleanup: không tìm thấy host key cho '{target}' trong known_hosts"
         )
-        subprocess.run(cmd, shell=True, check=True)
-        logging.info(f"Đã copy SSH key tới {remote}")
-    except subprocess.CalledProcessError as e:
-        logging.error(f"Lỗi copy SSH key tới {remote}: {e}")
+
+
+def _deduplicate_authorized_keys():
+    """Loại bỏ dòng trùng trong authorized_keys, giữ thứ tự."""
+    auth_keys = os.path.expanduser("~/.ssh/authorized_keys")
+
+    if not os.path.isfile(auth_keys):
+        logging.info("~/.ssh/authorized_keys không tồn tại, bỏ qua dedup")
+        return
+
+    try:
+        with open(auth_keys, "r") as f:
+            lines = f.readlines()
+    except OSError as e:
+        logging.error(f"Không thể đọc {auth_keys}: {e}")
+        return
+
+    seen = set()
+    unique_lines = []
+    removed = 0
+    for line in lines:
+        stripped = line.strip()
+        if stripped == "" or stripped.startswith("#"):
+            unique_lines.append(line)
+            continue
+        if stripped in seen:
+            removed += 1
+            continue
+        seen.add(stripped)
+        unique_lines.append(line)
+
+    if removed > 0:
+        try:
+            with open(auth_keys, "w") as f:
+                f.writelines(unique_lines)
+            logging.info(
+                f"SSH authorized_keys: {len(lines)} -> {len(unique_lines)} lines "
+                f"(loại {removed} dòng trùng)"
+            )
+        except OSError as e:
+            logging.error(f"Không thể ghi {auth_keys}: {e}")
+    else:
+        logging.info("SSH authorized_keys: không có dòng trùng nào")
+
+
+@register_command
+def d_ssh_cleanup(args=None):
+    """Dọn dẹp SSH: dedup authorized_keys, fix permissions, hoặc xóa host key cũ.
+
+    - Không có arg: dedup authorized_keys + fix permissions
+    - Có arg (IP/hostname): xóa host key cũ khỏi known_hosts cho target đó
+    """
+    if args:
+        target = args[0] if isinstance(args, list) else args
+        logging.info(f"SSH cleanup: xóa host key cho '{target}'")
+        _remove_known_hosts_entry(target)
+        _fix_ssh_permissions()
+    else:
+        _deduplicate_authorized_keys()
+        _fix_ssh_permissions()
+        logging.info("SSH permissions: ~/.ssh=0o700, ~/.ssh/*=0o600")
