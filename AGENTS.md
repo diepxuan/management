@@ -94,6 +94,13 @@ Closes #123
 - Đợi Sếp review trước khi merge
 - Không tự ý update PR cũ (tạo PR mới nếu cần change)
 
+### 3.4. Version workflow
+
+- Trước khi làm task thuộc một version, đọc `docs/VERSION-WORKFLOW.md`.
+- Mỗi task phải khai báo version, branch, docs checklist, validation checklist trong `TASKS.md`.
+- Với version đang mở, cập nhật chung entry hiện tại trong `src/debian/changelog`; không tự tạo version mới nếu Sếp chưa yêu cầu.
+- Version 5.6.1 dùng baseline trong `TASKS.md` mục `Version 5.6.1 Working Baseline`.
+
 ---
 
 ## 4. External vs Internal Actions

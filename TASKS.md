@@ -1,8 +1,8 @@
 # TASKS.md - Bash to Python Migration
 
-**Project:** ductn (DiepXuan Personal Package)  
-**Created:** 2026-04-18  
-**Updated:** 2026-05-26  
+**Project:** ductn (DiepXuan Personal Package)
+**Created:** 2026-04-18
+**Updated:** 2026-05-27
 **Goal:** Migrate all bash scripts from `src/var/lib/` to Python modules in `src/utils/`
 
 ---
@@ -16,6 +16,217 @@
 | ⏳ Pending | 31 | Waiting to be migrated |
 | 🔀 Partial | 8 | Partially migrated (some commands done, some pending) |
 | 🚫 Deprecated | 3 | Bash scripts moved to deprecated/ |
+
+---
+
+
+## Version 5.6.1 Working Baseline
+
+**Version:** `5.6.1+ppa~1`
+**Branch rule:** mỗi task = một branch riêng từ `main`
+**Workflow reference:** `docs/VERSION-WORKFLOW.md`
+**Changelog rule:** mọi task thuộc version này cập nhật chung entry `5.6.1+ppa~1` trong `src/debian/changelog`; không tự tạo version mới.
+
+### Version 5.6.1 Scope
+
+- Tiếp tục migrate Bash scripts từ `src/var/lib/` sang Python modules trong `src/utils/`.
+- Hoàn thiện Python CLI command registry qua `@register_command`.
+- Giữ Debian packaging ổn định, chỉ sửa khi task thật sự cần.
+- Bổ sung documentation đầy đủ để agent khác đọc là làm tiếp được.
+- Không xóa legacy Bash script nếu Python chưa có parity và validation đủ.
+
+### Version 5.6.1 Task Workflow
+
+Mỗi task trong version 5.6.1 phải đi theo flow:
+
+```text
+Chọn task trong TASKS.md
+  ↓
+Tạo branch riêng: feat/5.6.1-<task> hoặc fix/5.6.1-<task>
+  ↓
+Đọc source hiện tại và Bash legacy nếu có
+  ↓
+Implement Python/code/docs
+  ↓
+Cập nhật README.md, TASKS.md, src/debian/changelog
+  ↓
+Tạo docs/UPDATE-YYYY-MM-DD-<topic>.md nếu behavior/package thay đổi
+  ↓
+Chạy validation phù hợp
+  ↓
+Commit local
+  ↓
+Báo cáo Sếp, không push/PR/merge khi chưa được phép
+```
+
+### Version 5.6.1 Documentation Checklist
+
+| File | Required | Purpose |
+|------|----------|---------|
+| `docs/VERSION-WORKFLOW.md` | Always read | Quy trình version/task/branch/changelog/validation |
+| `README.md` | Khi command/usage thay đổi | Tài liệu user-facing |
+| `TASKS.md` | Mọi task | Tracking scope, status, checklist |
+| `src/debian/changelog` | Mọi task thuộc package | Release notes cho `5.6.1+ppa~1` |
+| `docs/UPDATE-YYYY-MM-DD-<topic>.md` | Khi behavior/config/package thay đổi | Change note chi tiết |
+| Module README nếu có | Khi module có docs riêng | Tài liệu module-specific |
+
+### Version 5.6.1 Task Template
+
+Dùng mẫu này khi thêm hoặc cập nhật task:
+
+```md
+### ⏳ Task <id>: <Task Name>
+- **Version:** `5.6.1+ppa~1`
+- **Status:** ⏳ PENDING
+- **Branch:** `feat/5.6.1-<task-name>`
+- **Workflow:** `docs/VERSION-WORKFLOW.md`
+- **Scope:** <mô tả ngắn task>
+- **Source:** `<file gốc nếu có>`
+- **Target:** `<file đích nếu có>`
+- **Commands:**
+  | Command | Description | Status |
+  |---------|-------------|--------|
+  | `<command>` | <mô tả> | Pending |
+- **Documentation:**
+  - [ ] `README.md`
+  - [ ] `TASKS.md`
+  - [ ] `src/debian/changelog` entry `5.6.1+ppa~1`
+  - [ ] `docs/UPDATE-YYYY-MM-DD-<topic>.md` nếu cần
+- **Validation:**
+  - [ ] `python3 -m py_compile <file>` nếu có Python change
+  - [ ] `python3 -m compileall src` nếu có Python CLI change
+  - [ ] `bash -n <script>` nếu có shell/Debian script change
+  - [ ] `cd src && ./ductn commands` nếu command registry đổi
+  - [ ] `git diff --check`
+- **Definition of Done:**
+  - [ ] Code/config/docs hoàn thành
+  - [ ] Changelog cập nhật đúng version
+  - [ ] Validation OK
+  - [ ] Commit local
+  - [ ] Báo cáo Sếp
+  - [ ] Chưa push/PR/merge khi chưa được phép
+```
+
+### Version 5.6.1 Definition of Done
+
+Một task 5.6.1 chỉ được coi là xong local khi đủ:
+
+- [ ] Có branch riêng, không làm trên `main`.
+- [ ] Scope đúng một task.
+- [ ] Code/config/docs hoàn thành.
+- [ ] `README.md` cập nhật nếu command/usage đổi.
+- [ ] `TASKS.md` cập nhật trạng thái/checklist.
+- [ ] `src/debian/changelog` có bullet trong entry `5.6.1+ppa~1`.
+- [ ] Có `docs/UPDATE-*` nếu behavior/config/package thay đổi.
+- [ ] Validation chạy OK và ghi lại trong báo cáo.
+- [ ] Không secrets/.env/debug/temp files.
+- [ ] Commit local theo chuẩn `type(scope): description`.
+- [ ] Báo cáo Sếp, không tự push/PR/merge.
+
+### ✅ Task 5.6.1-001: Version workflow documentation
+- **Version:** `5.6.1+ppa~1`
+- **Status:** ✅ COMPLETED
+- **Branch:** `docs/5.6.1-version-workflow`
+- **Workflow:** `docs/VERSION-WORKFLOW.md`
+- **Scope:** Tạo quy trình chính thức cho version/task/branch/changelog/validation.
+- **Target:** `docs/VERSION-WORKFLOW.md`, `TASKS.md`, `AGENTS.md`, `src/debian/changelog`
+- **Documentation:**
+  - [x] `docs/VERSION-WORKFLOW.md`
+  - [x] `TASKS.md`
+  - [x] `src/debian/changelog` entry `5.6.1+ppa~1`
+- **Validation:**
+  - [x] `git diff --check`
+  - [x] `dpkg-parsechangelog -l src/debian/changelog -S Version`
+- **Definition of Done:**
+  - [x] Docs hoàn thành
+  - [x] Changelog cập nhật đúng version
+  - [x] Validation OK
+  - [x] Commit local
+  - [x] PR mở để Sếp review
+
+### ✅ Task 5.6.1-002: Package install locale auto-fix
+- **Version:** `5.6.1+ppa~1`
+- **Status:** ✅ COMPLETED
+- **Branch:** `docs/5.6.1-version-workflow`
+- **Workflow:** `docs/VERSION-WORKFLOW.md`
+- **Scope:** Tự động cấu hình locale UTF-8 khi cài package `ductn`, ưu tiên `C.UTF-8`, fallback `en_US.UTF-8`.
+- **Source:** `src/debian/postinst`, `src/debian/control`
+- **Target:** `src/debian/postinst`, `src/debian/control`, `README.md`, `docs/UPDATE-2026-05-27-locale-install.md`, `src/debian/changelog`
+- **Documentation:**
+  - [x] `README.md`
+  - [x] `TASKS.md`
+  - [x] `src/debian/changelog` entry `5.6.1+ppa~1`
+  - [x] `docs/UPDATE-2026-05-27-locale-install.md`
+- **Validation:**
+  - [x] `bash -n src/debian/postinst`
+  - [x] `bash -n src/build.sh`
+  - [x] `dpkg-parsechangelog -l src/debian/changelog -S Version`
+  - [x] `git diff --check`
+- **Definition of Done:**
+  - [x] Locale setup hoàn thành
+  - [x] Docs hoàn thành
+  - [x] Changelog cập nhật đúng version
+  - [x] Validation OK
+  - [x] Commit local
+  - [x] Update PR để Sếp review
+
+### ✅ Task 5.6.1-003: Deprecate swap commands
+- **Version:** `5.6.1+ppa~1`
+- **Status:** ✅ COMPLETED
+- **Branch:** `docs/5.6.1-version-workflow`
+- **Workflow:** `docs/VERSION-WORKFLOW.md`
+- **Scope:** Review `src/var/lib/swap.sh`, move legacy swap implementation to `deprecated/`, and remove active `swap:*` commands from the `ductn` package.
+- **Source:** `src/var/lib/swap.sh`, `src/utils/swap.py`, `src/utils/__init__.py`
+- **Target:** `deprecated/src/var/lib/swap.sh`, `deprecated/src/utils/swap.py`, `TASKS.md`, `README.md`, `docs/UPDATE-2026-05-27-swap-deprecated.md`, `src/debian/changelog`
+- **Commands removed:**
+  - `swap:remove`
+  - `swap:install`
+- **Documentation:**
+  - [x] `README.md`
+  - [x] `TASKS.md`
+  - [x] `src/debian/changelog` entry `5.6.1+ppa~1`
+  - [x] `docs/UPDATE-2026-05-27-swap-deprecated.md`
+- **Validation:**
+  - [x] `python3 -m compileall src/utils`
+  - [x] `bash -n deprecated/src/var/lib/swap.sh`
+  - [x] `! ./ductn commands | tr ' ' '\n' | grep '^swap:'`
+  - [x] `git diff --check`
+- **Definition of Done:**
+  - [x] Active swap commands removed
+  - [x] Legacy files moved to `deprecated/`
+  - [x] Docs hoàn thành
+  - [x] Changelog cập nhật đúng version
+  - [x] Validation OK
+  - [x] Update PR để Sếp review
+
+### ✅ Task 5.6.1-004: Recreate ssh:cleanup (safe subset)
+- **Version:** `5.6.1+ppa~1`
+- **Status:** ✅ COMPLETED
+- **Branch:** `docs/5.6.1-version-workflow`
+- **Workflow:** `docs/VERSION-WORKFLOW.md`
+- **Scope:** Tái tạo `src/utils/ssh.py` với `ssh:cleanup` — lệnh an toàn, 2 mode:
+  1. Không arg: dedup authorized_keys + fix permissions
+  2. Có arg (`ssh:cleanup <ip>`): xóa host key cũ khỏi known_hosts (LXC/VM thay đổi, cùng IP)
+- **Source:** `deprecated/src/utils/ssh.py` (tham khảo logic cũ)
+- **Target:** `src/utils/ssh.py` (mới, `d_ssh_cleanup`)
+- **Commands added:**
+  - `ssh:cleanup` — dedup authorized_keys, chmod 700/600
+  - `ssh:cleanup <ip_or_hostname>` — xóa host key cũ khỏi known_hosts (tương đương `ssh-keygen -R`)
+- **Commands still deprecated:**
+  - `ssh:install` — vẫn trong `deprecated/`
+  - `ssh:copy` — vẫn trong `deprecated/`
+- **Documentation:**
+  - [x] `TASKS.md`
+  - [x] `src/debian/changelog`
+- **Validation:**
+  - [x] `python3 -m compileall src/utils/ssh.py`
+  - [x] `./ductn ssh:cleanup` — dedup mode
+  - [x] `./ductn ssh:cleanup <ip>` — remove host key mode
+- **Definition of Done:**
+  - [x] `d_ssh_cleanup` hoạt động 2 mode
+  - [x] Import trong `__init__.py`
+  - [x] Validation OK
+  - [x] Update PR để Sếp review
 
 ---
 
@@ -65,18 +276,15 @@
   - `vpn:type`
 - **Reason:** VPN command group removed from active Bash and Python CLI surface.
 
-### ⏳ Task 1.5: SSH Management
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/ssh.sh` (88 lines)
-- **Python:** `src/utils/ssh.py` (TODO)
-- **Target Commands:**
-  | Command | Description |
-  |---------|-------------|
-  | `ssh:cleanup` | Clean SSH known_hosts |
-  | `ssh:install` | Install/configure SSH server |
-  | `ssh:permision` | Fix SSH permissions |
-  | `ssh:copy` | Copy SSH keys |
-- **Action:** Create `src/utils/ssh.py`
+### 🚫 Task 1.5: SSH Management
+- **Status:** 🚫 DEPRECATED
+- **Bash:** `src/var/lib/ssh.sh` → `deprecated/src/var/lib/ssh.sh`
+- **Python:** `src/utils/ssh.py` → `deprecated/src/utils/ssh.py`
+- **Commands removed:**
+  - `ssh:cleanup`
+  - `ssh:install`
+  - `ssh:copy`
+- **Reason:** SSH command group removed from active Bash and Python CLI surface. Commands manipulate private keys, authorized_keys, and remote access directly; should not be shipped as default package commands without a dedicated, reviewed workflow.
 
 ### ⏳ Task 1.6: Log Management
 - **Status:** ⏳ PENDING
@@ -254,16 +462,14 @@
   - `mysql:ssl:enable`
 - **Reason:** MySQL command group removed from active Bash and Python CLI surface.
 
-### ⏳ Task 2.12: Swap Management
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/swap.sh` (21 lines)
-- **Python:** `src/utils/swap.py` (TODO)
-- **Target Commands:**
-  | Command | Description |
-  |---------|-------------|
-  | `swap:remove` | Remove swap |
-  | `swap:install` | Create swap |
-- **Action:** Create `src/utils/swap.py`
+### 🚫 Task 2.12: Swap Management
+- **Status:** 🚫 DEPRECATED
+- **Bash:** `src/var/lib/swap.sh` → `deprecated/src/var/lib/swap.sh`
+- **Python:** `src/utils/swap.py` → `deprecated/src/utils/swap.py`
+- **Commands removed:**
+  - `swap:remove`
+  - `swap:install`
+- **Reason:** Swap command group removed from active Bash and Python CLI surface. Commands directly manipulate `/swapfile` and are no longer shipped by the `ductn` package.
 
 ### ⏳ Task 2.13: Port Management
 - **Status:** ⏳ PENDING
