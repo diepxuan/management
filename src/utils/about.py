@@ -7,7 +7,7 @@ from .registry import COMMANDS, register_command
 from . import PACKAGE_NAME
 from . import Console
 from . import Table
-from .command import render_command_tree
+from .command import render_command_list
 
 
 def _print_grouped_help_plain():
@@ -18,7 +18,7 @@ def _print_grouped_help_plain():
     print("  ductn commands [--grouped]")
     print("")
     print("Commands:")
-    print(render_command_tree(include_descriptions=True))
+    print(render_command_list(include_descriptions=True))
     print("")
     print("Options:")
     print("  -h, --help                  Show help and exit")

@@ -60,7 +60,7 @@ def _print_main_help():
         print(f"  {command_name:<22} {description}")
     print("")
     print("Commands:")
-    print(utils.command.render_command_tree())
+    print(utils.command.render_command_list(include_descriptions=True))
     print("")
     print("Run `ductn help` for commands with descriptions.")
     print("Run `ductn <command> --help` for command-specific help.")

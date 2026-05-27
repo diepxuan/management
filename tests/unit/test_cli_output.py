@@ -32,10 +32,12 @@ class TestCliOutput(unittest.TestCase):
         self.assertIn("Usage:", output)
         self.assertIn("Common commands:", output)
         self.assertIn("Commands:", output)
-        self.assertIn("├── apt", output)
-        self.assertIn("│   ├── apt:check", output)
-        self.assertIn("└──", output)
+        self.assertIn("apt\n", output)
+        self.assertIn("  apt:check", output)
+        self.assertIn("Check if package is installed", output)
         self.assertIn("Run `ductn help`", output)
+        self.assertNotIn("├──", output)
+        self.assertNotIn("└──", output)
         self.assertNotIn("command(s)", output)
         self.assertNotIn("{update,commands,help,version", output)
 
@@ -56,9 +58,12 @@ class TestCliOutput(unittest.TestCase):
         output = stdout.getvalue()
 
         self.assertIn("Commands:", output)
-        self.assertIn("├── apt", output)
-        self.assertIn("│   ├── apt:check", output)
+        self.assertIn("apt\n", output)
+        self.assertIn("  apt:check", output)
+        self.assertIn("Check if package is installed", output)
         self.assertIn("ssh:cleanup", output)
+        self.assertNotIn("├──", output)
+        self.assertNotIn("└──", output)
         self.assertNotIn("zfs:disk:format👢disk", output)
 
     def test_commands_by_group_returns_grouped_commands(self):

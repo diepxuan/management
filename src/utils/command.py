@@ -32,29 +32,33 @@ def _command_description(command_name):
     return func.__doc__.strip().split("\n", 1)[0]
 
 
-def render_command_tree(include_descriptions=False):
-    """Render commands as a readable tree grouped by namespace."""
+def render_command_list(include_descriptions=False):
+    """Render commands grouped by namespace using plain indented text."""
     lines = []
-    grouped = _commands_by_group()
-    group_items = list(grouped.items())
 
-    for group_index, (group, commands) in enumerate(group_items):
-        group_is_last = group_index == len(group_items) - 1
-        group_branch = "└──" if group_is_last else "├──"
-        child_prefix = "    " if group_is_last else "│   "
-        lines.append(f"{group_branch} {group}")
-
-        for command_index, command_name in enumerate(commands):
-            command_is_last = command_index == len(commands) - 1
-            command_branch = "└──" if command_is_last else "├──"
-            line = f"{child_prefix}{command_branch} {command_name}"
+    for group, commands in _commands_by_group().items():
+        lines.append(group)
+        for command_name in commands:
+            line = f"  {command_name:<24}"
             if include_descriptions:
                 description = _command_description(command_name)
                 if description:
-                    line = f"{line:<36} {description}"
+                    line = f"{line} {description}"
+            else:
+                line = line.rstrip()
             lines.append(line)
+        lines.append("")
+
+    while lines and lines[-1] == "":
+        lines.pop()
 
     return "\n".join(lines)
+
+
+# Backward-compatible helper name for callers/tests from earlier refactor.
+def render_command_tree(include_descriptions=False):
+    """Render commands grouped by namespace using plain indented text."""
+    return render_command_list(include_descriptions=include_descriptions)
 
 
 def print_command_list(grouped=False):
@@ -63,7 +67,7 @@ def print_command_list(grouped=False):
         print(" ".join(_commands()))
         return
 
-    print(render_command_tree())
+    print(render_command_list())
 
 
 @register_command
