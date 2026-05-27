@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import argparse
-import inspect
 import sys
 
 PACKAGE_NAME = "ductn"
@@ -10,7 +9,7 @@ SERVICE_NAME = "ductnd"
 import utils
 
 
-COMMON_COMMANDS = [
+CORE_COMMANDS = [
     "help",
     "commands",
     "version",
@@ -41,6 +40,44 @@ def _load_argcomplete():
         return None, None
 
 
+def _render_grouped_commands():
+    """Render commands grouped by namespace, core commands shown first without group header."""
+    lines = []
+
+    core_cmds = [cmd for cmd in CORE_COMMANDS if cmd in utils.COMMANDS]
+    other_cmds = [cmd for cmd in utils.COMMANDS if cmd not in CORE_COMMANDS]
+
+    if core_cmds:
+        for command_name in core_cmds:
+            description = utils.command._command_description(command_name)
+            line = f"  {command_name:<24}"
+            if description:
+                line = f"{line} {description}"
+            lines.append(line)
+        lines.append("")
+
+    grouped = utils.command._commands_by_group()
+    group_items = sorted(grouped.items())
+
+    for group, commands in group_items:
+        filtered = [c for c in commands if c not in CORE_COMMANDS]
+        if not filtered:
+            continue
+        lines.append(group)
+        for command_name in filtered:
+            description = utils.command._command_description(command_name)
+            line = f"  {command_name:<24}"
+            if description:
+                line = f"{line} {description}"
+            lines.append(line)
+        lines.append("")
+
+    while lines and lines[-1] == "":
+        lines.pop()
+
+    return "\n".join(lines)
+
+
 def _print_main_help():
     version = utils.about._version()
 
@@ -52,17 +89,10 @@ def _print_main_help():
     print("  ductn help")
     print("  ductn commands [--grouped]")
     print("")
-    print("Common commands:")
-    for command_name in COMMON_COMMANDS:
-        if command_name not in utils.COMMANDS:
-            continue
-        description = utils.command._command_description(command_name)
-        print(f"  {command_name:<22} {description}")
-    print("")
     print("Commands:")
-    print(utils.command.render_command_list(include_descriptions=True))
+    print(_render_grouped_commands())
     print("")
-    print("Run `ductn help` for commands with descriptions.")
+    print("Run `ductn help` for full command list with descriptions.")
     print("Run `ductn <command> --help` for command-specific help.")
 
 

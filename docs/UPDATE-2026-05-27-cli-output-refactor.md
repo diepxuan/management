@@ -4,7 +4,7 @@
 
 Refactor output của `./ductn` để gọn, rõ và chuyên nghiệp hơn. Trước đây `argparse` in toàn bộ command choice trong usage, làm màn hình rất rối và khó đọc. Sau thay đổi, CLI dùng custom parser flow:
 
-- `ductn` không args hiển thị overview ngắn + full command list dạng indented plain text.
+- `ductn` không args hiển thị core commands không group header, sau đó các group khác.
 - `ductn help` hiển thị command list dạng indented plain text kèm mô tả.
 - `ductn commands` giữ output machine-readable một dòng.
 - `ductn commands --grouped` hiển thị command list dạng indented plain text.
@@ -18,9 +18,11 @@ Hiển thị:
 
 - Version.
 - Usage ngắn.
-- Common commands.
-- Full command list dạng indented plain text theo group.
+- Core commands (help, version, sys:info, apt:check...) không group header.
+- Các group còn lại (cli, cron, dns...) xếp phía dưới.
 - Gợi ý `ductn help` và `ductn <command> --help`.
+
+Không còn section "Common commands" bị trùng lặp với phần "Commands".
 
 ### `ductn help`
 
