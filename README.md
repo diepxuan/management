@@ -191,7 +191,7 @@ Một số nhóm Bash legacy còn tồn tại trong `src/var/lib/` vì chưa có
 - `environment.sh`, `environment.color.sh`, `environment.text.sh`
 - `php.sh`, `php.lar.sh`, `php.m2.sh`
 
-Các Bash đã có Python module tương ứng được chuyển sang `deprecated/src/var/lib/`, gồm `apt.sh`, `dns.sh`, `swap.sh`, `ssh.sh`, `cronjob.sh`, `disk.sh`, `file.sh`, `gpg.sh`, `host.sh`, `httpd.sh`, `log.sh`, `port.sh`, `route.sh`, `server.sh`, `service.sh`, `ufw.sh`, `user.sh`, `vm.sh`. Nhóm `httpd:*` đã bị gỡ khỏi command surface active; cả Bash và Python implementation nằm trong `deprecated/`.
+Các Bash đã có Python module tương ứng được chuyển sang `deprecated/src/var/lib/`, gồm `apt.sh`, `dns.sh`, `swap.sh`, `ssh.sh`, `cronjob.sh`, `disk.sh`, `file.sh`, `gpg.sh`, `host.sh`, `httpd.sh`, `log.sh`, `port.sh`, `route.sh`, `server.sh`, `service.sh`, `ufw.sh`, `user.sh`, `vm.sh`. Các nhóm `httpd:*`, `dns:technitium:*`, `ufw:*` đã bị gỡ khỏi command surface active; Bash/Python implementation tương ứng nằm trong `deprecated/`.
 
 macOS-specific scripts vẫn nằm trong `src/var/lib/macos/` cho tới khi có migration riêng.
 

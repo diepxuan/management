@@ -87,7 +87,6 @@ from . import cronjob
 from . import port
 from . import user
 from . import disk
-from . import ufw
 from . import git_utils
 from . import php_utils
 from . import laravel

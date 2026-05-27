@@ -19,7 +19,7 @@ Kiểm tra các Bash script còn trong `src/var/lib/`. Những script đã có P
 | `src/var/lib/route.sh` | `src/utils/route.py` |
 | `src/var/lib/server.sh` | `src/utils/server.py` |
 | `src/var/lib/service.sh` | `src/utils/service.py` |
-| `src/var/lib/ufw.sh` | `src/utils/ufw.py` |
+| `src/var/lib/ufw.sh` | `deprecated/src/utils/ufw.py` (`ufw:*` removed from active package) |
 | `src/var/lib/user.sh` | `src/utils/user.py` |
 | `src/var/lib/vm.sh` | `src/utils/vm.py` |
 

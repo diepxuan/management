@@ -440,19 +440,18 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   | `zfs:disk:format_boot_disk` | Format boot disk |
 - **Action:** Create `src/utils/disk.py`
 
-### ⏳ Task 2.10: UFW/Firewall Management
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/ufw.sh` (54 lines)
-- **Python:** `src/utils/ufw.py` (TODO)
-- **Target Commands:**
-  | Command | Description |
-  |---------|-------------|
-  | `ufw:disable` | Disable UFW |
-  | `ufw:geoip:uninstall` | Remove GeoIP rules |
-  | `ufw:geoip:allowCloudflare` | Allow Cloudflare IPs |
-  | `ufw:fail2ban:uninstall` | Remove fail2ban |
-  | `ufw:iptables:uninstall` | Remove iptables rules |
-- **Action:** Create `src/utils/ufw.py`
+### 🚫 Task 2.10: UFW/Firewall Management
+- **Status:** 🚫 DEPRECATED
+- **Bash:** `src/var/lib/ufw.sh` → `deprecated/src/var/lib/ufw.sh`
+- **Python:** `src/utils/ufw.py` → `deprecated/src/utils/ufw.py`
+- **Commands removed:**
+  - `ufw:disable`
+  - `ufw:geoip:uninstall`
+  - `ufw:geoip:allow:cloudflare`
+  - `ufw:geoip:allowCloudflare`
+  - `ufw:fail2ban:uninstall`
+  - `ufw:iptables:uninstall`
+- **Reason:** UFW/firewall command group removed from active package surface.
 
 ### 🚫 Task 2.11: MySQL Management
 - **Status:** 🚫 DEPRECATED
