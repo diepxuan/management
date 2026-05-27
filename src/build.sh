@@ -462,13 +462,15 @@ is_empty_or_whitespace "$package_clog" && package_clog='Update package'
 package_version="$release_tag+$DISTRIB~$RELEASE"
 current_version=$(dpkg-parsechangelog -l "$changelog" -S Version 2>/dev/null || echo "$CHANGELOG_VERSION")
 
+echo "release_tag: $package_version"
+echo "package_clog: $package_clog"
+
 if dpkg --compare-versions "$package_version" eq "$current_version"; then
-    echo "release_tag: $package_version"
-    echo "package_clog: $package_clog"
     echo "Changelog already has target package version; skipping dch update."
+elif dpkg --compare-versions "$package_version" lt "$current_version"; then
+    echo "Target package version is lower than current changelog version; starting a distro-specific changelog entry."
+    dch --package $owner --newversion "$package_version" --distribution $CODENAME --force-bad-version -- "$package_clog"
 else
-    echo "release_tag: $package_version"
-    echo "package_clog: $package_clog"
     dch --package $owner --newversion "$package_version" --distribution $CODENAME -- "$package_clog"
 fi
 end_group
