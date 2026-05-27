@@ -204,11 +204,14 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
 - **Status:** ✅ COMPLETED
 - **Branch:** `docs/5.6.1-version-workflow`
 - **Workflow:** `docs/VERSION-WORKFLOW.md`
-- **Scope:** Tái tạo `src/utils/ssh.py` với chỉ `ssh:cleanup` — lệnh an toàn (dedup authorized_keys + fix permissions). Giữ `ssh:install`, `ssh:copy` trong deprecated.
+- **Scope:** Tái tạo `src/utils/ssh.py` với `ssh:cleanup` — lệnh an toàn, 2 mode:
+  1. Không arg: dedup authorized_keys + fix permissions
+  2. Có arg (`ssh:cleanup <ip>`): xóa host key cũ khỏi known_hosts (LXC/VM thay đổi, cùng IP)
 - **Source:** `deprecated/src/utils/ssh.py` (tham khảo logic cũ)
-- **Target:** `src/utils/ssh.py` (mới, chỉ có `d_ssh_cleanup`)
+- **Target:** `src/utils/ssh.py` (mới, `d_ssh_cleanup`)
 - **Commands added:**
-  - `ssh:cleanup` — loại bỏ dòng trùng trong authorized_keys, giữ thứ tự, chmod 700/600
+  - `ssh:cleanup` — dedup authorized_keys, chmod 700/600
+  - `ssh:cleanup <ip_or_hostname>` — xóa host key cũ khỏi known_hosts (tương đương `ssh-keygen -R`)
 - **Commands still deprecated:**
   - `ssh:install` — vẫn trong `deprecated/`
   - `ssh:copy` — vẫn trong `deprecated/`
@@ -217,9 +220,10 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   - [x] `src/debian/changelog`
 - **Validation:**
   - [x] `python3 -m compileall src/utils/ssh.py`
-  - [x] `./ductn ssh:cleanup --help` (nếu available)
+  - [x] `./ductn ssh:cleanup` — dedup mode
+  - [x] `./ductn ssh:cleanup <ip>` — remove host key mode
 - **Definition of Done:**
-  - [x] `d_ssh_cleanup` hoạt động độc lập
+  - [x] `d_ssh_cleanup` hoạt động 2 mode
   - [x] Import trong `__init__.py`
   - [x] Validation OK
   - [x] Update PR để Sếp review
