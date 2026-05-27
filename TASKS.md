@@ -236,8 +236,10 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
 - **Status:** ✅ COMPLETED
 - **Bash:** `src/var/lib/apt.sh` → deprecated
 - **Python:** `src/utils/apt.py`
-- **Commands:** `apt:fix`, `apt:check`, `apt:install`, `apt:remove`, `apt:uninstall`
-- **PR:** #7 (merged)
+- **Active Commands:** `apt:fix`, `apt:check`
+- **Removed Commands:** `apt:install`, `apt:remove`, `apt:uninstall`
+- **Notes:** `apt:fix` tự tìm process giữ lock; không dùng `killall`. Không `--force` thì báo PID/process nếu đang giữ lock. Có `--force`/`-f` thì kill đúng PID đang giữ lock, remove stale locks, rồi repair dpkg/apt.
+- **PR:** #7 (merged), updated in 5.6.1 PR #26
 
 ### ✅ Task 1.2: DNS Management
 - **Status:** ✅ COMPLETED

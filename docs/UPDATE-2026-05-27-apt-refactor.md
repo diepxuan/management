@@ -2,71 +2,105 @@
 
 ## Summary
 
-Review và refactor nhóm lệnh `apt:*` trong `ductn` package. Mục tiêu là giữ các command hữu ích (`apt:check`, `apt:install`, `apt:remove`, `apt:uninstall`) nhưng giảm rủi ro shell injection và hành vi package-manager không rõ ràng.
+Review và refactor nhóm lệnh `apt:*` trong `ductn` package.
 
-## Commands Reviewed
+Theo yêu cầu mới, package chỉ giữ lại:
+
+- `apt:check <package>`
+- `apt:fix [-f|--force]`
+
+Các lệnh package mutation trực tiếp bị gỡ khỏi command surface:
+
+- `apt:install`
+- `apt:remove`
+- `apt:uninstall`
+
+## Active Commands
 
 | Command | Status | Notes |
 |---------|--------|-------|
-| `apt:check <package>` | Refactored | Dùng `dpkg-query` argv list, không `shell=True` |
-| `apt:install <packages...>` | Refactored | Dùng `apt-get install -y`, skip package đã installed |
-| `apt:remove <packages...>` | Refactored | Dùng `apt-get purge -y` rồi `apt-get autoremove -y --purge` |
-| `apt:uninstall <packages...>` | Kept | Alias của `apt:remove` |
-| `apt:fix [--force]` | Reviewed | Safe mode implemented; force mode intentionally not implemented yet |
+| `apt:check <package>` | Active | Dùng `dpkg-query` argv list, không `shell=True` |
+| `apt:fix [-f|--force]` | Active | Tự detect process giữ lock, không dùng `killall` |
 
-## Key Changes
+## Removed Commands
 
-- Bỏ `shell=True` khỏi các flow đã refactor.
-- Validate package name bằng allowlist regex: `^[A-Za-z0-9][A-Za-z0-9+._:-]*$`.
-- Dùng `apt-get` thay vì `apt` cho script/automation.
-- `apt:install` gom các package còn thiếu rồi install một lần.
-- `apt:remove` tách rõ purge và autoremove.
-- Command failure trả về non-zero qua `sys.exit(1)`.
-- Invalid package name trả về `sys.exit(2)`.
+| Command | Status | Reason |
+|---------|--------|--------|
+| `apt:install` | Removed | Package installation nên dùng native apt/apt-get trực tiếp, tránh package tự expose destructive package-manager flow |
+| `apt:remove` | Removed | Package removal/purge là destructive; không giữ trong command surface mặc định |
+| `apt:uninstall` | Removed | Alias của `apt:remove`, removed cùng command gốc |
 
-## apt:fix Recommendation
-
-### Non-force mode
-
-Non-force là mode an toàn mặc định. Không kill process và không xóa lock files thủ công.
-
-Nên làm:
+## apt:check Behavior
 
 ```bash
-dpkg --configure -a
-apt-get -f install -y
+ductn apt:check bash
+# 1
+
+ductn apt:check missing-package
+# 0
 ```
 
-Mục tiêu:
-- Repair dpkg state bị interrupted.
-- Hoàn tất dependency/configuration còn dở.
-- Không phá lock nếu apt/dpkg thật sự đang chạy.
+Security:
 
-### Force mode
+- Validate package name bằng allowlist regex: `^[A-Za-z0-9][A-Za-z0-9+._:-]*$`.
+- Không dùng shell command string.
+- Invalid package name exit code `2`.
 
-`--force` nên chỉ dùng khi đã xác minh lock/process bị stale.
+## apt:fix Behavior
 
-Khác biệt đề xuất:
+### Normal mode: `ductn apt:fix`
 
-| Mode | Kill apt/dpkg process | Remove lock files | Use case |
-|------|------------------------|-------------------|----------|
-| non-force | No | No | Repair an toàn sau interrupted install |
-| `--force` | Yes, after detecting stale holder | Yes, after detection | Lock bị kẹt do process chết/crash |
+Flow:
 
-Rủi ro của `--force`:
-- Kill nhầm apt/dpkg đang chạy hợp lệ.
-- Xóa lock trong khi process thật còn dùng database.
-- Có thể làm hỏng `/var/lib/dpkg/status` hoặc để dpkg half-configured.
+1. Tìm process đang giữ APT/dpkg lock bằng `fuser` trên các lock files:
+   - `/var/lib/apt/lists/lock`
+   - `/var/cache/apt/archives/lock`
+   - `/var/lib/dpkg/lock`
+   - `/var/lib/dpkg/lock-frontend`
+2. Nếu `fuser` không tìm được holder, fallback scan process apt-like (`apt`, `apt-get`, `aptitude`, `dpkg`, `unattended-upgrade`).
+3. Nếu có process đang giữ lock:
+   - Không kill.
+   - Báo PID + command.
+   - Exit code `3`.
+   - Hướng dẫn Sếp chờ process hoàn tất hoặc dùng `apt:fix --force` / `apt:fix -f` nếu process treo/lỗi lock.
+4. Nếu không có process giữ lock:
+   - Remove stale lock files.
+   - Chạy repair:
+     ```bash
+     dpkg --configure -a
+     apt-get -f install -y
+     ```
 
-Vì vậy `apt:fix --force` hiện **chưa implement destructive cleanup**. Command báo lỗi rõ và exit `2`. Nếu cần bật, phải thêm lock-holder detection bằng `fuser`/`lsof`, report PID/command, rồi mới cho phép force.
+### Force mode: `ductn apt:fix --force` hoặc `ductn apt:fix -f`
+
+Flow:
+
+1. Detect exact PIDs đang giữ lock.
+2. Kill đúng các PID đó bằng `SIGTERM`.
+3. Không dùng `killall`.
+4. Remove lock files.
+5. Chạy repair:
+   ```bash
+   dpkg --configure -a
+   apt-get -f install -y
+   ```
+
+## Difference: normal vs force
+
+| Mode | Kill process | Remove lock files | Repair dpkg/apt | Use case |
+|------|-------------|-------------------|-----------------|----------|
+| `apt:fix` | No | Chỉ khi không có process giữ lock | Yes | Repair an toàn, hoặc unlock stale lock không có holder |
+| `apt:fix --force` / `apt:fix -f` | Yes, exact PID only | Yes | Yes | Process giữ lock bị treo/lỗi, cần kill đúng PID |
 
 ## Tests
 
-Thêm `tests/unit/test_apt.py`:
+`tests/unit/test_apt.py` covers:
 
+- Command surface chỉ còn `apt:check`, `apt:fix`.
 - `apt:check` installed/missing/invalid package.
-- `apt:install` skip installed, install missing, sudo prefix, failure non-zero.
-- `apt:remove` purge + autoremove, sudo prefix, invalid package.
+- `apt:fix` no holder → remove lock + repair.
+- `apt:fix` holder without force → report PID and exit `3`.
+- `apt:fix --force` / `-f` → kill exact PID, remove lock, repair.
 
 ## Validation
 

@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """APT package management utilities."""
 
+import os
 import re
+import signal
 import subprocess
 import sys
 
@@ -9,6 +11,13 @@ from .registry import register_command
 from .system import _is_root
 
 _PACKAGE_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9+._:-]*$")
+LOCK_FILES = [
+    "/var/lib/apt/lists/lock",
+    "/var/cache/apt/archives/lock",
+    "/var/lib/dpkg/lock",
+    "/var/lib/dpkg/lock-frontend",
+]
+LOCK_PROCESS_NAMES = ("apt", "apt-get", "aptitude", "dpkg", "unattended-upgrade")
 
 
 def _run_argv(argv):
@@ -46,15 +55,8 @@ def _validate_package_name(package):
         sys.exit(2)
 
 
-def _validate_packages(packages):
-    if not packages:
-        print("Error: package name required", file=sys.stderr)
-        sys.exit(1)
-    for package in packages:
-        _validate_package_name(package)
-
-
 def _is_installed(package):
+    _validate_package_name(package)
     code, stdout, _stderr = _run_argv([
         "dpkg-query",
         "-W",
@@ -64,40 +66,138 @@ def _is_installed(package):
     return code == 0 and "install ok installed" in stdout
 
 
-@register_command
-def d_apt_fix(args=None):
-    """Repair interrupted APT/dpkg state. Usage: ductn apt:fix [--force]
+def _pid_command(pid):
+    try:
+        with open(f"/proc/{pid}/cmdline", "rb") as f:
+            raw = f.read().replace(b"\x00", b" ").strip()
+        if raw:
+            return raw.decode(errors="replace")
+    except OSError:
+        pass
 
-    Non-force recommendation:
-      - Do not kill apt/dpkg processes.
-      - Do not delete lock files manually.
-      - Run dpkg --configure -a and apt-get -f install -y.
+    code, stdout, _stderr = _run_argv(["ps", "-p", str(pid), "-o", "comm="])
+    return stdout.strip() if code == 0 and stdout.strip() else "unknown"
 
-    Proposed --force behavior (not implemented yet):
-      - Detect lock holders first.
-      - Only after explicit --force, stop stale apt/dpkg processes and remove stale locks.
-    """
-    args = _normalize_args(args)
-    if "--help" in args:
-        print("Usage: ductn apt:fix [--force]")
-        print("Without --force: safe repair only, no kill, no lock deletion.")
-        print("With --force: proposed future mode for stale lock/process cleanup.")
-        return
 
-    if "--force" in args:
-        print(
-            "apt:fix --force is not implemented yet. "
-            "Review lock holder detection before enabling destructive cleanup.",
-            file=sys.stderr,
-        )
-        sys.exit(2)
+def _find_lock_holders():
+    """Return {pid: command} for processes holding APT/dpkg locks."""
+    holders = {}
+    for lock_file in LOCK_FILES:
+        if not os.path.exists(lock_file):
+            continue
+        code, stdout, _stderr = _run_argv(["fuser", lock_file])
+        if code != 0 or not stdout.strip():
+            continue
+        for token in stdout.split():
+            try:
+                pid = int(token)
+            except ValueError:
+                continue
+            holders[pid] = _pid_command(pid)
+    return holders
 
-    print("Repairing APT/dpkg state safely...")
+
+def _find_apt_like_processes():
+    """Best-effort fallback: find apt/dpkg processes even when fuser is unavailable."""
+    code, stdout, _stderr = _run_argv(["ps", "-eo", "pid=,comm=,args="])
+    if code != 0:
+        return {}
+
+    current_pid = os.getpid()
+    holders = {}
+    for line in stdout.splitlines():
+        parts = line.strip().split(None, 2)
+        if len(parts) < 2:
+            continue
+        try:
+            pid = int(parts[0])
+        except ValueError:
+            continue
+        if pid == current_pid:
+            continue
+        comm = parts[1]
+        args = parts[2] if len(parts) > 2 else comm
+        if comm in LOCK_PROCESS_NAMES:
+            holders[pid] = args
+    return holders
+
+
+def _remove_lock_files():
+    """Remove lock files only after caller confirms no holder or force killed holders."""
+    for lock_file in LOCK_FILES:
+        if not os.path.exists(lock_file):
+            continue
+        try:
+            if _is_root():
+                os.remove(lock_file)
+            else:
+                code, _stdout, stderr = _run_argv(["sudo", "rm", "-f", lock_file])
+                if code != 0:
+                    print(f"Cannot remove {lock_file}: {stderr}", file=sys.stderr)
+                    sys.exit(1)
+            print(f"Removed stale lock: {lock_file}")
+        except OSError as e:
+            print(f"Cannot remove {lock_file}: {e}", file=sys.stderr)
+            sys.exit(1)
+
+
+def _kill_processes(pids):
+    """Kill exact lock-holder PIDs. Never use killall."""
+    for pid in pids:
+        print(f"Killing lock holder PID {pid}")
+        if _is_root():
+            try:
+                os.kill(pid, signal.SIGTERM)
+            except ProcessLookupError:
+                continue
+            except OSError as e:
+                print(f"Cannot kill PID {pid}: {e}", file=sys.stderr)
+                sys.exit(1)
+        else:
+            code, _stdout, stderr = _run_argv(["sudo", "kill", "-TERM", str(pid)])
+            if code != 0:
+                print(f"Cannot kill PID {pid}: {stderr}", file=sys.stderr)
+                sys.exit(1)
+
+
+def _run_repair_steps():
     for cmd in (["dpkg", "--configure", "-a"], ["apt-get", "-f", "install", "-y"]):
         code, _stdout, stderr = _run_argv(_with_sudo(cmd))
         if code != 0:
             print(f"Error running {' '.join(cmd)}: {stderr}", file=sys.stderr)
             sys.exit(1)
+
+
+@register_command
+def d_apt_fix(args=None):
+    """Repair APT/dpkg locks and interrupted state. Usage: ductn apt:fix [-f|--force]"""
+    args = _normalize_args(args)
+    if "--help" in args:
+        print("Usage: ductn apt:fix [-f|--force]")
+        print("Without force: repair what is safe; remove stale locks only when no holder exists.")
+        print("With force: kill exact lock-holder PIDs, remove locks, then repair.")
+        return
+
+    force = "--force" in args or "-f" in args
+    holders = _find_lock_holders()
+    if not holders:
+        holders = _find_apt_like_processes()
+
+    if holders and not force:
+        print("APT/dpkg lock is held by active process(es):", file=sys.stderr)
+        for pid, command in sorted(holders.items()):
+            print(f"  PID {pid}: {command}", file=sys.stderr)
+        print("", file=sys.stderr)
+        print("Nếu process đang chạy hợp lệ: chờ nó hoàn tất rồi chạy lại `ductn apt:fix`.", file=sys.stderr)
+        print("Nếu process treo/lỗi lock: chạy `ductn apt:fix --force` hoặc `ductn apt:fix -f` để kill đúng PID đang giữ lock.", file=sys.stderr)
+        sys.exit(3)
+
+    if holders and force:
+        _kill_processes(sorted(holders))
+
+    _remove_lock_files()
+    print("Repairing APT/dpkg state...")
+    _run_repair_steps()
     print("APT/dpkg repair completed.")
 
 
@@ -108,55 +208,7 @@ def d_apt_check(args=None):
     if "--help" in args:
         print("Usage: ductn apt:check <package>")
         return
-    _validate_packages(args[:1])
+    if not args:
+        print("Error: package name required", file=sys.stderr)
+        sys.exit(1)
     print("1" if _is_installed(args[0]) else "0")
-
-
-@register_command
-def d_apt_install(args=None):
-    """Install package(s). Usage: ductn apt:install <package1> [package2 ...]"""
-    args = _normalize_args(args)
-    if "--help" in args:
-        print("Usage: ductn apt:install <package1> [package2 ...]")
-        return
-    _validate_packages(args)
-
-    missing = [package for package in args if not _is_installed(package)]
-    if not missing:
-        print("All packages are already installed.")
-        return
-
-    print(f"Installing: {' '.join(missing)}")
-    code, _stdout, stderr = _run_argv(_with_sudo(["apt-get", "install", "-y"] + missing))
-    if code != 0:
-        print(f"Error installing packages: {stderr}", file=sys.stderr)
-        sys.exit(1)
-    print(f"Installed: {' '.join(missing)}")
-
-
-@register_command
-def d_apt_remove(args=None):
-    """Purge package(s) and autoremove dependencies. Usage: ductn apt:remove <package1> [package2 ...]"""
-    args = _normalize_args(args)
-    if "--help" in args:
-        print("Usage: ductn apt:remove <package1> [package2 ...]")
-        return
-    _validate_packages(args)
-
-    print(f"Purging: {' '.join(args)}")
-    code, _stdout, stderr = _run_argv(_with_sudo(["apt-get", "purge", "-y"] + args))
-    if code != 0:
-        print(f"Error purging packages: {stderr}", file=sys.stderr)
-        sys.exit(1)
-
-    code, _stdout, stderr = _run_argv(_with_sudo(["apt-get", "autoremove", "-y", "--purge"]))
-    if code != 0:
-        print(f"Error running autoremove: {stderr}", file=sys.stderr)
-        sys.exit(1)
-    print(f"Removed: {' '.join(args)}")
-
-
-@register_command
-def d_apt_uninstall(args=None):
-    """Alias for apt:remove. Usage: ductn apt:uninstall <package1> [package2 ...]"""
-    d_apt_remove(args)
