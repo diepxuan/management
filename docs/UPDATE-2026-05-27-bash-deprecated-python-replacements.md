@@ -13,7 +13,7 @@ Kiểm tra các Bash script còn trong `src/var/lib/`. Những script đã có P
 | `src/var/lib/file.sh` | `src/utils/file.py` |
 | `src/var/lib/gpg.sh` | `src/utils/gpg.py` |
 | `src/var/lib/host.sh` | `src/utils/host.py` |
-| `src/var/lib/httpd.sh` | `src/utils/httpd.py` |
+| `src/var/lib/httpd.sh` | `deprecated/src/utils/httpd.py` (`httpd:*` removed from active package) |
 | `src/var/lib/log.sh` | `src/utils/log.py` |
 | `src/var/lib/port.sh` | `src/utils/port.py` |
 | `src/var/lib/route.sh` | `src/utils/route.py` |

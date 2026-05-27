@@ -548,18 +548,16 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   | `php:phpcsfixer:install` | Install PHP CS Fixer |
 - **Action:** Create `src/utils/php_utils.py`
 
-### ⏳ Task 3.5: HTTPD/Web Server
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/httpd.sh` (237 lines)
-- **Python:** `src/utils/httpd.py` (TODO)
-- **Target Commands:**
-  | Command | Description |
-  |---------|-------------|
-  | `httpd:install` | Install web server |
-  | `httpd:config` | Configure vhost |
-  | `httpd:restart` | Restart web server |
-  | `httpd:config:sites` | List configured sites |
-- **Action:** Create `src/utils/httpd.py`
+### 🚫 Task 3.5: HTTPD/Web Server
+- **Status:** 🚫 DEPRECATED
+- **Bash:** `src/var/lib/httpd.sh` → `deprecated/src/var/lib/httpd.sh`
+- **Python:** `src/utils/httpd.py` → `deprecated/src/utils/httpd.py`
+- **Commands removed:**
+  - `httpd:install`
+  - `httpd:config`
+  - `httpd:restart`
+  - `httpd:config:sites`
+- **Reason:** HTTPD command group removed from active `ductn` package command surface. Apache/web-server provisioning should use a dedicated, reviewed workflow before returning to active package commands.
 
 ---
 
