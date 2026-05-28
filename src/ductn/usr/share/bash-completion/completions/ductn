@@ -1,0 +1,41 @@
+#!/bin/bash
+# Bash completion for ductn.
+# Installed to /usr/share/bash-completion/completions/ductn for lazy-load support.
+
+_ductn_completions() {
+    local cur words cword commands
+    COMPREPLY=()
+
+    if declare -F _get_comp_words_by_ref >/dev/null 2>&1; then
+        _get_comp_words_by_ref -n : cur words cword
+    else
+        cur="${COMP_WORDS[COMP_CWORD]}"
+        words=("${COMP_WORDS[@]}")
+        cword="$COMP_CWORD"
+    fi
+
+    # Complete the first non-option argument: ductn <command>
+    if [[ ${cword:-0} -eq 1 ]]; then
+        commands="$(${COMP_WORDS[0]} commands 2>/dev/null)" || commands=""
+        COMPREPLY=($(compgen -W "$commands" -- "$cur"))
+
+        if declare -F __ltrim_colon_completions >/dev/null 2>&1; then
+            __ltrim_colon_completions "$cur"
+        fi
+
+        return 0
+    fi
+
+    # Complete files/folders for command arguments.
+    if [[ ${#COMPREPLY[@]} -eq 0 ]]; then
+        mapfile -t COMPREPLY < <(compgen -f -- "$cur")
+        compopt -o filenames 2>/dev/null || true
+    fi
+}
+
+complete -F _ductn_completions ductn
+complete -F _ductn_completions ductn.sh
+complete -F _ductn_completions ductn.py
+complete -F _ductn_completions ./ductn
+complete -F _ductn_completions ./ductn.sh
+complete -F _ductn_completions ./ductn.py
