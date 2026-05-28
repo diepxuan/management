@@ -20,6 +20,34 @@
 ---
 
 
+## Version 5.6.3 Working Baseline
+
+**Version:** `5.6.3+ppa~1`
+**Branch:** `5.6.3`
+**Base rule:** task branches target `5.6.3`; final version PR targets `main` only after task PRs are merged.
+**Workflow reference:** `docs/VERSION-WORKFLOW.md`
+**Changelog rule:** each task branch updates the shared `5.6.3+ppa~1` entry in `src/debian/changelog`.
+
+### ⏳ Task 5.6.3-001: Cache command list for bash completion
+- **Branch:** `task/5.6.3-001-command-cache`
+- **Base:** `5.6.3`
+- **Scope:** Generate `/usr/share/ductn/commands` during package build and make completion read cache before runtime fallback.
+- **Status:** ⏳ PENDING
+
+### ⏳ Task 5.6.3-002: Add completion cache maintenance command
+- **Branch:** `task/5.6.3-002-cache-maintenance`
+- **Base:** `5.6.3`
+- **Scope:** Add a CLI command to inspect/refresh the command cache for debugging installed systems.
+- **Status:** ⏳ PENDING
+
+### ⏳ Task 5.6.3-003: Document and validate tmux completion workflow
+- **Branch:** `task/5.6.3-003-completion-docs-validation`
+- **Base:** `5.6.3`
+- **Scope:** Add docs/tests/manual validation checklist for tmux autocomplete, cache path, and fallback behavior.
+- **Status:** ⏳ PENDING
+
+---
+
 ## Version 5.6.2 Working Baseline
 
 **Version:** `5.6.2+ppa~1`
