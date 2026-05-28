@@ -29,8 +29,10 @@ from:
 
 The bash completion script now reads commands in this order:
 
-1. `${DUCTN_COMMANDS_CACHE}` if set, otherwise `/usr/share/ductn/commands`, when the file is present and readable;
-2. fallback to `${COMP_WORDS[0]} commands 2>/dev/null` if the cache is missing.
+1. For development/path wrappers such as `./ductn`, skip the installed cache and call the wrapper directly so autocomplete reflects the current checkout.
+2. If `${DUCTN_COMMANDS_CACHE}` is set, read that cache path when present and readable.
+3. For installed commands such as `ductn`, read `/usr/share/ductn/commands` when present and readable.
+4. Fallback to `${COMP_WORDS[0]} commands 2>/dev/null` if the selected cache is missing.
 
 ## Reason
 

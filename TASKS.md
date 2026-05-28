@@ -31,7 +31,7 @@
 ### ✅ Task 5.6.3-001: Cache command list for bash completion
 - **Branch:** `task/5.6.3-001-command-cache`
 - **Base:** `5.6.3`
-- **Scope:** Generate `/usr/share/ductn/commands` during package build and make completion read cache before runtime fallback.
+- **Scope:** Generate `/usr/share/ductn/commands` during package build and make installed-command completion read cache before runtime fallback. Development/path wrappers skip the installed cache so they reflect the current checkout.
 - **Status:** ✅ COMPLETED
 - **PR:** task branch targets `5.6.3`
 - **Files:**
