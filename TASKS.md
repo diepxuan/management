@@ -20,6 +20,31 @@
 ---
 
 
+## Version 5.6.2 Working Baseline
+
+**Version:** `5.6.2+ppa~1`
+**Branch:** `5.6.2`
+**Workflow reference:** `docs/VERSION-WORKFLOW.md`
+**Changelog rule:** tasks in this version update the `5.6.2+ppa~1` entry in `src/debian/changelog`.
+
+### ✅ Task 5.6.2-001: Package ductn bash completion in lazy-load path
+- **Version:** `5.6.2+ppa~1`
+- **Status:** ✅ COMPLETED
+- **Branch:** `5.6.2`
+- **Scope:** Move existing ductn completion script to the standard bash-completion lazy-load path without changing script content.
+- **Source:** `src/ductn/etc/bash_completion.d/ductn-prompt`
+- **Target:** `src/ductn/usr/share/bash-completion/completions/ductn`
+- **Documentation:**
+  - [x] `TASKS.md`
+  - [x] `src/debian/changelog`
+  - [x] `docs/UPDATE-2026-05-28-ductn-bash-completion-path.md`
+- **Validation:**
+  - [x] `bash -n src/ductn/usr/share/bash-completion/completions/ductn`
+  - [x] `git diff --check`
+- **Note:** Completion function body intentionally unchanged so Sếp can validate whether path-only lazy-load packaging fixes tmux behavior.
+
+---
+
 ## Version 5.6.1 Working Baseline
 
 **Version:** `5.6.1+ppa~1`
