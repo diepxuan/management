@@ -13,6 +13,7 @@ EXPECTED_MODULES = [
     "addr",
     "apt",
     "command",
+    "completion",
     "cronjob",
     "curl_utils",
     "disk",
