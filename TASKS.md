@@ -41,6 +41,7 @@
   - [x] Register dev wrappers: `./ductn`, `./ductn.sh`, `./ductn.py`
   - [x] Redirect stderr when calling `${COMP_WORDS[0]} commands`
   - [x] Quote completion variables and fallback cleanly if command listing fails
+  - [x] Remove obsolete `/etc/bash_completion.d/ductn-prompt` conffile on upgrade via `src/debian/ductn.maintscript`
 - **Documentation:**
   - [x] `TASKS.md`
   - [x] `src/debian/changelog`
@@ -48,6 +49,7 @@
 - **Validation:**
   - [x] `bash -n src/ductn/usr/share/bash-completion/completions/ductn`
   - [x] manual bash completion smoke test for `ductn ap` and `./ductn ap`
+  - [x] `dpkg-parsechangelog -l src/debian/changelog -S Version`
   - [x] `git diff --check`
 
 ---

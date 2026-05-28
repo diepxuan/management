@@ -2,6 +2,7 @@ diepxuan (5.6.2+ppa~1) noble; urgency=medium
 
   * fix: install ductn bash completion as lazy-load completion under /usr/share/bash-completion/completions
   * fix: harden ductn bash completion for tmux/dev-wrapper usage
+  * fix: remove obsolete /etc/bash_completion.d/ductn-prompt conffile during upgrade
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Thu, 28 May 2026 00:00:00 +0700
 

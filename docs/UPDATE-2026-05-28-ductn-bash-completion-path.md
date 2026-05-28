@@ -40,6 +40,24 @@ Commands such as `apt` use bash-completion's lazy-load directory:
 
 When bash-completion is loaded, the first `<TAB>` on `ductn` can load the `ductn` completion file by command name, matching the standard pattern used by system commands.
 
+## Upgrade cleanup
+
+Because the previous completion file was installed under `/etc/bash_completion.d/ductn-prompt`, dpkg treats it as a conffile. Moving the file to `/usr/share/bash-completion/completions/ductn` without cleanup would leave the obsolete conffile behind on upgraded machines.
+
+This release adds:
+
+```text
+src/debian/ductn.maintscript
+```
+
+with:
+
+```text
+rm_conffile /etc/bash_completion.d/ductn-prompt 5.6.2+ppa~1~ ductn
+```
+
+This removes the old conffile during upgrade so existing installs use the new lazy-load path cleanly.
+
 ## Completion hardening
 
 The completion function was also hardened for cases observed in tmux and development checkouts:
