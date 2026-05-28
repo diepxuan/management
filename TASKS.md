@@ -27,21 +27,28 @@
 **Workflow reference:** `docs/VERSION-WORKFLOW.md`
 **Changelog rule:** tasks in this version update the `5.6.2+ppa~1` entry in `src/debian/changelog`.
 
-### ✅ Task 5.6.2-001: Package ductn bash completion in lazy-load path
+### ✅ Task 5.6.2-001: Package and harden ductn bash completion
 - **Version:** `5.6.2+ppa~1`
 - **Status:** ✅ COMPLETED
 - **Branch:** `5.6.2`
-- **Scope:** Move existing ductn completion script to the standard bash-completion lazy-load path without changing script content.
+- **Scope:** Move ductn completion script to the standard bash-completion lazy-load path and harden the function for tmux/dev-wrapper usage.
 - **Source:** `src/ductn/etc/bash_completion.d/ductn-prompt`
 - **Target:** `src/ductn/usr/share/bash-completion/completions/ductn`
+- **Changes:**
+  - [x] Install completion under `/usr/share/bash-completion/completions/ductn`
+  - [x] Guard missing `_get_comp_words_by_ref` helper
+  - [x] Guard missing `__ltrim_colon_completions` helper
+  - [x] Register dev wrappers: `./ductn`, `./ductn.sh`, `./ductn.py`
+  - [x] Redirect stderr when calling `${COMP_WORDS[0]} commands`
+  - [x] Quote completion variables and fallback cleanly if command listing fails
 - **Documentation:**
   - [x] `TASKS.md`
   - [x] `src/debian/changelog`
   - [x] `docs/UPDATE-2026-05-28-ductn-bash-completion-path.md`
 - **Validation:**
   - [x] `bash -n src/ductn/usr/share/bash-completion/completions/ductn`
+  - [x] manual bash completion smoke test for `ductn ap` and `./ductn ap`
   - [x] `git diff --check`
-- **Note:** Completion function body intentionally unchanged so Sếp can validate whether path-only lazy-load packaging fixes tmux behavior.
 
 ---
 

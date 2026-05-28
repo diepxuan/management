@@ -2,18 +2,23 @@
 
 ## Summary
 
-Move ductn bash completion packaging from the legacy compatibility directory to the standard bash-completion lazy-load path.
+Move ductn bash completion packaging from the legacy compatibility directory to the standard bash-completion lazy-load path and harden the completion function for tmux/dev-wrapper usage.
 
-## Change
+## Packaging change
 
-The completion script content is intentionally unchanged for this task. Only the packaged source path and Debian install mapping changed:
+Completion file moved from:
 
 ```text
 src/ductn/etc/bash_completion.d/ductn-prompt
--> src/ductn/usr/share/bash-completion/completions/ductn
 ```
 
-Install mapping changed from:
+to:
+
+```text
+src/ductn/usr/share/bash-completion/completions/ductn
+```
+
+Debian install mapping changed from:
 
 ```text
 ductn/etc/bash_completion.d/ductn-prompt etc/bash_completion.d
@@ -35,19 +40,31 @@ Commands such as `apt` use bash-completion's lazy-load directory:
 
 When bash-completion is loaded, the first `<TAB>` on `ductn` can load the `ductn` completion file by command name, matching the standard pattern used by system commands.
 
-## What was not changed
+## Completion hardening
 
-The shell completion function body was not modified. This lets us validate whether moving the file to the lazy-load path alone improves tmux behavior before changing completion logic.
+The completion function was also hardened for cases observed in tmux and development checkouts:
 
-Current script still registers:
+- guard missing `_get_comp_words_by_ref` helper;
+- guard missing `__ltrim_colon_completions` helper;
+- redirect stderr when calling `${COMP_WORDS[0]} commands`;
+- fallback to an empty command list if command listing fails;
+- quote completion variables;
+- keep file/folder completion for command arguments;
+- register development wrappers:
+
+```bash
+complete -F _ductn_completions ./ductn
+complete -F _ductn_completions ./ductn.sh
+complete -F _ductn_completions ./ductn.py
+```
+
+The installed command registrations remain:
 
 ```bash
 complete -F _ductn_completions ductn
 complete -F _ductn_completions ductn.sh
 complete -F _ductn_completions ductn.py
 ```
-
-It does not yet register `./ductn`.
 
 ## Manual validation after package install
 
@@ -61,18 +78,21 @@ Then check:
 
 ```bash
 complete -p ductn
-# expected: complete -F _ductn_completions ductn
-
+complete -p ./ductn
 ls -l /usr/share/bash-completion/completions/ductn
 ductn ap<TAB>
+./ductn ap<TAB>
+```
+
+Expected completion candidates include:
+
+```text
+apt:check
+apt:fix
 ```
 
 If testing an old tmux pane, remember that existing pane state does not automatically reload newly installed completion files. Open a new pane/session or run `exec bash`.
 
-## Next step if still unstable
+## Remaining possible follow-up
 
-If this path-only change is insufficient, create a follow-up task to modify completion logic itself:
-
-- add `./ductn` registration for dev-wrapper usage;
-- guard missing `_get_comp_words_by_ref` / `__ltrim_colon_completions` helpers;
-- avoid running Python CLI on every `<TAB>` by using a command cache.
+If completion is still slow or unstable, the next improvement is to avoid running the Python CLI on every `<TAB>` by generating a command cache at package install time.
