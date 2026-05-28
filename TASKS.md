@@ -40,11 +40,19 @@
 - **Scope:** Add a CLI command to inspect/refresh the command cache for debugging installed systems.
 - **Status:** ⏳ PENDING
 
-### ⏳ Task 5.6.3-003: Document and validate tmux completion workflow
+### ✅ Task 5.6.3-003: Document and validate tmux completion workflow
 - **Branch:** `task/5.6.3-003-completion-docs-validation`
 - **Base:** `5.6.3`
 - **Scope:** Add docs/tests/manual validation checklist for tmux autocomplete, cache path, and fallback behavior.
-- **Status:** ⏳ PENDING
+- **Status:** ✅ COMPLETED
+- **Files:**
+  - `docs/DUCTN-COMPLETION-VALIDATION.md`
+  - `scripts/validate-ductn-completion.sh`
+- **Validation:**
+  - [x] `bash -n scripts/validate-ductn-completion.sh`
+  - [x] `bash scripts/validate-ductn-completion.sh`
+  - [x] `dpkg-parsechangelog -l src/debian/changelog -S Version`
+  - [x] `git diff --check`
 
 ---
 
