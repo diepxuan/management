@@ -2,6 +2,24 @@
 # Bash completion for ductn.
 # Installed to /usr/share/bash-completion/completions/ductn for lazy-load support.
 
+_ductn_command_list() {
+    local command_name="${COMP_WORDS[0]}"
+    local cache_path="${DUCTN_COMMANDS_CACHE:-/usr/share/ductn/commands}"
+
+    # Development wrappers such as ./ductn must reflect the checkout, not a stale installed cache.
+    if [[ -z "${DUCTN_COMMANDS_CACHE:-}" && "$command_name" == */* ]]; then
+        "$command_name" commands 2>/dev/null || true
+        return 0
+    fi
+
+    if [[ -r "$cache_path" ]]; then
+        cat "$cache_path"
+        return 0
+    fi
+
+    "$command_name" commands 2>/dev/null || true
+}
+
 _ductn_completions() {
     local cur words cword commands
     COMPREPLY=()
@@ -16,7 +34,7 @@ _ductn_completions() {
 
     # Complete the first non-option argument: ductn <command>
     if [[ ${cword:-0} -eq 1 ]]; then
-        commands="$(${COMP_WORDS[0]} commands 2>/dev/null)" || commands=""
+        commands="$(_ductn_command_list)"
         COMPREPLY=($(compgen -W "$commands" -- "$cur"))
 
         if declare -F __ltrim_colon_completions >/dev/null 2>&1; then
