@@ -46,11 +46,23 @@
   - [x] `make -n -f debian/rules override_dh_install`
   - [x] `git diff --check`
 
-### ⏳ Task 5.6.3-002: Add completion cache maintenance command
+### ✅ Task 5.6.3-002: Add completion cache maintenance command
 - **Branch:** `task/5.6.3-002-cache-maintenance`
 - **Base:** `5.6.3`
 - **Scope:** Add a CLI command to inspect/refresh the command cache for debugging installed systems.
-- **Status:** ⏳ PENDING
+- **Status:** ✅ COMPLETED
+- **Command:** `completion:cache <show|refresh|path> [path]`
+- **Files:**
+  - `src/utils/completion.py`
+  - `src/utils/__init__.py`
+  - `tests/unit/test_completion.py`
+  - `tests/unit/test_modules.py`
+- **Validation:**
+  - [x] `python3 -m unittest tests.unit.test_completion tests.unit.test_modules tests.unit.test_registry -v`
+  - [x] `python3 -m compileall src/utils src/ductn.py`
+  - [x] `./ductn completion:cache show`
+  - [x] `./ductn completion:cache refresh /tmp/ductn-commands-test`
+  - [x] `git diff --check`
 
 ### ⏳ Task 5.6.3-003: Document and validate tmux completion workflow
 - **Branch:** `task/5.6.3-003-completion-docs-validation`
