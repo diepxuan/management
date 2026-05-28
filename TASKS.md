@@ -28,11 +28,23 @@
 **Workflow reference:** `docs/VERSION-WORKFLOW.md`
 **Changelog rule:** each task branch updates the shared `5.6.3+ppa~1` entry in `src/debian/changelog`.
 
-### ⏳ Task 5.6.3-001: Cache command list for bash completion
+### ✅ Task 5.6.3-001: Cache command list for bash completion
 - **Branch:** `task/5.6.3-001-command-cache`
 - **Base:** `5.6.3`
-- **Scope:** Generate `/usr/share/ductn/commands` during package build and make completion read cache before runtime fallback.
-- **Status:** ⏳ PENDING
+- **Scope:** Generate `/usr/share/ductn/commands` during package build and make installed-command completion read cache before runtime fallback. Development/path wrappers skip the installed cache so they reflect the current checkout.
+- **Status:** ✅ COMPLETED
+- **PR:** task branch targets `5.6.3`
+- **Files:**
+  - `src/debian/rules`
+  - `src/ductn/usr/share/bash-completion/completions/ductn`
+  - `docs/UPDATE-2026-05-28-ductn-completion-command-cache.md`
+- **Validation:**
+  - [x] `bash -n src/ductn/usr/share/bash-completion/completions/ductn`
+  - [x] completion smoke test using temporary cache file
+  - [x] fallback smoke test without cache
+  - [x] `dpkg-parsechangelog -l src/debian/changelog -S Version`
+  - [x] `make -n -f debian/rules override_dh_install`
+  - [x] `git diff --check`
 
 ### ✅ Task 5.6.3-002: Add completion cache maintenance command
 - **Branch:** `task/5.6.3-002-cache-maintenance`
