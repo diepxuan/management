@@ -6,5 +6,6 @@ ductn/var/lib/lxc/hooks/default-hook.sh var/lib/lxc/hooks
 ductn/etc/sysctl.d/99-ductn.conf etc/sysctl.d
 ductn/etc/cron.daily/ductn etc/cron.daily
 ductn/usr/share/bash-completion/completions/ductn usr/share/bash-completion/completions
+ductn/usr/share/bash-completion/completions/ductncli usr/share/bash-completion/completions
 ductn/etc/update-motd.d/99-ductn etc/update-motd.d
 ductn/usr/lib/systemd/system/ductnd.service usr/lib/systemd/system

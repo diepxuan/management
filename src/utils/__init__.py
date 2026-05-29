@@ -63,6 +63,7 @@ from rich.console import Console  # pyright: ignore[reportMissingImports]
 from rich.table import Table  # pyright: ignore[reportMissingImports]
 
 from . import command
+from . import completion
 from . import about
 from . import interface
 from . import vm
