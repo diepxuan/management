@@ -50,6 +50,10 @@ override_dh_install:
 	# `debian/ductn/usr/bin/` là nơi dpkg-buildpackage sẽ tìm file để đóng gói
 	cp dist/ductn debian/ductn/usr/bin/
 
+	# Sinh cache command list cho bash completion để không phải khởi động Python CLI mỗi lần bấm TAB
+	mkdir -p debian/ductn/usr/share/ductn
+	./dist/ductn commands > debian/ductn/usr/share/ductn/commands
+
 	# Gọi dh_install để xử lý các bước còn lại
 	dh_install
 
