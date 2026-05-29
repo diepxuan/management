@@ -20,6 +20,79 @@
 ---
 
 
+## Version 5.6.3 Working Baseline
+
+**Version:** `5.6.3+ppa~1`
+**Branch:** `5.6.3`
+**Base rule:** task branches target `5.6.3`; final version PR targets `main` only after task PRs are merged.
+**Workflow reference:** `docs/VERSION-WORKFLOW.md`
+**Changelog rule:** each task branch updates the shared `5.6.3+ppa~1` entry in `src/debian/changelog`.
+
+### ✅ Task 5.6.3-001: Cache command list for bash completion
+- **Branch:** `task/5.6.3-001-command-cache`
+- **Base:** `5.6.3`
+- **Scope:** Generate `/usr/share/ductn/commands` during package build and make installed-command completion read cache before runtime fallback. Development/path wrappers skip the installed cache so they reflect the current checkout.
+- **Status:** ✅ COMPLETED
+- **PR:** task branch targets `5.6.3`
+- **Files:**
+  - `src/debian/rules`
+  - `src/ductn/usr/share/bash-completion/completions/ductn`
+  - `docs/UPDATE-2026-05-28-ductn-completion-command-cache.md`
+- **Validation:**
+  - [x] `bash -n src/ductn/usr/share/bash-completion/completions/ductn`
+  - [x] completion smoke test using temporary cache file
+  - [x] fallback smoke test without cache
+  - [x] `dpkg-parsechangelog -l src/debian/changelog -S Version`
+  - [x] `make -n -f debian/rules override_dh_install`
+  - [x] `git diff --check`
+
+### ✅ Task 5.6.3-002: Add completion cache maintenance command
+- **Branch:** `task/5.6.3-002-cache-maintenance`
+- **Base:** `5.6.3`
+- **Scope:** Add a CLI command to inspect/refresh the command cache for debugging installed systems.
+- **Status:** ✅ COMPLETED
+- **Command:** `completion:cache <show|refresh|path> [path]`
+- **Files:**
+  - `src/utils/completion.py`
+  - `src/utils/__init__.py`
+  - `tests/unit/test_completion.py`
+  - `tests/unit/test_modules.py`
+- **Validation:**
+  - [x] `python3 -m unittest tests.unit.test_completion tests.unit.test_modules tests.unit.test_registry -v`
+  - [x] `python3 -m compileall src/utils src/ductn.py`
+  - [x] `./ductn completion:cache show`
+  - [x] `./ductn completion:cache refresh /tmp/ductn-commands-test`
+  - [x] `git diff --check`
+
+### ✅ Task 5.6.3-003: Document and validate tmux completion workflow
+- **Branch:** `task/5.6.3-003-completion-docs-validation`
+- **Base:** `5.6.3`
+- **Scope:** Add docs/tests/manual validation checklist for tmux autocomplete, cache path, and fallback behavior.
+- **Status:** ✅ COMPLETED
+- **Files:**
+  - `docs/DUCTN-COMPLETION-VALIDATION.md`
+  - `scripts/validate-ductn-completion.sh`
+- **Validation:**
+  - [x] `bash -n scripts/validate-ductn-completion.sh`
+  - [x] `bash scripts/validate-ductn-completion.sh`
+  - [x] `dpkg-parsechangelog -l src/debian/changelog -S Version`
+  - [x] `git diff --check`
+
+### ✅ Task 5.6.3-004: Add bash completion for ductncli
+- **Branch:** `task/5.6.3-004-ductncli-completion`
+- **Base:** `5.6.3`
+- **Scope:** Add bash completion for `ductncli` to autocomplete agent names (`hermes`, `codex`) and workspace paths (directories + project names).
+- **Status:** ✅ COMPLETED
+- **Files:**
+  - `src/ductn/usr/share/bash-completion/completions/ductncli`
+  - `src/debian/ductn.install`
+  - `src/debian/changelog`
+- **Validation:**
+  - [x] `bash -n src/ductn/usr/share/bash-completion/completions/ductncli`
+  - [x] `git diff --check`
+
+---
+
 ## Version 5.6.2 Working Baseline
 
 **Version:** `5.6.2+ppa~1`
