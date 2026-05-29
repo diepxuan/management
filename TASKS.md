@@ -20,6 +20,50 @@
 ---
 
 
+## Version 5.6.4 Working Baseline
+
+**Version:** `5.6.4+ppa~1`
+**Branch:** `5.6.4`
+**Scope:** Deprecate legacy user/system setup commands; keep update path only.
+**Workflow reference:** `docs/VERSION-WORKFLOW.md`
+**Changelog rule:** tasks in this version update the shared `5.6.4+ppa~1` entry in `src/debian/changelog`.
+
+### ✅ Task 5.6.4-001: Deprecate user commands and trim legacy sys.sh
+- **Branch:** `5.6.4`
+- **Base:** `main`
+- **Scope:** Remove active `user:*` commands from Python registry and keep legacy `sys.sh` update-only.
+- **Status:** ✅ COMPLETED
+- **Deprecated commands:**
+  - `user:new`
+  - `user:config`
+  - `user:config:bash`
+  - `user:config:chmod`
+  - `user:config:admin`
+  - `user:is_sudoer`
+  - `sys:init`
+  - `sys:sysctl`
+  - `sys:clean`
+  - `isenabled`
+- **Kept commands:**
+  - `update`
+  - `__selfupdate`
+  - `__self-update`
+  - `sys:upgrade`
+- **Files:**
+  - `src/utils/user.py` -> `deprecated/src/utils/user.py`
+  - `src/utils/__init__.py`
+  - `src/var/lib/sys.sh`
+  - `tests/unit/test_registry.py`
+  - `docs/UPDATE-2026-05-29-user-sys-deprecation.md`
+- **Validation:**
+  - [x] `bash -n src/var/lib/sys.sh`
+  - [x] `python3 -m unittest tests.unit.test_registry -v`
+  - [x] active command surface has no `user:*`
+  - [x] `dpkg-parsechangelog -l src/debian/changelog -S Version`
+  - [x] `git diff --check`
+
+---
+
 ## Version 5.6.3 Working Baseline
 
 **Version:** `5.6.3+ppa~1`

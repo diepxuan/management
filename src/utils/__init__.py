@@ -86,7 +86,6 @@ from . import cli
 from . import log
 from . import cronjob
 from . import port
-from . import user
 from . import disk
 from . import git_utils
 from . import php_utils
