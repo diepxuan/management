@@ -78,6 +78,19 @@
   - [x] `dpkg-parsechangelog -l src/debian/changelog -S Version`
   - [x] `git diff --check`
 
+### ✅ Task 5.6.3-004: Add bash completion for ductncli
+- **Branch:** `task/5.6.3-004-ductncli-completion`
+- **Base:** `5.6.3`
+- **Scope:** Add bash completion for `ductncli` to autocomplete agent names (`hermes`, `codex`) and workspace paths (directories + project names).
+- **Status:** ✅ COMPLETED
+- **Files:**
+  - `src/ductn/usr/share/bash-completion/completions/ductncli`
+  - `src/debian/ductn.install`
+  - `src/debian/changelog`
+- **Validation:**
+  - [x] `bash -n src/ductn/usr/share/bash-completion/completions/ductncli`
+  - [x] `git diff --check`
+
 ---
 
 ## Version 5.6.2 Working Baseline
