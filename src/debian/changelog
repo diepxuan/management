@@ -1,3 +1,10 @@
+diepxuan (5.6.4+ppa~1) noble; urgency=medium
+
+  * chore: deprecate user command group
+  * chore: keep legacy sys.sh update-only and deprecate init/sysctl/clean helpers
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Fri, 29 May 2026 00:00:00 +0700
+
 diepxuan (5.6.3+ppa~1) noble; urgency=medium
 
   * docs: open 5.6.3 autocomplete performance task lane

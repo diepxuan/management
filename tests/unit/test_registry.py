@@ -99,9 +99,7 @@ class TestCommandNaming(unittest.TestCase):
     def test_command_naming_consistency(self):
         """Command names dùng dấu : thay vì _ (trừ các alias legacy)."""
         # Cho phép các alias legacy dùng _
-        legacy_aliases = {
-            "user:is_sudoer",
-        }
+        legacy_aliases = set()
         inconsistent = [
             name for name in COMMANDS.keys()
             if "_" in name and name not in legacy_aliases
