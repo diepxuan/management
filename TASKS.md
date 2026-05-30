@@ -68,15 +68,15 @@
 
 **Version:** `5.6.6+ppa~1`
 **Branch:** `5.6.6`
-**Scope:** Remove all tmux-related code, configs, and docs — project migrated to shpool.
+**Scope:** Remove tmux + shpool; gọi hermes/codex trực tiếp qua terminal tại workspace directory.
 **Workflow reference:** `docs/VERSION-WORKFLOW.md`
 **Changelog rule:** tasks in this version update the shared `5.6.6+ppa~1` entry in `src/debian/changelog`.
 
-### ⏳ Task 5.6.6-001: Remove tmux integration
+### ✅ Task 5.6.6-001: Remove tmux + shpool integration
 - **Branch:** `chore/5.6.6-remove-tmux`
 - **Base:** `main`
-- **Scope:** Xóa toàn bộ tmux config, postinst logic, dependencies, docs — thay bằng shpool.
-- **Status:** 🔄 IN PROGRESS
+- **Scope:** Xóa toàn bộ tmux + shpool config, postinst logic, dependencies, docs. ductncli gọi hermes/codex trực tiếp qua `os.execv` tại workspace directory — không cần session manager.
+- **Status:** ✅ COMPLETED
 - **Files removed:**
   - `src/ductn/etc/ductn/tmux.conf`
   - `docs/UPDATE-2026-05-26-ductn-cli-tmux.md`
@@ -84,15 +84,17 @@
   - `src/debian/ductn.install` — remove `tmux.conf` install line
   - `src/debian/postinst` — remove tmux config copy block
   - `src/debian/control` — remove `tmux` dependency
-  - `README.md` — update CLI section, replace tmux references with shpool
+  - `README.md` — update CLI section, replace tmux/shpool references with direct terminal
   - `docs/DUCTN-COMPLETION-VALIDATION.md` — replace "tmux pane" with "terminal pane"
   - `docs/VERSION-WORKFLOW.md` — update branch example
   - `src/debian/changelog` — add 5.6.6 entry
 - **Validation:**
-  - [ ] `bash -n src/debian/postinst`
-  - [ ] `! grep -rn "tmux" src/ --include="*.py" --include="*.sh" --include="*.install" --include="*.control" --include="*.conf" | grep -v deprecated`
-  - [ ] `dpkg-parsechangelog -l src/debian/changelog -S Version`
-  - [ ] `git diff --check`
+  - [x] `bash -n src/debian/postinst`
+  - [x] `! grep -rn "tmux\|shpool" src/ --include="*.py" --include="*.sh" --include="*.install" --include="*.control" --include="*.conf" | grep -v deprecated`
+  - [x] `dpkg-parsechangelog -l src/debian/changelog -S Version`
+  - [x] `git diff --check`
+
+---
 
 ---
 
