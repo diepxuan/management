@@ -93,7 +93,7 @@ Ví dụ:
 
 ```text
 feat/5.6.1-ssh-management
-fix/5.6.1-cli-tmux-install
+fix/5.6.1-cli-shpool-install
 docs/5.6.1-version-workflow
 ```
 
