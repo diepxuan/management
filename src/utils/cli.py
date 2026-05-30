@@ -44,13 +44,23 @@ def _die(msg):
 
 
 def _find_shpool():
-    """Locate shpool binary."""
+    """Locate shpool binary.
+
+    Prioritize bundled /usr/bin/shpool (from ductn package) over PATH
+    to ensure consistent behavior regardless of user environment.
+    """
     import shutil
+
+    # 1) Bundled binary from package
+    bundled = "/usr/bin/shpool"
+    if os.path.isfile(bundled) and os.access(bundled, os.X_OK):
+        return bundled
+
+    # 2) Fallback to PATH (e.g. cargo install)
     path = shutil.which("shpool")
     if path:
         return path
-    if os.path.isfile("/usr/bin/shpool") and os.access("/usr/bin/shpool", os.X_OK):
-        return "/usr/bin/shpool"
+
     _die("shpool not found. Install it via 'ductn' package or 'cargo install shpool'.")
 
 
