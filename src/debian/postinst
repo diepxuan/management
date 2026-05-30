@@ -72,6 +72,7 @@ configure)
 
     if command -v ductn >/dev/null 2>&1; then
         ductn time:timezone >/dev/null 2>&1 || true
+        ductn sys:sysctl >/dev/null 2>&1 || true
     fi
 
     systemctl daemon-reload
