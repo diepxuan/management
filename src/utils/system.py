@@ -3,6 +3,7 @@
 import logging
 import os
 import platform
+import shutil
 import subprocess
 import sys
 
@@ -126,3 +127,74 @@ def _is_root() -> bool:
         # logging.error("Lỗi: Chức năng này yêu cầu quyền root (sudo) để chạy.")
         return False
     return True
+
+
+SYSCTL_CONF = "/etc/sysctl.d/99-ductn.conf"
+SYSCTL_DEFAULT_RULES = [
+    "fs.inotify.max_user_watches=524288",
+    "net.ipv4.ip_forward=1",
+    "net.ipv6.conf.all.forwarding=1",
+    "net.ipv6.conf.all.disable_ipv6 = 1",
+    "net.ipv6.conf.default.disable_ipv6 = 1",
+    "vm.swappiness = 1",
+]
+
+
+def _ensure_sysctl_conf():
+    """Ensure /etc/sysctl.d/99-ductn.conf exists with default rules."""
+    if os.path.isfile(SYSCTL_CONF):
+        return True
+    logging.info(f"Tạo {SYSCTL_CONF} với default rules")
+    try:
+        os.makedirs(os.path.dirname(SYSCTL_CONF), exist_ok=True)
+        with open(SYSCTL_CONF, "w") as f:
+            for rule in SYSCTL_DEFAULT_RULES:
+                f.write(rule + "\n")
+        return True
+    except OSError as e:
+        logging.error(f"Không thể tạo {SYSCTL_CONF}: {e}")
+        return False
+
+
+@register_command
+def d_sys_sysctl():
+    """Apply sysctl rules từ /etc/sysctl.d/99-ductn.conf."""
+    if not _is_root():
+        logging.error("Cần quyền root")
+        return
+
+    if not shutil.which("sysctl"):
+        logging.error("Không tìm thấy lệnh sysctl")
+        return
+
+    if not _ensure_sysctl_conf():
+        return
+
+    # Read và apply từng rule
+    try:
+        with open(SYSCTL_CONF) as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith("#"):
+                    continue
+                result = subprocess.run(
+                    ["sysctl", "-w", line],
+                    capture_output=True, text=True, check=False,
+                )
+                if result.returncode == 0:
+                    logging.info(f"Applied: {line}")
+                else:
+                    logging.warning(f"Failed: {line} — {result.stderr.strip()}")
+    except OSError as e:
+        logging.error(f"Không thể đọc {SYSCTL_CONF}: {e}")
+        return
+
+    # Reload toàn bộ
+    reload = subprocess.run(
+        ["sysctl", "-p", SYSCTL_CONF],
+        capture_output=True, text=True, check=False,
+    )
+    if reload.returncode == 0:
+        logging.info("sysctl -p OK")
+    else:
+        logging.warning(f"sysctl -p warning: {reload.stderr.strip()}")
