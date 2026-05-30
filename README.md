@@ -115,7 +115,7 @@ Quy ước hiện tại:
 | System | `d_sys_update`, `d_update`, `d_sys_info` | Update và system info |
 | Service | `d_service`, `d_service_install`, `d_service_start`, `d_service_stop`, `d_service_restart`, `d_service_status`, `d_service_watch` | Service daemon |
 | Time | `time:timezone`, `timezone:vietnam`, `time:vietnam`, `time:sync`, `time:init` | Timezone Việt Nam và đồng bộ giờ NTP |
-| CLI | `cli` | Mở Hermes/Codex qua ductncli (shpool) |
+| CLI | `cli` | Mở Hermes/Codex trực tiếp trong workspace |
 | File | `d_file_cleanpath` | Chuẩn hóa tên/path file |
 | VM | `d_vm_info`, `d_vm_sync` | Thông tin VM và sync DNS A record qua DNS API nội bộ |
 | Environment | `d_env_detect` | Detect VM/container/environment |
@@ -123,7 +123,7 @@ Quy ước hiện tại:
 
 ### CLI commands
 
-`ductn cli` là wrapper public để mở Hermes hoặc Codex qua `ductncli` (sử dụng shpool):
+`ductn cli` là wrapper public để mở Hermes hoặc Codex trong workspace qua `ductncli`:
 
 ```bash
 # Chọn agent, workspace mặc định là ~/
@@ -140,9 +140,9 @@ ductn cli codex ductnd
 Ghi chú vận hành:
 
 - Package cài script `/usr/bin/ductncli`; command `ductn cli` exec sang script này để giữ tương thích.
-- `ductncli` sử dụng shpool để quản lý terminal sessions, thay thế tmux.
-- `ductncli` tự attach session cũ nếu đã tồn tại, tránh tạo session trùng.
-- Dependencies runtime: `shpool`, `realpath`, và agent CLI tương ứng (`hermes` hoặc `codex`).
+- `ductncli` resolve workspace directory, `cd` vào đó, rồi gọi trực tiếp agent CLI (`hermes` hoặc `codex`).
+- Không dùng session manager trung gian (shpool/tmux). Hermes tự quản lý session history qua SQLite.
+- Dependencies runtime: `hermes` hoặc `codex` (tùy agent đã cài).
 
 ### Time commands
 
@@ -246,7 +246,7 @@ Python dependencies nằm trong `src/requirements.txt`:
 - `ipaddress`
 - Pin riêng cho macOS cũ: `urllib3<2`, `requests<2.28`
 
-System dependencies chính được khai báo trong `src/debian/control`, gồm `net-tools`, `jq`, `curl`, `bash-completion`, `openssl`, `unzip`, `apt-transport-https`, `sudo`, `dnsutils`, `lsof`, `shpool` và Python build dependencies.
+System dependencies chính được khai báo trong `src/debian/control`, gồm `net-tools`, `jq`, `curl`, `bash-completion`, `openssl`, `unzip`, `apt-transport-https`, `sudo`, `dnsutils`, `lsof` và Python build dependencies.
 
 ## Development rules
 

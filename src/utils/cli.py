@@ -1,16 +1,18 @@
-"""Developer CLI helpers for launching agents in shpool sessions."""
+"""Developer CLI helpers for launching agents in their workspace."""
 
 import os
 import sys
 from pathlib import Path
+from typing import NoReturn
 
 from .registry import register_command
 
 
-CODEX_PROFILE_NAME = "ninerouter"
 DEFAULT_WORKSPACE_DIR = str(Path.home())
 OPENCLAW_PROJECT_DIR = str(Path.home() / ".openclaw" / "workspace" / "projects")
 HERMES_PROJECT_DIR = str(Path.home() / ".hermes" / "workspace" / "projects")
+
+CODEX_PROFILE_NAME = "ninerouter"
 
 
 def _usage():
@@ -37,34 +39,13 @@ Workspace path resolution:
     print(msg)
 
 
-def _die(msg):
+def _die(msg: str) -> NoReturn:
     """Print error and exit."""
     print(f"ERROR: {msg}", file=sys.stderr)
     sys.exit(1)
 
 
-def _find_shpool():
-    """Locate shpool binary.
-
-    Prioritize bundled /usr/bin/shpool (from ductn package) over PATH
-    to ensure consistent behavior regardless of user environment.
-    """
-    import shutil
-
-    # 1) Bundled binary from package
-    bundled = "/usr/bin/shpool"
-    if os.path.isfile(bundled) and os.access(bundled, os.X_OK):
-        return bundled
-
-    # 2) Fallback to PATH (e.g. cargo install)
-    path = shutil.which("shpool")
-    if path:
-        return path
-
-    _die("shpool not found. Install it via 'ductn' package or 'cargo install shpool'.")
-
-
-def _select_agent():
+def _select_agent() -> str:
     """Interactive agent selection."""
     print("Select an agent:", file=sys.stderr)
     print("----------------------------------------", file=sys.stderr)
@@ -130,19 +111,6 @@ def _resolve_workspace_dir(input_path=""):
     _die(f"Workspace directory not found: {input_path} (checked: {', '.join(checked)})")
 
 
-def _workspace_session_slug(path):
-    """Create a slug for the session name from workspace path."""
-    home = str(Path.home())
-    if path == home:
-        return "home"
-
-    slug = path.replace(home + "/", "").replace(home, "")
-    slug = slug.lstrip("/")
-    slug = slug.replace("/", "-")
-    slug = "".join(c if c.isalnum() or c in "_-" else "_" for c in slug)
-    return slug or "workspace"
-
-
 def _confirm_start(agent, workspace_dir):
     """Confirm before starting."""
     try:
@@ -154,47 +122,38 @@ def _confirm_start(agent, workspace_dir):
         sys.exit(0)
 
 
-def _ensure_shpool_daemon(shpool_bin):
-    """Start shpool daemon if not running."""
-    import subprocess
-    try:
-        subprocess.run([shpool_bin, "list"], check=True, capture_output=True)
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        print("Starting shpool daemon...")
-        subprocess.run([shpool_bin, "daemon", "-d"], check=True, capture_output=True)
-        import time
-        time.sleep(1)
-
-
-def _start_agent(agent, workspace_dir, session_name, shpool_bin):
-    """Start the agent in a shpool session."""
-    import subprocess
+def _start_agent(agent: str, workspace_dir: str):
+    """Start the agent in the workspace directory."""
+    import shutil
 
     if agent == "hermes":
-        command_text = "hermes"
+        agent_cmd: str = "hermes"
     elif agent == "codex":
-        command_text = f"codex --profile {CODEX_PROFILE_NAME}"
+        agent_cmd = f"codex --profile {CODEX_PROFILE_NAME}"
     else:
         _die(f"Invalid agent: {agent}")
 
-    print(f"Starting {agent}")
-    print(f"Workspace: {workspace_dir}")
-    if agent == "codex":
-        print(f"Codex profile: {CODEX_PROFILE_NAME}")
-    print(f"Session: {session_name}")
+    # Resolve binary path
+    agent_bin = shutil.which(agent_cmd.split()[0])
+    if not agent_bin:
+        _die(f"Required command not found: {agent_cmd.split()[0]}")
 
-    os.execv(
-        shpool_bin,
-        [shpool_bin, "attach", "-c", command_text, "-d", workspace_dir, session_name],
-    )
+    # Build argv: binary + remaining args
+    argv = [agent_bin] + agent_cmd.split()[1:]
+
+    # Change to workspace directory before exec
+    os.chdir(workspace_dir)
+    print(f"Starting {agent} in {workspace_dir}")
+
+    os.execv(argv[0], argv)
 
 
 @register_command("cli")
 def d_cli(args=None):
-    """Launch Hermes/Codex workspace helper (shpool session manager).
+    """Launch Hermes/Codex workspace helper.
 
-    Ported from bash script to Python to avoid infinite loop:
-    ductncli (bash wrapper) -> ductn cli (Python implementation)
+    Resolves workspace directory, then starts the agent directly
+    in that directory. No session manager (shpool/tmux) needed.
     """
     if args is None:
         args = []
@@ -229,16 +188,9 @@ def d_cli(args=None):
     # Resolve workspace
     workspace_dir = _resolve_workspace_dir(path_input)
 
-    # Find shpool
-    shpool_bin = _find_shpool()
-
     # Confirm
     _confirm_start(agent, workspace_dir)
 
-    # Build session name and start
-    slug = _workspace_session_slug(workspace_dir)
-    session_name = f"{agent}-{slug}"
-
-    _ensure_shpool_daemon(shpool_bin)
-    _start_agent(agent, workspace_dir, session_name, shpool_bin)
+    # Start agent directly in workspace directory
+    _start_agent(agent, workspace_dir)
     # _start_agent uses os.execv, so we never reach here
