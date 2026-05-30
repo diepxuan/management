@@ -3,6 +3,9 @@ diepxuan (5.6.5+ppa~1) noble; urgency=medium
   * chore: deprecate sys.service.valid.sh — apache2, mysql, mssql-server không còn sử dụng
   * feat(magento2): port toàn bộ php.m2.sh sang Python, thêm wrapper binary m2
   * feat(system): thêm sys:sysctl command — apply sysctl rules từ /etc/sysctl.d/99-ductn.conf
+  * fix(postinst): gọi ductn sys:sysctl khi cài/upgrade package để apply rules ngay
+  * fix(5.6.5): remove m2 wrapper from ductn package — m2 là package riêng (src/m2/)
+  * verify: Laravel parity (bash vs Python) — Python đủ chức năng, bash đã deprecated
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Sat, 30 May 2026 00:00:00 +0700
 

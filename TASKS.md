@@ -511,6 +511,9 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
 - **Validation:**
   - [x] `python3 -m py_compile src/utils/system.py`
   - [x] `git diff --check`
+  - [x] `bash -n src/debian/postinst`
+  - [x] postinst gọi `ductn sys:sysctl` trong section `configure` (sau `ductn time:timezone`)
+  - [x] Laravel parity verified: bash `php.lar.sh` chỉ có 1 function `php artisan $@`; Python `laravel.py` có đủ parity + mở rộng (composer, cache:clear, config:cache, route:cache)
 
 ### 🔀 Task 2.2: Host Management (partial)
 - **Status:** 🔀 PARTIAL
