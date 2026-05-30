@@ -1,3 +1,11 @@
+diepxuan (5.6.5+ppa~1) noble; urgency=medium
+
+  * chore: deprecate sys.service.valid.sh — apache2, mysql, mssql-server không còn sử dụng
+  * feat(magento2): port toàn bộ php.m2.sh sang Python, thêm wrapper binary m2
+  * feat(system): thêm sys:sysctl command — apply sysctl rules từ /etc/sysctl.d/99-ductn.conf
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Sat, 30 May 2026 00:00:00 +0700
+
 diepxuan (5.6.4+ppa~1) noble; urgency=medium
 
   * chore: deprecate user command group
