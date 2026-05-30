@@ -106,13 +106,6 @@ configure)
         echo "[ductn] ✔ ductncli permissions set."
     fi
 
-    TMUX_SOURCE="/etc/ductn/tmux.conf"
-    TMUX_TARGET="/root/.tmux.conf"
-    if [[ -f "$TMUX_SOURCE" ]]; then
-        cp "$TMUX_SOURCE" "$TMUX_TARGET"
-        echo "[ductn] ✔ tmux config installed to $TMUX_TARGET"
-    fi
-
     # Setup shpool user service
     INSTALL_USER="${SUDO_USER:-$USER}"
     if [[ -n "$INSTALL_USER" && "$INSTALL_USER" != "root" ]]; then

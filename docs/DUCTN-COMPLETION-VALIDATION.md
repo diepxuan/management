@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Use this checklist to validate ductn autocomplete in normal shells, tmux panes, installed packages, and development checkouts.
+Use this checklist to validate ductn autocomplete in normal shells, terminal panes, installed packages, and development checkouts.
 
 ## Expected files
 
@@ -26,7 +26,7 @@ The old compatibility file should not remain after upgrading from 5.6.2+:
 
 ## Shell reload rule
 
-Bash completion files are loaded by the current shell process. Existing tmux panes do not automatically reload files installed after the pane was opened.
+Bash completion files are loaded by the current shell process. Existing terminal panes do not automatically reload files installed after the pane was opened.
 
 For an existing pane, reload shell state:
 
@@ -34,7 +34,7 @@ For an existing pane, reload shell state:
 exec bash
 ```
 
-Or open a new tmux pane/session.
+Or open a new terminal pane/session.
 
 ## Installed command validation
 
@@ -107,13 +107,13 @@ Refresh temporary cache:
 ductn completion:cache refresh /tmp/ductn-commands-test
 ```
 
-## tmux validation matrix
+## Session validation matrix
 
 | Context | Command | Expected |
 |---------|---------|----------|
 | New login shell | `ductn ap<TAB>` | `apt:check`, `apt:fix` |
-| New tmux pane | `ductn ap<TAB>` | `apt:check`, `apt:fix` |
-| Existing tmux pane after `exec bash` | `ductn ap<TAB>` | `apt:check`, `apt:fix` |
+| New terminal pane | `ductn ap<TAB>` | `apt:check`, `apt:fix` |
+| Existing pane after `exec bash` | `ductn ap<TAB>` | `apt:check`, `apt:fix` |
 | Repo checkout | `./ductn ap<TAB>` | `apt:check`, `apt:fix` |
 
 ## Troubleshooting
