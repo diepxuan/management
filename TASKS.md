@@ -11,11 +11,11 @@
 
 | Status | Count | Description |
 |--------|-------|-------------|
-| ✅ Completed | 17 | Migrated to Python + deprecated bash |
+| ✅ Completed | 20 | Migrated to Python + deprecated bash |
 | 🔄 In Progress | 0 | Currently being migrated |
-| ⏳ Pending | 31 | Waiting to be migrated |
-| 🔀 Partial | 7 | Partially migrated (some commands done, some pending) |
-| 🚫 Deprecated | 4 | Bash scripts moved to deprecated/ |
+| ⏳ Pending | 17 | Waiting to be migrated |
+| 🔀 Partial | 6 | Partially migrated (some commands done, some pending) |
+| 🚫 Deprecated | 6 | Bash scripts moved to deprecated/ |
 
 ---
 
@@ -494,18 +494,23 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
 
 ## Phase 2: System Administration (MEDIUM PRIORITY)
 
-### 🔀 Task 2.1: System Management (partial)
-- **Status:** 🔀 PARTIAL
-- **Bash:** `src/var/lib/sys.sh` (99 lines)
-- **Python:** `src/utils/system.py` (partially done: `d_sys_update`, `d_update`)
-- **Remaining:**
-  | Command | Description |
-  |---------|-------------|
-  | `sys:init` | System initialization |
-  | `sys:sysctl` | Apply sysctl config |
-  | `sys:clean` | Clean system temp files |
-  | `sys:upgrade` | System upgrade |
-  | `sys:selfupdate` | Self-update ductn package |
+### ✅ Task 2.1: System Management
+- **Status:** ✅ COMPLETED
+- **Bash:** `deprecated/src/var/lib/sys.sh` (đã deprecated từ PR #33)
+- **Python:** `src/utils/system.py`
+- **Commands:**
+  | Command | Description | Status |
+  |---------|-------------|--------|
+  | `update` | Check và upgrade ductn package | ✅ |
+  | `sys:sysctl` | Apply sysctl rules từ /etc/sysctl.d/99-ductn.conf | ✅ (mới) |
+  | `sys:upgrade` | Gọi `update` (alias) | ✅ |
+- **Không migrate:**
+  - `sys:init` — Bỏ. Timezone đã có `time:timezone` + postinst. Orchestrator cho tasks chưa sẵn sàng.
+  - `sys:clean` — Bỏ. Apt quản lý package, không còn legacy bin/hooks/aliases.
+  - `sys:selfupdate` / `__self-update` — Đã hợp nhất vào `update`.
+- **Validation:**
+  - [x] `python3 -m py_compile src/utils/system.py`
+  - [x] `git diff --check`
 
 ### 🔀 Task 2.2: Host Management (partial)
 - **Status:** 🔀 PARTIAL
