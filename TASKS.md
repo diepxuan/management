@@ -11,11 +11,11 @@
 
 | Status | Count | Description |
 |--------|-------|-------------|
-| ✅ Completed | 17 | Migrated to Python + deprecated bash |
+| ✅ Completed | 20 | Migrated to Python + deprecated bash |
 | 🔄 In Progress | 0 | Currently being migrated |
-| ⏳ Pending | 31 | Waiting to be migrated |
-| 🔀 Partial | 8 | Partially migrated (some commands done, some pending) |
-| 🚫 Deprecated | 3 | Bash scripts moved to deprecated/ |
+| ⏳ Pending | 17 | Waiting to be migrated |
+| 🔀 Partial | 6 | Partially migrated (some commands done, some pending) |
+| 🚫 Deprecated | 6 | Bash scripts moved to deprecated/ |
 
 ---
 
@@ -60,6 +60,29 @@
   - [x] `python3 -m unittest tests.unit.test_registry -v`
   - [x] active command surface has no `user:*`
   - [x] `dpkg-parsechangelog -l src/debian/changelog -S Version`
+  - [x] `git diff --check`
+
+---
+
+## Version 5.6.5 Working Baseline
+
+**Version:** `5.6.5+ppa~1`
+**Branch:** `5.6.5`
+**Scope:** Deprecate sys service validation (apache2, mysql, mssql-server không còn sử dụng); clean up legacy bash scripts.
+**Workflow reference:** `docs/VERSION-WORKFLOW.md`
+**Changelog rule:** tasks in this version update the shared `5.6.5+ppa~1` entry in `src/debian/changelog`.
+
+### ✅ Task 5.6.5-001: Deprecate sys service validation bash script
+- **Branch:** `chore/5.6.5-deprecate-sys-service-valid`
+- **Base:** `main`
+- **Scope:** Move `src/var/lib/sys.service.valid.sh` to `deprecated/`. Không migrate sang Python vì apache2, mysql, mssql-server không còn sử dụng. Dependencies (`swap:install`, `log:cleanup`) đã deprecated hoặc thuộc task khác.
+- **Status:** ✅ COMPLETED
+- **Files:**
+  - `src/var/lib/sys.service.valid.sh` → `deprecated/src/var/lib/sys.service.valid.sh`
+  - `TASKS.md` — Task 5.6 marked as DEPRECATED
+  - `src/debian/changelog` — entry `5.6.5+ppa~1`
+- **Validation:**
+  - [x] `bash -n deprecated/src/var/lib/sys.service.valid.sh`
   - [x] `git diff --check`
 
 ---
@@ -471,18 +494,23 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
 
 ## Phase 2: System Administration (MEDIUM PRIORITY)
 
-### 🔀 Task 2.1: System Management (partial)
-- **Status:** 🔀 PARTIAL
-- **Bash:** `src/var/lib/sys.sh` (99 lines)
-- **Python:** `src/utils/system.py` (partially done: `d_sys_update`, `d_update`)
-- **Remaining:**
-  | Command | Description |
-  |---------|-------------|
-  | `sys:init` | System initialization |
-  | `sys:sysctl` | Apply sysctl config |
-  | `sys:clean` | Clean system temp files |
-  | `sys:upgrade` | System upgrade |
-  | `sys:selfupdate` | Self-update ductn package |
+### ✅ Task 2.1: System Management
+- **Status:** ✅ COMPLETED
+- **Bash:** `deprecated/src/var/lib/sys.sh` (đã deprecated từ PR #33)
+- **Python:** `src/utils/system.py`
+- **Commands:**
+  | Command | Description | Status |
+  |---------|-------------|--------|
+  | `update` | Check và upgrade ductn package | ✅ |
+  | `sys:sysctl` | Apply sysctl rules từ /etc/sysctl.d/99-ductn.conf | ✅ (mới) |
+  | `sys:upgrade` | Gọi `update` (alias) | ✅ |
+- **Không migrate:**
+  - `sys:init` — Bỏ. Timezone đã có `time:timezone` + postinst. Orchestrator cho tasks chưa sẵn sàng.
+  - `sys:clean` — Bỏ. Apt quản lý package, không còn legacy bin/hooks/aliases.
+  - `sys:selfupdate` / `__self-update` — Đã hợp nhất vào `update`.
+- **Validation:**
+  - [x] `python3 -m py_compile src/utils/system.py`
+  - [x] `git diff --check`
 
 ### 🔀 Task 2.2: Host Management (partial)
 - **Status:** 🔀 PARTIAL
@@ -651,41 +679,47 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   | `git:tag:cleanup` | Cleanup old git tags |
 - **Action:** Create `src/utils/git.py`
 
-### 🔀 Task 3.2: PHP/Laravel (partial)
-- **Status:** 🔀 PARTIAL
-- **Bash:** `src/var/lib/php.lar.sh` (22 lines)
-- **Python:** `src/utils/` (TODO)
-- **Target Commands:**
-  | Command | Description |
-  |---------|-------------|
-  | `php:lar` | Laravel helper |
-- **Action:** Create `src/utils/laravel.py`
+### ✅ Task 3.2: PHP/Laravel (complete)
+- **Status:** ✅ COMPLETED
+- **Bash:** `src/var/lib/php.lar.sh` → `deprecated/src/var/lib/php.lar.sh`
+- **Python:** `src/utils/laravel.py` (đã có đủ chức năng)
+- **Reason:** Python version có đầy đủ functionality, thậm chí tốt hơn bash (structured subcommands).
 
-### ⏳ Task 3.3: PHP/Magento2
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/php.m2.sh` (233 lines)
-- **Python:** `src/utils/magento2.py` (TODO)
-- **Target Commands:**
-  | Command | Description |
-  |---------|-------------|
-  | `m2:ch` | Change permissions |
-  | `m2:group` | Fix group permissions |
-  | `m2:urn` | Generate URN |
-  | `m2:perm` | Fix permissions |
-  | `m2:rmgen` | Remove generated files |
-  | `m2:static` | Deploy static content |
-  | `m2:cache` | Manage cache |
-  | `m2:index` | Reindex |
-  | `m2:grunt` | Run grunt |
-  | `m2:up` | Run upgrade |
-  | `m2:config` | Show config |
-  | `m2:setting` | Change settings |
-  | `m2:developer` | Developer mode |
-  | `m2:logenable/logdisable` | Toggle logging |
-  | `m2:tempdebugenable/disable` | Toggle debug |
-  | `m2:completion` | Bash completion |
-- **Note:** `d_php:m2` exists but needs full migration
-- **Action:** Create `src/utils/magento2.py`
+### ✅ Task 3.3: PHP/Magento2
+- **Status:** ✅ COMPLETED
+- **Bash:** `src/var/lib/php.m2.sh` → `deprecated/src/var/lib/php.m2.sh`
+- **Python:** `src/utils/magento2.py` (viết lại hoàn toàn)
+- **Wrapper:** `src/ductn/usr/bin/m2` → `/usr/bin/m2`
+- **Commands migrated:**
+  | Command | Description | Status |
+  |---------|-------------|--------|
+  | `php:m2` / `m2` | Main entry — show all subcommands or forward to bin/magento | ✅ |
+  | `m2:ch` | Fix permissions on Magento directories | ✅ |
+  | `m2:group` | Add current user to www-data | ✅ |
+  | `m2:urn` | Generate URN catalog + fix permissions | ✅ |
+  | `m2:perm` | Fix ownership, permissions, g+ws | ✅ |
+  | `m2:rmgen` | Remove generated/code files | ✅ |
+  | `m2:static` | Clear static assets + view_preprocessed | ✅ |
+  | `m2:cache` | Flush cache + fix permissions | ✅ |
+  | `m2:index` | Reindex + fix permissions | ✅ |
+  | `m2:grunt` | Run grunt exec:all + watch | ✅ |
+  | `m2:up` | Run setup:upgrade + fix permissions | ✅ |
+  | `m2:config` | Enable all modules, DI compile, fix permissions | ✅ |
+  | `m2:setting` | Apply standard config store settings [domain] | ✅ |
+  | `m2:developer` | Enable developer mode with full workflow | ✅ |
+  | `m2:logenable` | Enable query log | ✅ |
+  | `m2:logdisable` | Disable query log | ✅ |
+  | `m2:tempdebugenable` | Enable template hints | ✅ |
+  | `m2:tempdebugdisable` | Disable template hints | ✅ |
+  | `m2:completion` | Generate bash completion for magerun2 | ✅ |
+- **Routing:**
+  - `ductn cli` → chỉ hiển thị `php:m2`
+  - `m2` (terminal) → hiển thị đầy đủ subcommands
+  - `m2 <action>` → `ductn php:m2 <action>`
+- **Validation:**
+  - [x] `python3 -m py_compile src/utils/magento2.py`
+  - [x] `bash -n deprecated/src/var/lib/php.m2.sh`
+  - [x] `git diff --check`
 
 ### ⏳ Task 3.4: PHP General
 - **Status:** ⏳ PENDING
@@ -819,13 +853,10 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   | `sqlsrv:apt` | APT setup for SQLSRV |
 - **Action:** Create `src/utils/mssql.py`
 
-### 🔀 Task 5.6: Sys Service Validation
-- **Status:** 🔀 PARTIAL
-- **Bash:** `src/var/lib/sys.service.valid.sh` (40 lines)
-- **Python:** Merge into `src/utils/system_service.py`
-- **Target:** Service validation helpers for httpd, mysql, mssql
-- **Removed:** DHCP validation helper `sys:service:dhcp` deprecated with DHCPD command group.
-- **Action:** Add to existing `system_service.py`
+### 🚫 Task 5.6: Sys Service Validation
+- **Status:** 🚫 DEPRECATED
+- **Bash:** `src/var/lib/sys.service.valid.sh` → `deprecated/src/var/lib/sys.service.valid.sh`
+- **Reason:** apache2, mysql, mssql-server không còn sử dụng. Dependencies đã deprecated (`swap:install`, `log:cleanup` thuộc Task 1.6). Moved to deprecated/ trong version 5.6.5.
 
 ### ⏳ Task 5.7: Server Install
 - **Status:** ⏳ PENDING
