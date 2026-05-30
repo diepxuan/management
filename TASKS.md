@@ -64,6 +64,38 @@
 
 ---
 
+## Version 5.6.6 Working Baseline
+
+**Version:** `5.6.6+ppa~1`
+**Branch:** `5.6.6`
+**Scope:** Remove all tmux-related code, configs, and docs — project migrated to shpool.
+**Workflow reference:** `docs/VERSION-WORKFLOW.md`
+**Changelog rule:** tasks in this version update the shared `5.6.6+ppa~1` entry in `src/debian/changelog`.
+
+### ⏳ Task 5.6.6-001: Remove tmux integration
+- **Branch:** `chore/5.6.6-remove-tmux`
+- **Base:** `main`
+- **Scope:** Xóa toàn bộ tmux config, postinst logic, dependencies, docs — thay bằng shpool.
+- **Status:** 🔄 IN PROGRESS
+- **Files removed:**
+  - `src/ductn/etc/ductn/tmux.conf`
+  - `docs/UPDATE-2026-05-26-ductn-cli-tmux.md`
+- **Files modified:**
+  - `src/debian/ductn.install` — remove `tmux.conf` install line
+  - `src/debian/postinst` — remove tmux config copy block
+  - `src/debian/control` — remove `tmux` dependency
+  - `README.md` — update CLI section, replace tmux references with shpool
+  - `docs/DUCTN-COMPLETION-VALIDATION.md` — replace "tmux pane" with "terminal pane"
+  - `docs/VERSION-WORKFLOW.md` — update branch example
+  - `src/debian/changelog` — add 5.6.6 entry
+- **Validation:**
+  - [ ] `bash -n src/debian/postinst`
+  - [ ] `! grep -rn "tmux" src/ --include="*.py" --include="*.sh" --include="*.install" --include="*.control" --include="*.conf" | grep -v deprecated`
+  - [ ] `dpkg-parsechangelog -l src/debian/changelog -S Version`
+  - [ ] `git diff --check`
+
+---
+
 ## Version 5.6.5 Working Baseline
 
 **Version:** `5.6.5+ppa~1`
