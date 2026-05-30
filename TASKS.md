@@ -14,8 +14,8 @@
 | ✅ Completed | 17 | Migrated to Python + deprecated bash |
 | 🔄 In Progress | 0 | Currently being migrated |
 | ⏳ Pending | 31 | Waiting to be migrated |
-| 🔀 Partial | 8 | Partially migrated (some commands done, some pending) |
-| 🚫 Deprecated | 3 | Bash scripts moved to deprecated/ |
+| 🔀 Partial | 7 | Partially migrated (some commands done, some pending) |
+| 🚫 Deprecated | 4 | Bash scripts moved to deprecated/ |
 
 ---
 
@@ -60,6 +60,29 @@
   - [x] `python3 -m unittest tests.unit.test_registry -v`
   - [x] active command surface has no `user:*`
   - [x] `dpkg-parsechangelog -l src/debian/changelog -S Version`
+  - [x] `git diff --check`
+
+---
+
+## Version 5.6.5 Working Baseline
+
+**Version:** `5.6.5+ppa~1`
+**Branch:** `5.6.5`
+**Scope:** Deprecate sys service validation (apache2, mysql, mssql-server không còn sử dụng); clean up legacy bash scripts.
+**Workflow reference:** `docs/VERSION-WORKFLOW.md`
+**Changelog rule:** tasks in this version update the shared `5.6.5+ppa~1` entry in `src/debian/changelog`.
+
+### ✅ Task 5.6.5-001: Deprecate sys service validation bash script
+- **Branch:** `chore/5.6.5-deprecate-sys-service-valid`
+- **Base:** `main`
+- **Scope:** Move `src/var/lib/sys.service.valid.sh` to `deprecated/`. Không migrate sang Python vì apache2, mysql, mssql-server không còn sử dụng. Dependencies (`swap:install`, `log:cleanup`) đã deprecated hoặc thuộc task khác.
+- **Status:** ✅ COMPLETED
+- **Files:**
+  - `src/var/lib/sys.service.valid.sh` → `deprecated/src/var/lib/sys.service.valid.sh`
+  - `TASKS.md` — Task 5.6 marked as DEPRECATED
+  - `src/debian/changelog` — entry `5.6.5+ppa~1`
+- **Validation:**
+  - [x] `bash -n deprecated/src/var/lib/sys.service.valid.sh`
   - [x] `git diff --check`
 
 ---
@@ -825,13 +848,10 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   | `sqlsrv:apt` | APT setup for SQLSRV |
 - **Action:** Create `src/utils/mssql.py`
 
-### 🔀 Task 5.6: Sys Service Validation
-- **Status:** 🔀 PARTIAL
-- **Bash:** `src/var/lib/sys.service.valid.sh` (40 lines)
-- **Python:** Merge into `src/utils/system_service.py`
-- **Target:** Service validation helpers for httpd, mysql, mssql
-- **Removed:** DHCP validation helper `sys:service:dhcp` deprecated with DHCPD command group.
-- **Action:** Add to existing `system_service.py`
+### 🚫 Task 5.6: Sys Service Validation
+- **Status:** 🚫 DEPRECATED
+- **Bash:** `src/var/lib/sys.service.valid.sh` → `deprecated/src/var/lib/sys.service.valid.sh`
+- **Reason:** apache2, mysql, mssql-server không còn sử dụng. Dependencies đã deprecated (`swap:install`, `log:cleanup` thuộc Task 1.6). Moved to deprecated/ trong version 5.6.5.
 
 ### ⏳ Task 5.7: Server Install
 - **Status:** ⏳ PENDING
