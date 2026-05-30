@@ -1,5 +1,7 @@
 diepxuan (5.6.6+ppa~1) noble; urgency=medium
 
+  * chore(cli): remove shpool — call hermes/codex directly in workspace directory
+  * chore: remove shpool binary, systemd service/socket from package
   * chore: remove all tmux-related code, configs, docs — migrated to shpool
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Sat, 30 May 2026 00:00:00 +0700
