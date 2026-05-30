@@ -674,41 +674,47 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   | `git:tag:cleanup` | Cleanup old git tags |
 - **Action:** Create `src/utils/git.py`
 
-### 🔀 Task 3.2: PHP/Laravel (partial)
-- **Status:** 🔀 PARTIAL
-- **Bash:** `src/var/lib/php.lar.sh` (22 lines)
-- **Python:** `src/utils/` (TODO)
-- **Target Commands:**
-  | Command | Description |
-  |---------|-------------|
-  | `php:lar` | Laravel helper |
-- **Action:** Create `src/utils/laravel.py`
+### ✅ Task 3.2: PHP/Laravel (complete)
+- **Status:** ✅ COMPLETED
+- **Bash:** `src/var/lib/php.lar.sh` → `deprecated/src/var/lib/php.lar.sh`
+- **Python:** `src/utils/laravel.py` (đã có đủ chức năng)
+- **Reason:** Python version có đầy đủ functionality, thậm chí tốt hơn bash (structured subcommands).
 
-### ⏳ Task 3.3: PHP/Magento2
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/php.m2.sh` (233 lines)
-- **Python:** `src/utils/magento2.py` (TODO)
-- **Target Commands:**
-  | Command | Description |
-  |---------|-------------|
-  | `m2:ch` | Change permissions |
-  | `m2:group` | Fix group permissions |
-  | `m2:urn` | Generate URN |
-  | `m2:perm` | Fix permissions |
-  | `m2:rmgen` | Remove generated files |
-  | `m2:static` | Deploy static content |
-  | `m2:cache` | Manage cache |
-  | `m2:index` | Reindex |
-  | `m2:grunt` | Run grunt |
-  | `m2:up` | Run upgrade |
-  | `m2:config` | Show config |
-  | `m2:setting` | Change settings |
-  | `m2:developer` | Developer mode |
-  | `m2:logenable/logdisable` | Toggle logging |
-  | `m2:tempdebugenable/disable` | Toggle debug |
-  | `m2:completion` | Bash completion |
-- **Note:** `d_php:m2` exists but needs full migration
-- **Action:** Create `src/utils/magento2.py`
+### ✅ Task 3.3: PHP/Magento2
+- **Status:** ✅ COMPLETED
+- **Bash:** `src/var/lib/php.m2.sh` → `deprecated/src/var/lib/php.m2.sh`
+- **Python:** `src/utils/magento2.py` (viết lại hoàn toàn)
+- **Wrapper:** `src/ductn/usr/bin/m2` → `/usr/bin/m2`
+- **Commands migrated:**
+  | Command | Description | Status |
+  |---------|-------------|--------|
+  | `php:m2` / `m2` | Main entry — show all subcommands or forward to bin/magento | ✅ |
+  | `m2:ch` | Fix permissions on Magento directories | ✅ |
+  | `m2:group` | Add current user to www-data | ✅ |
+  | `m2:urn` | Generate URN catalog + fix permissions | ✅ |
+  | `m2:perm` | Fix ownership, permissions, g+ws | ✅ |
+  | `m2:rmgen` | Remove generated/code files | ✅ |
+  | `m2:static` | Clear static assets + view_preprocessed | ✅ |
+  | `m2:cache` | Flush cache + fix permissions | ✅ |
+  | `m2:index` | Reindex + fix permissions | ✅ |
+  | `m2:grunt` | Run grunt exec:all + watch | ✅ |
+  | `m2:up` | Run setup:upgrade + fix permissions | ✅ |
+  | `m2:config` | Enable all modules, DI compile, fix permissions | ✅ |
+  | `m2:setting` | Apply standard config store settings [domain] | ✅ |
+  | `m2:developer` | Enable developer mode with full workflow | ✅ |
+  | `m2:logenable` | Enable query log | ✅ |
+  | `m2:logdisable` | Disable query log | ✅ |
+  | `m2:tempdebugenable` | Enable template hints | ✅ |
+  | `m2:tempdebugdisable` | Disable template hints | ✅ |
+  | `m2:completion` | Generate bash completion for magerun2 | ✅ |
+- **Routing:**
+  - `ductn cli` → chỉ hiển thị `php:m2`
+  - `m2` (terminal) → hiển thị đầy đủ subcommands
+  - `m2 <action>` → `ductn php:m2 <action>`
+- **Validation:**
+  - [x] `python3 -m py_compile src/utils/magento2.py`
+  - [x] `bash -n deprecated/src/var/lib/php.m2.sh`
+  - [x] `git diff --check`
 
 ### ⏳ Task 3.4: PHP General
 - **Status:** ⏳ PENDING
