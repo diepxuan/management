@@ -1,3 +1,9 @@
+diepxuan (5.6.6+ppa~1) noble; urgency=medium
+
+  * chore: remove all tmux-related code, configs, docs — migrated to shpool
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Sat, 30 May 2026 00:00:00 +0700
+
 diepxuan (5.6.5+ppa~1) noble; urgency=medium
 
   * chore: deprecate sys.service.valid.sh — apache2, mysql, mssql-server không còn sử dụng
