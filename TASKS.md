@@ -64,6 +64,30 @@
 
 ---
 
+## Version 5.6.7 Working Baseline
+
+**Version:** `5.6.7+ppa~1`
+**Branch:** `fix/5.6.7-ductncli-tty-restore`
+**Scope:** Fix-only — restore /dev/tty before execv so ductncli works with hermes/codex interactive mode.
+**Workflow reference:** `docs/VERSION-WORKFLOW.md`
+**Changelog rule:** tasks in this version update the shared `5.6.7+ppa~1` entry in `src/debian/changelog`.
+
+### ✅ Task 5.6.7-001: Fix ductncli TTY restoration before execv
+- **Branch:** `fix/5.6.7-ductncli-tty-restore`
+- **Base:** `main`
+- **Scope:** Restore /dev/tty (fd 0/1/2) after _confirm_start() input() so hermes/codex receive a clean TTY for interactive mode.
+- **Status:** ✅ COMPLETED
+- **Files:**
+  - `src/utils/cli.py` — dup2 /dev/tty to stdin/stdout/stderr before execv
+  - `src/debian/changelog` — bump to 5.6.7+ppa~1
+- **PR:** #43
+- **Validation:**
+  - [x] `python3 -m py_compile src/utils/cli.py`
+  - [x] `dpkg-parsechangelog -l src/debian/changelog -S Version` → 5.6.7+ppa~1
+  - [x] `git diff --check`
+
+---
+
 ## Version 5.6.6 Working Baseline
 
 **Version:** `5.6.6+ppa~1`
