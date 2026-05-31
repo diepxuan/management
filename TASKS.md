@@ -648,15 +648,15 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   | `ip:subnet` | Get subnet mask |
   | `ip:check` | Check IP connectivity |
 
-### 🔀 Task 2.4: Route Management (partial)
-- **Status:** 🔀 PARTIAL
-- **Bash:** `src/var/lib/route.sh` (118 lines)
-- **Python:** `src/utils/route.py` (done: `d_route_default`, `d_route_monitor`)
-- **Remaining:**
-  | Command | Description |
-  |---------|-------------|
-  | `route:checkAndUp` | Check and bring up route |
-  | `route:reload` | Reload route config |
+### ✅ Task 2.4: Route Management (complete)
+- **Status:** ✅ COMPLETED
+- **Bash:** `deprecated/src/var/lib/route.sh` (moved)
+- **Python:** `src/utils/route.py` — all commands migrated
+- **Commands:**
+  - `route:default` — get default network interface
+  - `route:monitor` — check connectivity, auto restart interface if down
+  - `route:checkAndUp` — integrated into `route:monitor` (checks UP, pings, reloads on failure)
+  - `route:reload` — integrated as `_interface_reload()` (down + up)
 
 ### 🔀 Task 2.5: Service Management (partial)
 - **Status:** 🔀 PARTIAL
@@ -670,14 +670,17 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   | `sys:service:re-install` | Re-install service |
   | `d_run_as_service` | Run command as service |
 
-### 🔀 Task 2.6: OS Management (partial)
-- **Status:** 🔀 PARTIAL
-- **Bash:** `src/var/lib/os.sh` (80 lines)
-- **Python:** `src/utils/system_os.py` (done: codename, release, distro, architecture, type)
-- **Remaining:**
-  | Command | Description |
-  |---------|-------------|
-  | `os:list` | List OS information |
+### ✅ Task 2.6: OS Management (complete)
+- **Status:** ✅ COMPLETED
+- **Bash:** `deprecated/src/var/lib/os.sh` (moved)
+- **Python:** `src/utils/system_os.py` — all commands migrated
+- **Commands:**
+  - `os:codename` — get OS codename (e.g. noble, jammy)
+  - `os:release` — get OS version (e.g. 24.04)
+  - `os:distro` — get OS distro ID (e.g. ubuntu, debian)
+  - `os:architecture` — get machine architecture
+  - `os:type` — get OS type (Linux, Darwin)
+  - `os:list` — DEPRECATED (web scraping releases.ubuntu.com)
 
 ### 🔀 Task 2.7: VM Management (partial)
 - **Status:** 🔀 PARTIAL
