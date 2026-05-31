@@ -11,10 +11,10 @@
 
 | Status | Count | Description |
 |--------|-------|-------------|
-| ✅ Completed | 20 | Migrated to Python + deprecated bash |
+| ✅ Completed | 22 | Migrated to Python + deprecated bash |
 | 🔄 In Progress | 0 | Currently being migrated |
 | ⏳ Pending | 17 | Waiting to be migrated |
-| 🔀 Partial | 6 | Partially migrated (some commands done, some pending) |
+| 🔀 Partial | 4 | Partially migrated (some commands done, some pending) |
 | 🚫 Deprecated | 6 | Bash scripts moved to deprecated/ |
 
 ---
@@ -106,27 +106,35 @@
 **Workflow reference:** `docs/VERSION-WORKFLOW.md`
 **Changelog rule:** tasks in this version update the shared `5.6.8+ppa~1` entry in `src/debian/changelog`.
 
-### Migration Backlog (Pending)
+### Migration Backlog (5.6.8)
 
-| ID | Task | Source | Ghi chu |
-|----|------|--------|---------|
-| 1.6 | Log Management | `src/var/lib/log.sh` | |
-| 1.7 | Cronjob Management | `src/var/lib/cron.sh` | |
-| 2.8 | User Management | | |
-| 2.9 | Disk/ZFS Management | | |
-| 2.13 | Port Management | | |
-| 3.1 | Git Management | | |
-| 3.4 | PHP General | | |
-| 4.1 | Environment/Network Config | | |
-| 5.1 | GPG Management | | |
-| 5.2 | CURL/HTTP Utilities | | |
-| 5.3 | File Utilities | | Partially done |
-| 5.4 | Bash Completion | | |
-| 5.5 | MSSQL Support | | |
-| 5.7 | Server Install | | |
-| 5.8 | Environment Detection | | |
-| 5.9 | Helper Functions | | |
-| 5.10 | Main Entry Point | | |
+| ID | Task | Source | Status | Ghi chu |
+|----|------|--------|--------|---------|
+| 2.2 | Host Management | `src/var/lib/host.sh` | Partial | 10 lenh con lai |
+| 2.3 | IP Management | `src/var/lib/ip.sh` | Partial | 7 lenh con lai |
+| 2.5 | Service Management | `src/var/lib/service.sh` | Partial | 4 lenh con lai |
+| 2.7 | VM Management | `src/var/lib/vm.sh` | Partial | 2 lenh con lai |
+| 1.6 | Log Management | `src/var/lib/log.sh` | Pending | |
+| 1.7 | Cronjob Management | `src/var/lib/cron.sh` | Pending | |
+| 2.8 | User Management | | Pending | |
+| 2.9 | Disk/ZFS Management | | Pending | |
+| 2.13 | Port Management | | Pending | |
+| 3.1 | Git Management | | Pending | |
+| 3.4 | PHP General | | Pending | |
+| 4.1 | Environment/Network Config | | Pending | |
+| 5.1 | GPG Management | | Pending | |
+| 5.2 | CURL/HTTP Utilities | | Pending | |
+| 5.3 | File Utilities | | Partial | |
+| 5.4 | Bash Completion | | Pending | |
+| 5.5 | MSSQL Support | | Pending | |
+| 5.7 | Server Install | | Pending | |
+| 5.8 | Environment Detection | | Pending | |
+| 5.9 | Helper Functions | | Pending | |
+| 5.10 | Main Entry Point | | Pending | |
+
+**Completed in 5.6.8:**
+| 2.4 | Route Management | ✅ | All commands migrated |
+| 2.6 | OS Management | ✅ | os:list deprecated |
 
 ---
 
