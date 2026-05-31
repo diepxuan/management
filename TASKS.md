@@ -662,7 +662,7 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
 - **Python:** `src/utils/route.py` — all commands migrated
 - **Commands:**
   - `route:default` — get default network interface
-  - `route:monitor` — check connectivity, auto restart interface if down
+  - `route:monitor` — DEPRECATED (old LXC workaround, systemd handles this now)
   - `route:checkAndUp` — integrated into `route:monitor` (checks UP, pings, reloads on failure)
   - `route:reload` — integrated as `_interface_reload()` (down + up)
 
