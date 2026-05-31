@@ -184,11 +184,12 @@ def _interface_reload(interface: str):
     _interface_up(interface)
 
 
-@register_command
+# DEPRECATED: route:monitor was used for old LXC containers that needed
+# manual interface restart on connectivity loss. Modern LXC/systemd handles
+# network recovery automatically. The function is kept for backward compat.
 def d_route_monitor():
-    """
-    Giám sát kết nối Internet và tự động khởi động lại interface mạng chính nếu mất kết nối.
-    """
+    """DEPRECATED: route:monitor — kept for backward compatibility."""
+    print("route:monitor is deprecated. Network recovery is handled by systemd/systemd-networkd.")
     _route_monitor()
 
 

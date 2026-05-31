@@ -62,6 +62,14 @@ def d_os_type():
     print(platform.system())
 
 
+@register_command
+def d_os_list():
+    """DEPRECATED: Fetches Ubuntu releases list from releases.ubuntu.com.
+    This command relies on web scraping and is deprecated.
+    """
+    print("os:list is deprecated. Use 'ubuntu-distro-info' or check https://releases.ubuntu.com/ directly.")
+
+
 def _init_system():
     """Get OS Init System"""
     if sys.platform == "darwin":

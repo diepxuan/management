@@ -11,10 +11,10 @@
 
 | Status | Count | Description |
 |--------|-------|-------------|
-| ✅ Completed | 20 | Migrated to Python + deprecated bash |
+| ✅ Completed | 24 | Migrated to Python + deprecated bash |
 | 🔄 In Progress | 0 | Currently being migrated |
-| ⏳ Pending | 17 | Waiting to be migrated |
-| 🔀 Partial | 6 | Partially migrated (some commands done, some pending) |
+| ⏳ Pending | 16 | Waiting to be migrated |
+| 🔀 Partial | 3 | Partially migrated (some commands done, some pending) |
 | 🚫 Deprecated | 6 | Bash scripts moved to deprecated/ |
 
 ---
@@ -96,6 +96,45 @@
   - [x] `python3 -m py_compile src/utils/cli.py`
   - [x] `dpkg-parsechangelog -l src/debian/changelog -S Version` → 5.6.7+ppa~1
   - [x] `git diff --check`
+
+---
+
+## Version 5.6.8 Working Baseline
+
+**Version:** `5.6.8+ppa~1`
+**Scope:** Tiep tuc migration Bash sang Python — focus vao cac task Pending va Partial.
+**Workflow reference:** `docs/VERSION-WORKFLOW.md`
+**Changelog rule:** tasks in this version update the shared `5.6.8+ppa~1` entry in `src/debian/changelog`.
+
+### Migration Backlog (5.6.8)
+
+| ID | Task | Source | Status | Ghi chu |
+|----|------|--------|--------|---------|
+| 2.2 | Host Management | `src/var/lib/host.sh` | Partial | 10 lenh con lai |
+| 2.3 | IP Management | `src/var/lib/ip.sh` | Partial | 7 lenh con lai |
+| 2.5 | Service Management | `src/var/lib/service.sh` | Partial | 4 lenh con lai |
+| 2.7 | VM Management | `src/var/lib/vm.sh` | Partial | 2 lenh con lai |
+| 1.6 | Log Management | `deprecated/src/var/lib/log.sh` | Complete | |
+| 1.7 | Cronjob Management | `src/var/lib/cron.sh` | Pending | |
+| 2.8 | User Management | | Pending | |
+| 2.9 | Disk/ZFS Management | | Pending | |
+| 2.13 | Port Management | | Pending | |
+| 3.1 | Git Management | | Pending | |
+| 3.4 | PHP General | | Pending | |
+| 4.1 | Environment/Network Config | | Pending | |
+| 5.1 | GPG Management | | Pending | |
+| 5.2 | CURL/HTTP Utilities | | Pending | |
+| 5.3 | File Utilities | | Partial | |
+| 5.4 | Bash Completion | | Pending | |
+| 5.5 | MSSQL Support | | Pending | |
+| 5.7 | Server Install | | Pending | |
+| 5.8 | Environment Detection | | Pending | |
+| 5.9 | Helper Functions | | Pending | |
+| 5.10 | Main Entry Point | | Pending | |
+
+**Completed in 5.6.8:**
+| 2.4 | Route Management | ✅ | All commands migrated |
+| 2.6 | OS Management | ✅ | os:list deprecated |
 
 ---
 
@@ -531,20 +570,21 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   - `ssh:copy`
 - **Reason:** SSH command group removed from active Bash and Python CLI surface. Commands manipulate private keys, authorized_keys, and remote access directly; should not be shipped as default package commands without a dedicated, reviewed workflow.
 
-### ⏳ Task 1.6: Log Management
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/log.sh` (129 lines)
-- **Python:** `src/utils/log.py` (TODO)
-- **Target Commands:**
-  | Command | Description |
-  |---------|-------------|
-  | `log` | Show ductn log |
-  | `log:watch` | Watch log in realtime |
-  | `log:cleanup` | Cleanup old logs |
-  | `log:config` | Configure log rotation |
-  | `log:config:store` | Store log config |
-  | `log:config:mssql` | MSSQL log config |
-- **Action:** Create `src/utils/log.py`
+### ✅ Task 1.6: Log Management
+- **Status:** ✅ COMPLETED
+- **Bash:** `deprecated/src/var/lib/log.sh` (moved)
+- **Python:** `src/utils/log.py` — refactored
+- **Commands:**
+  - `log` — alias for log:watch
+  - `log:watch [service]` — tail all /var/log/*log or journalctl -u service -f
+  - `log:cleanup [--yes]` — truncate logs, remove rotated files, clear trash (requires confirmation)
+  - `log:config` — generate /etc/logrotate.d/ductn for store/mssql users
+- **Changes from bash:**
+  - Added `--yes` flag for non-interactive cleanup
+  - Added confirmation prompt before destructive cleanup
+  - Added mssql log dir to rotated file cleanup
+  - Replaced shell globbing with Python glob module
+  - Used shutil.rmtree instead of rm -rf for trash cleanup
 
 ### ⏳ Task 1.7: Cronjob Management
 - **Status:** ⏳ PENDING
@@ -602,30 +642,25 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   | `hosts` | Show all hosts |
   | `sys:hosts:add/remove/domain/update` | System hosts management |
 
-### 🔀 Task 2.3: IP Management (partial)
-- **Status:** 🔀 PARTIAL
-- **Bash:** `src/var/lib/ip.sh` (148 lines)
-- **Python:** `src/utils/addr.py` (done: `d_ip_local`, `d_ip_locals`, `d_ip_wan`)
-- **Remaining:**
-  | Command | Description |
-  |---------|-------------|
-  | `ip:wanv4` | Get WAN IPv4 |
-  | `ip:wanv6` | Get WAN IPv6 |
-  | `ip:valid` | Validate IP |
-  | `ipAll` | Show all IPs |
-  | `ip:gateway` | Get gateway IP |
-  | `ip:subnet` | Get subnet mask |
-  | `ip:check` | Check IP connectivity |
+### ✅ Task 2.3: IP Management (complete)
+- **Status:** ✅ COMPLETED
+- **Bash:** `deprecated/src/var/lib/ip.sh` (moved)
+- **Python:** `src/utils/addr.py` — refactored and simplified
+- **Commands:**
+  - `ip:wan` — get public IP (dig fallback to HTTP)
+  - `ip:local` — get local IP from default route interface
+  - `ip:locals` — get all IPs from UP interfaces
+- **Removed:** `ip:valid` (no longer needed)
 
-### 🔀 Task 2.4: Route Management (partial)
-- **Status:** 🔀 PARTIAL
-- **Bash:** `src/var/lib/route.sh` (118 lines)
-- **Python:** `src/utils/route.py` (done: `d_route_default`, `d_route_monitor`)
-- **Remaining:**
-  | Command | Description |
-  |---------|-------------|
-  | `route:checkAndUp` | Check and bring up route |
-  | `route:reload` | Reload route config |
+### ✅ Task 2.4: Route Management (complete)
+- **Status:** ✅ COMPLETED
+- **Bash:** `deprecated/src/var/lib/route.sh` (moved)
+- **Python:** `src/utils/route.py` — all commands migrated
+- **Commands:**
+  - `route:default` — get default network interface
+  - `route:monitor` — DEPRECATED (old LXC workaround, systemd handles this now)
+  - `route:checkAndUp` — integrated into `route:monitor` (checks UP, pings, reloads on failure)
+  - `route:reload` — integrated as `_interface_reload()` (down + up)
 
 ### 🔀 Task 2.5: Service Management (partial)
 - **Status:** 🔀 PARTIAL
@@ -639,14 +674,17 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   | `sys:service:re-install` | Re-install service |
   | `d_run_as_service` | Run command as service |
 
-### 🔀 Task 2.6: OS Management (partial)
-- **Status:** 🔀 PARTIAL
-- **Bash:** `src/var/lib/os.sh` (80 lines)
-- **Python:** `src/utils/system_os.py` (done: codename, release, distro, architecture, type)
-- **Remaining:**
-  | Command | Description |
-  |---------|-------------|
-  | `os:list` | List OS information |
+### ✅ Task 2.6: OS Management (complete)
+- **Status:** ✅ COMPLETED
+- **Bash:** `deprecated/src/var/lib/os.sh` (moved)
+- **Python:** `src/utils/system_os.py` — all commands migrated
+- **Commands:**
+  - `os:codename` — get OS codename (e.g. noble, jammy)
+  - `os:release` — get OS version (e.g. 24.04)
+  - `os:distro` — get OS distro ID (e.g. ubuntu, debian)
+  - `os:architecture` — get machine architecture
+  - `os:type` — get OS type (Linux, Darwin)
+  - `os:list` — DEPRECATED (web scraping releases.ubuntu.com)
 
 ### 🔀 Task 2.7: VM Management (partial)
 - **Status:** 🔀 PARTIAL
