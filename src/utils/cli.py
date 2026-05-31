@@ -156,6 +156,12 @@ def _start_agent(agent: str, workspace_dir: str):
     except OSError:
         pass  # /dev/tty not available (e.g. non-interactive env)
 
+    # Skip OSC 11 background color query in Hermes TUI.
+    # Without this, Hermes sends \x1b]11;?\x1b\\ to query terminal BG color,
+    # but the escape is consumed by the wrapper, leaving "]11;rgb:..." leaking
+    # into the agent's stdin and corrupting the first prompt.
+    os.environ["HERMES_TUI_THEME"] = "dark"
+
     print(f"Starting {agent} in {workspace_dir}")
 
     os.execv(argv[0], argv)
