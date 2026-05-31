@@ -86,6 +86,19 @@
   - [x] `dpkg-parsechangelog -l src/debian/changelog -S Version` → 5.6.7+ppa~1
   - [x] `git diff --check`
 
+### 🔄 Task 5.6.7-002: Fix ductncli OSC 11 background color query leak
+- **Branch:** `fix/5.6.7-ductncli-osc11-env`
+- **Base:** `main`
+- **Scope:** Set `HERMES_TUI_THEME=dark` env var before execv to skip Hermes OSC 11 BG color query, prevent terminal response `]11;rgb:...` from leaking into agent stdin and corrupting the first prompt.
+- **Status:** 🔄 IN_PROGRESS
+- **Files:**
+  - `src/utils/cli.py` — set `os.environ["HERMES_TUI_THEME"] = "dark"` before `os.execv`
+  - `src/debian/changelog` — add changelog entry under 5.6.7+ppa~1
+- **Validation:**
+  - [ ] `python3 -m py_compile src/utils/cli.py`
+  - [ ] `dpkg-parsechangelog -l src/debian/changelog -S Version` → 5.6.7+ppa~1
+  - [ ] `git diff --check`
+
 ---
 
 ## Version 5.6.6 Working Baseline

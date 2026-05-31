@@ -2,6 +2,8 @@ diepxuan (5.6.7+ppa~1) noble; urgency=medium
 
   * fix(cli): restore /dev/tty before execv so hermes/codex receive a clean
     interactive TTY after confirmation prompt
+  * fix(cli): set HERMES_TUI_THEME=dark before execv to skip OSC 11 BG color
+    query, prevent terminal response leaking into agent stdin
 
  -- Tran Ngoc Duc <ductn@diepxuan.com>  Sun, 01 Jun 2026 00:00:00 +0700
 
