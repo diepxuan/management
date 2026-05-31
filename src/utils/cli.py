@@ -143,6 +143,19 @@ def _start_agent(agent: str, workspace_dir: str):
 
     # Change to workspace directory before exec
     os.chdir(workspace_dir)
+
+    # Restore stdin from /dev/tty before execv.
+    # input() in _confirm_start can alter terminal attributes; reopening
+    # /dev/tty ensures the agent receives a clean TTY for interactive mode.
+    try:
+        tty_fd = os.open("/dev/tty", os.O_RDWR)
+        os.dup2(tty_fd, 0)
+        os.dup2(tty_fd, 1)
+        os.dup2(tty_fd, 2)
+        os.close(tty_fd)
+    except OSError:
+        pass  # /dev/tty not available (e.g. non-interactive env)
+
     print(f"Starting {agent} in {workspace_dir}")
 
     os.execv(argv[0], argv)
