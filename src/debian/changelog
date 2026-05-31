@@ -1,3 +1,9 @@
+diepxuan (5.6.8+ppa~1) noble; urgency=medium
+
+  * TBD
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 01 Jun 2026 00:00:00 +0700
+
 diepxuan (5.6.7+ppa~1) noble; urgency=medium
 
   * fix(cli): restore /dev/tty before execv so hermes/codex receive a clean

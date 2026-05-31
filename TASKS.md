@@ -99,6 +99,37 @@
 
 ---
 
+## Version 5.6.8 Working Baseline
+
+**Version:** `5.6.8+ppa~1`
+**Scope:** Tiep tuc migration Bash sang Python — focus vao cac task Pending va Partial.
+**Workflow reference:** `docs/VERSION-WORKFLOW.md`
+**Changelog rule:** tasks in this version update the shared `5.6.8+ppa~1` entry in `src/debian/changelog`.
+
+### Migration Backlog (Pending)
+
+| ID | Task | Source | Ghi chu |
+|----|------|--------|---------|
+| 1.6 | Log Management | `src/var/lib/log.sh` | |
+| 1.7 | Cronjob Management | `src/var/lib/cron.sh` | |
+| 2.8 | User Management | | |
+| 2.9 | Disk/ZFS Management | | |
+| 2.13 | Port Management | | |
+| 3.1 | Git Management | | |
+| 3.4 | PHP General | | |
+| 4.1 | Environment/Network Config | | |
+| 5.1 | GPG Management | | |
+| 5.2 | CURL/HTTP Utilities | | |
+| 5.3 | File Utilities | | Partially done |
+| 5.4 | Bash Completion | | |
+| 5.5 | MSSQL Support | | |
+| 5.7 | Server Install | | |
+| 5.8 | Environment Detection | | |
+| 5.9 | Helper Functions | | |
+| 5.10 | Main Entry Point | | |
+
+---
+
 ## Version 5.6.6 Working Baseline
 
 **Version:** `5.6.6+ppa~1`
