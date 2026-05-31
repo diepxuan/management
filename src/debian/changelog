@@ -1,3 +1,14 @@
+diepxuan (5.6.8+ppa~1) noble; urgency=medium
+
+  * chore(route): deprecate route:monitor — old LXC workaround, systemd handles
+    network recovery automatically now
+  * refactor(ip): simplify ip:wan and ip:local in Python; move ip.sh to deprecated
+  * refactor(log): modernize log:watch, log:cleanup, log:config — add confirmation
+    prompt for cleanup, --yes flag, shutil.rmtree, mssql log dir cleanup
+  * chore(os): deprecate os:list — web scraping releases.ubuntu.com unstable
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 01 Jun 2026 00:00:00 +0700
+
 diepxuan (5.6.7+ppa~1) noble; urgency=medium
 
   * fix(cli): restore /dev/tty before execv so hermes/codex receive a clean
