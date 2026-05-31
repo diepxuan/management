@@ -11,9 +11,9 @@
 
 | Status | Count | Description |
 |--------|-------|-------------|
-| ✅ Completed | 23 | Migrated to Python + deprecated bash |
+| ✅ Completed | 24 | Migrated to Python + deprecated bash |
 | 🔄 In Progress | 0 | Currently being migrated |
-| ⏳ Pending | 17 | Waiting to be migrated |
+| ⏳ Pending | 16 | Waiting to be migrated |
 | 🔀 Partial | 3 | Partially migrated (some commands done, some pending) |
 | 🚫 Deprecated | 6 | Bash scripts moved to deprecated/ |
 
@@ -114,7 +114,7 @@
 | 2.3 | IP Management | `src/var/lib/ip.sh` | Partial | 7 lenh con lai |
 | 2.5 | Service Management | `src/var/lib/service.sh` | Partial | 4 lenh con lai |
 | 2.7 | VM Management | `src/var/lib/vm.sh` | Partial | 2 lenh con lai |
-| 1.6 | Log Management | `src/var/lib/log.sh` | Pending | |
+| 1.6 | Log Management | `deprecated/src/var/lib/log.sh` | Complete | |
 | 1.7 | Cronjob Management | `src/var/lib/cron.sh` | Pending | |
 | 2.8 | User Management | | Pending | |
 | 2.9 | Disk/ZFS Management | | Pending | |
@@ -570,20 +570,21 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   - `ssh:copy`
 - **Reason:** SSH command group removed from active Bash and Python CLI surface. Commands manipulate private keys, authorized_keys, and remote access directly; should not be shipped as default package commands without a dedicated, reviewed workflow.
 
-### ⏳ Task 1.6: Log Management
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/log.sh` (129 lines)
-- **Python:** `src/utils/log.py` (TODO)
-- **Target Commands:**
-  | Command | Description |
-  |---------|-------------|
-  | `log` | Show ductn log |
-  | `log:watch` | Watch log in realtime |
-  | `log:cleanup` | Cleanup old logs |
-  | `log:config` | Configure log rotation |
-  | `log:config:store` | Store log config |
-  | `log:config:mssql` | MSSQL log config |
-- **Action:** Create `src/utils/log.py`
+### ✅ Task 1.6: Log Management
+- **Status:** ✅ COMPLETED
+- **Bash:** `deprecated/src/var/lib/log.sh` (moved)
+- **Python:** `src/utils/log.py` — refactored
+- **Commands:**
+  - `log` — alias for log:watch
+  - `log:watch [service]` — tail all /var/log/*log or journalctl -u service -f
+  - `log:cleanup [--yes]` — truncate logs, remove rotated files, clear trash (requires confirmation)
+  - `log:config` — generate /etc/logrotate.d/ductn for store/mssql users
+- **Changes from bash:**
+  - Added `--yes` flag for non-interactive cleanup
+  - Added confirmation prompt before destructive cleanup
+  - Added mssql log dir to rotated file cleanup
+  - Replaced shell globbing with Python glob module
+  - Used shutil.rmtree instead of rm -rf for trash cleanup
 
 ### ⏳ Task 1.7: Cronjob Management
 - **Status:** ⏳ PENDING
