@@ -11,10 +11,10 @@
 
 | Status | Count | Description |
 |--------|-------|-------------|
-| ✅ Completed | 22 | Migrated to Python + deprecated bash |
+| ✅ Completed | 23 | Migrated to Python + deprecated bash |
 | 🔄 In Progress | 0 | Currently being migrated |
 | ⏳ Pending | 17 | Waiting to be migrated |
-| 🔀 Partial | 4 | Partially migrated (some commands done, some pending) |
+| 🔀 Partial | 3 | Partially migrated (some commands done, some pending) |
 | 🚫 Deprecated | 6 | Bash scripts moved to deprecated/ |
 
 ---
@@ -641,20 +641,15 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   | `hosts` | Show all hosts |
   | `sys:hosts:add/remove/domain/update` | System hosts management |
 
-### 🔀 Task 2.3: IP Management (partial)
-- **Status:** 🔀 PARTIAL
-- **Bash:** `src/var/lib/ip.sh` (148 lines)
-- **Python:** `src/utils/addr.py` (done: `d_ip_local`, `d_ip_locals`, `d_ip_wan`)
-- **Remaining:**
-  | Command | Description |
-  |---------|-------------|
-  | `ip:wanv4` | Get WAN IPv4 |
-  | `ip:wanv6` | Get WAN IPv6 |
-  | `ip:valid` | Validate IP |
-  | `ipAll` | Show all IPs |
-  | `ip:gateway` | Get gateway IP |
-  | `ip:subnet` | Get subnet mask |
-  | `ip:check` | Check IP connectivity |
+### ✅ Task 2.3: IP Management (complete)
+- **Status:** ✅ COMPLETED
+- **Bash:** `deprecated/src/var/lib/ip.sh` (moved)
+- **Python:** `src/utils/addr.py` — refactored and simplified
+- **Commands:**
+  - `ip:wan` — get public IP (dig fallback to HTTP)
+  - `ip:local` — get local IP from default route interface
+  - `ip:locals` — get all IPs from UP interfaces
+- **Removed:** `ip:valid` (no longer needed)
 
 ### ✅ Task 2.4: Route Management (complete)
 - **Status:** ✅ COMPLETED
