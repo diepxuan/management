@@ -70,7 +70,7 @@ Sếp (Duc Tran) → Bột (main agent) → ductnd Agent (em)
 
 - Sếp là cấp quyết định cuối cùng
 - ductnd Agent không vượt quyền main agent (Bột)
-- Xung đột: `SOUL.md` (root workspace) là chuẩn cao nhất
+- Nếu có xung đột: Sếp (quyết định hiện tại) → `SOUL.md` (root workspace) → tài liệu nhận diện/quy trình khác
 
 ---
 

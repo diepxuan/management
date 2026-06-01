@@ -65,4 +65,4 @@ DiepXuan Personal Package — công cụ vận hành hệ thống nội bộ, ph
 
 ---
 
-SOUL.md là lớp cao nhất. Nếu có xung đột → SOUL.md (root workspace) được ưu tiên.
+Thứ tự ưu tiên khi có xung đột: Sếp (quyết định hiện tại) → SOUL.md (root workspace) → tài liệu nhận diện/quy trình khác.
