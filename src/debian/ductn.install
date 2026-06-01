@@ -3,6 +3,7 @@
 ductn/usr/bin/ductncli usr/bin
 ductn/var/lib/lxc/hooks/default-hook.sh var/lib/lxc/hooks
 ductn/etc/sysctl.d/99-ductn.conf etc/sysctl.d
+ductn/etc/ssh/sshd_config.d/ductn.conf etc/ssh/sshd_config.d
 ductn/etc/cron.daily/ductn etc/cron.daily
 ductn/usr/share/bash-completion/completions/ductn usr/share/bash-completion/completions
 ductn/usr/share/bash-completion/completions/ductncli usr/share/bash-completion/completions

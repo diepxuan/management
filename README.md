@@ -21,7 +21,7 @@ Package này gom các công cụ vận hành hệ thống nội bộ DiepXuan:
 - Quản lý thông tin hệ thống, network, route, DNS, service.
 - Hỗ trợ thao tác APT và sửa lỗi repository phổ biến.
 - Hỗ trợ môi trường Laravel/Magento thông qua package `lar` và `m2`.
-- Cài đặt service, cron, MOTD, bash completion và tiện ích CLI dùng hằng ngày.
+- Cài đặt service, cron, MOTD, bash completion, SSH keepalive config và tiện ích CLI dùng hằng ngày.
 - Mở Hermes/Codex trong terminal session qua `ductn cli`/`ductncli`.
 - Chuẩn hóa một số workflow vận hành trên Linux/macOS.
 
@@ -47,6 +47,12 @@ Ghi chú locale khi cài đặt:
 - Ưu tiên `C.UTF-8`.
 - Nếu `C.UTF-8` không dùng được, fallback sang `en_US.UTF-8` và tự chạy `locale-gen en_US.UTF-8` khi có thể.
 - Package phụ thuộc `locales` để có `locale-gen`/`update-locale` trên Debian/Ubuntu.
+
+Ghi chú SSH keepalive:
+
+- Package cài `/etc/ssh/sshd_config.d/ductn.conf` để giữ kết nối SSH ổn định hơn.
+- Nội dung mặc định: `ClientAliveInterval 60`, `ClientAliveCountMax 10`, `TCPKeepAlive yes`.
+- Sau khi cài/upgrade, reload `sshd` nếu cần áp dụng ngay: `sudo systemctl reload ssh` hoặc `sudo systemctl reload sshd` tùy distro.
 
 ## Cách chạy khi phát triển
 
