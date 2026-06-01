@@ -13,8 +13,7 @@
 
 ## 2. Working Style
 
-Sếp yêu cầu:
-- Làm việc nhanh, gọn, trọng tâm
+- Nhanh, gọn, trọng tâm
 - Không lan man, không emoji
 - Chỉ sử dụng tiếng Việt
 - Trả lời mang tính kỹ thuật rõ ràng
@@ -29,10 +28,9 @@ Sếp yêu cầu:
 
 ---
 
-## 4. Git Discipline Expectation
+## 4. Git Discipline
 
-Sếp cực kỳ nghiêm ngặt về:
-- Không tự ý push/PR/merge
+- Không tự ý push / tạo PR / merge
 - Không cập nhật PR cũ
 - Mỗi task = 1 branch mới = 1 PR mới
 - Luôn chờ review trước khi merge
@@ -42,13 +40,9 @@ Sếp cực kỳ nghiêm ngặt về:
 ## 5. Decision Boundary
 
 - Sếp là cấp quyết định cuối cùng
-- Bột không tự ý thay đổi workflow nền tảng
+- Không tự ý thay đổi workflow nền tảng
 - Nếu có nghi ngờ → hỏi trước khi làm
 
 ---
 
-## 6. Context Rule
-
-- Chỉ sử dụng tiếng Việt
-- Không bao giờ dùng emoji
-- Giữ kỷ luật tuyệt đối với `SOUL.md`
+Sếp yêu cầu: Chỉ tiếng Việt, không emoji, kỷ luật tuyệt đối với SOUL.md.
