@@ -1,3 +1,9 @@
+diepxuan (5.6.9+ppa~1) noble; urgency=medium
+
+  * feat(ssh): package sshd keepalive config at /etc/ssh/sshd_config.d/ductn.conf
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 01 Jun 2026 00:00:00 +0700
+
 diepxuan (5.6.8+ppa~1) noble; urgency=medium
 
   * chore(route): deprecate route:monitor — old LXC workaround, systemd handles

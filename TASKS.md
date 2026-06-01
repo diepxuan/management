@@ -99,6 +99,37 @@
 
 ---
 
+## Version 5.6.9 Working Baseline
+
+**Version:** `5.6.9+ppa~1`
+**Branch:** `task/5.6.9-001-package-sshd-config`
+**Scope:** Package Sếp-managed sshd keepalive config into `ductn`.
+**Workflow reference:** `docs/VERSION-WORKFLOW.md`
+**Changelog rule:** tasks in this version update the shared `5.6.9+ppa~1` entry in `src/debian/changelog`.
+
+### ✅ Task 5.6.9-001: Package sshd keepalive config
+- **Branch:** `task/5.6.9-001-package-sshd-config`
+- **Base:** `main`
+- **Scope:** Add `/etc/ssh/sshd_config.d/ductn.conf` to the `ductn` package from Sếp-managed local config.
+- **Status:** ✅ COMPLETED
+- **Installed path:** `/etc/ssh/sshd_config.d/ductn.conf`
+- **Source path:** `src/ductn/etc/ssh/sshd_config.d/ductn.conf`
+- **Config:**
+  - `ClientAliveInterval 60`
+  - `ClientAliveCountMax 10`
+  - `TCPKeepAlive yes`
+- **Files:**
+  - `src/ductn/etc/ssh/sshd_config.d/ductn.conf`
+  - `src/debian/ductn.install`
+  - `src/debian/changelog`
+  - `README.md`
+- **Validation:**
+  - [x] `sshd -t -f /tmp/ductn-sshd-test/sshd_config`
+  - [x] `dpkg-parsechangelog -l src/debian/changelog -S Version` → 5.6.9+ppa~1
+  - [x] `git diff --check`
+
+---
+
 ## Version 5.6.8 Working Baseline
 
 **Version:** `5.6.8+ppa~1`
