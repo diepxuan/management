@@ -114,7 +114,7 @@ Quy ước hiện tại:
 | Network/IP | `d_ip_local`, `d_ip_locals`, `d_ip_wan` | IP local/WAN |
 | Interface | `d_interface_default`, `d_interface_service` | Interface/service active |
 | Route | `d_route_default`, `d_route_monitor` | Route mặc định, monitor route |
-| DNS | `d_dns_clean`, `d_dns_reset`, `d_dns_disable`, `d_dns_resolved`, `d_dns_watch` | Quản lý DNS Linux/macOS |
+| DNS | `d_dns_clean`, `d_dns_reset`, `d_dns_disable`, `d_dns_resolved` | Quản lý DNS Linux/macOS |
 | APT | `d_apt_fix`, `d_apt_check` | Kiểm tra package và sửa lock/state APT an toàn |
 | Host | `d_host_name`, `d_host_domain`, `d_host_fullname` | Hostname/domain/FQDN |
 | OS | `d_os_codename`, `d_os_release`, `d_os_distro`, `d_os_architecture`, `d_os_type` | Thông tin OS |

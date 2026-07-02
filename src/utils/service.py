@@ -16,7 +16,7 @@ from .serviceScheduler import ServiceScheduler
 
 @register_command
 def d_service():
-    """Chạy ductnd daemon với các task nền (vm_sync, sys_update, route_monitor, dns_watch)."""
+    """Chạy ductnd daemon với các task nền (vm_sync, sys_update, route_monitor)."""
     if not _is_root():
         return
 
@@ -47,16 +47,6 @@ def d_service():
         interval=5,
         target=_route_monitor,
         init="systemd",
-    )
-
-    # DNS watch - macOS only (Linux systemd-resolved handles DNS automatically)
-    from .dns import d_dns_watch
-
-    scheduler.register(
-        name="dns_watch",
-        interval=10,
-        target=d_dns_watch,
-        init="launchd",
     )
 
     # scheduler.register(

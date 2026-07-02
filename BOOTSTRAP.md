@@ -63,7 +63,7 @@
 |------|----------------|
 | About | `d_help`, `d_version`, `d_version_newrelease` |
 | Network/IP | `d_ip_local`, `d_ip_locals`, `d_ip_wan` |
-| DNS | `d_dns_clean`, `d_dns_reset`, `d_dns_disable`, `d_dns_resolved`, `d_dns_watch` |
+| DNS | `d_dns_clean`, `d_dns_reset`, `d_dns_disable`, `d_dns_resolved` |
 | APT | `d_apt_fix`, `d_apt_check` |
 | Host | `d_host_name`, `d_host_domain`, `d_host_fullname` |
 | OS | `d_os_codename`, `d_os_release`, `d_os_distro`, `d_os_architecture`, `d_os_type` |
