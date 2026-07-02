@@ -138,13 +138,8 @@ def _systemd_restart():
 
 
 def _systemd_status():
-    result = subprocess.run(
-        ["systemctl", "is-active", SYSTEMD_SERVICE],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-    )
-    return result.stdout.strip()
+    """Print the complete systemd service status without altering its output."""
+    return subprocess.run(["systemctl", "status", SYSTEMD_SERVICE]).returncode
 
 
 def _launchd_start():
@@ -170,13 +165,10 @@ def _launchd_restart():
 
 
 def _launchd_status():
-    result = subprocess.run(
-        ["launchctl", "list"],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-    )
-    return "running" if LAUNCHD_LABEL in result.stdout else "stopped"
+    """Print detailed launchd service information for the system domain."""
+    return subprocess.run(
+        ["launchctl", "print", f"system/{LAUNCHD_LABEL}"]
+    ).returncode
 
 
 @register_command
@@ -220,7 +212,7 @@ def d_service_restart():
 
 @register_command
 def d_service_status():
-    """Kiểm tra trạng thái ductnd service (active/inactive)."""
+    """Hiển thị trạng thái chi tiết của ductnd service."""
     if not _is_root():
         logging.error("Cần quyền root")
         return
