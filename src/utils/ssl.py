@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """SSL certificate management commands."""
 
+from __future__ import annotations
+
 import logging
 import os
 import shutil
