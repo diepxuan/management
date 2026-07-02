@@ -7,7 +7,7 @@
 - **Package source:** `diepxuan`
 - **Package chính:** `ductn`
 - **Package phụ:** `lar`, `m2`, `ductn-ll`
-- **Version hiện tại:** xem `src/debian/changelog`
+- **Version hiện tại:** `5.7.0+ppa~1`
 - **CLI mới:** Python, entrypoint `src/ductn.py`
 - **Legacy CLI:** Bash scripts trong `src/var/lib/`
 - **Migration tracking:** `TASKS.md`
@@ -24,6 +24,10 @@ Package này gom các công cụ vận hành hệ thống nội bộ DiepXuan:
 - Cài đặt service, cron, MOTD, bash completion, SSH keepalive config và tiện ích CLI dùng hằng ngày.
 - Mở Hermes/Codex/OpenClaw trong terminal session qua `ductn cli`/`ductncli`.
 - Chuẩn hóa một số workflow vận hành trên Linux/macOS.
+
+## Phiên bản hiện tại
+
+`5.7.0+ppa~1` — xem [CHANGELOG.md](CHANGELOG.md) và [`src/debian/changelog`](src/debian/changelog).
 
 ## Cài đặt
 
