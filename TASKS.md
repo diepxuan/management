@@ -99,6 +99,26 @@
 
 ---
 
+## Version 5.7.0 Working Baseline
+
+**Version:** `5.7.0+ppa~1`
+**Branch:** `chore/5.7.0-release`
+**Scope:** Release DNS watch removal, Python 3.9/service status fixes và OpenClaw CLI support.
+**Workflow reference:** `docs/VERSION-WORKFLOW.md`
+**Changelog rule:** release được ghi trong `CHANGELOG.md` và `src/debian/changelog`.
+
+### ✅ Release 5.7.0
+
+- **Included PRs:** #48, #49, #50
+- **Status:** ✅ READY FOR REVIEW
+- **Validation:**
+  - [x] `ductn --version` → `5.7.0+ppa~1`
+  - [x] `ductn version:newrelease` → `5.7.1`
+  - [x] CLI/service regression tests → 9/9 passed
+  - [x] `git diff --check`
+
+---
+
 ## Version 5.6.9 Working Baseline
 
 **Version:** `5.6.9+ppa~1`
