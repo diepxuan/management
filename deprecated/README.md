@@ -74,7 +74,6 @@ ductn dns:clean            # Clear DNS cache
 ductn dns:reset            # Reset DNS to default (DHCP/network config)
 ductn dns:disable          # Disable DNS service (Linux: static DNS, macOS: clean+reset)
 ductn dns:resolved         # Re-enable DNS service (Linux: restore systemd, macOS: clean+reset)
-ductn dns:watch            # Auto-watch DNS (macOS only)
 ```
 
 **Key improvements in Python version:**
