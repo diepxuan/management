@@ -127,6 +127,8 @@ Quy ước hiện tại:
 | Environment | `d_env_detect` | Detect VM/container/environment |
 | Alias | `d_alias_ll` | Alias `ll` |
 
+`sudo ductn service:status` giữ nguyên output chi tiết của init system: `systemctl status ductnd` trên Linux và `launchctl print system/com.diepxuan.ductnd` trên macOS.
+
 ### CLI commands
 
 `ductn cli` là wrapper public để mở Hermes hoặc Codex trong workspace qua `ductncli`:
