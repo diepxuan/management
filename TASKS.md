@@ -99,6 +99,28 @@
 
 ---
 
+## Version 5.7.1 Working Baseline
+
+**Version:** `5.7.1+ppa~1`
+**Branch:** `refactor/5.7.1-split-subpackages`
+**Scope:** Tách các CLI wrapper khỏi source package `diepxuan` để quản lý version độc lập.
+**Workflow reference:** `docs/VERSION-WORKFLOW.md`
+
+### 🚧 Task 5.7.1-001: Split wrapper packages
+
+| Package | CLI | Version | Status |
+|---|---|---:|---|
+| `ductn-ll` | `ll` | `1:1.0.0+ppa~1` | Implemented |
+| `ductn-m2` | `m2` | `1.0.0+ppa~1` | Implemented |
+| `ductn-lar` | `lar` | `1.0.0+ppa~1` | Implemented |
+
+- **Validation:** Debian metadata, shell syntax, wrapper behavior và orchestration trong `src/build.sh`.
+- **Publish rule:** PR chỉ build validation; push `main`, release và dispatch được phép `dput`.
+- **Failure rule:** lỗi `dput` tạo warning nhưng không fail CI; lỗi build/artifact vẫn fail.
+- **Upgrade rule:** epoch cho `ductn-ll`; transitional `m2`/`lar` kéo package mới.
+
+---
+
 ## Version 5.7.0 Working Baseline
 
 **Version:** `5.7.0+ppa~1`

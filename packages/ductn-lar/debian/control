@@ -1,0 +1,17 @@
+Source: ductn-lar
+Section: devel
+Priority: optional
+Maintainer: Tran Ngoc Duc <ductn@diepxuan.com>
+Build-Depends: debhelper-compat (= 12)
+Standards-Version: 4.6.2
+Rules-Requires-Root: no
+Homepage: https://ppa.diepxuan.com
+
+Package: ductn-lar
+Architecture: all
+Depends: ${misc:Depends}, ductn
+Provides: lar
+Conflicts: lar
+Replaces: lar
+Description: DiepXuan Laravel CLI wrapper
+ Provides the lar command and forwards arguments to ductn php:lar.

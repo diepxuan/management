@@ -1,0 +1,14 @@
+Source: ductn-ll
+Section: utils
+Priority: optional
+Maintainer: Tran Ngoc Duc <ductn@diepxuan.com>
+Build-Depends: debhelper-compat (= 12)
+Standards-Version: 4.6.2
+Rules-Requires-Root: no
+Homepage: https://ppa.diepxuan.com
+
+Package: ductn-ll
+Architecture: all
+Depends: ${misc:Depends}
+Description: DiepXuan ll command wrapper
+ Provides the ll command as a convenient ls -lah wrapper.

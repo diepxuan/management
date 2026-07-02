@@ -1,0 +1,17 @@
+Source: ductn-m2
+Section: devel
+Priority: optional
+Maintainer: Tran Ngoc Duc <ductn@diepxuan.com>
+Build-Depends: debhelper-compat (= 12)
+Standards-Version: 4.6.2
+Rules-Requires-Root: no
+Homepage: https://ppa.diepxuan.com
+
+Package: ductn-m2
+Architecture: all
+Depends: ${misc:Depends}, ductn
+Provides: m2
+Conflicts: m2
+Replaces: m2
+Description: DiepXuan Magento 2 CLI wrapper
+ Provides the m2 command and forwards arguments to ductn php:m2.
