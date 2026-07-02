@@ -22,7 +22,7 @@ Package này gom các công cụ vận hành hệ thống nội bộ DiepXuan:
 - Hỗ trợ thao tác APT và sửa lỗi repository phổ biến.
 - Hỗ trợ môi trường Laravel/Magento thông qua package `lar` và `m2`.
 - Cài đặt service, cron, MOTD, bash completion, SSH keepalive config và tiện ích CLI dùng hằng ngày.
-- Mở Hermes/Codex trong terminal session qua `ductn cli`/`ductncli`.
+- Mở Hermes/Codex/OpenClaw trong terminal session qua `ductn cli`/`ductncli`.
 - Chuẩn hóa một số workflow vận hành trên Linux/macOS.
 
 ## Cài đặt
@@ -121,7 +121,7 @@ Quy ước hiện tại:
 | System | `d_sys_update`, `d_update`, `d_sys_info` | Update và system info |
 | Service | `d_service`, `d_service_install`, `d_service_start`, `d_service_stop`, `d_service_restart`, `d_service_status`, `d_service_watch` | Service daemon |
 | Time | `time:timezone`, `timezone:vietnam`, `time:vietnam`, `time:sync`, `time:init` | Timezone Việt Nam và đồng bộ giờ NTP |
-| CLI | `cli` | Mở Hermes/Codex trực tiếp trong workspace |
+| CLI | `cli` | Mở Hermes/Codex/OpenClaw trực tiếp trong workspace |
 | File | `d_file_cleanpath` | Chuẩn hóa tên/path file |
 | VM | `d_vm_info`, `d_vm_sync` | Thông tin VM và sync DNS A record qua DNS API nội bộ |
 | Environment | `d_env_detect` | Detect VM/container/environment |
@@ -131,7 +131,7 @@ Quy ước hiện tại:
 
 ### CLI commands
 
-`ductn cli` là wrapper public để mở Hermes hoặc Codex trong workspace qua `ductncli`:
+`ductn cli` là wrapper public để mở Hermes, Codex hoặc OpenClaw trong workspace qua `ductncli`:
 
 ```bash
 # Chọn agent, workspace mặc định là ~/
@@ -143,14 +143,18 @@ ductn cli ductnd
 
 # Mở Codex bằng profile mặc định của wrapper
 ductn cli codex ductnd
+
+# Mở `openclaw tui` trong shortcut /data/portal
+ductn cli openclaw portal
 ```
 
 Ghi chú vận hành:
 
 - Package cài script `/usr/bin/ductncli`; command `ductn cli` exec sang script này để giữ tương thích.
-- `ductncli` resolve workspace directory, `cd` vào đó, rồi gọi trực tiếp agent CLI (`hermes` hoặc `codex`).
+- `ductncli` resolve workspace directory (bao gồm shortcut `/data/<path>`), `cd` vào đó, rồi gọi trực tiếp `hermes`, `codex` hoặc `openclaw tui`.
+- Binary agent được resolve thành real path từ `PATH`, sau đó fallback qua layout pnpm (`~/.local/share/pnpm[/bin]`), npm (`~/.npm-global/bin`), apt (`/usr/bin`) và Homebrew.
 - Không dùng session manager trung gian (shpool/tmux). Hermes tự quản lý session history qua SQLite.
-- Dependencies runtime: `hermes` hoặc `codex` (tùy agent đã cài).
+- Dependencies runtime: `hermes`, `codex` hoặc `openclaw` (tùy agent đã cài).
 
 ### Time commands
 

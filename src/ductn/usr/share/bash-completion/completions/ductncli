@@ -2,8 +2,8 @@
 # Bash completion for ductncli.
 # Installed to /usr/share/bash-completion/completions/ductncli for lazy-load support.
 #
-# Usage: ductncli [hermes|codex] [path]
-#   - First arg: agent name (hermes, codex) or a workspace path
+# Usage: ductncli [hermes|codex|openclaw] [path]
+#   - First arg: agent name (hermes, codex, openclaw) or a workspace path
 #   - Second arg: workspace path
 
 _ductncli_completions() {
@@ -22,7 +22,7 @@ _ductncli_completions() {
 
     # Complete first argument: agent names (hermes, codex) or directories
     if [[ ${cword:-0} -eq 1 ]]; then
-        local agents="hermes codex"
+        local agents="hermes codex openclaw"
         local COMPREPLY_agents
         COMPREPLY_agents=($(compgen -W "$agents" -- "$cur"))
 
@@ -46,12 +46,12 @@ _ductncli_completions() {
         local first_arg="${words[1]}"
 
         # If first arg was agent name, suggest directories
-        if [[ "$first_arg" == "hermes" || "$first_arg" == "codex" ]]; then
+        if [[ "$first_arg" == "hermes" || "$first_arg" == "codex" || "$first_arg" == "openclaw" ]]; then
             mapfile -t COMPREPLY < <(compgen -d -- "$cur" 2>/dev/null)
 
             # Also suggest project names from known project directories
             local project_dirs=""
-            for base_dir in "$HOME/.openclaw/workspace/projects" "$HOME/.hermes/workspace/projects"; do
+            for base_dir in "/data" "$HOME/.openclaw/workspace/projects" "$HOME/.hermes/workspace/projects"; do
                 if [[ -d "$base_dir" ]]; then
                     local projects
                     projects=$(ls -1 "$base_dir" 2>/dev/null | while read -r p; do
