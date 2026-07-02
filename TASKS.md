@@ -558,7 +558,7 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
 - **Status:** ✅ COMPLETED
 - **Bash:** `src/var/lib/dns.sh` → deprecated
 - **Python:** `src/utils/dns.py`
-- **Commands:** `dns:clean`, `dns:reset`, `dns:disable`, `dns:resolved`, `dns:watch`
+- **Commands:** `dns:clean`, `dns:reset`, `dns:disable`, `dns:resolved`
 - **PR:** #9, #10 (merged)
 
 ### ✅ Task 1.3: SSL Management
