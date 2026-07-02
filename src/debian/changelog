@@ -1,3 +1,14 @@
+diepxuan (5.7.0+ppa~1) noble; urgency=medium
+
+  * refactor(dns): remove the unused dns:watch command, launchd task, and
+    automatic DNS switch to 10.0.0.103
+  * fix(service): support Python 3.9 annotations and preserve detailed
+    systemd/launchd status output
+  * feat(cli): add OpenClaw TUI launcher, /data project shortcuts, canonical
+    binary resolution, and pnpm/npm/apt/Homebrew fallback paths
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Thu, 02 Jul 2026 00:00:00 +0700
+
 diepxuan (5.6.9+ppa~1) noble; urgency=medium
 
   * feat(ssh): package sshd keepalive config at /etc/ssh/sshd_config.d/ductn.conf
