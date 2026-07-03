@@ -6,8 +6,8 @@
 
 - **Package source:** `diepxuan`
 - **Package chính:** `ductn`
-- **Package phụ:** `lar`, `m2`, `ductn-ll`
-- **Version hiện tại:** `5.7.0+ppa~1`
+- **Package phụ:** `ductn-ll`, `ductn-m2`, `ductn-lar`
+- **Version hiện tại:** `5.7.1+ppa~1`
 - **CLI mới:** Python, entrypoint `src/ductn.py`
 - **Legacy CLI:** Bash scripts trong `src/var/lib/`
 - **Migration tracking:** `TASKS.md`
@@ -27,7 +27,7 @@ Package này gom các công cụ vận hành hệ thống nội bộ DiepXuan:
 
 ## Phiên bản hiện tại
 
-`5.7.0+ppa~1` — xem [CHANGELOG.md](CHANGELOG.md) và [`src/debian/changelog`](src/debian/changelog).
+`5.7.1+ppa~1` — xem [CHANGELOG.md](CHANGELOG.md) và [`src/debian/changelog`](src/debian/changelog).
 
 ## Cài đặt
 
@@ -236,11 +236,32 @@ Metadata Debian nằm trong `src/debian/`:
 - `src/debian/*.install`: mapping file vào từng binary package.
 - `src/debian/rules`: rule build package.
 
+Ba CLI wrapper được tách thành Debian source package độc lập:
+
+| Source/package | Version | CLI | Dependency |
+|---|---:|---|---|
+| `ductn-ll` | `1:1.0.0+ppa~1` | `ll` | Không |
+| `ductn-m2` | `1.0.0+ppa~1` | `m2` | `ductn` |
+| `ductn-lar` | `1.0.0+ppa~1` | `lar` | `ductn` |
+
+Source nằm trong `packages/<package>/`; mỗi package có `debian/changelog` riêng nên không còn tăng version theo `ductn`.
+
+`ductn-ll` dùng Debian epoch `1` để apt coi `1:1.0.0` mới hơn version chung cũ `5.7.0`. Source chính tạm giữ package chuyển tiếp `m2` và `lar` để kéo `ductn-m2`/`ductn-lar` khi nâng cấp; hai package chuyển tiếp không chứa CLI.
+
+```bash
+sudo apt install ductn-ll ductn-m2 ductn-lar
+ll
+m2 --help
+lar --help
+```
+
 Script build chính:
 
 ```bash
 cd src
 ./build.sh
+
+# Cùng lệnh này build ductn và toàn bộ package wrapper độc lập
 ```
 
 Không tự ý sửa các file packaging nhạy cảm nếu không có yêu cầu rõ ràng:

@@ -1,0 +1,8 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: ductn-ll
+Source: https://github.com/diepxuan/management
+
+Files: *
+Copyright: 2026 Tran Ngoc Duc <ductn@diepxuan.com>
+License: Proprietary
+ Private package for DiepXuan Co., Ltd.

@@ -1,3 +1,12 @@
+diepxuan (5.7.1+ppa~1) noble; urgency=medium
+
+  * refactor(packaging): split ll, m2, and lar wrappers into independently
+    versioned ductn-ll, ductn-m2, and ductn-lar source packages
+  * chore(packaging): retain empty m2 and lar transitional packages for safe
+    upgrades to ductn-m2 and ductn-lar
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Thu, 02 Jul 2026 00:00:00 +0700
+
 diepxuan (5.7.0+ppa~1) noble; urgency=medium
 
   * refactor(dns): remove the unused dns:watch command, launchd task, and
