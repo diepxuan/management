@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if ! command -v ductn >/dev/null 2>&1; then
+    echo "Missing ductn package" >&2
+    exit 1
+fi
+
+exec ductn php:lar "$@"

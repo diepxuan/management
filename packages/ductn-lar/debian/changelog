@@ -1,0 +1,5 @@
+ductn-lar (1.0.0+ppa~1) noble; urgency=medium
+
+  * Initial independent release of the Laravel wrapper package.
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Thu, 02 Jul 2026 00:00:00 +0700

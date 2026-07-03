@@ -496,13 +496,32 @@ start_group log GPG key before build
 gpg --list-secret-keys --keyid-format=long
 end_group
 
-start_group Building package binary
+start_group Building primary ductn package
 dpkg-parsechangelog
 # shellcheck disable=SC2086
 dpkg-buildpackage --force-sign || dpkg-buildpackage --force-sign -d
 # shellcheck disable=SC2086
 dpkg-buildpackage --force-sign -S || dpkg-buildpackage --force-sign -S -d
 end_group
+
+for package_source in \
+    "$pwd_dir/packages/ductn-ll" \
+    "$pwd_dir/packages/ductn-m2" \
+    "$pwd_dir/packages/ductn-lar"; do
+    if [[ ! -f "$package_source/debian/changelog" ]]; then
+        error "Missing package source: $package_source"
+        exit 1
+    fi
+
+    start_group "Building independent package $(basename "$package_source")"
+    (
+        cd "$package_source"
+        dpkg-parsechangelog
+        dpkg-buildpackage --force-sign || dpkg-buildpackage --force-sign -d
+        dpkg-buildpackage --force-sign -S || dpkg-buildpackage --force-sign -S -d
+    )
+    end_group
+done
 
 start_group Move build artifacts
 regex='^php.*(.deb|.ddeb|.buildinfo|.changes|.dsc|.tar.xz|.tar.gz|.tar.[[:alpha:]]+)$'
@@ -517,10 +536,24 @@ while read -r file; do
     mv -vf "$pwd_dir/$file" "$dists_dir/" || true
 done < <(ls $pwd_dir/ | grep -E $regex)
 
+while IFS= read -r file; do
+    mv -vf "$file" "$dists_dir/"
+done < <(find "$pwd_dir/packages" -maxdepth 1 -type f | grep -E $regex || true)
+
 ls -la $dists_dir
 end_group
 
 start_group Publish Package to Launchpad
+case "${GITHUB_EVENT_NAME:-local}" in
+    push|release|workflow_dispatch)
+        ;;
+    *)
+        echo "Validation build only; skipping dput for event: ${GITHUB_EVENT_NAME:-local}"
+        end_group
+        exit 0
+        ;;
+esac
+
 cat | tee ~/.dput.cf <<-EOF
 [caothu91ppa]
 fqdn = ppa.launchpad.net
@@ -537,7 +570,23 @@ EOF
 #     [[ -f $package ]] &&
 #     dput caothu91ppa $package || true
 
-while read -r package; do
-    dput caothu91ppa $dists_dir/$package || true
-done < <(ls $dists_dir | grep -E '.*(_source.changes)$')
+shopt -s nullglob
+source_changes=("$dists_dir"/*_source.changes)
+
+if [[ ${#source_changes[@]} -eq 0 ]]; then
+    error "No source changes files were generated; refusing to publish."
+    exit 1
+fi
+
+dput_failures=0
+for package in "${source_changes[@]}"; do
+    if ! dput caothu91ppa "$package"; then
+        echo "::warning::dput failed for $(basename "$package")"
+        dput_failures=$((dput_failures + 1))
+    fi
+done
+
+if [[ $dput_failures -gt 0 ]]; then
+    echo "::warning::$dput_failures package upload(s) failed; build remains successful."
+fi
 end_group
