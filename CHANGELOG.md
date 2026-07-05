@@ -2,7 +2,9 @@
 
 Các thay đổi đáng chú ý của dự án được ghi tại đây. Debian package revision đầy đủ được duy trì trong [`src/debian/changelog`](src/debian/changelog).
 
-## 5.7.1 - Unreleased
+## 5.7.1 - 2026-07-05
+
+Release note vận hành: [`docs/UPDATE-2026-07-05-release-5.7.1.md`](docs/UPDATE-2026-07-05-release-5.7.1.md).
 
 ### Changed
 
