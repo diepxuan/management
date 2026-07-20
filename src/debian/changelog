@@ -1,3 +1,27 @@
+diepxuan (5.7.2+ppa~1) noble; urgency=medium
+
+  * feat(cli): extend ductncli registry to support freebuff, claude, gemini,
+    aider, llm, aichat, cursor, windsurf, continue, goose, qwen, chatgpt,
+    sgpt, mod (in addition to hermes, codex, openclaw)
+  * feat(cli): load user registry override from
+    $XDG_CONFIG_HOME/ductn/config.yml or ~/.config/ductn/config.yml
+  * feat(cli): auto-seed a default config.yml (codex, openclaw, hermes,
+    freebuff) on first run when the file is absent; pre-existing
+    user files are never overwritten
+  * feat(cli): support DuctnCLI_AGENT_ARGS_<NAME> environment override
+  * feat(cli): YAML loader gains flow-style support ([a, b], {a: 1}) so the
+    default config it writes can be re-parsed by itself
+  * docs(UPDATE-2026-07-20-ductncli-extend): document registry schema and
+    override precedence (defaults < config < env)
+  * refactor(cli): replace hard-coded agent list with AGENTS_DEFAULT +
+    _resolve_agents(); hide uninstalled agents from menu and reject them
+    as positional arguments (even when listed in config without binary)
+  * test(cli): cover YAML loader (block + flow), registry merge, env
+    override, discovery filtering, auto-seed behaviour, hermes filtering
+    (27 tests, all passing)
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Mon, 20 Jul 2026 22:30:00 +0700
+
 diepxuan (5.7.1+ppa~1) noble; urgency=medium
 
   * refactor(packaging): split ll, m2, and lar wrappers into independently
