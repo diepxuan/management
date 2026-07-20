@@ -49,6 +49,30 @@ liệt kê trong menu và trong thông báo lỗi "Unknown agent".
 File phải ở định dạng YAML subset (xem schema bên dưới). Tệp không tồn tại
 hoặc lỗi parse sẽ được bỏ qua; registry sẽ chỉ dùng giá trị mặc định.
 
+### Tạo file mặc định trên lần chạy đầu tiên
+
+Khi `ductncli` được gọi mà `config.yml` chưa tồn tại, nó sẽ tự ghi một
+file mặc định chứa 4 entry: `codex`, `openclaw`, `hermes`, `freebuff`.
+Mỗi entry kèm `args` và `description` lấy từ `AGENTS_DEFAULT` trong code.
+Một dòng thông báo sẽ in ra stderr để biết là vừa tạo:
+
+```
+$ ductncli
+Created default agent config: /root/.config/ductn/config.yml
+```
+
+Các agent còn lại trong `AGENTS_DEFAULT` (`claude`, `gemini`, `aider`, ...)
+không được seed sẵn — chúng chỉ xuất hiện khi `_resolve_agent_binary`
+tìm thấy binary trên host.
+
+Tắt hành vi tạo tự động bằng biến môi trường:
+
+```bash
+DuctnCLI_SKIP_DEFAULT_CONFIG=1 ductncli ...
+```
+
+(hữu ích cho CI, container build, hoặc khi deploy config qua công cụ khác).
+
 ### Schema
 
 ```yaml

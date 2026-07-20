@@ -214,6 +214,127 @@ class TestCli(unittest.TestCase):
         with self.assertRaises(SystemExit):
             cli.d_cli(["does-not-exist"])
 
+    # -------- 5.7.2 follow-up: default config + hermes filtering --------
+
+    def test_default_config_yaml_lists_all_four_agents(self):
+        body = cli._render_default_config_yaml()
+        # Body section under `agents:` (skip header comments that mention
+        # other agents as usage examples).
+        body_section = body.split("agents:\n", 1)[1]
+        for name in ("codex", "openclaw", "hermes", "freebuff"):
+            self.assertIn(f"- name: {name}", body_section)
+        # The fresh file should NOT seed additional defaults such as
+        # claude/gemini/aider — they become discoverable only when their
+        # binary shows up via `_resolve_agent_binary`.
+        for stray in ("- name: claude", "- name: gemini", "- name: aider"):
+            self.assertNotIn(stray, body_section)
+        # But the header comment is allowed to reference them as examples.
+        self.assertIn("- name: claude", body)
+
+    def test_default_config_yaml_round_trip(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "ductn" / "config.yml"
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(cli._render_default_config_yaml(), encoding="utf-8")
+            data = cli._load_yaml_config(target)
+        names = [e["name"] for e in data["agents"]]
+        self.assertEqual(
+            names, ["codex", "openclaw", "hermes", "freebuff"]
+        )
+        self.assertEqual(
+            [arg for e in data["agents"] if e["name"] == "codex"
+             for arg in e["args"]],
+            ["--profile", "ninerouter"],
+        )
+        self.assertEqual(data["agents"][1]["args"], ["tui"])  # openclaw
+
+    def test_ensure_default_config_creates_missing_file(self):
+        self.addCleanup(os.environ.pop, "DuctnCLI_SKIP_DEFAULT_CONFIG", None)
+        os.environ.pop("DuctnCLI_SKIP_DEFAULT_CONFIG", None)
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "ductn" / "config.yml"
+            self.assertFalse(target.exists())
+
+            with patch.dict(os.environ, {"XDG_CONFIG_HOME": tmp}, clear=False):
+                path, created = cli._ensure_default_config()
+
+            self.assertTrue(created)
+            self.assertEqual(path, target)
+            self.assertTrue(target.is_file())
+            body = target.read_text(encoding="utf-8")
+            self.assertIn("- name: codex", body)
+            self.assertIn("- name: freebuff", body)
+
+    def test_ensure_default_config_skips_when_present(self):
+        self.addCleanup(os.environ.pop, "DuctnCLI_SKIP_DEFAULT_CONFIG", None)
+        os.environ.pop("DuctnCLI_SKIP_DEFAULT_CONFIG", None)
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "ductn" / "config.yml"
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text("# user-customised\n", encoding="utf-8")
+
+            with patch.dict(os.environ, {"XDG_CONFIG_HOME": tmp}, clear=False):
+                path, created = cli._ensure_default_config()
+
+            self.assertFalse(created)
+            # Untouched.
+            self.assertEqual(target.read_text(encoding="utf-8"), "# user-customised\n")
+
+    def test_ensure_default_config_respects_skip_env(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "ductn" / "config.yml"
+            with patch.dict(
+                os.environ,
+                {"XDG_CONFIG_HOME": tmp, "DuctnCLI_SKIP_DEFAULT_CONFIG": "1"},
+                clear=False,
+            ):
+                self.addCleanup(os.environ.pop, "DuctnCLI_SKIP_DEFAULT_CONFIG", None)
+                path, created = cli._ensure_default_config()
+            self.assertFalse(created)
+            self.assertFalse(target.exists())
+
+    @patch.object(cli, "_resolve_agent_binary")
+    def test_hermes_in_config_but_not_installed_is_hidden(self, resolve_bin):
+        # First ensure the default config on disk (4 agents including hermes).
+        os.environ.pop("DuctnCLI_SKIP_DEFAULT_CONFIG", None)
+        with tempfile.TemporaryDirectory() as tmp:
+            cfg = Path(tmp) / "ductn" / "config.yml"
+            cfg.parent.mkdir(parents=True, exist_ok=True)
+            cfg.write_text(cli._render_default_config_yaml(), encoding="utf-8")
+
+            # host fixture: only codex and openclaw exist as binaries.
+            def fake_resolve(name):
+                return f"/usr/bin/{name}" if name in ("codex", "openclaw") else None
+            resolve_bin.side_effect = fake_resolve
+
+            with patch.dict(os.environ, {"XDG_CONFIG_HOME": tmp}, clear=False):
+                names = cli._available_agent_names()
+
+            self.assertIn("codex", names)
+            self.assertIn("openclaw", names)
+            # hermes and freebuff are seeded by the default config but have
+            # no binary on this host → must be hidden.
+            self.assertNotIn("hermes", names)
+            self.assertNotIn("freebuff", names)
+
+    @patch.object(cli, "_resolve_agent_binary")
+    def test_explicit_enabled_false_always_hides(self, resolve_bin):
+        # Same host fixture, but user disabled codex explicitly.
+        os.environ.pop("DuctnCLI_SKIP_DEFAULT_CONFIG", None)
+        with tempfile.TemporaryDirectory() as tmp:
+            cfg = Path(tmp) / "ductn" / "config.yml"
+            cfg.parent.mkdir(parents=True, exist_ok=True)
+            cfg.write_text(
+                "agents:\n  - name: codex\n    enabled: false\n",
+                encoding="utf-8",
+            )
+            resolve_bin.return_value = "/usr/bin/codex"
+
+            with patch.dict(os.environ, {"XDG_CONFIG_HOME": tmp}, clear=False):
+                names = cli._available_agent_names()
+
+            self.assertNotIn("codex", names)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -56,6 +56,32 @@ AGENTS_DEFAULT = [
 
 DEFAULT_CONFIG_PATH = Path.home() / ".config" / "ductn" / "config.yml"
 
+# Agents written to a freshly-created default `config.yml`. Users can edit
+# the file to add or remove entries without touching ductn's source.
+DEFAULT_CONFIG_AGENT_NAMES = ("codex", "openclaw", "hermes", "freebuff")
+DEFAULT_CONFIG_HEADER = """# ductn cli agent registry
+# Edit this file to add, remove, or tune agents used by `ductncli`.
+# Only agents whose binary resolves on PATH (or in pnpm/npm/apt/Homebrew
+# fallback dirs) are shown in the interactive menu; the rest are hidden.
+# Override precedence (low -> high): in-code defaults < this file < env vars
+# (DuctnCLI_AGENT_ARGS_<NAME>).
+#
+# Per-entry schema:
+#   name:        CLI binary name (required)
+#   args:        list of arguments passed to the binary (optional)
+#   description: short text shown next to the agent (optional)
+#   enabled:     set to false to hide the agent from menu/autocomplete (optional)
+#
+# Example additions:
+#   - name: claude
+#     description: Anthropic Claude CLI
+#   - name: aider
+#     args: ["--model", "sonnet"]
+# See docs/UPDATE-2026-07-20-ductncli-extend.md for the full schema.
+
+agents:
+"""
+
 _HERMES_TUI_THEME_KEY = "HERMES_TUI_THEME"
 _HERMES_TUI_THEME_DARK = "dark"
 
@@ -117,6 +143,69 @@ def _strip_yaml_comment(line: str) -> str:
         elif ch == "#" and not in_single and not in_double:
             return line[:idx].rstrip()
     return line.rstrip()
+
+
+def _split_flow_top_level(text: str, sep: str = ",") -> list:
+    """Split a flow-style sequence/mapping body into ``sep``-separated parts
+    while respecting quoted strings and nested brackets.
+    """
+    parts = []
+    buf: list = []
+    depth_sq = depth_cu = 0
+    in_single = in_double = False
+    for ch in text:
+        if ch == "'" and not in_double:
+            in_single = not in_single
+        elif ch == '"' and not in_single:
+            in_double = not in_double
+        elif not in_single and not in_double:
+            if ch == "[":
+                depth_sq += 1
+            elif ch == "]":
+                depth_sq -= 1
+            elif ch == "{":
+                depth_cu += 1
+            elif ch == "}":
+                depth_cu -= 1
+            elif ch == sep and depth_sq == 0 and depth_cu == 0:
+                parts.append("".join(buf))
+                buf = []
+                continue
+        buf.append(ch)
+    tail = "".join(buf).strip()
+    if tail:
+        parts.append(tail)
+    return parts
+
+
+def _parse_flow_value(text: str):
+    """Parse a YAML flow-style scalar / sequence value.
+
+    Supports:
+      - quoted strings: ``"foo bar"`` / ``'foo bar'``
+      - booleans / ints / floats / null
+      - inline list: ``[a, b, "c d"]``
+      - inline map: ``{a: 1, b: two}``
+    """
+    text = text.strip()
+    if text == "":
+        return ""
+    if text.startswith("[") and text.endswith("]"):
+        body = text[1:-1]
+        if body.strip() == "":
+            return []
+        return [_parse_flow_value(item) for item in _split_flow_top_level(body)]
+    if text.startswith("{") and text.endswith("}"):
+        body = text[1:-1]
+        result: dict = {}
+        for pair in _split_flow_top_level(body):
+            if ":" not in pair:
+                continue
+            k, _, v = pair.partition(":")
+            result[k.strip()] = _parse_flow_value(v)
+        return result
+    # Plain scalar.
+    return _parse_scalar(text)
 
 
 def _parse_scalar(value: str):
@@ -220,7 +309,7 @@ def _load_yaml_config(path: Path) -> dict:
                 # First field is a mapping entry. Build the mapping.
                 item = {}
                 k, _, v = rest.partition(":")
-                item[k.strip()] = _parse_scalar(v.strip()) if v.strip() else ("", j + 1)[1]
+                item[k.strip()] = _parse_flow_value(v.strip()) if v.strip() else ("", j + 1)[1]
                 j += 1
                 # Read subsequent mapping fields at list_indent + 2.
                 cont_indent = list_indent + 2
@@ -240,7 +329,7 @@ def _load_yaml_config(path: Path) -> dict:
                         nk = nk.strip()
                         nv = nv.strip()
                         if nv:
-                            item[nk] = _parse_scalar(nv)
+                            item[nk] = _parse_flow_value(nv)
                             j += 1
                         else:
                             value, end_idx = parse_scalar_block(j, next_indent)
@@ -303,7 +392,7 @@ def _load_yaml_config(path: Path) -> dict:
         k = k.strip()
         v = v.strip()
         if v:
-            top[k] = _parse_scalar(v)
+            top[k] = _parse_flow_value(v)
             j += 1
         else:
             value, end_idx = parse_scalar_block(j, 0)
@@ -410,6 +499,67 @@ def _load_config(path: Path | None = None) -> dict:
         return _load_yaml_config(Path(path)) or {}
     except OSError:
         return {}
+
+
+def _render_default_config_yaml() -> str:
+    """Render the canned `config.yml` body for a first-time install.
+
+    The content only includes entries the user is most likely to need.
+    Additional defaults from `AGENTS_DEFAULT` (claude, gemini, aider, ...)
+    remain discoverable when their binaries get installed later.
+    """
+    lookup = {
+        name: {"args": list(args), "description": desc}
+        for (name, args, desc) in AGENTS_DEFAULT
+    }
+    lines = [DEFAULT_CONFIG_HEADER.rstrip("\n")]
+    for name in DEFAULT_CONFIG_AGENT_NAMES:
+        entry = lookup.get(name)
+        if entry is None:
+            continue
+        lines.append(f"  - name: {name}")
+        if entry["args"]:
+            quoted = ", ".join(f'"{arg}"' for arg in entry["args"])
+            lines.append(f"    args: [{quoted}]")
+        if entry["description"]:
+            desc = entry["description"].replace('"', '\\"')
+            lines.append(f'    description: "{desc}"')
+        lines.append("")
+    return "\n".join(lines) + "\n"
+
+
+def _ensure_default_config(path: Path | None = None) -> tuple[Path, bool]:
+    """Create the default ``config.yml`` if it does not yet exist.
+
+    Returns ``(path, created)`` where ``created`` is True when a new file was
+    written. Skipped (returns ``(path, False)``) when:
+
+      * the file already exists,
+      * a non-empty ``DuctnCLI_CONFIG`` env var points elsewhere,
+      * the ``DuctnCLI_SKIP_DEFAULT_CONFIG`` env var is truthy,
+      * filesystem access fails (no perms / read-only filesystem).
+    """
+    if os.environ.get("DuctnCLI_SKIP_DEFAULT_CONFIG"):
+        target = path if path is not None else DEFAULT_CONFIG_PATH
+        return Path(target), False
+
+    xdg = os.environ.get("XDG_CONFIG_HOME")
+    if path is None:
+        target = (
+            Path(xdg) / "ductn" / "config.yml"
+            if xdg else DEFAULT_CONFIG_PATH
+        )
+    else:
+        target = Path(path)
+
+    try:
+        if target.exists():
+            return target, False
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(_render_default_config_yaml(), encoding="utf-8")
+        return target, True
+    except OSError:
+        return target, False
 
 
 def _available_agent_entries() -> list:
@@ -613,6 +763,12 @@ def d_cli(args=None):
     """
     if args is None:
         args = []
+
+    # Ensure default user config exists on first run (no-op when already
+    # present or when DuctnCLI_SKIP_DEFAULT_CONFIG is set).
+    cfg_path, created = _ensure_default_config()
+    if created:
+        print(f"Created default agent config: {cfg_path}", file=sys.stderr)
 
     # Parse arguments
     first = args[0] if len(args) > 0 else ""
