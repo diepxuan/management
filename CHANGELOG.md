@@ -2,6 +2,27 @@
 
 Các thay đổi đáng chú ý của dự án được ghi tại đây. Debian package revision đầy đủ được duy trì trong [`src/debian/changelog`](src/debian/changelog).
 
+## 5.7.2 - 2026-07-20
+
+Release note vận hành: [`docs/UPDATE-2026-07-20-ductncli-extend.md`](docs/UPDATE-2026-07-20-ductncli-extend.md).
+
+### Added
+
+- `ductncli` hỗ trợ thêm các AI agent CLI: `freebuff`, `claude`, `gemini`, `aider`, `llm`, `aichat`, `cursor`, `windsurf`, `continue`, `goose`, `qwen`, `chatgpt`, `sgpt`, `mod`.
+- Hỗ trợ file cấu hình `~/.config/ductn/config.yml` (hoặc `$XDG_CONFIG_HOME/ductn/config.yml`) để ghi đè registry mặc định: thêm agent, sửa `args` / `description`, tắt agent qua `enabled: false`.
+- Hỗ trợ override `args` cho từng agent qua biến môi trường `DuctnCLI_AGENT_ARGS_<NAME>`.
+- Menu tương tác đánh số theo danh sách agent **đã cài** trên host; agent chưa cài bị ẩn khỏi menu và bị từ chối nếu truyền trực tiếp.
+
+### Changed
+
+- `ductncli` không còn hardcode ba agent `hermes` / `codex` / `openclaw`. Logic chuyển sang đọc registry từ `_resolve_agents()` để có thể mở rộng.
+- Thông báo lỗi `Unknown agent: ...` liệt kê agent đang thực sự khả dụng trên host.
+
+### Notes
+
+- Không thêm dependency Python mới; YAML parser viết tay (~120 dòng) trong `src/utils/cli.py`. Người dùng cần YAML phức tạp hơn có thể cài `python3-yaml` rồi chờ release sau.
+- Wrapper packages `ductn-ll`, `ductn-m2`, `ductn-lar` không đổi version (vẫn `1:1.0.0+ppa~1`).
+
 ## 5.7.1 - 2026-07-05
 
 Release note vận hành: [`docs/UPDATE-2026-07-05-release-5.7.1.md`](docs/UPDATE-2026-07-05-release-5.7.1.md).
