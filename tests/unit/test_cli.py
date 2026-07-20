@@ -249,8 +249,6 @@ class TestCli(unittest.TestCase):
         self.assertEqual(data["agents"][1]["args"], ["tui"])  # openclaw
 
     def test_ensure_default_config_creates_missing_file(self):
-        self.addCleanup(os.environ.pop, "DuctnCLI_SKIP_DEFAULT_CONFIG", None)
-        os.environ.pop("DuctnCLI_SKIP_DEFAULT_CONFIG", None)
         with tempfile.TemporaryDirectory() as tmp:
             target = Path(tmp) / "ductn" / "config.yml"
             self.assertFalse(target.exists())
@@ -266,8 +264,6 @@ class TestCli(unittest.TestCase):
             self.assertIn("- name: freebuff", body)
 
     def test_ensure_default_config_skips_when_present(self):
-        self.addCleanup(os.environ.pop, "DuctnCLI_SKIP_DEFAULT_CONFIG", None)
-        os.environ.pop("DuctnCLI_SKIP_DEFAULT_CONFIG", None)
         with tempfile.TemporaryDirectory() as tmp:
             target = Path(tmp) / "ductn" / "config.yml"
             target.parent.mkdir(parents=True, exist_ok=True)
@@ -280,23 +276,9 @@ class TestCli(unittest.TestCase):
             # Untouched.
             self.assertEqual(target.read_text(encoding="utf-8"), "# user-customised\n")
 
-    def test_ensure_default_config_respects_skip_env(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            target = Path(tmp) / "ductn" / "config.yml"
-            with patch.dict(
-                os.environ,
-                {"XDG_CONFIG_HOME": tmp, "DuctnCLI_SKIP_DEFAULT_CONFIG": "1"},
-                clear=False,
-            ):
-                self.addCleanup(os.environ.pop, "DuctnCLI_SKIP_DEFAULT_CONFIG", None)
-                path, created = cli._ensure_default_config()
-            self.assertFalse(created)
-            self.assertFalse(target.exists())
-
     @patch.object(cli, "_resolve_agent_binary")
     def test_hermes_in_config_but_not_installed_is_hidden(self, resolve_bin):
         # First ensure the default config on disk (4 agents including hermes).
-        os.environ.pop("DuctnCLI_SKIP_DEFAULT_CONFIG", None)
         with tempfile.TemporaryDirectory() as tmp:
             cfg = Path(tmp) / "ductn" / "config.yml"
             cfg.parent.mkdir(parents=True, exist_ok=True)
@@ -320,7 +302,6 @@ class TestCli(unittest.TestCase):
     @patch.object(cli, "_resolve_agent_binary")
     def test_explicit_enabled_false_always_hides(self, resolve_bin):
         # Same host fixture, but user disabled codex explicitly.
-        os.environ.pop("DuctnCLI_SKIP_DEFAULT_CONFIG", None)
         with tempfile.TemporaryDirectory() as tmp:
             cfg = Path(tmp) / "ductn" / "config.yml"
             cfg.parent.mkdir(parents=True, exist_ok=True)

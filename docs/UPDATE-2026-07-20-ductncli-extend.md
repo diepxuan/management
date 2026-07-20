@@ -65,13 +65,9 @@ Các agent còn lại trong `AGENTS_DEFAULT` (`claude`, `gemini`, `aider`, ...)
 không được seed sẵn — chúng chỉ xuất hiện khi `_resolve_agent_binary`
 tìm thấy binary trên host.
 
-Tắt hành vi tạo tự động bằng biến môi trường:
-
-```bash
-DuctnCLI_SKIP_DEFAULT_CONFIG=1 ductncli ...
-```
-
-(hữu ích cho CI, container build, hoặc khi deploy config qua công cụ khác).
+Tắt hành vi tạo tự động bằng cách tự tạo trước file `config.yml` trống
+hoặc file với nội dung user mong muốn; `ductncli` sẽ không đụng đến
+file đã có (xem nguyên tắc ở trên).
 
 ### Schema
 

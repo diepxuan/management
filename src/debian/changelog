@@ -6,7 +6,8 @@ diepxuan (5.7.2+ppa~1) noble; urgency=medium
   * feat(cli): load user registry override from
     $XDG_CONFIG_HOME/ductn/config.yml or ~/.config/ductn/config.yml
   * feat(cli): auto-seed a default config.yml (codex, openclaw, hermes,
-    freebuff) on first run; respect DuctnCLI_SKIP_DEFAULT_CONFIG=1 to opt out
+    freebuff) on first run when the file is absent; pre-existing
+    user files are never overwritten
   * feat(cli): support DuctnCLI_AGENT_ARGS_<NAME> environment override
   * feat(cli): YAML loader gains flow-style support ([a, b], {a: 1}) so the
     default config it writes can be re-parsed by itself

@@ -535,14 +535,8 @@ def _ensure_default_config(path: Path | None = None) -> tuple[Path, bool]:
     written. Skipped (returns ``(path, False)``) when:
 
       * the file already exists,
-      * a non-empty ``DuctnCLI_CONFIG`` env var points elsewhere,
-      * the ``DuctnCLI_SKIP_DEFAULT_CONFIG`` env var is truthy,
       * filesystem access fails (no perms / read-only filesystem).
     """
-    if os.environ.get("DuctnCLI_SKIP_DEFAULT_CONFIG"):
-        target = path if path is not None else DEFAULT_CONFIG_PATH
-        return Path(target), False
-
     xdg = os.environ.get("XDG_CONFIG_HOME")
     if path is None:
         target = (
@@ -765,7 +759,7 @@ def d_cli(args=None):
         args = []
 
     # Ensure default user config exists on first run (no-op when already
-    # present or when DuctnCLI_SKIP_DEFAULT_CONFIG is set).
+    # present).
     cfg_path, created = _ensure_default_config()
     if created:
         print(f"Created default agent config: {cfg_path}", file=sys.stderr)

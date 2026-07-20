@@ -10,7 +10,7 @@ Release note vận hành: [`docs/UPDATE-2026-07-20-ductncli-extend.md`](docs/UPD
 
 - `ductncli` hỗ trợ thêm các AI agent CLI: `freebuff`, `claude`, `gemini`, `aider`, `llm`, `aichat`, `cursor`, `windsurf`, `continue`, `goose`, `qwen`, `chatgpt`, `sgpt`, `mod`.
 - Hỗ trợ file cấu hình `~/.config/ductn/config.yml` (hoặc `$XDG_CONFIG_HOME/ductn/config.yml`) để ghi đè registry mặc định: thêm agent, sửa `args` / `description`, tắt agent qua `enabled: false`.
-- Tự tạo `config.yml` mặc định trên lần chạy đầu tiên nếu file chưa tồn tại; file seed chứa 4 entry `codex`, `openclaw`, `hermes`, `freebuff`. Bỏ qua khi đặt biến `DuctnCLI_SKIP_DEFAULT_CONFIG`.
+- Tự tạo `config.yml` mặc định trên lần chạy đầu tiên nếu file chưa tồn tại; file seed chứa 4 entry `codex`, `openclaw`, `hermes`, `freebuff`. Không đụng vào file đã có sẵn.
 - Hỗ trợ override `args` cho từng agent qua biến môi trường `DuctnCLI_AGENT_ARGS_<NAME>`.
 - Menu tương tác đánh số theo danh sách agent **đã cài** trên host; agent chưa cài bị ẩn khỏi menu và bị từ chối nếu truyền trực tiếp (kể cả khi có trong config).
 
