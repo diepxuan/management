@@ -2,7 +2,7 @@
 
 **Project:** ductn (DiepXuan Personal Package)
 **Created:** 2026-04-18
-**Updated:** 2026-05-27
+**Updated:** 2026-07-20 (rev)
 **Goal:** Migrate all bash scripts from `src/var/lib/` to Python modules in `src/utils/`
 
 ---
@@ -120,6 +120,32 @@
 - **Failure rule:** lỗi `dput` tạo warning nhưng không fail CI; lỗi build/artifact vẫn fail.
 - **Upgrade rule:** epoch cho `ductn-ll`; transitional `m2`/`lar` kéo package mới.
 - **Release:** `5.7.1` — 2026-07-05.
+
+---
+
+## Version 5.7.2 Working Baseline
+
+**Version:** `5.7.2+ppa~1`
+**Branch:** `feature/5.7.2-cli-extend`
+**Scope:** Mở rộng `ductncli` để hỗ trợ thêm các AI agent CLI thông dụng, cho phép ghi đè registry mặc định qua YAML file và biến môi trường; chỉ hiển thị agent đã cài.
+**Workflow reference:** `docs/VERSION-WORKFLOW.md`
+
+### ✅ Task 5.7.2-001: Extend ductncli agent registry
+
+| Layer | Source | Mục đích |
+|---|---|---|
+| 1 | `AGENTS_DEFAULT` (in-code) | Danh sách biết trước: `hermes, codex, openclaw, freebuff, claude, gemini, aider, llm, aichat, cursor, windsurf, continue, goose, qwen, chatgpt, sgpt, mod`. |
+| 2 | `~/.config/ductn/config.yml` | Override per user: thêm/sửa `args`, `description`, `enabled`. |
+| 3 | `DuctnCLI_AGENT_ARGS_<NAME>` env | Override `args` cuối cùng (cao nhất). |
+
+- **Status:** ✅ COMPLETED (chờ review PR, bổ sung commit follow-up cùng branch).
+- **Validation:** `python3 -m unittest tests.unit.test_cli -v` (27/27 pass), `bash -n src/build.sh`, `bash -n packages/ductn-{ll,m2,lar}/usr/bin/{ll,m2,lar}`.
+- **Scope rule:** wrapper packages `ductn-ll`, `ductn-m2`, `ductn-lar` không đổi version (giữ `1:1.0.0+ppa~1`).
+- **Dependency rule:** không thêm dependency Python mới; YAML loader viết tay (~180 dòng, hỗ trợ cả flow style `[a, b]`).
+- **Default-config rule:** first-run nếu `config.yml` chưa tồn tại sẽ tự seed 4 entry `codex`, `openclaw`, `hermes`, `freebuff`. Nếu user tạo trước một file rỗng/file khác, `ductncli` sẽ không đụng.
+- **Filter rule:** agent có trong config nhưng binary không tồn tại trên host **luôn** bị ẩn khỏi menu/autocomplete — verify bằng test `test_hermes_in_config_but_not_installed_is_hidden`.
+- **Docs:** `docs/UPDATE-2026-07-20-ductncli-extend.md`.
+- **Release:** `5.7.2` — 2026-07-20.
 
 ---
 

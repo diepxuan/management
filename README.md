@@ -7,7 +7,7 @@
 - **Package source:** `diepxuan`
 - **Package chính:** `ductn`
 - **Package phụ:** `ductn-ll`, `ductn-m2`, `ductn-lar`
-- **Version hiện tại:** `5.7.1+ppa~1`
+- **Version hiện tại:** `5.7.2+ppa~1`
 - **CLI mới:** Python, entrypoint `src/ductn.py`
 - **Legacy CLI:** Bash scripts trong `src/var/lib/`
 - **Migration tracking:** `TASKS.md`
@@ -22,12 +22,14 @@ Package này gom các công cụ vận hành hệ thống nội bộ DiepXuan:
 - Hỗ trợ thao tác APT và sửa lỗi repository phổ biến.
 - Hỗ trợ môi trường Laravel/Magento thông qua package `lar` và `m2`.
 - Cài đặt service, cron, MOTD, bash completion, SSH keepalive config và tiện ích CLI dùng hằng ngày.
-- Mở Hermes/Codex/OpenClaw trong terminal session qua `ductn cli`/`ductncli`.
+- Mở Hermes/Codex/OpenClaw và các AI agent CLI khác (`freebuff`, `claude`, `gemini`, `aider`, `llm`, ...) trong terminal session qua `ductn cli`/`ductncli`. Registry mặc định và override qua `~/.config/ductn/config.yml` — xem [`docs/UPDATE-2026-07-20-ductncli-extend.md`](docs/UPDATE-2026-07-20-ductncli-extend.md).
 - Chuẩn hóa một số workflow vận hành trên Linux/macOS.
 
 ## Phiên bản hiện tại
 
-`5.7.1+ppa~1` — xem [CHANGELOG.md](CHANGELOG.md) và [`src/debian/changelog`](src/debian/changelog).
+`5.7.2+ppa~1` — xem [CHANGELOG.md](CHANGELOG.md) và [`src/debian/changelog`](src/debian/changelog).
+
+Lịch sử: [`docs/UPDATE-2026-07-05-release-5.7.1.md`](docs/UPDATE-2026-07-05-release-5.7.1.md), [`docs/UPDATE-2026-07-02-split-wrapper-packages.md`](docs/UPDATE-2026-07-02-split-wrapper-packages.md).
 
 ## Cài đặt
 
