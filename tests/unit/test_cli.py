@@ -2,7 +2,9 @@
 """Tests for the developer agent launcher."""
 import os
 import sys
+import tempfile
 import unittest
+from pathlib import Path
 from unittest.mock import patch
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
@@ -68,6 +70,251 @@ class TestCli(unittest.TestCase):
         access.side_effect = lambda path, mode: path == expected and mode == os.X_OK
 
         self.assertEqual(expected, cli._resolve_agent_binary("openclaw"))
+
+    # -------- 5.7.2: extended registry --------
+
+    def test_default_registry_includes_freebuff(self):
+        names = list(cli.list_default_agent_names())
+        self.assertIn("freebuff", names)
+        self.assertIn("claude", names)
+        self.assertIn("gemini", names)
+
+    def test_resolve_agents_returns_merged_default(self):
+        entries = cli._resolve_agents({})
+        names = [e["name"] for e in entries]
+        self.assertEqual(names[0], "hermes")
+        self.assertIn("codex", names)
+        self.assertIn("openclaw", names)
+
+    def test_resolve_agents_overrides_existing_args(self):
+        cfg = {"agents": [
+            {"name": "codex", "args": ["--profile", "custom"], "description": "Custom codex"},
+        ]}
+        entries = cli._resolve_agents(cfg)
+        codex = next(e for e in entries if e["name"] == "codex")
+        self.assertEqual(codex["args"], ["--profile", "custom"])
+        self.assertEqual(codex["description"], "Custom codex")
+
+    def test_resolve_agents_adds_new_agent(self):
+        cfg = {"agents": [
+            {"name": "mybot", "args": ["--foo"], "description": "Custom agent"},
+        ]}
+        names = [e["name"] for e in cli._resolve_agents(cfg)]
+        self.assertIn("mybot", names)
+
+    def test_resolve_agents_disables_default_agent(self):
+        cfg = {"agents": [{"name": "gemini", "enabled": False}]}
+        gemini = next(e for e in cli._resolve_agents(cfg) if e["name"] == "gemini")
+        self.assertFalse(gemini["enabled"])
+
+    @patch.dict(os.environ, {"DuctnCLI_AGENT_ARGS_CODEX": "--profile envOverride"})
+    def test_env_var_overrides_args(self):
+        entries = cli._resolve_agents({})
+        codex = next(e for e in entries if e["name"] == "codex")
+        self.assertEqual(codex["args"], ["--profile", "envOverride"])
+
+    def test_yaml_loader_parses_agents_list(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            cfg = Path(tmp) / "config.yml"
+            cfg.write_text(
+                "agents:\n"
+                "  - name: codex\n"
+                "    args:\n"
+                "      - --profile\n"
+                "      - alt\n"
+                "    description: Alt codex\n"
+                "  - name: freebuff\n"
+                "    enabled: false\n"
+                "  - name: mybot\n"
+                "    args:\n"
+                "      - --foo\n"
+                "      - bar\n",
+                encoding="utf-8",
+            )
+            data = cli._load_yaml_config(cfg)
+        self.assertIn("agents", data)
+        self.assertEqual(len(data["agents"]), 3)
+        codex = data["agents"][0]
+        self.assertEqual(codex["name"], "codex")
+        self.assertEqual(codex["args"], ["--profile", "alt"])
+        self.assertEqual(codex["description"], "Alt codex")
+        self.assertEqual(data["agents"][1], {"name": "freebuff", "enabled": False})
+        self.assertEqual(data["agents"][2]["args"], ["--foo", "bar"])
+
+    def test_yaml_loader_strips_comments_and_quotes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            cfg = Path(tmp) / "config.yml"
+            cfg.write_text(
+                '# top-level comment\n'
+                'agents:\n'
+                '  - name: codex # inline comment\n'
+                '    description: "Quoted desc" # trailing comment\n',
+                encoding="utf-8",
+            )
+            data = cli._load_yaml_config(cfg)
+        self.assertEqual(data["agents"][0]["name"], "codex")
+        self.assertEqual(data["agents"][0]["description"], "Quoted desc")
+
+    def test_yaml_loader_handles_bool_int_null(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            cfg = Path(tmp) / "config.yml"
+            cfg.write_text(
+                "flag: yes\n"
+                "off: no\n"
+                "n: 42\n"
+                "f: 3.14\n"
+                "z: null\n",
+                encoding="utf-8",
+            )
+            data = cli._load_yaml_config(cfg)
+        self.assertIs(data["flag"], True)
+        self.assertIs(data["off"], False)
+        self.assertEqual(data["n"], 42)
+        self.assertEqual(data["f"], 3.14)
+        self.assertIsNone(data["z"])
+
+    def test_yaml_loader_returns_empty_for_missing_file(self):
+        self.assertEqual({}, cli._load_yaml_config(Path("/nonexistent.yml")))
+
+    @patch.object(cli, "_resolve_agent_binary")
+    def test_available_agents_filters_uninstalled(self, resolve_bin):
+        # Only codex and freebuff are installed on the host fixture.
+        def fake_resolve(name):
+            return "/usr/bin/" + name if name in ("codex", "freebuff") else None
+        resolve_bin.side_effect = fake_resolve
+
+        names = cli._available_agent_names()
+        self.assertIn("codex", names)
+        self.assertIn("freebuff", names)
+        self.assertNotIn("claude", names)
+        self.assertNotIn("gemini", names)
+
+    @patch.object(cli, "_resolve_agent_binary")
+    @patch.object(cli, "_resolve_workspace_dir", return_value="/data/portal")
+    @patch.object(cli, "_confirm_start")
+    @patch.object(cli, "_start_agent")
+    def test_freebuff_agent_starts_when_installed(
+        self, start_agent, confirm_start, resolve_workspace, resolve_bin,
+    ):
+        resolve_bin.return_value = "/usr/local/bin/freebuff"
+
+        cli.d_cli(["freebuff", "portal"])
+
+        confirm_start.assert_called_once_with("freebuff", "/data/portal")
+        start_agent.assert_called_once_with("freebuff", "/data/portal")
+
+    @patch.object(cli, "_resolve_agent_binary", return_value=None)
+    def test_uninstalled_agent_is_rejected(self, _resolve_bin):
+        with self.assertRaises(SystemExit):
+            cli.d_cli(["claude"])
+
+    @patch.object(cli, "_resolve_agent_binary")
+    def test_unknown_agent_is_rejected(self, resolve_bin):
+        resolve_bin.return_value = "/usr/bin/codex"
+        with self.assertRaises(SystemExit):
+            cli.d_cli(["does-not-exist"])
+
+    # -------- 5.7.2 follow-up: default config + hermes filtering --------
+
+    def test_default_config_yaml_lists_all_four_agents(self):
+        body = cli._render_default_config_yaml()
+        # Body section under `agents:` (skip header comments that mention
+        # other agents as usage examples).
+        body_section = body.split("agents:\n", 1)[1]
+        for name in ("codex", "openclaw", "hermes", "freebuff"):
+            self.assertIn(f"- name: {name}", body_section)
+        # The fresh file should NOT seed additional defaults such as
+        # claude/gemini/aider — they become discoverable only when their
+        # binary shows up via `_resolve_agent_binary`.
+        for stray in ("- name: claude", "- name: gemini", "- name: aider"):
+            self.assertNotIn(stray, body_section)
+        # But the header comment is allowed to reference them as examples.
+        self.assertIn("- name: claude", body)
+
+    def test_default_config_yaml_round_trip(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "ductn" / "config.yml"
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(cli._render_default_config_yaml(), encoding="utf-8")
+            data = cli._load_yaml_config(target)
+        names = [e["name"] for e in data["agents"]]
+        self.assertEqual(
+            names, ["codex", "openclaw", "hermes", "freebuff"]
+        )
+        self.assertEqual(
+            [arg for e in data["agents"] if e["name"] == "codex"
+             for arg in e["args"]],
+            ["--profile", "ninerouter"],
+        )
+        self.assertEqual(data["agents"][1]["args"], ["tui"])  # openclaw
+
+    def test_ensure_default_config_creates_missing_file(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "ductn" / "config.yml"
+            self.assertFalse(target.exists())
+
+            with patch.dict(os.environ, {"XDG_CONFIG_HOME": tmp}, clear=False):
+                path, created = cli._ensure_default_config()
+
+            self.assertTrue(created)
+            self.assertEqual(path, target)
+            self.assertTrue(target.is_file())
+            body = target.read_text(encoding="utf-8")
+            self.assertIn("- name: codex", body)
+            self.assertIn("- name: freebuff", body)
+
+    def test_ensure_default_config_skips_when_present(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "ductn" / "config.yml"
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text("# user-customised\n", encoding="utf-8")
+
+            with patch.dict(os.environ, {"XDG_CONFIG_HOME": tmp}, clear=False):
+                path, created = cli._ensure_default_config()
+
+            self.assertFalse(created)
+            # Untouched.
+            self.assertEqual(target.read_text(encoding="utf-8"), "# user-customised\n")
+
+    @patch.object(cli, "_resolve_agent_binary")
+    def test_hermes_in_config_but_not_installed_is_hidden(self, resolve_bin):
+        # First ensure the default config on disk (4 agents including hermes).
+        with tempfile.TemporaryDirectory() as tmp:
+            cfg = Path(tmp) / "ductn" / "config.yml"
+            cfg.parent.mkdir(parents=True, exist_ok=True)
+            cfg.write_text(cli._render_default_config_yaml(), encoding="utf-8")
+
+            # host fixture: only codex and openclaw exist as binaries.
+            def fake_resolve(name):
+                return f"/usr/bin/{name}" if name in ("codex", "openclaw") else None
+            resolve_bin.side_effect = fake_resolve
+
+            with patch.dict(os.environ, {"XDG_CONFIG_HOME": tmp}, clear=False):
+                names = cli._available_agent_names()
+
+            self.assertIn("codex", names)
+            self.assertIn("openclaw", names)
+            # hermes and freebuff are seeded by the default config but have
+            # no binary on this host → must be hidden.
+            self.assertNotIn("hermes", names)
+            self.assertNotIn("freebuff", names)
+
+    @patch.object(cli, "_resolve_agent_binary")
+    def test_explicit_enabled_false_always_hides(self, resolve_bin):
+        # Same host fixture, but user disabled codex explicitly.
+        with tempfile.TemporaryDirectory() as tmp:
+            cfg = Path(tmp) / "ductn" / "config.yml"
+            cfg.parent.mkdir(parents=True, exist_ok=True)
+            cfg.write_text(
+                "agents:\n  - name: codex\n    enabled: false\n",
+                encoding="utf-8",
+            )
+            resolve_bin.return_value = "/usr/bin/codex"
+
+            with patch.dict(os.environ, {"XDG_CONFIG_HOME": tmp}, clear=False):
+                names = cli._available_agent_names()
+
+            self.assertNotIn("codex", names)
 
 
 if __name__ == "__main__":
