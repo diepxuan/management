@@ -93,5 +93,6 @@ from . import laravel
 from . import magento2
 from . import gpg
 from . import curl_utils
+from . import prompt
 from . import server
 from . import helpers
