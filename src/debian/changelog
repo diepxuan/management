@@ -1,3 +1,15 @@
+diepxuan (5.8.1+ppa~1) noble; urgency=medium
+
+  * chore(packaging): remove src/debian/ductn.conffiles
+    - Fix dpkg error "conffile ... is not stattable: Not a directory"
+      on upgrade from 5.8.0 when the conffile list was missing a trailing
+      newline (commit 989d7d6 added the file without \n)
+    - The /etc/profile.d/ductn-prompt.sh conffile entry is no longer
+      needed; dpkg will replace it cleanly on every upgrade without
+      prompting, which is the desired behaviour for prompt files
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 22 Jul 2026 02:09:00 +0700
+
 diepxuan (5.8.0+ppa~1) noble; urgency=medium
 
   * feat(prompt): ship /etc/profile.d/ductn-prompt.sh as a Debian conffile
