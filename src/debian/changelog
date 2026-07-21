@@ -1,3 +1,18 @@
+diepxuan (5.8.0+ppa~1) noble; urgency=medium
+
+  * feat(prompt): ship /etc/profile.d/ductn-prompt.sh as a Debian conffile
+    (colored interactive bash prompt with current git branch); auto-skips
+    when starship / oh-my-bash / p10k / powerlevel is in use, or when the
+    user opts out via ~/.config/ductn/no-prompt or DUCTN_PROMPT_DISABLE=1
+  * feat(cli): add `ductn prompt status|enable|disable` to inspect and
+    toggle the per-user opt-out file
+  * docs(prompt): document install behaviour, opt-out, and coexistence
+    with third-party prompt managers
+  * test(prompt): cover status/enable/disable sub-commands and
+    XDG_CONFIG_HOME handling (12 tests, all passing)
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 22 Jul 2026 01:15:00 +0700
+
 diepxuan (5.7.2+ppa~1) noble; urgency=medium
 
   * feat(cli): extend ductncli registry to support freebuff, claude, gemini,

@@ -321,6 +321,43 @@ Cách xử lý:
 
 Kiểm tra `TASKS.md` và Bash script tương ứng trong `src/var/lib/`. Nếu chưa migrate, chưa nên xóa Bash script.
 
+## Shell prompt
+
+Từ `5.8.0`, package ship file `/etc/profile.d/ductn-prompt.sh` (conffile) để set prompt bash tương tác màu có nhánh git hiện tại:
+
+```
+root@openclaw:~/projects/ductnd (main)
+❯
+```
+
+### Hành vi mặc định
+
+- Tự động override khi PS1 đang là bash mặc định (`\s-\v\$ ` hoặc Debian variant).
+- **Tự skip** nếu PS1 đã chứa `starship`, `oh-my-bash`, `p10k`, `powerlevel` → không clobber prompt manager khác.
+- **Tự skip** với shell không phải bash hoặc shell không interactive.
+
+### Tắt theo user
+
+```bash
+touch ~/.config/ductn/no-prompt
+# hoặc:
+export DUCTN_PROMPT_DISABLE=1
+```
+
+Quản lý bằng CLI:
+
+```bash
+ductn prompt status   # xem trạng thái
+ductn prompt disable  # tắt (tạo ~/.config/ductn/no-prompt)
+ductn prompt enable   # bật lại (xóa file opt-out)
+```
+
+### Vị trí file
+
+- Source: `src/ductn/etc/profile.d/ductn-prompt.sh`
+- Conffile đã cài: `/etc/profile.d/ductn-prompt.sh`
+- Khi upgrade, dpkg sẽ hỏi nếu file đã bị sửa local. Có thể giữ nguyên bản local hoặc nhận bản mới từ package.
+
 ## Tài liệu liên quan
 
 - `TASKS.md`: backlog migration Bash sang Python.
