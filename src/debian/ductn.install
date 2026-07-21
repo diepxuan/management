@@ -9,3 +9,4 @@ ductn/usr/share/bash-completion/completions/ductn usr/share/bash-completion/comp
 ductn/usr/share/bash-completion/completions/ductncli usr/share/bash-completion/completions
 ductn/etc/update-motd.d/99-ductn etc/update-motd.d
 ductn/usr/lib/systemd/system/ductnd.service usr/lib/systemd/system
+ductn/etc/profile.d/ductn-prompt.sh etc/profile.d

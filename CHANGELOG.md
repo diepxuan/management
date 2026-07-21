@@ -2,6 +2,28 @@
 
 Các thay đổi đáng chú ý của dự án được ghi tại đây. Debian package revision đầy đủ được duy trì trong [`src/debian/changelog`](src/debian/changelog).
 
+## 5.8.0 - 2026-07-22
+
+### Added
+
+- Ship `/etc/profile.d/ductn-prompt.sh` as a Debian conffile. When sourced by
+  an interactive bash shell, replaces the default `PS1` with a colored
+  `user@host:directory (branch)` prompt that renders the current git branch.
+  Coexists safely with `starship`, `oh-my-bash`, `p10k`, `powerlevel`
+  (auto-detected and skipped). User opt-out via
+  `~/.config/ductn/no-prompt` or `DUCTN_PROMPT_DISABLE=1`.
+- New CLI command `ductn prompt status|enable|disable` to inspect and toggle
+  the per-user opt-out file.
+- 12 new unit tests covering status / enable / disable and
+  `XDG_CONFIG_HOME` handling.
+
+### Changed
+
+- `src/debian/ductn.install` now installs `ductn-prompt.sh` into
+  `/etc/profile.d/`.
+- New `src/debian/ductn.conffiles` registers the prompt script as a
+  Debian conffile (preserves local edits on upgrade).
+
 ## 5.7.2 - 2026-07-20
 
 Release note vận hành: [`docs/UPDATE-2026-07-20-ductncli-extend.md`](docs/UPDATE-2026-07-20-ductncli-extend.md).
