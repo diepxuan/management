@@ -1,3 +1,7 @@
+diepxuan (5.8.2+ppa~1) noble; urgency=medium
+
+  * fix(prompt): close PS1 string to fix sed unterminated error + add newline before ❯
+
 diepxuan (5.8.1+ppa~1) noble; urgency=medium
 
   * chore(packaging): remove src/debian/ductn.conffiles
