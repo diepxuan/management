@@ -48,7 +48,19 @@ __ductn_prompt_git_branch() {
 }
 
 __ductn_prompt_set() {
-    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(__ductn_prompt_git_branch | sed "s/^/ (/;s/$/)")\n\[\033[01;36m\]❯\[\033[00m\] '
+    # Build the prompt without an inline sed substitution: BSD sed on
+    # macOS rejects `sed "s/^/ (/;s/$/)/"` with "unterminated `s' command"
+    # because the trailing `/` is missing before `;`. GNU sed tolerates it,
+    # but the package must work on both. We compute the branch string in a
+    # local variable and concatenate it via printf instead.
+    local _branch=""
+    if _branch=$(__ductn_prompt_git_branch) && [ -n "$_branch" ]; then
+        PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]'
+        PS1+=$(printf '\033[00m\033[01;33m (%s)\033[00m' "$_branch")
+        PS1+='\n\[\033[01;36m\]❯\[\033[00m\] '
+    else
+        PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\[\033[01;36m\]❯\[\033[00m\] '
+    fi
 }
 
 # Only override when PS1 is currently the default bash prompt (or unset),
