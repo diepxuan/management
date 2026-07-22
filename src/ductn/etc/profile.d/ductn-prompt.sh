@@ -48,8 +48,7 @@ __ductn_prompt_git_branch() {
 }
 
 __ductn_prompt_set() {
-    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(__ductn_prompt_git_branch | sed "s/^/ (/;s/$/)")
-\[\033[01;36m\]❯\[\033[00m\] '
+    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$(__ductn_prompt_git_branch | sed "s/^/ (/;s/$/)")\n\[\033[01;36m\]❯\[\033[00m\] '
 }
 
 # Only override when PS1 is currently the default bash prompt (or unset),
