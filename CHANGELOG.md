@@ -1,5 +1,23 @@
 # Changelog
 
+## 5.8.3 - 2026-07-22
+
+### Fixed
+
+- `/etc/profile.d/ductn-prompt.sh` no longer embeds the BSD-incompatible
+  inline sed `sed "s/^/ (/;s/$/)/"`. BSD sed on macOS rejected it with
+  `unterminated \`s' command` because the trailing `/` was missing before
+  `;`. The branch suffix `(branch)` is now rendered via `printf` against a
+  local variable, which works identically on GNU sed and BSD sed. Visual
+  output unchanged.
+
+### Tests
+
+- 4 new shell-script tests in `tests/unit/test_prompt.py` pinning the fix:
+  function body must not contain inline `sed "s/"` or `sed 's/'`, rendered
+  PS1 must include `(branch)` inside a git repo, must omit it outside, and
+  must never emit the BSD sed unterminated error.
+
 Các thay đổi đáng chú ý của dự án được ghi tại đây. Debian package revision đầy đủ được duy trì trong [`src/debian/changelog`](src/debian/changelog).
 
 ## 5.8.0 - 2026-07-22

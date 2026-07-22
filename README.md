@@ -7,7 +7,7 @@
 - **Package source:** `diepxuan`
 - **Package chính:** `ductn`
 - **Package phụ:** `ductn-ll`, `ductn-m2`, `ductn-lar`
-- **Version hiện tại:** `5.8.2+ppa~1`
+- **Version hiện tại:** `5.8.3+ppa~1`
 - **CLI mới:** Python, entrypoint `src/ductn.py`
 - **Legacy CLI:** Bash scripts trong `src/var/lib/`
 - **Migration tracking:** `TASKS.md`
@@ -27,7 +27,7 @@ Package này gom các công cụ vận hành hệ thống nội bộ DiepXuan:
 
 ## Phiên bản hiện tại
 
-`5.8.2+ppa~1` — xem [CHANGELOG.md](CHANGELOG.md) và [`src/debian/changelog`](src/debian/changelog).
+`5.8.3+ppa~1` — xem [CHANGELOG.md](CHANGELOG.md) và [`src/debian/changelog`](src/debian/changelog).
 
 Lịch sử: [`docs/UPDATE-2026-07-05-release-5.7.1.md`](docs/UPDATE-2026-07-05-release-5.7.1.md), [`docs/UPDATE-2026-07-02-split-wrapper-packages.md`](docs/UPDATE-2026-07-02-split-wrapper-packages.md).
 
