@@ -1,3 +1,14 @@
+diepxuan (5.8.3+ppa~1) noble; urgency=medium
+
+  * fix(prompt): drop BSD-incompatible inline sed from __ductn_prompt_set;
+    use local var + printf to render "(branch)" suffix so the package works
+    on both GNU sed and BSD sed (macOS) without "unterminated `s' command"
+  * test(prompt): add 4 shell-script tests pinning the fix (no inline sed in
+    function body, no unterminated stderr on render, branch rendered inside
+    git repo, branch omitted outside git repo)
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Wed, 22 Jul 2026 20:50:00 +0700
+
 diepxuan (5.8.2+ppa~1) noble; urgency=medium
 
   * fix(prompt): close PS1 string to fix sed unterminated error + add newline before ❯
