@@ -63,6 +63,13 @@ __ductn_prompt_set() {
     fi
 }
 
+# Wrap the prompt setter in a PROMPT_COMMAND-friendly entry point. Each
+# invocation rebuilds PS1 so the (branch) suffix reflects the current
+# working directory's git branch instead of the branch at shell start.
+__ductn_prompt_command() {
+    __ductn_prompt_set
+}
+
 # Only override when PS1 is currently the default bash prompt (or unset),
 # so we never clobber a custom user prompt. The matches cover plain bash
 # (\s-\v\$ ), Ubuntu/Debian's ${debian_chroot} variant, and an empty PS1.
@@ -70,5 +77,21 @@ _default_ps1='\s-\v\$ '
 _debian_ps1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 case "$PS1" in
     "$_default_ps1"|"$_debian_ps1")
-        __ductn_prompt_set ;;
+        # Install the dynamic prompt rebuilder first so subsequent prompts
+        # reflect the current branch. Preserve any pre-existing
+        # PROMPT_COMMAND (Ubuntu/Debian often sets one for window-title
+        # updates); when none is set, install ours alone.
+        if [ -n "${PROMPT_COMMAND:-}" ]; then
+            case "$PROMPT_COMMAND" in
+                *__ductn_prompt_command*)
+                    ;; # already chained; nothing to do
+                *)
+                    PROMPT_COMMAND="__ductn_prompt_command; $PROMPT_COMMAND"
+                    ;;
+            esac
+        else
+            PROMPT_COMMAND='__ductn_prompt_command'
+        fi
+        __ductn_prompt_set
+        ;;
 esac
