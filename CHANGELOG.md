@@ -1,5 +1,47 @@
 # Changelog
 
+## 5.8.4 - 2026-07-24
+
+### Fixed
+
+- `ductncli` autocompletion không còn hardcode `hermes codex openclaw`.
+  Completion giờ gọi `ductncli --list` (Python trả về tên các agent có
+  binary thật trên host), nên:
+  - `claude` (và bất kỳ agent nào khác trong `AGENTS_DEFAULT` đã cài) sẽ
+    xuất hiện kể cả khi chưa có trong `~/.config/ductn/config.yml`.
+  - Agent trong config nhưng chưa cài sẽ bị ẩn khỏi TAB (trước đây luôn
+    được suggest, dù Python từ chối khi chạy).
+- `/etc/profile.d/ductn-prompt.sh` không còn đóng băng `(branch)` sau lần
+  set PS1 đầu tiên. Script giờ gắn `__ductn_prompt_command` vào
+  `PROMPT_COMMAND`, mỗi prompt sẽ rebuild PS1 theo git branch của CWD
+  hiện tại. PROMPT_COMMAND cũ (ví dụ `update_terminal_cwd` của
+  Ubuntu/Debian) được giữ nguyên và prepend hook của mình trước.
+
+### Added
+
+- `ductncli --list` / `--list-installed`: in tên các agent đã cài, một
+  tên trên một dòng. Là nguồn dữ liệu duy nhất cho bash completion —
+  registry Python là canonical, không bao giờ trôi khỏi bash script.
+
+### Tests
+
+- 11 test mới:
+  - `tests/unit/test_cli.py`: 4 test pin hợp đồng `--list` chỉ in agent
+    đã cài, alias `--list-installed` hoạt động, host rỗng trả empty,
+    auto-seed config vẫn chạy cùng `--list`.
+  - `tests/unit/test_completion.py`: 4 test nguồn bash completion trong
+    bash thật (stub `ductncli`, gọi `_ductncli_completions` với
+    `COMP_WORDS` / `COMP_CWORD` giả lập), xác nhận: chỉ liệt kê agent
+    trong `--list`, ẩn agent vắng mặt, filter theo prefix, `bash -n`
+    parse sạch.
+  - `tests/unit/test_prompt.py`: 3 test pin PROMPT_COMMAND động —
+    install khi PS1 default, prepend (không clobber) khi
+    PROMPT_COMMAND đã có, PS1 đổi sau `cd` vào git repo.
+- Tổng test các module bị động: 153/153 (pre-existing
+  `test_modules.utils.user` và `test_cli_output` không liên quan PR).
+
+Các thay đổi đáng chú ý của dự án được ghi tại đây. Debian package revision đầy đủ được duy trì trong [`src/debian/changelog`](src/debian/changelog).
+
 ## 5.8.3 - 2026-07-22
 
 ### Fixed
