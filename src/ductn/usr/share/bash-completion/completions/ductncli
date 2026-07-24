@@ -2,9 +2,18 @@
 # Bash completion for ductncli.
 # Installed to /usr/share/bash-completion/completions/ductncli for lazy-load support.
 #
-# Usage: ductncli [hermes|codex|openclaw] [path]
-#   - First arg: agent name (hermes, codex, openclaw) or a workspace path
+# Usage: ductncli [agent] [path]
+#   - First arg: agent name or a workspace path
 #   - Second arg: workspace path
+#
+# The agent list is sourced from `ductncli --list`, which only returns agents
+# whose binary resolves on the host. The completion therefore:
+#   * never shows agents that are not installed, and
+#   * never hides agents that are installed but not present in this script
+#     (the canonical registry lives in src/utils/cli.py).
+#
+# Falls back to nothing for the agent list when `ductncli --list` fails (so the
+# user still gets directory completion).
 
 _ductncli_completions() {
     local cur words cword
@@ -18,21 +27,28 @@ _ductncli_completions() {
         cword="$COMP_CWORD"
     fi
 
-    local cmd="${words[0]}"
-
-    # Complete first argument: agent names (hermes, codex) or directories
+    # Complete first argument: agent names (from `ductncli --list`) plus directories.
     if [[ ${cword:-0} -eq 1 ]]; then
-        local agents="hermes codex openclaw"
-        local COMPREPLY_agents
-        COMPREPLY_agents=($(compgen -W "$agents" -- "$cur"))
+        local agents=""
+        if command -v ductncli >/dev/null 2>&1; then
+            agents=$(ductncli --list 2>/dev/null | tr '\n' ' ')
+        fi
 
-        # Also suggest directories (for users who type path first)
-        local COMPREPLY_dirs
-        mapfile -t COMPREPLY_dirs < <(compgen -d -- "$cur" 2>/dev/null)
+        if [[ -n "$agents" ]]; then
+            COMPREPLY=($(compgen -W "$agents" -- "$cur"))
+        fi
 
-        # Merge and deduplicate
-        local all_completions=("${COMPREPLY_agents[@]}" "${COMPREPLY_dirs[@]}")
-        COMPREPLY=($(printf '%s\n' "${all_completions[@]}" | sort -u))
+        local dirs
+        mapfile -t dirs < <(compgen -d -- "$cur" 2>/dev/null)
+        if [[ ${#dirs[@]} -gt 0 ]]; then
+            COMPREPLY+=("${dirs[@]}")
+        fi
+
+        if [[ ${#COMPREPLY[@]} -gt 0 ]]; then
+            local dedup
+            mapfile -t dedup < <(printf '%s\n' "${COMPREPLY[@]}" | awk '!seen[$0]++')
+            COMPREPLY=("${dedup[@]}")
+        fi
 
         if declare -F __ltrim_colon_completions >/dev/null 2>&1; then
             __ltrim_colon_completions "$cur"
@@ -41,47 +57,50 @@ _ductncli_completions() {
         return 0
     fi
 
-    # Complete second argument: workspace paths (directories and project names)
+    # Complete second argument: workspace paths.
     if [[ ${cword:-0} -eq 2 ]]; then
         local first_arg="${words[1]}"
+        local first_arg_is_agent="no"
 
-        # If first arg was agent name, suggest directories
-        if [[ "$first_arg" == "hermes" || "$first_arg" == "codex" || "$first_arg" == "openclaw" ]]; then
-            mapfile -t COMPREPLY < <(compgen -d -- "$cur" 2>/dev/null)
+        # Treat the first arg as an agent name only when it has no path
+        # separator AND it appears in `ductncli --list`.
+        if [[ "$first_arg" != */* ]] && command -v ductncli >/dev/null 2>&1; then
+            local installed
+            installed=$(ductncli --list 2>/dev/null | grep -Fx -- "$first_arg")
+            if [[ "$installed" == "$first_arg" ]]; then
+                first_arg_is_agent="yes"
+            fi
+        fi
 
-            # Also suggest project names from known project directories
+        # Always offer directory completion (path-first usage).
+        mapfile -t COMPREPLY < <(compgen -d -- "$cur" 2>/dev/null)
+
+        # When the first arg is an installed agent, also offer project names
+        # (= directory entries under any registered project root).
+        if [[ "$first_arg_is_agent" == "yes" ]]; then
             local project_dirs=""
             for base_dir in "/data" "$HOME/.openclaw/workspace/projects" "$HOME/.hermes/workspace/projects"; do
                 if [[ -d "$base_dir" ]]; then
                     local projects
-                    projects=$(ls -1 "$base_dir" 2>/dev/null | while read -r p; do
-                        if [[ "$p" == "$cur"* ]]; then
-                            printf '%s\n' "$p"
-                        fi
-                    done)
+                    projects=$(command ls -1 "$base_dir" 2>/dev/null)
                     if [[ -n "$projects" ]]; then
                         project_dirs="$project_dirs $projects"
                     fi
                 fi
             done
-
             if [[ -n "$project_dirs" ]]; then
                 local COMPREPLY_projects
                 COMPREPLY_projects=($project_dirs)
                 COMPREPLY=("${COMPREPLY[@]}" "${COMPREPLY_projects[@]}")
-                COMPREPLY=($(printf '%s\n' "${COMPREPLY[@]}" | sort -u))
+                COMPREPLY=($(printf '%s\n' "${COMPREPLY[@]}" | awk '!seen[$0]++'))
             fi
-        else
-            # First arg was a path, so this is likely a third arg (which ductncli rejects)
-            # But still provide directory completion for safety
-            mapfile -t COMPREPLY < <(compgen -d -- "$cur" 2>/dev/null)
         fi
 
         compopt -o filenames 2>/dev/null || true
         return 0
     fi
 
-    # Beyond second argument: no completion (ductncli only takes 2 args max)
+    # Beyond second argument: no completion (ductncli only takes 2 args max).
     return 0
 }
 

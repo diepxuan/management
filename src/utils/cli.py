@@ -772,6 +772,14 @@ def d_cli(args=None):
         _usage()
         return 0
 
+    # Machine-readable list of installed agent names, one per line.
+    # Consumed by the bash completion so the agent list stays in sync
+    # with the Python registry (no per-agent `command -v` in shell).
+    if first in ("--list", "--list-installed"):
+        for name in _available_agent_names():
+            print(name)
+        return 0
+
     if first == "":
         agent = _select_agent()
         path_input = ""
