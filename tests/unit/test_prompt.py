@@ -207,3 +207,134 @@ class TestShellPromptScript(unittest.TestCase):
         self.assertEqual(rc, 0, msg=f"bash failed: stderr={err!r}")
         self.assertNotIn("unterminated", err)
         self.assertNotIn("unterminated", out)
+
+
+class TestShellPromptDynamicUpdate(unittest.TestCase):
+    """Validate /etc/profile.d/ductn-prompt.sh installs a PROMPT_COMMAND
+    hook that rebuilds PS1 on each prompt. Without it the (branch) suffix
+    stays frozen at the value captured when the shell started, so `cd`
+    into or out of a git repo leaves the prompt misleading.
+    """
+
+    SCRIPT_PATH = os.path.abspath(os.path.join(
+        os.path.dirname(__file__), "..", "..", "src", "ductn", "etc",
+        "profile.d", "ductn-prompt.sh"
+    ))
+
+    def _source_in(self, cwd, home, ps1, existing_prompt_command=""):
+        """Source the script under bash, return (rc, stdout, stderr).
+
+        We `export PROMPT_COMMAND` to a known prior value (when requested)
+        so the script's prepend behaviour can be observed.
+        """
+        body_lines = [
+            "set -e",
+            "export PROMPT_COMMAND='%s'" % existing_prompt_command,
+            "export PS1='%s'" % ps1,
+            "unset DUCTN_PROMPT_LOADED DUCTN_PROMPT_DISABLE",
+            ". %s" % self.SCRIPT_PATH,
+            "echo \"PC=$PROMPT_COMMAND\"",
+            "echo \"PS1=$PS1\""
+        ]
+        script = "\n".join(body_lines) + "\n"
+        env = {
+            "PATH": "/usr/bin:/bin:/usr/local/bin",
+            "HOME": home,
+            "XDG_CONFIG_HOME": home,
+            "LANG": "C.UTF-8",
+        }
+        proc = subprocess.run(
+            ["bash", "-i", "-c", script],
+            capture_output=True, text=True, env=env, cwd=cwd,
+        )
+        return proc.returncode, proc.stdout, proc.stderr
+
+    def test_prompt_command_installs_when_ps1_is_default(self):
+        """Default-PS1 shells must install __ductn_prompt_command."""
+        with tempfile.TemporaryDirectory() as td:
+            rc, out, err = self._source_in(
+                cwd=td, home=td, ps1=r"\s-\v\$ ",
+            )
+        self.assertEqual(rc, 0, msg=f"bash failed: stderr={err!r}")
+        self.assertIn("PC=__ductn_prompt_command", out)
+
+    def test_prompt_command_preserves_existing_chain(self):
+        """Ubuntu/Debian sets PROMPT_COMMAND for window-title updates; that
+        chain must be preserved AND our hook must run first."""
+        with tempfile.TemporaryDirectory() as td:
+            rc, out, err = self._source_in(
+                cwd=td, home=td, ps1=r"\s-\v\$ ",
+                existing_prompt_command="update_terminal_cwd",
+            )
+        self.assertEqual(rc, 0, msg=f"bash failed: stderr={err!r}")
+        self.assertIn(
+            "__ductn_prompt_command; update_terminal_cwd", out,
+            "PROMPT_COMMAND must be chained, not replaced",
+        )
+
+    def test_prompt_command_rebuilds_ps1_after_cd_into_repo(self):
+        """`cd` from non-repo into a git repo must update (branch) on the
+        next prompt when PROMPT_COMMAND fires. The bug report shipped PS1
+        that was frozen at shell-load; this test pins the dynamic fix."""
+        with tempfile.TemporaryDirectory() as outside:
+            inside = os.path.join(outside, "inner")
+            os.makedirs(inside, exist_ok=True)
+            subprocess.run(
+                ["git", "init", "-q"], cwd=inside, check=False,
+                capture_output=True,
+            )
+            subprocess.run(
+                ["git", "-c", "user.email=t@t", "-c", "user.name=t",
+                 "commit", "-q", "--allow-empty", "-m", "init"],
+                cwd=inside, check=False, capture_output=True,
+            )
+            subprocess.run(
+                ["git", "checkout", "-q", "-b", "release/dynamic-prompt"],
+                cwd=inside, check=False, capture_output=True,
+            )
+            script_lines = [
+                "set -e",
+                r"export PS1='\s-\v\$ '",
+                "unset DUCTN_PROMPT_LOADED DUCTN_PROMPT_DISABLE",
+                ". %s" % self.SCRIPT_PATH,
+                # Outside repo: PS1 has no (branch) suffix.
+                "__ductn_prompt_set",
+                'printf "BEFORE=%s\\n" "$PS1"',
+                # Now switch cwd into the repo, then run our prompt hook.
+                "cd %s" % inside,
+                "__ductn_prompt_command",
+                'printf "AFTER=%s\\n" "$PS1"',
+            ]
+            script = "\n".join(script_lines) + "\n"
+            env = {
+                "PATH": "/usr/bin:/bin:/usr/local/bin",
+                "HOME": outside,
+                "XDG_CONFIG_HOME": outside,
+                "LANG": "C.UTF-8",
+            }
+            proc = subprocess.run(
+                ["bash", "-i", "-c", script],
+                capture_output=True, text=True, env=env, cwd=outside,
+            )
+            self.assertEqual(
+                proc.returncode, 0,
+                msg=f"bash failed: stderr={proc.stderr!r}",
+            )
+            before, after = "", ""
+            for line in proc.stdout.splitlines():
+                if line.startswith("BEFORE="):
+                    before = line[len("BEFORE="):]
+                elif line.startswith("AFTER="):
+                    after = line[len("AFTER="):]
+            self.assertNotIn(
+                "(release/dynamic-prompt)", before,
+                "PS1 outside repo must not contain the branch",
+            )
+            self.assertIn(
+                "(release/dynamic-prompt)", after,
+                "PROMPT_COMMAND must refresh PS1 to the current branch",
+            )
+
+
+if __name__ == "__main__":
+    unittest.main()
