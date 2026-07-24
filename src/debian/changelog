@@ -1,3 +1,43 @@
+diepxuan (5.8.4+ppa~1) noble; urgency=medium
+
+  * fix(cli): bash completion for `ductncli` is no longer hard-coded to
+    `hermes codex openclaw`. The completion now calls `ductncli --list`,
+    which prints one agent name per line for every agent in
+    AGENTS_DEFAULT whose binary resolves on the host. Side effects:
+    - `claude` (and any other installed agent in AGENTS_DEFAULT) now
+      appears in tab-completion even when not present in
+      ~/.config/ductn/config.yml.
+    - Agents listed in config but without an installed binary are no
+      longer offered (they were previously emitted unconditionally).
+  * feat(cli): add `ductncli --list` / `--list-installed` flags that
+    print the names of installed agents one per line, intended as the
+    machine-readable source for `complete -F _ductncli_completions`.
+  * fix(prompt): /etc/profile.d/ductn-prompt.sh now installs a
+    PROMPT_COMMAND hook that rebuilds PS1 each prompt. Without this,
+    the `(branch)` suffix was captured once at shell start and stayed
+    stale after every `cd` into / out of a git repo — this is the
+    git-branch-does-not-update bug Sep reported.
+    - New `__ductn_prompt_command` shim wraps `__ductn_prompt_set`.
+    - When PROMPT_COMMAND is empty (the bash default), the function is
+      installed alone.
+    - When PROMPT_COMMAND already holds a chain (Ubuntu/Debian sets
+      one for window-title updates), the hook is prepended so it runs
+      first and is idempotent (re-source is no-op).
+    - Existing call to `__ductn_prompt_set` at sourcing time preserves
+      the visual behaviour for the very first prompt.
+  * test(cli): 4 new tests pin the --list contract (only installed names
+    output, unset host => empty output, list-installed alias works,
+    config seed still happens for fresh installs).
+  * test(completion): 4 new tests source the bash completion script and
+    verify it (a) reflects `ductncli --list`, (b) hides absent agents,
+    (c) filters by prefix, (d) parses cleanly with `bash -n`.
+  * test(prompt): 3 new tests pin the dynamic behaviour: PROMPT_COMMAND
+    installed for default PS1, prior PROMPT_COMMAND chains preserved,
+    PS1 content refreshes after `cd` into a git repo (the original bug
+    symptom). Existing static-PS1 tests still pass.
+
+ -- Tran Ngoc Duc <ductn@diepxuan.com>  Fri, 24 Jul 2026 12:35:00 +0700
+
 diepxuan (5.8.3+ppa~1) noble; urgency=medium
 
   * fix(prompt): drop BSD-incompatible inline sed from __ductn_prompt_set;

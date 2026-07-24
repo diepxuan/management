@@ -317,5 +317,75 @@ class TestCli(unittest.TestCase):
             self.assertNotIn("codex", names)
 
 
+    # ----- `ductncli --list` (bash completion integration) -----
+
+    @patch.object(cli, "_resolve_agent_binary")
+    def test_d_cli_list_flag_emits_installed_agents_one_per_line(self, resolve_bin):
+        """`--list` must print installed agents, one name per line, no extras."""
+        with tempfile.TemporaryDirectory() as tmp:
+            with patch.dict(os.environ, {"XDG_CONFIG_HOME": tmp}, clear=False):
+                # host fixture: claude + codex installed; everything else absent.
+                def fake_resolve(name):
+                    return f"/usr/local/bin/{name}" if name in ("claude", "codex") else None
+                resolve_bin.side_effect = fake_resolve
+
+                import io
+                buf = io.StringIO()
+                with patch.object(sys, "stdout", buf):
+                    rc = cli.d_cli(["--list"])
+
+                self.assertEqual(rc, 0)
+                lines = [ln for ln in buf.getvalue().split("\n") if ln]
+                self.assertEqual(sorted(lines), ["claude", "codex"])
+
+    @patch.object(cli, "_resolve_agent_binary")
+    def test_d_cli_list_flag_alias_list_installed(self, resolve_bin):
+        """`--list-installed` is the same flag."""
+        with tempfile.TemporaryDirectory() as tmp:
+            with patch.dict(os.environ, {"XDG_CONFIG_HOME": tmp}, clear=False):
+                def fake_resolve(name):
+                    return f"/usr/local/bin/{name}" if name in ("hermes",) else None
+                resolve_bin.side_effect = fake_resolve
+
+                import io
+                buf = io.StringIO()
+                with patch.object(sys, "stdout", buf):
+                    rc = cli.d_cli(["--list-installed"])
+
+                self.assertEqual(rc, 0)
+                self.assertEqual(buf.getvalue().strip(), "hermes")
+
+    @patch.object(cli, "_resolve_agent_binary")
+    def test_d_cli_list_flag_hides_uninstalled(self, resolve_bin):
+        """An agent in AGENTS_DEFAULT but with no binary must NOT appear."""
+        with tempfile.TemporaryDirectory() as tmp:
+            with patch.dict(os.environ, {"XDG_CONFIG_HOME": tmp}, clear=False):
+                # host fixture: NO agents installed
+                resolve_bin.return_value = None
+
+                import io
+                buf = io.StringIO()
+                with patch.object(sys, "stdout", buf):
+                    rc = cli.d_cli(["--list"])
+
+                self.assertEqual(rc, 0)
+                self.assertEqual(buf.getvalue(), "")
+
+    @patch.object(cli, "_resolve_agent_binary", return_value=None)
+    def test_d_cli_list_flag_accepts_after_config_seed(self, _resolve):
+        """`--list` runs even on a fresh install when config is auto-seeded."""
+        with tempfile.TemporaryDirectory() as tmp:
+            with patch.dict(os.environ, {"XDG_CONFIG_HOME": tmp}, clear=False):
+                import io
+                buf_out, buf_err = io.StringIO(), io.StringIO()
+                with patch.object(sys, "stdout", buf_out), patch.object(sys, "stderr", buf_err):
+                    rc = cli.d_cli(["--list"])
+                self.assertEqual(rc, 0)
+                # No installed agents -> empty stdout.
+                self.assertEqual(buf_out.getvalue(), "")
+                # The seed-config notice still fires (useful for `ductncli`
+                # workers; bash bindings don't care because it's stderr).
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
