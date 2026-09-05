@@ -93,6 +93,37 @@ class TestVmSync(unittest.TestCase):
         self.assertEqual(session.get_calls[0][1]["params"]["domain"], "custom.diepxuan.corp")
         self.assertEqual(session.post_calls[0][1]["params"]["domain"], "custom.diepxuan.corp")
 
+    @patch("utils.vm.addr._ip_locals", return_value=["10.0.0.122"])
+    @patch("utils.vm.host._host_domain", return_value="diepxuan.corp")
+    @patch("utils.vm.host._host_fullname", return_value="openclaw.diepxuan.corp")
+    @patch("utils.vm.requests.Session")
+    def test_vm_sync_deletes_stale_records(self, mock_session_factory, _host_fullname, _host_domain, _ip_locals):
+        """Old DNS records that are no longer in `_ip_locals()` are deleted."""
+        existing_records = {
+            "status": "ok",
+            "response": {
+                "records": [
+                    {"type": "A", "name": "openclaw.diepxuan.corp", "rData": {"ipAddress": "10.0.0.99"}},
+                    {"type": "A", "name": "openclaw.diepxuan.corp", "rData": {"ipAddress": "192.168.1.10"}},
+                ]
+            },
+        }
+        session = FakeSession([FakeResponse(existing_records)])
+        mock_session_factory.return_value = session
+
+        _vm_sync()
+
+        # Two DELETEs for the 2 stale IPs, 1 POST for the new IP.
+        delete_urls = [c[0] for c in session.get_calls[1:]]
+        self.assertEqual(len(delete_urls), 2)
+        self.assertTrue(all("/zones/records/delete" in u for u in delete_urls))
+
+        delete_ips = sorted(c[1]["params"]["ipAddress"] for c in session.get_calls[1:])
+        self.assertEqual(delete_ips, ["10.0.0.99", "192.168.1.10"])
+
+        self.assertEqual(len(session.post_calls), 1)
+        self.assertEqual(session.post_calls[0][1]["params"]["ipAddress"], "10.0.0.122")
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

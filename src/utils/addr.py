@@ -100,8 +100,45 @@ def _ip_local() -> str:
     return ""
 
 
+# IPv4 addresses/ranges that must never be pushed to the internal DNS API.
+# Rationale:
+#   - 127.0.0.0/8       : loopback — not routable, useless as DNS A record.
+#   - 172.16.0.0/12      : RFC1918 private range used heavily by Docker bridges
+#                          (172.17.0.1 default bridge, 172.18.0.1 user-defined
+#                          bridge, 172.24.0.1 custom networks, ...). These
+#                          gateways are reachable only from the host that owns
+#                          the bridge, so pushing them to DNS makes the VM
+#                          record point to an unreachable IP for everyone else.
+#                          See PR #62 / fix/5.8.5-dns-vm-filter.
+_EXCLUDED_V4_PREFIXES = (
+    "127.",
+    "172.16.",
+    "172.17.",
+    "172.18.",
+    "172.19.",
+    "172.20.",
+    "172.21.",
+    "172.22.",
+    "172.23.",
+    "172.24.",
+    "172.25.",
+    "172.26.",
+    "172.27.",
+    "172.28.",
+    "172.29.",
+    "172.30.",
+    "172.31.",
+)
+
+
 def _ip_locals() -> list:
-    """Get all IPv4 addresses from UP interfaces, excluding loopback."""
+    """Get all IPv4 addresses from UP interfaces.
+
+    Excludes loopback (127.0.0.0/8) and RFC1918 172.16.0.0/12 (used by Docker
+    bridges / local-only networks whose gateway is unreachable from outside).
+    These IPs must never be pushed to the internal DNS API — see
+    fix/5.8.5-dns-vm-filter.
+    """
     ips = []
     try:
         result = subprocess.run(
@@ -123,8 +160,11 @@ def _ip_locals() -> list:
                 for i, part in enumerate(parts):
                     if part == "inet" and i + 1 < len(parts):
                         ip = parts[i + 1].split("/")[0]
-                        if not ip.startswith("127.") and ip not in ips:
-                            ips.append(ip)
+                        if ip in ips:
+                            continue
+                        if any(ip.startswith(p) for p in _EXCLUDED_V4_PREFIXES):
+                            continue
+                        ips.append(ip)
     except (subprocess.SubprocessError, FileNotFoundError):
         pass
     return ips

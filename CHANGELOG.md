@@ -1,5 +1,26 @@
 # Changelog
 
+## 5.8.5 - 2026-09-05
+
+### Fixed
+
+- `utils.addr._ip_locals()` giờ loại bỏ thêm toàn bộ `172.16.0.0/12`
+  (RFC1918, dùng nhiều cho Docker bridge / mạng local-only) ngoài
+  `127.0.0.0/8` loopback. Trước đây các IP như `172.17.0.1` (Docker
+  default bridge) hoặc `172.18.0.1` (user-defined bridge, vd của
+  `openclaw.diepxuan.corp`) bị đẩy lên internal DNS API làm A record
+  cho hostname VM, khiến VM không truy cập được từ bất kỳ host nào
+  khác ngoài host sở hữu bridge đó.
+- `vm:sync` không cần thay đổi — nó vẫn đọc qua `_ip_locals()` nên tự
+  động hưởng lợi từ filter mới.
+
+### Added
+
+- `tests/unit/test_addr.py`: 5 test pin behavior filter loopback +
+  172.16.0.0/12 + DOWN interface + dedup + subprocess error.
+- `tests/unit/test_vm.py::test_vm_sync_deletes_stale_records`: pin hành
+  vi xoá record cũ không còn trong `_ip_locals()`.
+
 ## 5.8.4 - 2026-07-24
 
 ### Fixed
