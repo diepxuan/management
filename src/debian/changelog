@@ -1,3 +1,18 @@
+diepxuan (5.8.5+ppa~1) noble; urgency=medium
+
+  * fix(addr): `utils.addr._ip_locals()` now also excludes the RFC1918
+    `172.16.0.0/12` range (used by Docker bridges and other local-only
+    networks) in addition to `127.0.0.0/8` loopback. Previously, IPs like
+    `172.17.0.1` (Docker default bridge) or `172.18.0.1` (user-defined
+    bridge, e.g. `openclaw.diepxuan.corp`) were pushed to the internal
+    DNS API as A records for the VM hostname, making the VM unreachable
+    from any host except the one owning the bridge.
+    - Behaviour is now pinned by `tests/unit/test_addr.py`.
+    - VM sync (`vm:sync`) keeps working unchanged because it reads from
+      `_ip_locals()`; no DNS API call surface change.
+
+ -- Bot <bot@diepxuan.corp>  Fri, 05 Sep 2026 10:42:00 +0700
+
 diepxuan (5.8.4+ppa~1) noble; urgency=medium
 
   * fix(cli): bash completion for `ductncli` is no longer hard-coded to
