@@ -120,6 +120,20 @@ def _vm_sync(args: Optional[List[str]] = None):
         if data is None or api_base_used is None:
             return
 
+        # DNS API trả HTTP 200 kèm {"status":"error"} khi zone không tồn tại
+        # (ví dụ hostname giả dạng IP: postgresql.192.168.1.1). Không check
+        # thì operator chỉ thấy exit code 0, không log, record không bao giờ
+        # lên DNS — silent failure.
+        if data.get("status") != "ok":
+            logging.error(
+                "VM sync failed: DNS API status=%s domain=%s zone=%s: %s",
+                data.get("status"),
+                params.get("domain"),
+                params.get("zone"),
+                data.get("errorMessage", "(no message)"),
+            )
+            return
+
         url_add = f"{api_base_used}/zones/records/add"
         url_del = f"{api_base_used}/zones/records/delete"
         old_ips = {

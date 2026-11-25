@@ -52,8 +52,17 @@ class ServiceScheduler:
                     continue
 
                 if now >= task["next_run"]:
-                    self._run_task(task)
-                    task["next_run"] = now + task["interval"]
+                    # Guard: task trước chưa xong thì bỏ tick này. Tránh
+                    # chồng chất thread khi interval < thời gian chạy
+                    # (ví dụ vm_sync retry DNS ~20s nhưng interval 10s).
+                    if self.ctx.is_running(task["name"]):
+                        logging.debug(
+                            "Skip %s: previous run still active", task["name"]
+                        )
+                        continue
+
+                    if self._run_task(task):
+                        task["next_run"] = now + task["interval"]
 
             # Event-driven wait (KHÔNG busy loop)
             self.ctx.shutdown_event.wait(timeout=1)
@@ -68,16 +77,32 @@ class ServiceScheduler:
         return True
 
     def _run_task(self, task):
+        """
+        Chạy task trong thread riêng, tự dọn dẹp khi xong.
+
+        Trả về True nếu đã start thread, False nếu start thất bại.
+        """
+        name = task["name"]
+        ctx = self.ctx
+
         def wrapper():
             try:
                 task["target"]()
             except Exception as e:
-                logging.error(f"Task {task['name']} error: {e}")
+                logging.error("Task %s error: %s", name, e)
+            finally:
+                # QUAN TRỌNG: gỡ thread khỏi ctx để không leak object.
+                # Trước 5.8.6 không có bước này nên mỗi lần chạy giữ lại
+                # một Thread object vĩnh viễn (~2.5 KB) => ~700 MB sau
+                # 11 ngày với interval 5s/10s.
+                ctx.unregister_thread(threading.current_thread())
 
-        t = threading.Thread(
-            target=wrapper,
-            name=task["name"],
-            daemon=False,  # QUAN TRỌNG
-        )
-        t.start()
-        self.ctx.register_thread(t)
+        t = threading.Thread(target=wrapper, name=name, daemon=True)
+        try:
+            ctx.register_thread(t)
+            t.start()
+        except Exception as e:
+            ctx.unregister_thread(t)
+            logging.error("Task %s start failed: %s", name, e)
+            return False
+        return True
