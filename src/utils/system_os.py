@@ -1,6 +1,7 @@
-import platform
-import sys
 import os
+import platform
+import subprocess
+import sys
 
 from .registry import register_command
 from . import distro
@@ -12,8 +13,36 @@ from . import distro
 # SYSTEMD = ["debian", "ubuntu"]
 
 
+def _sw_vers(flag):
+    """Đọc thông tin macOS qua sw_vers (salvage từ src/var/lib/macos/os.sh).
+
+    Module `distro` đọc /etc/os-release — file không tồn tại trên macOS nên
+    mọi hàm dưới đây trả rỗng. Bash cũ có bản macos/os.sh dùng sw_vers.
+    """
+    try:
+        result = subprocess.run(
+            ["sw_vers", flag],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        return result.stdout.strip()
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        return ""
+
+
+def _is_macos():
+    return sys.platform == "darwin"
+
+
 def _os_codename():
     """Get OS codename"""
+    if _is_macos():
+        # bash: sw_vers -productVersion | awk -F '.' '{print $1"."$2}'
+        version = _sw_vers("-productVersion")
+        if version:
+            return ".".join(version.split(".")[:2])
+        return "unknown"
     return distro.codename()
 
 
@@ -25,6 +54,9 @@ def d_os_codename():
 
 def _os_release():
     """Get OS release"""
+    if _is_macos():
+        # bash: sw_vers -buildVersion  (vd 23F79)
+        return _sw_vers("-buildVersion") or "unknown"
     return distro.version()
 
 
@@ -36,6 +68,9 @@ def d_os_release():
 
 def _os_distro():
     """Get OS distro"""
+    if _is_macos():
+        # bash: sw_vers -ProductName  (vd macOS)
+        return _sw_vers("-ProductName") or "macos"
     return distro.id()
 
 

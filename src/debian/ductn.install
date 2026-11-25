@@ -1,5 +1,6 @@
 # ductn usr/bin
-# var/lib/* var/lib/ductn
+# Không còn src/var/lib/*.sh kể từ 5.8.7 — toàn bộ đã chuyển sang Python
+# (src/ductn/usr/bin). Chỉ hook LXC bên dưới là shell được đóng gói.
 ductn/usr/bin/ductncli usr/bin
 ductn/var/lib/lxc/hooks/default-hook.sh var/lib/lxc/hooks
 ductn/etc/sysctl.d/99-ductn.conf etc/sysctl.d

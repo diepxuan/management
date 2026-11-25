@@ -59,6 +59,83 @@ def d_vm_info():
     _vm_info()
 
 
+# --- Salvage từ deprecated/src/var/lib/vm.sh (xoá ở 5.8.7) ----------------
+
+
+@register_command
+def d_vm_agent_install():
+    """
+    Cài qemu-guest-agent (port từ bash `pve:vm`, chưa từng có bản Python).
+
+    Bash gốc chỉ chạy `sys:apt:install qemu-guest-agent`. Ở đây gọi apt
+    trực tiếp, rồi bật service để Proxmox thấy được IP/agent trong guest.
+    """
+    import subprocess
+
+    from .system import _is_root as _root
+
+    if not _root():
+        logging.error("Cần quyền root (sudo)")
+        return
+
+    try:
+        subprocess.check_call(["apt-get", "install", "-y", "qemu-guest-agent"])
+        subprocess.check_call(["systemctl", "enable", "--now", "qemu-guest-agent"])
+        logging.info("qemu-guest-agent đã cài và đang chạy")
+    except FileNotFoundError:
+        logging.error("Không tìm thấy apt-get / systemctl")
+    except subprocess.CalledProcessError as e:
+        logging.error("Lỗi cài qemu-guest-agent: %s", e)
+
+
+@register_command
+def d_pve_vm():
+    """Alias cũ của `vm:agent:install` (giữ tên bash `pve:vm`)."""
+    return d_vm_agent_install()
+
+
+@register_command
+def d_vm_command(args=None):
+    """
+    Chạy danh sách lệnh trong VM, đọc từ JSON của Proxmox.
+    Usage: ductn vm:command '<json>'   (ví dụ: {"vm":{"commands":["ls","uptime"]}})
+
+    Port từ bash `_vm:command`. Bash đọc `.vm.commands[]` bằng jq rồi thực
+    thi từng dòng. Bản này nhận JSON từ tham số hoặc stdin.
+
+    CẢNH BÁO: thực thi lệnh tuỳ ý. Chỉ dùng với payload do chính Proxmox
+    sinh ra; không truyền JSON từ nguồn không tin cậy.
+    """
+    import json
+    import subprocess as sp
+
+    payload = None
+    if args:
+        payload = args[0] if isinstance(args, list) else args
+    else:
+        payload = sys.stdin.read()
+
+    if not payload or not payload.strip():
+        logging.error("Usage: ductn vm:command '<json>'")
+        return
+
+    try:
+        data = json.loads(payload)
+    except json.JSONDecodeError as e:
+        logging.error("JSON không hợp lệ: %s", e)
+        return
+
+    commands = data.get("vm", {}).get("commands", [])
+    if not commands:
+        logging.warning("Không có lệnh nào trong payload")
+        return
+
+    for command in commands:
+        logging.info("Chạy: %s", command)
+        # shell=True vì Proxmox gửi cả chuỗi có tham số/pipe.
+        sp.run(command, shell=True, check=False)
+
+
 def _request_verify(api_base: str) -> bool:
     """Use system CA for public API, skip verification for legacy internal DNS API."""
     verify = "diepxuan.corp" not in api_base

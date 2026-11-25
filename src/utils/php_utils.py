@@ -1,36 +1,85 @@
 #!/usr/bin/env python3
 
+import hashlib
+import logging
 import os
 import subprocess
-import logging
+import tempfile
+import urllib.request
 
 from .registry import register_command
 from .system import _is_root
 
+COMPOSER_INSTALLER_URL = "https://getcomposer.org/installer"
+COMPOSER_SIGNATURE_URL = "https://composer.github.io/installer.sig"
+
+
+def _fetch_composer_signature():
+    """Tải SHA384 chính thức của composer installer."""
+    with urllib.request.urlopen(COMPOSER_SIGNATURE_URL, timeout=30) as resp:
+        return resp.read().decode().strip()
+
+
+def _verify_composer_installer(path, expected):
+    """So SHA384 của file với signature; trả True nếu khớp."""
+    digest = hashlib.sha384()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(8192), b""):
+            digest.update(chunk)
+    return digest.hexdigest() == expected
+
 
 @register_command
 def d_php_composer_install():
-    """Cài đặt Composer."""
+    """
+    Cài đặt Composer (có verify SHA384 như bash gốc).
+
+    Bash `php.sh` tải installer rồi so SHA384 với composer.github.io/
+    installer.sig trước khi chạy. Python trước 5.8.7 bỏ qua bước verify
+    (comment "Verify signature (skip for now)") — nay làm đúng.
+    """
     if not _is_root():
         logging.error("Cần quyền root (sudo)")
         return
 
+    tmpdir = tempfile.mkdtemp(prefix="ductn-composer-")
+    installer = os.path.join(tmpdir, "composer-setup.php")
+
     try:
-        # Download installer
+        logging.info("Tải composer installer…")
+        urllib.request.urlretrieve(COMPOSER_INSTALLER_URL, installer)
+
+        logging.info("Kiểm tra chữ ký SHA384…")
+        expected = _fetch_composer_signature()
+        if not _verify_composer_installer(installer, expected):
+            logging.error(
+                "Installer composer KHÔNG hợp lệ (SHA384 không khớp). Đã dừng."
+            )
+            return
+
+        logging.info("Chữ ký hợp lệ, đang cài…")
         subprocess.check_call(
-            ["php", "-r", "copy('https://getcomposer.org/installer', 'composer-setup.php');"]
+            [
+                "php",
+                installer,
+                "--install-dir=/usr/local/bin",
+                "--filename=composer",
+            ]
         )
-        # Verify signature (skip for now)
-        # Install
-        subprocess.check_call(
-            ["php", "composer-setup.php", "--install-dir=/usr/local/bin", "--filename=composer"]
-        )
-        # Cleanup
-        if os.path.exists("composer-setup.php"):
-            os.remove("composer-setup.php")
         logging.info("Composer đã được cài đặt")
     except subprocess.CalledProcessError as e:
         logging.error(f"Lỗi cài Composer: {e}")
+    except OSError as e:
+        logging.error(f"Lỗi tải Composer: {e}")
+    finally:
+        try:
+            os.remove(installer)
+        except OSError:
+            pass
+        try:
+            os.rmdir(tmpdir)
+        except OSError:
+            pass
 
 
 @register_command
