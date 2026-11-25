@@ -124,6 +124,48 @@ class TestVmSync(unittest.TestCase):
         self.assertEqual(len(session.post_calls), 1)
         self.assertEqual(session.post_calls[0][1]["params"]["ipAddress"], "10.0.0.122")
 
+    @patch("utils.vm.addr._ip_locals", return_value=["10.0.0.105"])
+    @patch("utils.vm.host._host_domain", return_value="diepxuan.corp")
+    @patch("utils.vm.host._host_fullname", return_value="postgresql.192.168.1.1")
+    @patch("utils.vm.requests.Session")
+    def test_vm_sync_logs_error_on_api_error_status(self, mock_session_factory, _fullname, _domain, _locals):
+        """DNS API trả HTTP 200 + {"status":"error"} (zone không tồn tại)
+        => phải log error và KHÔNG POST. Trước 5.8.6 là silent exit."""
+        session = FakeSession([
+            FakeResponse(
+                {
+                    "server": "dns.diepxuan.io.vn",
+                    "status": "error",
+                    "errorMessage": "No such zone was found: postgresql.192.168.1.1",
+                }
+            )
+        ])
+        mock_session_factory.return_value = session
+
+        with self.assertLogs("root", level="ERROR") as logs:
+            _vm_sync()
+
+        joined = "\n".join(logs.output)
+        self.assertIn("VM sync failed", joined)
+        self.assertIn("postgresql.192.168.1.1", joined)
+        self.assertIn("No such zone was found", joined)
+
+        self.assertEqual(len(session.post_calls), 0, "Không được POST khi API báo error")
+
+    @patch("utils.vm.addr._ip_locals", return_value=["10.0.0.105"])
+    @patch("utils.vm.host._host_domain", return_value="diepxuan.corp")
+    @patch("utils.vm.host._host_fullname", return_value="postgresql.diepxuan.corp")
+    @patch("utils.vm.requests.Session")
+    def test_vm_sync_proceeds_on_ok_status(self, mock_session_factory, _fullname, _domain, _locals):
+        """status=ok vẫn chạy bình thường (không regression)."""
+        session = FakeSession([FakeResponse({"status": "ok", "response": {"records": []}})])
+        mock_session_factory.return_value = session
+
+        _vm_sync()
+
+        self.assertEqual(len(session.post_calls), 1)
+        self.assertEqual(session.post_calls[0][1]["params"]["ipAddress"], "10.0.0.105")
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

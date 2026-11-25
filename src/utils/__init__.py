@@ -22,7 +22,30 @@ if sys.version_info < (3, 10):
 from .system import _is_root
 
 def _setup_logging():
-    """Thiết lập logging, fallback stdout nếu không ghi được /var/log/ductnd."""
+    """
+    Thiết lập logging.
+
+    Nguyên tắc: chỉ MỘT đích ghi, tránh nhân đôi dòng log.
+
+    - RUNNING_UNDER_SYSTEMD=1 (do unit set): ghi ra stdout, systemd/journal
+      thu. Không mở file.
+    - Chạy tay bằng root (cron, debug): ghi file có rotation vào
+      /var/log/ductnd/ductnd.log, đồng thời ra stdout để thấy ngay.
+    - Không phải root: chỉ stdout.
+
+    Trước 5.8.6, unit vừa ``StandardOutput=append:...ductnd.log`` vừa để
+    Python mở RotatingFileHandler cùng file => mỗi dòng log ghi 2 lần.
+    """
+    fmt = "%(asctime)s %(levelname)s %(name)s: %(message)s"
+
+    if os.environ.get("RUNNING_UNDER_SYSTEMD") == "1":
+        logging.basicConfig(
+            level=logging.INFO,
+            format=fmt,
+            stream=sys.stdout,
+        )
+        return
+
     if _is_root():
         try:
             os.makedirs(LOGDIR, exist_ok=True)
@@ -39,17 +62,18 @@ def _setup_logging():
 
         logging.basicConfig(
             level=logging.INFO,
-            format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+            format=fmt,
             handlers=handlers,
         )
-    else:
-        # Ghi log ra stdout/stderr, systemd sẽ tự động bắt và chuyển vào journald
-        logging.basicConfig(
-            level=logging.INFO,
-            format=f"%(asctime)s %(levelname)s %(name)s: %(message)s",
-            datefmt="%Y-%m-%d %H:%M:%S",
-            stream=sys.stdout,
-        )
+        return
+
+    # Không phải root: chỉ stdout, để caller/systemd tự thu.
+    logging.basicConfig(
+        level=logging.INFO,
+        format=fmt,
+        datefmt="%Y-%m-%d %H:%M:%S",
+        stream=sys.stdout,
+    )
 
 
 _setup_logging()

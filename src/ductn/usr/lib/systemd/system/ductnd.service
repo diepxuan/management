@@ -2,12 +2,24 @@
 Description=DiepXuan personal service
 After=network-online.target network.target
 
+# --- Restart policy ---
+# StartLimit* phải nằm trong [Unit]; đặt trong [Service] bị systemd bỏ qua
+# (log báo: Unknown key 'StartLimitIntervalSec' in section [Service]).
+StartLimitIntervalSec=60
+StartLimitBurst=10
+
 [Service]
 ExecStart=/usr/bin/ductn service
 
+# Báo cho Python biết đang chạy dưới systemd để chỉ ghi stdout (journal),
+# tránh mở thêm RotatingFileHandler cùng file log => nhân đôi dòng log.
+Environment=RUNNING_UNDER_SYSTEMD=1
+
 # --- Logging ---
-StandardOutput=append:/var/log/ductnd/ductnd.log
-StandardError=append:/var/log/ductnd/ductnd.log
+# KHÔNG redirect stdout vào /var/log/ductnd/ductnd.log ở đây: Python đã tự
+# ghi file đó qua RotatingFileHandler (utils/__init__.py). Trước 5.8.6 cả
+# hai cùng ghi một file nên mỗi dòng log bị nhân đôi. Để systemd dùng
+# journal mặc định; file log có rotation do Python quản lý.
 
 # --- Process control ---
 KillMode=process
@@ -17,8 +29,6 @@ TimeoutStopSec=1min
 # --- Restart policy ---
 Restart=on-failure
 RestartSec=10s
-StartLimitIntervalSec=60
-StartLimitBurst=10
 
 # --- Limits ---
 LimitNPROC=infinity

@@ -1,3 +1,37 @@
+diepxuan (5.8.6+ppa~1) noble; urgency=medium
+
+  * fix(service): stop leaking Thread objects in ServiceScheduler. Every task
+    run created a `threading.Thread` and registered it in
+    `ServiceContext.threads` without ever removing it. With `vm_sync` at 10s
+    and `route_monitor` at 5s that is ~25,900 Thread objects/day; after 11
+    days a host held ~290k objects ≈ 700 MB RSS (measured 2.5 KB/Thread).
+    Threads are now unregistered in a `finally` block and run as daemons.
+  * fix(service): add a re-entrancy guard. If a task's previous run is still
+    alive, the tick is skipped. Prevents pile-up when a task takes longer
+    than its interval (e.g. vm_sync DNS retry ~20s vs interval 10s).
+  * fix(service): `ServiceContext.join_all()` now clears both tracking
+    structures after joining, so shutdown does not retain references.
+  * fix(logging): remove duplicated log lines. The systemd unit redirected
+    stdout to /var/log/ductnd/ductnd.log while Python's RotatingFileHandler
+    wrote the same file, so every line was emitted twice (56 "Scheduler
+    started" lines for ~28 real starts). The unit now sets
+    `Environment=RUNNING_UNDER_SYSTEMD=1` and lets journald collect stdout;
+    Python skips its own file handler in that mode.
+  * fix(systemd): move `StartLimitIntervalSec` / `StartLimitBurst` from
+    `[Service]` to `[Unit]`. systemd ignored them in the wrong section
+    ("Unknown key 'StartLimitIntervalSec' in section [Service]").
+  * fix(host): `_host_domain()` now prefers the `search` directive in
+    /etc/resolv.conf, falling back to parsing `socket.getfqdn()` and then
+    `DEFAULT_DOMAIN`. The fallback rejects IP-shaped suffixes: a Proxmox
+    host whose /etc/hosts contains `postgresql.192.168.1.1` used to yield
+    the "domain" `192.168.1.1`, a zone that does not exist.
+  * fix(vm): `vm:sync` no longer exits silently when the DNS API answers
+    HTTP 200 with `{"status":"error"}`. The case is logged as an error with
+    domain, zone and message. Previously the command returned 0 with no
+    output and no record was ever published.
+
+ -- Bot <bot@diepxuan.corp>  Fri, 05 Sep 2026 14:30:00 +0700
+
 diepxuan (5.8.5+ppa~1) noble; urgency=medium
 
   * fix(addr): `utils.addr._ip_locals()` now also excludes the RFC1918

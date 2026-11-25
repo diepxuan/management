@@ -1,5 +1,50 @@
 # Changelog
 
+## 5.8.6 - 2026-09-05
+
+### Fixed
+
+- **Rò rỉ RAM của `ductnd.service`** (`src/utils/serviceScheduler.py`,
+  `src/utils/serviceContext.py`): mỗi lần task chạy, một
+  `threading.Thread` được tạo và đăng ký vào `ServiceContext.threads`
+  nhưng **không bao giờ được gỡ**. Với `vm_sync` (10s) và
+  `route_monitor` (5s) là ~25.900 Thread object/ngày; sau 11 ngày host
+  giữ ~290.000 object ≈ **700 MB RSS** (đo thực tế 2,5 KB/Thread).
+  - Thread giờ được `unregister_thread()` trong khối `finally`.
+  - Thread chạy dạng `daemon=True` để không chặn shutdown.
+  - `join_all()` dọn sạch cả `threads` và `_running` sau khi join.
+- **Chống chạy chồng task**: nếu lần chạy trước của cùng task còn sống,
+  tick hiện tại bị bỏ qua. Tránh tích tụ thread khi thời gian chạy dài
+  hơn interval (ví dụ `vm_sync` retry DNS ~20s trong khi interval 10s).
+- **Log bị nhân đôi**: unit systemd redirect stdout vào
+  `/var/log/ductnd/ductnd.log` trong khi Python cũng mở
+  `RotatingFileHandler` trên đúng file đó. Unit giờ set
+  `Environment=RUNNING_UNDER_SYSTEMD=1` và để journald thu stdout;
+  Python bỏ handler file khi biến này bật. Trước đây 56 dòng
+  "Scheduler started" cho ~28 lần khởi động thật.
+- **`StartLimitIntervalSec` / `StartLimitBurst` đặt sai section**: đã
+  chuyển từ `[Service]` sang `[Unit]` (systemd trước đó bỏ qua và log
+  "Unknown key ... in section [Service]").
+- **`host:domain` trả về domain rác**: `_host_domain()` ưu tiên directive
+  `search` trong `/etc/resolv.conf`, sau đó mới parse
+  `socket.getfqdn()`, cuối cùng là `DEFAULT_DOMAIN`. Ứng viên dạng IPv4
+  bị loại — host Proxmox có `/etc/hosts` chứa `postgresql.192.168.1.1`
+  trước đây cho ra "domain" `192.168.1.1`, zone này không tồn tại trên
+  DNS server.
+- **`vm:sync` thoát im lặng khi DNS API báo lỗi**: API trả HTTP 200 kèm
+  `{"status":"error"}` (zone không tồn tại) trước đây khiến lệnh trả về
+  0, không log, không record nào được publish. Giờ log `error` kèm
+  domain, zone và thông điệp lỗi.
+
+### Added
+
+- `tests/unit/test_host.py`: 20 test pin hành vi `_domain_from_resolv_conf()`,
+  `_looks_like_ipv4()` và thứ tự ưu tiên của `_host_domain()`.
+- `tests/unit/test_service_scheduler.py`: 15 test pin vòng đời thread
+  (register/unregister, chống leak, guard chống chồng, daemon, dọn dẹp
+  khi task raise exception).
+- `tests/unit/test_vm.py`: thêm 2 test cho log lỗi API và nhánh thành công.
+
 ## 5.8.5 - 2026-09-05
 
 ### Fixed

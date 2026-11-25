@@ -4,6 +4,7 @@
 import logging
 import socket
 import sys
+from typing import Optional
 from .registry import register_command
 from .init_action import call_init_action, register_init_action
 import subprocess
@@ -57,25 +58,96 @@ def d_host_name():
     print(_host_name())
 
 
+def _looks_like_ipv4(s: str) -> bool:
+    """True nếu ``s`` là một địa chỉ IPv4 hợp lệ (4 octet 0-255).
+
+    Dùng để loại bỏ FQDN giả do Proxmox sinh ra trong /etc/hosts
+    (ví dụ ``postgresql.192.168.1.1``) — phần "domain" đó không thể là
+    zone name của DNS.
+    """
+    if not s:
+        return False
+    parts = s.split(".")
+    if len(parts) != 4:
+        return False
+    for part in parts:
+        if not part.isdigit():
+            return False
+        if not 0 <= int(part) <= 255:
+            return False
+    return True
+
+
+def _domain_from_resolv_conf() -> Optional[str]:
+    """
+    Đọc directive ``search`` đầu tiên trong /etc/resolv.conf.
+
+    Đây là nguồn đáng tin nhất trên Linux: resolver dùng nó để mở rộng
+    hostname một nhãn, nên giá trị khớp với zone name mà internal DNS API
+    mong đợi. Trên host có /etc/hosts kiểu Proxmox
+    (``postgresql.192.168.1.1``), parse socket.getfqdn() cho ra rác, còn
+    search directive vẫn phản ánh zone thật.
+
+    Trả về None nếu không có search directive hoặc file không đọc được.
+    """
+    try:
+        with open("/etc/resolv.conf", "r") as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith("#") or line.startswith(";"):
+                    continue
+                # Bỏ comment inline.
+                if "#" in line:
+                    line = line.split("#", 1)[0].strip()
+                    if not line:
+                        continue
+                parts = line.split(None, 1)
+                if len(parts) != 2:
+                    continue
+                keyword, value = parts[0].lower(), parts[1].strip()
+                if keyword == "search" and value:
+                    # res_init(3) lấy search domain đầu tiên làm primary.
+                    return value.split()[0]
+    except OSError:
+        pass
+    return None
+
+
 def _host_domain():
     """
     Trả về tên domain của máy.
-    Trả về chuỗi rỗng nếu không thể xác định (ví dụ: máy không thuộc domain nào).
+
+    Thứ tự ưu tiên:
+      1. ``search`` directive trong /etc/resolv.conf — đáng tin nhất, khớp
+         với zone name mà internal DNS API mong đợi.
+      2. Bóc hostname khỏi ``socket.getfqdn()`` — fallback cũ, dùng được
+         khi host có FQDN thật (trong /etc/hosts hoặc DNS).
+         Ứng viên nào trông như IPv4 (``192.168.1.1``) sẽ bị loại.
+      3. ``DEFAULT_DOMAIN`` (``diepxuan.corp``).
+
+    Không bao giờ trả về chuỗi rỗng — caller dựa vào giá trị non-empty
+    để tra zone trên DNS API.
     """
+    # 1. /etc/resolv.conf search domain.
+    resolv_domain = _domain_from_resolv_conf()
+    if resolv_domain:
+        return resolv_domain
+
+    # 2. Parse từ socket.getfqdn().
     try:
         fullname = socket.getfqdn()
-        if ":" or "ip6.arpa" in fullname:  # IPv6
-            fullname = DEFAULT_DOMAIN
+        if ":" in fullname or "ip6.arpa" in fullname:  # IPv6
+            return DEFAULT_DOMAIN
 
         hostname = socket.gethostname()
-        # Kiểm tra xem FQDN có chứa hostname không
         if fullname.startswith(hostname + ".") and len(fullname) > len(hostname):
-            # Lấy phần còn lại sau hostname và dấu chấm
-            return fullname[len(hostname) + 1 :]
+            candidate = fullname[len(hostname) + 1 :]
+            # Loại FQDN giả dạng IP (Proxmox: postgresql.192.168.1.1).
+            if not _looks_like_ipv4(candidate):
+                return candidate
 
-        return DEFAULT_DOMAIN  # Trả về DEFAULT nếu không có domain
-    except Exception as e:
-        # print(f"Không thể lấy domain name: {e}")
+        return DEFAULT_DOMAIN
+    except Exception:
         return DEFAULT_DOMAIN
 
 
