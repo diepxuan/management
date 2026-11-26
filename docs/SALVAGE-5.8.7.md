@@ -1,6 +1,6 @@
 # 5.8.7 — Salvage & cleanup 13 file bash chết
 
-**Ngày:** 2026-11-25
+**Ngày:** 2026-11-26
 **Nhánh:** `chore/5.8.7-cleanup-dead-bash`
 **Trước:** `src/var/lib/` còn 17 file bash (1 591 dòng), **không file nào được đóng gói** vào `.deb`.
 **Sau:** `src/var/lib/` rỗng. Command tăng 87 → 128.
