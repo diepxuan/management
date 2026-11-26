@@ -1,5 +1,107 @@
 # Changelog
 
+## 5.8.7 - 2026-11-25
+
+### Removed
+
+- **17 file bash trong `src/var/lib/`** (1 591 dòng). Không file nào từng được
+  đóng gói vào `.deb` — `src/debian/ductn.install` chỉ copy
+  `src/ductn/var/lib/lxc/hooks/default-hook.sh`. Toàn bộ là code chết trong
+  repo. Chi tiết từng phần giữ/bỏ: [docs/SALVAGE-5.8.7.md](docs/SALVAGE-5.8.7.md).
+  - Xoá vì đã có Python thay thế: `help.sh`, `curl.sh`, `environment.sh`,
+    `wg.sh`, `ductnd.sh.org`.
+  - Salvage rồi xoá: `git.sh`, `main.sh`, `environment.color.sh`,
+    `environment.text.sh`, `os.sh`, `completion.sh`, `php.sh`, `mssql.sh`,
+    `macos/os.sh`, `macos/dns.sh`, `macos/wg.sh`, `macos/sshfs.sh`.
+
+### Fixed
+
+- **`git:detrack` xoá file khỏi index thay vì chỉ bỏ theo dõi**
+  (`src/utils/git_utils.py`): Python chạy `git rm --cached`, trong khi bash
+  gốc chạy `git update-index --no-assume-unchanged`. Hai lệnh khác hẳn nhau —
+  ai dùng `ductn git:detrack` trước bản này có thể đã vô tình xoá file khỏi
+  repo. `git:untrack` cũng từ alias sai thành
+  `git update-index --assume-unchanged`.
+- **`git:viewuntrack` lọc sai nguồn**: nay parse `git ls-files -v` lấy dòng
+  bắt đầu bằng chữ thường (đúng bash), thay vì `git status --short` lọc `??`.
+- **`git:tag:cleanup` không xoá gì**: trước chỉ in danh sách. Nay giữ N tag
+  đầu (mặc định 5), xoá phần còn lại trên `origin` rồi `fetch --prune`.
+- **`git:configure --global` thiếu phân nửa cấu hình**: bổ sung
+  `core.fileMode=false`, `core.autocrlf=false`, `core.eol=lf`, `gc.auto=0`,
+  `receive.denyCurrentBranch=updateInstead`, và sinh `~/.gitignore` + trỏ
+  `core.excludesfile` vào đó (template ~100 dòng từ bash).
+- **`disk:check` đo sai thứ** (`src/utils/disk.py`): trước gọi
+  `smartctl -a /dev/sda` cho cả ba "sector size". Bash gốc đo throughput ghi
+  tuần tự bằng `dd` (8k×10k = 80 MB, 512k×1k = 512 MB). Nay port đúng `dd`;
+  phần SMART tách thành `disk:health [device]`.
+- **`php:composer:install` chạy installer không kiểm tra chữ ký**: bash tải
+  SHA384 từ `composer.github.io/installer.sig` và so trước khi chạy; Python
+  có comment `# Verify signature (skip for now)`. Nay verify thật, và tải vào
+  tmpdir thay vì thư mục home.
+- **`os:codename` / `os:release` / `os:distro` trả rỗng trên macOS**
+  (`src/utils/system_os.py`): module `distro` đọc `/etc/os-release`, file
+  không tồn tại trên macOS. Nay nhánh `darwin` dùng `sw_vers` như
+  `macos/os.sh` gốc.
+- **`zfs:disk:replace_boot_disk` (tên cũ) không dùng được cho đĩa boot thật**:
+  bản cũ gọi `zpool replace <pool> <new_disk>`, thiếu đuôi `-part3` và thiếu
+  bước `sgdisk`. Nay delegate sang `zfs:disk:replace:boot` kèm cảnh báo
+  deprecated.
+- **`interface:service` crash trên Linux** (`src/utils/interface.py`):
+  `get_active_service()` gọi `route get default` — cú pháp macOS — trên mọi
+  nền tảng, nên trên Linux lệnh trả exit 3 và Python ném
+  `CalledProcessError`. Hàm cũng gọi `networksetup` mà không kiểm tra nền
+  tảng. Nay chỉ dùng `networksetup` trên Darwin; trên Linux trả interface
+  mặc định (`ip route show default`). Phát hiện qua smoke test 128 command.
+- **Hai test fail thường trực đã được sửa**: `test_modules.py` còn tham chiếu
+  `utils.user` (xoá từ 5.6.4) và `test_cli_output.py` còn kỳ vọng dòng
+  `cli:tmux:install` (xoá từ 5.6.6). Suite từ 182 test / 2 fail thành
+  **343 test / 0 fail**.
+
+### Added
+
+- `src/utils/style.py` — palette ANSI + ký hiệu trạng thái (`ok()`/`fail()`/
+  `info()`), salvage từ `environment.color.sh` và `environment.text.sh`. Tự
+  tắt màu khi không phải TTY hoặc có `NO_COLOR`.
+- `src/utils/mssql.py` — migrate `mssql.sh` (230 dòng). Repo setup viết lại
+  bằng keyring + `signed-by` thay `apt-key` (đã bị bỏ ở Debian 12 /
+  Ubuntu 24.04). Command: `sqlsrv:apt`, `sqlsrv:install`, `sqlsrv:php:install`,
+  `sqlsrv:php:enable`, `sqlsrv:php:disable` + alias `mssql:*`.
+- `src/utils/fleet.py` — `fleet:status` kiểm tra phiên bản `ductn` trên từng
+  host qua SSH, salvage nửa inventory của `main.sh`.
+- `src/utils/completion_paths.py` — `completion:path <tool>` và
+  `completion:exists <tool>`, gộp 6 function gần trùng của `completion.sh`.
+- `src/utils/wireguard_macos.py` — `wg:*` (10 command) cho macOS.
+- `src/utils/sshfs_macos.py` — `sshfs:*` (5 command) cho macOS, bỏ hardcode
+  host/key của một máy cụ thể.
+- `zfs:disk:replace:disk <pool> <old> <new>` — thay đĩa hỏng trong pool
+  RAIDZ/mirror (`zpool replace -f`).
+- `zfs:disk:replace:boot <old_disk> <new_disk>` — thay đĩa boot Proxmox:
+  `sgdisk -R` copy partition table, `sgdisk -G` cấp GUID mới, `zpool replace`.
+- `zfs:disk:format:boot:disk <partition>` — chạy `proxmox-boot-tool format`
+  + `init` có xác nhận (trước chỉ in cảnh báo).
+- `vm:agent:install` (alias `pve:vm`) — cài `qemu-guest-agent`.
+- `vm:command '<json>'` — chạy danh sách lệnh từ payload Proxmox.
+- `file:chmod <path>`, `file:chmod:files <mode> <dir>`,
+  `file:chmod:dirs <mode> <dir>`.
+- `hash:md5` — chuỗi ngẫu nhiên 20 ký tự (dùng `secrets`).
+- `ssh <host> <command>` — chạy lệnh từ xa, giữ `-T`.
+- `dns:set <ip>...` và `dns:status` cho macOS.
+- `log:config:store`, `log:config:mssql` — expose hai hàm đã có sẵn.
+- `docs/MSSQL-AD-SPN.md` — runbook Kerberos/AD cho SQL Server (không ship
+  thành command vì chứa mật khẩu domain trong argv).
+- `docs/SALVAGE-5.8.7.md` — ghi lại từng phần giữ/bỏ khi xoá 17 file bash.
+- 161 test mới: `test_style.py` (16), `test_helpers.py` (13),
+  `test_git_utils.py` (24), `test_mssql.py` (26), `test_salvage.py` (33),
+  `test_macos_salvage.py` (27), `test_interface.py` (13);
+  `test_disk.py` viết lại (23).
+
+### Changed
+
+- Command tăng **87 → 128**.
+- `TASKS.md` cập nhật theo thực tế: 37 task completed, 0 pending. Nhiều task
+  ghi PENDING từ 2026-07-20 nhưng thực tế đã xong (cronjob, disk, port, git,
+  php, gpg, curl, server, env_detect, helpers, main).
+
 ## 5.8.6 - 2026-09-05
 
 ### Fixed

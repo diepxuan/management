@@ -201,3 +201,38 @@ def d_log_config():
     except subprocess.CalledProcessError as e:
         print(f"Logrotate failed: {e}", file=sys.stderr)
         sys.exit(1)
+
+
+# --- Salvage từ deprecated/src/var/lib/log.sh (xoá ở 5.8.7) --------------
+# `_log_config_store()` / `_log_config_mssql()` đã có sẵn nhưng chỉ dùng nội
+# bộ. Bash có hai command riêng để xem/tách từng phần cấu hình.
+
+
+@register_command
+def d_log_config_store():
+    """
+    In riêng khối logrotate cho user `store` (Magento).
+    Usage: ductn log:config:store
+
+    In rỗng nếu user `store` không tồn tại trên máy.
+    """
+    config = _log_config_store()
+    if not config:
+        print("User 'store' không tồn tại — không có cấu hình.")
+        return
+    print(config, end="")
+
+
+@register_command
+def d_log_config_mssql():
+    """
+    In riêng khối logrotate cho MSSQL.
+    Usage: ductn log:config:mssql
+
+    In rỗng nếu user `mssql` không tồn tại trên máy.
+    """
+    config = _log_config_mssql()
+    if not config:
+        print("User 'mssql' không tồn tại — không có cấu hình.")
+        return
+    print(config, end="")

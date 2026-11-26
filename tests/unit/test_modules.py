@@ -14,12 +14,14 @@ EXPECTED_MODULES = [
     "apt",
     "command",
     "completion",
+    "completion_paths",
     "cronjob",
     "curl_utils",
     "disk",
     "dns",
     "env_detect",
     "file",
+    "fleet",
     "git_utils",
     "gpg",
     "helpers",
@@ -29,6 +31,7 @@ EXPECTED_MODULES = [
     "laravel",
     "log",
     "magento2",
+    "mssql",
     "php_utils",
     "port",
     "registry",
@@ -38,13 +41,15 @@ EXPECTED_MODULES = [
     "serviceContext",
     "serviceScheduler",
     "ssh",
+    "sshfs_macos",
     "ssl",
+    "style",
     "system",
     "system_info",
     "system_os",
     "system_service",
-    "user",
     "vm",
+    "wireguard_macos",
 ]
 
 
@@ -65,10 +70,23 @@ class TestModuleImports(unittest.TestCase):
 
     def test_no_removed_modules(self):
         """Các module đã xóa không được import nữa."""
-        removed_modules = ["alias", "env_config", "wg", "vpn", "mysql_utils", "ddns", "dhcpd", "dns_technitium", "httpd", "swap", "ufw", "helpers"]  # helpers kept but reduced
+        # `helpers` được giữ lại (đã thu gọn rồi mở rộng lại ở 5.8.7) nên
+        # không nằm trong danh sách này.
+        removed_modules = [
+            "alias",
+            "env_config",
+            "wg",
+            "vpn",
+            "mysql_utils",
+            "ddns",
+            "dhcpd",
+            "dns_technitium",
+            "httpd",
+            "swap",
+            "ufw",
+            "user",
+        ]
         for mod_name in removed_modules:
-            if mod_name == "helpers":
-                continue  # still exists, just reduced
             full_name = f"utils.{mod_name}"
             try:
                 importlib.import_module(full_name)

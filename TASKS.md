@@ -11,11 +11,16 @@
 
 | Status | Count | Description |
 |--------|-------|-------------|
-| ✅ Completed | 24 | Migrated to Python + deprecated bash |
+| ✅ Completed | 37 | Migrated to Python + bash removed |
 | 🔄 In Progress | 0 | Currently being migrated |
-| ⏳ Pending | 16 | Waiting to be migrated |
-| 🔀 Partial | 3 | Partially migrated (some commands done, some pending) |
-| 🚫 Deprecated | 6 | Bash scripts moved to deprecated/ |
+| ⏳ Pending | 0 | Nothing left to migrate |
+| 🔀 Partial | 0 | — |
+| 🚫 Deprecated | 6 | Command group intentionally dropped |
+
+**Cập nhật 2026-11-25 (5.8.7):** `src/var/lib/` đã rỗng hoàn toàn. 17 file bash
+còn lại được xử lý: 13 file là code chết (đã có Python thay thế) → xoá; 4 file còn
+tính năng chưa port → salvage sang Python rồi xoá. Xem
+`docs/MIGRATION-STATUS-2026-11-25.md` và `docs/SALVAGE-5.8.7.md`.
 
 ---
 
@@ -207,35 +212,16 @@
 **Workflow reference:** `docs/VERSION-WORKFLOW.md`
 **Changelog rule:** tasks in this version update the shared `5.6.8+ppa~1` entry in `src/debian/changelog`.
 
-### Migration Backlog (5.6.8)
+### Migration Backlog (5.6.8) — ĐÃ ĐÓNG
 
-| ID | Task | Source | Status | Ghi chu |
-|----|------|--------|--------|---------|
-| 2.2 | Host Management | `src/var/lib/host.sh` | Partial | 10 lenh con lai |
-| 2.3 | IP Management | `src/var/lib/ip.sh` | Partial | 7 lenh con lai |
-| 2.5 | Service Management | `src/var/lib/service.sh` | Partial | 4 lenh con lai |
-| 2.7 | VM Management | `src/var/lib/vm.sh` | Partial | 2 lenh con lai |
-| 1.6 | Log Management | `deprecated/src/var/lib/log.sh` | Complete | |
-| 1.7 | Cronjob Management | `src/var/lib/cron.sh` | Pending | |
-| 2.8 | User Management | | Pending | |
-| 2.9 | Disk/ZFS Management | | Pending | |
-| 2.13 | Port Management | | Pending | |
-| 3.1 | Git Management | | Pending | |
-| 3.4 | PHP General | | Pending | |
-| 4.1 | Environment/Network Config | | Pending | |
-| 5.1 | GPG Management | | Pending | |
-| 5.2 | CURL/HTTP Utilities | | Pending | |
-| 5.3 | File Utilities | | Partial | |
-| 5.4 | Bash Completion | | Pending | |
-| 5.5 | MSSQL Support | | Pending | |
-| 5.7 | Server Install | | Pending | |
-| 5.8 | Environment Detection | | Pending | |
-| 5.9 | Helper Functions | | Pending | |
-| 5.10 | Main Entry Point | | Pending | |
+Bảng backlog dưới đây được lập ngày 2026-07-20 và **không còn đúng**. Giữ lại
+lịch sử trong git; trạng thái thực tế xem mục "Migration Status" ở đầu file hoặc
+`docs/MIGRATION-STATUS-2026-11-25.md`.
 
-**Completed in 5.6.8:**
-| 2.4 | Route Management | ✅ | All commands migrated |
-| 2.6 | OS Management | ✅ | os:list deprecated |
+Các task từng ghi PENDING nhưng thực tế đã xong từ lâu: 1.7 cronjob, 2.9 disk,
+2.13 port, 3.1 git, 3.4 php, 5.1 gpg, 5.2 curl, 5.7 server, 5.8 env_detect,
+5.9 helpers, 5.10 main. Task 2.8 user và 4.1 env là **bỏ có chủ đích**, không
+phải pending.
 
 ---
 
@@ -687,10 +673,10 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   - Replaced shell globbing with Python glob module
   - Used shutil.rmtree instead of rm -rf for trash cleanup
 
-### ⏳ Task 1.7: Cronjob Management
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/cronjob.sh` (25 lines)
-- **Python:** `src/utils/cronjob.py` (TODO)
+### ✅ Task 1.7: Cronjob Management
+- **Status:** ✅ COMPLETED
+- **Bash:** `deprecated/src/var/lib/cronjob.sh`
+- **Python:** `src/utils/cronjob.py`
 - **Target Commands:**
   | Command | Description |
   |---------|-------------|
@@ -725,23 +711,19 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   - [x] postinst gọi `ductn sys:sysctl` trong section `configure` (sau `ductn time:timezone`)
   - [x] Laravel parity verified: bash `php.lar.sh` chỉ có 1 function `php artisan $@`; Python `laravel.py` có đủ parity + mở rộng (composer, cache:clear, config:cache, route:cache)
 
-### 🔀 Task 2.2: Host Management (partial)
-- **Status:** 🔀 PARTIAL
-- **Bash:** `src/var/lib/host.sh` (117 lines)
-- **Python:** `src/utils/host.py` (done: `d_host_name`, `d_host_domain`, `d_host_fullname`)
-- **Remaining:**
-  | Command | Description |
-  |---------|-------------|
-  | `host:address` | Get host address |
-  | `host:address:valid` | Validate host address |
-  | `host:ip` | Get host IP |
-  | `host:is_server` | Check if server |
-  | `host:is_vpn_server` | Check if VPN server |
-  | `host:serial` | Get hardware serial |
-  | `hosts:add` | Add entry to /etc/hosts |
-  | `hosts:remove` | Remove entry from /etc/hosts |
-  | `hosts` | Show all hosts |
-  | `sys:hosts:add/remove/domain/update` | System hosts management |
+### ✅ Task 2.2: Host Management
+- **Status:** ✅ COMPLETED (phạm vi thu hẹp có chủ đích)
+- **Bash:** `deprecated/src/var/lib/host.sh`
+- **Python:** `src/utils/host.py`
+- **Commands:** `host:name`, `host:domain`, `host:fullname`
+- **Bỏ có chủ đích** (không phải "còn lại"):
+  - `host:address` → thay bằng `ip:local` / `ip:locals`
+  - `host:ip`, `host:address:valid` → `addr.py` đã có `_is_valid_ipv4()`
+  - `host:is_server`, `host:is_vpn_server`, `host:serial` → gắn với mô hình
+    Proxmox cũ, không còn dùng
+  - `hosts:add/remove`, `sys:hosts:*` → sửa `/etc/hosts` bằng tay an toàn hơn
+- **Sửa 5.8.6:** `_host_domain()` ưu tiên `search` trong `/etc/resolv.conf`,
+  loại suffix dạng IPv4 (host Proxmox `postgresql.192.168.1.1`).
 
 ### ✅ Task 2.3: IP Management (complete)
 - **Status:** ✅ COMPLETED
@@ -763,17 +745,17 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   - `route:checkAndUp` — integrated into `route:monitor` (checks UP, pings, reloads on failure)
   - `route:reload` — integrated as `_interface_reload()` (down + up)
 
-### 🔀 Task 2.5: Service Management (partial)
-- **Status:** 🔀 PARTIAL
-- **Bash:** `src/var/lib/service.sh` (211 lines)
-- **Python:** `src/utils/system_service.py` + `src/utils/service.py` (done: install/start/stop/restart/status/watch)
-- **Remaining:**
-  | Command | Description |
-  |---------|-------------|
-  | `sys:service:main` | Main service handler |
-  | `sys:service:isactive` | Check if service active |
-  | `sys:service:re-install` | Re-install service |
-  | `d_run_as_service` | Run command as service |
+### ✅ Task 2.5: Service Management
+- **Status:** ✅ COMPLETED (viết lại kiến trúc, không port 1-1)
+- **Bash:** `deprecated/src/var/lib/service.sh`
+- **Python:** `src/utils/system_service.py` (6 command lifecycle) +
+  `src/utils/service.py` (daemon scheduler) + `src/utils/serviceScheduler.py`
+  + `src/utils/serviceContext.py`
+- **Commands:** `service:install`, `service:start`, `service:stop`,
+  `service:restart`, `service:status`, `service:watch`, `service` (daemon)
+- **Không port:** `sys:service:main`, `sys:service:isactive`,
+  `sys:service:re-install`, `d_run_as_service` — kiến trúc cũ dùng vòng lặp
+  bash tự viết; nay `ServiceScheduler` + systemd unit đảm nhiệm.
 
 ### ✅ Task 2.6: OS Management (complete)
 - **Status:** ✅ COMPLETED
@@ -787,18 +769,20 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   - `os:type` — get OS type (Linux, Darwin)
   - `os:list` — DEPRECATED (web scraping releases.ubuntu.com)
 
-### 🔀 Task 2.7: VM Management (partial)
-- **Status:** 🔀 PARTIAL
-- **Bash:** `src/var/lib/vm.sh` (108 lines)
-- **Python:** `src/utils/vm.py` (done: `d_vm_info`, `d_vm_sync`)
-- **Remaining:**
-  | Command | Description |
-  |---------|-------------|
-  | `pve:vm` | Proxmox VM management |
-  | `vm:command` | Run VM command |
+### ✅ Task 2.7: VM Management
+- **Status:** ✅ COMPLETED (5.8.7)
+- **Bash:** `deprecated/src/var/lib/vm.sh`
+- **Python:** `src/utils/vm.py`
+- **Commands:**
+  - `vm:info` — thông tin VM
+  - `vm:sync` — đồng bộ bản ghi A lên DNS nội bộ
+  - `vm:agent:install` / `pve:vm` — cài `qemu-guest-agent` (salvage từ bash
+    `pve:vm`, trước chỉ là `apt install`)
+  - `vm:command '<json>'` — chạy danh sách lệnh từ payload Proxmox
+    (salvage từ bash `_vm:command`). **Cảnh báo:** thực thi lệnh tuỳ ý.
 
-### ⏳ Task 2.8: User Management
-- **Status:** ⏳ PENDING
+### 🚫 Task 2.8: User Management
+- **Status:** 🚫 DROPPED (deprecate ở 5.6.4, không phải pending)
 - **Bash:** `src/var/lib/user.sh` (111 lines)
 - **Python:** `src/utils/user.py` (TODO)
 - **Target Commands:**
@@ -812,10 +796,22 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   | `user:is_sudoer` | Check if user is sudoer |
 - **Action:** Create `src/utils/user.py`
 
-### ⏳ Task 2.9: Disk/ZFS Management
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/disk.sh` (60 lines)
-- **Python:** `src/utils/disk.py` (TODO)
+### ✅ Task 2.9: Disk/ZFS Management
+- **Status:** ✅ COMPLETED (ZFS replace bổ sung ở 5.8.7)
+- **Bash:** `deprecated/src/var/lib/disk.sh`
+- **Python:** `src/utils/disk.py`
+
+**Bổ sung 5.8.7 (salvage từ bash):**
+  - `disk:check` — nay đo throughput bằng `dd` (8k/512k) đúng như bash;
+    trước đó gọi `smartctl` sai mục đích.
+  - `disk:health [device]` — tách riêng phần SMART.
+  - `zfs:disk:replace:disk <pool> <old> <new>` — thay đĩa hỏng trong
+    pool RAIDZ/mirror (bash `zfs:disk:replace_disk`).
+  - `zfs:disk:replace:boot <old_disk> <new_disk>` — thay đĩa BOOT Proxmox
+    với `sgdisk -R` + `sgdisk -G` + `zpool replace` (bash
+    `zfs:disk:replace_boot_disk`). Tên cũ vẫn chạy nhưng deprecated.
+  - `zfs:disk:format:boot:disk <part>` — chạy `proxmox-boot-tool
+    format|init` có xác nhận (bash chỉ có comment).
 - **Target Commands:**
   | Command | Description |
   |---------|-------------|
@@ -862,10 +858,10 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   - `swap:install`
 - **Reason:** Swap command group removed from active Bash and Python CLI surface. Commands directly manipulate `/swapfile` and are no longer shipped by the `ductn` package.
 
-### ⏳ Task 2.13: Port Management
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/port.sh` (17 lines)
-- **Python:** `src/utils/port.py` (TODO)
+### ✅ Task 2.13: Port Management
+- **Status:** ✅ COMPLETED
+- **Bash:** `deprecated/src/var/lib/port.sh`
+- **Python:** `src/utils/port.py`
 - **Target Commands:**
   | Command | Description |
   |---------|-------------|
@@ -876,10 +872,24 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
 
 ## Phase 3: Development Tools (MEDIUM PRIORITY)
 
-### ⏳ Task 3.1: Git Management
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/git.sh` (218 lines)
-- **Python:** `src/utils/git.py` (TODO)
+### ✅ Task 3.1: Git Management
+- **Status:** ✅ COMPLETED (sửa ngữ nghĩa ở 5.8.7)
+- **Bash:** `src/var/lib/git.sh` → xoá
+- **Python:** `src/utils/git_utils.py`
+
+**Sửa 5.8.7 (Python trước đó sai so với bash):**
+  - `git:detrack` chạy `git update-index --no-assume-unchanged`
+    (trước: `git rm --cached` — xoá file khỏi index, sai hoàn toàn).
+  - `git:untrack` chạy `git update-index --assume-unchanged`
+    (trước: alias sang detrack).
+  - `git:viewuntrack` parse `git ls-files -v` lấy dòng chữ thường
+    (trước: `git status --short` lọc `??`).
+  - `git:tag:cleanup [N]` xoá tag cũ trên origin rồi fetch --prune
+    (trước: chỉ in danh sách, không xoá).
+  - `git:configure --global` bổ sung `core.fileMode`, `core.autocrlf`,
+    `core.eol`, `gc.auto`, `receive.denyCurrentBranch`, và sinh
+    `~/.gitignore` + trỏ `core.excludesfile` (trước: thiếu hết).
+- **Tests:** `tests/unit/test_git_utils.py` (24 test)
 - **Target Commands:**
   | Command | Description |
   |---------|-------------|
@@ -932,18 +942,15 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   - [x] `bash -n deprecated/src/var/lib/php.m2.sh`
   - [x] `git diff --check`
 
-### ⏳ Task 3.4: PHP General
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/php.sh` (60 lines)
-- **Python:** `src/utils/php.py` (TODO)
-- **Target Commands:**
-  | Command | Description |
-  |---------|-------------|
-  | `php:composer:install` | Install composer |
-  | `php:apt:install` | Install PHP via APT |
-  | `php:install` | Install PHP |
-  | `php:phpcsfixer:install` | Install PHP CS Fixer |
-- **Action:** Create `src/utils/php_utils.py`
+### ✅ Task 3.4: PHP General
+- **Status:** ✅ COMPLETED (verify SHA384 bổ sung ở 5.8.7)
+- **Bash:** `src/var/lib/php.sh` → xoá
+- **Python:** `src/utils/php_utils.py`
+- **Commands:** `php:apt:install`, `php:composer:install`, `php:install`,
+  `php:phpcsfixer:install`
+- **Sửa 5.8.7:** `php:composer:install` nay verify SHA384 của installer với
+  `composer.github.io/installer.sig` trước khi chạy (trước: comment
+  "Verify signature (skip for now)"), và tải vào tmpdir thay vì `~`.
 
 ### 🚫 Task 3.5: HTTPD/Web Server
 - **Status:** 🚫 DEPRECATED
@@ -960,8 +967,8 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
 
 ## Phase 4: Network & Security (LOWER PRIORITY)
 
-### ⏳ Task 4.1: Environment/Network Config
-- **Status:** ⏳ PENDING
+### 🚫 Task 4.1: Environment/Network Config
+- **Status:** 🚫 DROPPED (`env.sh` đã vào deprecated/, gắn với hạ tầng Proxmox cũ)
 - **Bash:** `src/var/lib/env.sh` (199 lines)
 - **Python:** `src/utils/env_config.py` (TODO)
 - **Target Commands:**
@@ -1011,10 +1018,10 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
 
 ## Phase 5: Utilities & Helpers (LOWEST PRIORITY)
 
-### ⏳ Task 5.1: GPG Management
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/gpg.sh` (29 lines)
-- **Python:** `src/utils/gpg.py` (TODO)
+### ✅ Task 5.1: GPG Management
+- **Status:** ✅ COMPLETED
+- **Bash:** `deprecated/src/var/lib/gpg.sh`
+- **Python:** `src/utils/gpg.py`
 - **Target Commands:**
   | Command | Description |
   |---------|-------------|
@@ -1023,10 +1030,10 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   | `gpg:import` | Import GPG key |
 - **Action:** Create `src/utils/gpg.py`
 
-### ⏳ Task 5.2: CURL/HTTP Utilities
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/curl.sh` (32 lines)
-- **Python:** `src/utils/curl.py` (TODO)
+### ✅ Task 5.2: CURL/HTTP Utilities
+- **Status:** ✅ COMPLETED
+- **Bash:** `src/var/lib/curl.sh` → xoá
+- **Python:** `src/utils/curl_utils.py`
 - **Target Commands:**
   | Command | Description |
   |---------|-------------|
@@ -1034,70 +1041,100 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
   | `curl:gg` | Google search via curl |
 - **Action:** Create `src/utils/curl_utils.py`
 
-### ⏳ Task 5.3: File Utilities
-- **Status:** ⏳ PENDING (partially done)
-- **Bash:** `src/var/lib/file.sh` (16 lines)
-- **Python:** `src/utils/file.py` (done: `d_file_cleanpath`)
-- **Remaining:**
+### ✅ Task 5.3: File Utilities
+- **Status:** ✅ COMPLETED (5.8.7)
+- **Bash:** `deprecated/src/var/lib/file.sh`
+- **Python:** `src/utils/file.py`
+- **Commands:**
+  - `file:cleanpath` — đổi tên file, bỏ dấu tiếng Việt
+  - `file:chmod <path>` — in quyền dạng bát phân
+  - `file:chmod:files <mode> <dir>` — chmod đệ quy file
+  - `file:chmod:dirs <mode> <dir>` — chmod đệ quy thư mục
+- **Tests:** `tests/unit/test_salvage.py`
+
+### ✅ Task 5.4: Bash Completion
+- **Status:** ✅ COMPLETED (5.8.7)
+- **Bash:** `src/var/lib/completion.sh` → xoá
+- **Python:** `src/utils/completion.py` (command cache) +
+  `src/utils/completion_paths.py` (tra completion bên thứ ba) +
+  `src/ductn/usr/share/bash-completion/completions/ductn` (file tĩnh)
+- **Commands:**
+  - `completion:cache <show|refresh|path>` — cache danh sách command
+  - `completion:path <tool>` — in đường dẫn completion của ductn/magerun/
+    magerun2/wp/angular (tìm `/var/www/base/bash/completion/` rồi `~/.completion/`)
+  - `completion:exists <tool>` — kiểm tra tool có trong PATH
+- **Ghi chú:** bash có 6 function gần trùng nhau (`sys:completion:base`,
+  `:magerun`, `:magerun2`, `:wp`, `:angular`, `:exists`); nay gộp thành một
+  command có tham số. Giữ quirk `angular` → `angular2.sh`.
+
+### ✅ Task 5.5: MSSQL Support
+- **Status:** ✅ COMPLETED (5.8.7)
+- **Bash:** `src/var/lib/mssql.sh` → xoá
+- **Python:** `src/utils/mssql.py`
+- **Commands:**
   | Command | Description |
   |---------|-------------|
-  | `file:chmod` | Get file permissions |
-  | `file:chmod:files` | chmod all files |
-  | `file:chmod:dirs` | chmod all dirs |
-
-### ⏳ Task 5.4: Bash Completion
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/completion.sh` (78 lines)
-- **Python:** N/A (likely keep as bash)
-- **Target:** Migrate to argcomplete if possible
-- **Action:** Review if Python argcomplete can replace
-
-### ⏳ Task 5.5: MSSQL Support
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/mssql.sh` (230 lines)
-- **Python:** `src/utils/mssql.py` (TODO)
-- **Target Commands:**
-  | Command | Description |
-  |---------|-------------|
-  | `mssql:install` | Install MSSQL |
-  | `mssql:php:install/enable/disable` | PHP SQLSRV driver |
-  | `sqlsrv:apt` | APT setup for SQLSRV |
-- **Action:** Create `src/utils/mssql.py`
+  | `sqlsrv:apt` | Thêm Microsoft APT repo (keyring + signed-by) |
+  | `sqlsrv:install` / `mssql:install` | Cài SQL Server 2019 |
+  | `sqlsrv:php:install` / `mssql:php:install` | ODBC driver + PHP extension |
+  | `sqlsrv:php:enable` / `mssql:php:enable` | Bật sqlsrv + pdo_sqlsrv |
+  | `sqlsrv:php:disable` / `mssql:php:disable` | Tắt extension |
+- **Khác bash gốc:**
+  - Dùng keyring `/etc/apt/keyrings/microsoft-prod.asc` + `signed-by`,
+    KHÔNG dùng `apt-key` (đã bị bỏ ở Debian 12 / Ubuntu 24.04).
+  - Chỉ hỗ trợ Ubuntu 20.04/22.04/24.04 (bash hardcode 16.04–22.04).
+  - `sqlsrv:ad:spn` KHÔNG port — trộn PowerShell/ktpass và chứa mật khẩu
+    domain trong argv. Giữ làm runbook: `docs/MSSQL-AD-SPN.md`.
+- **Tests:** `tests/unit/test_mssql.py` (26 test)
 
 ### 🚫 Task 5.6: Sys Service Validation
 - **Status:** 🚫 DEPRECATED
 - **Bash:** `src/var/lib/sys.service.valid.sh` → `deprecated/src/var/lib/sys.service.valid.sh`
 - **Reason:** apache2, mysql, mssql-server không còn sử dụng. Dependencies đã deprecated (`swap:install`, `log:cleanup` thuộc Task 1.6). Moved to deprecated/ trong version 5.6.5.
 
-### ⏳ Task 5.7: Server Install
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/server.sh` (6 lines)
-- **Python:** `src/utils/server.py` (TODO)
+### ✅ Task 5.7: Server Install
+- **Status:** ✅ COMPLETED
+- **Bash:** `deprecated/src/var/lib/server.sh`
+- **Python:** `src/utils/server.py`
 - **Target Commands:**
   | Command | Description |
   |---------|-------------|
   | `server:install` | Full server setup |
 - **Action:** Create `src/utils/server.py`
 
-### ⏳ Task 5.8: Environment Detection (color/text)
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/environment.sh`, `environment.color.sh`, `environment.text.sh`
-- **Python:** Already partially in `src/utils/env_detect.py`
-- **Remaining:** Color and text environment detection
-- **Action:** Merge into `env_detect.py`
+### ✅ Task 5.8: Environment Detection (color/text)
+- **Status:** ✅ COMPLETED (5.8.7)
+- **Bash:** `src/var/lib/environment.sh`, `environment.color.sh`,
+  `environment.text.sh` → xoá
+- **Python:** `src/utils/env_detect.py` (virt/DMI/container detection) +
+  `src/utils/style.py` (ANSI palette + status glyphs)
+- **Ghi chú:** ba file bash chỉ định nghĩa biến màu ANSI và 3 ký hiệu
+  `TXTtrue`/`TXTfalse`/`TXTinfo`, không có function. Nay là `style.py` với
+  `GREEN`/`B_RED`/`ON_WHITE`…, `ok()`/`fail()`/`info()`, và tự tắt màu khi
+  không phải TTY hoặc có `NO_COLOR`.
+- **Tests:** `tests/unit/test_style.py` (16 test)
 
-### ⏳ Task 5.9: Helper Functions
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/functions.sh` (33 lines)
-- **Python:** Internal utilities (not CLI commands)
-- **Target:** `--logger`, `--echo`, `--hash_MD5`
-- **Action:** Move to `src/utils/helpers.py` if needed
+### ✅ Task 5.9: Helper Functions
+- **Status:** ✅ COMPLETED (5.8.7)
+- **Bash:** `src/var/lib/functions.sh` → xoá
+- **Python:** `src/utils/helpers.py`
+- **Commands:** `echo`, `hash:md5`, `ssh`
+- **Ghi chú:** `--logger` nay dùng `logging` chuẩn; `--hash_MD5` thành
+  `hash:md5` (dùng `secrets` 20 ký tự thay `$RANDOM | md5sum`); `--ssh`
+  thành `ssh` (giữ `-T`, nhưng không nuốt stderr như bash).
+- **Tests:** `tests/unit/test_helpers.py` (13 test)
 
-### ⏳ Task 5.10: Main Entry Point
-- **Status:** ⏳ PENDING
-- **Bash:** `src/var/lib/main.sh` (195 lines)
-- **Python:** `src/ductn.py` (already replaced)
-- **Action:** Confirm no remaining dependencies, deprecate bash file
+### ✅ Task 5.10: Main Entry Point
+- **Status:** ✅ COMPLETED (5.8.7)
+- **Bash:** `src/var/lib/main.sh` → xoá; `src/var/lib/ductnd.sh.org` → xoá
+- **Python:** `src/ductn.py` (entry point) + `src/utils/fleet.py`
+  (`fleet:status`)
+- **Salvage:** `main.sh:_main()` có hai nửa. Nửa **inventory** (duyệt domain
+  qua SSH, đọc FQDN + version, cảnh báo host lệch bản) đã port thành
+  `fleet:status`. Nửa **WireGuard provisioning** không port: hardcode dải
+  `10.8.x.x`, ghi config qua `sudo tee`, phụ thuộc `--host:serial` (Proxmox
+  VMID) — tất cả thuộc môi trường đã bị deprecate cùng `env.sh`.
+- **Tests:** `tests/unit/test_salvage.py`
 
 ---
 
@@ -1112,4 +1149,5 @@ Một task 5.6.1 chỉ được coi là xong local khi đủ:
 
 ---
 
-**Total: ~47 remaining bash scripts → ~31 migration tasks**
+**Tổng kết 2026-11-25:** `src/var/lib/` rỗng. 0 file bash chưa migrate.
+`deprecated/src/var/lib/` giữ 31 file làm lịch sử, không được đóng gói.

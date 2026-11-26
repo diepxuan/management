@@ -1,33 +1,87 @@
-diepxuan (5.8.6+ppa~1) noble; urgency=medium
+diepxuan (5.8.7+ppa~1) noble; urgency=medium
 
-  * fix(service): stop leaking Thread objects in ServiceScheduler. Every task
-    run created a `threading.Thread` and registered it in
-    `ServiceContext.threads` without ever removing it. With `vm_sync` at 10s
-    and `route_monitor` at 5s that is ~25,900 Thread objects/day; after 11
-    days a host held ~290k objects ≈ 700 MB RSS (measured 2.5 KB/Thread).
-    Threads are now unregistered in a `finally` block and run as daemons.
-  * fix(service): add a re-entrancy guard. If a task's previous run is still
-    alive, the tick is skipped. Prevents pile-up when a task takes longer
-    than its interval (e.g. vm_sync DNS retry ~20s vs interval 10s).
-  * fix(service): `ServiceContext.join_all()` now clears both tracking
-    structures after joining, so shutdown does not retain references.
-  * fix(logging): remove duplicated log lines. The systemd unit redirected
-    stdout to /var/log/ductnd/ductnd.log while Python's RotatingFileHandler
-    wrote the same file, so every line was emitted twice (56 "Scheduler
-    started" lines for ~28 real starts). The unit now sets
-    `Environment=RUNNING_UNDER_SYSTEMD=1` and lets journald collect stdout;
-    Python skips its own file handler in that mode.
-  * fix(systemd): move `StartLimitIntervalSec` / `StartLimitBurst` from
-    `[Service]` to `[Unit]`. systemd ignored them in the wrong section
-    ("Unknown key 'StartLimitIntervalSec' in section [Service]").
-  * fix(host): `_host_domain()` now prefers the `search` directive in
-    /etc/resolv.conf, falling back to parsing `socket.getfqdn()` and then
-    `DEFAULT_DOMAIN`. The fallback rejects IP-shaped suffixes: a Proxmox
-    host whose /etc/hosts contains `postgresql.192.168.1.1` used to yield
-    the "domain" `192.168.1.1`, a zone that does not exist.
-  * fix(vm): `vm:sync` no longer exits silently when the DNS API answers
-    HTTP 200 with `{"status":"error"}`. The case is logged as an error with
-    domain, zone and message. Previously the command returned 0 with no
-    output and no record was ever published.
+  * chore(cleanup): delete all 17 remaining bash files in src/var/lib
+    (1,591 lines). None was ever packaged: src/debian/ductn.install only
+    copies src/ductn/var/lib/lxc/hooks/default-hook.sh, so the whole tree
+    was dead code carried in the repo. Every file was audited first, and
+    any behaviour missing from Python was ported before deletion. Details
+    in docs/SALVAGE-5.8.7.md.
+  * fix(git): `git:detrack` ran `git rm --cached`, which removes the file
+    from the index; the bash original ran
+    `git update-index --no-assume-unchanged`. Users of the Python version
+    may have dropped files from their repos. `git:untrack` was an alias to
+    detrack and now issues `--assume-unchanged` itself.
+  * fix(git): `git:viewuntrack` read `git status --short` and filtered
+    untracked `??` entries, i.e. a different set of files. It now parses
+    `git ls-files -v` and keeps the lines tagged with a lowercase letter,
+    matching `grep "^[[:lower:]]"` in bash.
+  * fix(git): `git:tag:cleanup` only printed the tag list. It now keeps the
+    newest N tags (default 5), deletes the rest on origin and prunes.
+  * fix(git): `git:configure --global` was missing half of the bash setup.
+    Added core.fileMode=false, core.autocrlf=false, core.eol=lf, gc.auto=0,
+    receive.denyCurrentBranch=updateInstead, and generation of ~/.gitignore
+    with core.excludesfile pointing at it.
+  * fix(disk): `disk:check` ran `smartctl -a /dev/sda` for all three
+    "sector size" modes. The bash original measures sequential write
+    throughput with dd (8k x 10k = 80 MB, 512k x 1k = 512 MB). Ported the
+    dd profiles and parse MB/s from stderr; SMART moved to `disk:health`.
+  * fix(php): `php:composer:install` executed the installer without
+    verifying it. Bash downloads the SHA384 from
+    composer.github.io/installer.sig and compares; Python carried a
+    "# Verify signature (skip for now)" comment. Now verified, and the
+    installer is fetched into a tmpdir instead of $HOME.
+  * fix(os): `os:codename`, `os:release` and `os:distro` returned empty on
+    macOS because the distro module reads /etc/os-release, which does not
+    exist there. Added a darwin branch using `sw_vers`, as the deleted
+    macos/os.sh did.
+  * fix(zfs): the old `zfs:disk:replace_boot_disk` called
+    `zpool replace <pool> <new_disk>`, missing the `-part3` suffix and the
+    sgdisk steps, so it could not work on a real boot disk. It now
+    delegates to `zfs:disk:replace:boot` and warns that it is deprecated.
+  * test: repair two permanently failing tests. test_modules.py still
+    expected utils.user (removed in 5.6.4) and test_cli_output.py still
+    expected a `cli:tmux:install` line (removed in 5.6.6). The suite goes
+    from 182 tests / 2 failures to 303 tests / 0 failures.
+  * feat(style): new src/utils/style.py with the ANSI palette and status
+    glyphs salvaged from environment.color.sh and environment.text.sh,
+    exposing ok()/fail()/info() and disabling colour when stdout is not a
+    tty or NO_COLOR is set.
+  * feat(mssql): migrate mssql.sh (230 lines) to src/utils/mssql.py. The
+    repository setup is rewritten with a keyring under /etc/apt/keyrings
+    and signed-by, because apt-key was removed in Debian 12 / Ubuntu 24.04
+    (the package targets noble). Adds sqlsrv:apt, sqlsrv:install,
+    sqlsrv:php:install|enable|disable and the legacy mssql:* aliases.
+    `sqlsrv:ad:spn` is not ported: it mixed PowerShell and ktpass and
+    embedded a domain password in argv. Kept as docs/MSSQL-AD-SPN.md.
+  * feat(fleet): new `fleet:status` reads the FQDN and ductn version of
+    each host over SSH and reports version drift, salvaged from the
+    inventory half of main.sh. The WireGuard provisioning half is dropped:
+    it hardcoded 10.8.x.x, derived addresses from the Proxmox VMID, and
+    depended on the removed host.sh helpers.
+  * feat(completion): new `completion:path <tool>` and
+    `completion:exists <tool>`, collapsing six near-duplicate bash
+    functions into one command with an argument. The angular -> angular2
+    quirk is preserved.
+  * feat(macos): port wireguard and sshfs management from macos/wg.sh and
+    macos/sshfs.sh (`wg:*`, 10 commands; `sshfs:*`, 5 commands). The
+    sshfs plist no longer hardcodes one machine's remote path and key;
+    both come from arguments and $DUCTN_SSHFS_IDENTITY. `wg:hotfix`
+    (an unconditional `while true; sleep 5` DNS loop) and `wg:fix` are
+    intentionally not ported; WG_QUICK_DNS_SKIP=1 covers the same problem.
+  * feat(zfs): add `zfs:disk:replace:disk <pool> <old> <new>` for a failed
+    disk in a RAIDZ or mirror pool, `zfs:disk:replace:boot <old> <new>`
+    (sgdisk -R, sgdisk -G, then zpool replace on -part3), and
+    `zfs:disk:format:boot:disk <partition>` running proxmox-boot-tool
+    format/init behind a confirmation prompt.
+  * feat: add `vm:agent:install` (alias pve:vm), `vm:command <json>`,
+    `file:chmod`, `file:chmod:files`, `file:chmod:dirs`, `hash:md5`,
+    `ssh <host> <command>`, `dns:set`, `dns:status`, `log:config:store`
+    and `log:config:mssql`, all salvaged from the files being deleted.
+  * feat(docs): add docs/MSSQL-AD-SPN.md and docs/SALVAGE-5.8.7.md, and
+    rewrite TASKS.md, which still listed eleven completed tasks as pending
+    and two deliberately dropped ones as outstanding.
+  * test: add 121 tests covering the salvaged code (test_style.py,
+    test_helpers.py, test_git_utils.py, test_mssql.py, test_salvage.py)
+    and rewrite test_disk.py for the dd-based disk:check.
 
- -- Bot <bot@diepxuan.corp>  Fri, 05 Sep 2026 14:30:00 +0700
+ -- Bot <bot@diepxuan.corp>  Wed, 25 Nov 2026 17:45:00 +0700

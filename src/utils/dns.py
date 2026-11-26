@@ -270,3 +270,129 @@ def d_dns_resolved():
         d_dns_clean()
         d_dns_reset()
         logging.info("DNS resolved (macOS): flushed cache and reset to default")
+
+
+# =============================================================================
+# Salvage từ src/var/lib/macos/dns.sh (xoá ở 5.8.7)
+# =============================================================================
+
+
+def _macos_all_services():
+    """Liệt kê toàn bộ network service trên macOS (bash: tail -n +2)."""
+    try:
+        result = subprocess.run(
+            ["networksetup", "-listallnetworkservices"],
+            capture_output=True,
+            text=True,
+        )
+    except (FileNotFoundError, OSError):
+        return []
+
+    services = []
+    for line in result.stdout.splitlines()[1:]:
+        service = line.strip()
+        if service and not service.startswith("*"):
+            services.append(service)
+    return services
+
+
+def _ping_alive(ip, timeout=1):
+    """True nếu ``ip`` trả lời ping (bash: ping -c 1 -W 1)."""
+    try:
+        result = subprocess.run(
+            ["ping", "-c", "1", "-W", str(timeout), ip],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        return result.returncode == 0
+    except (FileNotFoundError, OSError):
+        return False
+
+
+@register_command
+def d_dns_set(args=None):
+    """
+    Đặt DNS server cho toàn bộ network service trên macOS.
+    Usage: ductn dns:set [ip...]
+
+    Không truyền IP nghĩa là RESET: đặt DNS về rỗng để DHCP cấp lại. Bash
+    `d_dns:set` được gọi đúng như vậy (không tham số) từ `wg:service:stop`
+    và `d_dns:reset`.
+
+    Có IP thì chỉ giữ IP ping được; IP không trả lời bị bỏ qua kèm cảnh báo.
+    Nếu không IP nào sống, cũng reset về rỗng.
+
+    Port từ `macos/dns.sh:d_dns:set` — chưa từng có bản Python, cũng chưa
+    có trên Linux (trên Linux phải sửa /etc/resolv.conf hoặc netplan).
+    """
+    if SYSTEM != "Darwin":
+        logging.error("dns:set chỉ hỗ trợ macOS (dùng netplan/resolv.conf trên Linux)")
+        return
+
+    # Không tham số = reset (bash: VALID_DNS=${VALID_DNS:-"Empty"}).
+    if not args:
+        ips = []
+    else:
+        ips = args if isinstance(args, list) else args.split()
+
+    valid = []
+    for ip in ips:
+        if _ping_alive(ip):
+            valid.append(ip)
+        else:
+            logging.warning("DNS %s không phản hồi, bỏ qua", ip)
+
+    target = valid if valid else ["empty"]
+    if not valid:
+        logging.info("Đặt DNS về rỗng (DHCP cấp lại)")
+
+    services = _macos_all_services()
+    if not services:
+        logging.error("Không tìm thấy network service nào")
+        return
+
+    for service in services:
+        try:
+            subprocess.run(
+                ["networksetup", "-setdnsservers", service] + target,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            logging.info("Đã đặt DNS cho %s: %s", service, " ".join(valid) or "empty")
+        except subprocess.CalledProcessError as e:
+            logging.error("Không đặt được DNS cho %s: %s", service, e.stderr)
+
+
+@register_command
+def d_dns_status():
+    """
+    Hiển thị DNS server đang dùng trên từng network service (macOS).
+    Usage: ductn dns:status
+
+    Port từ `macos/dns.sh:d_dns:status`. Bash gốc gọi `dig status` — sai cú
+    pháp (dig không có subcommand ``status``). Bản này đọc
+    ``networksetup -getdnsservers`` cho từng service, đúng thông tin cần xem.
+    """
+    if SYSTEM != "Darwin":
+        logging.error("dns:status chỉ hỗ trợ macOS")
+        return
+
+    services = _macos_all_services()
+    if not services:
+        logging.error("Không tìm thấy network service nào")
+        return
+
+    for service in services:
+        try:
+            result = subprocess.run(
+                ["networksetup", "-getdnsservers", service],
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            servers = result.stdout.strip() or "(empty)"
+            print(f"{service}: {servers}")
+        except subprocess.CalledProcessError:
+            print(f"{service}: (không đọc được)")
